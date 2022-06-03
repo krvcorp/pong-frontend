@@ -32,6 +32,17 @@ class Message(models.Model):
         return str(self.id) + " " + self.message
 
 
+# Tags for the various categories of influencers
+class Tag(models.Model):
+    name = models.CharField(max_length=50)
+    description = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return str(self.id) + " " + self.name
+
+
 class Company(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField()

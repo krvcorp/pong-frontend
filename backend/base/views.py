@@ -18,11 +18,7 @@ def register(request):
         password1 = request.POST.get("password1")
         password2 = request.POST.get("password2")
         email = request.POST.get("email")
-        name = (
-            request.POST.get("first_name").strip()
-            + " "
-            + request.POST.get("last_name").strip()
-        )
+        name = request.POST.get("name").strip()
 
         # Confirm matching passwords
         if password1 == password2:
@@ -80,22 +76,23 @@ def logout(request):
 def profile(request):
     if request.method == "POST":
         # get new information from the form
-        name = (
-            request.POST.get("first_name").strip()
-            + " "
-            + request.POST.get("last_name").strip()
-        )
-        phone = request.POST.get("phone")
-        email = request.POST.get("email")
-        phone = request.POST.get("phone")
-        address = request.POST.get("address")
-        city = request.POST.get("city")
-        state = request.POST.get("state")
-        zipcode = request.POST.get("zipcode")
-        country = request.POST.get("country")
-        # update the user's profile with the new information
         user = request.user
-
+        print(user)
+        user.name = request.POST.get("name").strip()
+        user.phone = request.POST.get("phone")
+        user.email = request.POST.get("email")
+        user.save()
         return redirect("profile")
     if request.method == "GET":
         return render(request, "profile.html")
+
+
+def discover(request):
+    context = {}
+    if request.method == "POST":
+        return redirect("discover")
+    if request.method == "GET":
+        # add list of all users to context
+        users = User.objects.all()
+        context["users"] = users
+        return render(request, "discover.html", context)
