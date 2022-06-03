@@ -1,3 +1,41 @@
 {% extends "base.html" %} {% block page_content %}
-<h1>Hello, World!</h1>
-{{ form.as_p }} {% endblock %}
+<div class="layout__body mx-auto my-2" style="width: 800px">
+	<form class="form" action="" method="POST">
+		{% csrf_token %}
+
+		<h1>Registration Form</h1>
+		<div class="form__group">
+			<label for="first_name">First Name</label>
+			<input required type="text" name="first_name" />
+
+			<label for="last_name">Last Name</label>
+			<input required type="text" name="last_name" />
+		</div>
+
+		<div class="form__group">
+			<label for="email">Email</label>
+			<input required type="text" name="email" />
+		</div>
+
+		<div class="form__group">
+			<label for="username">Username</label>
+			<input required type="text" name="username" />
+		</div>
+
+		<div class="form__group">
+			<label for="password">Password</label>
+			<input required type="password" name="password1" />
+		</div>
+
+		<div class="form__group">
+			<label for="password">Confirm Password</label>
+			<input required type="password" name="password2" />
+		</div>
+
+		<div class="form__action my-2">
+			<a class="btn btn--dark" href="{{request.META.HTTP_REFERER}}">Cancel</a>
+			<button class="btn btn--main" type="submit">Submit</button>
+		</div>
+	</form>
+</div>
+{% endblock %}

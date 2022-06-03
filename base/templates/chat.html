@@ -1,0 +1,30 @@
+{% extends "base.html" %} {% block page_content %}
+<div class="layout__body mx-auto" style="width: 200px">
+	<!-- display all chat messages in box -->
+	<div class="mx-auto" style="width: 200px">
+		{% for message in messages %}
+		<div class="card mb-2">
+			<div class="card-body">
+				<h5 class="card-title">{{message.user.username}}</h5>
+				<!-- time message was sent -->
+				<p class="card-text">{{message.created_at}}</p>
+				<p class="card-text">{{message.message}}</p>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+	<form class="form" action="" method="POST">
+		{% csrf_token %}
+
+		<div class="form__group">
+			<label for="username">Message</label>
+			<input required type="text" name="message" />
+		</div>
+
+		<div class="form__action my-2">
+			<a class="btn btn--dark" href="{{request.META.HTTP_REFERER}}">Cancel</a>
+			<button class="btn btn--main" type="submit">Submit</button>
+		</div>
+	</form>
+</div>
+{% endblock %}
