@@ -18,6 +18,37 @@ class User(AbstractUser):
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username", "password"]
 
+    # a function named total_score which computes the sum of the votes of each 
+    # post and comment a user has made
+
+    # a function named total_score which computes the sum of the votes of each post
+    def total_score(self):
+        return self.total_post_score() + self.total_comment_score()
+ 
+    def total_post_score(self):
+        total = 0
+        for vote in PostVote.objects.all():
+            if vote.post.user == self:
+                total += vote.vote
+        print("Total post score: " + str(total))
+        return total
+
+    def total_comment_score(self):
+        total = 0
+        for vote in CommentVote.objects.all():
+            if vote.comment.user == self:
+                total += vote.vote
+        print("Total comment score: " + str(total))
+        return total
+
+    # a function named get_posts which returns all the posts a user has made
+    def get_posts(self):
+        return Post.objects.filter(user=self)
+    
+    # a function named get_comments which returns all the comments a user has made
+    def get_comments(self):
+        return Comment.objects.filter(user=self)
+
     def __str__(self):
         return str(self.id) + " " + self.email
 
@@ -30,6 +61,17 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    # TODO: Fix vote summation, something's not working but I'm way 
+    # too fucking lazy to figure out what it is
+    
+    # a function named total_score which computes the sum of the votes of each post
+    def total_score(self):
+        total = 0
+        for vote in PostVote.objects.all():
+            if vote.post == self:
+                total += vote.vote
+        return total
+
     def __str__(self):
         return str(self.id) + " " + self.title
 
@@ -40,6 +82,15 @@ class Comment(models.Model):
     comment = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    # a function named total_score which computes the sum of the votes of each comment
+    def total_score(self):
+        total = 0
+        # get all votes and iterate through them summing their votes
+        for vote in CommentVote.objects.all():
+            if vote.comment == self:
+                total += vote.vote
+        return total
 
     def __str__(self):
         return str(self.id) + " " + self.comment

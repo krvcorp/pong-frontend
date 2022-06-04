@@ -9,7 +9,7 @@ from .forms import *
 
 
 def index(request):
-    return render(request, "index.html")
+    return redirect("discover")
 
 
 def register(request):
@@ -39,15 +39,12 @@ def register(request):
 
 def login(request):
     if request.method == "POST":
-        print("login post")
         email = request.POST.get("email")
         password = request.POST.get("password")
-        print(email + password)
         user = authenticate(username=email, password=password)
-        print(user)
         if user is not None:
             auth_login(request, user)
-            return redirect("chat")
+            return redirect("discover")
         else:
             # TODO: Add error message invalid credentials
             return redirect("login")
@@ -68,19 +65,19 @@ def comment(request, post_id):
 
             # TODO: Return JSON instead of redirect, use AJAX to add comment
             # to page directly
-            return redirect("chat")
+            return redirect("discover")
 
     if request.method == "GET":
-        return redirect("chat")
+        return redirect("discover")
 
-def chat(request):
+def discover(request):
     if request.method == "POST":
         post_form = PostForm(request.POST, request.FILES)
         if post_form.is_valid():
             post = post_form.save(commit=False)
             post.user = request.user
             post.save()
-            return redirect("chat")
+            return redirect("discover")
 
     if request.method == "GET":
         form = PostForm()
@@ -107,14 +104,15 @@ def chat(request):
         
 
         # fill context with all the data at once
-        print(post_votes_dict)
         context = {"form": form, "posts": posts, "comments": comments, "post_votes": post_votes_dict, 
         "comment_votes": comment_votes_dict}
-        return render(request, "chat.html", context)
+        return render(request, "discover.html", context)
 
 
 
-# Update a user's profile with new information that they submitted in the form in the profile page.
+# Returns user's profile page
+# Can update profile in POST
+# TODO: Separate editing profile from viewing profile
 @login_required
 def profile(request):
     if request.method == "POST":
@@ -126,7 +124,29 @@ def profile(request):
         user.save()
         return redirect("profile")
     if request.method == "GET":
-        return render(request, "profile.html")
+        context = {"user": request.user}
+        return render(request, "profile.html", context)
+
+@login_required
+def leaderboard(request):
+    if request.method == "POST":
+        return redirect("leaderboard")
+    if request.method == "GET":
+        # Get all users and sort them by their total score, which is the sum of their post and comment votes
+        users = User.objects.all()
+        users = sorted(users, key=lambda user: user.total_score(), reverse=True) 
+        context = {"users": users}
+        return render(request, "leaderboard.html", context)
+
+@login_required
+def post(request, post_id):
+    if request.method == "POST":
+       return redirect("post")
+    if request.method == "GET":
+        post = Post.objects.get(id=post_id)
+        comments = Comment.objects.filter(post=post)
+        context = {"post": post, "comments": comments}
+        return render(request, "post.html", context)
 
 def vote_comment(request, comment_id, up_or_down):
     if request.method == "POST":

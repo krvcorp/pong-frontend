@@ -2,6 +2,62 @@
 <div class="layout__body mx-auto" style="width: 200px">
 	<div class="mx-auto" style="width: 200px">
 		<!-- display logged in user's profile information -->
+		<div class="profile">
+			<h2>Profile</h2>
+			<ul>
+				<li>
+					<span>Name:</span>
+					<span>{{ user.name }}</span>
+				</li>
+				<li>
+					<span>Email:</span>
+					<span>{{ user.email }}</span>
+				</li>
+				<li>
+					<span>Username:</span>
+					<span>{{ user.username }}</span>
+				</li>
+				<li>
+					<span>Total Score:</span>
+					<span>{{ user.total_score }}</span>
+				</li>
+				<!-- total post score -->
+				<li>
+					<span>Total Post Score:</span>
+					<span>{{ user.total_post_score }}</span>
+				</li>
+				<!-- total comment score -->
+				<li>
+					<span>Total Comment Score:</span>
+					<span>{{ user.total_comment_score }}</span>
+				</li>
+			</ul>
+		</div>
+
+		<!-- display all posts a user has made -->
+		<div class="posts">
+			<h2>Posts</h2>
+			<ul>
+				{% for post in user.get_posts %}
+				<li>
+					<a href="{% url 'post' post.id %}">{{ post.title }}</a>
+				</li>
+				{% endfor %}
+			</ul>
+		</div>
+
+		<!-- display all comments a user has made -->
+		<div class="comments">
+			<h2>Comments</h2>
+			<ul>
+				{% for comment in user.get_comments %}
+				<li>
+					<a href="{% url 'post' comment.post.id %}">{{ comment.comment }}</a>
+				</li>
+				{% endfor %}
+			</ul>
+		</div>
+
 		<!-- form where they can update each part of their profile with new information -->
 		<form class="form" action="" method="POST">
 			{% csrf_token %}

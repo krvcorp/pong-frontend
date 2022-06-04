@@ -5,9 +5,11 @@ urlpatterns = [
     path("", views.index, name="index"),
     path("register/", views.register, name="register"),
     path("login/", views.login, name="login"),
-    path("chat/", views.chat, name="chat"),
+    path("discover/", views.discover, name="discover"),
     path("logout/", views.logout, name="logout"),
     path("profile/", views.profile, name="profile"),
+    path('leaderboard/', views.leaderboard, name='leaderboard'),
+    path('post/<int:post_id>/', views.post, name='post'),
     # Path for comments underneath posts
     path("comment/<int:post_id>/", views.comment, name="comment"),
     # Paths for voting on comments and posts, 1 = upvote, 0 = downvote

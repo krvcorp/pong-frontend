@@ -1,0 +1,18 @@
+{% extends "base.html" %} {% block page_content %}
+<div class="layout__body mx-auto" style="width: 200px">
+    <div class="mx-auto" style="width: 200px">
+        <!-- display a leaderboard of users sorted by karma -->
+        <div class="leaderboard">
+            <h2>Leaderboard</h2>
+            <ul>
+                {% for user in users %}
+                <li>
+                    <a href="">{{ user.email }}</a>
+                    <span>{{ user.total_score }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,6 +1,6 @@
 {% extends "base.html" %} {% block page_content %}
 <div class="layout__body mx-auto">
-	<div class="mx-auto my-2" style="width: 600px">
+	<div class="mx-auto my-2" style="width: 1200px">
 		{% for post in posts %}
 		<div class="card">
 			<div class="card__header">
@@ -54,6 +54,28 @@
 				<p class="card__comment-text">{{comment.comment}}</p>
 				<p class="card__comment-author">{{comment.user.name}}</p>
 				<p class="card__comment-date">{{comment.created_at}}</p>
+
+				<!-- Iterate through comment votes dictionary and display vote count of each respective comment -->
+				<div class="card__body">
+					<p>
+						<span class="text-bold">Votes:</span>
+						{% for key, value in comment_votes.items %} {% if key == comment.id %}
+						{{value}}
+						{% endif %} {% endfor %}
+					</p>
+				</div>
+
+				<div class="card__body">
+					<form action="{% url 'vote_comment' comment_id=comment.id up_or_down=1 %}" method="POST">
+						{% csrf_token %}
+						<button class="btn btn--main" type="submit">Upvote</button>
+					</form>
+					<form action="{% url 'vote_comment' comment_id=comment.id up_or_down=0 %}" method="POST">
+						{% csrf_token %}
+						<button class="btn btn--main" type="submit">Downvote</button>
+					</form>
+				</div>
+
 			</div>
 			{% endif %} {% endfor %}
 
