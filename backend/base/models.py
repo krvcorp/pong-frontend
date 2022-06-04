@@ -22,30 +22,57 @@ class User(AbstractUser):
         return str(self.id) + " " + self.email
 
 
-class Message(models.Model):
+# Class for the posts a user can make
+class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    message = models.TextField()
+    title = models.TextField()
+    image = models.ImageField(upload_to='images/', blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return str(self.id) + " " + self.message
+        return str(self.id) + " " + self.title
 
-
-# Tags for the various categories of influencers
-class Tag(models.Model):
-    name = models.CharField(max_length=50)
-    description = models.TextField()
+# Class for the comments that go on a post
+class Comment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    post = models.ForeignKey(Post, on_delete=models.SET_NULL, null=True)
+    comment = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return str(self.id) + " " + self.name
+        return str(self.id) + " " + self.comment
 
-
-class Company(models.Model):
-    name = models.CharField(max_length=50)
-    description = models.TextField()
+# Class for the votes for a post 
+class PostVote(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    post = models.ForeignKey(Post, on_delete=models.SET_NULL, null=True)
+    vote = models.IntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.namezs
+        return str(self.id) + " " + str(self.vote)
+
+# Class for the votes for a comment 
+class CommentVote(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    comment = models.ForeignKey(Comment, on_delete=models.SET_NULL, null=True)
+    vote = models.IntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return str(self.id) + " " + str(self.vote)
+
+# Class for user reports of spam on a post
+class PostReport(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    post = models.ForeignKey(Post, on_delete=models.SET_NULL, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return str(self.id) + " " + str(self.user)
+

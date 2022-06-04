@@ -1,30 +1,84 @@
 {% extends "base.html" %} {% block page_content %}
-<div class="layout__body mx-auto" style="width: 200px">
-	<!-- display all chat messages in box -->
-	<div class="mx-auto" style="width: 200px">
-		{% for message in messages %}
-		<div class="card mb-2">
-			<div class="card-body">
-				<h5 class="card-title">{{message.user.username}}</h5>
-				<!-- time message was sent -->
-				<p class="card-text">{{message.created_at}}</p>
-				<p class="card-text">{{message.message}}</p>
+<div class="layout__body mx-auto">
+	<div class="mx-auto my-2" style="width: 600px">
+		{% for post in posts %}
+		<div class="card">
+			<div class="card__header">
+				<h1 class="card__title">
+					<a href="{{post.get_absolute_url}}">{{post.title}}</a>
+				</h1>
 			</div>
+
+			<!-- A form with two options, upvote and downvote -->
+			<div class="card__body">
+				<form action="{% url 'vote_post' post_id=post.id up_or_down=1 %}" method="POST">
+					{% csrf_token %}
+					<button class="btn btn--main" type="submit">Upvote</button>
+				</form>
+				<form action="{% url 'vote_post' post_id=post.id up_or_down=0 %}" method="POST">
+					{% csrf_token %}
+					<button class="btn btn--main" type="submit">Downvote</button>
+				</form>
+			</div>
+
+			<!-- Iterate through post votes dictionary and display vote count of each respective post -->
+
+			<div class="card__body">
+				<p>
+					<span class="text-bold">Votes:</span>
+					{% for key, value in post_votes.items %} {% if key == post.id %}
+					{{value}}
+					{% endif %} {% endfor %}
+				</p>
+			</div>
+
+			<div class="card__body">
+				<!-- display the image if the image exists -->
+				{% if post.image %}
+				<img src="{{post.image.url}}" alt="{{post.title}}" class="card__image"
+					style="width: 100%; max-width: 300px; max-height: 300px" />
+				{% endif %}
+				<!-- display the body of the post -->
+				<p class="card__text">{{post.body}}</p>
+			</div>
+			<div class="card__footer">
+				<!-- display the author of the post -->
+				<p class="card__author">{{post.user.name}}</p>
+				<!-- display the date of the post -->
+				<p class="card__date">Date Posted: {{post.created_at}}</p>
+			</div>
+
+			<!-- display the comments that belong to each post -->
+			{% for comment in comments %} {% if comment.post == post %}
+			<div class="card__comment">
+				<p class="card__comment-text">{{comment.comment}}</p>
+				<p class="card__comment-author">{{comment.user.name}}</p>
+				<p class="card__comment-date">{{comment.created_at}}</p>
+			</div>
+			{% endif %} {% endfor %}
+
+			<!-- form to write a comment underneath a post -->
+
+			<form class="form" action="{% url 'comment' post.id %}" method="POST">
+				{% csrf_token %}
+				<div class="form__group">
+					<label for="comment">Comment</label>
+					<textarea required name="comment" rows="3"></textarea>
+				</div>
+				<div class="form__action my-2">
+					<button class="btn btn--main" type="submit">Submit</button>
+				</div>
+			</form>
 		</div>
 		{% endfor %}
+
+		<form class="form" action="" method="post" enctype="multipart/form-data">
+			{% csrf_token %} {{ form.as_p }}
+			<div class="form__action my-2">
+				<!-- <a class="btn btn--dark" href="{{request.META.HTTP_REFERER}}">Cancel</a> -->
+				<button class="btn btn--main" type="submit">Save</button>
+			</div>
+		</form>
 	</div>
-	<form class="form" action="" method="POST">
-		{% csrf_token %}
-
-		<div class="form__group">
-			<label for="username">Message</label>
-			<input required type="text" name="message" />
-		</div>
-
-		<div class="form__action my-2">
-			<!-- <a class="btn btn--dark" href="{{request.META.HTTP_REFERER}}">Cancel</a> -->
-			<button class="btn btn--main" type="submit">Save</button>
-		</div>
-	</form>
 </div>
 {% endblock %}
