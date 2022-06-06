@@ -83,29 +83,7 @@ def discover(request):
         form = PostForm()
         posts = Post.objects.all()
         comments = Comment.objects.all()
-        post_votes =  PostVote.objects.all()
-        comment_votes = CommentVote.objects.all()
-
-        # Create dictionary of each post ID to its summed votes and populate it
-        post_votes_dict = {}
-        for post_vote in post_votes:
-            if post_vote.post.id in post_votes_dict:
-                post_votes_dict[post_vote.post.id] += post_vote.vote
-            else:
-                post_votes_dict[post_vote.post.id] = post_vote.vote
-        
-        # Create dictionary of each comment ID to its summed votes and populate it
-        comment_votes_dict = {}
-        for comment_vote in comment_votes:
-            if comment_vote.comment.id in comment_votes_dict:
-                comment_votes_dict[comment_vote.comment.id] += comment_vote.vote
-            else:
-                comment_votes_dict[comment_vote.comment.id] = comment_vote.vote
-        
-
-        # fill context with all the data at once
-        context = {"form": form, "posts": posts, "comments": comments, "post_votes": post_votes_dict, 
-        "comment_votes": comment_votes_dict}
+        context = {"form": form, "posts": posts, "comments": comments}
         return render(request, "discover.html", context)
 
 
@@ -177,7 +155,12 @@ def message(request):
 # This is the method to create a new DirectConversation
 def createconversation(request):
     if request.method == "POST":
-        # Create a new direct conversation object between the current user and the user with the given ID
+        if DirectConversation.objects.filter(user1=request.user, user2=User.objects.get(id=request.POST.get("user_id"))).exists():
+            return redirect("conversation", conversation_id=DirectConversation.objects.get(user1=request.user, user2=User.objects.get(id=request.POST.get("user_id"))).id)
+        if request.user.id == int(request.POST.get("user_id")):
+            print('you cannot create a conversation with yourself')
+            # TODO: Add error message for same user
+            return HttpResponse("failure")
         conversation = DirectConversation(user1=request.user, user2=User.objects.get(id=request.POST.get("user_id")))
         conversation.save()
 
@@ -205,3 +188,12 @@ def conversation(request, conversation_id):
     if request.method == "GET":
         context = {"conversation": DirectConversation.objects.get(id=conversation_id)}
         return render(request, "conversation.html", context)
+
+
+# Method to render a publicly facing profile page for each user
+def publicprofile(request, user_id):
+    if request.method == "POST":
+        return redirect("publicprofile")
+    if request.method == "GET":
+        context = {"user": User.objects.get(id=user_id)}
+        return render(request, "publicprofile.html", context)

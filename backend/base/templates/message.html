@@ -36,7 +36,13 @@
             <ul>
                 {% for conversation in user.get_conversations %}
                 <li>
-                    <a href="{% url 'conversation' conversation.id %}">{{ conversation }}</a>
+                    <a href="{% url 'conversation' conversation.id %}">
+                        {{ conversation }}:
+                        {% if conversation.get_most_recent_message %}
+                        {{ conversation.get_most_recent_message }}
+                        {% endif %}
+
+                    </a>
                 </li>
                 {% endfor %}
             </ul>

@@ -30,7 +30,6 @@ class User(AbstractUser):
         for vote in PostVote.objects.all():
             if vote.post.user == self:
                 total += vote.vote
-        print("Total post score: " + str(total))
         return total
 
     def total_comment_score(self):
@@ -38,7 +37,6 @@ class User(AbstractUser):
         for vote in CommentVote.objects.all():
             if vote.comment.user == self:
                 total += vote.vote
-        print("Total comment score: " + str(total))
         return total
 
     # a function named get_posts which returns all the posts a user has made
@@ -140,8 +138,12 @@ class DirectConversation(models.Model):
     def get_messages(self):
         return DirectMessage.objects.filter(conversation=self).order_by('created_at')
 
+    # a function named get_most_recent_message which returns the most recent message in a conversation
+    def get_most_recent_message(self):
+        return self.get_messages().last()
+
     def __str__(self):
-       return str("Conversation: " + self.user2.email)   
+       return str(self.user2.email)   
 
 # Class for messages in a direct conversation
 class DirectMessage(models.Model):

@@ -28,9 +28,7 @@
 			<div class="card__body">
 				<p>
 					<span class="text-bold">Votes:</span>
-					{% for key, value in post_votes.items %} {% if key == post.id %}
-					{{value}}
-					{% endif %} {% endfor %}
+					{{ post.total_score }}
 				</p>
 			</div>
 
@@ -61,9 +59,7 @@
 				<div class="card__body">
 					<p>
 						<span class="text-bold">Votes:</span>
-						{% for key, value in comment_votes.items %} {% if key == comment.id %}
-						{{value}}
-						{% endif %} {% endfor %}
+						{{ comment.total_score }}
 					</p>
 				</div>
 

@@ -8,6 +8,7 @@ urlpatterns = [
     path("discover/", views.discover, name="discover"),
     path("logout/", views.logout, name="logout"),
     path("profile/", views.profile, name="profile"),
+    path("profile/<int:user_id>/", views.publicprofile, name="publicprofile"),
     path('leaderboard/', views.leaderboard, name='leaderboard'),
     path('chat/', views.message, name='chat'),
     path('message/', views.message, name='message'),
