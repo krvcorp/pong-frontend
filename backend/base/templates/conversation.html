@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load static %}
+{% block page_content %}
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+    crossorigin="anonymous"></script>
+
+<div class="layout__body mx-auto" style="width: 1200px">
+    <div class="mx-auto" style="width: 600px">
+        <!-- a div for a singular conversation with messages which are also in divs  -->
+        <div class="conversation">
+            <h2>Conversation</h2>
+            <ul>
+                {% for message in conversation.get_messages %}
+                <li>
+                    <a href="">{{ message.user }}</a>
+                    <span>{{ message.message }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- a full-width form to send a new message for the chat -->
+        <div style="width: 600px" class="new-message">
+            <h2>New Message</h2>
+            <form action="">
+                {% csrf_token %}
+                <input type="text" name="message" placeholder="Message">
+                <input type="submit" value="Send">
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<!-- a script that inserts the new message into the DOM and sends an AJAX request to an endpoint with the message information -->
+<script>
+    var token = '{{ csrf_token }}';
+
+    $(document).ready(function () {
+        $('form').submit(function (e) {
+            e.preventDefault();
+            var message = $('input[name="message"]').val();
+            var conversation_id = $('input[name="conversation_id"]').val();
+            $.ajax({
+                headers: { "X-CSRFToken": token },
+                url: "{% url 'createmessage' conversation.id %}",
+                type: "POST",
+                data: {
+                    message: message,
+                    conversation_id: conversation_id
+                },
+                success: function (data) {
+                    $('.conversation ul').append(
+                        "<li><a href = \"\" >" + '{{ user.name }}' + "</a><span>" + message + "</span></li >"
+                    );
+                }
+            });
+        });
+    });
+</script>
+
+
+<!-- script from static/message.js -->
+<script src="{% static '/js/message.js' %}" type="text/javascript"></script>
+
+{% endblock %}

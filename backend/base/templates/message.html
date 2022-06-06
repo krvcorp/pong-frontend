@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block page_content %}
+<div class="layout__body mx-auto" style="width: 200px">
+    <div class="mx-auto" style="width: 200px">
+        <!-- form to start a new message conversation -->
+        <!-- form should have a dropdown menu with all users available for conversation -->
+        <!-- form should have a textarea for the message -->
+        <!-- form should have a button to submit the message -->
+
+        <div class="startconversation">
+            <h2>Start a Conversation</h2>
+            <form action="{% url 'createconversation' %}" method="POST">
+                {% csrf_token %}
+                <div class="form__group">
+                    <label for="user">User</label>
+                    <select name="user_id">
+                        {% for user in users %}
+                        <option value="{{ user.id }}">{{ user.email }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form__group">
+                    <label for="message">Message</label>
+                    <textarea name="message" rows="5"></textarea>
+                </div>
+                <div class="form__action my-2">
+                    <a class="btn btn--dark" href="{{request.META.HTTP_REFERER}}">Cancel</a>
+                    <button class="btn btn--main" type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- display a list of all message conversations a user is in -->
+        <div class="conversations">
+            <h2>Conversations</h2>
+            <ul>
+                {% for conversation in user.get_conversations %}
+                <li>
+                    <a href="{% url 'conversation' conversation.id %}">{{ conversation }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

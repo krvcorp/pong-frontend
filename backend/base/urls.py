@@ -9,6 +9,11 @@ urlpatterns = [
     path("logout/", views.logout, name="logout"),
     path("profile/", views.profile, name="profile"),
     path('leaderboard/', views.leaderboard, name='leaderboard'),
+    path('chat/', views.message, name='chat'),
+    path('message/', views.message, name='message'),
+    path('createconversation/', views.createconversation, name='createconversation'),
+    path('createmessage/<int:conversation_id>', views.createmessage, name='createmessage'),
+    path('message/<int:conversation_id>/', views.conversation, name='conversation'),
     path('post/<int:post_id>/', views.post, name='post'),
     # Path for comments underneath posts
     path("comment/<int:post_id>/", views.comment, name="comment"),

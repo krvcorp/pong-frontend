@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
-from .models import User, Post, Comment, PostVote, CommentVote
+from .models import User, Post, Comment, PostVote, CommentVote, DirectConversation, DirectMessage
 from .forms import *
 
 
@@ -163,3 +163,45 @@ def vote_post(request, post_id, up_or_down):
     return HttpResponse("failure")
 
 
+# This is the main message page from which all conversations can be accessed
+@login_required
+def message(request):
+    if request.method == "POST":
+        return redirect("message")
+    if request.method == "GET":
+        # Get all users except the current user
+        context = {"users": User.objects.exclude(id=request.user.id)}
+        return render(request, "message.html", context)
+
+
+# This is the method to create a new DirectConversation
+def createconversation(request):
+    if request.method == "POST":
+        # Create a new direct conversation object between the current user and the user with the given ID
+        conversation = DirectConversation(user1=request.user, user2=User.objects.get(id=request.POST.get("user_id")))
+        conversation.save()
+
+        # TODO: Ajax to add message to page, no reload
+        return redirect("message")
+    if request.method == "GET":
+        return redirect("chat")
+
+# This is the method to create a new DirectMessage
+def createmessage(request, conversation_id):
+    if request.method == "POST":
+        # Create a new direct message object with the current user ID, the conversation ID, and the message
+        message = DirectMessage(user=request.user, conversation=DirectConversation.objects.get(id=conversation_id), message=request.POST.get("message"))
+        message.save()
+
+        # TODO: Ajax to add message to page, no reload
+        return redirect("message")
+    if request.method == "GET":
+        return redirect("chat")
+
+# This is the method to render a singular conversation view
+def conversation(request, conversation_id):
+    if request.method == "POST":
+        return redirect("conversation")
+    if request.method == "GET":
+        context = {"conversation": DirectConversation.objects.get(id=conversation_id)}
+        return render(request, "conversation.html", context)
