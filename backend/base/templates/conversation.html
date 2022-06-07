@@ -32,36 +32,6 @@
     </div>
 </div>
 
-<!-- a script that inserts the new message into the DOM and sends an AJAX request to an endpoint with the message information -->
-<!-- <script>
-    var token = '{{ csrf_token }}';
-
-    $(document).ready(function () {
-        $('form').submit(function (e) {
-            e.preventDefault();
-            var message = $('input[name="message"]').val();
-            var conversation_id = $('input[name="conversation_id"]').val();
-            // clear the input
-            $('input[name="message"]').val('');
-
-            $.ajax({
-                headers: { "X-CSRFToken": token },
-                url: "{% url 'createmessage' conversation.id %}",
-                type: "POST",
-                data: {
-                    message: message,
-                    conversation_id: conversation_id
-                },
-                success: function (data) {
-                    $('.conversation ul').append(
-                        "<li><a href = \"\" >" + '{{ user.name }}' + "</a><span> " + message + "</span></li >"
-                    );
-                }
-            });
-        });
-    });
-</script> -->
-
 <script type="text/javascript">
     // TODO: this is a bruteforce method of setting up WS server, should be replaced with a better method
     let url = "ws://localhost:8005/ws/socket-server/";
@@ -102,9 +72,6 @@
     });
 
 </script>
-
-
-
 
 <!-- script from static/message.js -->
 <script src="{% static '/js/message.js' %}" type="text/javascript"></script>

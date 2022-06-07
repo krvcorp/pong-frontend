@@ -40,16 +40,24 @@ class User(AbstractUser):
         return total
 
     # a function named get_posts which returns all the posts a user has made
+    # TODO: Maintain a set of posts associated with user id
     def get_posts(self):
         return Post.objects.filter(user=self)
     
     # a function named get_comments which returns all the comments a user has made
+    # TODO: Maintain a set of comments associated with user id
     def get_comments(self):
         return Comment.objects.filter(user=self)
 
     # a function named get_conversations which returns all the conversations a user has made
     def get_conversations(self):
         return DirectConversation.objects.filter(user1=self) | DirectConversation.objects.filter(user2=self)
+
+    # a function named get_upvoted_posts which shows all the posts a user has upvoted
+    def get_upvoted_posts(self):
+        postvoteobjects = PostVote.objects.filter(user=self, vote=1)
+        posts = [postvoteobject.post for postvoteobject in postvoteobjects if postvoteobject.post]
+        return posts
 
     def __str__(self):
         return self.name
@@ -71,6 +79,13 @@ class Post(models.Model):
                 total += vote.vote
         return total
 
+    # a function named get_comments which returns all the comments a post has made
+    def get_comments(self):
+        return Comment.objects.filter(post=self)
+
+    def num_comments(self):
+        return self.get_comments().count()
+
     def __str__(self):
         return str(self.id) + " " + self.title
 
@@ -82,14 +97,16 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    # a function named total_score which computes the sum of the votes of each comment
     def total_score(self):
         total = 0
-        # get all votes and iterate through them summing their votes
         for vote in CommentVote.objects.all():
             if vote.comment == self:
                 total += vote.vote
         return total
+
+    # function to check if the inputted user has voted for this comment
+    def has_voted(self, user):
+        return CommentVote.objects.filter(comment=self, user=user).count() > 0
 
     def __str__(self):
         return str(self.id) + " " + self.comment

@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
-from .models import User, Post, Comment, PostVote, CommentVote, DirectConversation, DirectMessage
+from .models import User, Post, Comment, PostVote, CommentVote, DirectConversation, DirectMessage, PostReport
 from .forms import *
 
 
@@ -126,18 +126,48 @@ def post(request, post_id):
         context = {"post": post, "comments": comments}
         return render(request, "post.html", context)
 
+@login_required
 def vote_comment(request, comment_id, up_or_down):
     if request.method == "POST":
-        comment_vote = CommentVote(comment=Comment.objects.get(id=comment_id), vote=up_or_down)
-        comment_vote.save()
-        return HttpResponse("success")
+        vote = 1 if up_or_down == "up" else -1
+        response = {}
+        if CommentVote.objects.filter(user=request.user, comment=Comment.objects.get(id=comment_id)).exists():
+            if CommentVote.objects.get(user=request.user, comment=Comment.objects.get(id=comment_id)).vote == vote:
+                response["action"] = "delete"
+                CommentVote.objects.filter(user=request.user, comment=Comment.objects.get(id=comment_id)).delete()
+            else:
+                response["action"] = "update"
+                CommentVote.objects.filter(user=request.user, comment=Comment.objects.get(id=comment_id)).update(vote=vote)
+        else:
+            comment_vote = CommentVote(user=request.user, comment=Comment.objects.get(id=comment_id), vote=vote)
+            comment_vote.save()
+            response = {"action": "create"}
+        response["comment_id"] = comment_id
+        response['new_score'] = Comment.objects.get(id=comment_id).total_score()
+        return JsonResponse(response)
     return HttpResponse("failure")
 
+@login_required
 def vote_post(request, post_id, up_or_down):
     if request.method == "POST":
-        post_vote = PostVote(post=Post.objects.get(id=post_id), vote=up_or_down)
-        post_vote.save()
-        return HttpResponse("success")
+        response = {}
+        vote = 1 if up_or_down == "up" else -1
+        if PostVote.objects.filter(user=request.user, post=Post.objects.get(id=post_id)).exists():
+            if PostVote.objects.get(user=request.user, post=Post.objects.get(id=post_id)).vote == vote:
+                response["action"] = "delete"
+                PostVote.objects.filter(user=request.user, post=Post.objects.get(id=post_id)).delete()
+            else:
+                response["action"] = "update"
+                PostVote.objects.filter(user=request.user, post=Post.objects.get(id=post_id)).update(vote=vote)
+        else:
+            post_vote = PostVote(user=request.user, post=Post.objects.get(id=post_id), vote=vote)
+            post_vote.save()
+            response = {
+                "action": "create"
+            }
+        response["post_id"] = post_id
+        response['new_score'] = Post.objects.get(id=post_id).total_score()
+        return JsonResponse(response)
     return HttpResponse("failure")
 
 
@@ -157,8 +187,9 @@ def createconversation(request):
     if request.method == "POST":
         if DirectConversation.objects.filter(user1=request.user, user2=User.objects.get(id=request.POST.get("user_id"))).exists():
             return redirect("conversation", conversation_id=DirectConversation.objects.get(user1=request.user, user2=User.objects.get(id=request.POST.get("user_id"))).id)
+        if DirectConversation.objects.filter(user2=request.user, user1=User.objects.get(id=request.POST.get("user_id"))).exists():
+            return redirect("conversation", conversation_id=DirectConversation.objects.get(user2=request.user, user1=User.objects.get(id=request.POST.get("user_id"))).id)
         if request.user.id == int(request.POST.get("user_id")):
-            print('you cannot create a conversation with yourself')
             # TODO: Add error message for same user
             return HttpResponse("failure")
         conversation = DirectConversation(user1=request.user, user2=User.objects.get(id=request.POST.get("user_id")))
@@ -197,3 +228,12 @@ def publicprofile(request, user_id):
     if request.method == "GET":
         context = {"user": User.objects.get(id=user_id)}
         return render(request, "publicprofile.html", context)
+
+def report_post(request, post_id):
+    if request.method == "POST":
+        report = PostReport(post=Post.objects.get(id=post_id), user=request.user)
+        report.save()
+        return HttpResponse("success")
+    if request.method == "GET":
+        # TODO: Deny access
+        return HttpResponse("failure")

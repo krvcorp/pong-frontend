@@ -1,34 +1,44 @@
+{% extends "base.html" %}
+{% load static %}
 {% block page_content %}
-<div class="layout__body mx-auto" style="width: 1200px">
-    <div class="mx-auto" style="width: 600px">
-        <div class="card border-primary">
-            <div class="card__header">
-                <h1 class="card__title">
-                    <a href="{{post.get_absolute_url}}">{{post.title}}</a>
-                </h1>
-            </div>
+<link rel="stylesheet" href="{% static '/css/discover.css' %}">
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+    crossorigin="anonymous"> </script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+    integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-            <!-- A form with two options, upvote and downvote -->
-            <div class="card__body">
-                <form action="{% url 'vote_post' post_id=post.id up_or_down=1 %}" method="POST">
-                    {% csrf_token %}
-                    <button class="btn btn--mainZ" type="submit">Upvote</button>
-                </form>
-                <form action="{% url 'vote_post' post_id=post.id up_or_down=0 %}" method="POST">
-                    {% csrf_token %}
-                    <button class="btn btn--main" type="submit">Downvote</button>
-                </form>
-            </div>
+<div class="whole-page">
+    <div class="discover-body">
+        <div class="discover-post card">
+            <div class="discover-title">
+                <div class="author-information">
+                    {{post.user.name}} - {{post.created_at}}
+                </div>
+                <!-- Make the title link to the singular post view -->
+                <h1> {{post.title}} </h1>
 
-            <!-- Iterate through post votes dictionary and display vote count of each respective post -->
+                <!-- A form with two options, upvote and downvote -->
+                <div class="post-vote">
+                    <form action="{% url 'vote_post' post_id=post.id up_or_down='up' %}" method="POST">
+                        {% csrf_token %}
+                        <button class="vote vote-post" type="submit">
+                            <i class="fa-solid fa-arrow-up"></i>
+                        </button>
+                    </form>
+                    <div class="card__body">
+                        <span class="text-bold post-votes-count{{ post.id }}">
+                            {{ post.total_score }}
+                        </span>
+                    </div>
+                    <form action="{% url 'vote_post' post_id=post.id up_or_down='down' %}" method="POST">
+                        {% csrf_token %}
+                        <button class="vote vote-post" type="submit">
+                            <i class="fa-solid fa-arrow-down"></i>
+                        </button>
+                    </form>
+                </div>
 
-            <div class="card__body">
-                <p>
-                    <span class="text-bold">Votes:</span>
-                    {% for key, value in post_votes.items %} {% if key == post.id %}
-                    {{value}}
-                    {% endif %} {% endfor %}
-                </p>
             </div>
 
             <div class="card__body">
@@ -37,80 +47,87 @@
                 <img src="{{post.image.url}}" alt="{{post.title}}" class="card__image"
                     style="width: 100%; max-width: 300px; max-height: 300px" />
                 {% endif %}
-                <!-- display the body of the post -->
-                <p class="card__text">{{post.body}}</p>
-            </div>
-            <div class="card__footer">
-                <!-- display the author of the post -->
-                <p class="card__author">{{post.user.name}}</p>
-                <!-- display the date of the post -->
-                <p class="card__date">Date Posted: {{post.created_at}}</p>
             </div>
 
-            <!-- display the comments that belong to each post -->
-            {% for comment in comments %} {% if comment.post == post %}
-            <div class="card__comment">
-                <p class="card__comment-text">{{comment.comment}}</p>
-                <p class="card__comment-author">{{comment.user.name}}</p>
-                <p class="card__comment-date">{{comment.created_at}}</p>
-
-                <!-- Iterate through comment votes dictionary and display vote count of each respective comment -->
-                <div class="card__body">
-                    <p>
-                        <span class="text-bold">Votes:</span>
-                        {% for key, value in comment_votes.items %} {% if key == comment.id %}
-                        {{value}}
-                        {% endif %} {% endfor %}
-                    </p>
-                </div>
-
-                <div class="card__body">
-                    <form action="{% url 'vote_comment' comment_id=comment.id up_or_down=1 %}" method="POST">
+            {% for comment in post.get_comments %} {% if comment.post == post %}
+            <div class="comment-vote">
+                <div class="vote-form">
+                    <form action="{% url 'vote_comment' comment_id=comment.id up_or_down='up' %}" method="POST">
                         {% csrf_token %}
-                        <button class="btn btn--main" type="submit">Upvote</button>
+                        <button class="vote vote-comment" type="submit">
+                            <i class="fa-solid fa-arrow-up"></i>
+                        </button>
                     </form>
-                    <form action="{% url 'vote_comment' comment_id=comment.id up_or_down=0 %}" method="POST">
+                    <div class="">
+                        <span class="comment-votes-count{{ comment.id }} text-bold">
+                            {{ comment.total_score }}
+                        </span>
+                    </div>
+                    <form action=" {% url 'vote_comment' comment_id=comment.id up_or_down='down' %}" method="POST">
                         {% csrf_token %}
-                        <button class="btn btn--main" type="submit">Downvote</button>
+                        <button class="vote vote-comment" type="submit">
+                            <i class="fa-solid fa-arrow-down"></i>
+                        </button>
                     </form>
                 </div>
-
+                <span class="comment-text">
+                    {{comment.user.name}} - {{comment.comment}}
+                </span>
             </div>
             {% endif %} {% endfor %}
 
             <!-- form to write a comment underneath a post -->
 
-            <form class="form" action="{% url 'comment' post.id %}" method="POST">
-                {% csrf_token %}
-                <div class="form__group">
-                    <label for="comment">Comment</label>
-                    <textarea required name="comment" rows="3"></textarea>
-                </div>
-                <div class="form__action my-2">
-                    <button class="btn btn--main" type="submit">Submit</button>
-                </div>
-            </form>
+            <div class="comment-form">
+                <form class="form" action="{% url 'comment' post.id %}" method="POST">
+                    {% csrf_token %}
+                    <div class="form__group">
+                        <textarea required name="comment" rows="3"></textarea>
+                    </div>
+                    <div class="form__action my-2">
+                        <button class="btn btn--main" type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
         </div>
+
+
     </div>
 </div>
 
-<!-- script to send AJAX request after clicking the upvote button  -->
+<!-- TODO: Create separate script for post and comment votes -->
+
+
 <script>
     $(document).ready(function () {
-        $('button').click(function () {
-            var $this = $(this);
-            var $form = $this.closest('form');
-            var formData = $form.serialize();
-            var formURL = $form.attr("action");
-            $.ajax({
-                url: formURL,
-                type: "POST",
-                data: formData,
-                success: function (data, textStatus, jqXHR) {
-                    $this.closest('.card__body').find('p').text(data);
-                }
+        $('.vote-post').click(function (e) {
+            e.preventDefault();
+            var form = $(this).closest('form');
+            var url = form.attr('action');
+            var data = form.serialize();
+            $.post(url, data, function (response) {
+                console.log(response);
+                $('.post-votes-count' + response.post_id).text(response.new_score);
+                $(e.target).toggleClass('voted');
             });
-            return false;
         });
     });
-    {% endblock %}
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('.vote-comment').click(function (e) {
+            e.preventDefault();
+            var form = $(this).closest('form');
+            var url = form.attr('action');
+            var data = form.serialize();
+            $.post(url, data, function (response) {
+                $('.comment-votes-count' + response.comment_id).text(response.new_score);
+                $(e.target).toggleClass('voted');
+            });
+        });
+    });
+</script>
+
+
+{% endblock %}

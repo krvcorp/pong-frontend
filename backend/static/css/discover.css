@@ -1,0 +1,90 @@
+/* make the body half the width of the page */
+
+.whole-page {
+	width: 100%;
+	height: 100%;
+	background-color: #990000;
+}
+
+.discover-body {
+	width: 50%;
+	margin: 0 auto;
+}
+
+/* center the title, and make it white on a red background */
+.discover-title {
+	text-align: center;
+	color: black;
+	/* background-color: red; */
+}
+
+/* make the background of a post red */
+.discover-post {
+	/* add some padding and margin around each post */
+	padding: 10px;
+}
+
+/* put the post vote buttons on the right side of the post body */
+.post-vote {
+	float: right;
+}
+
+.comment-vote {
+	width: 100%;
+	height: auto;
+	display: flex;
+	align-items: center;
+}
+
+/* center the form for comments */
+.comment-form {
+	text-align: center;
+}
+
+.comment-text {
+	display: inline-block;
+	width: 50%;
+}
+
+/* make vote buttons borderless */
+.vote {
+	border: none;
+	background: transparent;
+	cursor: pointer;
+	color: grey;
+}
+
+.fa-cog {
+	color: grey;
+}
+
+.voted {
+	color: black;
+}
+
+button:focus {
+	outline: none;
+}
+
+/* make author information greyed out and less prominent */
+.author-information {
+	color: #999999;
+}
+
+.new-post {
+	width: 100%;
+	height: auto;
+	display: flex;
+	/* add some top margin */
+	margin-top: 10px;
+	align-items: center;
+	text-align: center;
+}
+
+/* center the 'post-image' class both vertically and horizontally */
+.post-image {
+	display: block;
+	margin: 0 auto;
+	width: 25%;
+	height: auto;
+}
