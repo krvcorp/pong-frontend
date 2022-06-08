@@ -55,7 +55,6 @@ def getComment(request, comment_id):
 
 
 @api_view(["POST"])
-@api_view(["POST"])
 def createPost(request):
     if request.method == "POST":
         post = Post.objects.create(
@@ -64,7 +63,7 @@ def createPost(request):
             image=(request.FILES["image"] if "image" in request.FILES else None),
         )
         serializer = PostSerializer(post)
-        return Response(serializer.data)
+        return JsonResponse(serializer.data)
 
 
 @api_view(["POST"])

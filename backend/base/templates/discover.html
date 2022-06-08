@@ -79,16 +79,16 @@
 
 		<div class="new-post">
 			<form class="form" action="{% url 'createPost' %}" method="post" enctype="multipart/form-data">
-				{% csrf_token %} {{ form.as_p }}
-				<div class="form__action my-2">
-					<button class="btn btn--main" type="submit">Submit New Post</button>
+				{% csrf_token %}
+				<div class="form__group">
+					<label for="image">Image</label>
+					<input type="file" name="image" />
 				</div>
 			</form>
 		</div>
 	</div>
 </div>
 
-<!-- TODO: Create separate script for post and comment votes -->
 
 <script>
 	$(document).ready(function () {

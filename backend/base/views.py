@@ -14,7 +14,6 @@ from .models import (
     DirectMessage,
     PostReport,
 )
-from .forms import *
 
 
 # base.views holds render-only methods
@@ -51,9 +50,9 @@ def register(request):
 
 def login(request):
     if request.method == "POST":
-        email = request.POST.get("email")
-        password = request.POST.get("password")
-        user = authenticate(username=email, password=password)
+        user = authenticate(
+            username=request.POST.get("email"), password=request.POST.get("password")
+        )
         if user is not None:
             auth_login(request, user)
             return redirect("discover")
@@ -69,20 +68,8 @@ def logout(request):
 
 
 def discover(request):
-    form = PostForm()
-    posts = Post.objects.all()
-    comments = Comment.objects.all()
-    context = {"form": form, "posts": posts, "comments": comments}
+    context = {"posts": Post.objects.all(), "comments": Comment.objects.all()}
     return render(request, "discover.html", context)
-
-
-def createpost(request):
-    post_form = PostForm(request.POST, request.FILES)
-    if post_form.is_valid():
-        post = post_form.save(commit=False)
-        post.user = request.user
-        post.save()
-        return redirect("discover")
 
 
 @login_required
@@ -93,10 +80,11 @@ def profile(request):
 
 @login_required
 def leaderboard(request):
-    users = sorted(
-        User.objects.all(), key=lambda user: user.total_score(), reverse=True
-    )
-    context = {"users": users}
+    context = {
+        "users": sorted(
+            User.objects.all(), key=lambda user: user.total_score(), reverse=True
+        )
+    }
     return render(request, "leaderboard.html", context)
 
 
@@ -114,13 +102,11 @@ def message(request):
     return render(request, "message.html", context)
 
 
-# This is the method to render a singular conversation view
 def conversation(request, conversation_id):
     context = {"conversation": DirectConversation.objects.get(id=conversation_id)}
     return render(request, "conversation.html", context)
 
 
-# Method to render a publicly facing profile page for each user
 def publicprofile(request, user_id):
     context = {"user": User.objects.get(id=user_id)}
     return render(request, "publicprofile.html", context)
