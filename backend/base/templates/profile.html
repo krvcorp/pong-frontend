@@ -21,7 +21,8 @@
 			<!-- user's profile picture -->
 			<div style="display:inline-block;">
 				<p>
-					<img class="profile-picture rounded-circle" src="{{ user.profile_picture.url }}" />
+					<img class="profile-picture rounded-circle" src="{{ user.profile_picture.url }}"
+						alt="profile picture" style="max-width: 400px; max-height: 400px;" />
 				</p>
 			</div>
 		</ul>
@@ -52,7 +53,7 @@
 	</div>
 
 	<!-- form where they can update each part of their profile with new information -->
-	<form class="form" action="" method="POST" enctype="multipart/form-data">
+	<form class="form" action="{% url 'updateProfile' %}" method="POST" enctype="multipart/form-data">
 		{% csrf_token %}
 		<div class="form__group">
 			<label for="email">Email</label>

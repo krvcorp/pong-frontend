@@ -59,7 +59,7 @@
         };
         $.ajax({
             headers: { "X-CSRFToken": token },
-            url: "{% url 'createmessage' conversation.id %}",
+            url: "{% url 'createMessage' conversation.id %}",
             type: "POST",
             data: data,
             success: function (data) {

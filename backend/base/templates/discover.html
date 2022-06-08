@@ -18,7 +18,7 @@
 
 				<!-- A form with two options, upvote and downvote -->
 				<div class="post-vote">
-					<form action="{% url 'vote_post' post_id=post.id up_or_down='up' %}" method="POST">
+					<form action="{% url 'createPostVote' post_id=post.id up_or_down='up' %}" method="POST">
 						{% csrf_token %}
 						<button class="vote vote-post vote-post-upvote" type="submit">
 							<i class="fa-solid fa-arrow-up"></i>
@@ -29,7 +29,7 @@
 							{{ post.total_score }}
 						</span>
 					</div>
-					<form action="{% url 'vote_post' post_id=post.id up_or_down='down' %}" method="POST">
+					<form action="{% url 'createPostVote' post_id=post.id up_or_down='down' %}" method="POST">
 						{% csrf_token %}
 						<button class="vote vote-post vote-post-downvote" type="submit">
 							<i class="fa-solid fa-arrow-down"></i>
@@ -67,7 +67,7 @@
 
 			<!-- a div with a report icon that submits a report on the post -->
 			<div>
-				<form action="{% url 'report_post' post.id %}" method="POST">
+				<form action="{% url 'createPostReport' post.id %}" method="POST">
 					{% csrf_token %}
 					<button class="report" type="submit">
 						<i class="fa-solid fa-flag"></i>
@@ -78,7 +78,7 @@
 		{% endfor %}
 
 		<div class="new-post">
-			<form class="form" action="{% url 'createpost' %}" method="post" enctype="multipart/form-data">
+			<form class="form" action="{% url 'createPost' %}" method="post" enctype="multipart/form-data">
 				{% csrf_token %} {{ form.as_p }}
 				<div class="form__action my-2">
 					<button class="btn btn--main" type="submit">Submit New Post</button>

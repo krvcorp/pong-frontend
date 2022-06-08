@@ -20,7 +20,7 @@
 
                 <!-- A form with two options, upvote and downvote -->
                 <div class="post-vote">
-                    <form action="{% url 'vote_post' post_id=post.id up_or_down='up' %}" method="POST">
+                    <form action="{% url 'createPostVote' post_id=post.id up_or_down='up' %}" method="POST">
                         {% csrf_token %}
                         <button class="vote vote-post" type="submit">
                             <i class="fa-solid fa-arrow-up"></i>
@@ -31,7 +31,7 @@
                             {{ post.total_score }}
                         </span>
                     </div>
-                    <form action="{% url 'vote_post' post_id=post.id up_or_down='down' %}" method="POST">
+                    <form action="{% url 'createPostVote' post_id=post.id up_or_down='down' %}" method="POST">
                         {% csrf_token %}
                         <button class="vote vote-post" type="submit">
                             <i class="fa-solid fa-arrow-down"></i>
@@ -52,7 +52,7 @@
             {% for comment in post.get_comments %} {% if comment.post == post %}
             <div class="comment-vote">
                 <div class="vote-form">
-                    <form action="{% url 'vote_comment' comment_id=comment.id up_or_down='up' %}" method="POST">
+                    <form action="{% url 'createCommentVote' comment_id=comment.id up_or_down='up' %}" method="POST">
                         {% csrf_token %}
                         <button class="vote vote-comment" type="submit">
                             <i class="fa-solid fa-arrow-up"></i>
@@ -63,7 +63,7 @@
                             {{ comment.total_score }}
                         </span>
                     </div>
-                    <form action=" {% url 'vote_comment' comment_id=comment.id up_or_down='down' %}" method="POST">
+                    <form action=" {% url 'createCommentVote' comment_id=comment.id up_or_down='down' %}" method="POST">
                         {% csrf_token %}
                         <button class="vote vote-comment" type="submit">
                             <i class="fa-solid fa-arrow-down"></i>
@@ -79,7 +79,7 @@
             <!-- form to write a comment underneath a post -->
 
             <div class="comment-form">
-                <form class="form" action="{% url 'comment' post.id %}" method="POST">
+                <form class="form" action="{% url 'createComment' post.id %}" method="POST">
                     {% csrf_token %}
                     <div class="form__group">
                         <textarea required name="comment" rows="3"></textarea>

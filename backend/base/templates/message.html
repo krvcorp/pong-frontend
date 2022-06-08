@@ -9,7 +9,7 @@
 
         <div class="startconversation">
             <h2>Start a Conversation</h2>
-            <form action="{% url 'createconversation' %}" method="POST">
+            <form action="{% url 'createConversation' %}" method="POST">
                 {% csrf_token %}
                 <div class="form__group">
                     <label for="user">User</label>
