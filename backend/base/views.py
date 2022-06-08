@@ -288,3 +288,15 @@ def create_class_group(request):
         })
     if request.method == "GET":
         return HttpResponse("failure")
+
+def get_post(request):
+    if request.method == "POST":
+        return redirect("get_post")
+    if request.method == "GET":
+        context = {}
+        posts = []
+        for post in Post.objects.all():
+            if post.user not in posts:
+                posts.append(post.user)
+        context['posts'] = posts
+        return render(request, "get_post.html", context)
