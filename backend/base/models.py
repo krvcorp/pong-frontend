@@ -86,6 +86,12 @@ class Post(models.Model):
     def num_comments(self):
         return self.get_comments().count()
 
+    def get_reports(self):
+        return PostReport.objects.filter(post=self)
+
+    def num_reports(self):
+        return self.get_reports().count()
+
     def __str__(self):
         return str(self.id) + " " + self.title
 
@@ -172,3 +178,16 @@ class DirectMessage(models.Model):
 
     def __str__(self):
         return str(self.message)
+
+class ClassGroup(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    creator = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
+
+    def get_members(self):  
+        pass

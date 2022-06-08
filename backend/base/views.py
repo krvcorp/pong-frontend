@@ -62,13 +62,10 @@ def comment(request, post_id):
             comment.user = request.user
             comment.post = Post.objects.get(id=post_id)
             comment.save()
-
-            # TODO: Return JSON instead of redirect, use AJAX to add comment
-            # to page directly
-            return redirect("discover")
+            return JsonResponse({"success": True})
 
     if request.method == "GET":
-        return redirect("discover")
+        return JsonResponse({"success": False})
 
 def discover(request):
     if request.method == "POST":
@@ -86,6 +83,17 @@ def discover(request):
         context = {"form": form, "posts": posts, "comments": comments}
         return render(request, "discover.html", context)
 
+def createpost(request):
+    if request.method == "POST":
+        post_form = PostForm(request.POST, request.FILES)
+        if post_form.is_valid():
+            post = post_form.save(commit=False)
+            post.user = request.user
+            post.save()
+            return redirect("discover")
+    if request.method == "GET":
+        form = PostForm()
+        return render(request, "createpost.html", {"form": form})
 
 
 # Returns user's profile page
@@ -236,4 +244,47 @@ def report_post(request, post_id):
         return HttpResponse("success")
     if request.method == "GET":
         # TODO: Deny access
+        return HttpResponse("failure")
+
+def delete_post(request, post_id):
+    if request.method == "POST":
+        Post.objects.get(id=post_id).delete()
+        return JsonResponse({"success": True})
+    if request.method == "GET":
+        return HttpResponse("failure")
+
+def delete_comment(request, comment_id):
+    if request.method == "POST":
+        Comment.objects.get(id=comment_id).delete()
+        return JsonResponse({"success": True})
+    if request.method == "GET":
+        return HttpResponse("failure")
+
+def reportedposts(request):
+    if request.method == "POST":
+        return redirect("reportedposts")
+    if request.method == "GET":
+        context = {}
+        reported_posts = []
+        for postreport in PostReport.objects.all():
+            if postreport.post not in reported_posts:
+                reported_posts.append(postreport.post)
+        context['reported_posts'] = reported_posts
+        return render(request, "reportedposts.html", context)
+
+def create_class_group(request):
+    if request.method == "POST":
+        # TODO: Check if class group already exists
+        group = ClassGroup(
+            name=request.POST.get("name"), 
+            description=request.POST.get("description"), 
+            user=request.user
+        )
+        group.save()
+        return JsonResponse({
+            "action": "create",
+            "status": "success",
+            "group_id": group.id
+        })
+    if request.method == "GET":
         return HttpResponse("failure")
