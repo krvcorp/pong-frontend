@@ -6,8 +6,3 @@ class PostForm(forms.ModelForm):
         model = Post
         fields = ['title', 'image']
 
-# Form for comments which go on different posts
-class CommentForm(forms.ModelForm):
-    class Meta:
-        model = Comment
-        fields = ['comment']

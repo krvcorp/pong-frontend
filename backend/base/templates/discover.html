@@ -2,11 +2,6 @@
 {% load static %}
 {% block page_content %}
 <link rel="stylesheet" href="{% static '/css/discover.css' %}">
-<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
-	crossorigin="anonymous"> </script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
-	integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
-	crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <div class="body whole-page" id="body">
 	<div class="discover-body">
@@ -83,7 +78,7 @@
 		{% endfor %}
 
 		<div class="new-post">
-			<form class="form" action="" method="post" enctype="multipart/form-data">
+			<form class="form" action="{% url 'createpost' %}" method="post" enctype="multipart/form-data">
 				{% csrf_token %} {{ form.as_p }}
 				<div class="form__action my-2">
 					<button class="btn btn--main" type="submit">Submit New Post</button>

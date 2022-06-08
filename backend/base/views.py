@@ -56,26 +56,18 @@ def logout(request):
 
 def comment(request, post_id):
     if request.method == "POST":
-        comment_form = CommentForm(request.POST)
-        if comment_form.is_valid():
-            comment = comment_form.save(commit=False)
-            comment.user = request.user
-            comment.post = Post.objects.get(id=post_id)
-            comment.save()
-            return JsonResponse({"success": True})
+        comment = Comment(
+                user=request.user,
+                post=Post.objects.get(id=post_id),
+                comment=request.POST.get("comment")
+        )
+        comment.save()
+        return JsonResponse({"success": True})
 
     if request.method == "GET":
         return JsonResponse({"success": False})
 
 def discover(request):
-    if request.method == "POST":
-        post_form = PostForm(request.POST, request.FILES)
-        if post_form.is_valid():
-            post = post_form.save(commit=False)
-            post.user = request.user
-            post.save()
-            return redirect("discover")
-
     if request.method == "GET":
         form = PostForm()
         posts = Post.objects.all()
@@ -91,9 +83,6 @@ def createpost(request):
             post.user = request.user
             post.save()
             return redirect("discover")
-    if request.method == "GET":
-        form = PostForm()
-        return render(request, "createpost.html", {"form": form})
 
 
 # Returns user's profile page
@@ -102,11 +91,12 @@ def createpost(request):
 @login_required
 def profile(request):
     if request.method == "POST":
-        # get new information from the form
         user = request.user
         user.name = request.POST.get("name").strip()
         user.phone = request.POST.get("phone")
         user.email = request.POST.get("email")
+        user.profile_picture = request.FILES.get("profile_picture")
+        print(user.profile_picture)
         user.save()
         return redirect("profile")
     if request.method == "GET":
@@ -288,15 +278,3 @@ def create_class_group(request):
         })
     if request.method == "GET":
         return HttpResponse("failure")
-
-def get_post(request):
-    if request.method == "POST":
-        return redirect("get_post")
-    if request.method == "GET":
-        context = {}
-        posts = []
-        for post in Post.objects.all():
-            if post.user not in posts:
-                posts.append(post.user)
-        context['posts'] = posts
-        return render(request, "get_post.html", context)

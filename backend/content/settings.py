@@ -51,6 +51,7 @@ INSTALLED_APPS = [
 
     #rest
     "rest_framework",
+    'django_cleanup.apps.CleanupConfig',
 ]
 
 ASGI_APPLICATION = "content.asgi.application"

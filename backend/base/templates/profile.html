@@ -1,93 +1,87 @@
 {% extends "base.html" %}
 {% load static %}
 {% block page_content %}
-<div class="layout__body mx-auto" style="width: 200px">
-	<div class="mx-auto" style="width: 200px">
-		<!-- display logged in user's profile information -->
-		<div class="profile">
-			<h2>Profile</h2>
-			<ul>
-				<li>
-					<span>Name:</span>
-					<span>{{ user.name }}</span>
-				</li>
-				<li>
-					<span>Email:</span>
-					<span>{{ user.email }}</span>
-				</li>
-				<li>
-					<span>Username:</span>
-					<span>{{ user.username }}</span>
-				</li>
-				<li>
-					<span>Total Score:</span>
-					<span>{{ user.total_score }}</span>
-				</li>
-				<!-- total post score -->
-				<li>
-					<span>Total Post Score:</span>
-					<span>{{ user.total_post_score }}</span>
-				</li>
-				<!-- total comment score -->
-				<li>
-					<span>Total Comment Score:</span>
-					<span>{{ user.total_comment_score }}</span>
-				</li>
-			</ul>
-		</div>
 
-		<!-- display all posts a user has made -->
-		<div class="posts">
-			<h2>Posts</h2>
-			<ul>
-				{% for post in user.get_posts %}
-				<li>
-					<a href="{% url 'post' post.id %}">{{ post.title }}</a>
-				</li>
-				{% endfor %}
-			</ul>
-		</div>
+<!-- profile.css link -->
+<link rel="stylesheet" href="{% static '/css/profile.css' %}">
 
-		<!-- display all comments a user has made -->
-		<div class="comments">
-			<h2>Comments</h2>
-			<ul>
-				{% for comment in user.get_comments %}
-				<li>
-					<a href="{% url 'post' comment.post.id %}">{{ comment.comment }}</a>
-				</li>
-				{% endfor %}
-			</ul>
-		</div>
-
-		<!-- form where they can update each part of their profile with new information -->
-		<form class="form" action="" method="POST">
-			{% csrf_token %}
-			<div class="form__group">
-				<label for="email">Email</label>
-				<input required type="text" name="email" value="{{user.email}}" />
+<div class="layout__body mx-auto" style="width: 50%">
+	<!-- display logged in user's profile information -->
+	<div class="profile-box border-1">
+		<h2 style="text-align:center">Profile</h2>
+		<ul>
+			<div style="display:inline-block">
+				<p>Name: {{ user.name }}</p>
+				<p>Email: {{ user.email }}</p>
+				<p>Username: {{ user.username }}</p>
+				<p>Total Score: {{ user.total_score }}</p>
+				<p>Total Post Score: {{ user.total_post_score }}</p>
+				<p>Total Comment Score: {{ user.total_comment_score }}</p>
 			</div>
-			<div class="form__group">
-				<label for="username">Phone Number</label>
-				<input required type="text" name="phone" value="{{user.phone}}" />
+			<!-- user's profile picture -->
+			<div style="display:inline-block;">
+				<p>
+					<img class="profile-picture rounded-circle" src="{{ user.profile_picture.url }}" />
+				</p>
 			</div>
-			<div class="form__group">
-				<label for="name">Name</label>
-				<input required type="text" name="name" value="{{user.name}}" />
-			</div>
-			<div class="form__group">
-				<label for="password">Password</label>
-				<input type="password" name="password" />
-			</div>
-			<div class="form__group">
-				<label for="password">Confirm Password</label>
-				<input type="password" name="password2" />
-			</div>
-			<div class="form__action my-2">
-				<!-- <a class="btn btn--dark" href="{{request.META.HTTP_REFERER}}">Cancel</a> -->
-				<button class="btn btn--main btn--dark" type="submit">Submit</button>
-			</div>
-		</form>
+		</ul>
 	</div>
+
+	<!-- display all posts a user has made -->
+	<div class="posts">
+		<h2>Posts</h2>
+		<ul>
+			{% for post in user.get_posts %}
+			<div>
+				<a href="{% url 'post' post.id %}">{{ post.title }}</a>
+			</div>
+			{% endfor %}
+		</ul>
+	</div>
+
+	<!-- display all comments a user has made -->
+	<div class="comments">
+		<h2>Comments</h2>
+		<ul>
+			{% for comment in user.get_comments %}
+			<div>
+				<a href="{% url 'post' comment.post.id %}">{{ comment.comment }}</a>
+			</div>
+			{% endfor %}
+		</ul>
+	</div>
+
+	<!-- form where they can update each part of their profile with new information -->
+	<form class="form" action="" method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		<div class="form__group">
+			<label for="email">Email</label>
+			<input required type="text" name="email" value="{{user.email}}" />
+		</div>
+		<div class="form__group">
+			<label for="username">Phone Number</label>
+			<input required type="text" name="phone" value="{{user.phone}}" />
+		</div>
+		<div class="form__group">
+			<label for="name">Name</label>
+			<input required type="text" name="name" value="{{user.name}}" />
+		</div>
+		<div class="form__group">
+			<label for="password">Password</label>
+			<input type="password" name="password" />
+		</div>
+		<div class="form__group">
+			<label for="password">Confirm Password</label>
+			<input type="password" name="password2" />
+		</div>
+		<div class="form__group">
+			<label for="profile_picture">Profile Picture</label>
+			<input type="file" name="profile_picture" />
+		</div>
+		<div class="form__action my-2">
+			<!-- <a class="btn btn--dark" href="{{request.META.HTTP_REFERER}}">Cancel</a> -->
+			<button class="btn btn--main btn--dark" type="submit">Submit</button>
+		</div>
+	</form>
 </div>
 {% endblock %}
