@@ -12,6 +12,12 @@ urlpatterns = [
         views.getCommentsOfPost,
         name="getCommentsOfPost",
     ),
+    path("getPostVotes/<int:post_id>/", views.getPostVotes, name="getPostVotes"),
+    path(
+        "getCommentVotes/<int:comment_id>/",
+        views.getCommentVotes,
+        name="getCommentVotes",
+    ),
     # Create URLS
     path("createPost/", views.createPost, name="createPost"),
     path("createComment/<int:post_id>", views.createComment, name="createComment"),

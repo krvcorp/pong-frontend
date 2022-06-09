@@ -39,6 +39,20 @@ def getPost(request, post_id):
 
 
 @api_view(["GET"])
+def getPostVotes(request, post_id):
+    if request.method == "GET":
+        votes = Post.objects.get(id=post_id).total_score()
+        return JsonResponse({"votes": votes})
+
+
+@api_view(["GET"])
+def getCommentVotes(request, comment_id):
+    if request.method == "GET":
+        votes = Comment.objects.get(id=comment_id).total_score()
+        return JsonResponse({"votes": votes})
+
+
+@api_view(["GET"])
 def getPosts(request):
     if request.method == "GET":
         posts = Post.objects.all()

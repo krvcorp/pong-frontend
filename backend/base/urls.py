@@ -4,7 +4,6 @@ from base import views
 urlpatterns = [
     # General URLS
     path("", views.index, name="index"),
-    path("discover/", views.discover, name="discover"),
     path("leaderboard/", views.leaderboard, name="leaderboard"),
     path("chat/", views.message, name="chat"),
     path("message/", views.message, name="message"),

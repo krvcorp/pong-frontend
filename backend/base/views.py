@@ -20,7 +20,8 @@ from .models import (
 
 
 def index(request):
-    return redirect("discover")
+    context = {"posts": Post.objects.all()}
+    return render(request, "index.html", context)
 
 
 def register(request):
@@ -65,11 +66,6 @@ def login(request):
 def logout(request):
     auth_logout(request)
     return redirect("index")
-
-
-def discover(request):
-    context = {"posts": Post.objects.all(), "comments": Comment.objects.all()}
-    return render(request, "discover.html", context)
 
 
 @login_required
