@@ -3,21 +3,10 @@ from . import views
 
 urlpatterns = [
     # Get URLS
-    path("getUser/<int:user_id>/", views.getUser, name="getUser"),
-    path("getPost/<int:post_id>/", views.getPost, name="getPost"),
-    path("getComment/<int:comment_id>/", views.getComment, name="getComment"),
+    path("user/<int:user_id>/", views.user, name="user"),
+    path("post/<int:post_id>/", views.post, name="post"),
+    path("comment/<int:comment_id>/", views.comment, name="comment"),
     path("getPosts/", views.getPosts, name="getPosts"),
-    path(
-        "getCommentsOfPost/<int:post_id>/",
-        views.getCommentsOfPost,
-        name="getCommentsOfPost",
-    ),
-    path("getPostVotes/<int:post_id>/", views.getPostVotes, name="getPostVotes"),
-    path(
-        "getCommentVotes/<int:comment_id>/",
-        views.getCommentVotes,
-        name="getCommentVotes",
-    ),
     # Create URLS
     path("createPost/", views.createPost, name="createPost"),
     path("createComment/<int:post_id>", views.createComment, name="createComment"),
@@ -43,10 +32,4 @@ urlpatterns = [
     path(
         "createMessage/<int:conversation_id>", views.createMessage, name="createMessage"
     ),
-    # Update URLS
-    path("updatePost/", views.updatePost, name="updatePost"),
-    path("updateProfile/", views.updateProfile, name="updateProfile"),
-    # Delete Model URLS
-    path("deletepost/<int:post_id>/", views.deletePost, name="deletePost"),
-    path("deletecomment/<int:comment_id>/", views.deleteComment, name="deleteComment"),
 ]
