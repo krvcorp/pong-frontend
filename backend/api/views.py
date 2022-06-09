@@ -203,6 +203,7 @@ def createPostVote(request, post_id, up_or_down):
     return JsonResponse(response)
 
 
+@api_view(["POST"])
 def createClassGroup(request):
     # TODO: Check if class group already exists
     group = ClassGroup(
@@ -215,6 +216,7 @@ def createClassGroup(request):
 
 
 # This is the method to create a new DirectConversation
+@api_view(["POST"])
 def createConversation(request):
     if DirectConversation.objects.filter(
         user1=request.user, user2=User.objects.get(id=request.POST.get("user_id"))
