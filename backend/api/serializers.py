@@ -3,6 +3,15 @@ from base.models import User, Post, Comment, PostReport
 
 
 class UserSerializer(serializers.ModelSerializer):
+    posts = serializers.SerializerMethodField()
+    comments = serializers.SerializerMethodField()
+
+    def get_posts(self, obj):
+        return PostSerializer(obj.get_posts(), many=True).data
+
+    def get_comments(self, obj):
+        return CommentSerializer(obj.get_comments(), many=True).data
+
     class Meta:
         model = User
         fields = (
@@ -13,6 +22,8 @@ class UserSerializer(serializers.ModelSerializer):
             "profile_picture",
             "created_at",
             "updated_at",
+            "posts",
+            "comments",
         )
 
 

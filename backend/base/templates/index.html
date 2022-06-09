@@ -3,260 +3,102 @@
 {% block page_content %}
 <link rel="stylesheet" href="{% static '/css/discover.css' %}">
 
-<div class="body whole-page" id="body">
-    <div class="discover-body">
-        <div class="album py-5 bg-light">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card mb-4 box-shadow">
-                            <img class="card-img-top"
-                                data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail"
-                                alt="Card image cap">
-                            <div class="card-body">
-                                <p class="card-text">This is a wider card with supporting text below as a natural
-                                    lead-in to additional content. This content is a little bit longer.</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                                    </div>
-                                    <small class="text-muted">9 mins</small>
+<div class="body py-5 ">
+    <div class="mx-auto" style="text-align:center">
+        <h1 style="color:white">Pong</h1>
+    </div>
+    <div class="album py-5" style="width:50%; margin: 0 auto;">
+        <div class="row">
+            {% for post in posts %}
+            <div class="col-md-7 mx-auto">
+                <div class="card mb-4 box-shadow">
+                    <div class="d-flex flex-column">
+                        <div class="pl-2">
+                            <small class="text-muted"> {{post.user.name}} - {{post.created_at}} </small>
+                            <div class="post-vote mr-auto d-flex flex-column">
+                                <form action="{% url 'createPostVote' post_id=post.id up_or_down='up' %}" method="POST">
+                                    {% csrf_token %}
+                                    <button class="vote vote-post vote-post-upvote" type="submit">
+                                        <i class="fa-solid fa-arrow-up"></i>
+                                    </button>
+                                </form>
+                                <div class="mx-auto">
+                                    <span class="post-votes-count{{ post.id }} text-bold">
+                                        {{ post.total_score }}
+                                    </span>
                                 </div>
+                                <form action="{% url 'createPostVote' post_id=post.id up_or_down='down' %}"
+                                    method="POST">
+                                    {% csrf_token %}
+                                    <button class="vote vote-post vote-post-downvote" type="submit">
+                                        <i class="fa-solid fa-arrow-down"></i>
+                                    </button>
+                                </form>
+                            </div>
+                            <div class="">
+                                <a href="{% url 'singular_post' post.id %}">
+                                    <p>{{post.title}}</p>
+                                </a>
                             </div>
                         </div>
+                        {% if post.image %}
+                        <div class="mx-auto mb-2">
+                            <div class="card-img-top">
+                                <img src="{{post.image.url}}" alt="{{post.title}}" class="card__image"
+                                    style="width: 100%; max-width: 300px; max-height: 300px" />
+                            </div>
+                        </div>
+                        {% endif %}
                     </div>
 
-                    <div class="col-md-4">
-                        <div class="card mb-4 box-shadow">
-                            <img class="card-img-top"
-                                data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail"
-                                alt="Card image cap">
-                            <div class="card-body">
-                                <p class="card-text">This is a wider card with supporting text below as a natural
-                                    lead-in to additional content. This content is a little bit longer.</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                                    </div>
-                                    <small class="text-muted">9 mins</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card mb-4 box-shadow">
-                            <img class="card-img-top"
-                                data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail"
-                                alt="Card image cap">
-                            <div class="card-body">
-                                <p class="card-text">This is a wider card with supporting text below as a natural
-                                    lead-in to additional content. This content is a little bit longer.</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                                    </div>
-                                    <small class="text-muted">9 mins</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="col-md-4">
-                        <div class="card mb-4 box-shadow">
-                            <img class="card-img-top"
-                                data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail"
-                                alt="Card image cap">
-                            <div class="card-body">
-                                <p class="card-text">This is a wider card with supporting text below as a natural
-                                    lead-in to additional content. This content is a little bit longer.</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                                    </div>
-                                    <small class="text-muted">9 mins</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card mb-4 box-shadow">
-                            <img class="card-img-top"
-                                data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail"
-                                alt="Card image cap">
-                            <div class="card-body">
-                                <p class="card-text">This is a wider card with supporting text below as a natural
-                                    lead-in to additional content. This content is a little bit longer.</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                                    </div>
-                                    <small class="text-muted">9 mins</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card mb-4 box-shadow">
-                            <img class="card-img-top"
-                                data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail"
-                                alt="Card image cap">
-                            <div class="card-body">
-                                <p class="card-text">This is a wider card with supporting text below as a natural
-                                    lead-in to additional content. This content is a little bit longer.</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                                    </div>
-                                    <small class="text-muted">9 mins</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="col-md-4">
-                        <div class="card mb-4 box-shadow">
-                            <img class="card-img-top"
-                                data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail"
-                                alt="Card image cap">
-                            <div class="card-body">
-                                <p class="card-text">This is a wider card with supporting text below as a natural
-                                    lead-in to additional content. This content is a little bit longer.</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                                    </div>
-                                    <small class="text-muted">9 mins</small>
+                    <div class="d-flex flex-row ml-2">
+                        <!-- a div with a comment icon with the number of comments in the post -->
+                        <div class="mr-1">
+                            <a href="{% url 'singular_post' post.id %}">
+                                <div class="num-comments">
+                                    <i class="fa-regular fa-comment"></i>
+                                    <small class="text-muted">
+                                        {{post.num_comments}} comments
+                                    </small>
                                 </div>
-                            </div>
+                            </a>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card mb-4 box-shadow">
-                            <img class="card-img-top"
-                                data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail"
-                                alt="Card image cap">
-                            <div class="card-body">
-                                <p class="card-text">This is a wider card with supporting text below as a natural
-                                    lead-in to additional content. This content is a little bit longer.</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                                    </div>
-                                    <small class="text-muted">9 mins</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card mb-4 box-shadow">
-                            <img class="card-img-top"
-                                data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail"
-                                alt="Card image cap">
-                            <div class="card-body">
-                                <p class="card-text">This is a wider card with supporting text below as a natural
-                                    lead-in to additional content. This content is a little bit longer.</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                                    </div>
-                                    <small class="text-muted">9 mins</small>
-                                </div>
-                            </div>
+                        <div class="mr-1">
+                            <form action="{% url 'createPostReport' post.id %}" method="POST">
+                                {% csrf_token %}
+                                <button class="report" type="submit">
+                                    <i class="fa-regular fa-flag"></i>
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
+            {% endfor %}
         </div>
-        {% for post in posts %}
-        <div class="discover-post card">
-            <div class="discover-title">
-                <div class="author-information">
-                    {{post.user.name}} - {{post.created_at}}
-                </div>
+    </div>
 
-                <a href="{% url 'post' post.id %}">
-                    <h1>{{post.title}}</h1>
-                </a>
-
-                <!-- A form with two options, upvote and downvote -->
-                <div class="post-vote">
-                    <form action="{% url 'createPostVote' post_id=post.id up_or_down='up' %}" method="POST">
-                        {% csrf_token %}
-                        <button class="vote vote-post vote-post-upvote" type="submit">
-                            <i class="fa-solid fa-arrow-up"></i>
-                        </button>
-                    </form>
-                    <div class="card__body">
-                        <span class="post-votes-count{{ post.id }} text-bold">
-                            {{ post.total_score }}
-                        </span>
-                    </div>
-                    <form action="{% url 'createPostVote' post_id=post.id up_or_down='down' %}" method="POST">
-                        {% csrf_token %}
-                        <button class="vote vote-post vote-post-downvote" type="submit">
-                            <i class="fa-solid fa-arrow-down"></i>
-                        </button>
-                    </form>
-                </div>
-
-                {% if post.image %}
-                <div class="post-image">
-                    <img src="{{post.image.url}}" alt="{{post.title}}" class="card__image"
-                        style="width: 100%; max-width: 300px; max-height: 300px" />
-                </div>
-                {% endif %}
-
-
+    <div class="mx-auto new-post d-flex flex-column" style="width:20%">
+        <form class="form" action="{% url 'createPost' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h1 style="color:white">New Post</h1>
+            <div class="form__group">
+                <!-- text input labelled title -->
+                <textarea name="title" placeholder="Write a new post"></textarea>
+                <p></p>
+                <label for="image" class="custom-file-upload">
+                    <i class="fa fa-cloud-upload"></i> Upload
+                </label>
+                <input name="image" id="image" type="file" />
+                <!-- submit button -->
+                <button class="btn" type="submit">
+                    <i class="fa-regular fa-plus"></i>
+                    <span>Post</span>
+                </button>
             </div>
-
-            <!-- a div with a comment icon with the number of comments in the post -->
-            <a href="{% url 'post' post.id %}">
-                <div class="comment-icon">
-                    <i class="fa-solid fa-comment"></i>
-                    <span class="comment-count">
-                        {{post.num_comments}}
-                    </span>
-                </div>
-            </a>
-
-            <!-- a div with a share icon with the number of shares in the post -->
-            <div class="share-icon">
-                <i class="fa-solid fa-share"></i>
-                <span class="share-count">
-                    {{post.num_shares}}
-                </span>
-            </div>
-
-            <!-- a div with a report icon that submits a report on the post -->
-            <div>
-                <form action="{% url 'createPostReport' post.id %}" method="POST">
-                    {% csrf_token %}
-                    <button class="report" type="submit">
-                        <i class="fa-solid fa-flag"></i>
-                    </button>
-                </form>
-            </div>
-        </div>
-        {% endfor %}
-
-        <div class="new-post">
-            <form class="form" action="{% url 'createPost' %}" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                <div class="form__group">
-                    <label for="image">Image</label>
-                    <input type="file" name="image" />
-                </div>
-            </form>
-        </div>
+        </form>
     </div>
 </div>
 

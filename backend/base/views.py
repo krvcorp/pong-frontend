@@ -85,7 +85,7 @@ def leaderboard(request):
 
 
 @login_required
-def post(request, post_id):
+def singular_post(request, post_id):
     post = Post.objects.get(id=post_id)
     comments = Comment.objects.filter(post=post)
     context = {"post": post, "comments": comments}

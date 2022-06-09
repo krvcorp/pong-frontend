@@ -131,7 +131,6 @@ def createPostReport(request):
         return Response(serializer.data)
 
 
-@login_required
 @api_view(["POST"])
 def createCommentVote(request, comment_id, up_or_down):
     vote = 1 if up_or_down == "up" else -1
@@ -165,7 +164,6 @@ def createCommentVote(request, comment_id, up_or_down):
     return JsonResponse(response)
 
 
-@login_required
 @api_view(["POST"])
 def createPostVote(request, post_id, up_or_down):
     response = {}
