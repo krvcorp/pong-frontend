@@ -48,12 +48,12 @@ struct ProfileView: View {
             ScrollView {
                 LazyVStack {
                     ForEach(0 ... 20, id: \.self) { _ in
-                        PostBubble(post: Post(id: "12345",
-                                              user: "rdaga",
-                                              title: "This is a funny post by someone funny",
-                                              createdAt: Date(),
-                                              updatedAt: Date(),
-                                              expanded: false))
+//                        PostBubble(post: Post(id: "12345",
+//                                              user: "rdaga",
+//                                              title: "This is a funny post by someone funny",
+//                                              createdAt: Date(),
+//                                              updatedAt: Date(),
+//                                              expanded: false))
                     }
                 }
             }

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct FeedView: View {
     @State private var selectedFilter: FeedFilterViewModel = .hot
+    @StateObject var viewModel = FeedViewModel()
     @Namespace var animation
     
     var body: some View {
@@ -20,14 +21,12 @@ struct FeedView: View {
             ZStack(alignment: .bottom) {
                 ScrollView {
                     LazyVStack {
-                        ForEach(0 ... 20, id: \.self) { _ in
-                            PostBubble(post: Post(id: "12345",
-                                                  user: "rdaga",
-                                                  title: "This is a funny post by someone funny",
-                                                  createdAt: Date(),
-                                                  updatedAt: Date(),
-                                                  expanded: false))
+                        ForEach(viewModel.posts) { post in
+                            PostBubble(post: post, expanded: false)
                         }
+                    }
+                    .onAppear {
+                        viewModel.getPosts()
                     }
                 }
                 

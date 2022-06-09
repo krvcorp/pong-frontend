@@ -122,13 +122,13 @@ struct PostView: View {
     }
 }
 
-struct PostView_Previews: PreviewProvider {
-    static var previews: some View {
-        PostView(post: Post(id: "12345",
-                            user: "rdaga",
-                            title: "Text Body",
-                            createdAt: Date(),
-                            updatedAt: Date(),
-                            expanded: false))
-    }
-}
+//struct PostView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        PostView(post: Post(id: "12345",
+//                            user: "rdaga",
+//                            title: "Text Body",
+//                            createdAt: Date(),
+//                            updatedAt: Date(),
+//                            expanded: false))
+//    }
+//}

@@ -9,22 +9,18 @@ import SwiftUI
 
 struct PostBubble: View {
     var post: Post
+    var expanded: Bool
     
     var body: some View {
         VStack {
             NavigationLink {
-                PostView(post: Post(id: "12345",
-                                    user: "rdaga",
-                                    title: "Text Body",
-                                    createdAt: Date(),
-                                    updatedAt: Date(),
-                                    expanded: false))
+                PostView(post: post)
             } label: {
                 VStack{
                     HStack(alignment: .top){
                         VStack(alignment: .leading){
                             
-                            Text(post.user + " ~ \(post.createdAt.formatted(.dateTime))")
+                            Text("\(post.user) ~ \(post.created_at)")
                                 .font(.caption)
                                 .padding(.bottom, 4)
 
@@ -58,7 +54,7 @@ struct PostBubble: View {
                     //
                     HStack {
                         // comments, share, mail, flag
-                        if post.expanded {
+                        if expanded {
                             EmptyView()
                         } else {
                             Button {
@@ -103,12 +99,12 @@ struct PostBubble: View {
 struct Post_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            PostBubble(post: Post(id: "12345",
-                                  user: "rdaga",
+            PostBubble(post: Post(id: 12,
+                                  user: 1,
                                   title: "Text Body",
-                                  createdAt: Date(),
-                                  updatedAt: Date(),
-                                  expanded: false))
+                                  created_at: "date",
+                                  updated_at: "date"),
+                       expanded: false)
         }
     }
 }
