@@ -9,8 +9,7 @@ import SwiftUI
 
 struct MessageField: View {
     @State private var message = ""
-    
-    
+        
     var body: some View {
         HStack {
             CustomTextField(placeholder: Text("Enter your message here"), text: $message)
