@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct ContentView: View {
+        
     @State private var loggedIn = true
-    
+
     var body: some View {
         if loggedIn {
             ZStack{
@@ -27,3 +28,4 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+
