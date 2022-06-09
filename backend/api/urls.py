@@ -7,6 +7,11 @@ urlpatterns = [
     path("getPost/<int:post_id>/", views.getPost, name="getPost"),
     path("getComment/<int:comment_id>/", views.getComment, name="getComment"),
     path("getPosts/", views.getPosts, name="getPosts"),
+    path(
+        "getCommentsOfPost/<int:post_id>/",
+        views.getCommentsOfPost,
+        name="getCommentsOfPost",
+    ),
     # Create URLS
     path("createPost/", views.createPost, name="createPost"),
     path("createComment/<int:post_id>", views.createComment, name="createComment"),

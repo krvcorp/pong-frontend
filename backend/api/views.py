@@ -54,6 +54,14 @@ def getComment(request, comment_id):
         return Response(serializer.data)
 
 
+@api_view(["GET"])
+def getCommentsOfPost(request, post_id):
+    if request.method == "GET":
+        comments = Comment.objects.filter(post=post_id)
+        serializer = CommentSerializer(comments, many=True)
+        return Response(serializer.data)
+
+
 @api_view(["POST"])
 def createPost(request):
     if request.method == "POST":
