@@ -39,10 +39,7 @@ struct PostBubble: View {
                             } label: {
                                 Image(systemName: "arrow.up")
                             }
-                            Text("\(viewModel.postVotes.votes)")
-                                .onAppear {
-                                    viewModel.getPostVotes(postid: post.id)
-                                }
+                            Text("\(post.total_score)")
                             Button {
                                 print("DEBUG: Downvote")
                             } label: {
@@ -70,7 +67,7 @@ struct PostBubble: View {
                                 print("DEBUG: Comments")
                             } label: {
                                 Image(systemName: "bubble.left")
-                                Text("2 comments")
+                                Text("\(post.num_comments) comments")
                             }
                         }
 
@@ -108,11 +105,7 @@ struct PostBubble: View {
 struct Post_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            PostBubble(post: Post(id: 12,
-                                  user: 1,
-                                  title: "Text Body",
-                                  created_at: "date",
-                                  updated_at: "date"),
+            PostBubble(post: default_post,
                        expanded: false)
         }
     }

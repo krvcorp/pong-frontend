@@ -19,12 +19,9 @@ struct PostView: View {
             ScrollView {
                 mainPost
                 LazyVStack {
-                    ForEach(viewModel.comments) { comment in
+                    ForEach(post.comments) { comment in
                         CommentBubble(comment: comment)
                     }
-                }
-                .onAppear {
-                    viewModel.getCommentsOfPost(postid: post.id)
                 }
             }
            
@@ -91,10 +88,7 @@ struct PostView: View {
                                 } label: {
                                     Image(systemName: "arrow.up")
                                 }
-                                Text("\(componentViewModel.postVotes.votes)")
-                                    .onAppear {
-                                        componentViewModel.getPostVotes(postid: post.id)
-                                    }
+                                Text("\(post.total_score)")
                                 Button {
                                     print("DEBUG: Downvote")
                                 } label: {
@@ -138,7 +132,7 @@ struct PostView: View {
                 .cornerRadius(20)         // You also need the cornerRadius here
                 ZStack {
                     Divider()
-                    Text("2 Comments")
+                    Text("\(post.num_comments) Comments")
                         .font(.caption)
                         .background(Rectangle().fill(.white).frame(minWidth: 90))
                         

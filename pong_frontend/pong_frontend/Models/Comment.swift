@@ -14,13 +14,15 @@ struct Comment: Identifiable, Codable {
     var comment: String
     var created_at: String
     var updated_at: String
+    var total_score: Int
 }
 
 //{
-//    "id": 5,
+//    "id": 11,
 //    "post": 7,
 //    "user": 2,
-//    "comment": "Hey",
-//    "created_at": "2022-06-04T18:32:55.105139Z",
-//    "updated_at": "2022-06-04T18:32:55.105175Z"
+//    "comment": "Hi",
+//    "created_at": "2022-06-08T22:27:34.366174Z",
+//    "updated_at": "2022-06-08T22:27:34.366203Z",
+//    "total_score": 0
 //}

@@ -36,10 +36,7 @@ struct CommentBubble: View {
                             } label: {
                                 Image(systemName: "arrow.up")
                             }
-                            Text("\(viewModel.commentVotes.votes)")
-                                .onAppear {
-                                    viewModel.getCommentVotes(commentid: comment.id)
-                                }
+                            Text("\(comment.total_score)")
                             Button {
                                 print("DEBUG: Downvote")
                             } label: {
