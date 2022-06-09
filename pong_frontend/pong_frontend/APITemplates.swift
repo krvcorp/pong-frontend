@@ -16,8 +16,8 @@ class SomeViewModel: ObservableObject {
     @Published var objects: [Object] = []
     @Published var object: Object = Object(id: -1)
     
-        // LIST OF OBJECTS
-        func getObjects() {
+    // LIST OF OBJECTS
+    func getObjects() {
         // url handler
         guard let url = URL(string: "url_goes_here") else { return }
 

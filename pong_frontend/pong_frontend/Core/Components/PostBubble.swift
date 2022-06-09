@@ -10,6 +10,7 @@ import SwiftUI
 struct PostBubble: View {
     var post: Post
     var expanded: Bool
+    @StateObject var viewModel = ComponentsViewModel()
     
     var body: some View {
         VStack {
@@ -38,7 +39,10 @@ struct PostBubble: View {
                             } label: {
                                 Image(systemName: "arrow.up")
                             }
-                            Text("41")
+                            Text("\(viewModel.postVotes.votes)")
+                                .onAppear {
+                                    viewModel.getPostVotes(postid: post.id)
+                                }
                             Button {
                                 print("DEBUG: Downvote")
                             } label: {
@@ -55,7 +59,12 @@ struct PostBubble: View {
                     HStack {
                         // comments, share, mail, flag
                         if expanded {
-                            EmptyView()
+                            Button {
+                                print("DEBUG: Reply")
+                            } label: {
+                                Text("Reply")
+                                
+                            }
                         } else {
                             Button {
                                 print("DEBUG: Comments")

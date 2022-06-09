@@ -9,13 +9,42 @@ import SwiftUI
 
 struct PostView: View {
     @Environment(\.presentationMode) var mode
+    @StateObject var viewModel = PostViewModel()
+    @StateObject var componentViewModel = ComponentsViewModel()
+    @State private var message = ""
     var post: Post
     
     var body: some View {
-        VStack {
+        ZStack(alignment: .bottom) {
             ScrollView {
                 mainPost
+                LazyVStack {
+                    ForEach(viewModel.comments) { comment in
+                        CommentBubble(comment: comment)
+                    }
+                }
+                .onAppear {
+                    viewModel.getCommentsOfPost(postid: post.id)
+                }
             }
+           
+            HStack {
+                CustomTextField(placeholder: Text("Enter your message here"), text: $message)
+                
+                Button {
+                    print("DEBUG: Message sent")
+                    message = ""
+                } label: {
+                    Image(systemName: "paperplane.fill")
+                        .foregroundColor(.white)
+                        .padding(10)
+                        .background(.indigo)
+                        .cornerRadius(50)
+                }
+            }
+            .padding()
+            .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.white, lineWidth: 2))
+            .background(Color.white)
         }
     }
     
@@ -44,7 +73,7 @@ struct PostView: View {
                         HStack(alignment: .top){
                             VStack(alignment: .leading){
                                 
-                                Text("Anonymous ~ 4h")
+                                Text("\(post.user) ~ \(post.created_at)")
                                     .font(.caption)
                                     .padding(.bottom, 4)
 
@@ -62,7 +91,10 @@ struct PostView: View {
                                 } label: {
                                     Image(systemName: "arrow.up")
                                 }
-                                Text("41")
+                                Text("\(componentViewModel.postVotes.votes)")
+                                    .onAppear {
+                                        componentViewModel.getPostVotes(postid: post.id)
+                                    }
                                 Button {
                                     print("DEBUG: Downvote")
                                 } label: {
@@ -111,24 +143,14 @@ struct PostView: View {
                         .background(Rectangle().fill(.white).frame(minWidth: 90))
                         
                 }
-                CommentBubble(comment: Comment(id: "12345",
-                                               user: "rdaga",
-                                               post: "12345",
-                                               comment: "bro what",
-                                               createdAt: Date(),
-                                               updatedAt: Date()))
+
             }
         }
     }
 }
 
-//struct PostView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        PostView(post: Post(id: "12345",
-//                            user: "rdaga",
-//                            title: "Text Body",
-//                            createdAt: Date(),
-//                            updatedAt: Date(),
-//                            expanded: false))
-//    }
-//}
+struct PostView_Previews: PreviewProvider {
+    static var previews: some View {
+        PostView(post: default_post)
+    }
+}

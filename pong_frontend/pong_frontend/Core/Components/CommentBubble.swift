@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CommentBubble: View {
     var comment: Comment
+    @StateObject var viewModel = ComponentsViewModel()
     
     var body: some View {
         VStack {
@@ -19,14 +20,12 @@ struct CommentBubble: View {
                     HStack(alignment: .top){
                         VStack(alignment: .leading){
                             
-                            Text(comment.user + " ~ \(comment.createdAt.formatted(.dateTime))")
+                            Text("\(comment.user) ~ \(comment.created_at)")
                                 .font(.caption)
                                 .padding(.bottom, 4)
-
                                                    
                             Text(comment.comment)
                                 .multilineTextAlignment(.leading)
-                            
                         }
                         
                         Spacer()
@@ -37,7 +36,10 @@ struct CommentBubble: View {
                             } label: {
                                 Image(systemName: "arrow.up")
                             }
-                            Text("41")
+                            Text("\(viewModel.commentVotes.votes)")
+                                .onAppear {
+                                    viewModel.getCommentVotes(commentid: comment.id)
+                                }
                             Button {
                                 print("DEBUG: Downvote")
                             } label: {
@@ -82,11 +84,6 @@ struct CommentBubble: View {
 
 struct CommentBubble_Previews: PreviewProvider {
     static var previews: some View {
-        CommentBubble(comment: Comment(id: "12345",
-                                       user: "rdaga",
-                                       post: "12345",
-                                       comment: "nigga what",
-                                       createdAt: Date(),
-                                       updatedAt: Date()))
+        CommentBubble(comment: default_comment)
     }
 }
