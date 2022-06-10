@@ -1,5 +1,16 @@
 from django.contrib import admin
-from .models import User, Post, Comment, PostVote, CommentVote, PostReport, DirectConversation, DirectMessage
+from django.contrib.auth.admin import UserAdmin
+from .models import (
+    User,
+    Post,
+    Comment,
+    PostVote,
+    CommentVote,
+    PostReport,
+    DirectConversation,
+    DirectMessage,
+)
+
 
 admin.site.register(User)
 admin.site.register(Post)

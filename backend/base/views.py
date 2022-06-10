@@ -26,37 +26,19 @@ def index(request):
 
 def register(request):
     context = {}
-
-    if request.method == "POST":
-        username = request.POST.get("username")
-        password1 = request.POST.get("password1")
-        password2 = request.POST.get("password2")
-        email = request.POST.get("email")
-        name = request.POST.get("name").strip()
-
-        # Confirm matching passwords
-        if password1 == password2:
-            user = User.objects.create_user(
-                username=username, password=password1, email=email, name=name
-            )
-            user.save()
-            return redirect("login")
-        else:
-            # TODO: Add error message password mismatch
-            return redirect("register")
-
-    if request.method == "GET":
-        return render(request, "register.html", context)
+    return render(request, "register.html", context)
 
 
 def login(request):
     if request.method == "POST":
+        print(request.POST)
         user = authenticate(
-            username=request.POST.get("email"), password=request.POST.get("password")
+            email=request.POST.get("email"), password=request.POST.get("password")
         )
+        print(user)
         if user is not None:
             auth_login(request, user)
-            return redirect("discover")
+            return redirect("index")
         else:
             # TODO: Add error message invalid credentials
             return redirect("login")

@@ -1,13 +1,9 @@
 {% extends "base.html" %} {% block page_content %}
 <div class="layout__body mx-auto my-2" style="width: 800px">
-	<form class="form" action="" method="POST">
+	<form class="form" action="{% url 'register' %}" method="POST">
 		{% csrf_token %}
 
 		<h1>Registration Form</h1>
-		<div class="form__group">
-			<label for="name">Name</label>
-			<input required type="text" name="name" />
-		</div>
 
 		<div class="form__group">
 			<label for="email">Email</label>
@@ -21,13 +17,9 @@
 
 		<div class="form__group">
 			<label for="password">Password</label>
-			<input required type="password" name="password1" />
+			<input required type="password" name="password" />
 		</div>
 
-		<div class="form__group">
-			<label for="password">Confirm Password</label>
-			<input required type="password" name="password2" />
-		</div>
 
 		<div class="form__action my-2">
 			<a class="btn btn--dark" href="{{request.META.HTTP_REFERER}}">Cancel</a>

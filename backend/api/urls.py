@@ -1,4 +1,5 @@
 from django.urls import path
+from rest_framework.authtoken.views import obtain_auth_token
 from . import views
 
 urlpatterns = [
@@ -10,6 +11,7 @@ urlpatterns = [
     # Create URLS
     path("createPost/", views.createPost, name="createPost"),
     path("createComment/<int:post_id>", views.createComment, name="createComment"),
+    path("register/", views.register, name="register"),
     path(
         "createPostReport/<int:post_id>",
         views.createPostReport,

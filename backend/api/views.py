@@ -1,4 +1,5 @@
 from rest_framework.response import Response
+from django.shortcuts import render, redirect
 from rest_framework.decorators import api_view
 from rest_framework import status
 from django.shortcuts import redirect
@@ -23,12 +24,12 @@ from .serializers import (
 )
 
 
-@api_view(["GET", "POST", "DELETE", "PUT"])
+@api_view(["GET", "DELETE", "PUT"])
 def user(request, user_id):
     # Get the user with the given ID
     try:
         user = User.objects.get(id=user_id)
-    except User.DoesNotExist:
+    except user.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == "GET":
@@ -45,7 +46,20 @@ def user(request, user_id):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(["GET", "POST", "DELETE", "PUT"])
+@api_view(["GET", "POST"])
+def register(request):
+    # Create a new user object with the given username and password
+    if request.method == "GET":
+        return render(request, "register.html")
+    if request.method == "POST":
+        user = UserSerializer(data=request.data)
+        if user.is_valid():
+            user.save()
+            return Response(user.data, status=status.HTTP_201_CREATED)
+        return Response(user.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["GET", "DELETE", "PUT"])
 def post(request, post_id):
     # Get the post with the given ID
     try:
@@ -75,7 +89,7 @@ def getPosts(request):
         return Response(serializer.data)
 
 
-@api_view(["GET", "POST", "DELETE", "PUT"])
+@api_view(["GET", "DELETE", "PUT"])
 def comment(request, comment_id):
     # Get the comment with the given ID
     try:

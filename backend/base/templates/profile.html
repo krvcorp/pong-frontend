@@ -19,12 +19,14 @@
 				<p>Total Comment Score: {{ user.total_comment_score }}</p>
 			</div>
 			<!-- user's profile picture -->
+			{% if user.profile_picture %}
 			<div style="display:inline-block;">
 				<p>
 					<img class="profile-picture rounded-circle" src="{{ user.profile_picture.url }}"
 						alt="profile picture" style="max-width: 400px; max-height: 400px;" />
 				</p>
 			</div>
+			{% endif %}
 		</ul>
 	</div>
 
@@ -53,7 +55,7 @@
 	</div>
 
 	<!-- form where they can update each part of their profile with new information -->
-	<form class="form" action="{% url 'updateProfile' %}" method="POST" enctype="multipart/form-data">
+	<form class="form" action="{% url 'user' user.id %}" method="POST" enctype="multipart/form-data">
 		{% csrf_token %}
 		<div class="form__group">
 			<label for="email">Email</label>
@@ -61,7 +63,7 @@
 		</div>
 		<div class="form__group">
 			<label for="username">Phone Number</label>
-			<input required type="text" name="phone" value="{{user.phone}}" />
+			<input type="text" name="phone" value="{{user.phone}}" />
 		</div>
 		<div class="form__group">
 			<label for="name">Name</label>
@@ -80,7 +82,6 @@
 			<input type="file" name="profile_picture" />
 		</div>
 		<div class="form__action my-2">
-			<!-- <a class="btn btn--dark" href="{{request.META.HTTP_REFERER}}">Cancel</a> -->
 			<button class="btn btn--main btn--dark" type="submit">Submit</button>
 		</div>
 	</form>
