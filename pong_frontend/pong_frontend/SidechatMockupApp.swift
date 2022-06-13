@@ -13,6 +13,7 @@ struct SidechatMockupApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+//            ShareView()
         }
     }
 }

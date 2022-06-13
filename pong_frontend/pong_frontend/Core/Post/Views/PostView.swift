@@ -12,6 +12,8 @@ struct PostView: View {
     @StateObject var viewModel = PostViewModel()
     @StateObject var componentViewModel = ComponentsViewModel()
     @State private var message = ""
+    @State var sheet = false
+    
     var post: Post
     
     var body: some View {
@@ -63,7 +65,7 @@ struct PostView: View {
         ScrollView {
             LazyVStack{
                 Button(action: {
-                    print("DEBUG: Open Post")
+                    print("DEBUG: Reply")
                 }) {
                     VStack{
                         
@@ -84,13 +86,13 @@ struct PostView: View {
                             
                             VStack{
                                 Button {
-                                    print("DEBUG: Upvote")
+                                    componentViewModel.createPostVote(postid: post.id, direction: "up")
                                 } label: {
                                     Image(systemName: "arrow.up")
                                 }
                                 Text("\(post.total_score)")
                                 Button {
-                                    print("DEBUG: Downvote")
+                                    componentViewModel.createPostVote(postid: post.id, direction: "down")
                                 } label: {
                                     Image(systemName: "arrow.down")
                                 }
@@ -108,9 +110,14 @@ struct PostView: View {
                             Spacer()
                             
                             Button {
-                                print("DEBUG: Share")
+//                                let image = self.mainPost.snapshot()
+//                                UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+                                sheet.toggle()
                             } label: {
                                 Image(systemName: "square.and.arrow.up")
+                            }
+                            .sheet(isPresented: $sheet) {
+                                ShareSheet(items: ["\(post.title)"])
                             }
                             Button {
                                 print("DEBUG: DM")

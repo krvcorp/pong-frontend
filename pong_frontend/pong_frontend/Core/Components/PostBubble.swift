@@ -11,48 +11,45 @@ struct PostBubble: View {
     var post: Post
     var expanded: Bool
     @StateObject var viewModel = ComponentsViewModel()
+    @State var sheet = false
+    @State private var rect1: CGRect = .zero
+    @State private var uiimage: UIImage? = nil
     
     var body: some View {
         VStack {
             NavigationLink {
                 PostView(post: post)
-            } label: {
-                VStack{
+            } label: { VStack{
                     HStack(alignment: .top){
                         VStack(alignment: .leading){
                             
                             Text("\(post.user) ~ \(post.created_at)")
                                 .font(.caption)
                                 .padding(.bottom, 4)
-
-                                                   
+              
                             Text(post.title)
                                 .multilineTextAlignment(.leading)
-                            
                         }
                         
                         Spacer()
                         
                         VStack{
                             Button {
-                                print("DEBUG: Upvote")
+                                viewModel.createPostVote(postid: post.id, direction: "up")
                             } label: {
                                 Image(systemName: "arrow.up")
                             }
                             Text("\(post.total_score)")
                             Button {
-                                print("DEBUG: Downvote")
+                                viewModel.createPostVote(postid: post.id, direction: "down")
                             } label: {
                                 Image(systemName: "arrow.down")
                             }
-
                         }
-                        
                     }
                     .padding(.bottom)
-                    
 
-                    //
+                    // bottom row of contents
                     HStack {
                         // comments, share, mail, flag
                         if expanded {
@@ -63,9 +60,9 @@ struct PostBubble: View {
                                 
                             }
                         } else {
-                            Button {
-                                print("DEBUG: Comments")
-                            } label: {
+                            NavigationLink {
+                                PostView(post: post)
+                            }  label: {
                                 Image(systemName: "bubble.left")
                                 Text("\(post.num_comments) comments")
                             }
@@ -74,10 +71,17 @@ struct PostBubble: View {
                         Spacer()
                         
                         Button {
-                            print("DEBUG: Share")
+                            self.uiimage = UIApplication.shared.windows[0].rootViewController?.view.asImage(rect: self.rect1)
+                            sheet.toggle()
+
                         } label: {
                             Image(systemName: "square.and.arrow.up")
                         }
+                        .buttonStyle(NoButtonStyle())
+                        .sheet(isPresented: $sheet) {
+                            ShareSheet(items: ["\(post.title)", uiimage])
+                        }
+                        
                         Button {
                             print("DEBUG: DM")
                         } label: {
@@ -96,9 +100,12 @@ struct PostBubble: View {
                 .foregroundColor(.black)
                 .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color.black, lineWidth: 10))
             }
+            // remove highlight on tap
+            .buttonStyle(NoButtonStyle())
             .background(Color.white) // If you have this
             .cornerRadius(20)         // You also need the cornerRadius here
         }
+        .background(RectGetter(rect: $rect1))
     }
 }
 
