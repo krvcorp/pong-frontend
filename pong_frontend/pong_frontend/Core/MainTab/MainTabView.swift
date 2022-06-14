@@ -14,7 +14,7 @@ enum Tabs: String {
 }
 
 struct MainTabView: View {
-
+    @Binding var showSettings: Bool
     
     var body: some View {
             TabView {
@@ -67,7 +67,7 @@ struct MainTabView: View {
                             
                             ToolbarItem(){
                                 Button {
-                                    print("DEBUG: Settings")
+                                    showSettings.toggle()
                                 } label: {
                                     Image(systemName: "gearshape.fill")
                                 }
@@ -87,14 +87,12 @@ struct MainTabView: View {
                 navigationBarAppearance.configureWithOpaqueBackground()
                 UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
             }
-
-
-        
     }
 }
 
-struct MainTabView_Previews: PreviewProvider {
-    static var previews: some View {
-        MainTabView()
-    }
-}
+//struct MainTabView_Previews: PreviewProvider {
+//
+//    static var previews: some View {
+//        MainTabView(showSettings: false)
+//    }
+//}
