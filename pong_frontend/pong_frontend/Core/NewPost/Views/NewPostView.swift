@@ -68,7 +68,15 @@ struct NewPostView: View {
                     }
                 }
             }
-            .toolbar{
+            .navigationBarBackButtonHidden(true)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        presentationMode.wrappedValue.dismiss()
+                    } label: {
+                        Image(systemName: "chevron.backward")
+                    }
+                }
                 ToolbarItem(placement: .principal) {
                     Text("New Post")
                         .font(.title.bold())

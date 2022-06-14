@@ -67,7 +67,9 @@ struct MainTabView: View {
                             
                             ToolbarItem(){
                                 Button {
-                                    showSettings.toggle()
+                                    withAnimation(.easeInOut) {
+                                        showSettings.toggle()
+                                    }
                                 } label: {
                                     Image(systemName: "gearshape.fill")
                                 }

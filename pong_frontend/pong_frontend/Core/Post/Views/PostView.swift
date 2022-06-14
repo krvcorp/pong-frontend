@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PostView: View {
-    @Environment(\.presentationMode) var mode
+    @Environment(\.presentationMode) var presentationMode
     @StateObject var viewModel = PostViewModel()
     @StateObject var componentViewModel = ComponentsViewModel()
     @State private var message = ""
@@ -45,13 +45,24 @@ struct PostView: View {
             .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.white, lineWidth: 2))
             .background(Color.white)
         }
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+                    presentationMode.wrappedValue.dismiss()
+                } label: {
+                    Image(systemName: "chevron.backward")
+                }
+            }
+        }
     }
     
+    // unused component
     var postHeader: some View {
         ZStack{
             HStack(alignment: .center) {
                 Button {
-                    mode.wrappedValue.dismiss()
+                    presentationMode.wrappedValue.dismiss()
                 } label: {
                     Image(systemName: "arrow.left")
                 }

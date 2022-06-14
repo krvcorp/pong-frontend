@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct NewChatView: View {
+    @Environment(\.presentationMode) var mode
     @State private var text = ""
     var messageArray = ["Hello", "How are u", "Good"]
     
@@ -34,7 +35,15 @@ struct NewChatView: View {
             
             MessageField()
         }
+        .navigationBarBackButtonHidden(true)
         .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+                    mode.wrappedValue.dismiss()
+                } label: {
+                    Image(systemName: "chevron.backward")
+                }
+            }
             ToolbarItem(placement: .principal) {
                 Text("New Chat")
                     .font(.title.bold())

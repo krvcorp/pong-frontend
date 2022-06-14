@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct LeaderboardView: View {
+    @Environment(\.presentationMode) var presentationMode
+    
     var body: some View {
         ScrollView {
             VStack {
@@ -42,7 +44,15 @@ struct LeaderboardView: View {
                 .cornerRadius(20)         // You also need the cornerRadius here
 
         }
+        .navigationBarBackButtonHidden(true)
         .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+                    presentationMode.wrappedValue.dismiss()
+                } label: {
+                    Image(systemName: "chevron.backward")
+                }
+            }
             ToolbarItem(placement: .principal) {
                 Text("Leaderboard")
                     .font(.title.bold())
