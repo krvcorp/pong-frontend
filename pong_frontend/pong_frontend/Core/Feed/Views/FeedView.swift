@@ -40,8 +40,7 @@ struct FeedView: View {
                         .foregroundColor(.white)
                         .overlay(
                             RoundedRectangle(cornerRadius: 5)
-                                .stroke(Color.white, lineWidth: 2)
-                    )
+                                .stroke(Color.white, lineWidth: 2))
                 }
                 .background(Color.black) // If you have this
                 .cornerRadius(20)         // You also need the cornerRadius here

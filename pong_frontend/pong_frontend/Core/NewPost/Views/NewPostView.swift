@@ -10,11 +10,35 @@ import SwiftUI
 struct NewPostView: View {
     @Environment(\.presentationMode) var presentationMode
     @State private var text = ""
+    @State private var showSheet = false
+    @State private var image = UIImage()
     
     var body: some View {
         ZStack (alignment: .bottom) {
             VStack {
                 TextArea("What's on your mind?", text: $text)
+                
+                
+                if image != UIImage() {
+                    ZStack(alignment: .topLeading) {
+
+                        Image(uiImage: self.image)
+                            .resizable()
+                            .frame(width: 250, height: 250)
+                            .aspectRatio(contentMode: .fill)
+                        
+                        Button {
+                            image = UIImage()
+                        } label: {
+                            Image(systemName: "trash")
+                        }
+                        .frame(width: 35, height: 35)
+                        .foregroundColor(.white)
+                        .background(Circle().fill(.black).opacity(0.6))
+                        .padding()
+                    }
+                    .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
+                }
                 
                 Spacer()
                 
@@ -22,12 +46,15 @@ struct NewPostView: View {
                     VStack {
                         HStack {
                             Button {
-                                print("DEBUG: Photos")
+                                showSheet = true
                             } label: {
                                 Image(systemName: "photo")
                                     .resizable()
                                     .scaledToFit()
                                     .foregroundColor(.black)
+                            }
+                            .sheet(isPresented: $showSheet) {
+                                ImagePicker(sourceType: .photoLibrary, selectedImage: self.$image)
                             }
                             .padding(.trailing)
 
