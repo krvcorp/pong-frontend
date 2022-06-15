@@ -22,8 +22,14 @@ struct MainTabView: View {
                     FeedView()
                         .toolbar{
                             ToolbarItem(placement: .principal) {
-                                Text("Harvard")
-                                    .font(.title.bold())
+                                Button {
+                                    print("DEBUG: CHOOSE LOCATION")
+                                } label: {
+                                    Text("SCHOOL_NAME")
+                                        .font(.title.bold())
+                                        .foregroundColor(.black)
+                                }
+
                             }
                             
                             ToolbarItem(){
