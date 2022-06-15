@@ -36,7 +36,7 @@
 		6A5DF162285134EE00F28A06 /* VerificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF140285134EE00F28A06 /* VerificationView.swift */; };
 		6A5DF163285134EE00F28A06 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF141285134EE00F28A06 /* WelcomeView.swift */; };
 		6A5DF164285134EE00F28A06 /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF144285134EE00F28A06 /* NotificationsView.swift */; };
-		6A5DF165285134EE00F28A06 /* SidechatMockupApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF145285134EE00F28A06 /* SidechatMockupApp.swift */; };
+		6A5DF165285134EE00F28A06 /* PongApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF145285134EE00F28A06 /* PongApp.swift */; };
 		6A5DF166285134EE00F28A06 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF146285134EE00F28A06 /* Extensions.swift */; };
 		6A5DF167285134EE00F28A06 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF147285134EE00F28A06 /* ContentView.swift */; };
 		6A5DF16B285237B800F28A06 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF16A285237B800F28A06 /* FeedViewModel.swift */; };
@@ -54,7 +54,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		6A5DF0E32851321000F28A06 /* pong_frontend.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pong_frontend.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6A5DF0E32851321000F28A06 /* Pong.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pong.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A5DF107285134ED00F28A06 /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		6A5DF108285134ED00F28A06 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		6A5DF109285134ED00F28A06 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -84,7 +84,7 @@
 		6A5DF140285134EE00F28A06 /* VerificationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerificationView.swift; sourceTree = "<group>"; };
 		6A5DF141285134EE00F28A06 /* WelcomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		6A5DF144285134EE00F28A06 /* NotificationsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
-		6A5DF145285134EE00F28A06 /* SidechatMockupApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SidechatMockupApp.swift; sourceTree = "<group>"; };
+		6A5DF145285134EE00F28A06 /* PongApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PongApp.swift; sourceTree = "<group>"; };
 		6A5DF146285134EE00F28A06 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		6A5DF147285134EE00F28A06 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		6A5DF16A285237B800F28A06 /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
@@ -123,7 +123,7 @@
 		6A5DF0E42851321000F28A06 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6A5DF0E32851321000F28A06 /* pong_frontend.app */,
+				6A5DF0E32851321000F28A06 /* Pong.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -136,7 +136,7 @@
 				6A5DF10D285134EE00F28A06 /* Assets.xcassets */,
 				6A5DF17428526D5000F28A06 /* API.swift */,
 				6A5DF147285134EE00F28A06 /* ContentView.swift */,
-				6A5DF145285134EE00F28A06 /* SidechatMockupApp.swift */,
+				6A5DF145285134EE00F28A06 /* PongApp.swift */,
 				6A5DF146285134EE00F28A06 /* Extensions.swift */,
 				6A5DF16C28523E9100F28A06 /* APITemplates.swift */,
 				6A5DF170285246F400F28A06 /* DefaultModels.swift */,
@@ -478,9 +478,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		6A5DF0E22851321000F28A06 /* pong_frontend */ = {
+		6A5DF0E22851321000F28A06 /* Pong */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6A5DF0F12851321100F28A06 /* Build configuration list for PBXNativeTarget "pong_frontend" */;
+			buildConfigurationList = 6A5DF0F12851321100F28A06 /* Build configuration list for PBXNativeTarget "Pong" */;
 			buildPhases = (
 				6A5DF0DF2851321000F28A06 /* Sources */,
 				6A5DF0E02851321000F28A06 /* Frameworks */,
@@ -490,9 +490,9 @@
 			);
 			dependencies = (
 			);
-			name = pong_frontend;
+			name = Pong;
 			productName = pong;
-			productReference = 6A5DF0E32851321000F28A06 /* pong_frontend.app */;
+			productReference = 6A5DF0E32851321000F28A06 /* Pong.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -511,7 +511,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 6A5DF0DE2851321000F28A06 /* Build configuration list for PBXProject "pong_frontend" */;
+			buildConfigurationList = 6A5DF0DE2851321000F28A06 /* Build configuration list for PBXProject "Pong" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -524,7 +524,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6A5DF0E22851321000F28A06 /* pong_frontend */,
+				6A5DF0E22851321000F28A06 /* Pong */,
 			);
 		};
 /* End PBXProject section */
@@ -552,7 +552,7 @@
 				6A5DF18628593C3700F28A06 /* ImagePicker.swift in Sources */,
 				6A5DF151285134EE00F28A06 /* LeaderboardView.swift in Sources */,
 				6A5DF17328525CAE00F28A06 /* ComponentsViewModel.swift in Sources */,
-				6A5DF165285134EE00F28A06 /* SidechatMockupApp.swift in Sources */,
+				6A5DF165285134EE00F28A06 /* PongApp.swift in Sources */,
 				6A5DF15E285134EE00F28A06 /* NewPostView.swift in Sources */,
 				6A5DF14E285134EE00F28A06 /* MessagesView.swift in Sources */,
 				6A5DF1802856B76D00F28A06 /* SettingsViewModel.swift in Sources */,
@@ -648,6 +648,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -701,6 +702,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
@@ -727,13 +729,14 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.khoinguyen.pong;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Pong;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -760,13 +763,14 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.khoinguyen.pong;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Pong;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -776,7 +780,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6A5DF0DE2851321000F28A06 /* Build configuration list for PBXProject "pong_frontend" */ = {
+		6A5DF0DE2851321000F28A06 /* Build configuration list for PBXProject "Pong" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6A5DF0EF2851321100F28A06 /* Debug */,
@@ -785,7 +789,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6A5DF0F12851321100F28A06 /* Build configuration list for PBXNativeTarget "pong_frontend" */ = {
+		6A5DF0F12851321100F28A06 /* Build configuration list for PBXNativeTarget "Pong" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6A5DF0F22851321100F28A06 /* Debug */,

@@ -16,8 +16,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6A5DF0E22851321000F28A06"
                BuildableName = "pong_frontend.app"
-               BlueprintName = "pong_frontend"
-               ReferencedContainer = "container:pong_frontend.xcodeproj">
+               BlueprintName = "Pong"
+               ReferencedContainer = "container:Pong.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -46,8 +46,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6A5DF0E22851321000F28A06"
             BuildableName = "pong_frontend.app"
-            BlueprintName = "pong_frontend"
-            ReferencedContainer = "container:pong_frontend.xcodeproj">
+            BlueprintName = "Pong"
+            ReferencedContainer = "container:Pong.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -63,8 +63,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6A5DF0E22851321000F28A06"
             BuildableName = "pong_frontend.app"
-            BlueprintName = "pong_frontend"
-            ReferencedContainer = "container:pong_frontend.xcodeproj">
+            BlueprintName = "Pong"
+            ReferencedContainer = "container:Pong.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
