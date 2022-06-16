@@ -48,7 +48,6 @@ extension ContentView {
             SettingsView()
                 .frame(minWidth: 200, maxWidth: 250)
                 .offset(x: showSettings ? 0 : 300)
-                .background(showSettings ? Color.white : Color.clear)
         }
     }
 }

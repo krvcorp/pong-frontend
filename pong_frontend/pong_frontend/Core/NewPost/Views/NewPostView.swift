@@ -36,9 +36,8 @@ struct NewPostView: View {
 
                                 Image(uiImage: self.image)
                                     .resizable()
-                                    .frame(width: 250, height: 250)
-                                    .aspectRatio(contentMode: .fill)
-                                
+                                    .scaledToFit()
+                                    
                                 Button {
                                     image = UIImage()
                                 } label: {
@@ -50,6 +49,7 @@ struct NewPostView: View {
                                 .padding()
                             }
                             .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
+                            .padding()
                         }
                     }
                     

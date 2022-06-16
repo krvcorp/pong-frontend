@@ -33,6 +33,7 @@ struct SettingsView: View {
             }
             Spacer()
         }
+        .background(.white)
     }
 }
 
