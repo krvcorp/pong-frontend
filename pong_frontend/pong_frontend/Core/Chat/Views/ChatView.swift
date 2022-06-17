@@ -10,6 +10,7 @@ import SwiftUI
 struct ChatView: View {
     @Environment(\.presentationMode) var presentationMode
     @State private var text = ""
+    @State private var showChatSideMenu = false
     var messageArray = ["Hello", "How are u", "Good"]
     
     var body: some View {
@@ -56,6 +57,7 @@ struct ChatView: View {
             ToolbarItem(){
                 Button {
                     print("DEBUG: Profile")
+                    showChatSideMenu.toggle()
                 } label: {
                     Image(systemName: "person.crop.circle")
                 }
