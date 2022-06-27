@@ -26,7 +26,6 @@ from .serializers import (
 
 @api_view(["GET", "DELETE", "PUT"])
 def user(request, user_id):
-    # Get the user with the given ID
     try:
         user = User.objects.get(id=user_id)
     except user.DoesNotExist:
@@ -46,19 +45,6 @@ def user(request, user_id):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(["GET", "POST"])
-def register(request):
-    # Create a new user object with the given username and password
-    if request.method == "GET":
-        return render(request, "register.html")
-    if request.method == "POST":
-        user = UserSerializer(data=request.data)
-        if user.is_valid():
-            user.save()
-            return Response(user.data, status=status.HTTP_201_CREATED)
-        return Response(user.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
 @api_view(["GET", "DELETE", "PUT"])
 def post(request, post_id):
     # Get the post with the given ID
@@ -66,7 +52,6 @@ def post(request, post_id):
         post = Post.objects.get(id=post_id)
     except Post.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-
     if request.method == "GET":
         serializer = PostSerializer(post)
         return Response(serializer.data)
@@ -266,3 +251,12 @@ def createMessage(request, conversation_id):
     )
     message.save()
     return JsonResponse({"success": True})
+
+
+@api_view(["GET"])
+def getLeaderboard(request):
+    users = sorted(
+        User.objects.all(), key=lambda user: user.total_score(), reverse=True
+    )
+    serializer = UserSerializer(users, many=True)
+    return JsonResponse(serializer.data, safe=False)

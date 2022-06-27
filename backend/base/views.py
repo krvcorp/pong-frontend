@@ -26,16 +26,21 @@ def index(request):
 
 def register(request):
     context = {}
+    if request.method == "POST":
+        email = request.POST.get("email")
+        user = User.objects.create_user(
+            password=request.POST.get("password"), email=email, username=email
+        )
+        user.save()
+        return redirect("login")
     return render(request, "register.html", context)
 
 
 def login(request):
     if request.method == "POST":
-        print(request.POST)
         user = authenticate(
             email=request.POST.get("email"), password=request.POST.get("password")
         )
-        print(user)
         if user is not None:
             auth_login(request, user)
             return redirect("index")

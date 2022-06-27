@@ -57,8 +57,7 @@
 
 
 
-                    <div class="d-flex flex-row ml-2">
-                        <!-- a div with a comment icon with the number of comments in the post -->
+                    <!-- <div class="d-flex flex-row ml-2">
                         <div class="mr-1">
                             <a href="{% url 'singular_post' post.id %}">
                                 <div class="num-comments">
@@ -77,12 +76,53 @@
                                 </button>
                             </form>
                         </div>
+                    </div> -->
+
+                    {% for comment in post.get_comments %} {% if comment.post == post %}
+                    <div class="comment-vote">
+                        <div class="vote-form">
+                            <form action="{% url 'createCommentVote' comment_id=comment.id up_or_down='up' %}"
+                                method="POST">
+                                {% csrf_token %}
+                                <button class="vote vote-comment" type="submit">
+                                    <i class="fa-solid fa-arrow-up"></i>
+                                </button>
+                            </form>
+                            <div class="">
+                                <span class="comment-votes-count{{ comment.id }} text-bold">
+                                    {{ comment.total_score }}
+                                </span>
+                            </div>
+                            <form action=" {% url 'createCommentVote' comment_id=comment.id up_or_down='down' %}"
+                                method="POST">
+                                {% csrf_token %}
+                                <button class="vote vote-comment" type="submit">
+                                    <i class="fa-solid fa-arrow-down"></i>
+                                </button>
+                            </form>
+                        </div>
+                        <span class="comment-text">
+                            {{comment.user.name}} - {{comment.comment}}
+                        </span>
+                    </div>
+                    {% endif %} {% endfor %}
+                    <div class="comment-form">
+                        <form class="form" action="{% url 'createComment' post.id %}" method="POST">
+                            {% csrf_token %}
+                            <div class="form__group">
+                                <textarea required name="comment" rows="3"></textarea>
+                            </div>
+                            <div class="form__action my-2">
+                                <button class="btn btn--main" type="submit">Submit</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    {% if user.is_authenticated %}
     <div class="mx-auto new-post d-flex flex-column" style="width:20%">
         <form class="form" action="{% url 'createPost' %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
@@ -103,6 +143,7 @@
             </div>
         </form>
     </div>
+    {% endif %}
 </div>
 
 <!-- TODO: Create separate script for post and comment votes -->

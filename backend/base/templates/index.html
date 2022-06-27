@@ -80,6 +80,7 @@
         </div>
     </div>
 
+    {% if user.is_authenticated %}
     <div class="mx-auto new-post d-flex flex-column" style="width:20%">
         <form class="form" action="{% url 'createPost' %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
@@ -100,6 +101,7 @@
             </div>
         </form>
     </div>
+    {% endif %}
 </div>
 
 
