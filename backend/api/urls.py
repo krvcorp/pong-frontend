@@ -35,3 +35,4 @@ urlpatterns = [
         "createMessage/<int:conversation_id>", views.createMessage, name="createMessage"
     ),
 ]
+

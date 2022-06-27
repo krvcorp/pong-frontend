@@ -19,16 +19,25 @@ struct FeedView: View {
                 .padding(.top)
             
             ZStack(alignment: .bottom) {
-                ScrollView {
-                    LazyVStack {
-                        ForEach(api.posts) { post in
-                            PostBubble(post: post, expanded: false)
-                        }
-                    }
-                    .onAppear {
-                        api.getPosts()
+                // Posts information goes here
+                TabView(selection: $selectedFilter) {
+                    ForEach(FeedFilterViewModel.allCases, id: \.self) { view in // This iterates through all of the enum cases.
+                        // make something different happen in each case
+                        ScrollView {
+                            LazyVStack {
+                                ForEach(api.posts) { post in
+                                    PostBubble(post: post, expanded: false)
+                                }
+                            }
+                            .onAppear {
+                                api.getPosts()
+                            }
+                        }.tag(view.rawValue) // by having the tag be the enum's raw value,
+                                                // you can always compare enum to enum.
                     }
                 }
+                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+                .ignoresSafeArea(.all, edges: .bottom)
                 
                 NavigationLink {
                     NewPostView()

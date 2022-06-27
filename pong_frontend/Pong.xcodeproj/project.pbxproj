@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6A3F3D82285D176B00EC43A3 /* ChatSideMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3F3D81285D176B00EC43A3 /* ChatSideMenuViewModel.swift */; };
+		6A3F3D84285D177900EC43A3 /* ChatSideMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3F3D83285D177900EC43A3 /* ChatSideMenuView.swift */; };
+		6A3F3D86285D178400EC43A3 /* ChatSideMenuRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3F3D85285D178400EC43A3 /* ChatSideMenuRowView.swift */; };
 		6A5DF148285134EE00F28A06 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF107285134ED00F28A06 /* Comment.swift */; };
 		6A5DF149285134EE00F28A06 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF108285134ED00F28A06 /* Message.swift */; };
 		6A5DF14A285134EE00F28A06 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF109285134ED00F28A06 /* User.swift */; };
@@ -54,6 +57,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6A3F3D81285D176B00EC43A3 /* ChatSideMenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSideMenuViewModel.swift; sourceTree = "<group>"; };
+		6A3F3D83285D177900EC43A3 /* ChatSideMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSideMenuView.swift; sourceTree = "<group>"; };
+		6A3F3D85285D178400EC43A3 /* ChatSideMenuRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSideMenuRowView.swift; sourceTree = "<group>"; };
 		6A5DF0E32851321000F28A06 /* Pong.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pong.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A5DF107285134ED00F28A06 /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		6A5DF108285134ED00F28A06 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
@@ -246,6 +252,7 @@
 		6A5DF118285134EE00F28A06 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				6A3F3D81285D176B00EC43A3 /* ChatSideMenuViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -254,6 +261,8 @@
 			isa = PBXGroup;
 			children = (
 				6A5DF11A285134EE00F28A06 /* ChatView.swift */,
+				6A3F3D83285D177900EC43A3 /* ChatSideMenuView.swift */,
+				6A3F3D85285D178400EC43A3 /* ChatSideMenuRowView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -557,6 +566,7 @@
 				6A5DF14E285134EE00F28A06 /* MessagesView.swift in Sources */,
 				6A5DF1802856B76D00F28A06 /* SettingsViewModel.swift in Sources */,
 				6A5DF157285134EE00F28A06 /* CommentBubble.swift in Sources */,
+				6A3F3D82285D176B00EC43A3 /* ChatSideMenuViewModel.swift in Sources */,
 				6A5DF16B285237B800F28A06 /* FeedViewModel.swift in Sources */,
 				6A5DF166285134EE00F28A06 /* Extensions.swift in Sources */,
 				6A5DF161285134EE00F28A06 /* LoginView.swift in Sources */,
@@ -575,6 +585,8 @@
 				6A5DF1822856B77600F28A06 /* SettingsView.swift in Sources */,
 				6A5DF155285134EE00F28A06 /* MessageBubble.swift in Sources */,
 				6A5DF16D28523E9100F28A06 /* APITemplates.swift in Sources */,
+				6A3F3D84285D177900EC43A3 /* ChatSideMenuView.swift in Sources */,
+				6A3F3D86285D178400EC43A3 /* ChatSideMenuRowView.swift in Sources */,
 				6A5DF17B2855810000F28A06 /* NoButtonStyle.swift in Sources */,
 				6A5DF159285134EE00F28A06 /* ProfileFilterViewModel.swift in Sources */,
 				6A5DF158285134EE00F28A06 /* CustomInputField.swift in Sources */,
