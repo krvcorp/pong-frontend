@@ -2,58 +2,83 @@ from datetime import date
 from django.db import models
 from django.contrib.auth.models import (
     AbstractUser,
-    BaseUserManager,
+    UserManager,
     AbstractBaseUser,
     PermissionsMixin,
 )
 from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.utils import timezone
 from rest_framework.authtoken.models import Token
 
 
-def get_default_avatar():
-    return "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y"
+class UserManager(UserManager):
+    def _create_user(self, email, password, **extra_fields):
+        """
+        Create and save a User with the provided email and password.
+        """
+        if not email:
+            raise ValueError("The given email address must be set")
+
+        email = self.normalize_email(email)
+        user = self.model(email=email, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_user(self, email=None, password=None, **extra_fields):
+        extra_fields.setdefault("is_staff", False)
+        extra_fields.setdefault("is_superuser", False)
+        return self._create_user(email, password, **extra_fields)
+
+    def create_superuser(self, email, password, **extra_fields):
+        extra_fields.setdefault("is_staff", True)
+        extra_fields.setdefault("is_superuser", True)
+
+        if extra_fields.get("is_staff") is not True:
+            raise ValueError("Superuser must have is_staff=True.")
+        if extra_fields.get("is_superuser") is not True:
+            raise ValueError("Superuser must have is_superuser=True.")
+
+        return self._create_user(email, password, **extra_fields)
 
 
-# class CustomAccountManager(BaseUserManager):
-#     def create_user(self, email, username, password, **extra_fields):
-#         if not email:
-#             raise ValueError("Users must have an email address")
+class User(AbstractBaseUser, PermissionsMixin):
+    """
+    User model that uses email addresses instead of usernames, and
+    name instead of first / last name fields.
 
+    All other fields from the Django auth.User model are kept to
+    ensure compatibility with the built in management commands.
+    """
 
-# class NewUser(AbstractBaseUser, PermissionsMixin):
-#     email = models.EmailField(unique=True)
-#     username = models.CharField(max_length=255, unique=True)
-#     name = models.CharField(max_length=255, blank=True)
-#     is_staff = models.BooleanField(default=False)
-#     is_active = models.BooleanField(default=True)
+    email = models.EmailField(blank=True, default="", unique=True)
+    name = models.CharField(max_length=200, blank=True, default="")
 
-#     USERNAME_FIELD = "email"
-#     REQUIRED_FIELDS = ["username"]
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
 
+    last_login = models.DateTimeField(blank=True, null=True)
+    date_joined = models.DateTimeField(default=timezone.now)
 
-class User(AbstractUser):
-    name = models.CharField(max_length=50)
-    email = models.EmailField(unique=True, null=True)
-    phone = models.CharField(max_length=50)
-    address = models.CharField(max_length=250)
-    city = models.CharField(max_length=50)
-    state = models.CharField(max_length=50)
-    zipcode = models.CharField(max_length=50)
-    country = models.CharField(max_length=50)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    password = models.CharField(max_length=50)
-    profile_picture = models.ImageField(upload_to="profile_pictures", blank=True)
+    objects = UserManager()
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["username", "password"]
+    EMAIL_FIELD = "email"
+    REQUIRED_FIELDS = []
 
-    # a function named total_score which computes the sum of the votes of each
-    # post and comment a user has made
+    class Meta:
+        verbose_name = "User"
+        verbose_name_plural = "Users"
 
-    # a function named total_score which computes the sum of the votes of each post
+    def get_full_name(self):
+        return self.name
+
+    def get_short_name(self):
+        return self.name or self.email.split("@")[0]
+
     def total_score(self):
         return self.total_post_score() + self.total_comment_score()
 
@@ -71,23 +96,17 @@ class User(AbstractUser):
                 total += vote.vote
         return total
 
-    # a function named get_posts which returns all the posts a user has made
-    # TODO: Maintain a set of posts associated with user id
     def get_posts(self):
         return Post.objects.filter(user=self)
 
-    # a function named get_comments which returns all the comments a user has made
-    # TODO: Maintain a set of comments associated with user id
     def get_comments(self):
         return Comment.objects.filter(user=self)
 
-    # a function named get_conversations which returns all the conversations a user has made
     def get_conversations(self):
         return DirectConversation.objects.filter(
             user1=self
         ) | DirectConversation.objects.filter(user2=self)
 
-    # a function named get_upvoted_posts which shows all the posts a user has upvoted
     def get_upvoted_posts(self):
         postvoteobjects = PostVote.objects.filter(user=self, vote=1)
         posts = [
@@ -97,17 +116,11 @@ class User(AbstractUser):
         ]
         return posts
 
-    def __str__(self):
-        return str(self.id) + self.email
+
+def get_default_avatar():
+    return "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y"
 
 
-# @receiver(post_save, sender=settings.AUTH_USER_MODEL)
-# def create_auth_token(sender, instance=None, created=False, **kwargs):
-#     if created:
-#         Token.objects.create(user=instance)
-
-
-# Class for the posts a user can make
 class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     title = models.TextField()
@@ -115,7 +128,6 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    # a function named total_score which computes the sum of the votes of each post
     def total_score(self):
         total = 0
         for vote in PostVote.objects.all():
@@ -123,7 +135,6 @@ class Post(models.Model):
                 total += vote.vote
         return total
 
-    # a function named get_comments which returns all the comments a post has made
     def get_comments(self):
         return Comment.objects.filter(post=self)
 
@@ -140,7 +151,6 @@ class Post(models.Model):
         return str(self.id) + " " + self.title
 
 
-# Class for the comments that go on a post
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     post = models.ForeignKey(Post, on_delete=models.SET_NULL, null=True)
@@ -155,7 +165,6 @@ class Comment(models.Model):
                 total += vote.vote
         return total
 
-    # function to check if the inputted user has voted for this comment
     def has_voted(self, user):
         return CommentVote.objects.filter(comment=self, user=user).count() > 0
 
@@ -163,7 +172,6 @@ class Comment(models.Model):
         return str(self.id) + " " + self.comment
 
 
-# Class for the votes for a post
 class PostVote(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     post = models.ForeignKey(Post, on_delete=models.SET_NULL, null=True)
@@ -175,7 +183,6 @@ class PostVote(models.Model):
         return str(self.id) + " " + str(self.vote)
 
 
-# Class for the votes for a comment
 class CommentVote(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     comment = models.ForeignKey(Comment, on_delete=models.SET_NULL, null=True)
@@ -187,7 +194,6 @@ class CommentVote(models.Model):
         return str(self.id) + " " + str(self.vote)
 
 
-# Class for user reports of spam on a post
 class PostReport(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     post = models.ForeignKey(Post, on_delete=models.SET_NULL, null=True)
@@ -198,7 +204,6 @@ class PostReport(models.Model):
         return str(self.id) + " " + str(self.user)
 
 
-# Class for direct message conversations between users
 class DirectConversation(models.Model):
     # User1 is the initiator of the conversation
     user1 = models.ForeignKey(
@@ -210,11 +215,9 @@ class DirectConversation(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    # a function named get_messages which returns all the messages in a conversation sorted by date
     def get_messages(self):
         return DirectMessage.objects.filter(conversation=self).order_by("created_at")
 
-    # a function named get_most_recent_message which returns the most recent message in a conversation
     def get_most_recent_message(self):
         return self.get_messages().last()
 

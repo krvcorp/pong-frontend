@@ -11,7 +11,7 @@ urlpatterns = [
     # Create URLS
     path("createPost/", views.createPost, name="createPost"),
     path("createComment/<int:post_id>", views.createComment, name="createComment"),
-    path("register/", views.register, name="register"),
+    # path("register/", views.register, name="register"),
     path(
         "createPostReport/<int:post_id>",
         views.createPostReport,
@@ -35,4 +35,3 @@ urlpatterns = [
         "createMessage/<int:conversation_id>", views.createMessage, name="createMessage"
     ),
 ]
-

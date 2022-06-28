@@ -74,6 +74,16 @@ def getPosts(request):
         return Response(serializer.data)
 
 
+@api_view(["POST"])
+def createUser(request):
+    # Create a new user object with the given email and password
+    new_user = User.objects.create_user(
+        email=request.POST.get("email"), password=request.POST.get("password")
+    )
+    new_user.save()
+    return JsonResponse({"success": True})
+
+
 @api_view(["GET", "DELETE", "PUT"])
 def comment(request, comment_id):
     # Get the comment with the given ID
