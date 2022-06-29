@@ -186,6 +186,7 @@
 			isa = PBXGroup;
 			children = (
 				6A5DF11F285134EE00F28A06 /* Components */,
+				6A5DF13B285134EE00F28A06 /* Authentication */,
 				6A5DF131285134EE00F28A06 /* MainTab */,
 				6A5DF10F285134EE00F28A06 /* Messages */,
 				6A5DF113285134EE00F28A06 /* Post */,
@@ -196,7 +197,6 @@
 				6A5DF12C285134EE00F28A06 /* Feed */,
 				6A5DF133285134EE00F28A06 /* NewPost */,
 				6A5DF137285134EE00F28A06 /* NewChat */,
-				6A5DF13B285134EE00F28A06 /* Authentication */,
 				6A5DF142285134EE00F28A06 /* Notifications */,
 			);
 			path = Core;

@@ -12,7 +12,7 @@ class LoginViewModel: ObservableObject {
     
     var username: String = ""
     var password: String = ""
-    @Published var isAuthenticated: Bool = true
+    @Published var isAuthenticated: Bool = false
     
     func login() {
         

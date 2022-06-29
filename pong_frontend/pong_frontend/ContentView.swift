@@ -15,7 +15,7 @@ struct ContentView: View {
         if loginVM.isAuthenticated {
             MainInterfaceView
         } else {
-            OnboardView(phoneNumber: .constant(""))
+            OnboardView(email: $loginVM.username, password: $loginVM.password)
         }
     }
 }
