@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var loggedIn = true
+    @StateObject private var loginVM = LoginViewModel()
     @State private var showSettings = false
 
     var body: some View {
-        if loggedIn {
+        if loginVM.isAuthenticated {
             MainInterfaceView
         } else {
             OnboardView(phoneNumber: .constant(""))

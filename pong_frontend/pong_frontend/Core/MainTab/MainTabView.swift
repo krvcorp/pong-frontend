@@ -19,13 +19,13 @@ struct MainTabView: View {
     var body: some View {
             TabView {
                 NavigationView {
-                    FeedView()
+                    FeedView(school: "Harvard")
                         .toolbar{
                             ToolbarItem(placement: .principal) {
                                 Button {
                                     print("DEBUG: CHOOSE LOCATION")
                                 } label: {
-                                    Text("SCHOOL_NAME")
+                                    Text("Harvard")
                                         .font(.title.bold())
                                         .foregroundColor(.black)
                                 }

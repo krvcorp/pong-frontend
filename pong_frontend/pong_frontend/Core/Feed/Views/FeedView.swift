@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct FeedView: View {
+    var school: String
     @State private var selectedFilter: FeedFilterViewModel = .hot
     @StateObject var api = API()
     @Namespace var animation
@@ -108,13 +109,12 @@ struct FeedView: View {
         }
         .overlay(Divider().offset(x: 0, y: 16))
     }
-    
 }
 
 
 
 struct FeedView_Previews: PreviewProvider {
     static var previews: some View {
-        FeedView()
+        FeedView(school: "Harvard")
     }
 }
