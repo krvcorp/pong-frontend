@@ -74,7 +74,7 @@ struct ProfileView: View {
                     Text(item.title)
                         .font(.subheadline)
                         .fontWeight(selectedFilter == item ? .semibold : .regular)
-                        .foregroundColor(selectedFilter == item ? .black : .gray)
+                        .foregroundColor(selectedFilter == item ? Color(UIColor.label) : .gray)
                     
                     if selectedFilter == item {
                         Capsule()
