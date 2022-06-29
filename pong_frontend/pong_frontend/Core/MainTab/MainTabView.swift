@@ -13,88 +13,91 @@ enum Tabs: String {
     case profile
 }
 
+
 struct MainTabView: View {
     @Binding var showSettings: Bool
     
+    
     var body: some View {
-            TabView {
-                NavigationView {
-                    FeedView(school: "Harvard")
-                        .toolbar{
-                            ToolbarItem(placement: .principal) {
-                                Button {
-                                    print("DEBUG: CHOOSE LOCATION")
-                                } label: {
-                                    Text("Harvard")
-                                        .font(.title.bold())
-                                        .foregroundColor(.black)
-                                }
+    
+        TabView {
+            NavigationView {
+                FeedView(school: "Harvard")
+                    .toolbar{
+                        ToolbarItem(placement: .principal) {
+                            Button {
+                                print("DEBUG: CHOOSE LOCATION")
+                            } label: {
+                                Text("Harvard")
+                                    .font(.title.bold())
+                                    .foregroundColor(Color(UIColor.label))
+                            }
 
-                            }
-                            
-                            ToolbarItem(){
-                                NavigationLink {
-                                    LeaderboardView()
-                                } label: {
-                                    Image(systemName: "chart.bar.fill")
-                                }
-                                .padding()
-                            }
                         }
-                        .navigationBarTitleDisplayMode(.inline)
-                }.tabItem{Image(systemName: "house")}
-                NavigationView {
-                    MessagesView()
-                        .toolbar {
-                            ToolbarItem(placement: .principal) {
-                                Text("Messages")
-                                    .font(.title.bold())
+                        
+                        ToolbarItem(){
+                            NavigationLink {
+                                LeaderboardView()
+                            } label: {
+                                Image(systemName: "chart.bar.fill")
                             }
-                            
-                            ToolbarItem(){
-                                NavigationLink {
-                                    NewChatView()
-                                } label: {
-                                    Image(systemName: "plus.message.fill")
-                                }
-                                .padding()
-                            }
+                            .padding()
                         }
-                        .navigationBarTitleDisplayMode(.inline)
-                }.tabItem{Image(systemName: "envelope")}
-                
-                NavigationView {
-                    ProfileView()
-                        .toolbar {
-                            ToolbarItem(placement: .principal) {
-                                Text("Me")
-                                    .font(.title.bold())
-                            }
-                            
-                            ToolbarItem(){
-                                Button {
-                                    withAnimation(.easeInOut) {
-                                        showSettings.toggle()
-                                    }
-                                } label: {
-                                    Image(systemName: "gearshape.fill")
-                                }
-                                .padding()
-                            }
+                    }
+                    .navigationBarTitleDisplayMode(.inline)
+            }.tabItem{Image(systemName: "house")}
+            NavigationView {
+                MessagesView()
+                    .toolbar {
+                        ToolbarItem(placement: .principal) {
+                            Text("Messages")
+                                .font(.title.bold())
                         }
-                        .navigationBarTitleDisplayMode(.inline)
-                }.tabItem{Image(systemName: "person")}
-            }
-            .onAppear {
-                // correct the transparency bug for Tab bars
-                let tabBarAppearance = UITabBarAppearance()
-                tabBarAppearance.configureWithOpaqueBackground()
-                UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
-                // correct the transparency bug for Navigation bars
-                let navigationBarAppearance = UINavigationBarAppearance()
-                navigationBarAppearance.configureWithOpaqueBackground()
-                UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
-            }
+                        
+                        ToolbarItem(){
+                            NavigationLink {
+                                NewChatView()
+                            } label: {
+                                Image(systemName: "plus.message.fill")
+                            }
+                            .padding()
+                        }
+                    }
+                    .navigationBarTitleDisplayMode(.inline)
+            }.tabItem{Image(systemName: "envelope")}
+            
+            NavigationView {
+                ProfileView()
+                    .toolbar {
+                        ToolbarItem(placement: .principal) {
+                            Text("Me")
+                                .font(.title.bold())
+                        }
+                        
+                        ToolbarItem(){
+                            Button {
+                                withAnimation(.easeInOut) {
+                                    showSettings.toggle()
+                                }
+                            } label: {
+                                Image(systemName: "gearshape.fill")
+                            }
+                            .padding()
+                        }
+                    }
+                    .navigationBarTitleDisplayMode(.inline)
+            }.tabItem{Image(systemName: "person")}
+        }
+        .onAppear {
+            // correct the transparency bug for Tab bars
+            let tabBarAppearance = UITabBarAppearance()
+            tabBarAppearance.configureWithOpaqueBackground()
+            UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
+            // correct the transparency bug for Navigation bars
+            let navigationBarAppearance = UINavigationBarAppearance()
+            navigationBarAppearance.configureWithOpaqueBackground()
+            UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
+        }
     }
 }
 

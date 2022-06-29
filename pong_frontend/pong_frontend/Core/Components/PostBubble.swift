@@ -97,12 +97,12 @@ struct PostBubble: View {
                 .frame(minWidth: 0, maxWidth: UIScreen.main.bounds.size.width - 50)
                 .font(.system(size: 18).bold())
                 .padding()
-                .foregroundColor(.black)
-                .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color.black, lineWidth: 10))
+                .foregroundColor(Color(UIColor.label))
+                .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color(UIColor.label), lineWidth: 10))
             }
             // remove highlight on tap
             .buttonStyle(NoButtonStyle())
-            .background(Color.white) // If you have this
+            .background(Color(UIColor.systemBackground)) // If you have this
             .cornerRadius(20)         // You also need the cornerRadius here
         }
         .background(RectGetter(rect: $rect1))

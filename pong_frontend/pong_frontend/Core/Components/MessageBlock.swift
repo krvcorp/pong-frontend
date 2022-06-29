@@ -42,7 +42,7 @@ struct MessageBlock: View {
                                     
                                     Text("4")
                                         .font(.caption.bold())
-                                        .foregroundColor(.white)
+                                        .foregroundColor(Color(UIColor.systemBackground))
                                         .background(
                                             Circle()
                                                 .fill(.blue)
@@ -59,10 +59,10 @@ struct MessageBlock: View {
                 .frame(minWidth: 0, maxWidth: UIScreen.main.bounds.size.width - 50)
                 .font(.system(size: 18).bold())
                 .padding()
-                .foregroundColor(.black)
-                .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color.black, lineWidth: 5))
+                .foregroundColor(Color(UIColor.label))
+                .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color(UIColor.label), lineWidth: 5))
             }
-            .background(Color.white) // If you have this
+            .background(Color(UIColor.systemBackground)) // If you have this
             .cornerRadius(20)         // You also need the cornerRadius here
         }
     }

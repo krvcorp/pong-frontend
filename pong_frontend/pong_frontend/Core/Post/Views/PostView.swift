@@ -35,15 +35,15 @@ struct PostView: View {
                     message = ""
                 } label: {
                     Image(systemName: "paperplane.fill")
-                        .foregroundColor(.white)
+                        .foregroundColor(Color(UIColor.systemBackground))
                         .padding(10)
                         .background(.indigo)
                         .cornerRadius(50)
                 }
             }
             .padding()
-            .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.white, lineWidth: 2))
-            .background(Color.white)
+            .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color(UIColor.systemBackground), lineWidth: 2))
+            .background(Color(UIColor.systemBackground))
         }
         .navigationBarBackButtonHidden(true)
         .toolbar {
@@ -144,15 +144,15 @@ struct PostView: View {
                     }
                     .font(.system(size: 18).bold())
                     .padding()
-                    .foregroundColor(.black)
+                    .foregroundColor(Color(UIColor.label))
                 }
-                .background(Color.white) // If you have this
+                .background(Color(UIColor.systemBackground)) // If you have this
                 .cornerRadius(20)         // You also need the cornerRadius here
                 ZStack {
                     Divider()
                     Text("\(post.num_comments) Comments")
                         .font(.caption)
-                        .background(Rectangle().fill(.white).frame(minWidth: 90))
+                        .background(Rectangle().fill(Color(UIColor.systemBackground)).frame(minWidth: 90))
                         
                 }
 

@@ -20,10 +20,10 @@ struct OnboardView: View {
                 Text("Sign up or log in with your email")
                     .font(.title).bold()
                 TextField("example@example.com", text: $email)
-                    .accentColor(.black)
+                    .accentColor(.secondary)
                     .font(.title.bold())
                 SecureField("admin", text: $password)
-                    .accentColor(.black)
+                    .accentColor(.secondary)
                     .font(.title.bold())
             }
             
@@ -41,13 +41,13 @@ struct OnboardView: View {
                         .frame(minWidth: 0, maxWidth: .infinity)
                         .font(.system(size: 18).bold())
                         .padding()
-                        .foregroundColor(.white)
+                        .foregroundColor(Color(UIColor.systemBackground))
                         .overlay(
                             RoundedRectangle(cornerRadius: 5)
-                                .stroke(Color.white, lineWidth: 2)
+                                .stroke(Color.primary, lineWidth: 2)
                     )
                 }
-                .background(Color.black) // If you have this
+                .background(Color(UIColor.label)) // If you have this
                 .cornerRadius(20)         // You also need the cornerRadius here
             }
         }

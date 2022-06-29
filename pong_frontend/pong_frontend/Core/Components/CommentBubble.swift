@@ -73,7 +73,7 @@ struct CommentBubble: View {
                 .frame(minWidth: 0, maxWidth: UIScreen.main.bounds.size.width - 50)
                 .font(.system(size: 18).bold())
                 .padding()
-                .foregroundColor(.black)
+                .foregroundColor(Color(UIColor.label))
             }
         }
     }

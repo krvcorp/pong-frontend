@@ -44,8 +44,8 @@ struct NewPostView: View {
                                     Image(systemName: "trash")
                                 }
                                 .frame(width: 35, height: 35)
-                                .foregroundColor(.white)
-                                .background(Circle().fill(.black).opacity(0.6))
+                                .foregroundColor(.primary)
+                                .background(Circle().fill(.secondary).opacity(0.6))
                                 .padding()
                             }
                             .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
@@ -64,7 +64,7 @@ struct NewPostView: View {
                                     Image(systemName: "photo")
                                         .resizable()
                                         .scaledToFit()
-                                        .foregroundColor(.black)
+                                        .foregroundColor(.secondary)
                                 }
                                 .sheet(isPresented: $showSheet) {
                                     ImagePicker(sourceType: .photoLibrary, selectedImage: self.$image)
@@ -78,7 +78,7 @@ struct NewPostView: View {
                                     Image(systemName: "chart.bar")
                                         .resizable()
                                         .scaledToFit()
-                                        .foregroundColor(.black)
+                                        .foregroundColor(.secondary)
                                 }
 
                                 
@@ -96,13 +96,13 @@ struct NewPostView: View {
                                     .frame(minWidth: 100, maxWidth: 150)
                                     .font(.system(size: 18).bold())
                                     .padding()
-                                    .foregroundColor(.white)
+                                    .foregroundColor(.primary)
                                     .overlay(
                                         RoundedRectangle(cornerRadius: 5)
-                                            .stroke(Color.white, lineWidth: 2)
+                                            .stroke(Color.primary, lineWidth: 2)
                                 )
                             }
-                            .background(Color.black) // If you have this
+                            .background(Color.secondary) // If you have this
                             .cornerRadius(20)         // You also need the cornerRadius here
                         .padding(.bottom)
                         }

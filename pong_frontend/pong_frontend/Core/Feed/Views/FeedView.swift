@@ -47,12 +47,12 @@ struct FeedView: View {
                         .frame(minWidth: 100, maxWidth: 150)
                         .font(.system(size: 18).bold())
                         .padding()
-                        .foregroundColor(.white)
+                        .foregroundColor(Color(UIColor.systemBackground))
                         .overlay(
                             RoundedRectangle(cornerRadius: 5)
-                                .stroke(Color.white, lineWidth: 2))
+                                .stroke(Color(UIColor.systemBackground), lineWidth: 2))
                 }
-                .background(Color.black) // If you have this
+                .background(Color(UIColor.label)) // If you have this
                 .cornerRadius(20)         // You also need the cornerRadius here
                 .padding(.bottom)
             }
@@ -85,7 +85,7 @@ struct FeedView: View {
                     Text(item.title)
                         .font(.subheadline)
                         .fontWeight(selectedFilter == item ? .semibold : .regular)
-                        .foregroundColor(selectedFilter == item ? .black : .gray)
+                        .foregroundColor(selectedFilter == item ? Color(UIColor.label) : .gray)
                     
                     if selectedFilter == item {
                         Capsule()
