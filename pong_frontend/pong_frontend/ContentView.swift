@@ -11,20 +11,6 @@ struct ContentView: View {
     @StateObject private var loginVM = LoginViewModel()
     @State private var showSettings = false
     
-//    init() {
-//          let coloredAppearance = UINavigationBarAppearance()
-//          coloredAppearance.configureWithOpaqueBackground()
-//          coloredAppearance.backgroundColor = .systemRed
-//          coloredAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
-//          coloredAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-//          
-//          UINavigationBar.appearance().standardAppearance = coloredAppearance
-//          UINavigationBar.appearance().compactAppearance = coloredAppearance
-//          UINavigationBar.appearance().scrollEdgeAppearance = coloredAppearance
-//          
-//          UINavigationBar.appearance().tintColor = .white
-//    }
-    
     var body: some View {
         if loginVM.isAuthenticated {
             MainInterfaceView

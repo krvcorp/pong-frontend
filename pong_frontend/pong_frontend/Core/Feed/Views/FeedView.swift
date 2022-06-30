@@ -12,7 +12,7 @@ struct FeedView: View {
     @State private var selectedFilter: FeedFilterViewModel = .hot
     @StateObject var api = API()
     @Namespace var animation
-    
+
     var body: some View {
         VStack {
             

@@ -19,7 +19,8 @@ struct PostBubble: View {
         VStack {
             NavigationLink {
                 PostView(post: post)
-            } label: { VStack{
+            } label: {
+                VStack{
                     HStack(alignment: .top){
                         VStack(alignment: .leading){
                             

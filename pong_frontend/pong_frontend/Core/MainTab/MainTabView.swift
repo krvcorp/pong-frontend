@@ -17,7 +17,6 @@ enum Tabs: String {
 struct MainTabView: View {
     @Binding var showSettings: Bool
     
-    
     var body: some View {
     
         TabView {
@@ -46,6 +45,7 @@ struct MainTabView: View {
                     }
                     .navigationBarTitleDisplayMode(.inline)
             }.tabItem{Image(systemName: "house")}
+            
             NavigationView {
                 MessagesView()
                     .toolbar {
@@ -93,10 +93,13 @@ struct MainTabView: View {
             let tabBarAppearance = UITabBarAppearance()
             tabBarAppearance.configureWithOpaqueBackground()
             UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
+            tabBarAppearance.backgroundColor = .secondarySystemBackground
+            
             // correct the transparency bug for Navigation bars
             let navigationBarAppearance = UINavigationBarAppearance()
             navigationBarAppearance.configureWithOpaqueBackground()
             UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
+            navigationBarAppearance.backgroundColor = .secondarySystemBackground
         }
     }
 }
