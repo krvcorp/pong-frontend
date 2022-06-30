@@ -14,7 +14,7 @@ struct CommentBubble: View {
     var body: some View {
         VStack {
             Button {
-                print("DEBUG: ")
+                print("DEBUG: Reply")
             } label: {
                 VStack{
                     HStack(alignment: .top){
