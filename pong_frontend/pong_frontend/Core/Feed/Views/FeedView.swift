@@ -47,12 +47,12 @@ struct FeedView: View {
                         .frame(minWidth: 100, maxWidth: 150)
                         .font(.system(size: 18).bold())
                         .padding()
-                        .foregroundColor(Color(UIColor.systemBackground))
+                        .foregroundColor(Color(UIColor.label))
                         .overlay(
-                            RoundedRectangle(cornerRadius: 5)
-                                .stroke(Color(UIColor.systemBackground), lineWidth: 2))
+                            RoundedRectangle(cornerRadius: 20)
+                                .stroke(Color(UIColor.label), lineWidth: 2))
                 }
-                .background(Color(UIColor.label)) // If you have this
+                .background(Color(UIColor.secondarySystemBackground)) // If you have this
                 .cornerRadius(20)         // You also need the cornerRadius here
                 .padding(.bottom)
             }

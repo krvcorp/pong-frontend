@@ -100,7 +100,7 @@ struct PostBubble: View {
             .font(.system(size: 18).bold())
             .padding()
             .foregroundColor(Color(UIColor.label))
-            .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color(UIColor.label), lineWidth: 10))
+            .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color(UIColor.secondaryLabel), lineWidth: 10))
         }
         // remove highlight on tap
 //        .buttonStyle(NoButtonStyle()) // this also removes button?
