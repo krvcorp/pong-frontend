@@ -66,6 +66,7 @@ struct PostBubble: View {
                             }  label: {
                                 Image(systemName: "bubble.left")
                                 Text("\(post.num_comments) comments")
+                                    .font(.subheadline).bold()
                             }
                         }
 
