@@ -60,7 +60,7 @@ struct MessageBlock: View {
                 .font(.system(size: 18).bold())
                 .padding()
                 .foregroundColor(Color(UIColor.label))
-                .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color(UIColor.label), lineWidth: 5))
+                .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color(UIColor.secondaryLabel), lineWidth: 5))
             }
             .background(Color(UIColor.systemBackground)) // If you have this
             .cornerRadius(20)         // You also need the cornerRadius here

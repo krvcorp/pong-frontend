@@ -36,7 +36,7 @@ struct ChatView: View {
                 .cornerRadius(30, corners: [.topLeft, .topRight])
                  
             }
-            .background(.secondary)
+            .background(Color(UIColor.systemFill))
             
             MessageField()
         }

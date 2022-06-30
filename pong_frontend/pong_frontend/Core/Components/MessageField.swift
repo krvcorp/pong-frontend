@@ -28,7 +28,7 @@ struct MessageField: View {
         }
         .padding(.horizontal)
         .padding(.vertical, 10)
-        .background(Color(.lightGray))
+        .background(Color(UIColor.systemFill))
         .cornerRadius(50)
         .padding()
     }

@@ -16,7 +16,7 @@ struct MessageBubble: View {
             HStack {
                 Text(message.text)
                     .padding()
-                    .background(message.received ? .gray : Color(.systemBlue))
+                    .background(message.received ? Color(UIColor.systemFill) : Color(.systemBlue))
                     .cornerRadius(30)
                 
             }
