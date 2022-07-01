@@ -58,7 +58,7 @@ class API: ObservableObject {
     func login(username: String, password: String, completion: @escaping (Result<String, AuthenticationError>) -> Void) {
             
         // change URL to real login
-        guard let url = URL(string: "https://strong-spangled-apartment.glitch.me/login") else {
+        guard let url = URL(string: "http://127.0.0.1:8005/api/login/") else {
             completion(.failure(.custom(errorMessage: "URL is not correct")))
             return
         }
