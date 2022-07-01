@@ -1,3 +1,4 @@
+from tempfile import TemporaryFile
 from django.shortcuts import render, redirect
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
@@ -25,50 +26,69 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.views import APIView
+from rest_framework.generics import RetrieveUpdateDestroyAPIView
 from rest_framework.parsers import JSONParser, MultiPartParser, FormParser
 from rest_framework.renderers import JSONRenderer
+from rest_framework.permissions import IsAuthenticated
 
 
-@api_view(["GET", "DELETE", "PUT"])
-def user(request, user_id):
-    try:
-        user = User.objects.get(id=user_id)
-    except user.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+class RetrieveUpdateDestroyUserAPIView(RetrieveUpdateDestroyAPIView):
+    serializer_class = UserSerializer
+    queryset = User.objects.all()
+    permission_classes = (IsAuthenticated,)
 
-    if request.method == "GET":
-        serializer = UserSerializer(user)
-        return Response(serializer.data)
-    elif request.method == "DELETE":
-        user.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-    elif request.method == "PUT":
-        serializer = UserSerializer(user, data=request.data)
+
+class RetrieveUpdateDestroyPostAPIView(RetrieveUpdateDestroyAPIView):
+    serializer_class = PostSerializer
+    queryset = Post.objects.all()
+    permission_classes = (IsAuthenticated,)
+
+
+class RetrieveUpdateDestroyCommentAPIView(RetrieveUpdateDestroyAPIView):
+    serializer_class = CommentSerializer
+    queryset = Comment.objects.all()
+    permission_classes = (IsAuthenticated,)
+
+
+@api_view(["POST"])
+def create_post(request):
+    if request.method == "POST":
+        serializer = PostSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["POST"])
+def create_user(request):
+    if request.method == "POST":
+        serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(["GET", "DELETE", "PUT"])
-def post(request, post_id):
-    # Get the post with the given ID
-    try:
-        post = Post.objects.get(id=post_id)
-    except Post.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-    if request.method == "GET":
-        serializer = PostSerializer(post)
-        return Response(serializer.data)
-    elif request.method == "DELETE":
-        post.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-    elif request.method == "PUT":
-        serializer = PostSerializer(post, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
+@api_view(["POST"])
+def create_comment(request, post_id):
+    if request.method == "POST":
+        try:
+            comment = Comment.objects.create(
+                user=request.user,
+                post=Post.objects.get(id=post_id),
+                comment=request.data["comment"],
+            )
+            serializer = CommentSerializer(comment)
             return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({"error": str(e)})
+    else:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(["GET"])
@@ -76,62 +96,6 @@ def getPosts(request):
     if request.method == "GET":
         posts = Post.objects.all()
         serializer = PostSerializer(posts, many=True)
-        return Response(serializer.data)
-
-
-@api_view(["POST"])
-def createUser(request):
-    # Create a new user object with the given email and password
-    new_user = User.objects.create_user(
-        email=request.POST.get("email"), password=request.POST.get("password")
-    )
-    new_user.save()
-    return JsonResponse({"success": True})
-
-
-@api_view(["GET", "DELETE", "PUT"])
-def comment(request, comment_id):
-    # Get the comment with the given ID
-    try:
-        comment = Comment.objects.get(id=comment_id)
-    except Comment.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-
-    if request.method == "GET":
-        serializer = CommentSerializer(comment)
-        return Response(serializer.data)
-    elif request.method == "DELETE":
-        comment.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-    elif request.method == "PUT":
-        serializer = CommentSerializer(comment, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-@api_view(["POST"])
-def createPost(request):
-    if request.method == "POST":
-        post = Post.objects.create(
-            user=request.user,
-            title=request.data["title"],
-            image=(request.FILES["image"] if "image" in request.FILES else None),
-        )
-        serializer = PostSerializer(post)
-        return JsonResponse(serializer.data)
-
-
-@api_view(["POST"])
-def createComment(request, post_id):
-    if request.method == "POST":
-        comment = Comment.objects.create(
-            user=request.user,
-            post=Post.objects.get(id=post_id),
-            comment=request.data["comment"],
-        )
-        serializer = CommentSerializer(comment)
         return Response(serializer.data)
 
 
@@ -280,7 +244,6 @@ def getLeaderboard(request):
 @api_view(["POST"])
 def register(request):
     context = {}
-    print(request.data)
     if request.method == "POST":
         user = User.objects.create_user(
             email=request.POST.get("email"),
@@ -290,7 +253,8 @@ def register(request):
         token = Token.objects.get(user=user).key
         context["token"] = token
         return JsonResponse(context)
-    return render(request, "register.html", context)
+    else:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(["POST"])
@@ -315,8 +279,8 @@ class ObtainAuthToken(APIView):
         user = serializer.validated_data["user"]
         token, created = Token.objects.get_or_create(user=user)
 
-        content = {
-            "token": token.key,
-        }
-
-        return Response(content)
+        return Response(
+            {
+                "token": token.key,
+            }
+        )
