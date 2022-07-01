@@ -12,7 +12,6 @@ struct MessagesView: View {
     
     var body: some View {
         VStack {
-                        
             HStack {
                 CustomInputField(imageName: "magnifyingglass",
                                  placeholderText: "Search messages",
@@ -28,11 +27,8 @@ struct MessagesView: View {
                     }
                 }
             }
-            
         }
-
     }
-       
 }
 
 struct MessagesView_Previews: PreviewProvider {
