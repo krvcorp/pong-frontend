@@ -1,5 +1,10 @@
 from rest_framework import serializers
 from base.models import User, Post, Comment, PostReport
+from rest_framework.authtoken.models import Token
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth import authenticate
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -16,7 +21,6 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = (
             "id",
-            "username",
             # "name",
             "email",
             "profile_picture",
@@ -79,3 +83,38 @@ class PostReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = PostReport
         fields = ("id", "post", "user", "reason", "created_at", "updated_at")
+
+
+class AuthCustomTokenSerializer(serializers.Serializer):
+    email_or_username = serializers.CharField()
+    password = serializers.CharField()
+
+    def validate(self, attrs):
+        print(attrs)
+        email_or_username = attrs.get("email_or_username")
+        password = attrs.get("password")
+
+        if email_or_username and password:
+            if validate_email(email_or_username):
+                user_request = get_object_or_404(
+                    User,
+                    email=email_or_username,
+                )
+
+                email_or_username = user_request.username
+
+            user = authenticate(username=email_or_username, password=password)
+
+            if user:
+                if not user.is_active:
+                    msg = "User account is disabled."
+                    return msg
+            else:
+                msg = "Unable to log in with provided credentials."
+                return msg
+        else:
+            msg = 'Must include "email or username" and "password"'
+            return msg
+
+        attrs["user"] = user
+        return attrs

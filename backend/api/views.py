@@ -1,7 +1,4 @@
-from rest_framework.response import Response
 from django.shortcuts import render, redirect
-from rest_framework.decorators import api_view
-from rest_framework import status
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
@@ -15,13 +12,21 @@ from base.models import (
     ClassGroup,
     DirectConversation,
     DirectMessage,
+    Token,
 )
 from .serializers import (
     UserSerializer,
     PostSerializer,
     CommentSerializer,
     PostReportSerializer,
+    AuthCustomTokenSerializer,
 )
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from rest_framework import status
+from rest_framework.views import APIView
+from rest_framework.parsers import JSONParser, MultiPartParser, FormParser
+from rest_framework.renderers import JSONRenderer
 
 
 @api_view(["GET", "DELETE", "PUT"])
@@ -270,3 +275,42 @@ def getLeaderboard(request):
     )
     serializer = UserSerializer(users, many=True)
     return JsonResponse(serializer.data, safe=False)
+
+
+@api_view(["POST"])
+def register(request):
+    context = {}
+    if request.method == "POST":
+        user = User.objects.create_user(
+            email=request.POST.get("email"),
+            password=request.POST.get("password"),
+        )
+        user.save()
+        token = Token.objects.get(user=user).key
+        context["token"] = token
+        return JsonResponse(context)
+    return render(request, "register.html", context)
+
+
+# Login Method
+class ObtainAuthToken(APIView):
+    throttle_classes = ()
+    permission_classes = ()
+    parser_classes = (
+        FormParser,
+        MultiPartParser,
+        JSONParser,
+    )
+    renderer_classes = (JSONRenderer,)
+
+    def post(self, request):
+        serializer = AuthCustomTokenSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data["user"]
+        token, created = Token.objects.get_or_create(user=user)
+
+        content = {
+            "token": token.key,
+        }
+
+        return Response(content)

@@ -18,6 +18,7 @@ class UserManager(UserManager):
         """
         Create and save a User with the provided email and password.
         """
+        print(email)
         if not email:
             raise ValueError("The given email address must be set")
 
@@ -115,6 +116,12 @@ class User(AbstractBaseUser, PermissionsMixin):
             if postvoteobject.post
         ]
         return posts
+
+
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        Token.objects.create(user=instance)
 
 
 def get_default_avatar():

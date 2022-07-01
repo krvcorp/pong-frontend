@@ -15,6 +15,8 @@ from .models import (
     PostReport,
 )
 
+from rest_framework.authtoken.models import Token
+
 
 # base.views holds render-only methods
 
@@ -22,32 +24,6 @@ from .models import (
 def index(request):
     context = {"posts": Post.objects.all()}
     return render(request, "index.html", context)
-
-
-def register(request):
-    context = {}
-    if request.method == "POST":
-        email = request.POST.get("email")
-        user = User.objects.create_user(
-            password=request.POST.get("password"), email=email, username=email
-        )
-        user.save()
-        return redirect("login")
-    return render(request, "register.html", context)
-
-
-def login(request):
-    if request.method == "POST":
-        user = authenticate(
-            email=request.POST.get("email"), password=request.POST.get("password")
-        )
-        if user is not None:
-            auth_login(request, user)
-            return redirect("index")
-        else:
-            # TODO: Add error message invalid credentials
-            return redirect("login")
-    return render(request, "login.html")
 
 
 def logout(request):

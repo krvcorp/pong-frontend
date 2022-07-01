@@ -34,4 +34,6 @@ urlpatterns = [
     path(
         "createMessage/<int:conversation_id>", views.createMessage, name="createMessage"
     ),
+    path("register/", views.register, name="register"),
+    path("login/", views.ObtainAuthToken.as_view(), name="login"),
 ]
