@@ -15,67 +15,32 @@ struct FeedView: View {
 
     var body: some View {
         VStack {
-            
             feedFilterBar
                 .padding(.top)
             
-            ZStack(alignment: .bottom) {
-                // Posts information goes here
-                TabView(selection: $selectedFilter) {
-                    ForEach(FeedFilterViewModel.allCases, id: \.self) { view in // This iterates through all of the enum cases.
-                        // make something different happen in each case
-                        ScrollView {
-                            LazyVStack {
-                                ForEach(api.posts) { post in
-                                    PostBubble(post: post, expanded: false)
-                                }
-                            }
-                            .onAppear {
-                                api.getPosts()
-                            }
-                        }.tag(view.rawValue) // by having the tag be the enum's raw value,
-                                                // you can always compare enum to enum.
-                    }
-                }
-                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-                .ignoresSafeArea(.all, edges: .bottom)
-                
-                NavigationLink {
-                    NewPostView()
-                } label: {
-                    Text("New Post")
-                        .frame(minWidth: 100, maxWidth: 150)
-                        .font(.system(size: 18).bold())
-                        .padding()
-                        .foregroundColor(Color(UIColor.systemBackground))
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 20)
-                                .stroke(Color(UIColor.systemBackground), lineWidth: 2))
-                }
-                .background(Color(UIColor.label)) // If you have this
-                .cornerRadius(20)         // You also need the cornerRadius here
-                .padding(.bottom)
-            }
+            feedItself
         }
-    }
-    
-    var feedHeader: some View {
-        ZStack{
-            Text("Harvard")
-                .font(.title.bold())
-            
-            HStack(alignment: .center) {
-                
-                Spacer()
-                
+        .toolbar{
+            ToolbarItem(placement: .principal) {
                 Button {
-                    print("DEBUG: Leaderboard")
+                    print("DEBUG: CHOOSE LOCATION")
+                } label: {
+                    Text("Harvard")
+                        .font(.title.bold())
+                        .foregroundColor(Color(UIColor.label))
+                }
+            }
+            
+            ToolbarItem(){
+                NavigationLink {
+                    LeaderboardView()
                 } label: {
                     Image(systemName: "chart.bar.fill")
                 }
                 .padding()
             }
         }
+        .navigationBarTitleDisplayMode(.inline)
     }
     
     var feedFilterBar: some View {
@@ -108,6 +73,46 @@ struct FeedView: View {
             }
         }
         .overlay(Divider().offset(x: 0, y: 16))
+    }
+    
+    var feedItself: some View {
+        ZStack(alignment: .bottom) {
+            // Posts information goes here
+            TabView(selection: $selectedFilter) {
+                ForEach(FeedFilterViewModel.allCases, id: \.self) { view in // This iterates through all of the enum cases.
+                    // make something different happen in each case
+                    ScrollView {
+                        LazyVStack {
+                            ForEach(api.posts) { post in
+                                PostBubble(post: post, expanded: false)
+                            }
+                        }
+                        .onAppear {
+                            api.getPosts()
+                        }
+                    }.tag(view.rawValue) // by having the tag be the enum's raw value,
+                                            // you can always compare enum to enum.
+                }
+            }
+            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+            .ignoresSafeArea(.all, edges: .bottom)
+            
+            NavigationLink {
+                NewPostView()
+            } label: {
+                Text("New Post")
+                    .frame(minWidth: 100, maxWidth: 150)
+                    .font(.system(size: 18).bold())
+                    .padding()
+                    .foregroundColor(Color(UIColor.systemBackground))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 20)
+                            .stroke(Color(UIColor.systemBackground), lineWidth: 2))
+            }
+            .background(Color(UIColor.label)) // If you have this
+            .cornerRadius(20)         // You also need the cornerRadius here
+            .padding(.bottom)
+        }
     }
 }
 

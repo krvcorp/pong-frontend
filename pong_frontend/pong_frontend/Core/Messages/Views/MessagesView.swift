@@ -12,6 +12,7 @@ struct MessagesView: View {
     
     var body: some View {
         VStack {
+            // searchbar
             HStack {
                 CustomInputField(imageName: "magnifyingglass",
                                  placeholderText: "Search messages",
@@ -20,6 +21,7 @@ struct MessagesView: View {
                 .padding()
             }
             
+            // messages stack
             ScrollView {
                 LazyVStack {
                     ForEach(0 ... 20, id: \.self) { _ in
@@ -28,6 +30,22 @@ struct MessagesView: View {
                 }
             }
         }
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                Text("Messages")
+                    .font(.title.bold())
+            }
+            
+            ToolbarItem(){
+                NavigationLink {
+                    NewChatView()
+                } label: {
+                    Image(systemName: "plus.message.fill")
+                }
+                .padding()
+            }
+        }
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

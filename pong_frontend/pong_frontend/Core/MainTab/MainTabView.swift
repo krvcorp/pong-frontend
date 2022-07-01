@@ -22,70 +22,14 @@ struct MainTabView: View {
         TabView {
             NavigationView {
                 FeedView(school: "Harvard")
-                    .toolbar{
-                        ToolbarItem(placement: .principal) {
-                            Button {
-                                print("DEBUG: CHOOSE LOCATION")
-                            } label: {
-                                Text("Harvard")
-                                    .font(.title.bold())
-                                    .foregroundColor(Color(UIColor.label))
-                            }
-
-                        }
-                        
-                        ToolbarItem(){
-                            NavigationLink {
-                                LeaderboardView()
-                            } label: {
-                                Image(systemName: "chart.bar.fill")
-                            }
-                            .padding()
-                        }
-                    }
-                    .navigationBarTitleDisplayMode(.inline)
             }.tabItem{Image(systemName: "house")}
             
             NavigationView {
                 MessagesView()
-                    .toolbar {
-                        ToolbarItem(placement: .principal) {
-                            Text("Messages")
-                                .font(.title.bold())
-                        }
-                        
-                        ToolbarItem(){
-                            NavigationLink {
-                                NewChatView()
-                            } label: {
-                                Image(systemName: "plus.message.fill")
-                            }
-                            .padding()
-                        }
-                    }
-                    .navigationBarTitleDisplayMode(.inline)
             }.tabItem{Image(systemName: "envelope")}
             
             NavigationView {
-                ProfileView()
-                    .toolbar {
-                        ToolbarItem(placement: .principal) {
-                            Text("Me")
-                                .font(.title.bold())
-                        }
-                        
-                        ToolbarItem(){
-                            Button {
-                                withAnimation(.easeInOut) {
-                                    showSettings.toggle()
-                                }
-                            } label: {
-                                Image(systemName: "gearshape.fill")
-                            }
-                            .padding()
-                        }
-                    }
-                    .navigationBarTitleDisplayMode(.inline)
+                ProfileView(showSettings: $showSettings)
             }.tabItem{Image(systemName: "person")}
         }
         .onAppear {

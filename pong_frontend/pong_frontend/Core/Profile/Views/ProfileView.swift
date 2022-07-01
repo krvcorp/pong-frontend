@@ -11,60 +11,41 @@ struct ProfileView: View {
     @State private var selectedFilter: ProfileFilterViewModel = .posts
     @Namespace var animation
     @StateObject var api = API()
+    @Binding var showSettings: Bool
     
     var body: some View {
         
         VStack {
-            ZStack {
-                HStack {
-                    VStack(alignment: .center) {
-                        Text("201")
-                        Text("Total Karma")
-                            .font(.system(size: 10.0))
-                    }
-                    Spacer()
-                }
-                
-                VStack(alignment: .center) {
-                    Text("201")
-                    Text("Post Karma")
-                        .font(.system(size: 10.0))
-                }
-                
-                HStack {
-                    Spacer()
-                    VStack(alignment: .center) {
-                        Text("201")
-                        Text("Comment Karma")
-                            .font(.system(size: 10.0))
-                    }
-                }
-            }
+            karmaInfo
             .padding(.horizontal, 30)
             .padding(.top, 20)
             
             profileFilterBar
                 .padding(.top)
             
-            TabView(selection: $selectedFilter) {
-                ForEach(ProfileFilterViewModel.allCases, id: \.self) { view in // This iterates through all of the enum cases.
-                    // make something different happen in each case
-                    ScrollView {
-                        LazyVStack {
-                            ForEach(api.posts) { post in
-                                PostBubble(post: post, expanded: false)
-                            }
-                        }
-                        .onAppear {
-                            api.getPosts()
-                        }
-                    }.tag(view.rawValue) // by having the tag be the enum's raw value,
-                                            // you can always compare enum to enum.
-                }
-            }
+            profileFilteredItems
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             .ignoresSafeArea(.all, edges: .bottom)
         }
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                Text("Me")
+                    .font(.title.bold())
+            }
+            
+            ToolbarItem(){
+                Button {
+                    withAnimation(.easeInOut) {
+                        showSettings.toggle()
+                    }
+                } label: {
+                    Image(systemName: "gearshape.fill")
+                }
+                .padding()
+            }
+        }
+        .navigationBarTitleDisplayMode(.inline)
+        
     }
     
     var profileFilterBar: some View {
@@ -98,10 +79,52 @@ struct ProfileView: View {
         }
         .overlay(Divider().offset(x: 0, y: 16))
     }
-}
-
-struct ProfileView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProfileView()
+    
+    var karmaInfo: some View {
+        ZStack {
+            HStack {
+                VStack(alignment: .center) {
+                    Text("201")
+                    Text("Total Karma")
+                        .font(.system(size: 10.0))
+                }
+                Spacer()
+            }
+            
+            VStack(alignment: .center) {
+                Text("201")
+                Text("Post Karma")
+                    .font(.system(size: 10.0))
+            }
+            
+            HStack {
+                Spacer()
+                VStack(alignment: .center) {
+                    Text("201")
+                    Text("Comment Karma")
+                        .font(.system(size: 10.0))
+                }
+            }
+        }
+    }
+    
+    var profileFilteredItems: some View {
+        TabView(selection: $selectedFilter) {
+            ForEach(ProfileFilterViewModel.allCases, id: \.self) { view in // This iterates through all of the enum cases.
+                // make something different happen in each case
+                ScrollView {
+                    LazyVStack {
+                        ForEach(api.posts) { post in
+                            PostBubble(post: post, expanded: false)
+                        }
+                    }
+                    .onAppear {
+                        api.getPosts()
+                    }
+                }.tag(view.rawValue) // by having the tag be the enum's raw value,
+                                        // you can always compare enum to enum.
+            }
+        }
     }
 }
+

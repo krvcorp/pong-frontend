@@ -11,6 +11,8 @@
 		6A3F3D84285D177900EC43A3 /* ChatSideMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3F3D83285D177900EC43A3 /* ChatSideMenuView.swift */; };
 		6A3F3D86285D178400EC43A3 /* ChatSideMenuRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3F3D85285D178400EC43A3 /* ChatSideMenuRowView.swift */; };
 		6A3F3D8B286A7AC600EC43A3 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3F3D8A286A7AC600EC43A3 /* LoginViewModel.swift */; };
+		6A44F435286F951700E63423 /* ChooseLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A44F434286F951700E63423 /* ChooseLocationView.swift */; };
+		6A44F437286F952300E63423 /* ChooseLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A44F436286F952300E63423 /* ChooseLocationViewModel.swift */; };
 		6A5DF148285134EE00F28A06 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF107285134ED00F28A06 /* Comment.swift */; };
 		6A5DF149285134EE00F28A06 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF108285134ED00F28A06 /* Message.swift */; };
 		6A5DF14A285134EE00F28A06 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF109285134ED00F28A06 /* User.swift */; };
@@ -62,6 +64,8 @@
 		6A3F3D83285D177900EC43A3 /* ChatSideMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSideMenuView.swift; sourceTree = "<group>"; };
 		6A3F3D85285D178400EC43A3 /* ChatSideMenuRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSideMenuRowView.swift; sourceTree = "<group>"; };
 		6A3F3D8A286A7AC600EC43A3 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		6A44F434286F951700E63423 /* ChooseLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseLocationView.swift; sourceTree = "<group>"; };
+		6A44F436286F952300E63423 /* ChooseLocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseLocationViewModel.swift; sourceTree = "<group>"; };
 		6A5DF0E32851321000F28A06 /* Pong.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pong.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A5DF107285134ED00F28A06 /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		6A5DF108285134ED00F28A06 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
@@ -128,6 +132,31 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
+		6A44F431286F94EE00E63423 /* ChooseLocation */ = {
+			isa = PBXGroup;
+			children = (
+				6A44F433286F950500E63423 /* ViewModels */,
+				6A44F432286F950100E63423 /* Views */,
+			);
+			path = ChooseLocation;
+			sourceTree = "<group>";
+		};
+		6A44F432286F950100E63423 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				6A44F434286F951700E63423 /* ChooseLocationView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		6A44F433286F950500E63423 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				6A44F436286F952300E63423 /* ChooseLocationViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		6A5DF0DA2851321000F28A06 = {
 			isa = PBXGroup;
 			children = (
@@ -188,15 +217,16 @@
 				6A5DF11F285134EE00F28A06 /* Components */,
 				6A5DF13B285134EE00F28A06 /* Authentication */,
 				6A5DF131285134EE00F28A06 /* MainTab */,
-				6A5DF10F285134EE00F28A06 /* Messages */,
-				6A5DF113285134EE00F28A06 /* Post */,
-				6A5DF117285134EE00F28A06 /* Chat */,
+				6A5DF12C285134EE00F28A06 /* Feed */,
+				6A44F431286F94EE00E63423 /* ChooseLocation */,
 				6A5DF11B285134EE00F28A06 /* Leaderboard */,
+				6A5DF133285134EE00F28A06 /* NewPost */,
+				6A5DF113285134EE00F28A06 /* Post */,
+				6A5DF10F285134EE00F28A06 /* Messages */,
+				6A5DF137285134EE00F28A06 /* NewChat */,
+				6A5DF117285134EE00F28A06 /* Chat */,
 				6A5DF127285134EE00F28A06 /* Profile */,
 				6A5DF17C2856B74C00F28A06 /* Settings */,
-				6A5DF12C285134EE00F28A06 /* Feed */,
-				6A5DF133285134EE00F28A06 /* NewPost */,
-				6A5DF137285134EE00F28A06 /* NewChat */,
 				6A5DF142285134EE00F28A06 /* Notifications */,
 			);
 			path = Core;
@@ -604,6 +634,7 @@
 				6A5DF158285134EE00F28A06 /* CustomInputField.swift in Sources */,
 				6A5DF150285134EE00F28A06 /* ChatView.swift in Sources */,
 				6A5DF14F285134EE00F28A06 /* PostView.swift in Sources */,
+				6A44F435286F951700E63423 /* ChooseLocationView.swift in Sources */,
 				6A5DF160285134EE00F28A06 /* OnboardView.swift in Sources */,
 				6A5DF177285294EF00F28A06 /* ShareSheet.swift in Sources */,
 				6A5DF167285134EE00F28A06 /* ContentView.swift in Sources */,
@@ -611,6 +642,7 @@
 				6A5DF14B285134EE00F28A06 /* Post.swift in Sources */,
 				6A5DF17528526D5000F28A06 /* API.swift in Sources */,
 				6A5DF15D285134EE00F28A06 /* MainTabView.swift in Sources */,
+				6A44F437286F952300E63423 /* ChooseLocationViewModel.swift in Sources */,
 				6A5DF1842856B8CB00F28A06 /* SettingsOptionRowView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
