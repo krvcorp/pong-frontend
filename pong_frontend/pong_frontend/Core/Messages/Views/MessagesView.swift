@@ -29,7 +29,6 @@ struct MessagesView: View {
                 }
             }
             
-            Spacer()
         }
 
     }
