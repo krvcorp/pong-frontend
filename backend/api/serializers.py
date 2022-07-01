@@ -8,14 +8,18 @@ from django.contrib.auth import authenticate
 
 
 class UserSerializer(serializers.ModelSerializer):
-    posts = serializers.SerializerMethodField()
-    comments = serializers.SerializerMethodField()
+    posts = serializers.SerializerMethodField(read_only=True)
+    comments = serializers.SerializerMethodField(read_only=True)
+    token = serializers.SerializerMethodField(read_only=True)
 
     def get_posts(self, obj):
         return PostSerializer(obj.get_posts(), many=True).data
 
     def get_comments(self, obj):
         return CommentSerializer(obj.get_comments(), many=True).data
+
+    def get_token(self, obj):
+        return Token.objects.get(user=obj).key
 
     class Meta:
         model = User
@@ -25,6 +29,7 @@ class UserSerializer(serializers.ModelSerializer):
             "profile_picture",
             "posts",
             "comments",
+            "token",
         )
 
 

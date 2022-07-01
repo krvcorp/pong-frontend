@@ -4,34 +4,49 @@ from . import views
 
 urlpatterns = [
     # Get URLS
-    path("user/<int:user_id>/", views.user, name="user"),
-    path("post/<int:post_id>/", views.post, name="post"),
-    path("comment/<int:comment_id>/", views.comment, name="comment"),
+    path(
+        "user/<int:pk>/",
+        views.RetrieveUpdateDestroyUserAPIView.as_view(),
+        name="get_delete_update_user",
+    ),
+    path("user/", views.create_user, name="create_user"),
+    path(
+        "post/<int:pk>/",
+        views.RetrieveUpdateDestroyPostAPIView.as_view(),
+        name="get_delete_update_post",
+    ),
+    path("post/", views.create_post, name="create_post"),
+    path(
+        "comment/<int:pk>/",
+        views.RetrieveUpdateDestroyCommentAPIView.as_view(),
+        name="get_delete_update_comment",
+    ),
     path("getPosts/", views.getPosts, name="getPosts"),
     # Create URLS
-    path("createPost/", views.createPost, name="createPost"),
-    path("createComment/<int:post_id>", views.createComment, name="createComment"),
+    path("create-comment/<int:post_id>", views.create_comment, name="createComment"),
     path(
-        "createPostReport/<int:post_id>",
+        "create-post-report/<int:post_id>",
         views.createPostReport,
         name="createPostReport",
     ),
     # Create-Vote URLS
     path(
-        "createPostVote/<int:post_id>/<str:up_or_down>/",
+        "create-post-vote/<int:post_id>/<str:up_or_down>/",
         views.createPostVote,
         name="createPostVote",
     ),
     path(
-        "createCommentVote/<int:comment_id>/<str:up_or_down>/",
+        "create-comment-vote/<int:comment_id>/<str:up_or_down>/",
         views.createCommentVote,
         name="createCommentVote",
     ),
-    path("createClassGroup/", views.createClassGroup, name="createClassGroup"),
+    path("create-class-group/", views.createClassGroup, name="createClassGroup"),
     # Create Model URLS
-    path("createConversation/", views.createConversation, name="createConversation"),
+    path("create-conversation/", views.createConversation, name="createConversation"),
     path(
-        "createMessage/<int:conversation_id>", views.createMessage, name="createMessage"
+        "create-message/<int:conversation_id>",
+        views.createMessage,
+        name="createMessage",
     ),
     # Account URLS
     path("register/", views.register, name="register"),
