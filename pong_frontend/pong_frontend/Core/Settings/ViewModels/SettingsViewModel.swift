@@ -8,9 +8,9 @@
 import Foundation
 
 enum SettingsViewModel: Int, CaseIterable {
+    case account
     case notifications
     case legal
-    case account
     case logout
     
     var title: String {

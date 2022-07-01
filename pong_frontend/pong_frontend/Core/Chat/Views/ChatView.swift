@@ -34,7 +34,6 @@ struct ChatView: View {
                 .padding(.top, 10)
                 .background(Color(UIColor.systemBackground))
                 .cornerRadius(30, corners: [.topLeft, .topRight])
-                 
             }
             .background(Color(UIColor.systemFill))
             
