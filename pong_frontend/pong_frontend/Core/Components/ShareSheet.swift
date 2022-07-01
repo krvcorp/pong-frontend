@@ -56,7 +56,7 @@ struct ShareView: View {
             if uiimage != nil {
                 VStack {
                     Text("Captured Image")
-                    Image(uiImage: self.uiimage!).padding(20).border(Color.black)
+                    Image(uiImage: self.uiimage!).padding(20).border(Color.secondary)
                 }.padding(20)
             }
         }

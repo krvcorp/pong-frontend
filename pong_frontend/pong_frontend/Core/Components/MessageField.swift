@@ -19,7 +19,7 @@ struct MessageField: View {
                 message = ""
             } label: {
                 Image(systemName: "paperplane.fill")
-                    .foregroundColor(.white)
+                    .foregroundColor(Color(UIColor.systemBackground))
                     .padding(10)
                     .background(.indigo)
                     .cornerRadius(50)
@@ -28,7 +28,7 @@ struct MessageField: View {
         }
         .padding(.horizontal)
         .padding(.vertical, 10)
-        .background(Color(.lightGray))
+        .background(Color(UIColor.systemFill))
         .cornerRadius(50)
         .padding()
     }

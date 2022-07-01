@@ -35,13 +35,13 @@ struct VerificationView: View {
                         .frame(minWidth: 0, maxWidth: .infinity)
                         .font(.system(size: 18).bold())
                         .padding()
-                        .foregroundColor(.white)
+                        .foregroundColor(.primary)
                         .overlay(
                             RoundedRectangle(cornerRadius: 5)
-                                .stroke(Color.white, lineWidth: 2)
+                                .stroke(Color.primary, lineWidth: 2)
                     )
                 }
-                .background(Color.black) // If you have this
+                .background(Color.secondary) // If you have this
                 .cornerRadius(20)         // You also need the cornerRadius here
             }
         }

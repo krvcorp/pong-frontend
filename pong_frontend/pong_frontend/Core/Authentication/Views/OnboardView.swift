@@ -8,17 +8,22 @@
 import SwiftUI
 
 struct OnboardView: View {
-    @Binding var phoneNumber: String
+    @Binding var email: String
+    @Binding var password: String
     @Environment(\.presentationMode) var presentationMode
+    @StateObject private var loginVM = LoginViewModel()
     
     var body: some View {
 
         VStack {
             VStack(alignment: .leading) {
-                Text("Sign up or log in with your phone #")
+                Text("Sign up or log in with your email")
                     .font(.title).bold()
-                TextField("(123) 456 7890", text: $phoneNumber)
-                    .accentColor(.black)
+                TextField("example@example.com", text: $email)
+                    .accentColor(.secondary)
+                    .font(.title.bold())
+                SecureField("admin", text: $password)
+                    .accentColor(.secondary)
                     .font(.title.bold())
             }
             
@@ -28,19 +33,21 @@ struct OnboardView: View {
                 Text("By pressing continue you agree to receive a text message from us")
              
                 Button(action: {
-                    print("DEBUG: Continue")
+                    print("DEBUG: SIGN IN")
+                    print("DEBUG: SIGN OUT")
+                    loginVM.login()
                 }) {
                     Text("Continue")
                         .frame(minWidth: 0, maxWidth: .infinity)
                         .font(.system(size: 18).bold())
                         .padding()
-                        .foregroundColor(.white)
+                        .foregroundColor(Color(UIColor.systemBackground))
                         .overlay(
                             RoundedRectangle(cornerRadius: 5)
-                                .stroke(Color.white, lineWidth: 2)
+                                .stroke(Color.primary, lineWidth: 2)
                     )
                 }
-                .background(Color.black) // If you have this
+                .background(Color(UIColor.label)) // If you have this
                 .cornerRadius(20)         // You also need the cornerRadius here
             }
         }
@@ -50,6 +57,6 @@ struct OnboardView: View {
 
 struct OnboardView_Previews: PreviewProvider {
     static var previews: some View {
-        OnboardView(phoneNumber: .constant(""))
+        OnboardView(email: .constant(""), password: .constant(""))
     }
 }

@@ -16,10 +16,11 @@ struct PostBubble: View {
     @State private var uiimage: UIImage? = nil
     
     var body: some View {
-        VStack {
-            NavigationLink {
-                PostView(post: post)
-            } label: { VStack{
+        NavigationLink {
+            PostView(post: post)
+        } label: {
+            VStack {
+                VStack {
                     HStack(alignment: .top){
                         VStack(alignment: .leading){
                             
@@ -65,6 +66,7 @@ struct PostBubble: View {
                             }  label: {
                                 Image(systemName: "bubble.left")
                                 Text("\(post.num_comments) comments")
+                                    .font(.subheadline).bold()
                             }
                         }
 
@@ -94,19 +96,19 @@ struct PostBubble: View {
                         }
                     }
                 }
-                .frame(minWidth: 0, maxWidth: UIScreen.main.bounds.size.width - 50)
-                .font(.system(size: 18).bold())
-                .padding()
-                .foregroundColor(.black)
-                .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color.black, lineWidth: 10))
             }
-            // remove highlight on tap
-            .buttonStyle(NoButtonStyle())
-            .background(Color.white) // If you have this
-            .cornerRadius(20)         // You also need the cornerRadius here
+            .frame(minWidth: 0, maxWidth: UIScreen.main.bounds.size.width - 50)
+            .font(.system(size: 18).bold())
+            .padding()
+            .foregroundColor(Color(UIColor.label))
+            .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color(UIColor.secondaryLabel), lineWidth: 10))
         }
-        .background(RectGetter(rect: $rect1))
+        // remove highlight on tap
+//        .buttonStyle(NoButtonStyle()) // this also removes button?
+        .background(Color(UIColor.systemBackground)) // If you have this
+        .cornerRadius(20)         // You also need the cornerRadius here
     }
+    
 }
 
 struct Post_Previews: PreviewProvider {

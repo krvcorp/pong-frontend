@@ -32,11 +32,11 @@ struct ChatView: View {
                     }
                 }
                 .padding(.top, 10)
-                .background(.white)
+                .background(Color(UIColor.systemBackground))
                 .cornerRadius(30, corners: [.topLeft, .topRight])
                  
             }
-            .background(.gray)
+            .background(Color(UIColor.systemFill))
             
             MessageField()
         }

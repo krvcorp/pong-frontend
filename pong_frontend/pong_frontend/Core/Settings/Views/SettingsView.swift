@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SettingsView: View {
+    @StateObject private var loginVM = LoginViewModel()
     
     var body: some View {
         
@@ -23,6 +24,7 @@ struct SettingsView: View {
                 } else if viewModel == .logout {
                     Button {
                         print("DEBUG: SIGN OUT")
+                        loginVM.signout()
                     } label: {
                         SettingsOptionRowView(viewModel: viewModel)
                     }
@@ -33,7 +35,7 @@ struct SettingsView: View {
             }
             Spacer()
         }
-        .background(.white)
+        .background(Color(UIColor.systemBackground))
     }
 }
 

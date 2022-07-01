@@ -20,7 +20,7 @@ struct SettingsOptionRowView: View {
             
             Text(viewModel.title)
                 .font(.subheadline)
-                .foregroundColor(.black)
+                .foregroundColor(Color(UIColor.label))
             
             Spacer()
             

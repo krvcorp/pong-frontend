@@ -27,7 +27,7 @@ struct NewChatView: View {
 
                 }
                 .padding(.top, 10)
-                .background(.white)
+                .background(.primary)
                 .cornerRadius(30, corners: [.topLeft, .topRight])
                  
             }

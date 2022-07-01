@@ -10,6 +10,7 @@ import SwiftUI
 struct ProfileView: View {
     @State private var selectedFilter: ProfileFilterViewModel = .posts
     @Namespace var animation
+    @StateObject var api = API()
     
     var body: some View {
         
@@ -45,18 +46,24 @@ struct ProfileView: View {
             profileFilterBar
                 .padding(.top)
             
-            ScrollView {
-                LazyVStack {
-                    ForEach(0 ... 20, id: \.self) { _ in
-//                        PostBubble(post: Post(id: "12345",
-//                                              user: "rdaga",
-//                                              title: "This is a funny post by someone funny",
-//                                              createdAt: Date(),
-//                                              updatedAt: Date(),
-//                                              expanded: false))
-                    }
+            TabView(selection: $selectedFilter) {
+                ForEach(ProfileFilterViewModel.allCases, id: \.self) { view in // This iterates through all of the enum cases.
+                    // make something different happen in each case
+                    ScrollView {
+                        LazyVStack {
+                            ForEach(api.posts) { post in
+                                PostBubble(post: post, expanded: false)
+                            }
+                        }
+                        .onAppear {
+                            api.getPosts()
+                        }
+                    }.tag(view.rawValue) // by having the tag be the enum's raw value,
+                                            // you can always compare enum to enum.
                 }
             }
+            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+            .ignoresSafeArea(.all, edges: .bottom)
         }
     }
     
@@ -67,7 +74,7 @@ struct ProfileView: View {
                     Text(item.title)
                         .font(.subheadline)
                         .fontWeight(selectedFilter == item ? .semibold : .regular)
-                        .foregroundColor(selectedFilter == item ? .black : .gray)
+                        .foregroundColor(selectedFilter == item ? Color(UIColor.label) : .gray)
                     
                     if selectedFilter == item {
                         Capsule()
