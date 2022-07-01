@@ -64,6 +64,15 @@ class User(AbstractBaseUser, PermissionsMixin):
     last_login = models.DateTimeField(blank=True, null=True)
     date_joined = models.DateTimeField(default=timezone.now)
 
+    def name_file(self, instance, filename):
+        return "/".join(["profile_pictures", str(instance.id), filename])
+
+    profile_picture = models.ImageField(
+        upload_to=name_file,
+        blank=True,
+        null=True,
+    )
+
     objects = UserManager()
 
     USERNAME_FIELD = "email"
@@ -122,10 +131,6 @@ class User(AbstractBaseUser, PermissionsMixin):
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
         Token.objects.create(user=instance)
-
-
-def get_default_avatar():
-    return "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y"
 
 
 class Post(models.Model):

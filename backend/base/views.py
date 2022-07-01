@@ -14,11 +14,7 @@ from .models import (
     DirectMessage,
     PostReport,
 )
-
 from rest_framework.authtoken.models import Token
-
-
-# base.views holds render-only methods
 
 
 def index(request):
@@ -26,18 +22,24 @@ def index(request):
     return render(request, "index.html", context)
 
 
+def register(request):
+    return render(request, "register.html")
+
+
+def login(request):
+    return render(request, "login.html")
+
+
 def logout(request):
     auth_logout(request)
     return redirect("index")
 
 
-@login_required
 def profile(request):
     context = {"user": request.user}
     return render(request, "profile.html", context)
 
 
-@login_required
 def leaderboard(request):
     context = {
         "users": sorted(
@@ -47,7 +49,6 @@ def leaderboard(request):
     return render(request, "leaderboard.html", context)
 
 
-@login_required
 def singular_post(request, post_id):
     post = Post.objects.get(id=post_id)
     comments = Comment.objects.filter(post=post)
@@ -55,7 +56,6 @@ def singular_post(request, post_id):
     return render(request, "post.html", context)
 
 
-@login_required
 def message(request):
     context = {"users": User.objects.exclude(id=request.user.id)}
     return render(request, "message.html", context)

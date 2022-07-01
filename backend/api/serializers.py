@@ -21,11 +21,8 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = (
             "id",
-            # "name",
             "email",
             "profile_picture",
-            "created_at",
-            "updated_at",
             "posts",
             "comments",
         )

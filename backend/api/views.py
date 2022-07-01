@@ -280,6 +280,7 @@ def getLeaderboard(request):
 @api_view(["POST"])
 def register(request):
     context = {}
+    print(request.data)
     if request.method == "POST":
         user = User.objects.create_user(
             email=request.POST.get("email"),
@@ -290,6 +291,11 @@ def register(request):
         context["token"] = token
         return JsonResponse(context)
     return render(request, "register.html", context)
+
+
+@api_view(["POST"])
+def upload_profile_picture(request):
+    pass
 
 
 # Login Method

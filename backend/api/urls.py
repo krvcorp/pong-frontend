@@ -11,7 +11,6 @@ urlpatterns = [
     # Create URLS
     path("createPost/", views.createPost, name="createPost"),
     path("createComment/<int:post_id>", views.createComment, name="createComment"),
-    # path("register/", views.register, name="register"),
     path(
         "createPostReport/<int:post_id>",
         views.createPostReport,
@@ -34,6 +33,12 @@ urlpatterns = [
     path(
         "createMessage/<int:conversation_id>", views.createMessage, name="createMessage"
     ),
+    # Account URLS
     path("register/", views.register, name="register"),
     path("login/", views.ObtainAuthToken.as_view(), name="login"),
+    path(
+        "upload-profile-picture/",
+        views.upload_profile_picture,
+        name="upload-profile-picture",
+    ),
 ]
