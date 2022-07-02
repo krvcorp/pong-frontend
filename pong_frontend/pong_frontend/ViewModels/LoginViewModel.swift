@@ -10,15 +10,15 @@ import Foundation
 
 class LoginViewModel: ObservableObject {
     
-    var username: String = ""
-    var password: String = ""
+    @Published var email_or_username: String = ""
+    @Published var password: String = ""
     @Published var isAuthenticated: Bool = false // this needs to be set to false when app launches. true only to troubleshoot app
     
     func login() {
         
         let defaults = UserDefaults.standard
         
-        API().login(username: username, password: password) { result in
+        API().login(email_or_username: email_or_username, password: password) { result in
             switch result {
                 case .success(let token):
                     defaults.setValue(token, forKey: "jsonwebtoken")

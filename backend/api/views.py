@@ -26,7 +26,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.views import APIView
-from rest_framework.generics import RetrieveUpdateDestroyAPIView
+from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListCreateAPIView
 from rest_framework.parsers import JSONParser, MultiPartParser, FormParser
 from rest_framework.renderers import JSONRenderer
 from rest_framework.permissions import IsAuthenticated
@@ -48,6 +48,15 @@ class RetrieveUpdateDestroyCommentAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class = CommentSerializer
     queryset = Comment.objects.all()
     permission_classes = (IsAuthenticated,)
+
+
+class ListCreatePostAPIView(ListCreateAPIView):
+    serializer_class = PostSerializer
+    queryset = Post.objects.all()
+    permission_classes = (IsAuthenticated,)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
 
 @api_view(["POST"])
@@ -89,14 +98,6 @@ def create_comment(request, post_id):
             return Response({"error": str(e)})
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
-
-
-@api_view(["GET"])
-def getPosts(request):
-    if request.method == "GET":
-        posts = Post.objects.all()
-        serializer = PostSerializer(posts, many=True)
-        return Response(serializer.data)
 
 
 @api_view(["POST"])
@@ -274,6 +275,8 @@ class ObtainAuthToken(APIView):
     renderer_classes = (JSONRenderer,)
 
     def post(self, request):
+        print(request)
+        print(request.data)
         serializer = AuthCustomTokenSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data["user"]
