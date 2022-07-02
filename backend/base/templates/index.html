@@ -16,7 +16,7 @@
                         <div class="pl-2">
                             <small class="text-muted"> {{post.user.name}} - {{post.created_at}} </small>
                             <div class="post-vote mr-auto d-flex flex-column">
-                                <form action="{% url 'createPostVote' post_id=post.id up_or_down='up' %}" method="POST">
+                                <form action="{% url 'postvote' %}" method="POST">
                                     {% csrf_token %}
                                     <button class="vote vote-post vote-post-upvote" type="submit">
                                         <i class="fa-solid fa-arrow-up"></i>
@@ -27,8 +27,7 @@
                                         {{ post.total_score }}
                                     </span>
                                 </div>
-                                <form action="{% url 'createPostVote' post_id=post.id up_or_down='down' %}"
-                                    method="POST">
+                                <form action="{% url 'postvote' %}" method="POST">
                                     {% csrf_token %}
                                     <button class="vote vote-post vote-post-downvote" type="submit">
                                         <i class="fa-solid fa-arrow-down"></i>
@@ -66,7 +65,7 @@
                             </a>
                         </div>
                         <div class="mr-1">
-                            <form action="{% url 'createPostReport' post.id %}" method="POST">
+                            <form action="{% url 'postreport' %}" method="POST">
                                 {% csrf_token %}
                                 <button class="report" type="submit">
                                     <i class="fa-regular fa-flag"></i>
@@ -82,7 +81,7 @@
 
     {% if user.is_authenticated %}
     <div class="mx-auto new-post d-flex flex-column" style="width:20%">
-        <form class="form" action="{% url 'createPost' %}" method="post" enctype="multipart/form-data">
+        <form class="form" action="{% url 'post' %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <h1 style="color:white">New Post</h1>
             <div class="form__group">

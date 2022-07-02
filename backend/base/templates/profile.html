@@ -55,7 +55,7 @@
 	</div>
 
 	<!-- form where they can update each part of their profile with new information -->
-	<form class="form" action="{% url 'user' user.id %}" method="POST" enctype="multipart/form-data">
+	<form class="form" action="{% url 'get_delete_update_user' user.id %}" method="POST" enctype="multipart/form-data">
 		{% csrf_token %}
 		<div class="form__group">
 			<label for="email">Email</label>
