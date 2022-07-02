@@ -19,10 +19,10 @@ struct OnboardView: View {
             VStack(alignment: .leading) {
                 Text("Sign up or log in with your email")
                     .font(.title).bold()
-                TextField("example@example.com", text: $email)
+                TextField("example@example.com", text: $loginVM.email_or_username)
                     .accentColor(.secondary)
                     .font(.title.bold())
-                SecureField("admin", text: $password)
+                SecureField("admin", text: $loginVM.password)
                     .accentColor(.secondary)
                     .font(.title.bold())
             }
@@ -55,8 +55,8 @@ struct OnboardView: View {
     }
 }
 
-struct OnboardView_Previews: PreviewProvider {
-    static var previews: some View {
-        OnboardView(email: .constant(""), password: .constant(""))
-    }
-}
+//struct OnboardView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        OnboardView(email: .constant(""), password: .constant(""))
+//    }
+//}

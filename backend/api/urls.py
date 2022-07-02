@@ -15,13 +15,12 @@ urlpatterns = [
         views.RetrieveUpdateDestroyPostAPIView.as_view(),
         name="get_delete_update_post",
     ),
-    path("post/", views.create_post, name="create_post"),
     path(
         "comment/<int:pk>/",
         views.RetrieveUpdateDestroyCommentAPIView.as_view(),
         name="get_delete_update_comment",
     ),
-    path("getPosts/", views.getPosts, name="getPosts"),
+    path("post/", views.ListCreatePostAPIView.as_view(), name="getPosts"),
     # Create URLS
     path("create-comment/<int:post_id>", views.create_comment, name="createComment"),
     path(

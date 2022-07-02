@@ -19,7 +19,7 @@ enum NetworkError: Error {
 }
 
 struct LoginRequestBody: Codable {
-    let username: String
+    let email_or_username: String
     let password: String
 }
 
@@ -48,14 +48,14 @@ class API: ObservableObject {
                     self?.posts = posts
                 }
             } catch {
-                print("DEBUG: \(error.localizedDescription)")
+                print("DEBUG: \(error)")
             }
         }
         // activates api call
         task.resume()
     }
     
-    func login(username: String, password: String, completion: @escaping (Result<String, AuthenticationError>) -> Void) {
+    func login(email_or_username: String, password: String, completion: @escaping (Result<String, AuthenticationError>) -> Void) {
             
         // change URL to real login
         guard let url = URL(string: "http://127.0.0.1:8005/api/login/") else {
@@ -63,7 +63,9 @@ class API: ObservableObject {
             return
         }
         
-        let body = LoginRequestBody(username: username, password: password)
+        let body = LoginRequestBody(email_or_username: email_or_username, password: password)
+        
+        print(body)
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
