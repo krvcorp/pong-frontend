@@ -21,6 +21,8 @@ from .serializers import (
     CommentSerializer,
     PostReportSerializer,
     AuthCustomTokenSerializer,
+    CommentVoteSerializer,
+    PostVoteSerializer,
 )
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -50,6 +52,24 @@ class RetrieveUpdateDestroyCommentAPIView(RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAuthenticated,)
 
 
+class RetrieveUpdateDestroyPostReportAPIView(RetrieveUpdateDestroyAPIView):
+    serializer_class = PostReportSerializer
+    queryset = PostReport.objects.all()
+    permission_classes = (IsAuthenticated,)
+
+
+class RetrieveUpdateDestroyCommentVoteAPIView(RetrieveUpdateDestroyAPIView):
+    serializer_class = CommentVoteSerializer
+    queryset = CommentVote.objects.all()
+    permission_classes = (IsAuthenticated,)
+
+
+class RetrieveUpdateDestroyPostVoteAPIView(RetrieveUpdateDestroyAPIView):
+    serializer_class = PostVoteSerializer
+    queryset = PostVote.objects.all()
+    permission_classes = (IsAuthenticated,)
+
+
 class ListCreatePostAPIView(ListCreateAPIView):
     serializer_class = PostSerializer
     queryset = Post.objects.all()
@@ -59,133 +79,54 @@ class ListCreatePostAPIView(ListCreateAPIView):
         serializer.save(user=self.request.user)
 
 
-@api_view(["POST"])
-def create_post(request):
-    if request.method == "POST":
-        serializer = PostSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    else:
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+class ListCreateUserAPIView(ListCreateAPIView):
+    serializer_class = UserSerializer
+    queryset = User.objects.all()
+    permission_classes = (IsAuthenticated,)
+
+    def perform_create(self, serializer):
+        serializer.save()
 
 
-@api_view(["POST"])
-def create_user(request):
-    if request.method == "POST":
-        serializer = UserSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    else:
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+class ListCreateCommentAPIView(ListCreateAPIView):
+    serializer_class = CommentSerializer
+    queryset = Comment.objects.all()
+    permission_classes = (IsAuthenticated,)
+
+    def perform_create(self, serializer):
+        print(self.request.user)
+        post = Post.objects.get(id=self.request.data["post_id"])
+        serializer.save(user=self.request.user, post=post)
 
 
-@api_view(["POST"])
-def create_comment(request, post_id):
-    if request.method == "POST":
-        try:
-            comment = Comment.objects.create(
-                user=request.user,
-                post=Post.objects.get(id=post_id),
-                comment=request.data["comment"],
-            )
-            serializer = CommentSerializer(comment)
-            return Response(serializer.data)
-        except Exception as e:
-            return Response({"error": str(e)})
-    else:
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+class ListCreatePostReportAPIView(ListCreateAPIView):
+    serializer_class = PostReportSerializer
+    queryset = PostReport.objects.all()
+    permission_classes = (IsAuthenticated,)
+
+    def perform_create(self, serializer):
+        post = Post.objects.get(id=self.request.data["post_id"])
+        serializer.save(user=self.request.user, post=post)
 
 
-@api_view(["POST"])
-def createPostReport(request):
-    if request.method == "POST":
-        user = User.objects.get(id=request.data["user_id"])
-        post = Post.objects.get(id=request.data["post_id"])
-        post_report = PostReport.objects.create(user=user, post=post)
-        serializer = PostReportSerializer(post_report)
-        return Response(serializer.data)
+class ListCreateCommentVoteAPIView(ListCreateAPIView):
+    serializer_class = CommentVoteSerializer
+    queryset = CommentVote.objects.all()
+    permission_classes = (IsAuthenticated,)
+
+    def perform_create(self, serializer):
+        comment = Comment.objects.get(id=self.request.data["comment_id"])
+        serializer.save(user=self.request.user, comment=comment)
 
 
-@api_view(["POST"])
-def createCommentVote(request, comment_id, up_or_down):
-    vote = 1 if up_or_down == "up" else -1
-    response = {}
-    if CommentVote.objects.filter(
-        user=request.user, comment=Comment.objects.get(id=comment_id)
-    ).exists():
-        if (
-            CommentVote.objects.get(
-                user=request.user, comment=Comment.objects.get(id=comment_id)
-            ).vote
-            == vote
-        ):
-            response["action"] = "delete"
-            CommentVote.objects.filter(
-                user=request.user, comment=Comment.objects.get(id=comment_id)
-            ).delete()
-        else:
-            response["action"] = "update"
-            CommentVote.objects.filter(
-                user=request.user, comment=Comment.objects.get(id=comment_id)
-            ).update(vote=vote)
-    else:
-        comment_vote = CommentVote(
-            user=request.user, comment=Comment.objects.get(id=comment_id), vote=vote
-        )
-        comment_vote.save()
-        response = {"action": "create"}
-    response["comment_id"] = comment_id
-    response["new_score"] = Comment.objects.get(id=comment_id).total_score()
-    return JsonResponse(response)
+class ListCreatePostVoteAPIView(ListCreateAPIView):
+    serializer_class = PostVoteSerializer
+    queryset = PostVote.objects.all()
+    permission_classes = (IsAuthenticated,)
 
-
-@api_view(["POST"])
-def createPostVote(request, post_id, up_or_down):
-    response = {}
-    vote = 1 if up_or_down == "up" else -1
-    if PostVote.objects.filter(
-        user=request.user, post=Post.objects.get(id=post_id)
-    ).exists():
-        if (
-            PostVote.objects.get(
-                user=request.user, post=Post.objects.get(id=post_id)
-            ).vote
-            == vote
-        ):
-            response["action"] = "delete"
-            PostVote.objects.filter(
-                user=request.user, post=Post.objects.get(id=post_id)
-            ).delete()
-        else:
-            response["action"] = "update"
-            PostVote.objects.filter(
-                user=request.user, post=Post.objects.get(id=post_id)
-            ).update(vote=vote)
-    else:
-        post_vote = PostVote(
-            user=request.user, post=Post.objects.get(id=post_id), vote=vote
-        )
-        post_vote.save()
-        response = {"action": "create"}
-    response["post_id"] = post_id
-    response["new_score"] = Post.objects.get(id=post_id).total_score()
-    return JsonResponse(response)
-
-
-@api_view(["POST"])
-def createClassGroup(request):
-    # TODO: Check if class group already exists
-    group = ClassGroup(
-        name=request.POST.get("name"),
-        description=request.POST.get("description"),
-        user=request.user,
-    )
-    group.save()
-    return JsonResponse({"action": "create", "status": "success", "group_id": group.id})
+    def perform_create(self, serializer):
+        post = Post.objects.get(id=self.request.data["post_id"])
+        serializer.save(user=self.request.user, post=post)
 
 
 # This is the method to create a new DirectConversation

@@ -190,6 +190,8 @@ class PostVote(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    unique_together = ("user", "post")
+
     def __str__(self):
         return str(self.id) + " " + str(self.vote)
 
@@ -200,6 +202,8 @@ class CommentVote(models.Model):
     vote = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    unique_together = ("user", "comment")
 
     def __str__(self):
         return str(self.id) + " " + str(self.vote)

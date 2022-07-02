@@ -1,5 +1,15 @@
 from rest_framework import serializers
-from base.models import User, Post, Comment, PostReport
+from base.models import (
+    User,
+    Post,
+    Comment,
+    PostReport,
+    CommentVote,
+    PostVote,
+    ClassGroup,
+    DirectConversation,
+    DirectMessage,
+)
 from rest_framework.authtoken.models import Token
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
@@ -85,6 +95,18 @@ class PostReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = PostReport
         fields = ("id", "post", "user", "reason", "created_at", "updated_at")
+
+
+class PostVoteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PostVote
+        fields = ("id", "post", "user", "vote", "created_at", "updated_at")
+
+
+class CommentVoteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CommentVote
+        fields = ("id", "comment", "user", "vote", "created_at", "updated_at")
 
 
 class AuthCustomTokenSerializer(serializers.Serializer):

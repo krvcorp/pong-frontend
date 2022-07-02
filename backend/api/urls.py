@@ -3,43 +3,50 @@ from rest_framework.authtoken.views import obtain_auth_token
 from . import views
 
 urlpatterns = [
-    # Get URLS
+    # User
     path(
         "user/<int:pk>/",
         views.RetrieveUpdateDestroyUserAPIView.as_view(),
         name="get_delete_update_user",
     ),
-    path("user/", views.create_user, name="create_user"),
+    path("user/", views.ListCreateUserAPIView.as_view(), name="user"),
+    # Post
     path(
         "post/<int:pk>/",
         views.RetrieveUpdateDestroyPostAPIView.as_view(),
         name="get_delete_update_post",
     ),
+    path("post/", views.ListCreatePostAPIView.as_view(), name="post"),
+    # Comment
     path(
         "comment/<int:pk>/",
         views.RetrieveUpdateDestroyCommentAPIView.as_view(),
         name="get_delete_update_comment",
     ),
-    path("post/", views.ListCreatePostAPIView.as_view(), name="getPosts"),
-    # Create URLS
-    path("create-comment/<int:post_id>", views.create_comment, name="createComment"),
+    path("comment/", views.ListCreateCommentAPIView.as_view(), name="comment"),
+    # Post Report
     path(
-        "create-post-report/<int:post_id>",
-        views.createPostReport,
-        name="createPostReport",
+        "postreport/<int:pk>",
+        views.RetrieveUpdateDestroyPostReportAPIView.as_view(),
+        name="get_delete_update_postreport",
     ),
-    # Create-Vote URLS
+    path("postreport/", views.ListCreatePostReportAPIView.as_view(), name="postreport"),
+    # PostVote
     path(
-        "create-post-vote/<int:post_id>/<str:up_or_down>/",
-        views.createPostVote,
-        name="createPostVote",
+        "postvote/<int:pk>",
+        views.RetrieveUpdateDestroyPostVoteAPIView.as_view(),
+        name="get_delete_update_postvote",
+    ),
+    path("postvote/", views.ListCreatePostVoteAPIView.as_view(), name="postvote"),
+    # CommentVote
+    path(
+        "commentvote/<int:pk>",
+        views.RetrieveUpdateDestroyCommentVoteAPIView.as_view(),
+        name="get_delete_update_commentvote",
     ),
     path(
-        "create-comment-vote/<int:comment_id>/<str:up_or_down>/",
-        views.createCommentVote,
-        name="createCommentVote",
+        "commentvote/", views.ListCreateCommentVoteAPIView.as_view(), name="commentvote"
     ),
-    path("create-class-group/", views.createClassGroup, name="createClassGroup"),
     # Create Model URLS
     path("create-conversation/", views.createConversation, name="createConversation"),
     path(
