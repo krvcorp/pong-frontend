@@ -21,9 +21,9 @@ struct FeedView: View {
             feedItself
         }
         .toolbar{
-            ToolbarItem(placement: .principal) {
-                Button {
-                    print("DEBUG: CHOOSE LOCATION")
+            ToolbarItem(placement: .navigationBarLeading) {
+                NavigationLink {
+                    ChooseLocationView()
                 } label: {
                     Text("Harvard")
                         .font(.title.bold())

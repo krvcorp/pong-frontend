@@ -32,6 +32,7 @@ extension ContentView {
            
             MainTabView(showSettings: $showSettings)
             
+            // tappable dark area
             if showSettings {
                 ZStack {
                     Color(.black)
@@ -45,9 +46,13 @@ extension ContentView {
                 .ignoresSafeArea()
             }
             
+            // settings side menu
             SettingsView()
                 .frame(minWidth: 200, maxWidth: 250)
                 .offset(x: showSettings ? 0 : 300)
+            
+            // TODO user/group side menu
+            
         }
     }
 }
