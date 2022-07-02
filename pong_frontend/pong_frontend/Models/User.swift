@@ -20,5 +20,6 @@ struct User: Identifiable, Codable {
     var createdAt: Date
     var updatedAt: Date
     var password: String
+    var timeout: Date
 }
 

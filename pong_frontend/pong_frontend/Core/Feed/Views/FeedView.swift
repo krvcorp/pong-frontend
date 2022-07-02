@@ -12,6 +12,9 @@ struct FeedView: View {
     @State var selectedFilter: FeedFilterViewModel
     @StateObject var api = API()
     @Namespace var animation
+    @Environment(\.refresh) private var refresh   // << refreshable injected !!
+    @State private var isRefreshing = false
+    @State private var offset = CGSize.zero
 
     var body: some View {
         VStack {
@@ -76,21 +79,27 @@ struct FeedView: View {
     }
     
     var feedItself: some View {
+
         ZStack(alignment: .bottom) {
             // Posts information goes here
             TabView(selection: $selectedFilter) {
                 ForEach(FeedFilterViewModel.allCases, id: \.self) { view in // This iterates through all of the enum cases.
                     // make something different happen in each case
                     ScrollView {
+                        PullToRefresh(coordinateSpaceName: "pullToRefresh") {
+                            print("Refresh")
+                            api.getPosts()
+                        }
                         LazyVStack {
                             ForEach(api.posts) { post in
                                 PostBubble(post: post, expanded: false)
                             }
                         }
+                        .coordinateSpace(name: "pullToRefresh")
                         .onAppear {
-                            print("DEBUG: GETPOSTS")
                             api.getPosts()
                         }
+
                     }.tag(view.rawValue) // by having the tag be the enum's raw value,
                                             // you can always compare enum to enum.
                 }

@@ -94,7 +94,6 @@ struct NewPostView: View {
                                 viewModel.newPost(title: text) { error in
                                     print("DEBUG: \(error)")
                                 }
-
                                 presentationMode.wrappedValue.dismiss() // redirect to a post
                                 
                             } label: {

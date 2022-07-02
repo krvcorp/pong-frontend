@@ -49,6 +49,8 @@ class API: ObservableObject {
     @Published var posts: [Post] = []
     
     func getPosts() {
+        print("DEBUG: GETPOSTS")
+        
         let defaults = UserDefaults.standard
         
         guard let token = defaults.string(forKey: "jsonwebtoken") else {
