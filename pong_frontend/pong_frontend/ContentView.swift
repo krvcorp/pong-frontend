@@ -15,7 +15,7 @@ struct ContentView: View {
         if loginVM.isAuthenticated {
             MainInterfaceView
         } else {
-            OnboardView(email: $loginVM.email_or_username, password: $loginVM.password)
+            OnboardView(email: $loginVM.email_or_username, password: $loginVM.password, loginVM: loginVM)
         }
     }
 }
@@ -47,7 +47,7 @@ extension ContentView {
             }
             
             // settings side menu
-            SettingsView()
+            SettingsView(loginVM: loginVM)
                 .frame(minWidth: 200, maxWidth: 250)
                 .offset(x: showSettings ? 0 : 300)
             

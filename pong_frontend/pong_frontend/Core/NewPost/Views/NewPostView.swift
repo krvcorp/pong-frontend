@@ -13,6 +13,7 @@ struct NewPostView: View {
     @State private var text = ""
     @State private var showSheet = false
     @State private var image = UIImage()
+    @StateObject var viewModel = NewPostViewModel()
     private var max_lim = 180
     
     
@@ -87,10 +88,15 @@ struct NewPostView: View {
                             }
                             .padding()
                             .frame(minHeight: 25, maxHeight: 60)
-                            
+
                             Button {
                                 print("DEBUG: Post")
-                                presentationMode.wrappedValue.dismiss()
+                                viewModel.newPost(title: text) { error in
+                                    print("DEBUG: \(error)")
+                                }
+
+                                presentationMode.wrappedValue.dismiss() // redirect to a post
+                                
                             } label: {
                                 Text("Post")
                                     .frame(minWidth: 100, maxWidth: 150)
@@ -125,11 +131,5 @@ struct NewPostView: View {
             .navigationBarTitleDisplayMode(.inline)
             }
         }
-    }
-}
-
-struct NewPostView_Previews: PreviewProvider {
-    static var previews: some View {
-        NewPostView()
     }
 }

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @StateObject private var loginVM = LoginViewModel()
+    @ObservedObject var loginVM : LoginViewModel
     
     var body: some View {
         
@@ -39,8 +39,4 @@ struct SettingsView: View {
     }
 }
 
-struct SettingsView_Previews: PreviewProvider {
-    static var previews: some View {
-        SettingsView()
-    }
-}
+
