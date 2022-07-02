@@ -134,7 +134,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    title = models.TextField()
+    title = models.TextField(null=True, blank=True)
     image = models.ImageField(upload_to="images/", blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

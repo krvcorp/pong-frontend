@@ -24,6 +24,7 @@ from .serializers import (
     CommentVoteSerializer,
     PostVoteSerializer,
 )
+from .permissions import IsOwnerOrReadOnly
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
@@ -43,13 +44,13 @@ class RetrieveUpdateDestroyUserAPIView(RetrieveUpdateDestroyAPIView):
 class RetrieveUpdateDestroyPostAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class = PostSerializer
     queryset = Post.objects.all()
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated, IsOwnerOrReadOnly)
 
 
 class RetrieveUpdateDestroyCommentAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class = CommentSerializer
     queryset = Comment.objects.all()
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated, IsOwnerOrReadOnly)
 
 
 class RetrieveUpdateDestroyPostReportAPIView(RetrieveUpdateDestroyAPIView):
