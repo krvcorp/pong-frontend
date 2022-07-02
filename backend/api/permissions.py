@@ -16,7 +16,7 @@ class IsInTimeout(permissions.BasePermission):
         if request.method in SAFE_METHODS:
             return True
         if request.user.is_authenticated:
-            if request.user.is_in_timeout():
+            if request.user.in_timeout:
                 raise PermissionDenied("You are in timeout")
             else:
                 return True

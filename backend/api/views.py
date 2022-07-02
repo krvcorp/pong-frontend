@@ -83,7 +83,7 @@ class ListCreateUserAPIView(ListCreateAPIView):
 class ListCreatePostAPIView(ListCreateAPIView):
     serializer_class = PostSerializer
     queryset = Post.objects.all()
-    permission_classes = ((IsAuthenticated & IsInTimeout,) | IsAdminUser,)
+    permission_classes = (IsAuthenticated & IsInTimeout | IsAdminUser,)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)

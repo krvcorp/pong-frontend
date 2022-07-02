@@ -32,7 +32,7 @@ class UserSerializer(serializers.ModelSerializer):
         return Token.objects.get(user=obj).key
 
     def get_is_in_timeout(self, obj):
-        return obj.is_in_timeout()
+        return obj.in_timeout
 
     class Meta:
         model = User

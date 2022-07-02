@@ -73,7 +73,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name = "User"
         verbose_name_plural = "Users"
 
-    def is_in_timeout(self):
+    @property
+    def in_timeout(self):
         if self.timeout is None:
             return False
         return self.timeout > timezone.now()
@@ -120,6 +121,9 @@ class User(AbstractBaseUser, PermissionsMixin):
             if postvoteobject.post
         ]
         return posts
+
+    def __str__(self) -> str:
+        return self.email
 
     @receiver(post_save, sender=settings.AUTH_USER_MODEL)
     def create_auth_token(sender, instance=None, created=False, **kwargs):
