@@ -16,7 +16,6 @@ struct ChooseLocationView: View {
     
     var body: some View {
         
-        
         VStack {
             // searchbar
             HStack {
