@@ -12,7 +12,8 @@ class LoginViewModel: ObservableObject {
     
     @Published var email_or_username: String = ""
     @Published var password: String = ""
-    @Published var isAuthenticated: Bool = false // this needs to be set to false when app launches. true only to troubleshoot app
+    @Published var isAuthenticated: Bool = true // this needs to be set to false when app launches. true only to troubleshoot app
+    @Published var token: String = ""
     
     func login() {
         
@@ -21,6 +22,7 @@ class LoginViewModel: ObservableObject {
         API().login(email_or_username: email_or_username, password: password) { result in
             switch result {
                 case .success(let token):
+                    print("DEBUG: \(result)")
                     defaults.setValue(token, forKey: "jsonwebtoken")
                     DispatchQueue.main.async {
                         self.isAuthenticated = true

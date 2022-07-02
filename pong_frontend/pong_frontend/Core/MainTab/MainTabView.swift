@@ -21,7 +21,7 @@ struct MainTabView: View {
     
         TabView {
             NavigationView {
-                FeedView(school: "Harvard")
+                FeedView(school: "Harvard", selectedFilter: .hot)
             }.tabItem{Image(systemName: "house")}
             
             NavigationView {

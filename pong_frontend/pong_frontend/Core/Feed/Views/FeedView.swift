@@ -9,7 +9,7 @@ import SwiftUI
 
 struct FeedView: View {
     var school: String
-    @State private var selectedFilter: FeedFilterViewModel = .hot
+    @State var selectedFilter: FeedFilterViewModel
     @StateObject var api = API()
     @Namespace var animation
 
@@ -88,6 +88,7 @@ struct FeedView: View {
                             }
                         }
                         .onAppear {
+                            print("DEBUG: GETPOSTS")
                             api.getPosts()
                         }
                     }.tag(view.rawValue) // by having the tag be the enum's raw value,
@@ -117,9 +118,3 @@ struct FeedView: View {
 }
 
 
-
-struct FeedView_Previews: PreviewProvider {
-    static var previews: some View {
-        FeedView(school: "Harvard")
-    }
-}

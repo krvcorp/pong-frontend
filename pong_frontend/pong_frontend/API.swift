@@ -29,15 +29,40 @@ struct LoginResponse: Codable {
     let success: Bool?
 }
 
+struct PostRequestBody: Codable {
+    let title: String
+}
+
+struct PostRequestResponse: Codable {
+    let id: Int
+    let user: Int
+    let title: String
+    let created_at: String
+    let updated_at: String
+    let image: String?
+    let num_comments: Int
+    let comments: [Comment]
+    let total_score: Int
+}
+
 class API: ObservableObject {
     @Published var posts: [Post] = []
     
     func getPosts() {
+        let defaults = UserDefaults.standard
+        
+        guard let token = defaults.string(forKey: "jsonwebtoken") else {
+                    return
+                }
         // url handler
-        guard let url = URL(string: "http://127.0.0.1:8005/api/getPosts/") else { return }
+        guard let url = URL(string: "http://127.0.0.1:8005/api/post/") else { return }
 
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.addValue("Token \(token)", forHTTPHeaderField: "Authorization")
+        
         // task handler. [weak self] prevents memory leaks
-        let task = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+        let task = URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
             
             guard let data = data, error == nil else { return }
             
@@ -64,8 +89,6 @@ class API: ObservableObject {
         }
         
         let body = LoginRequestBody(email_or_username: email_or_username, password: password)
-        
-        print(body)
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"

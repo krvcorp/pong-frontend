@@ -11,7 +11,7 @@ struct OnboardView: View {
     @Binding var email: String
     @Binding var password: String
     @Environment(\.presentationMode) var presentationMode
-    @StateObject private var loginVM = LoginViewModel()
+    @ObservedObject var loginVM : LoginViewModel
     
     var body: some View {
 
