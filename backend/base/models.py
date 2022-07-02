@@ -1,4 +1,6 @@
+from .utils import name_file
 from datetime import date
+from typing_extensions import Required
 from django.db import models
 from django.contrib.auth.models import (
     AbstractUser,
@@ -18,9 +20,8 @@ class UserManager(UserManager):
         """
         Create and save a User with the provided email and password.
         """
-        print(email)
-        if not email:
-            raise ValueError("The given email address must be set")
+        if len(email) == 0:
+            raise ValueError("Users must have an email address.")
 
         email = self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
@@ -46,32 +47,21 @@ class UserManager(UserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    """
-    User model that uses email addresses instead of usernames, and
-    name instead of first / last name fields.
-
-    All other fields from the Django auth.User model are kept to
-    ensure compatibility with the built in management commands.
-    """
-
     email = models.EmailField(blank=True, default="", unique=True)
     name = models.CharField(max_length=200, blank=True, default="")
-
-    is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=False)
-    is_superuser = models.BooleanField(default=False)
-
-    last_login = models.DateTimeField(blank=True, null=True)
-    date_joined = models.DateTimeField(default=timezone.now)
-
-    def name_file(self, instance, filename):
-        return "/".join(["profile_pictures", str(instance.id), filename])
-
+    timeout = models.DateTimeField(blank=True, null=True)
     profile_picture = models.ImageField(
         upload_to=name_file,
         blank=True,
         null=True,
     )
+
+    # Django Required Fields
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
+    last_login = models.DateTimeField(blank=True, null=True)
+    date_joined = models.DateTimeField(default=timezone.now)
 
     objects = UserManager()
 
@@ -82,6 +72,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     class Meta:
         verbose_name = "User"
         verbose_name_plural = "Users"
+
+    def is_in_timeout(self):
+        if self.timeout is None:
+            return False
+        return self.timeout > timezone.now()
 
     def get_full_name(self):
         return self.name

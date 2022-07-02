@@ -31,6 +31,9 @@ class UserSerializer(serializers.ModelSerializer):
     def get_token(self, obj):
         return Token.objects.get(user=obj).key
 
+    def get_is_in_timeout(self, obj):
+        return obj.is_in_timeout()
+
     class Meta:
         model = User
         fields = (
@@ -40,6 +43,7 @@ class UserSerializer(serializers.ModelSerializer):
             "posts",
             "comments",
             "token",
+            "is_in_timeout",
         )
 
 

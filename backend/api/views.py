@@ -24,7 +24,7 @@ from .serializers import (
     CommentVoteSerializer,
     PostVoteSerializer,
 )
-from .permissions import IsOwnerOrReadOnly
+from .permissions import IsOwnerOrReadOnly, IsInTimeout
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
@@ -32,52 +32,43 @@ from rest_framework.views import APIView
 from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListCreateAPIView
 from rest_framework.parsers import JSONParser, MultiPartParser, FormParser
 from rest_framework.renderers import JSONRenderer
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
 
 class RetrieveUpdateDestroyUserAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
-    permission_classes = (IsAuthenticated,)
+    permission_classes = ((IsAuthenticated & IsOwnerOrReadOnly) | IsAdminUser,)
 
 
 class RetrieveUpdateDestroyPostAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class = PostSerializer
     queryset = Post.objects.all()
-    permission_classes = (IsAuthenticated, IsOwnerOrReadOnly)
+    permission_classes = ((IsAuthenticated & IsOwnerOrReadOnly) | IsAdminUser,)
 
 
 class RetrieveUpdateDestroyCommentAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class = CommentSerializer
     queryset = Comment.objects.all()
-    permission_classes = (IsAuthenticated, IsOwnerOrReadOnly)
+    permission_classes = ((IsAuthenticated & IsOwnerOrReadOnly) | IsAdminUser,)
 
 
 class RetrieveUpdateDestroyPostReportAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class = PostReportSerializer
     queryset = PostReport.objects.all()
-    permission_classes = (IsAuthenticated,)
+    permission_classes = ((IsAuthenticated & IsOwnerOrReadOnly) | IsAdminUser,)
 
 
 class RetrieveUpdateDestroyCommentVoteAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class = CommentVoteSerializer
     queryset = CommentVote.objects.all()
-    permission_classes = (IsAuthenticated,)
+    permission_classes = ((IsAuthenticated & IsOwnerOrReadOnly) | IsAdminUser,)
 
 
 class RetrieveUpdateDestroyPostVoteAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class = PostVoteSerializer
     queryset = PostVote.objects.all()
-    permission_classes = (IsAuthenticated,)
-
-
-class ListCreatePostAPIView(ListCreateAPIView):
-    serializer_class = PostSerializer
-    queryset = Post.objects.all()
-    permission_classes = (IsAuthenticated,)
-
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+    permission_classes = ((IsAuthenticated & IsOwnerOrReadOnly) | IsAdminUser,)
 
 
 class ListCreateUserAPIView(ListCreateAPIView):
@@ -89,10 +80,19 @@ class ListCreateUserAPIView(ListCreateAPIView):
         serializer.save()
 
 
+class ListCreatePostAPIView(ListCreateAPIView):
+    serializer_class = PostSerializer
+    queryset = Post.objects.all()
+    permission_classes = ((IsAuthenticated & IsInTimeout,) | IsAdminUser,)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+
 class ListCreateCommentAPIView(ListCreateAPIView):
     serializer_class = CommentSerializer
     queryset = Comment.objects.all()
-    permission_classes = (IsAuthenticated,)
+    permission_classes = ((IsAuthenticated & IsInTimeout,) | IsAdminUser,)
 
     def perform_create(self, serializer):
         print(self.request.user)
@@ -113,7 +113,7 @@ class ListCreatePostReportAPIView(ListCreateAPIView):
 class ListCreateCommentVoteAPIView(ListCreateAPIView):
     serializer_class = CommentVoteSerializer
     queryset = CommentVote.objects.all()
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated | IsAdminUser,)
 
     def perform_create(self, serializer):
         comment = Comment.objects.get(id=self.request.data["comment_id"])
@@ -123,7 +123,7 @@ class ListCreateCommentVoteAPIView(ListCreateAPIView):
 class ListCreatePostVoteAPIView(ListCreateAPIView):
     serializer_class = PostVoteSerializer
     queryset = PostVote.objects.all()
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated | IsAdminUser,)
 
     def perform_create(self, serializer):
         post = Post.objects.get(id=self.request.data["post_id"])
