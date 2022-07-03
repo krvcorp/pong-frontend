@@ -20,12 +20,6 @@ struct ContentView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-}
-
 extension ContentView {
     var MainInterfaceView: some View {
         ZStack(alignment: .topTrailing){
