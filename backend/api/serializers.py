@@ -20,16 +20,12 @@ from django.contrib.auth import authenticate
 class UserSerializer(serializers.ModelSerializer):
     posts = serializers.SerializerMethodField(read_only=True)
     comments = serializers.SerializerMethodField(read_only=True)
-    token = serializers.SerializerMethodField(read_only=True)
 
     def get_posts(self, obj):
         return PostSerializer(obj.get_posts(), many=True).data
 
     def get_comments(self, obj):
         return CommentSerializer(obj.get_comments(), many=True).data
-
-    def get_token(self, obj):
-        return Token.objects.get(user=obj).key
 
     def get_is_in_timeout(self, obj):
         return obj.in_timeout
@@ -42,8 +38,28 @@ class UserSerializer(serializers.ModelSerializer):
             "profile_picture",
             "posts",
             "comments",
-            "token",
             "is_in_timeout",
+        )
+
+
+class UserSerializerWithoutTimeout(serializers.ModelSerializer):
+    posts = serializers.SerializerMethodField(read_only=True)
+    comments = serializers.SerializerMethodField(read_only=True)
+
+    def get_posts(self, obj):
+        return PostSerializer(obj.get_posts(), many=True).data
+
+    def get_comments(self, obj):
+        return CommentSerializer(obj.get_comments(), many=True).data
+
+    class Meta:
+        model = User
+        fields = (
+            "id",
+            "email",
+            "profile_picture",
+            "posts",
+            "comments",
         )
 
 
@@ -118,7 +134,6 @@ class AuthCustomTokenSerializer(serializers.Serializer):
     password = serializers.CharField()
 
     def validate(self, attrs):
-        print(attrs)
         email_or_username = attrs.get("email_or_username")
         password = attrs.get("password")
 
@@ -142,6 +157,31 @@ class AuthCustomTokenSerializer(serializers.Serializer):
                 return msg
         else:
             msg = 'Must include "email or username" and "password"'
+            return msg
+
+        attrs["user"] = user
+        return attrs
+
+
+class PhoneLoginTokenSerializer(serializers.Serializer):
+    code = serializers.CharField()
+    phone = serializers.CharField()
+
+    def validate(self, attrs):
+        code = attrs.get("code")
+        phone = attrs.get("phone")
+        user = None
+        if code:
+            user = authenticate(code=code, phone=phone)
+            if user:
+                if not user.is_active:
+                    msg = "User account is disabled."
+                    return msg
+            else:
+                msg = "Unable to log in with provided credentials."
+                return msg
+        else:
+            msg = "Please enter a valid verification code."
             return msg
 
         attrs["user"] = user

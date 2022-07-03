@@ -47,6 +47,7 @@ urlpatterns = [
     path(
         "commentvote/", views.ListCreateCommentVoteAPIView.as_view(), name="commentvote"
     ),
+    path("phonelogin/", views.PhoneLoginAPIView.as_view(), name="phonelogin"),
     # Create Model URLS
     path("create-conversation/", views.createConversation, name="createConversation"),
     path(
@@ -57,9 +58,4 @@ urlpatterns = [
     # Account URLS
     path("register/", views.register, name="register"),
     path("login/", views.ObtainAuthToken.as_view(), name="login"),
-    path(
-        "upload-profile-picture/",
-        views.upload_profile_picture,
-        name="upload-profile-picture",
-    ),
 ]

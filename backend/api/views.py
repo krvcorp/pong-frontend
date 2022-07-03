@@ -1,3 +1,4 @@
+import os
 from tempfile import TemporaryFile
 from django.shortcuts import render, redirect
 from django.shortcuts import redirect
@@ -14,6 +15,7 @@ from base.models import (
     DirectConversation,
     DirectMessage,
     Token,
+    PhoneLoginCode,
 )
 from .serializers import (
     UserSerializer,
@@ -23,6 +25,7 @@ from .serializers import (
     AuthCustomTokenSerializer,
     CommentVoteSerializer,
     PostVoteSerializer,
+    PhoneLoginTokenSerializer,
 )
 from .permissions import IsOwnerOrReadOnly, IsInTimeout
 from rest_framework.response import Response
@@ -33,6 +36,7 @@ from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListCreateAPIV
 from rest_framework.parsers import JSONParser, MultiPartParser, FormParser
 from rest_framework.renderers import JSONRenderer
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from twilio.rest import Client
 
 
 class RetrieveUpdateDestroyUserAPIView(RetrieveUpdateDestroyAPIView):
@@ -82,11 +86,20 @@ class ListCreateUserAPIView(ListCreateAPIView):
 
 class ListCreatePostAPIView(ListCreateAPIView):
     serializer_class = PostSerializer
-    queryset = Post.objects.all()
     permission_classes = (IsAuthenticated & IsInTimeout | IsAdminUser,)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+    def get_queryset(self):
+        queryset = Post.objects.all()
+        if self.request.query_params.get("recent"):
+            queryset = queryset.order_by("-created_at")
+        if self.request.query_params.get("top"):
+            queryset = queryset.order_by("-total_score")
+        if self.request.query_params.get("old"):
+            queryset = queryset.order_by("created_at")
+        return queryset
 
 
 class ListCreateCommentAPIView(ListCreateAPIView):
@@ -128,6 +141,37 @@ class ListCreatePostVoteAPIView(ListCreateAPIView):
     def perform_create(self, serializer):
         post = Post.objects.get(id=self.request.data["post_id"])
         serializer.save(user=self.request.user, post=post)
+
+
+class PhoneLoginAPIView(APIView):
+    def post(self, request):
+        user = User.objects.get(phone=request.data["phone"])
+        phone_login_code = PhoneLoginCode.objects.create(user=user)
+        generated_code = phone_login_code.code
+
+        TWILIO_ACCOUNT_SID = "AC5e7be9e9a0d92520bc1b79a9e4ce7963"
+        TWILIO_SECRET_KEY = "b733808ab5bebcc9eccde14f9dcf56dc"
+
+        account_sid = os.environ.get("TWILIO_ACCOUNT_SID")
+        auth_token = os.environ.get("TWILIO_AUTH_TOKEN")
+
+        # client = Client(account_sid, auth_token)
+        client = Client(TWILIO_ACCOUNT_SID, TWILIO_SECRET_KEY)
+        "+19283623318"
+
+        message = client.messages.create(
+            body=generated_code,
+            to="+17039090098",
+            from_="+19283623318",
+        )
+
+        # message = client.messages.create(
+        #     body=generated_code,
+        #     to=request.data["phone"],
+        #     from_=os.environ.get("TWILIO_PHONE_NUMBER"),
+        # )
+
+        return JsonResponse({"code": generated_code})
 
 
 # This is the method to create a new DirectConversation
@@ -200,11 +244,6 @@ def register(request):
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(["POST"])
-def upload_profile_picture(request):
-    pass
-
-
 # Login Method
 class ObtainAuthToken(APIView):
     throttle_classes = ()
@@ -217,9 +256,10 @@ class ObtainAuthToken(APIView):
     renderer_classes = (JSONRenderer,)
 
     def post(self, request):
-        print(request)
-        print(request.data)
-        serializer = AuthCustomTokenSerializer(data=request.data)
+        if "code" in request.data:
+            serializer = PhoneLoginTokenSerializer(data=request.data)
+        else:
+            serializer = AuthCustomTokenSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data["user"]
         token, created = Token.objects.get_or_create(user=user)

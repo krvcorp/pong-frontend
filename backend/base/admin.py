@@ -9,6 +9,7 @@ from .models import (
     PostReport,
     DirectConversation,
     DirectMessage,
+    PhoneLoginCode,
 )
 
 
@@ -19,4 +20,6 @@ admin.site.register(PostVote)
 admin.site.register(CommentVote)
 admin.site.register(PostReport)
 admin.site.register(DirectConversation)
+admin.site.register(DirectMessage)
+admin.site.register(PhoneLoginCode)
 # admin.site.register(DirectMessage)

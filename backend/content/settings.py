@@ -23,8 +23,6 @@ SECRET_KEY = "secret"
 DEBUG = True
 ALLOWED_HOSTS = []
 
-# Application definition
-
 INSTALLED_APPS = [
     "channels",
     "django.contrib.admin",
@@ -34,18 +32,34 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sites",
-    # My apps
+    # My Apps
     "base",
     # DRF
     "rest_framework",
     "rest_framework.authtoken",
     # Cleanup
     "django_cleanup.apps.CleanupConfig",
+    # Allauth
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.google",
 ]
+
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        "SCOPE": [
+            "profile",
+            "email",
+        ],
+        "AUTH_PARAMS": {
+            "access_type": "online",
+        },
+    }
+}
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        # "rest_framework_simplejwt.authentication.JWTAuthentication",
         "rest_framework.authentication.TokenAuthentication",
     ]
 }
@@ -101,7 +115,9 @@ DATABASES = {
 
 AUTHENTICATION_BACKENDS = [
     # Needed to login by username in Django admin, regardless of `allauth`
+    "api.backends.PhoneLoginBackend",
     "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
 ]
 
 LOGIN_URL = "/login/"

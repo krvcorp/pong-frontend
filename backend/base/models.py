@@ -1,4 +1,5 @@
-from .utils import name_file
+import uuid
+from .utils import name_file, phone_validator, code_generate
 from datetime import date
 from typing_extensions import Required
 from django.db import models
@@ -12,6 +13,7 @@ from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
+from django.core.validators import RegexValidator
 from rest_framework.authtoken.models import Token
 
 
@@ -47,14 +49,17 @@ class UserManager(UserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.EmailField(blank=True, default="", unique=True)
     name = models.CharField(max_length=200, blank=True, default="")
     timeout = models.DateTimeField(blank=True, null=True)
-    profile_picture = models.ImageField(
-        upload_to=name_file,
-        blank=True,
-        null=True,
-    )
+    # profile_picture = models.ImageField(
+    #     upload_to=name_file,
+    #     blank=True,
+    #     null=True,
+    # )
+    phone = models.CharField(max_length=20, validators=[phone_validator], unique=True)
+    has_been_verified = models.BooleanField(default=False)
 
     # Django Required Fields
     is_active = models.BooleanField(default=True)
@@ -67,7 +72,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = "email"
     EMAIL_FIELD = "email"
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ["phone"]
 
     class Meta:
         verbose_name = "User"
@@ -78,6 +83,10 @@ class User(AbstractBaseUser, PermissionsMixin):
         if self.timeout is None:
             return False
         return self.timeout > timezone.now()
+
+    @property
+    def is_verified(self):
+        return self.has_been_verified
 
     def get_full_name(self):
         return self.name
@@ -131,7 +140,27 @@ class User(AbstractBaseUser, PermissionsMixin):
             Token.objects.create(user=instance)
 
 
+class PhoneLoginCode(models.Model):
+    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    code = models.CharField(max_length=6, default=code_generate)
+    created_at = models.DateTimeField(default=timezone.now)
+    used = models.BooleanField(default=False)
+
+    @property
+    def is_expired(self):
+        return self.created_at + timezone.timedelta(minutes=30) < timezone.now()
+
+    def use(self):
+        self.used = True
+        self.save()
+
+    def __str__(self):
+        return self.code
+
+
 class Post(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     title = models.TextField(null=True, blank=True)
     image = models.ImageField(upload_to="images/", blank=True)
@@ -162,6 +191,7 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     post = models.ForeignKey(Post, on_delete=models.SET_NULL, null=True)
     comment = models.TextField()
@@ -183,6 +213,7 @@ class Comment(models.Model):
 
 
 class PostVote(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     post = models.ForeignKey(Post, on_delete=models.SET_NULL, null=True)
     vote = models.IntegerField()
@@ -196,6 +227,7 @@ class PostVote(models.Model):
 
 
 class CommentVote(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     comment = models.ForeignKey(Comment, on_delete=models.SET_NULL, null=True)
     vote = models.IntegerField()
@@ -209,6 +241,7 @@ class CommentVote(models.Model):
 
 
 class PostReport(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     post = models.ForeignKey(Post, on_delete=models.SET_NULL, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -254,6 +287,7 @@ class DirectMessage(models.Model):
 
 
 class ClassGroup(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=100)
     description = models.TextField()
     creator = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
