@@ -58,7 +58,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     #     blank=True,
     #     null=True,
     # )
-    phone = models.CharField(max_length=20, validators=[phone_validator], unique=True)
+    #  nEEDS TO BE UNIQUE TODO
+    phone = models.CharField(max_length=20, validators=[phone_validator])
     has_been_verified = models.BooleanField(default=False)
 
     # Django Required Fields
