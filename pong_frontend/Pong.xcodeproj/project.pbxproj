@@ -15,7 +15,6 @@
 		6A44F437286F952300E63423 /* ChooseLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A44F436286F952300E63423 /* ChooseLocationViewModel.swift */; };
 		6A44F439286FE3DC00E63423 /* ChooseLocationFilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A44F438286FE3DC00E63423 /* ChooseLocationFilterViewModel.swift */; };
 		6A44F43B2870019B00E63423 /* NewPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A44F43A2870019B00E63423 /* NewPostViewModel.swift */; };
-		6A44F43F28713C3600E63423 /* ChooseLocationOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A44F43E28713C3600E63423 /* ChooseLocationOptionView.swift */; };
 		6A5DF148285134EE00F28A06 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF107285134ED00F28A06 /* Comment.swift */; };
 		6A5DF149285134EE00F28A06 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF108285134ED00F28A06 /* Message.swift */; };
 		6A5DF14A285134EE00F28A06 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF109285134ED00F28A06 /* User.swift */; };
@@ -71,7 +70,6 @@
 		6A44F436286F952300E63423 /* ChooseLocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseLocationViewModel.swift; sourceTree = "<group>"; };
 		6A44F438286FE3DC00E63423 /* ChooseLocationFilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseLocationFilterViewModel.swift; sourceTree = "<group>"; };
 		6A44F43A2870019B00E63423 /* NewPostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostViewModel.swift; sourceTree = "<group>"; };
-		6A44F43E28713C3600E63423 /* ChooseLocationOptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseLocationOptionView.swift; sourceTree = "<group>"; };
 		6A5DF0E32851321000F28A06 /* Pong.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pong.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A5DF107285134ED00F28A06 /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		6A5DF108285134ED00F28A06 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
@@ -151,7 +149,6 @@
 			isa = PBXGroup;
 			children = (
 				6A44F434286F951700E63423 /* ChooseLocationView.swift */,
-				6A44F43E28713C3600E63423 /* ChooseLocationOptionView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -620,7 +617,6 @@
 				6A5DF16B285237B800F28A06 /* FeedViewModel.swift in Sources */,
 				6A44F43B2870019B00E63423 /* NewPostViewModel.swift in Sources */,
 				6A5DF166285134EE00F28A06 /* Extensions.swift in Sources */,
-				6A44F43F28713C3600E63423 /* ChooseLocationOptionView.swift in Sources */,
 				6A5DF161285134EE00F28A06 /* LoginView.swift in Sources */,
 				6A5DF163285134EE00F28A06 /* WelcomeView.swift in Sources */,
 				6A5DF153285134EE00F28A06 /* MessageField.swift in Sources */,

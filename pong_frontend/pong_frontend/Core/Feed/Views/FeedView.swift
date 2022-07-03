@@ -15,6 +15,7 @@ struct FeedView: View {
     @Environment(\.refresh) private var refresh   // << refreshable injected !!
     @State private var isRefreshing = false
     @State private var offset = CGSize.zero
+    @State private var newPost = false
 
     var body: some View {
         VStack {
@@ -81,34 +82,40 @@ struct FeedView: View {
     var feedItself: some View {
 
         ZStack(alignment: .bottom) {
-            // Posts information goes here
             TabView(selection: $selectedFilter) {
-                ForEach(FeedFilterViewModel.allCases, id: \.self) { view in // This iterates through all of the enum cases.
-                    // make something different happen in each case
+                ForEach(FeedFilterViewModel.allCases, id: \.self) { view in
                     ScrollView {
-                        PullToRefresh(coordinateSpaceName: "pullToRefresh") {
-                            print("Refresh")
-                            api.getPosts()
-                        }
-                        LazyVStack {
-                            ForEach(api.posts) { post in
-                                PostBubble(post: post, expanded: false)
+                        ScrollViewReader { scrollReader in
+                            // pull to refresh component
+                            PullToRefresh(coordinateSpaceName: "pullToRefresh") {
+                                print("Refresh")
+                                api.getPosts()
                             }
+                            // actual stack of post bubbles
+                            LazyVStack {
+                                ForEach(api.posts) { post in
+                                    PostBubble(post: post, expanded: false)
+                                }
+                            }
+                            .coordinateSpace(name: "pullToRefresh")
+                            .onAppear {
+                                api.getPosts()
+                            }
+                            .onChange(of: newPost, perform: { value in
+                                print("DEBUG: switch and scroll")
+                                selectedFilter = .recent
+                                scrollReader.scrollTo("top") // scrolls to component with id "top" which is the down arrow withing PullToRefresh
+                                newPost = false
+                            })
                         }
-                        .coordinateSpace(name: "pullToRefresh")
-                        .onAppear {
-                            api.getPosts()
-                        }
-
-                    }.tag(view.rawValue) // by having the tag be the enum's raw value,
-                                            // you can always compare enum to enum.
+                    }
                 }
             }
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             .ignoresSafeArea(.all, edges: .bottom)
             
             NavigationLink {
-                NewPostView()
+                NewPostView(newPost: $newPost)
             } label: {
                 Text("New Post")
                     .frame(minWidth: 100, maxWidth: 150)
@@ -155,7 +162,7 @@ struct PullToRefresh: View {
                 if needRefresh {
                     ProgressView()
                 } else {
-                    Image(systemName: "arrow.down")
+                    Image(systemName: "arrow.down").id("top")
                 }
                 Spacer()
             }

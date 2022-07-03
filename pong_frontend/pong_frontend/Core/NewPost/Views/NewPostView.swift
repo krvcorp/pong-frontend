@@ -10,12 +10,14 @@ import Combine
 
 struct NewPostView: View {
     @Environment(\.presentationMode) var presentationMode
+    @StateObject var viewModel = NewPostViewModel()
+    
     @State private var text = ""
     @State private var showSheet = false
     @State private var image = UIImage()
-    @StateObject var viewModel = NewPostViewModel()
-    private var max_lim = 180
-    
+    @State private var max_lim = 180
+
+    @Binding var newPost: Bool
     
     func limitText(_ upper: Int) {
         if text.count > upper {
@@ -94,6 +96,7 @@ struct NewPostView: View {
                                 viewModel.newPost(title: text) { error in
                                     print("DEBUG: \(error)")
                                 }
+                                newPost.toggle()
                                 presentationMode.wrappedValue.dismiss() // redirect to a post
                                 
                             } label: {
