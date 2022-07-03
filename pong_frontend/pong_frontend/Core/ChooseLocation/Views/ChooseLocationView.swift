@@ -52,36 +52,44 @@ struct ChooseLocationView: View {
     
     var chooseLocationFilterBar: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack() {
-                ForEach(ChooseLocationFilterViewModel.allCases, id: \.rawValue) { item in
-                    VStack {
-                        Text(item.title)
-                            .font(.subheadline)
-//                            .fontWeight(selectedFilter == item ? .semibold : .regular)
-                            .foregroundColor(selectedFilter == item ? Color(UIColor.label) : .gray)
-                        
-                        if selectedFilter == item {
-                            Capsule()
-                                .foregroundColor(Color(.systemBlue))
-                                .frame(height: 3)
-                                .matchedGeometryEffect(id: "filter", in: animation)
+            ScrollViewReader { scrollReader in
+                HStack() {
+                    ForEach(ChooseLocationFilterViewModel.allCases, id: \.rawValue) { item in
+                        VStack {
+                            Text(item.title)
+                                .font(.subheadline)
+                                .foregroundColor(selectedFilter == item ? Color(UIColor.label) : .gray)
                             
-                        } else {
-                            Capsule()
-                                .foregroundColor(Color(.clear))
-                                .frame(height: 3)
+                            if selectedFilter == item {
+                                Capsule()
+                                    .foregroundColor(Color(.systemBlue))
+                                    .frame(height: 3)
+                                    .matchedGeometryEffect(id: "filter", in: animation)
+                                
+                            } else {
+                                Capsule()
+                                    .foregroundColor(Color(.clear))
+                                    .frame(height: 3)
+                            }
+                            
                         }
-                        
-                    }
-                    .padding(.horizontal)
-                    .onTapGesture {
-                        withAnimation(.easeInOut) {
-                            self.selectedFilter = item
+                        .padding(.horizontal)
+                        .onTapGesture {
+                            withAnimation(.easeInOut) {
+                                self.selectedFilter = item
+                            }
                         }
                     }
                 }
+                .overlay(Divider().offset(x: 0, y: 16))
+                .onChange(of: selectedFilter, perform: { value in
+                    print("DEBUG: selectedFilter Changed")
+                    print("DEBUG: \(value)")
+                    withAnimation{
+                        scrollReader.scrollTo(value.rawValue, anchor: .center)
+                    }
+                })
             }
-            .overlay(Divider().offset(x: 0, y: 16))
         }
     }
     
