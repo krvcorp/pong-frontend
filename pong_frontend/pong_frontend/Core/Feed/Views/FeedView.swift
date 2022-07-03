@@ -104,7 +104,7 @@ struct FeedView: View {
                             .onChange(of: newPost, perform: { value in
                                 print("DEBUG: switch and scroll")
                                 selectedFilter = .recent
-                                scrollReader.scrollTo("top") // scrolls to component with id "top" which is the down arrow withing PullToRefresh
+                                scrollReader.scrollTo("top") // scrolls to component with id "top" which is the down arrow within PullToRefresh
                                 newPost = false
                             })
                         }
