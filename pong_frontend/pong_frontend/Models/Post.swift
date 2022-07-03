@@ -8,12 +8,13 @@
 import Foundation
 
 struct Post: Codable, Identifiable {
-    var id: Int
-    var user: Int
+    var id: String
+    var user: String
     var title: String
+    var image: String?
+    
     var created_at: String
     var updated_at: String
-    var image: String?
     var num_comments: Int
     var comments: [Comment]
     var total_score: Int

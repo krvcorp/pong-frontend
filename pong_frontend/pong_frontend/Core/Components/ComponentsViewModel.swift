@@ -12,7 +12,7 @@ struct Votes: Codable, Hashable {
 import Foundation
 
 class ComponentsViewModel: ObservableObject {
-    func createPostVote(postid: Int, direction: String) {
+    func createPostVote(postid: String, direction: String) {
         // url handler
         guard let url = URL(string: "http://127.0.0.1:8005/api/createPostVote/\(postid)/\(direction)/") else { return }
 

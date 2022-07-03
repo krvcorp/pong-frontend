@@ -92,12 +92,12 @@ struct NewPostView: View {
                             .frame(minHeight: 25, maxHeight: 60)
 
                             Button {
-                                print("DEBUG: Post")
+                                print("DEBUG: New post")
                                 viewModel.newPost(title: text) { error in
                                     print("DEBUG: \(error)")
                                 }
                                 newPost.toggle()
-                                presentationMode.wrappedValue.dismiss() // redirect to a post
+                                presentationMode.wrappedValue.dismiss()
                                 
                             } label: {
                                 Text("Post")

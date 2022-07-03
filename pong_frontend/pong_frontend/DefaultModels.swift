@@ -7,12 +7,12 @@
 
 import Foundation
 
-var default_post = Post(id: -1,
-                        user: -1,
-                        title: "Default Title",
-                        created_at: "Default Date",
-                        updated_at: "Default Date",
-                        image: "no image",
+var default_post = Post(id: "DefaultId",
+                        user: "DefaultUser",
+                        title: "DefulatTitle",
+                        image: "",
+                        created_at: "DefaultDate",
+                        updated_at: "DefaultDate",
                         num_comments: -1,
                         comments: [],
                         total_score: -1)

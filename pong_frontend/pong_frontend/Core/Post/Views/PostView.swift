@@ -83,7 +83,7 @@ struct PostView: View {
                         HStack(alignment: .top){
                             VStack(alignment: .leading){
                                 
-                                Text("\(post.user) ~ \(post.created_at)")
+                                Text("Anonymous ~ \(post.created_at)")
                                     .font(.caption)
                                     .padding(.bottom, 4)
 

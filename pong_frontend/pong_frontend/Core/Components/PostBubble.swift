@@ -24,7 +24,7 @@ struct PostBubble: View {
                     HStack(alignment: .top){
                         VStack(alignment: .leading){
                             
-                            Text("\(post.user) ~ \(post.created_at)")
+                            Text("Anonymous ~ \(post.created_at)")
                                 .font(.caption)
                                 .padding(.bottom, 4)
               
@@ -109,13 +109,4 @@ struct PostBubble: View {
         .cornerRadius(20)         // You also need the cornerRadius here
     }
     
-}
-
-struct Post_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            PostBubble(post: default_post,
-                       expanded: false)
-        }
-    }
 }

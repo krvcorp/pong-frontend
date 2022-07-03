@@ -9,17 +9,16 @@ import Foundation
 
 struct User: Identifiable, Codable {
     var id: String
-    var name: String
     var email: String
-    var phone: String
-    var address: String
-    var city: String
-    var state: String
-    var zipcode: String
-    var country: String
-    var createdAt: Date
-    var updatedAt: Date
-    var password: String
+    var name: String
     var timeout: Date
+    var phone: String
+    var has_been_verified: Bool
+    
+    var is_active: Bool
+    var is_staff: Bool
+    var is_superuser: Bool
+    var last_login: Date
+    var date_joined: Date
 }
 
