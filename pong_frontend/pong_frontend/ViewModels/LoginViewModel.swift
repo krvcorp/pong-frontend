@@ -12,7 +12,7 @@ class LoginViewModel: ObservableObject {
     
     @Published var email_or_username: String = ""
     @Published var password: String = ""
-    @Published var isAuthenticated: Bool = false // this needs to be set to false when app launches. true only to troubleshoot app
+    @Published var isAuthenticated: Bool = true // this needs to be set to false when app launches. true only to troubleshoot app
     @Published var token: String = ""
     
     func login() {

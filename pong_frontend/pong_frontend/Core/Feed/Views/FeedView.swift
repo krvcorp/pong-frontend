@@ -8,11 +8,10 @@
 import SwiftUI
 
 struct FeedView: View {
-    var school: String
-    @State var selectedFilter: FeedFilterViewModel
-    @StateObject var api = API()
+    var school: String // will need to filter entire page by community
     @Namespace var animation
-    @Environment(\.refresh) private var refresh   // << refreshable injected !!
+    @State var selectedFilter: FeedFilterViewModel
+    @StateObject var api = FeedViewModel()
     @State private var isRefreshing = false
     @State private var offset = CGSize.zero
     @State private var newPost = false
@@ -21,7 +20,6 @@ struct FeedView: View {
         VStack {
             feedFilterBar
                 .padding(.top)
-            
             feedItself
         }
         .toolbar{
@@ -55,19 +53,16 @@ struct FeedView: View {
                         .font(.subheadline)
                         .fontWeight(selectedFilter == item ? .semibold : .regular)
                         .foregroundColor(selectedFilter == item ? Color(UIColor.label) : .gray)
-                    
                     if selectedFilter == item {
                         Capsule()
                             .foregroundColor(Color(.systemBlue))
                             .frame(height: 3)
                             .matchedGeometryEffect(id: "filter", in: animation)
-                        
                     } else {
                         Capsule()
                             .foregroundColor(Color(.clear))
                             .frame(height: 3)
                     }
-                    
                 }
                 .onTapGesture {
                     withAnimation(.easeInOut) {
@@ -80,27 +75,43 @@ struct FeedView: View {
     }
     
     var feedItself: some View {
-
         ZStack(alignment: .bottom) {
             TabView(selection: $selectedFilter) {
                 ForEach(FeedFilterViewModel.allCases, id: \.self) { view in
                     ScrollView {
                         ScrollViewReader { scrollReader in
+                            
                             // pull to refresh component
                             PullToRefresh(coordinateSpaceName: "pullToRefresh") {
                                 print("Refresh")
-                                api.getPosts()
+                                api.getPosts(selectedFilter: selectedFilter)
                             }
+                            
                             // actual stack of post bubbles
                             LazyVStack {
-                                ForEach(api.posts) { post in
-                                    PostBubble(post: post, expanded: false)
+                                
+                                // hot
+                                if view == .hot {
+                                    ForEach(api.hotPosts) { post in
+                                        PostBubble(post: post, expanded: false)
+                                    }
+                                }
+                                
+                                // recent
+                                else if view == .recent {
+                                    ForEach(api.recentPosts) { post in
+                                        PostBubble(post: post, expanded: false)
+                                    }
+                                }
+                                
+                                // default
+                                else {
+                                    ForEach(api.hotPosts) { post in
+                                        PostBubble(post: post, expanded: false)
+                                    }
                                 }
                             }
                             .coordinateSpace(name: "pullToRefresh")
-                            .onAppear {
-                                api.getPosts()
-                            }
                             .onChange(of: newPost, perform: { value in
                                 print("DEBUG: switch and scroll")
                                 selectedFilter = .recent
@@ -129,6 +140,11 @@ struct FeedView: View {
             .background(Color(UIColor.label)) // If you have this
             .cornerRadius(20)         // You also need the cornerRadius here
             .padding(.bottom)
+        }
+        // when home appears, call api and load
+        .onAppear {
+            api.getPosts(selectedFilter: .hot)
+            api.getPosts(selectedFilter: .recent)
         }
     }
 }
