@@ -53,14 +53,14 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(blank=True, default="", unique=True)
     name = models.CharField(max_length=200, blank=True, default="")
     timeout = models.DateTimeField(blank=True, null=True)
-    # profile_picture = models.ImageField(
-    #     upload_to=name_file,
-    #     blank=True,
-    #     null=True,
-    # )
-    #  nEEDS TO BE UNIQUE TODO
+
+    # TODO: Unique phone number
     phone = models.CharField(max_length=20, validators=[phone_validator])
     has_been_verified = models.BooleanField(default=False)
+    banned = models.BooleanField(default=False)
+    school_attending = models.ForeignKey(
+        "base.School", on_delete=models.SET_NULL, null=True
+    )
 
     # Django Required Fields
     is_active = models.BooleanField(default=True)
@@ -168,7 +168,8 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def total_score(self):
+    @property
+    def score(self):
         total = 0
         for vote in PostVote.objects.all():
             if vote.post == self:
@@ -199,7 +200,8 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def total_score(self):
+    @property
+    def score(self):
         total = 0
         for vote in CommentVote.objects.all():
             if vote.comment == self:
@@ -287,9 +289,10 @@ class DirectMessage(models.Model):
         return str(self.message)
 
 
-class ClassGroup(models.Model):
+class School(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=100)
+    domain = models.CharField(max_length=100)
     description = models.TextField()
     creator = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -299,4 +302,4 @@ class ClassGroup(models.Model):
         return self.name
 
     def get_members(self):
-        pass
+        return User.objects.filter(school=self)

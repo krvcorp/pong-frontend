@@ -1,4 +1,5 @@
 import os
+import operator
 from tempfile import TemporaryFile
 from django.shortcuts import render, redirect
 from django.shortcuts import redirect
@@ -11,7 +12,7 @@ from base.models import (
     PostReport,
     CommentVote,
     PostVote,
-    ClassGroup,
+    School,
     DirectConversation,
     DirectMessage,
     Token,
@@ -19,6 +20,7 @@ from base.models import (
 )
 from .serializers import (
     UserSerializer,
+    UserSerializerWithoutTimeout,
     PostSerializer,
     CommentSerializer,
     PostReportSerializer,
@@ -27,7 +29,7 @@ from .serializers import (
     PostVoteSerializer,
     PhoneLoginTokenSerializer,
 )
-from .permissions import IsOwnerOrReadOnly, IsInTimeout
+from .permissions import IsOwnerOrReadOnly, IsNotInTimeout
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
@@ -76,9 +78,14 @@ class RetrieveUpdateDestroyPostVoteAPIView(RetrieveUpdateDestroyAPIView):
 
 
 class ListCreateUserAPIView(ListCreateAPIView):
-    serializer_class = UserSerializer
     queryset = User.objects.all()
     permission_classes = (IsAuthenticated,)
+
+    def get_serializer(self, *args, **kwargs):
+        if self.request.user.is_staff:
+            return UserSerializer(*args, **kwargs)
+        else:
+            return UserSerializerWithoutTimeout(*args, **kwargs)
 
     def perform_create(self, serializer):
         serializer.save()
@@ -86,18 +93,20 @@ class ListCreateUserAPIView(ListCreateAPIView):
 
 class ListCreatePostAPIView(ListCreateAPIView):
     serializer_class = PostSerializer
-    permission_classes = (IsAuthenticated & IsInTimeout | IsAdminUser,)
+    permission_classes = (IsAuthenticated & IsNotInTimeout | IsAdminUser,)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
     def get_queryset(self):
         queryset = Post.objects.all()
-        if self.request.query_params.get("recent"):
+        sort = self.request.query_params.get("sort", None)
+        if sort == "new":
             queryset = queryset.order_by("-created_at")
-        if self.request.query_params.get("top"):
-            queryset = queryset.order_by("-total_score")
-        if self.request.query_params.get("old"):
+        elif sort == "top":
+            queryset = list(queryset)
+            queryset.sort(key=operator.attrgetter("score"), reverse=True)
+        elif sort == "old":
             queryset = queryset.order_by("created_at")
         return queryset
 
@@ -105,10 +114,9 @@ class ListCreatePostAPIView(ListCreateAPIView):
 class ListCreateCommentAPIView(ListCreateAPIView):
     serializer_class = CommentSerializer
     queryset = Comment.objects.all()
-    permission_classes = ((IsAuthenticated & IsInTimeout,) | IsAdminUser,)
+    permission_classes = ((IsAuthenticated & IsNotInTimeout,) | IsAdminUser,)
 
     def perform_create(self, serializer):
-        print(self.request.user)
         post = Post.objects.get(id=self.request.data["post_id"])
         serializer.save(user=self.request.user, post=post)
 
@@ -219,15 +227,6 @@ def createMessage(request, conversation_id):
     return JsonResponse({"success": True})
 
 
-@api_view(["GET"])
-def getLeaderboard(request):
-    users = sorted(
-        User.objects.all(), key=lambda user: user.total_score(), reverse=True
-    )
-    serializer = UserSerializer(users, many=True)
-    return JsonResponse(serializer.data, safe=False)
-
-
 @api_view(["POST"])
 def register(request):
     context = {}
@@ -262,7 +261,7 @@ class ObtainAuthToken(APIView):
             serializer = AuthCustomTokenSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data["user"]
-        token, created = Token.objects.get_or_create(user=user)
+        token, _ = Token.objects.get_or_create(user=user)
 
         return Response(
             {

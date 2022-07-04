@@ -16,7 +16,7 @@ urlpatterns = [
     path("profile/<int:user_id>/", views.publicprofile, name="publicprofile"),
     # Indvidual Model URLS
     path("message/<int:conversation_id>/", views.conversation, name="conversation"),
-    path("post/<int:post_id>/", views.singular_post, name="singular_post"),
+    # path("post/<int:post_id>/", views.singular_post, name="singular_post"),
     # Report URLS
     path("reportedposts/", views.reportedposts, name="reportedposts"),
 ]
