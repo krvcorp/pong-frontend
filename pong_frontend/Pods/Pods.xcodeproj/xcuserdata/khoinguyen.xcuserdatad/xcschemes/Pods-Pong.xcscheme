@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1340"
+   LastUpgradeVersion = "1300"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6A5DF0E22851321000F28A06"
-               BuildableName = "Pong.app"
-               BlueprintName = "Pong"
-               ReferencedContainer = "container:Pong.xcodeproj">
+               BlueprintIdentifier = "9E08B9D4D4C1B8837056E9DF11055C5A"
+               BuildableName = "Pods_Pong.framework"
+               BlueprintName = "Pods-Pong"
+               ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -40,15 +40,6 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6A5DF0E22851321000F28A06"
-            BuildableName = "Pong.app"
-            BlueprintName = "Pong"
-            ReferencedContainer = "container:Pong.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -56,16 +47,6 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6A5DF0E22851321000F28A06"
-            BuildableName = "Pong.app"
-            BlueprintName = "Pong"
-            ReferencedContainer = "container:Pong.xcodeproj">
-         </BuildableReference>
-      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
