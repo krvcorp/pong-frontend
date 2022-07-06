@@ -18,25 +18,25 @@ from rest_framework.authtoken.models import Token
 
 
 class UserManager(UserManager):
-    def _create_user(self, email, password, **extra_fields):
+    def _create_user(self, phone, password, **extra_fields):
         """
-        Create and save a User with the provided email and password.
+        Create and save a User with the provided phone and password.
         """
-        if len(email) == 0:
-            raise ValueError("Users must have an email address.")
+        if len(phone) == 0:
+            raise ValueError("Users must have a phone number.")
 
-        email = self.normalize_email(email)
-        user = self.model(email=email, **extra_fields)
+        # email = self.normalize_email(email)
+        user = self.model(phone=phone, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_user(self, email=None, password=None, **extra_fields):
+    def create_user(self, phone=None, password=None, **extra_fields):
         extra_fields.setdefault("is_staff", False)
         extra_fields.setdefault("is_superuser", False)
-        return self._create_user(email, password, **extra_fields)
+        return self._create_user(phone, password, **extra_fields)
 
-    def create_superuser(self, email, password, **extra_fields):
+    def create_superuser(self, phone, password, **extra_fields):
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
 
@@ -45,21 +45,19 @@ class UserManager(UserManager):
         if extra_fields.get("is_superuser") is not True:
             raise ValueError("Superuser must have is_superuser=True.")
 
-        return self._create_user(email, password, **extra_fields)
+        return self._create_user(phone, password, **extra_fields)
 
 
 class User(AbstractBaseUser, PermissionsMixin):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.EmailField(blank=True, default="", unique=True)
+    phone = models.CharField(max_length=20, validators=[phone_validator], unique=True)
     name = models.CharField(max_length=200, blank=True, default="")
     timeout = models.DateTimeField(blank=True, null=True)
-
-    # TODO: Unique phone number
-    phone = models.CharField(max_length=20, validators=[phone_validator])
     has_been_verified = models.BooleanField(default=False)
     banned = models.BooleanField(default=False)
     school_attending = models.ForeignKey(
-        "base.School", on_delete=models.SET_NULL, null=True
+        "base.School", on_delete=models.SET_NULL, null=True, blank=True
     )
 
     # Django Required Fields
@@ -71,8 +69,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     objects = UserManager()
 
-    USERNAME_FIELD = "email"
-    EMAIL_FIELD = "email"
+    USERNAME_FIELD = "phone"
+    EMAIL_FIELD = "phone"
     REQUIRED_FIELDS = []
 
     class Meta:
@@ -133,7 +131,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         return posts
 
     def __str__(self) -> str:
-        return self.email
+        return self.phone
 
     @receiver(post_save, sender=settings.AUTH_USER_MODEL)
     def create_auth_token(sender, instance=None, created=False, **kwargs):
@@ -189,7 +187,7 @@ class Post(models.Model):
         return self.get_reports().count()
 
     def __str__(self):
-        return str(self.id) + " " + self.title
+        return str(self.id)
 
 
 class Comment(models.Model):

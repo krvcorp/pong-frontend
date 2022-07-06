@@ -15,7 +15,6 @@ struct FeedView: View {
     @State private var isRefreshing = false
     @State private var offset = CGSize.zero
     @State private var newPost = false
-    @State private var hasAppeared = false
 
     var body: some View {
         VStack {
@@ -144,11 +143,8 @@ struct FeedView: View {
         }
         // when home appears, call api and load
         .onAppear {
-            if !hasAppeared {
-                api.getPosts(selectedFilter: .hot)
-                api.getPosts(selectedFilter: .recent)
-                hasAppeared = true
-            }
+            api.getPosts(selectedFilter: .hot)
+            api.getPosts(selectedFilter: .recent)
         }
     }
 }

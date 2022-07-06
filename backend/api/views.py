@@ -42,39 +42,45 @@ from twilio.rest import Client
 
 
 class RetrieveUpdateDestroyUserAPIView(RetrieveUpdateDestroyAPIView):
+    lookup_field = "id"
     serializer_class = UserSerializer
     queryset = User.objects.all()
-    permission_classes = ((IsAuthenticated & IsOwnerOrReadOnly) | IsAdminUser,)
+    permission_classes = (IsAuthenticated & IsOwnerOrReadOnly | IsAdminUser,)
 
 
 class RetrieveUpdateDestroyPostAPIView(RetrieveUpdateDestroyAPIView):
+    lookup_field = "id"
     serializer_class = PostSerializer
     queryset = Post.objects.all()
-    permission_classes = ((IsAuthenticated & IsOwnerOrReadOnly) | IsAdminUser,)
+    permission_classes = (IsAuthenticated & IsOwnerOrReadOnly | IsAdminUser,)
 
 
 class RetrieveUpdateDestroyCommentAPIView(RetrieveUpdateDestroyAPIView):
+    lookup_field = "id"
     serializer_class = CommentSerializer
     queryset = Comment.objects.all()
-    permission_classes = ((IsAuthenticated & IsOwnerOrReadOnly) | IsAdminUser,)
+    permission_classes = (IsAuthenticated & IsOwnerOrReadOnly | IsAdminUser,)
 
 
 class RetrieveUpdateDestroyPostReportAPIView(RetrieveUpdateDestroyAPIView):
+    lookup_field = "id"
     serializer_class = PostReportSerializer
     queryset = PostReport.objects.all()
-    permission_classes = ((IsAuthenticated & IsOwnerOrReadOnly) | IsAdminUser,)
+    permission_classes = (IsAuthenticated & IsOwnerOrReadOnly | IsAdminUser,)
 
 
 class RetrieveUpdateDestroyCommentVoteAPIView(RetrieveUpdateDestroyAPIView):
+    lookup_field = "id"
     serializer_class = CommentVoteSerializer
     queryset = CommentVote.objects.all()
-    permission_classes = ((IsAuthenticated & IsOwnerOrReadOnly) | IsAdminUser,)
+    permission_classes = (IsAuthenticated & IsOwnerOrReadOnly | IsAdminUser,)
 
 
 class RetrieveUpdateDestroyPostVoteAPIView(RetrieveUpdateDestroyAPIView):
+    lookup_field = "id"
     serializer_class = PostVoteSerializer
     queryset = PostVote.objects.all()
-    permission_classes = ((IsAuthenticated & IsOwnerOrReadOnly) | IsAdminUser,)
+    permission_classes = (IsAuthenticated & IsOwnerOrReadOnly | IsAdminUser,)
 
 
 class ListCreateUserAPIView(ListCreateAPIView):
@@ -114,7 +120,7 @@ class ListCreatePostAPIView(ListCreateAPIView):
 class ListCreateCommentAPIView(ListCreateAPIView):
     serializer_class = CommentSerializer
     queryset = Comment.objects.all()
-    permission_classes = ((IsAuthenticated & IsNotInTimeout,) | IsAdminUser,)
+    permission_classes = (IsAuthenticated & IsNotInTimeout | IsAdminUser,)
 
     def perform_create(self, serializer):
         post = Post.objects.get(id=self.request.data["post_id"])
@@ -151,37 +157,6 @@ class ListCreatePostVoteAPIView(ListCreateAPIView):
         serializer.save(user=self.request.user, post=post)
 
 
-class PhoneLoginAPIView(APIView):
-    def post(self, request):
-        user = User.objects.get(phone=request.data["phone"])
-        phone_login_code = PhoneLoginCode.objects.create(user=user)
-        generated_code = phone_login_code.code
-
-        TWILIO_ACCOUNT_SID = "AC5e7be9e9a0d92520bc1b79a9e4ce7963"
-        TWILIO_SECRET_KEY = "b733808ab5bebcc9eccde14f9dcf56dc"
-
-        account_sid = os.environ.get("TWILIO_ACCOUNT_SID")
-        auth_token = os.environ.get("TWILIO_AUTH_TOKEN")
-
-        # client = Client(account_sid, auth_token)
-        client = Client(TWILIO_ACCOUNT_SID, TWILIO_SECRET_KEY)
-        "+19283623318"
-
-        message = client.messages.create(
-            body=generated_code,
-            to="+17039090098",
-            from_="+19283623318",
-        )
-
-        # message = client.messages.create(
-        #     body=generated_code,
-        #     to=request.data["phone"],
-        #     from_=os.environ.get("TWILIO_PHONE_NUMBER"),
-        # )
-
-        return JsonResponse({"code": generated_code})
-
-
 # This is the method to create a new DirectConversation
 @api_view(["POST"])
 def createConversation(request):
@@ -216,6 +191,7 @@ def createConversation(request):
 
 
 # This is the method to create a new DirectMessage
+@api_view(["POST"])
 def createMessage(request, conversation_id):
     # Create a new direct message object with the current user ID, the conversation ID, and the message
     message = DirectMessage(
@@ -227,20 +203,51 @@ def createMessage(request, conversation_id):
     return JsonResponse({"success": True})
 
 
-@api_view(["POST"])
-def register(request):
-    context = {}
-    if request.method == "POST":
+class RegisterView(APIView):
+    def post(self, request):
+        context = {}
         user = User.objects.create_user(
-            email=request.POST.get("email"),
-            password=request.POST.get("password"),
+            phone=request.POST.get("phone"),
+            password=request.POST.get("password"),  # remove in prod
         )
         user.save()
-        token = Token.objects.get(user=user).key
-        context["token"] = token
+        context["token"] = Token.objects.get(user=user).key
         return JsonResponse(context)
-    else:
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+class PhoneLoginAPIView(APIView):
+    def post(self, request):
+        user, created = User.objects.get_or_create(phone=request.data["phone"])
+        phone_login_code = PhoneLoginCode.objects.create(user=user)
+        generated_code = phone_login_code.code
+
+        # Local
+        TWILIO_ACCOUNT_SID = "AC5e7be9e9a0d92520bc1b79a9e4ce7963"
+        TWILIO_SECRET_KEY = "b733808ab5bebcc9eccde14f9dcf56dc"
+        # Prod
+        # TWILIO_ACCOUNT_SID = os.environ.get("TWILIO_ACCOUNT_SID")
+        # TWILIO_SECRET_KEY = os.environ.get("TWILIO_AUTH_TOKEN")
+        client = Client(TWILIO_ACCOUNT_SID, TWILIO_SECRET_KEY)
+
+        # Local
+        message = client.messages.create(
+            body=generated_code,
+            to=request.data["phone"],
+            from_="+19283623318",
+        )
+
+        # Prod
+        # message = client.messages.create(
+        #     body=generated_code,
+        #     to=request.data["phone"],
+        #     from_=os.environ.get("TWILIO_PHONE_NUMBER"),
+        # )
+
+        return JsonResponse(
+            {
+                "new_user": created,
+            }
+        )
 
 
 # Login Method

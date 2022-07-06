@@ -7,21 +7,61 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		12840D2D602F5BC4FFFEF588 /* Pods_Pong.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9D0A86CF30FFC3FE52DA5AB /* Pods_Pong.framework */; };
-		6A1FE2E82872A0C4006E4352 /* PongApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1FE2E72872A0C4006E4352 /* PongApp.swift */; };
-		6A1FE2EA2872A0C4006E4352 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1FE2E92872A0C4006E4352 /* ContentView.swift */; };
-		6A1FE2EC2872A0C5006E4352 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A1FE2EB2872A0C5006E4352 /* Assets.xcassets */; };
-		6A1FE2EF2872A0C5006E4352 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A1FE2EE2872A0C5006E4352 /* Preview Assets.xcassets */; };
+		6A3F3D82285D176B00EC43A3 /* ChatSideMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3F3D81285D176B00EC43A3 /* ChatSideMenuViewModel.swift */; };
+		6A3F3D84285D177900EC43A3 /* ChatSideMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3F3D83285D177900EC43A3 /* ChatSideMenuView.swift */; };
+		6A3F3D86285D178400EC43A3 /* ChatSideMenuRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3F3D85285D178400EC43A3 /* ChatSideMenuRowView.swift */; };
+		6A3F3D8B286A7AC600EC43A3 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3F3D8A286A7AC600EC43A3 /* LoginViewModel.swift */; };
+		6A44F435286F951700E63423 /* ChooseLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A44F434286F951700E63423 /* ChooseLocationView.swift */; };
+		6A44F437286F952300E63423 /* ChooseLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A44F436286F952300E63423 /* ChooseLocationViewModel.swift */; };
+		6A44F439286FE3DC00E63423 /* ChooseLocationFilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A44F438286FE3DC00E63423 /* ChooseLocationFilterViewModel.swift */; };
+		6A44F43B2870019B00E63423 /* NewPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A44F43A2870019B00E63423 /* NewPostViewModel.swift */; };
+		6A5DF148285134EE00F28A06 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF107285134ED00F28A06 /* Comment.swift */; };
+		6A5DF149285134EE00F28A06 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF108285134ED00F28A06 /* Message.swift */; };
+		6A5DF14A285134EE00F28A06 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF109285134ED00F28A06 /* User.swift */; };
+		6A5DF14B285134EE00F28A06 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF10A285134ED00F28A06 /* Post.swift */; };
+		6A5DF14C285134EE00F28A06 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A5DF10C285134ED00F28A06 /* Preview Assets.xcassets */; };
+		6A5DF14D285134EE00F28A06 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A5DF10D285134EE00F28A06 /* Assets.xcassets */; };
+		6A5DF14E285134EE00F28A06 /* MessagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF112285134EE00F28A06 /* MessagesView.swift */; };
+		6A5DF14F285134EE00F28A06 /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF116285134EE00F28A06 /* PostView.swift */; };
+		6A5DF150285134EE00F28A06 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF11A285134EE00F28A06 /* ChatView.swift */; };
+		6A5DF151285134EE00F28A06 /* LeaderboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF11E285134EE00F28A06 /* LeaderboardView.swift */; };
+		6A5DF152285134EE00F28A06 /* TextArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF120285134EE00F28A06 /* TextArea.swift */; };
+		6A5DF153285134EE00F28A06 /* MessageField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF121285134EE00F28A06 /* MessageField.swift */; };
+		6A5DF154285134EE00F28A06 /* PostBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF122285134EE00F28A06 /* PostBubble.swift */; };
+		6A5DF155285134EE00F28A06 /* MessageBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF123285134EE00F28A06 /* MessageBubble.swift */; };
+		6A5DF156285134EE00F28A06 /* MessageBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF124285134EE00F28A06 /* MessageBlock.swift */; };
+		6A5DF157285134EE00F28A06 /* CommentBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF125285134EE00F28A06 /* CommentBubble.swift */; };
+		6A5DF158285134EE00F28A06 /* CustomInputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF126285134EE00F28A06 /* CustomInputField.swift */; };
+		6A5DF159285134EE00F28A06 /* ProfileFilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF129285134EE00F28A06 /* ProfileFilterViewModel.swift */; };
+		6A5DF15A285134EE00F28A06 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF12B285134EE00F28A06 /* ProfileView.swift */; };
+		6A5DF15B285134EE00F28A06 /* FeedFilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF12E285134EE00F28A06 /* FeedFilterViewModel.swift */; };
+		6A5DF15C285134EE00F28A06 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF130285134EE00F28A06 /* FeedView.swift */; };
+		6A5DF15D285134EE00F28A06 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF132285134EE00F28A06 /* MainTabView.swift */; };
+		6A5DF15E285134EE00F28A06 /* NewPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF136285134EE00F28A06 /* NewPostView.swift */; };
+		6A5DF15F285134EE00F28A06 /* NewChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF13A285134EE00F28A06 /* NewChatView.swift */; };
+		6A5DF160285134EE00F28A06 /* OnboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF13E285134EE00F28A06 /* OnboardView.swift */; };
+		6A5DF161285134EE00F28A06 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF13F285134EE00F28A06 /* LoginView.swift */; };
+		6A5DF162285134EE00F28A06 /* VerificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF140285134EE00F28A06 /* VerificationView.swift */; };
+		6A5DF163285134EE00F28A06 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF141285134EE00F28A06 /* WelcomeView.swift */; };
+		6A5DF164285134EE00F28A06 /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF144285134EE00F28A06 /* NotificationsView.swift */; };
+		6A5DF165285134EE00F28A06 /* PongApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF145285134EE00F28A06 /* PongApp.swift */; };
+		6A5DF166285134EE00F28A06 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF146285134EE00F28A06 /* Extensions.swift */; };
+		6A5DF167285134EE00F28A06 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF147285134EE00F28A06 /* ContentView.swift */; };
+		6A5DF16B285237B800F28A06 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF16A285237B800F28A06 /* FeedViewModel.swift */; };
+		6A5DF16D28523E9100F28A06 /* APITemplates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF16C28523E9100F28A06 /* APITemplates.swift */; };
+		6A5DF16F2852459700F28A06 /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF16E2852459700F28A06 /* PostViewModel.swift */; };
+		6A5DF171285246F400F28A06 /* DefaultModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF170285246F400F28A06 /* DefaultModels.swift */; };
+		6A5DF17328525CAE00F28A06 /* ComponentsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF17228525CAE00F28A06 /* ComponentsViewModel.swift */; };
+		6A5DF17528526D5000F28A06 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF17428526D5000F28A06 /* API.swift */; };
+		6A5DF177285294EF00F28A06 /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF176285294EF00F28A06 /* ShareSheet.swift */; };
+		6A5DF17B2855810000F28A06 /* NoButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF17A2855810000F28A06 /* NoButtonStyle.swift */; };
+		6A5DF1802856B76D00F28A06 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF17F2856B76D00F28A06 /* SettingsViewModel.swift */; };
+		6A5DF1822856B77600F28A06 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF1812856B77600F28A06 /* SettingsView.swift */; };
+		6A5DF1842856B8CB00F28A06 /* SettingsOptionRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF1832856B8CB00F28A06 /* SettingsOptionRowView.swift */; };
+		6A5DF18628593C3700F28A06 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF18528593C3700F28A06 /* ImagePicker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		4CE3FA90D82ECA38ED185EFD /* Pods-Pong.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pong.release.xcconfig"; path = "Target Support Files/Pods-Pong/Pods-Pong.release.xcconfig"; sourceTree = "<group>"; };
-		66CB1A3667396ED541D41711 /* Pods-Pong.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pong.debug.xcconfig"; path = "Target Support Files/Pods-Pong/Pods-Pong.debug.xcconfig"; sourceTree = "<group>"; };
-		6A1FE2E52872A0C4006E4352 /* Pong.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pong.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		6A1FE2E72872A0C4006E4352 /* PongApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PongApp.swift; sourceTree = "<group>"; };
-		6A1FE2E92872A0C4006E4352 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		6A1FE2EB2872A0C5006E4352 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		6A1FE2EE2872A0C5006E4352 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		6A3F3D81285D176B00EC43A3 /* ChatSideMenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSideMenuViewModel.swift; sourceTree = "<group>"; };
 		6A3F3D83285D177900EC43A3 /* ChatSideMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSideMenuView.swift; sourceTree = "<group>"; };
 		6A3F3D85285D178400EC43A3 /* ChatSideMenuRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSideMenuRowView.swift; sourceTree = "<group>"; };
@@ -30,6 +70,7 @@
 		6A44F436286F952300E63423 /* ChooseLocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseLocationViewModel.swift; sourceTree = "<group>"; };
 		6A44F438286FE3DC00E63423 /* ChooseLocationFilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseLocationFilterViewModel.swift; sourceTree = "<group>"; };
 		6A44F43A2870019B00E63423 /* NewPostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostViewModel.swift; sourceTree = "<group>"; };
+		6A5DF0E32851321000F28A06 /* Pong.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pong.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A5DF107285134ED00F28A06 /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		6A5DF108285134ED00F28A06 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		6A5DF109285134ED00F28A06 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -74,40 +115,19 @@
 		6A5DF1812856B77600F28A06 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		6A5DF1832856B8CB00F28A06 /* SettingsOptionRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsOptionRowView.swift; sourceTree = "<group>"; };
 		6A5DF18528593C3700F28A06 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
-		B9D0A86CF30FFC3FE52DA5AB /* Pods_Pong.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Pong.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		6A1FE2E22872A0C4006E4352 /* Frameworks */ = {
+		6A5DF0E02851321000F28A06 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				12840D2D602F5BC4FFFEF588 /* Pods_Pong.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		6A1FE2E62872A0C4006E4352 /* Pong */ = {
-			isa = PBXGroup;
-			children = (
-				6A1FE2E72872A0C4006E4352 /* PongApp.swift */,
-				6A1FE2E92872A0C4006E4352 /* ContentView.swift */,
-				6A1FE2EB2872A0C5006E4352 /* Assets.xcassets */,
-				6A1FE2ED2872A0C5006E4352 /* Preview Content */,
-			);
-			path = Pong;
-			sourceTree = "<group>";
-		};
-		6A1FE2ED2872A0C5006E4352 /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				6A1FE2EE2872A0C5006E4352 /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
-			sourceTree = "<group>";
-		};
 		6A3F3D89286A7ABB00EC43A3 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -146,17 +166,14 @@
 			isa = PBXGroup;
 			children = (
 				6A5DF0E52851321000F28A06 /* pong_frontend */,
-				6A1FE2E62872A0C4006E4352 /* Pong */,
 				6A5DF0E42851321000F28A06 /* Products */,
-				CBC6C88FF39D5A160D4F66DE /* Pods */,
-				B09D36588AFD2CD41E6B3BEB /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
 		6A5DF0E42851321000F28A06 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6A1FE2E52872A0C4006E4352 /* Pong.app */,
+				6A5DF0E32851321000F28A06 /* Pong.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -168,11 +185,11 @@
 				6A5DF106285134ED00F28A06 /* Models */,
 				6A5DF10E285134EE00F28A06 /* Core */,
 				6A5DF10D285134EE00F28A06 /* Assets.xcassets */,
-				6A5DF145285134EE00F28A06 /* PongApp.swift */,
-				6A5DF147285134EE00F28A06 /* ContentView.swift */,
 				6A5DF17428526D5000F28A06 /* API.swift */,
-				6A5DF16C28523E9100F28A06 /* APITemplates.swift */,
+				6A5DF147285134EE00F28A06 /* ContentView.swift */,
+				6A5DF145285134EE00F28A06 /* PongApp.swift */,
 				6A5DF146285134EE00F28A06 /* Extensions.swift */,
+				6A5DF16C28523E9100F28A06 /* APITemplates.swift */,
 				6A5DF170285246F400F28A06 /* DefaultModels.swift */,
 				6A5DF18528593C3700F28A06 /* ImagePicker.swift */,
 				6A5DF10B285134ED00F28A06 /* Preview Content */,
@@ -514,42 +531,24 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
-		B09D36588AFD2CD41E6B3BEB /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				B9D0A86CF30FFC3FE52DA5AB /* Pods_Pong.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		CBC6C88FF39D5A160D4F66DE /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				66CB1A3667396ED541D41711 /* Pods-Pong.debug.xcconfig */,
-				4CE3FA90D82ECA38ED185EFD /* Pods-Pong.release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		6A1FE2E42872A0C4006E4352 /* Pong */ = {
+		6A5DF0E22851321000F28A06 /* Pong */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6A1FE2F22872A0C5006E4352 /* Build configuration list for PBXNativeTarget "Pong" */;
+			buildConfigurationList = 6A5DF0F12851321100F28A06 /* Build configuration list for PBXNativeTarget "Pong" */;
 			buildPhases = (
-				3059F9A5F2ED0CA9160B220E /* [CP] Check Pods Manifest.lock */,
-				6A1FE2E12872A0C4006E4352 /* Sources */,
-				6A1FE2E22872A0C4006E4352 /* Frameworks */,
-				6A1FE2E32872A0C4006E4352 /* Resources */,
+				6A5DF0DF2851321000F28A06 /* Sources */,
+				6A5DF0E02851321000F28A06 /* Frameworks */,
+				6A5DF0E12851321000F28A06 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = Pong;
-			productName = Pong;
-			productReference = 6A1FE2E52872A0C4006E4352 /* Pong.app */;
+			productName = pong;
+			productReference = 6A5DF0E32851321000F28A06 /* Pong.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -562,8 +561,9 @@
 				LastSwiftUpdateCheck = 1340;
 				LastUpgradeCheck = 1340;
 				TargetAttributes = {
-					6A1FE2E42872A0C4006E4352 = {
+					6A5DF0E22851321000F28A06 = {
 						CreatedOnToolsVersion = 13.4.1;
+						LastSwiftMigration = 1340;
 					};
 				};
 			};
@@ -580,121 +580,84 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6A1FE2E42872A0C4006E4352 /* Pong */,
+				6A5DF0E22851321000F28A06 /* Pong */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		6A1FE2E32872A0C4006E4352 /* Resources */ = {
+		6A5DF0E12851321000F28A06 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A1FE2EF2872A0C5006E4352 /* Preview Assets.xcassets in Resources */,
-				6A1FE2EC2872A0C5006E4352 /* Assets.xcassets in Resources */,
+				6A5DF14D285134EE00F28A06 /* Assets.xcassets in Resources */,
+				6A5DF14C285134EE00F28A06 /* Preview Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		3059F9A5F2ED0CA9160B220E /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Pong-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
-		6A1FE2E12872A0C4006E4352 /* Sources */ = {
+		6A5DF0DF2851321000F28A06 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A1FE2EA2872A0C4006E4352 /* ContentView.swift in Sources */,
-				6A1FE2E82872A0C4006E4352 /* PongApp.swift in Sources */,
+				6A5DF15B285134EE00F28A06 /* FeedFilterViewModel.swift in Sources */,
+				6A5DF171285246F400F28A06 /* DefaultModels.swift in Sources */,
+				6A5DF156285134EE00F28A06 /* MessageBlock.swift in Sources */,
+				6A5DF18628593C3700F28A06 /* ImagePicker.swift in Sources */,
+				6A5DF151285134EE00F28A06 /* LeaderboardView.swift in Sources */,
+				6A5DF17328525CAE00F28A06 /* ComponentsViewModel.swift in Sources */,
+				6A5DF165285134EE00F28A06 /* PongApp.swift in Sources */,
+				6A5DF15E285134EE00F28A06 /* NewPostView.swift in Sources */,
+				6A5DF14E285134EE00F28A06 /* MessagesView.swift in Sources */,
+				6A5DF1802856B76D00F28A06 /* SettingsViewModel.swift in Sources */,
+				6A5DF157285134EE00F28A06 /* CommentBubble.swift in Sources */,
+				6A3F3D82285D176B00EC43A3 /* ChatSideMenuViewModel.swift in Sources */,
+				6A5DF16B285237B800F28A06 /* FeedViewModel.swift in Sources */,
+				6A44F43B2870019B00E63423 /* NewPostViewModel.swift in Sources */,
+				6A5DF166285134EE00F28A06 /* Extensions.swift in Sources */,
+				6A5DF161285134EE00F28A06 /* LoginView.swift in Sources */,
+				6A5DF163285134EE00F28A06 /* WelcomeView.swift in Sources */,
+				6A5DF153285134EE00F28A06 /* MessageField.swift in Sources */,
+				6A5DF15F285134EE00F28A06 /* NewChatView.swift in Sources */,
+				6A5DF154285134EE00F28A06 /* PostBubble.swift in Sources */,
+				6A5DF162285134EE00F28A06 /* VerificationView.swift in Sources */,
+				6A5DF148285134EE00F28A06 /* Comment.swift in Sources */,
+				6A5DF15C285134EE00F28A06 /* FeedView.swift in Sources */,
+				6A5DF149285134EE00F28A06 /* Message.swift in Sources */,
+				6A5DF16F2852459700F28A06 /* PostViewModel.swift in Sources */,
+				6A5DF14A285134EE00F28A06 /* User.swift in Sources */,
+				6A5DF15A285134EE00F28A06 /* ProfileView.swift in Sources */,
+				6A3F3D8B286A7AC600EC43A3 /* LoginViewModel.swift in Sources */,
+				6A5DF164285134EE00F28A06 /* NotificationsView.swift in Sources */,
+				6A5DF1822856B77600F28A06 /* SettingsView.swift in Sources */,
+				6A5DF155285134EE00F28A06 /* MessageBubble.swift in Sources */,
+				6A5DF16D28523E9100F28A06 /* APITemplates.swift in Sources */,
+				6A3F3D84285D177900EC43A3 /* ChatSideMenuView.swift in Sources */,
+				6A3F3D86285D178400EC43A3 /* ChatSideMenuRowView.swift in Sources */,
+				6A5DF17B2855810000F28A06 /* NoButtonStyle.swift in Sources */,
+				6A5DF159285134EE00F28A06 /* ProfileFilterViewModel.swift in Sources */,
+				6A5DF158285134EE00F28A06 /* CustomInputField.swift in Sources */,
+				6A44F439286FE3DC00E63423 /* ChooseLocationFilterViewModel.swift in Sources */,
+				6A5DF150285134EE00F28A06 /* ChatView.swift in Sources */,
+				6A5DF14F285134EE00F28A06 /* PostView.swift in Sources */,
+				6A44F435286F951700E63423 /* ChooseLocationView.swift in Sources */,
+				6A5DF160285134EE00F28A06 /* OnboardView.swift in Sources */,
+				6A5DF177285294EF00F28A06 /* ShareSheet.swift in Sources */,
+				6A5DF167285134EE00F28A06 /* ContentView.swift in Sources */,
+				6A5DF152285134EE00F28A06 /* TextArea.swift in Sources */,
+				6A5DF14B285134EE00F28A06 /* Post.swift in Sources */,
+				6A5DF17528526D5000F28A06 /* API.swift in Sources */,
+				6A5DF15D285134EE00F28A06 /* MainTabView.swift in Sources */,
+				6A44F437286F952300E63423 /* ChooseLocationViewModel.swift in Sources */,
+				6A5DF1842856B8CB00F28A06 /* SettingsOptionRowView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		6A1FE2F02872A0C5006E4352 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 66CB1A3667396ED541D41711 /* Pods-Pong.debug.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Pong/Preview Content\"";
-				DEVELOPMENT_TEAM = 2N66Q3A64N;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.khoinguyen.Pong;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		6A1FE2F12872A0C5006E4352 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4CE3FA90D82ECA38ED185EFD /* Pods-Pong.release.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Pong/Preview Content\"";
-				DEVELOPMENT_TEAM = 2N66Q3A64N;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.khoinguyen.Pong;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 		6A5DF0EF2851321100F28A06 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -811,23 +774,88 @@
 			};
 			name = Release;
 		};
+		6A5DF0F22851321100F28A06 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"pong_frontend/Preview Content\"";
+				DEVELOPMENT_TEAM = 2N66Q3A64N;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.khoinguyen.pong;
+				PRODUCT_NAME = Pong;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		6A5DF0F32851321100F28A06 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"pong_frontend/Preview Content\"";
+				DEVELOPMENT_TEAM = 2N66Q3A64N;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.khoinguyen.pong;
+				PRODUCT_NAME = Pong;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6A1FE2F22872A0C5006E4352 /* Build configuration list for PBXNativeTarget "Pong" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				6A1FE2F02872A0C5006E4352 /* Debug */,
-				6A1FE2F12872A0C5006E4352 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		6A5DF0DE2851321000F28A06 /* Build configuration list for PBXProject "Pong" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6A5DF0EF2851321100F28A06 /* Debug */,
 				6A5DF0F02851321100F28A06 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6A5DF0F12851321100F28A06 /* Build configuration list for PBXNativeTarget "Pong" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6A5DF0F22851321100F28A06 /* Debug */,
+				6A5DF0F32851321100F28A06 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

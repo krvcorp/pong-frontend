@@ -54,7 +54,7 @@ class UserSerializerWithoutTimeout(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ("id", "email", "profile_picture", "posts", "comments", "phone")
+        fields = ("id", "email", "posts", "comments", "phone")
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -110,7 +110,7 @@ class CommentSerializer(serializers.ModelSerializer):
 class PostReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = PostReport
-        fields = ("id", "post", "user", "reason", "created_at", "updated_at")
+        fields = ("id", "post", "user", "created_at", "updated_at")
 
 
 class PostVoteSerializer(serializers.ModelSerializer):
