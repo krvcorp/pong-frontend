@@ -104,17 +104,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return false
     }
     
-func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
-            if error != nil || user == nil {
-              // Show the app's signed-out state.
-        } else {
-          // Show the app's signed-in state.
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+            GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
+                if error != nil || user == nil {
+                  // Show the app's signed-out state.
+            } else {
+              // Show the app's signed-in state.
+            }
+        }
+        return true
         }
     }
-    return true
-    }
-}
 
 
 
