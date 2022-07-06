@@ -18,10 +18,10 @@ struct Pong: App {
         WindowGroup {
             ContentView()
                 .onAppear {
-                  GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
+                    GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
                     // Check if `user` exists; otherwise, do something with `error`
-                  }
                 }
+            }
         }
     }
 }

@@ -71,57 +71,49 @@ struct OnboardView: View {
 
 func handleSignInButton() {
     guard let presentingViewController = UIApplication.shared.windows.first?.rootViewController else {
-      print("There is no root view controller!")
-      return
+        print("There is no root view controller!")
+        return
     }
     
-      GIDSignIn.sharedInstance.signIn(
+    GIDSignIn.sharedInstance.signIn(
         with: signInConfig,
         presenting: presentingViewController) { user, error in
-          guard let signInUser = user else {
+        guard let signInUser = user else {
             // Inspect error
             return
-          }
-          // If sign in succeeded, display the app's main content View.
         }
+    // If sign in succeeded, display the app's main content View.
+    }
 }
 
 
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    func application(
-      _ app: UIApplication,
-      open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]
-    ) -> Bool {
-      var handled: Bool
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        var handled: Bool
 
-      handled = GIDSignIn.sharedInstance.handle(url)
-      if handled {
-        return true
-      }
+        handled = GIDSignIn.sharedInstance.handle(url)
+        if handled {
+            return true
+        }
 
-      // Handle other custom URL types.
+        // Handle other custom URL types.
 
-      // If not handled by this app, return false.
-      return false
+        // If not handled by this app, return false.
+        return false
     }
     
-    func application(
-      _ application: UIApplication,
-      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
-    ) -> Bool {
-      GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
-        if error != nil || user == nil {
-          // Show the app's signed-out state.
+func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
+            if error != nil || user == nil {
+              // Show the app's signed-out state.
         } else {
           // Show the app's signed-in state.
         }
-      }
-      return true
     }
-
-
+    return true
+    }
 }
 
 
