@@ -19,7 +19,7 @@ from rest_framework.authtoken.models import Token
 
 def index(request):
     context = {"posts": Post.objects.all()}
-    return render(request, "index.html", context)
+    return render(request, "tempIndex.html", context)
 
 
 def register(request):

@@ -5,42 +5,42 @@ from . import views
 urlpatterns = [
     # User
     path(
-        "user/<int:pk>/",
+        "user/<str:id>/",
         views.RetrieveUpdateDestroyUserAPIView.as_view(),
         name="get_delete_update_user",
     ),
     path("user/", views.ListCreateUserAPIView.as_view(), name="user"),
     # Post
     path(
-        "post/<int:pk>/",
+        "post/<str:id>/",
         views.RetrieveUpdateDestroyPostAPIView.as_view(),
         name="get_delete_update_post",
     ),
     path("post/", views.ListCreatePostAPIView.as_view(), name="post"),
     # Comment
     path(
-        "comment/<int:pk>/",
+        "comment/<str:id>/",
         views.RetrieveUpdateDestroyCommentAPIView.as_view(),
         name="get_delete_update_comment",
     ),
     path("comment/", views.ListCreateCommentAPIView.as_view(), name="comment"),
     # Post Report
     path(
-        "postreport/<int:pk>",
+        "postreport/<str:id>",
         views.RetrieveUpdateDestroyPostReportAPIView.as_view(),
         name="get_delete_update_postreport",
     ),
     path("postreport/", views.ListCreatePostReportAPIView.as_view(), name="postreport"),
     # PostVote
     path(
-        "postvote/<int:pk>",
+        "postvote/<str:id>",
         views.RetrieveUpdateDestroyPostVoteAPIView.as_view(),
         name="get_delete_update_postvote",
     ),
     path("postvote/", views.ListCreatePostVoteAPIView.as_view(), name="postvote"),
     # CommentVote
     path(
-        "commentvote/<int:pk>",
+        "commentvote/<str:id>",
         views.RetrieveUpdateDestroyCommentVoteAPIView.as_view(),
         name="get_delete_update_commentvote",
     ),
@@ -56,6 +56,6 @@ urlpatterns = [
         name="createMessage",
     ),
     # Account URLS
-    path("register/", views.register, name="register"),
+    path("register/", views.RegisterView.as_view(), name="register"),
     path("login/", views.ObtainAuthToken.as_view(), name="login"),
 ]

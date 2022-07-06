@@ -6,7 +6,6 @@ from base.models import (
     PostReport,
     CommentVote,
     PostVote,
-    ClassGroup,
     DirectConversation,
     DirectMessage,
 )
@@ -20,6 +19,7 @@ from django.contrib.auth import authenticate
 class UserSerializer(serializers.ModelSerializer):
     posts = serializers.SerializerMethodField(read_only=True)
     comments = serializers.SerializerMethodField(read_only=True)
+    is_in_timeout = serializers.SerializerMethodField(read_only=True)
 
     def get_posts(self, obj):
         return PostSerializer(obj.get_posts(), many=True).data
@@ -35,10 +35,10 @@ class UserSerializer(serializers.ModelSerializer):
         fields = (
             "id",
             "email",
-            "profile_picture",
             "posts",
             "comments",
             "is_in_timeout",
+            "phone",
         )
 
 
@@ -54,28 +54,24 @@ class UserSerializerWithoutTimeout(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = (
-            "id",
-            "email",
-            "profile_picture",
-            "posts",
-            "comments",
-        )
+        fields = ("id", "email", "posts", "comments", "phone")
 
 
 class PostSerializer(serializers.ModelSerializer):
     num_comments = serializers.SerializerMethodField()
     comments = serializers.SerializerMethodField()
-    total_score = serializers.SerializerMethodField()
+    score = serializers.SerializerMethodField()
 
     def get_num_comments(self, obj):
         return obj.num_comments()
 
-    def get_total_score(self, obj):
-        return obj.total_score()
+    def get_score(self, obj):
+        return obj.score
 
     def get_comments(self, obj):
-        return CommentSerializer(obj.get_comments(), many=True).data
+        comments = obj.get_comments()
+        comments = sorted(comments, key=lambda x: x.score, reverse=True)
+        return CommentSerializer(comments, many=True).data
 
     class Meta:
         model = Post
@@ -88,15 +84,15 @@ class PostSerializer(serializers.ModelSerializer):
             "image",
             "num_comments",
             "comments",
-            "total_score",
+            "score",
         )
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    total_score = serializers.SerializerMethodField()
+    score = serializers.SerializerMethodField()
 
-    def get_total_score(self, obj):
-        return obj.total_score()
+    def get_score(self, obj):
+        return obj.score
 
     class Meta:
         model = Comment
@@ -107,14 +103,14 @@ class CommentSerializer(serializers.ModelSerializer):
             "comment",
             "created_at",
             "updated_at",
-            "total_score",
+            "score",
         )
 
 
 class PostReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = PostReport
-        fields = ("id", "post", "user", "reason", "created_at", "updated_at")
+        fields = ("id", "post", "user", "created_at", "updated_at")
 
 
 class PostVoteSerializer(serializers.ModelSerializer):
@@ -130,34 +126,31 @@ class CommentVoteSerializer(serializers.ModelSerializer):
 
 
 class AuthCustomTokenSerializer(serializers.Serializer):
-    email_or_username = serializers.CharField()
+    email = serializers.CharField()
     password = serializers.CharField()
 
     def validate(self, attrs):
-        email_or_username = attrs.get("email_or_username")
+        email = attrs.get("email")
         password = attrs.get("password")
 
-        if email_or_username and password:
-            if validate_email(email_or_username):
+        if email and password:
+            if validate_email(email):
                 user_request = get_object_or_404(
                     User,
-                    email=email_or_username,
+                    email=email,
                 )
 
-                email_or_username = user_request.username
+                email = user_request.username
 
-            user = authenticate(username=email_or_username, password=password)
+            user = authenticate(username=email, password=password)
 
             if user:
                 if not user.is_active:
-                    msg = "User account is disabled."
-                    return msg
+                    return "User account is disabled."
             else:
-                msg = "Unable to log in with provided credentials."
-                return msg
+                return "Unable to log in with provided credentials."
         else:
-            msg = 'Must include "email or username" and "password"'
-            return msg
+            return 'Must include "email" and "password"'
 
         attrs["user"] = user
         return attrs
@@ -175,14 +168,11 @@ class PhoneLoginTokenSerializer(serializers.Serializer):
             user = authenticate(code=code, phone=phone)
             if user:
                 if not user.is_active:
-                    msg = "User account is disabled."
-                    return msg
+                    return "User account is disabled."
             else:
-                msg = "Unable to log in with provided credentials."
-                return msg
+                return "Unable to log in with provided credentials."
         else:
-            msg = "Please enter a valid verification code."
-            return msg
+            return "Please enter a valid verification code."
 
         attrs["user"] = user
         return attrs
