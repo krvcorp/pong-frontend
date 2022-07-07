@@ -15,12 +15,12 @@ var default_post = Post(id: "DefaultId",
                         updated_at: "DefaultDate",
                         num_comments: -1,
                         comments: [],
-                        total_score: -1)
+                        score: -1)
 
-var default_comment = Comment(id: -1,
+var default_comment = Comment(id: "DefaultID",
+                              user: "DefaultUser",
                               post: -1,
-                              user: -1,
                               comment: "Default comment",
                               created_at: "Default Date",
                               updated_at: "Default Date",
-                              total_score: -1)
+                              score: -1)

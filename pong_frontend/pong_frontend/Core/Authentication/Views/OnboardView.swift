@@ -83,6 +83,7 @@ func handleSignInButton() {
             return
         }
     // If sign in succeeded, display the app's main content View.
+            ContentView()
     }
 }
 

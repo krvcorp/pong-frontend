@@ -101,7 +101,7 @@ struct PostView: View {
                                 } label: {
                                     Image(systemName: "arrow.up")
                                 }
-                                Text("\(post.total_score)")
+                                Text("\(post.score)")
                                 Button {
                                     componentViewModel.createPostVote(postid: post.id, direction: "down")
                                 } label: {
