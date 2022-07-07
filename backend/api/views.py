@@ -256,7 +256,7 @@ class OTPVerify(APIView):
         user = User.objects.get(phone=request.data["phone"])
         phone_login_code = PhoneLoginCode.objects.get(user=user)
         if phone_login_code.code == request.data["code"]:
-            if not phone_login_code.is_expired:
+            if not phone_login_code.is_expired and not phone_login_code.is_used:
                 phone_login_code.use()
                 if user.has_been_verified:
                     context["token"] = Token.objects.get(user=user).key
@@ -269,12 +269,12 @@ class OTPVerify(APIView):
         return JsonResponse(context)
 
 
-class UserVerification(APIView):
+class VerifyUser(APIView):
     def post(self, request):
         context = {}
 
         domain = re.search("@[\w.]+", request.POST.get("email"))
-        school = School.objects.get(domain=domain)
+        school, _ = School.objects.get_or_create(domain=domain)
         user = User.objects.get(phone=request.POST.get("phone"))
 
         user.has_been_verified = True
@@ -283,7 +283,7 @@ class UserVerification(APIView):
         user.save()
 
         context["token"] = Token.objects.get(user=user).key
-        context["school"] = school.name
+        # context["school"] = school.name
         return JsonResponse(context)
 
 

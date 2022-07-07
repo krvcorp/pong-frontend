@@ -50,7 +50,7 @@ class UserManager(UserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    email = models.EmailField(blank=True, default="", unique=True)
+    email = models.EmailField(null=True, blank=True, unique=True)
     phone = models.CharField(max_length=20, validators=[phone_validator], unique=True)
     name = models.CharField(max_length=200, blank=True, default="")
     timeout = models.DateTimeField(blank=True, null=True)
@@ -157,6 +157,10 @@ class PhoneLoginCode(models.Model):
     @property
     def is_expired(self):
         return self.created_at + timezone.timedelta(minutes=30) < timezone.now()
+
+    @property
+    def is_used(self):
+        return self.used
 
     def use(self):
         self.used = True
