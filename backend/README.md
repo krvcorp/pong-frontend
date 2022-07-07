@@ -9,7 +9,7 @@ TODO: Makefile commands
 
 ## Cloning
 
-`git clone https://github.com/rau/content.git`
+`git clone https://github.com/rau/pong.git`
 
 ## How to Run Server
 

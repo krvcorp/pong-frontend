@@ -34,9 +34,9 @@ urlpatterns = [
             title="Pong API",
             description="Pong API",
             version="v1",
+            permission_classes=[permissions.IsAdminUser],
         ),
         name="openapi-schema",
-        # permission_classes=[permissions.IsAdminUser],
     ),
     # path(
     #     "swagger.json",

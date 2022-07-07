@@ -47,7 +47,8 @@ urlpatterns = [
     path(
         "commentvote/", views.ListCreateCommentVoteAPIView.as_view(), name="commentvote"
     ),
-    path("phonelogin/", views.PhoneLoginAPIView.as_view(), name="phonelogin"),
+    path("otp-start/", views.OTPStart.as_view(), name="otp-start"),
+    path("otp-verify/", views.OTPVerify.as_view(), name="otp-verify"),
     # Create Model URLS
     path("create-conversation/", views.createConversation, name="createConversation"),
     path(
@@ -56,6 +57,5 @@ urlpatterns = [
         name="createMessage",
     ),
     # Account URLS
-    path("register/", views.RegisterView.as_view(), name="register"),
-    path("login/", views.ObtainAuthToken.as_view(), name="login"),
+    # path("login/", views.ObtainAuthToken.as_view(), name="login"),
 ]

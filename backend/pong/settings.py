@@ -71,7 +71,7 @@ REST_FRAMEWORK = {
 }
 
 
-ASGI_APPLICATION = "content.asgi.application"
+ASGI_APPLICATION = "pong.asgi.application"
 
 CHANNEL_LAYERS = {"default": {"BACKEND": "channels.layers.InMemoryChannelLayer"}}
 
@@ -86,12 +86,12 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "content.urls"
+ROOT_URLCONF = "pong.urls"
 
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": ["content/templates"],
+        "DIRS": ["pong/templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -104,7 +104,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "content.wsgi.application"
+WSGI_APPLICATION = "pong.wsgi.application"
 
 
 # Database

@@ -87,6 +87,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     def is_verified(self):
         return self.has_been_verified
 
+    def verify(self):
+        self.has_been_verified = True
+        self.save()
+
     def get_full_name(self):
         return self.name
 
@@ -130,12 +134,16 @@ class User(AbstractBaseUser, PermissionsMixin):
         ]
         return posts
 
-    def __str__(self) -> str:
+    def __str__(self):
         return self.phone
 
     @receiver(post_save, sender=settings.AUTH_USER_MODEL)
     def create_auth_token(sender, instance=None, created=False, **kwargs):
-        if created:
+        # if user has_been_verified is True and the user doesn't already have a token, create one
+        if (
+            instance.has_been_verified
+            and not Token.objects.filter(user=instance).exists()
+        ):
             Token.objects.create(user=instance)
 
 
@@ -290,7 +298,7 @@ class DirectMessage(models.Model):
 class School(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=100)
-    domain = models.CharField(max_length=100)
+    domain = models.CharField(max_length=100, unique=True)
     description = models.TextField()
     creator = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     created_at = models.DateTimeField(auto_now_add=True)

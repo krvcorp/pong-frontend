@@ -1,5 +1,6 @@
 import os
 import operator
+import re
 from tempfile import TemporaryFile
 from django.shortcuts import render, redirect
 from django.shortcuts import redirect
@@ -203,20 +204,13 @@ def createMessage(request, conversation_id):
     return JsonResponse({"success": True})
 
 
-class RegisterView(APIView):
+class OTPStart(APIView):
+    """
+    This method is used to start the OTP process. It creates a new OTP object and sends a text message to the user, based on the phone number in the request.
+    """
+
     def post(self, request):
         context = {}
-        user = User.objects.create_user(
-            phone=request.POST.get("phone"),
-            password=request.POST.get("password"),  # remove in prod
-        )
-        user.save()
-        context["token"] = Token.objects.get(user=user).key
-        return JsonResponse(context)
-
-
-class PhoneLoginAPIView(APIView):
-    def post(self, request):
         user, created = User.objects.get_or_create(phone=request.data["phone"])
         phone_login_code = PhoneLoginCode.objects.create(user=user)
         generated_code = phone_login_code.code
@@ -224,9 +218,12 @@ class PhoneLoginAPIView(APIView):
         # Local
         TWILIO_ACCOUNT_SID = "AC5e7be9e9a0d92520bc1b79a9e4ce7963"
         TWILIO_SECRET_KEY = "b733808ab5bebcc9eccde14f9dcf56dc"
+
         # Prod
         # TWILIO_ACCOUNT_SID = os.environ.get("TWILIO_ACCOUNT_SID")
         # TWILIO_SECRET_KEY = os.environ.get("TWILIO_AUTH_TOKEN")
+        # TWILIO_NUMBER = os.environ.get("TWILIO_NUMBER")
+
         client = Client(TWILIO_ACCOUNT_SID, TWILIO_SECRET_KEY)
 
         # Local
@@ -240,14 +237,54 @@ class PhoneLoginAPIView(APIView):
         # message = client.messages.create(
         #     body=generated_code,
         #     to=request.data["phone"],
-        #     from_=os.environ.get("TWILIO_PHONE_NUMBER"),
+        #     from_=TWILIO_NUMBER,
         # )
 
-        return JsonResponse(
-            {
-                "new_user": created,
-            }
-        )
+        context["new_user"] = created
+        context["phone"] = request.data["phone"]
+
+        return JsonResponse(context)
+
+
+class OTPVerify(APIView):
+    """
+    This method is used to verify the OTP code. It checks if the code is correct and unexpired and if it is, then checks if the user has been verified. If the user has been verified, then it returns a token. If the user has not been verified, then it returns 'code_incorrect' as a part of the context. If the code is incorrect or expired, then it returns the respective error message as a part of the context.
+    """
+
+    def post(self, request):
+        context = {}
+        user = User.objects.get(phone=request.data["phone"])
+        phone_login_code = PhoneLoginCode.objects.get(user=user)
+        if phone_login_code.code == request.data["code"]:
+            if not phone_login_code.is_expired:
+                phone_login_code.use()
+                if user.has_been_verified:
+                    context["token"] = Token.objects.get(user=user).key
+                else:
+                    context["new_user"] = True
+            else:
+                context["code_expired"] = True
+        else:
+            context["code_incorrect"] = True
+        return JsonResponse(context)
+
+
+class UserVerification(APIView):
+    def post(self, request):
+        context = {}
+
+        domain = re.search("@[\w.]+", request.POST.get("email"))
+        school = School.objects.get(domain=domain)
+        user = User.objects.get(phone=request.POST.get("phone"))
+
+        user.has_been_verified = True
+        user.school = school
+        user.email = request.POST.get("email")
+        user.save()
+
+        context["token"] = Token.objects.get(user=user).key
+        context["school"] = school.name
+        return JsonResponse(context)
 
 
 # Login Method
