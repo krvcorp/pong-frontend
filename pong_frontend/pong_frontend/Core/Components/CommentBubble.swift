@@ -36,7 +36,7 @@ struct CommentBubble: View {
                             } label: {
                                 Image(systemName: "arrow.up")
                             }
-                            Text("\(comment.total_score)")
+                            Text("\(comment.score)")
                             Button {
                                 print("DEBUG: Downvote")
                             } label: {

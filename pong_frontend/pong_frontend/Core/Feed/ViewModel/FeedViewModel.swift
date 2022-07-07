@@ -17,8 +17,9 @@ class FeedViewModel: ObservableObject {
         let defaults = UserDefaults.standard
         
         guard let token = defaults.string(forKey: "jsonwebtoken") else {
-                    return
-                }
+            return
+        }
+        print("DEBUG: Token \(token)")
         
         // GET params
         let url_to_use: String

@@ -59,9 +59,13 @@
 		6A5DF1822856B77600F28A06 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF1812856B77600F28A06 /* SettingsView.swift */; };
 		6A5DF1842856B8CB00F28A06 /* SettingsOptionRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF1832856B8CB00F28A06 /* SettingsOptionRowView.swift */; };
 		6A5DF18628593C3700F28A06 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF18528593C3700F28A06 /* ImagePicker.swift */; };
+		DCB9394884F3C599B368C950 /* Pods_Pong.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CCAEEA5D0040063EB6FB9DD /* Pods_Pong.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1CCAEEA5D0040063EB6FB9DD /* Pods_Pong.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Pong.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		274E28C746E9C9AA044081A9 /* Pods-Pong.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pong.release.xcconfig"; path = "Target Support Files/Pods-Pong/Pods-Pong.release.xcconfig"; sourceTree = "<group>"; };
+		6A21845728754D1000681C86 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = Pong/Info.plist; sourceTree = "<group>"; };
 		6A3F3D81285D176B00EC43A3 /* ChatSideMenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSideMenuViewModel.swift; sourceTree = "<group>"; };
 		6A3F3D83285D177900EC43A3 /* ChatSideMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSideMenuView.swift; sourceTree = "<group>"; };
 		6A3F3D85285D178400EC43A3 /* ChatSideMenuRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSideMenuRowView.swift; sourceTree = "<group>"; };
@@ -115,6 +119,7 @@
 		6A5DF1812856B77600F28A06 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		6A5DF1832856B8CB00F28A06 /* SettingsOptionRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsOptionRowView.swift; sourceTree = "<group>"; };
 		6A5DF18528593C3700F28A06 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		E29187429C49D00FC0045080 /* Pods-Pong.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pong.debug.xcconfig"; path = "Target Support Files/Pods-Pong/Pods-Pong.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,12 +127,22 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DCB9394884F3C599B368C950 /* Pods_Pong.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		68F492BF461B66BE830D9B2B /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				E29187429C49D00FC0045080 /* Pods-Pong.debug.xcconfig */,
+				274E28C746E9C9AA044081A9 /* Pods-Pong.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		6A3F3D89286A7ABB00EC43A3 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -165,8 +180,11 @@
 		6A5DF0DA2851321000F28A06 = {
 			isa = PBXGroup;
 			children = (
+				6A21845728754D1000681C86 /* Info.plist */,
 				6A5DF0E52851321000F28A06 /* pong_frontend */,
 				6A5DF0E42851321000F28A06 /* Products */,
+				68F492BF461B66BE830D9B2B /* Pods */,
+				AC1673EF677F4577211086A0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -531,6 +549,14 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
+		AC1673EF677F4577211086A0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1CCAEEA5D0040063EB6FB9DD /* Pods_Pong.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -538,9 +564,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6A5DF0F12851321100F28A06 /* Build configuration list for PBXNativeTarget "Pong" */;
 			buildPhases = (
+				28018939AE45E420F1C7CB81 /* [CP] Check Pods Manifest.lock */,
 				6A5DF0DF2851321000F28A06 /* Sources */,
 				6A5DF0E02851321000F28A06 /* Frameworks */,
 				6A5DF0E12851321000F28A06 /* Resources */,
+				C1F0CF34DC78CAD17E1F880A /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -596,6 +624,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		28018939AE45E420F1C7CB81 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Pong-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C1F0CF34DC78CAD17E1F880A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Pong/Pods-Pong-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Pong/Pods-Pong-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Pong/Pods-Pong-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		6A5DF0DF2851321000F28A06 /* Sources */ = {
@@ -776,6 +846,7 @@
 		};
 		6A5DF0F22851321100F28A06 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E29187429C49D00FC0045080 /* Pods-Pong.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -786,6 +857,7 @@
 				DEVELOPMENT_TEAM = 2N66Q3A64N;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Pong/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -809,6 +881,7 @@
 		};
 		6A5DF0F32851321100F28A06 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 274E28C746E9C9AA044081A9 /* Pods-Pong.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -819,6 +892,7 @@
 				DEVELOPMENT_TEAM = 2N66Q3A64N;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Pong/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

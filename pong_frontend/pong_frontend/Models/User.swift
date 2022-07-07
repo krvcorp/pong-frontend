@@ -12,8 +12,9 @@ struct User: Identifiable, Codable {
     var email: String
     var name: String
     var timeout: Date
-    var phone: String
     var has_been_verified: Bool
+    var banned: Bool
+    var school_attending: String
     
     var is_active: Bool
     var is_staff: Bool

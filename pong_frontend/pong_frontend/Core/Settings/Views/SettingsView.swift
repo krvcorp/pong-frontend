@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import GoogleSignIn
 
 struct SettingsView: View {
     @ObservedObject var loginVM : LoginViewModel
@@ -17,14 +18,15 @@ struct SettingsView: View {
             ForEach(SettingsViewModel.allCases, id: \.rawValue) { viewModel in
                 if viewModel == .account {
                     Button {
-                        print("DEBUG: SIGN OUT")
+                        print("DEBUG: ACCOUNT")
                     } label: {
                         SettingsOptionRowView(viewModel: viewModel)
                     }
                 } else if viewModel == .logout {
                     Button {
                         print("DEBUG: SIGN OUT")
-                        loginVM.signout()
+                        GIDSignIn.sharedInstance.disconnect()
+//                        loginVM.signout()
                     } label: {
                         SettingsOptionRowView(viewModel: viewModel)
                     }

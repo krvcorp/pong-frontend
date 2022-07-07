@@ -8,5 +8,6 @@ target 'Pong' do
   
 
   # Pods for Pong
-#  pod 'GoogleSignIn'
+  pod 'GoogleSignIn'
+  pod 'GoogleSignInSwiftSupport'
 end
