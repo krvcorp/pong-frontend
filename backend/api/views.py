@@ -107,6 +107,7 @@ class ListCreateUserAPIView(ListCreateAPIView):
         if sort == "leaderboard":
             queryset = list(queryset)
             queryset.sort(key=operator.attrgetter("score"), reverse=True)
+            queryset = queryset[:10]
         return queryset
 
 
@@ -116,6 +117,9 @@ class ListCreatePostAPIView(ListCreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+        PostVote.objects.create(
+            user=self.request.user, post=serializer.instance, vote=1
+        )
 
     def get_queryset(self):
         queryset = Post.objects.all()
@@ -153,6 +157,9 @@ class ListCreateCommentAPIView(ListCreateAPIView):
     def perform_create(self, serializer):
         post = Post.objects.get(id=self.request.data["post_id"])
         serializer.save(user=self.request.user, post=post)
+        CommentVote.objects.create(
+            user=self.request.user, comment=serializer.instance, vote=1
+        )
 
 
 class ListCreatePostReportAPIView(ListCreateAPIView):
@@ -281,7 +288,6 @@ class OTPVerify(APIView):
     def post(self, request):
         context = {}
         user = User.objects.get(phone=request.data["phone"])
-        # get the most recent phone login code of the user
         phone_login_code = PhoneLoginCode.objects.filter(user=user).order_by(
             "-created_at"
         )[0]
@@ -291,7 +297,7 @@ class OTPVerify(APIView):
                 if user.has_been_verified:
                     context["token"] = Token.objects.get(user=user).key
                 else:
-                    context["new_user"] = True
+                    context["email_unverified"] = True
             else:
                 context["code_expired"] = True
         else:
