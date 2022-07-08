@@ -292,9 +292,9 @@ class VerifyUser(APIView):
     def post(self, request):
         context = {}
 
-        domain = re.search("@[\w.]+", request.POST.get("email"))
+        domain = re.search("@[\w.]+", request.data["email"])
         school, _ = School.objects.get_or_create(domain=domain)
-        user = User.objects.get(phone=request.POST.get("phone"))
+        user = User.objects.get(phone=request.data["phone"])
 
         user.has_been_verified = True
         user.school = school

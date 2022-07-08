@@ -36,10 +36,27 @@ class LoginViewModel: ObservableObject {
     
     func signout() {
            
-           let defaults = UserDefaults.standard
-           defaults.removeObject(forKey: "jsonwebtoken")
-           DispatchQueue.main.async {
-               self.isAuthenticated = false
-           }
-       }
+        let defaults = UserDefaults.standard
+        defaults.removeObject(forKey: "jsonwebtoken")
+        DispatchQueue.main.async {
+            self.isAuthenticated = false
+        }
+    }
+    
+    func verifyEmail(phone: String, email: String) {
+        
+        API().verifyEmail(phone: phone, email: email) { result in
+            switch result {
+            case .success(let token):
+                self.gmailString = token
+                self.isAuthenticated = true
+                print("DEBUG loginVM \(self.gmailString)")
+            case .failure(let error):
+                print("DEBUG: \(error)")
+                return
+            }
+
+        }
+        
+    }
 }

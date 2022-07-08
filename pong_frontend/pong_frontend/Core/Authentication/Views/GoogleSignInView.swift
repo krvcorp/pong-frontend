@@ -26,31 +26,33 @@ struct GoogleSignInView: View {
             Text("Google Sign In")
         }
     }
-}
-
-
-func handleSignInButton() {
-    let scenes = UIApplication.shared.connectedScenes
-    let windowScene = scenes.first as? UIWindowScene
-    let window = windowScene?.windows.first
     
-    guard let presentingViewController = window!.rootViewController else {
-        print("There is no root view controller!")
-        return
-    }
-    
-    // Depreciated above should fix?
-//    guard let presentingViewController = UIApplication.shared.windows.first?.rootViewController else {
-//        print("There is no root view controller!")
-//        return
-//    }
-    
-    GIDSignIn.sharedInstance.signIn(with: signInConfig, presenting: presentingViewController) { user, error in
-        guard error == nil else { return }
-        guard let user = user else { return }
+    func handleSignInButton() {
+        let scenes = UIApplication.shared.connectedScenes
+        let windowScene = scenes.first as? UIWindowScene
+        let window = windowScene?.windows.first
+        
+        guard let presentingViewController = window!.rootViewController else {
+            print("There is no root view controller!")
+            return
+        }
+        
+        // Depreciated above should fix?
+    //    guard let presentingViewController = UIApplication.shared.windows.first?.rootViewController else {
+    //        print("There is no root view controller!")
+    //        return
+    //    }
+        
+        GIDSignIn.sharedInstance.signIn(with: signInConfig, presenting: presentingViewController) { user, error in
+            guard error == nil else { return }
+            guard let user = user else { return }
 
-        let emailAddress = user.profile?.email
-        print("DEBUG: emailAddress is \(String(describing: emailAddress))")
+            let emailAddress = user.profile?.email
+            print("DEBUG: emailAddress is \(String(describing: emailAddress))")
+            loginVM.verifyEmail(phone: phoneLoginVM.phone, email: emailAddress!)
+            
+            
+        }
     }
 }
 
