@@ -61,6 +61,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     school_attending = models.ForeignKey(
         "base.School", on_delete=models.SET_NULL, null=True, blank=True
     )
+    chat_notifications = models.BooleanField(default=True)
+    trending_post_notifications = models.BooleanField(default=True)
+    activity_notifications = models.BooleanField(default=True)
 
     # Django Required Fields
     is_active = models.BooleanField(default=True)
@@ -242,7 +245,8 @@ class PostVote(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    unique_together = ("user", "post")
+    class Meta:
+        unique_together = ("user", "post")
 
     def __str__(self):
         return str(self.id) + " " + str(self.vote)
@@ -256,7 +260,8 @@ class CommentVote(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    unique_together = ("user", "comment")
+    class Meta:
+        unique_together = ("user", "comment")
 
     def __str__(self):
         return str(self.id) + " " + str(self.vote)
@@ -294,8 +299,8 @@ class DirectConversation(models.Model):
         return str(self.id)
 
 
-# Class for messages in a direct conversation
 class DirectMessage(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     conversation = models.ForeignKey(
         DirectConversation, on_delete=models.SET_NULL, null=True
     )

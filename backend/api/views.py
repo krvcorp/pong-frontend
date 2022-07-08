@@ -21,6 +21,7 @@ from base.models import (
     PhoneLoginCode,
 )
 from .serializers import (
+    DirectMessageSerializer,
     UserSerializer,
     UserSerializerLeaderboard,
     UserSerializerWithoutTimeout,
@@ -172,70 +173,51 @@ class ListCreatePostReportAPIView(ListCreateAPIView):
         serializer.save(user=self.request.user, post=post)
 
 
+class ListCreatePostVoteAPIView(ListCreateAPIView):
+    serializer_class = PostVoteSerializer
+    queryset = PostVote.objects.all()
+    permission_classes = (IsAuthenticated | IsAdminUser,)
+
+    def create_perform(self, serializer):
+        serializer.save(
+            user=self.request.user,
+            post=Post.objects.get(id=self.request.data["post_id"]),
+        )
+
+
 class ListCreateCommentVoteAPIView(ListCreateAPIView):
     serializer_class = CommentVoteSerializer
     queryset = CommentVote.objects.all()
     permission_classes = (IsAuthenticated | IsAdminUser,)
 
     def perform_create(self, serializer):
-        comment = Comment.objects.get(id=self.request.data["comment_id"])
-        serializer.save(user=self.request.user, comment=comment)
-
-
-class ListCreatePostVoteAPIView(ListCreateAPIView):
-    serializer_class = PostVoteSerializer
-    queryset = PostVote.objects.all()
-    permission_classes = (IsAuthenticated | IsAdminUser,)
-
-    def perform_create(self, serializer):
-        post = Post.objects.get(id=self.request.data["post_id"])
-        serializer.save(user=self.request.user, post=post)
-
-
-# This is the method to create a new DirectConversation
-@api_view(["POST"])
-def createConversation(request):
-    if DirectConversation.objects.filter(
-        user1=request.user, user2=User.objects.get(id=request.POST.get("user_id"))
-    ).exists():
-        return redirect(
-            "conversation",
-            conversation_id=DirectConversation.objects.get(
-                user1=request.user,
-                user2=User.objects.get(id=request.POST.get("user_id")),
-            ).id,
+        serializer.save(
+            user=self.request.user,
+            comment=Comment.objects.get(id=self.request.data["comment_id"]),
         )
-    if DirectConversation.objects.filter(
-        user2=request.user, user1=User.objects.get(id=request.POST.get("user_id"))
-    ).exists():
-        return redirect(
-            "conversation",
-            conversation_id=DirectConversation.objects.get(
-                user2=request.user,
-                user1=User.objects.get(id=request.POST.get("user_id")),
-            ).id,
-        )
-    if request.user.id == int(request.POST.get("user_id")):
-        # TODO: Add error message for same user
-        return HttpResponse("failure")
-    conversation = DirectConversation(
-        user1=request.user, user2=User.objects.get(id=request.POST.get("user_id"))
-    )
-    conversation.save()
-    return JsonResponse({"success": True, "conversation_id": conversation.id})
 
 
 # This is the method to create a new DirectMessage
-@api_view(["POST"])
-def createMessage(request, conversation_id):
-    # Create a new direct message object with the current user ID, the conversation ID, and the message
-    message = DirectMessage(
-        user=request.user,
-        conversation=DirectConversation.objects.get(id=conversation_id),
-        message=request.POST.get("message"),
-    )
-    message.save()
-    return JsonResponse({"success": True})
+class ListCreateMessage(ListCreateAPIView):
+    """
+    List all messages or create a new message.
+    """
+
+    def get_queryset(self):
+        return DirectMessage.objects.all()
+
+    def get_serializer_class(self):
+        return DirectMessageSerializer
+
+    def perform_create(self, serializer):
+        conversation = DirectConversation.objects.get(
+            id=self.request.data["conversation_id"]
+        )
+        serializer.save(
+            user=self.request.user,
+            conversation=conversation,
+            message=self.request.data["message"],
+        )
 
 
 class OTPStart(APIView):
