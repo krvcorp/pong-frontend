@@ -18,14 +18,6 @@ struct Post: Codable, Identifiable {
     var num_comments: Int
     var comments: [Comment]
     var score: Int
+    var time_since_posted: String
 }
 
-//{
-//    "id": 7,
-//    "user": 2,
-//    "title": "This is a test post.",
-//    "created_at": "2022-06-04T17:26:35.286032Z",
-//    "updated_at": "2022-06-04T17:26:35.286043Z",
-//    "image": null,
-//    "num_comments": 6,
-//    "comments": [

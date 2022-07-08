@@ -8,7 +8,7 @@
 
 import Foundation
 
-class LoginViewModel: ObservableObject {
+@MainActor class LoginViewModel: ObservableObject {
     
     @Published var email_or_username: String = ""
     @Published var password: String = ""
@@ -48,8 +48,10 @@ class LoginViewModel: ObservableObject {
         API().verifyEmail(phone: phone, email: email) { result in
             switch result {
             case .success(let token):
-                self.gmailString = token
+                self.token = token
                 self.isAuthenticated = true
+                let defaults = UserDefaults.standard
+                defaults.setValue(token, forKey: "jsonwebtoken")
                 print("DEBUG loginVM \(self.gmailString)")
             case .failure(let error):
                 print("DEBUG: \(error)")

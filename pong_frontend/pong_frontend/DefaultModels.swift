@@ -15,7 +15,8 @@ var default_post = Post(id: "DefaultId",
                         updated_at: "DefaultDate",
                         num_comments: -1,
                         comments: [],
-                        score: -1)
+                        score: -1,
+                        time_since_posted: "DefaultString")
 
 var default_comment = Comment(id: "DefaultID",
                               user: "DefaultUser",

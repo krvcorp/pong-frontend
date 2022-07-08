@@ -42,7 +42,8 @@ struct PostRequestResponse: Codable {
     let image: String?
     let num_comments: Int
     let comments: [Comment]
-    let total_score: Int
+    let score: Int
+    let time_since_posted: String
 }
 
 struct OTPStartRequestBody: Codable {

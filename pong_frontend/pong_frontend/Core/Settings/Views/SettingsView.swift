@@ -26,7 +26,7 @@ struct SettingsView: View {
                     Button {
                         print("DEBUG: SIGN OUT")
                         GIDSignIn.sharedInstance.disconnect()
-//                        loginVM.signout()
+                        loginVM.signout()
                     } label: {
                         SettingsOptionRowView(viewModel: viewModel)
                     }
