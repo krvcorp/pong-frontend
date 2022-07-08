@@ -1,3 +1,4 @@
+import datetime
 import os
 import operator
 import re
@@ -21,6 +22,7 @@ from base.models import (
 )
 from .serializers import (
     UserSerializer,
+    UserSerializerLeaderboard,
     UserSerializerWithoutTimeout,
     PostSerializer,
     CommentSerializer,
@@ -85,10 +87,12 @@ class RetrieveUpdateDestroyPostVoteAPIView(RetrieveUpdateDestroyAPIView):
 
 
 class ListCreateUserAPIView(ListCreateAPIView):
-    queryset = User.objects.all()
     permission_classes = (IsAuthenticated,)
 
     def get_serializer(self, *args, **kwargs):
+        sort = self.request.query_params.get("sort", None)
+        if sort == "leaderboard":
+            return UserSerializerLeaderboard(*args, **kwargs)
         if self.request.user.is_staff:
             return UserSerializer(*args, **kwargs)
         else:
@@ -96,6 +100,14 @@ class ListCreateUserAPIView(ListCreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save()
+
+    def get_queryset(self):
+        queryset = User.objects.all()
+        sort = self.request.query_params.get("sort", None)
+        if sort == "leaderboard":
+            queryset = list(queryset)
+            queryset.sort(key=operator.attrgetter("score"), reverse=True)
+        return queryset
 
 
 class ListCreatePostAPIView(ListCreateAPIView):
@@ -111,6 +123,21 @@ class ListCreatePostAPIView(ListCreateAPIView):
         if sort == "new":
             queryset = queryset.order_by("-created_at")
         elif sort == "top":
+            range = self.request.query_params.get("range", None)
+            if range == "day":
+                queryset = queryset.filter(
+                    created_at__gt=datetime.datetime.now() - datetime.timedelta(days=1)
+                )
+            elif range == "week":
+                queryset = queryset.filter(
+                    created_at__gt=datetime.now() - datetime.timedelta(days=7)
+                )
+            elif range == "month":
+                queryset = queryset.filter(
+                    created_at__gt=datetime.now() - datetime.timedelta(days=30)
+                )
+            elif range == "all":
+                queryset = queryset
             queryset = list(queryset)
             queryset.sort(key=operator.attrgetter("score"), reverse=True)
         elif sort == "old":
@@ -254,7 +281,10 @@ class OTPVerify(APIView):
     def post(self, request):
         context = {}
         user = User.objects.get(phone=request.data["phone"])
-        phone_login_code = PhoneLoginCode.objects.get(user=user)
+        # get the most recent phone login code of the user
+        phone_login_code = PhoneLoginCode.objects.filter(user=user).order_by(
+            "-created_at"
+        )[0]
         if phone_login_code.code == request.data["code"]:
             if not phone_login_code.is_expired and not phone_login_code.is_used:
                 phone_login_code.use()
@@ -283,7 +313,6 @@ class VerifyUser(APIView):
         user.save()
 
         context["token"] = Token.objects.get(user=user).key
-        # context["school"] = school.name
         return JsonResponse(context)
 
 
