@@ -62,7 +62,7 @@ struct OTPVerifyRequestBody: Codable {
 // token : String, new_user : Bool, code_expire : Bool, code_incorrect : Bool
 struct OTPVerifyResponseBody: Codable {
     let token: String?
-    let new_user: Bool?
+    let email_unverified: Bool?
     let code_expire: Bool?
     let code_incorrect: Bool?
 }
@@ -181,7 +181,7 @@ class API: ObservableObject {
         }.resume()
     }
     
-    func otpVerify(phone: String, code: String, completion: @escaping (Result<Any, AuthenticationError>) -> Void) {
+    func otpVerify(phone: String, code: String, completion: @escaping (Result<OTPVerifyResponseBody, AuthenticationError>) -> Void) {
         // change URL to real login
         guard let url = URL(string: "\(root)" + "otp-verify/") else {
             completion(.failure(.custom(errorMessage: "URL is not correct")))
@@ -209,22 +209,20 @@ class API: ObservableObject {
             
             print("DEBUG: API otpVerifyResponse is \(otpVerifyResponse)")
             
-            let responseDataContent = try! JSONDecoder().decode(OTPVerifyResponseBody.self, from: data)
-            
             // token : String, new_user : Bool, code_expire : Bool, code_incorrect : Bool
             if let responseDataContent = otpVerifyResponse.token {
                 print("DEBUG: API Token is \(responseDataContent)")
-                completion(.success(responseDataContent))
+                completion(.success(otpVerifyResponse))
                 return
             }
             
-            if let responseDataContent = otpVerifyResponse.new_user {
-                print("DEBUG: API new_user is \(responseDataContent)")
-                completion(.success(responseDataContent))
+            if let responseDataContent = otpVerifyResponse.email_unverified {
+                print("DEBUG: API email_unverified is \(responseDataContent)")
+                completion(.success(otpVerifyResponse))
                 return
             }
             
-            print("DEBUG: API \(responseDataContent)")
+            print("DEBUG: API \(otpVerifyResponse)")
             completion(.failure(.custom(errorMessage: "new_user not returned. Consider code_expire or code_incorrect")))
             
         }.resume()

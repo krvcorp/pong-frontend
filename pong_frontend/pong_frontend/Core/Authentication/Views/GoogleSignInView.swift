@@ -18,6 +18,13 @@ struct GoogleSignInView: View {
     var body: some View {
         Text("Your phone number is \(phoneLoginVM.phone)")
         Text("Your token is \(phoneLoginVM.token)")
+        
+        Button {
+            print("DEBUG: VIEW GoogleSignIn")
+            handleSignInButton()
+        } label: {
+            Text("Google Sign In")
+        }
     }
 }
 
@@ -31,21 +38,19 @@ func handleSignInButton() {
         print("There is no root view controller!")
         return
     }
+    
     // Depreciated above should fix?
 //    guard let presentingViewController = UIApplication.shared.windows.first?.rootViewController else {
 //        print("There is no root view controller!")
 //        return
 //    }
     
-    GIDSignIn.sharedInstance.signIn(
-        with: signInConfig,
-        presenting: presentingViewController) { user, error in
-        guard let signInUser = user else {
-            // Inspect error
-            return
-        }
-    // If sign in succeeded, display the app's main content View.
-            ContentView()
+    GIDSignIn.sharedInstance.signIn(with: signInConfig, presenting: presentingViewController) { user, error in
+        guard error == nil else { return }
+        guard let user = user else { return }
+
+        let emailAddress = user.profile?.email
+        print("DEBUG: emailAddress is \(String(describing: emailAddress))")
     }
 }
 

@@ -21,6 +21,8 @@ struct VerificationView: View {
                 Text("\(phoneLoginVM.phone)")
                     .font(.title).bold()
                 TextField("ABC123", text: $phoneLoginVM.code)
+                    .textCase(.uppercase) // not working?
+                    .textInputAutocapitalization(.characters) // not working?
                     .accentColor(.gray)
                     .font(.title.bold())
             }
@@ -30,7 +32,7 @@ struct VerificationView: View {
             VStack {
              
                 Button(action: {
-                    print("DEBUG: Continue")
+                    print("DEBUG: Continue to verify")
                     phoneLoginVM.otpVerify()
                 }) {
                     Text("Continue")

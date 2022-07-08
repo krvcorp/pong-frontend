@@ -23,6 +23,7 @@ struct PhoneLoginView: View {
                 Text("Enter your phone number")
                     .font(.title).bold()
                 TextField("1234567890", text: $phoneLoginVM.phone)
+                    .keyboardType(.phonePad)
                     .accentColor(.secondary)
                     .font(.title.bold())
             }
@@ -32,10 +33,7 @@ struct PhoneLoginView: View {
             VStack {
                 Text("By pressing continue you agree to receive a text message from us")
                 
-                NavigationLink(destination: VerificationView(code: .constant(""), phoneLoginVM: phoneLoginVM).onAppear {
-                    print("DEBUG: Continue")
-                    phoneLoginVM.otpStart()
-                }) {
+                NavigationLink(destination: VerificationView(code: $phoneLoginVM.code, phoneLoginVM: phoneLoginVM)) {
                     Text("Continue")
                         .frame(minWidth: 0, maxWidth: .infinity)
                         .font(.system(size: 18).bold())
@@ -46,6 +44,10 @@ struct PhoneLoginView: View {
                                 .stroke(Color(UIColor.systemBackground), lineWidth: 2)
                         )
                 }
+                .simultaneousGesture(TapGesture().onEnded{
+                    print("VIEW Continue to verification")
+                    phoneLoginVM.otpStart()
+                })
                 .background(Color(UIColor.label)) // If you have this
                 .cornerRadius(20)         // You also need the cornerRadius here
             }
