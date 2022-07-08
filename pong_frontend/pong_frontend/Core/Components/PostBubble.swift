@@ -73,7 +73,6 @@ struct PostBubble: View {
                         Spacer()
                         
                         Button {
-                            self.uiimage = UIApplication.shared.windows[0].rootViewController?.view.asImage(rect: self.rect1)
                             sheet.toggle()
 
                         } label: {
@@ -81,7 +80,7 @@ struct PostBubble: View {
                         }
                         .buttonStyle(NoButtonStyle())
                         .sheet(isPresented: $sheet) {
-                            ShareSheet(items: ["\(post.title)", uiimage])
+                            ShareSheet(items: ["\(post.title)"])
                         }
                         
                         Button {

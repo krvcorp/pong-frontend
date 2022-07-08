@@ -45,19 +45,42 @@ struct PostRequestResponse: Codable {
     let total_score: Int
 }
 
+struct OTPStartRequestBody: Codable {
+    let phone: String
+}
+
+struct OTPStartResponseBody: Codable {
+    let new_user: Bool?
+    let phone: String?
+}
+
+struct OTPVerifyRequestBody: Codable {
+    let phone: String
+    let code: String
+}
+
+// token : String, new_user : Bool, code_expire : Bool, code_incorrect : Bool
+struct OTPVerifyResponseBody: Codable {
+    let token: String?
+    let new_user: Bool?
+    let code_expire: Bool?
+    let code_incorrect: Bool?
+}
+
 class API: ObservableObject {
+    var root: String = "http://127.0.0.1:8005/api/"
     @Published var posts: [Post] = []
     
     func getPosts() {
-        print("DEBUG: GETPOSTS")
+        print("DEBUG: API getPosts")
         
         let defaults = UserDefaults.standard
         
         guard let token = defaults.string(forKey: "jsonwebtoken") else {
-                    return
-                }
+            return
+        }
         // url handler
-        guard let url = URL(string: "http://127.0.0.1:8005/api/post/") else { return }
+        guard let url = URL(string: "\(root)" + "post/") else { return }
 
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
@@ -104,7 +127,7 @@ class API: ObservableObject {
                 return
             }
             
-            try! JSONDecoder().decode(LoginResponse.self, from: data)
+//            try! JSONDecoder().decode(LoginResponse.self, from: data)
             
             guard let loginResponse = try? JSONDecoder().decode(LoginResponse.self, from: data) else {
                 completion(.failure(.invalidCredentials))
@@ -117,9 +140,93 @@ class API: ObservableObject {
             }
             
             completion(.success(token))
-            
         }.resume()
-            
     }
     
+    func otpStart(phone: String, completion: @escaping (Result<Bool, AuthenticationError>) -> Void) {
+        print("DEBUG: API otpStart \(phone)")
+        
+        // change URL to real login
+        guard let url = URL(string: "\(root)" + "otp-start/") else {
+            completion(.failure(.custom(errorMessage: "URL is not correct")))
+            return
+        }
+        
+        let body = OTPStartRequestBody(phone: phone)
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = try? JSONEncoder().encode(body)
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            
+            guard let data = data, error == nil else {
+                completion(.failure(.custom(errorMessage: "No data")))
+                return
+            }
+            
+            guard let otpStartResponse = try? JSONDecoder().decode(OTPStartResponseBody.self, from: data) else {
+                completion(.failure(.invalidCredentials))
+                return
+            }
+            
+            guard let new_user = otpStartResponse.new_user else {
+                completion(.failure(.invalidCredentials))
+                return
+            }
+            
+            completion(.success(new_user))
+            
+        }.resume()
+    }
+    
+    func otpVerify(phone: String, code: String, completion: @escaping (Result<Any, AuthenticationError>) -> Void) {
+        // change URL to real login
+        guard let url = URL(string: "\(root)" + "otp-verify/") else {
+            completion(.failure(.custom(errorMessage: "URL is not correct")))
+            return
+        }
+        
+        let body = OTPVerifyRequestBody(phone: phone,code: code)
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = try? JSONEncoder().encode(body)
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            
+            guard let data = data, error == nil else {
+                completion(.failure(.custom(errorMessage: "No data")))
+                return
+            }
+            
+            guard let otpVerifyResponse = try? JSONDecoder().decode(OTPVerifyResponseBody.self, from: data) else {
+                completion(.failure(.invalidCredentials))
+                return
+            }
+            
+            print("DEBUG: API otpVerifyResponse is \(otpVerifyResponse)")
+            
+            let responseDataContent = try! JSONDecoder().decode(OTPVerifyResponseBody.self, from: data)
+            
+            // token : String, new_user : Bool, code_expire : Bool, code_incorrect : Bool
+            if let responseDataContent = otpVerifyResponse.token {
+                print("DEBUG: API Token is \(responseDataContent)")
+                completion(.success(responseDataContent))
+                return
+            }
+            
+            if let responseDataContent = otpVerifyResponse.new_user {
+                print("DEBUG: API new_user is \(responseDataContent)")
+                completion(.success(responseDataContent))
+                return
+            }
+            
+            print("DEBUG: API \(responseDataContent)")
+            completion(.failure(.custom(errorMessage: "new_user not returned. Consider code_expire or code_incorrect")))
+            
+        }.resume()
+    }
 }

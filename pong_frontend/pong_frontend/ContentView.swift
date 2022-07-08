@@ -9,16 +9,17 @@ import SwiftUI
 import GoogleSignIn
 
 struct ContentView: View {
+    @StateObject private var phoneLoginVM = PhoneLoginViewModel()
     @StateObject private var loginVM = LoginViewModel()
     @State private var showSettings = false
     
     var body: some View {
-//        if loginVM.isAuthenticated {
-//            MainInterfaceView
-//        } else {
-//            OnboardView(email: $loginVM.email_or_username, password: $loginVM.password, loginVM: loginVM)
-//        }
-        MainInterfaceView
+        if loginVM.isAuthenticated {
+            MainInterfaceView
+        } else {
+            OnboardView(phone: $phoneLoginVM.phone, loginVM: loginVM, phoneLoginVM: phoneLoginVM)
+        }
+//        MainInterfaceView
     }
 }
 

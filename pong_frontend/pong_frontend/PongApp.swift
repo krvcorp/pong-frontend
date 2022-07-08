@@ -17,11 +17,6 @@ struct Pong: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .onAppear {
-                    GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
-                    // Check if `user` exists; otherwise, do something with `error`
-                }
-            }
         }
     }
 }

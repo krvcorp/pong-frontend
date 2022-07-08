@@ -11,7 +11,7 @@ struct FeedView: View {
     var school: String // will need to filter entire page by community
     @Namespace var animation
     @State var selectedFilter: FeedFilterViewModel
-    @StateObject var api = FeedViewModel()
+    @StateObject var feedVM = FeedViewModel()
     @State private var isRefreshing = false
     @State private var offset = CGSize.zero
     @State private var newPost = false
@@ -84,29 +84,36 @@ struct FeedView: View {
                             // pull to refresh component
                             PullToRefresh(coordinateSpaceName: "pullToRefresh") {
                                 print("Refresh")
-                                api.getPosts(selectedFilter: selectedFilter)
+                                feedVM.getPosts(selectedFilter: selectedFilter)
                             }
                             
                             // actual stack of post bubbles
                             LazyVStack {
                                 
+                                // top
+                                if view == .top {
+                                    ForEach(feedVM.topPosts) { post in
+                                        PostBubble(post: post, expanded: false)
+                                    }
+                                }
+                                
                                 // hot
-                                if view == .hot {
-                                    ForEach(api.hotPosts) { post in
+                                else if view == .hot {
+                                    ForEach(feedVM.hotPosts) { post in
                                         PostBubble(post: post, expanded: false)
                                     }
                                 }
                                 
                                 // recent
                                 else if view == .recent {
-                                    ForEach(api.recentPosts) { post in
+                                    ForEach(feedVM.recentPosts) { post in
                                         PostBubble(post: post, expanded: false)
                                     }
                                 }
                                 
                                 // default
                                 else {
-                                    ForEach(api.hotPosts) { post in
+                                    ForEach(feedVM.hotPosts) { post in
                                         PostBubble(post: post, expanded: false)
                                     }
                                 }
@@ -143,8 +150,9 @@ struct FeedView: View {
         }
         // when home appears, call api and load
         .onAppear {
-            api.getPosts(selectedFilter: .hot)
-            api.getPosts(selectedFilter: .recent)
+            feedVM.getPosts(selectedFilter: .hot)
+            feedVM.getPosts(selectedFilter: .recent)
+            feedVM.getPosts(selectedFilter: .top)
         }
     }
 }

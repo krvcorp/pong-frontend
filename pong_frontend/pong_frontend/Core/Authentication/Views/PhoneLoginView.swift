@@ -1,37 +1,40 @@
 //
-//  VerificationView.swift
-//  SidechatMockup
+//  PhoneLoginView.swift
+//  Pong
 //
-//  Created by Khoi Nguyen on 6/3/22.
+//  Created by Khoi Nguyen on 7/7/22.
 //
 
+import UIKit
 import SwiftUI
 
-struct VerificationView: View {
+
+struct PhoneLoginView: View {
+    @Binding var phone: String
     @Environment(\.presentationMode) var presentationMode
-    @Binding var code: String
+    @ObservedObject var loginVM : LoginViewModel
     @ObservedObject var phoneLoginVM : PhoneLoginViewModel
+    
     
     var body: some View {
 
         VStack {
             VStack(alignment: .leading) {
-                Text("Enter the code we sent to")
+                Text("Enter your phone number")
                     .font(.title).bold()
-                Text("\(phoneLoginVM.phone)")
-                    .font(.title).bold()
-                TextField("ABC123", text: $phoneLoginVM.code)
-                    .accentColor(.gray)
+                TextField("1234567890", text: $phoneLoginVM.phone)
+                    .accentColor(.secondary)
                     .font(.title.bold())
             }
             
             Spacer()
             
             VStack {
-             
-                Button(action: {
+                Text("By pressing continue you agree to receive a text message from us")
+                
+                NavigationLink(destination: VerificationView(code: .constant(""), phoneLoginVM: phoneLoginVM).onAppear {
                     print("DEBUG: Continue")
-                    phoneLoginVM.otpVerify()
+                    phoneLoginVM.otpStart()
                 }) {
                     Text("Continue")
                         .frame(minWidth: 0, maxWidth: .infinity)
@@ -41,28 +44,12 @@ struct VerificationView: View {
                         .overlay(
                             RoundedRectangle(cornerRadius: 5)
                                 .stroke(Color(UIColor.systemBackground), lineWidth: 2)
-                    )
+                        )
                 }
                 .background(Color(UIColor.label)) // If you have this
                 .cornerRadius(20)         // You also need the cornerRadius here
             }
         }
         .padding(20)
-        .navigationBarBackButtonHidden(true)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button {
-                    presentationMode.wrappedValue.dismiss()
-                } label: {
-                    Image(systemName: "chevron.backward")
-                }
-            }
-        }
-    }
-}
-
-struct VerificationView_Previews: PreviewProvider {
-    static var previews: some View {
-        VerificationView(code: .constant(""), phoneLoginVM: PhoneLoginViewModel())
     }
 }

@@ -39,8 +39,6 @@ class NewPostViewModel: ObservableObject {
                 return
             }
             
-            try! JSONDecoder().decode(Post.self, from: data)
-            
             guard let loginResponse = try? JSONDecoder().decode(Post.self, from: data) else {
                 completion(.failure(.invalidCredentials))
                 return

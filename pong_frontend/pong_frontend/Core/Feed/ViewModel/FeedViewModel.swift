@@ -8,6 +8,7 @@ import Foundation
 import SwiftUI
 
 class FeedViewModel: ObservableObject {
+    @Published var topPosts: [Post] = []
     @Published var hotPosts: [Post] = []
     @Published var recentPosts: [Post] = []
     
@@ -26,10 +27,13 @@ class FeedViewModel: ObservableObject {
         
         if selectedFilter == .recent {
             print("DEBUG: GETPOSTS Recent")
-            url_to_use = "http://127.0.0.1:8005/api/post/?recent=yes"
+            url_to_use = "http://127.0.0.1:8005/api/post/?sort=new/"
+        } else if selectedFilter == .top {
+            print("DEBUG: GETPOSTS Top")
+            url_to_use = "http://127.0.0.1:8005/api/post/?sort=top/"
         } else {
             print("DEBUG: GETPOSTS Default Order")
-            url_to_use = "http://127.0.0.1:8005/api/post/"
+            url_to_use = "http://127.0.0.1:8005/api/post/?sort=old/"
         }
         
         // URL handler
@@ -52,6 +56,8 @@ class FeedViewModel: ObservableObject {
                         self?.hotPosts = posts
                     } else if selectedFilter == .recent {
                         self?.recentPosts = posts
+                    } else if selectedFilter == .top {
+                        self?.topPosts = posts
                     }
 
                 }

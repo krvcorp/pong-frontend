@@ -21,7 +21,7 @@ class ComponentsViewModel: ObservableObject {
         request.httpMethod = "POST"
         
         // task handler. [weak self] prevents memory leaks
-        let task = URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
             
         }
         // activates api call

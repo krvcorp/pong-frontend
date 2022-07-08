@@ -296,6 +296,7 @@ class OTPVerify(APIView):
                 context["code_expired"] = True
         else:
             context["code_incorrect"] = True
+        print(context)
         return JsonResponse(context)
 
 
