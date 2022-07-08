@@ -106,6 +106,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "pong.wsgi.application"
 
+USE_TZ = True
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases

@@ -50,13 +50,4 @@ urlpatterns = [
     path("otp-start/", views.OTPStart.as_view(), name="otp-start"),
     path("otp-verify/", views.OTPVerify.as_view(), name="otp-verify"),
     path("verify-user/", views.VerifyUser.as_view(), name="verify-user"),
-    # Create Model URLS
-    path("create-conversation/", views.createConversation, name="createConversation"),
-    path(
-        "create-message/<int:conversation_id>",
-        views.createMessage,
-        name="createMessage",
-    ),
-    # Account URLS
-    # path("login/", views.ObtainAuthToken.as_view(), name="login"),
 ]

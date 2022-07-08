@@ -1,3 +1,5 @@
+from datetime import datetime, timezone
+from locale import normalize
 from rest_framework import serializers
 from base.models import (
     User,
@@ -72,6 +74,7 @@ class PostSerializer(serializers.ModelSerializer):
     num_comments = serializers.SerializerMethodField()
     comments = serializers.SerializerMethodField()
     score = serializers.SerializerMethodField()
+    time_since_posted = serializers.SerializerMethodField()
 
     def get_num_comments(self, obj):
         return obj.num_comments()
@@ -83,6 +86,38 @@ class PostSerializer(serializers.ModelSerializer):
         comments = obj.get_comments()
         comments = sorted(comments, key=lambda x: x.score, reverse=True)
         return CommentSerializer(comments, many=True).data
+
+    def get_time_since_posted(self, obj):
+        time = datetime.now(timezone.utc) - obj.created_at
+
+        seconds = time.total_seconds()
+        minutes = seconds // 60
+        hours = minutes // 60
+        days = hours // 24
+        weeks = days // 7
+        months = weeks // 4
+        years = months // 12
+
+        years = round(years)
+        months = round(months % 12)
+        weeks = round(weeks % 4)
+        days = round(days % 7)
+        hours = round(hours % 24)
+        minutes = round(minutes % 60)
+        seconds = round(seconds % 60)
+
+        if years > 0:
+            return str(years) + "y"
+        if months > 0:
+            return str(months) + "m"
+        if weeks > 0:
+            return str(weeks) + "w"
+        if days > 0:
+            return str(days) + "d"
+        if hours > 0:
+            return str(hours) + "h"
+        if minutes > 0:
+            return str(minutes) + "m"
 
     class Meta:
         model = Post
@@ -96,6 +131,7 @@ class PostSerializer(serializers.ModelSerializer):
             "num_comments",
             "comments",
             "score",
+            "time_since_posted",
         )
 
 
@@ -129,11 +165,34 @@ class PostVoteSerializer(serializers.ModelSerializer):
         model = PostVote
         fields = ("id", "post", "user", "vote", "created_at", "updated_at")
 
+    def validate(self, attrs):
+        if attrs["vote"] not in [1, -1]:
+            raise serializers.ValidationError("Vote must be 1 or -1")
+        return super().validate(attrs)
+
 
 class CommentVoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = CommentVote
         fields = ("id", "comment", "user", "vote", "created_at", "updated_at")
+
+    def validate(self, attrs):
+        if attrs["vote"] not in [1, -1]:
+            raise serializers.ValidationError("Vote must be 1 or -1")
+        return super().validate(attrs)
+
+
+class DirectMessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DirectMessage
+        fields = (
+            "id",
+            "sender",
+            "receiver",
+            "message",
+            "created_at",
+            "updated_at",
+        )
 
 
 class AuthCustomTokenSerializer(serializers.Serializer):
