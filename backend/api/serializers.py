@@ -57,6 +57,17 @@ class UserSerializerWithoutTimeout(serializers.ModelSerializer):
         fields = ("id", "email", "posts", "comments", "phone")
 
 
+class UserSerializerLeaderboard(serializers.ModelSerializer):
+    score = serializers.SerializerMethodField(read_only=True)
+
+    def get_score(self, obj):
+        return obj.total_score()
+
+    class Meta:
+        model = User
+        fields = ("id", "email", "phone", "score")
+
+
 class PostSerializer(serializers.ModelSerializer):
     num_comments = serializers.SerializerMethodField()
     comments = serializers.SerializerMethodField()

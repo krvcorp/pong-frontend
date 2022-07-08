@@ -36,6 +36,8 @@ class UserManager(UserManager):
         extra_fields.setdefault("is_superuser", False)
         return self._create_user(phone, password, **extra_fields)
 
+    # create staff user
+
     def create_superuser(self, phone, password, **extra_fields):
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
@@ -87,6 +89,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     def is_verified(self):
         return self.has_been_verified
 
+    @property
+    def score(self):
+        return self.total_score()
+
     def verify(self):
         self.has_been_verified = True
         self.save()
@@ -95,7 +101,10 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.name
 
     def get_short_name(self):
-        return self.name or self.email.split("@")[0]
+        if self.name is not None:
+            return self.name
+        else:
+            return ""
 
     def total_score(self):
         return self.total_post_score() + self.total_comment_score()
@@ -313,3 +322,19 @@ class School(models.Model):
 
     def get_members(self):
         return User.objects.filter(school=self)
+
+
+class BlockedUser(models.Model):
+    blocker = models.ForeignKey(
+        User, on_delete=models.SET_NULL, null=True, related_name="blocker"
+    )
+    blockee = models.ForeignKey(
+        User, on_delete=models.SET_NULL, null=True, related_name="blockee"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    unique_together = ("blocker", "blockee")
+
+    def __str__(self):
+        return str(self.blocker) + " " + str(self.blockee)
