@@ -116,6 +116,11 @@ class ListCreatePostAPIView(ListCreateAPIView):
     serializer_class = PostSerializer
     permission_classes = (IsAuthenticated & IsNotInTimeout | IsAdminUser,)
 
+    class Meta:
+        model = Post
+        fields = "__all__"
+        read_only_fields = ["time_since_posted"]
+
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
         PostVote.objects.create(

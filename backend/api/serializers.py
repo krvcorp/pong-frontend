@@ -118,6 +118,9 @@ class PostSerializer(serializers.ModelSerializer):
             return str(hours) + "h"
         if minutes > 0:
             return str(minutes) + "m"
+        if seconds > 0:
+            return str(seconds) + "s"
+        return "0s"
 
     class Meta:
         model = Post
