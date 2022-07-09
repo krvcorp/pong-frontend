@@ -8,47 +8,46 @@
 import SwiftUI
 
 struct WelcomeView: View {
+    @ObservedObject var loginVM : LoginViewModel
+    
     var body: some View {
         
         VStack{
             VStack(alignment: .leading, spacing: 20) {
-                Text("Welcome to Sidechat")
+                Text("Pong")
                     .font(.title).bold()
                 
                 
                 Text("This is a place to connect with your college community anonymously")
                     .font(.title2).bold()
                 
-                Text("Anonymity can help us express ourselves in positive ways through jokes, confessions, or memes.")
+                Text("Anonymity can help us express ourselves in honest ways. Controversial opinions, memes, confessions, we really don't care as anything is fair game.")
                 
-                Text("This is not a place to bully people, spread rumors, or post spam or obscene content.")
-             
+                Text("Just kidding. We will flag content that we believe would violate your school's handbook. Identification of any form is not allowed unless we believe you're a significant public figure. By agreeing, you understand this and Terms of Services in your settings.")
 
             }
             .padding(10)
         
+            Spacer()
+            
             Button(action: {
-                print("DEBUG: Continue")
+                print("DEBUG: Agree")
+                loginVM.welcomeAgreed = true
             }) {
-                Text("Continue")
+                Text("Agree")
                     .frame(minWidth: 0, maxWidth: 150)
                     .font(.system(size: 18).bold())
                     .padding()
-                    .foregroundColor(.primary)
+                    .foregroundColor(Color(UIColor.systemBackground))
                     .overlay(
                         RoundedRectangle(cornerRadius: 5)
-                            .stroke(Color.primary, lineWidth: 2)
+                            .stroke(Color(UIColor.label), lineWidth: 2)
                 )
             }
-            .background(Color.secondary) // If you have this
+            .background(Color(UIColor.label)) // If you have this
             .cornerRadius(20)         // You also need the cornerRadius here
             
         }
-    }
-}
-
-struct WelcomeView_Previews: PreviewProvider {
-    static var previews: some View {
-        WelcomeView()
+        .navigationBarHidden(true)
     }
 }

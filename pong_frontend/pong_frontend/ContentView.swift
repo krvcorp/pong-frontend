@@ -14,8 +14,10 @@ struct ContentView: View {
     @State private var showSettings = false
     
     var body: some View {
-        if loginVM.isAuthenticated {
+        if loginVM.isAuthenticated && loginVM.welcomeAgreed {
             MainInterfaceView
+        } else if loginVM.isAuthenticated {
+            WelcomeView(loginVM: loginVM)
         } else {
             OnboardView(phone: $phoneLoginVM.phone, loginVM: loginVM, phoneLoginVM: phoneLoginVM)
         }

@@ -15,6 +15,7 @@ class LoginViewModel: ObservableObject {
     @Published var isAuthenticated: Bool = false // this needs to be set to false when app launches. true only to troubleshoot app
     @Published var token: String = ""
     @Published var gmailString: String = ""
+    @Published var welcomeAgreed: Bool = false
     
     func login() {
         
@@ -40,6 +41,11 @@ class LoginViewModel: ObservableObject {
         defaults.removeObject(forKey: "jsonwebtoken")
         DispatchQueue.main.async {
             self.isAuthenticated = false
+            self.welcomeAgreed = false
+            self.token = ""
+            self.gmailString = ""
+            self.email_or_username = ""
+            self.password = ""
         }
     }
     
