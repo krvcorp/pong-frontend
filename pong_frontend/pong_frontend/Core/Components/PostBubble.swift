@@ -78,7 +78,6 @@ struct PostBubble: View {
                         } label: {
                             Image(systemName: "square.and.arrow.up")
                         }
-                        .buttonStyle(NoButtonStyle())
                         .sheet(isPresented: $sheet) {
                             ShareSheet(items: ["\(post.title)"])
                         }
