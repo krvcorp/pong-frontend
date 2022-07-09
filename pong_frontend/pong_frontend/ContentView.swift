@@ -14,12 +14,12 @@ struct ContentView: View {
     @State private var showSettings = false
     
     var body: some View {
-//        if loginVM.isAuthenticated {
-//            MainInterfaceView
-//        } else {
-//            OnboardView(phone: $phoneLoginVM.phone, loginVM: loginVM, phoneLoginVM: phoneLoginVM)
-//        }
-        MainInterfaceView
+        if loginVM.isAuthenticated {
+            MainInterfaceView
+        } else {
+            OnboardView(phone: $phoneLoginVM.phone, loginVM: loginVM, phoneLoginVM: phoneLoginVM)
+        }
+//        MainInterfaceView
     }
 }
 

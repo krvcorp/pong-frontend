@@ -9,8 +9,8 @@ import SwiftUI
 
 struct VerificationView: View {
     @Environment(\.presentationMode) var presentationMode
-    @Binding var code: String
     @ObservedObject var phoneLoginVM : PhoneLoginViewModel
+    @ObservedObject var loginVM : LoginViewModel
     
     var body: some View {
 
@@ -33,7 +33,7 @@ struct VerificationView: View {
              
                 Button(action: {
                     print("DEBUG: Continue to verify")
-                    phoneLoginVM.otpVerify()
+                    phoneLoginVM.otpVerify(loginVM: loginVM)
                 }) {
                     Text("Continue")
                         .frame(minWidth: 0, maxWidth: .infinity)
@@ -60,11 +60,5 @@ struct VerificationView: View {
                 }
             }
         }
-    }
-}
-
-struct VerificationView_Previews: PreviewProvider {
-    static var previews: some View {
-        VerificationView(code: .constant(""), phoneLoginVM: PhoneLoginViewModel())
     }
 }

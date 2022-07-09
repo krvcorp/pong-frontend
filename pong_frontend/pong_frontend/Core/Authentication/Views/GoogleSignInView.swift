@@ -50,7 +50,7 @@ struct GoogleSignInView: View {
             let emailAddress = user.profile?.email
             print("DEBUG: emailAddress is \(String(describing: emailAddress))")
             loginVM.verifyEmail(phone: phoneLoginVM.phone, email: emailAddress!)
-            
+            phoneLoginVM.phoneIsVerified = false
             
         }
     }
