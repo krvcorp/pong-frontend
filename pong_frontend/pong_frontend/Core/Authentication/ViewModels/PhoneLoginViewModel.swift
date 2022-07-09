@@ -8,7 +8,6 @@
 import Foundation
 
 class PhoneLoginViewModel: ObservableObject {
-    
     @Published var phone: String = ""
     @Published var code: String = ""
     @Published var phoneIsProvided: Bool = false // this needs to be set to false when app launches. true only to troubleshoot app
@@ -60,11 +59,11 @@ class PhoneLoginViewModel: ObservableObject {
                             self.phoneIsVerified = true
                         }
                     } else if let codeExpire = responseDataContent.code_expire {
-                        bannerVM.bannerData = BannerModifier.BannerData(title: "Code Expired", detail: "Your code expired retard.", type: .Error)
+                        bannerVM.bannerData = BannerModifier.BannerData(title: "Code Expired", detail: "Your code expired.", type: .Error)
                         bannerVM.showBanner = true
                         
                     } else if let codeIncorrect = responseDataContent.code_incorrect {
-                        bannerVM.bannerData = BannerModifier.BannerData(title: "Code Incorrect", detail: "Your code is incorrect retard.", type: .Error)
+                        bannerVM.bannerData = BannerModifier.BannerData(title: "Code Incorrect", detail: "Your code is incorrect.", type: .Error)
                         bannerVM.showBanner = true
                     }
 
