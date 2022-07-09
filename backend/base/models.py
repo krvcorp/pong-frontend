@@ -93,8 +93,16 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.has_been_verified
 
     @property
-    def score(self):
+    def total_karma(self):
         return self.total_score()
+
+    @property
+    def post_karma(self):
+        return self.total_post_score()
+
+    @property
+    def comment_karma(self):
+        return self.total_comment_score()
 
     def verify(self):
         self.has_been_verified = True
@@ -110,13 +118,18 @@ class User(AbstractBaseUser, PermissionsMixin):
             return ""
 
     def total_score(self):
+        # print("being accessed")
         return self.total_post_score() + self.total_comment_score()
 
     def total_post_score(self):
+        # print("being accessed")
         total = 0
-        for vote in PostVote.objects.all():
-            if vote.post.user == self:
-                total += vote.vote
+        try:
+            for vote in PostVote.objects.all():
+                if vote.post.user == self:
+                    total += vote.vote
+        except Exception as e:
+            print(e)
         return total
 
     def total_comment_score(self):
@@ -124,6 +137,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         for vote in CommentVote.objects.all():
             if vote.comment.user == self:
                 total += vote.vote
+        # print("total", total)
         return total
 
     def get_posts(self):
@@ -187,8 +201,22 @@ class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     title = models.TextField(default="")
     image = models.ImageField(upload_to="images/", blank=True)
+    poll = models.ForeignKey(
+        "base.Poll", on_delete=models.SET_NULL, null=True, blank=True
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Post"
+        verbose_name_plural = "Posts"
+        # constraint that ensures that a post does not have both a poll and an image
+        constraints = [
+            models.CheckConstraint(
+                check=models.Q(poll=None) | models.Q(image=None),
+                name="post_poll_or_image_check",
+            )
+        ]
 
     @property
     def score(self):
@@ -209,6 +237,58 @@ class Post(models.Model):
 
     def num_reports(self):
         return self.get_reports().count()
+
+    def __str__(self):
+        return str(self.id)
+
+
+class Poll(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    title = models.TextField(default="")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def get_options(self):
+        return PollOption.objects.filter(poll=self)
+
+    def num_options(self):
+        return self.get_options().count()
+
+    def get_votes(self):
+        return PollVote.objects.filter(poll=self)
+
+    def num_votes(self):
+        return self.get_votes().count()
+
+    def __str__(self):
+        return str(self.id)
+
+
+class PollOption(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    poll = models.ForeignKey(Poll, on_delete=models.CASCADE)
+    title = models.TextField(default="")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def get_votes(self):
+        return PollVote.objects.filter(option=self)
+
+    def num_votes(self):
+        return self.get_votes().count()
+
+    def __str__(self):
+        return str(self.id)
+
+
+class PollVote(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    poll = models.ForeignKey(Poll, on_delete=models.CASCADE)
+    option = models.ForeignKey(PollOption, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return str(self.id)

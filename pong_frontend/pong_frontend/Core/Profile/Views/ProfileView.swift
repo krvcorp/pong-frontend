@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ProfileView: View {
     @State private var selectedFilter: ProfileFilterViewModel = .posts
+    @StateObject private var profileVM = ProfileViewModel()
     @Namespace var animation
     @StateObject var api = API()
     @Binding var showSettings: Bool
@@ -45,6 +46,9 @@ struct ProfileView: View {
             }
         }
         .navigationBarTitleDisplayMode(.inline)
+        .onAppear {
+            profileVM.getLoggedInUserInfo(id: "0ff127a6-23a5-4b8f-a899-bc1e60822135")
+        }
         
     }
     
@@ -81,10 +85,12 @@ struct ProfileView: View {
     }
     
     var karmaInfo: some View {
+        
+        
         ZStack {
             HStack {
                 VStack(alignment: .center) {
-                    Text("201")
+                    Text(String(profileVM.totalKarma))
                     Text("Total Karma")
                         .font(.system(size: 10.0))
                 }
@@ -92,7 +98,7 @@ struct ProfileView: View {
             }
             
             VStack(alignment: .center) {
-                Text("201")
+                Text(String(profileVM.postKarma))
                 Text("Post Karma")
                     .font(.system(size: 10.0))
             }
@@ -100,7 +106,7 @@ struct ProfileView: View {
             HStack {
                 Spacer()
                 VStack(alignment: .center) {
-                    Text("201")
+                    Text(String(profileVM.commentKarma))
                     Text("Comment Karma")
                         .font(.system(size: 10.0))
                 }

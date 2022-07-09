@@ -75,6 +75,18 @@ struct VerifyEmailRequestBody: Codable {
 
 struct VerifyEmailResponseBody: Codable {
     let token: String?
+}
+
+struct LoggedInUserInfoResponseBody: Codable {
+    let id: String
+    let email: String
+    let posts: [Post]
+    let comments: [Comment]
+    let in_timeout: Bool
+    let phone: String
+    let total_karma: Int
+    let comment_karma: Int
+    let post_karma: Int
     
 }
 
@@ -290,5 +302,34 @@ class API: ObservableObject {
             
         }.resume()
         
+    }
+    
+    func getLoggedInUserInfo(id: String, completion: @escaping (Result<LoggedInUserInfoResponseBody, AuthenticationError>) -> Void) {
+        guard let url = URL(string: "\(root)" + "user/" + id) else {
+            completion(.failure(.custom(errorMessage: "URL is not correct")))
+            return
+        }
+        
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("Token 50af864e998ac9340d775b9547e5577edd7497ee", forHTTPHeaderField: "Authorization")
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            guard let data = data, error == nil else {
+                completion(.failure(.custom(errorMessage: "No data")))
+                return
+            }
+            
+            guard let loggedInUserInfoResponse = try? JSONDecoder().decode(LoggedInUserInfoResponseBody.self, from: data) else {
+                completion(.failure(.invalidCredentials))
+                return
+            }
+            
+            print("DEBUG: API otpVerifyResponse is \(loggedInUserInfoResponse)")
+            completion(.success(loggedInUserInfoResponse))
+            
+        }.resume()
     }
 }

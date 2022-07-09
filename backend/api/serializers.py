@@ -10,6 +10,9 @@ from base.models import (
     PostVote,
     DirectConversation,
     DirectMessage,
+    Poll,
+    PollOption,
+    PollVote,
 )
 from rest_framework.authtoken.models import Token
 from django.core.validators import validate_email
@@ -21,16 +24,12 @@ from django.contrib.auth import authenticate
 class UserSerializer(serializers.ModelSerializer):
     posts = serializers.SerializerMethodField(read_only=True)
     comments = serializers.SerializerMethodField(read_only=True)
-    is_in_timeout = serializers.SerializerMethodField(read_only=True)
 
     def get_posts(self, obj):
         return PostSerializer(obj.get_posts(), many=True).data
 
     def get_comments(self, obj):
         return CommentSerializer(obj.get_comments(), many=True).data
-
-    def get_is_in_timeout(self, obj):
-        return obj.in_timeout
 
     class Meta:
         model = User
@@ -39,24 +38,27 @@ class UserSerializer(serializers.ModelSerializer):
             "email",
             "posts",
             "comments",
-            "is_in_timeout",
+            "in_timeout",
             "phone",
+            "comment_karma",
+            "post_karma",
+            "total_karma",
         )
 
 
-class UserSerializerWithoutTimeout(serializers.ModelSerializer):
-    posts = serializers.SerializerMethodField(read_only=True)
-    comments = serializers.SerializerMethodField(read_only=True)
+# class UserSerializerWithoutTimeout(serializers.ModelSerializer):
+#     posts = serializers.SerializerMethodField(read_only=True)
+#     comments = serializers.SerializerMethodField(read_only=True)
 
-    def get_posts(self, obj):
-        return PostSerializer(obj.get_posts(), many=True).data
+#     def get_posts(self, obj):
+#         return PostSerializer(obj.get_posts(), many=True).data
 
-    def get_comments(self, obj):
-        return CommentSerializer(obj.get_comments(), many=True).data
+#     def get_comments(self, obj):
+#         return CommentSerializer(obj.get_comments(), many=True).data
 
-    class Meta:
-        model = User
-        fields = ("id", "email", "posts", "comments", "phone")
+#     class Meta:
+#         model = User
+#         fields = ("id", "email", "posts", "comments", "phone")
 
 
 class UserSerializerLeaderboard(serializers.ModelSerializer):
@@ -196,6 +198,28 @@ class DirectMessageSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
         )
+
+
+class PollSerializer(serializers.ModelSerializer):
+    options = serializers.SerializerMethodField()
+
+    def get_options(self, obj):
+        return PollOptionSerializer(obj.get_options(), many=True).data
+
+    class Meta:
+        model = Poll
+        fields = ("id", "user", "title", "created_at", "updated_at", "options")
+
+
+class PollOptionSerializer(serializers.ModelSerializer):
+    votes = serializers.SerializerMethodField()
+
+    def get_votes(self, obj):
+        return obj.num_votes()
+
+    class Meta:
+        model = PollOption
+        fields = ("id", "title", "votes")
 
 
 class AuthCustomTokenSerializer(serializers.Serializer):

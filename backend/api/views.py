@@ -24,7 +24,6 @@ from .serializers import (
     DirectMessageSerializer,
     UserSerializer,
     UserSerializerLeaderboard,
-    UserSerializerWithoutTimeout,
     PostSerializer,
     CommentSerializer,
     PostReportSerializer,
@@ -94,10 +93,7 @@ class ListCreateUserAPIView(ListCreateAPIView):
         sort = self.request.query_params.get("sort", None)
         if sort == "leaderboard":
             return UserSerializerLeaderboard(*args, **kwargs)
-        if self.request.user.is_staff:
-            return UserSerializer(*args, **kwargs)
-        else:
-            return UserSerializerWithoutTimeout(*args, **kwargs)
+        return UserSerializer(*args, **kwargs)
 
     def perform_create(self, serializer):
         serializer.save()
