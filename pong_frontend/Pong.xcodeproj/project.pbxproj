@@ -12,6 +12,7 @@
 		6A21846228788D2E00681C86 /* GoogleSignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A21846128788D2E00681C86 /* GoogleSignInView.swift */; };
 		6A21846428794C4F00681C86 /* Banner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A21846328794C4F00681C86 /* Banner.swift */; };
 		6A218466287A052A00681C86 /* BannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A218465287A052A00681C86 /* BannerViewModel.swift */; };
+		6A218469287A0C8200681C86 /* iPhoneNumberField in Frameworks */ = {isa = PBXBuildFile; productRef = 6A218468287A0C8200681C86 /* iPhoneNumberField */; };
 		6A3F3D82285D176B00EC43A3 /* ChatSideMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3F3D81285D176B00EC43A3 /* ChatSideMenuViewModel.swift */; };
 		6A3F3D84285D177900EC43A3 /* ChatSideMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3F3D83285D177900EC43A3 /* ChatSideMenuView.swift */; };
 		6A3F3D86285D178400EC43A3 /* ChatSideMenuRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3F3D85285D178400EC43A3 /* ChatSideMenuRowView.swift */; };
@@ -134,6 +135,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DCB9394884F3C599B368C950 /* Pods_Pong.framework in Frameworks */,
+				6A218469287A0C8200681C86 /* iPhoneNumberField in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -584,6 +586,9 @@
 			dependencies = (
 			);
 			name = Pong;
+			packageProductDependencies = (
+				6A218468287A0C8200681C86 /* iPhoneNumberField */,
+			);
 			productName = pong;
 			productReference = 6A5DF0E32851321000F28A06 /* Pong.app */;
 			productType = "com.apple.product-type.application";
@@ -613,6 +618,9 @@
 				Base,
 			);
 			mainGroup = 6A5DF0DA2851321000F28A06;
+			packageReferences = (
+				6A218467287A0C8200681C86 /* XCRemoteSwiftPackageReference "iPhoneNumberField" */,
+			);
 			productRefGroup = 6A5DF0E42851321000F28A06 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -947,6 +955,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		6A218467287A0C8200681C86 /* XCRemoteSwiftPackageReference "iPhoneNumberField" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/MojtabaHs/iPhoneNumberField.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		6A218468287A0C8200681C86 /* iPhoneNumberField */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6A218467287A0C8200681C86 /* XCRemoteSwiftPackageReference "iPhoneNumberField" */;
+			productName = iPhoneNumberField;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 6A5DF0DB2851321000F28A06 /* Project object */;
 }

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import iPhoneNumberField
 
 struct VerificationView: View {
     @Environment(\.presentationMode) var presentationMode

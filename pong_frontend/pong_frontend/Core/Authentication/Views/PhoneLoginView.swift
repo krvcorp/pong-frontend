@@ -7,6 +7,7 @@
 
 import UIKit
 import SwiftUI
+import iPhoneNumberField
 
 
 struct PhoneLoginView: View {
@@ -15,17 +16,17 @@ struct PhoneLoginView: View {
     @ObservedObject var loginVM : LoginViewModel
     @ObservedObject var phoneLoginVM : PhoneLoginViewModel
     
-    
     var body: some View {
 
         VStack {
             VStack(alignment: .leading) {
                 Text("Enter your phone number")
                     .font(.title).bold()
-                TextField("1234567890", text: $phoneLoginVM.phone)
-                    .keyboardType(.phonePad)
-                    .accentColor(.secondary)
-                    .font(.title.bold())
+                iPhoneNumberField("(000) 000-0000", text: $phoneLoginVM.phone)
+                    .font(UIFont(size: 30, weight: .bold))
+                    .maximumDigits(10)
+                    .clearButtonMode(.whileEditing)
+                    .accentColor(Color(UIColor.label))
             }
             
             Spacer()
