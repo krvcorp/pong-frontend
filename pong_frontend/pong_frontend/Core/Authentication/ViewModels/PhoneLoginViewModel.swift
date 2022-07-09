@@ -45,11 +45,13 @@ class PhoneLoginViewModel: ObservableObject {
                     // if email_unverified is true then go to GoogleSignInView
                     if let token = responseDataContent.token {
                        // If key exist, this code will be executed
-                        defaults.setValue(token, forKey: "jsonwebtoken")
-                        loginVM.isAuthenticated = true
-                        self.phone = ""
-                        self.phoneIsVerified = false
-                        self.code = ""
+                        DispatchQueue.main.async {
+                            defaults.setValue(token, forKey: "jsonwebtoken")
+                            self.phone = ""
+                            self.phoneIsVerified = false
+                            self.code = ""
+                            loginVM.isAuthenticated = true
+                        }
                     } else {
                       // If key does not exist, this code will be executed
                         DispatchQueue.main.async {
