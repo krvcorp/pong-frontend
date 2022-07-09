@@ -50,7 +50,8 @@ struct GoogleSignInView: View {
             print("DEBUG: emailAddress is \(String(describing: emailAddress))")
             loginVM.verifyEmail(phone: phoneLoginVM.phone, email: emailAddress!)
             phoneLoginVM.phoneIsVerified = false
-            
+            phoneLoginVM.phone = ""
+            phoneLoginVM.code = ""
         }
     }
 }

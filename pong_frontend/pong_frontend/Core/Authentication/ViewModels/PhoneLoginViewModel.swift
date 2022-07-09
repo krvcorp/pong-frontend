@@ -8,7 +8,6 @@
 import Foundation
 
 class PhoneLoginViewModel: ObservableObject {
-    
     @Published var phone: String = ""
     @Published var code: String = ""
     @Published var phoneIsProvided: Bool = false // this needs to be set to false when app launches. true only to troubleshoot app
@@ -16,13 +15,10 @@ class PhoneLoginViewModel: ObservableObject {
     
     func otpStart() {
         
-//        let defaults = UserDefaults.standard
-        
         API().otpStart(phone: phone) { result in
             switch result {
                 case .success(let new_user):
                     print("DEBUG: PhoneLoginVM new_user is \(new_user)")
-//                    defaults.setValue(token, forKey: "jsonwebtoken")
                     DispatchQueue.main.async {
                         self.phoneIsProvided = true
                     }
@@ -33,8 +29,6 @@ class PhoneLoginViewModel: ObservableObject {
     }
     
     func otpVerify(loginVM: LoginViewModel, bannerVM : BannerViewModel) {
-        
-        let defaults = UserDefaults.standard
         
         API().otpVerify(phone: phone, code: code) { result in
             switch result {
@@ -48,7 +42,7 @@ class PhoneLoginViewModel: ObservableObject {
                     if let token = responseDataContent.token {
                        // If key exist, this code will be executed
                         DispatchQueue.main.async {
-                            defaults.setValue(token, forKey: "jsonwebtoken")
+                            DAKeychain.shared["token"] = token // Store
                             self.phone = ""
                             self.phoneIsVerified = false
                             self.code = ""
@@ -60,11 +54,11 @@ class PhoneLoginViewModel: ObservableObject {
                             self.phoneIsVerified = true
                         }
                     } else if let codeExpire = responseDataContent.code_expire {
-                        bannerVM.bannerData = BannerModifier.BannerData(title: "Code Expired", detail: "Your code expired retard.", type: .Error)
+                        bannerVM.bannerData = BannerModifier.BannerData(title: "Code Expired", detail: "Your code expired.", type: .Error)
                         bannerVM.showBanner = true
                         
                     } else if let codeIncorrect = responseDataContent.code_incorrect {
-                        bannerVM.bannerData = BannerModifier.BannerData(title: "Code Incorrect", detail: "Your code is incorrect retard.", type: .Error)
+                        bannerVM.bannerData = BannerModifier.BannerData(title: "Code Incorrect", detail: "Your code is incorrect.", type: .Error)
                         bannerVM.showBanner = true
                     }
 
