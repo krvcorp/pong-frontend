@@ -33,7 +33,7 @@ class PhoneLoginViewModel: ObservableObject {
         }
     }
     
-    func otpVerify() {
+    func otpVerify(loginVM: LoginViewModel) {
         
         let defaults = UserDefaults.standard
         
@@ -42,22 +42,22 @@ class PhoneLoginViewModel: ObservableObject {
                 case .success(let responseDataContent):
                     print("DEBUG: PhoneLoginVM responseDataContent \(responseDataContent)")
 
+                    // if token then go to main view
+                    // if email_unverified is true then go to GoogleSignInView
                     if let token = responseDataContent.token {
                        // If key exist, this code will be executed
                         defaults.setValue(token, forKey: "jsonwebtoken")
+                        loginVM.isAuthenticated = true
                     } else {
                       // If key does not exist, this code will be executed
-                        
+                        DispatchQueue.main.async {
+                            self.phoneIsVerified = true
+                        }
                     }
-                    // if token then go to main view
 
                 
-                    // if email_unverified is true then go to GoogleSignInView
                 
-                
-                    DispatchQueue.main.async {
-                        self.phoneIsVerified = true
-                    }
+
                 case .failure(let error):
                     print(error.localizedDescription)
             }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-@MainActor class LoginViewModel: ObservableObject {
+class LoginViewModel: ObservableObject {
     
     @Published var email_or_username: String = ""
     @Published var password: String = ""

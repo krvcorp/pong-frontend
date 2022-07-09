@@ -33,7 +33,7 @@ struct PhoneLoginView: View {
             VStack {
                 Text("By pressing continue you agree to receive a text message from us")
                 
-                NavigationLink(destination: VerificationView(code: $phoneLoginVM.code, phoneLoginVM: phoneLoginVM)) {
+                NavigationLink(destination: VerificationView(phoneLoginVM: phoneLoginVM, loginVM: loginVM)) {
                     Text("Continue")
                         .frame(minWidth: 0, maxWidth: .infinity)
                         .font(.system(size: 18).bold())
