@@ -61,6 +61,8 @@ struct VerificationView: View {
                     }
                 }
             }
-        }.banner(data: $bannerVM.bannerData, show: $bannerVM.showBanner)
+        }
+        .banner(data: $bannerVM.bannerData, show: $bannerVM.showBanner)
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
