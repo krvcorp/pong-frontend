@@ -233,8 +233,20 @@ class API: ObservableObject {
                 return
             }
             
+            if let responseDataContent = otpVerifyResponse.code_expire {
+                print("DEBUG: code_expire is \(responseDataContent)")
+                completion(.success(otpVerifyResponse))
+                return
+            }
+            
+            if let responseDataContent = otpVerifyResponse.code_incorrect {
+                print("DEBUG: code_incorrect is \(responseDataContent)")
+                completion(.success(otpVerifyResponse))
+                return
+            }
+            
             print("DEBUG: API \(otpVerifyResponse)")
-            completion(.failure(.custom(errorMessage: "new_user not returned. Consider code_expire or code_incorrect")))
+            completion(.failure(.custom(errorMessage: "Broken")))
             
         }.resume()
     }

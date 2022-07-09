@@ -22,6 +22,7 @@ struct OnboardView: View {
         } else {
             NavigationView {
                 PhoneLoginView(phone: $phoneLoginVM.phone, loginVM: loginVM, phoneLoginVM: phoneLoginVM)
+                    .navigationBarTitleDisplayMode(.inline)
             }
         }
 //        VerificationView(phoneNumber: $phoneLoginVM.phone)

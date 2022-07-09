@@ -32,7 +32,7 @@ class PhoneLoginViewModel: ObservableObject {
         }
     }
     
-    func otpVerify(loginVM: LoginViewModel) {
+    func otpVerify(loginVM: LoginViewModel, bannerVM : BannerViewModel) {
         
         let defaults = UserDefaults.standard
         
@@ -43,6 +43,8 @@ class PhoneLoginViewModel: ObservableObject {
 
                     // if token then go to main view
                     // if email_unverified is true then go to GoogleSignInView
+                    // if code_expire is true then banner activate that code_expired
+                    // if code_incorrect is true then banner active that code_incorrect
                     if let token = responseDataContent.token {
                        // If key exist, this code will be executed
                         DispatchQueue.main.async {
@@ -52,15 +54,19 @@ class PhoneLoginViewModel: ObservableObject {
                             self.code = ""
                             loginVM.isAuthenticated = true
                         }
-                    } else {
+                    } else if let emailUnverified = responseDataContent.email_unverified {
                       // If key does not exist, this code will be executed
                         DispatchQueue.main.async {
                             self.phoneIsVerified = true
                         }
+                    } else if let codeExpire = responseDataContent.code_expire {
+                        bannerVM.bannerData = BannerModifier.BannerData(title: "Code Expired", detail: "Your code expired retard.", type: .Error)
+                        bannerVM.showBanner = true
+                        
+                    } else if let codeIncorrect = responseDataContent.code_incorrect {
+                        bannerVM.bannerData = BannerModifier.BannerData(title: "Code Incorrect", detail: "Your code is incorrect retard.", type: .Error)
+                        bannerVM.showBanner = true
                     }
-
-                
-                
 
                 case .failure(let error):
                     print(error.localizedDescription)
