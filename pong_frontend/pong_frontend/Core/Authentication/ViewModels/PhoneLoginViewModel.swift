@@ -13,7 +13,6 @@ class PhoneLoginViewModel: ObservableObject {
     @Published var code: String = ""
     @Published var phoneIsProvided: Bool = false // this needs to be set to false when app launches. true only to troubleshoot app
     @Published var phoneIsVerified: Bool = false
-    @Published var token: String = ""
     
     func otpStart() {
         
@@ -48,6 +47,9 @@ class PhoneLoginViewModel: ObservableObject {
                        // If key exist, this code will be executed
                         defaults.setValue(token, forKey: "jsonwebtoken")
                         loginVM.isAuthenticated = true
+                        self.phone = ""
+                        self.phoneIsVerified = false
+                        self.code = ""
                     } else {
                       // If key does not exist, this code will be executed
                         DispatchQueue.main.async {

@@ -44,7 +44,7 @@ extension ContentView {
             }
             
             // settings side menu
-            SettingsView(loginVM: loginVM)
+            SettingsView(loginVM: loginVM, showSettings: $showSettings)
                 .frame(minWidth: 200, maxWidth: 250)
                 .offset(x: showSettings ? 0 : 300)
             

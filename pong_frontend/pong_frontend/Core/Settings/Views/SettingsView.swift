@@ -10,6 +10,7 @@ import GoogleSignIn
 
 struct SettingsView: View {
     @ObservedObject var loginVM : LoginViewModel
+    @Binding var showSettings: Bool
     
     var body: some View {
         
@@ -27,6 +28,7 @@ struct SettingsView: View {
                         print("DEBUG: SIGN OUT")
                         GIDSignIn.sharedInstance.disconnect()
                         loginVM.signout()
+                        showSettings = false
                     } label: {
                         SettingsOptionRowView(viewModel: viewModel)
                     }

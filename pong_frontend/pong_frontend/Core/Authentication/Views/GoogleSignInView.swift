@@ -17,7 +17,6 @@ struct GoogleSignInView: View {
     
     var body: some View {
         Text("Your phone number is \(phoneLoginVM.phone)")
-        Text("Your token is \(phoneLoginVM.token)")
         
         Button {
             print("DEBUG: VIEW GoogleSignIn")
