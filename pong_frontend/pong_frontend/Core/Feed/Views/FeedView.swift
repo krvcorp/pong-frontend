@@ -89,13 +89,13 @@ struct FeedView: View {
                             
                             // actual stack of post bubbles
                             LazyVStack {
-                                
                                 // top
                                 if view == .top {
                                     ForEach(feedVM.topPosts) { post in
                                         PostBubble(post: post, expanded: false)
                                     }
                                 }
+                                
                                 
                                 // hot
                                 else if view == .hot {

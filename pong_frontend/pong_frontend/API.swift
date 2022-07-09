@@ -79,7 +79,7 @@ struct VerifyEmailResponseBody: Codable {
 }
 
 class API: ObservableObject {
-    var root: String = "http://127.0.0.1:8005/api/"
+    var root: String = "http://localhost:8005/api/"
     @Published var posts: [Post] = []
     
     func getPosts() {
