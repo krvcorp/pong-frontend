@@ -16,6 +16,10 @@ struct User: Identifiable, Codable {
     var banned: Bool
     var school_attending: String
     
+    var chat_notifications: Bool
+    var trending_post_notifications: Bool
+    var activity_notifications: Bool
+    
     var is_active: Bool
     var is_staff: Bool
     var is_superuser: Bool
