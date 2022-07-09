@@ -14,13 +14,9 @@ class FeedViewModel: ObservableObject {
     
     func getPosts(selectedFilter: FeedFilterViewModel) {
         print("DEBUG: GETPOSTS")
-        
-        let defaults = UserDefaults.standard
-        
-        guard let token = defaults.string(forKey: "jsonwebtoken") else {
-            return
-        }
-//        print("DEBUG: Token \(token)")
+
+        guard let token = DAKeychain.shared["token"] else { return } // Fetch
+        print("DEBUG: FeedVM KEYCHAIN TOKEN IS \(token)")
         
         // GET params
         let url_to_use: String

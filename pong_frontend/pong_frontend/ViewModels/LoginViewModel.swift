@@ -17,28 +17,29 @@ class LoginViewModel: ObservableObject {
     @Published var gmailString: String = ""
     @Published var welcomeAgreed: Bool = false
     
-    func login() {
-        
-        let defaults = UserDefaults.standard
-        
-        API().login(email_or_username: email_or_username, password: password) { result in
-            switch result {
-                case .success(let token):
-                    print("DEBUG: \(result)")
-                    defaults.setValue(token, forKey: "jsonwebtoken")
-                    DispatchQueue.main.async {
-                        self.isAuthenticated = true
-                    }
-                case .failure(let error):
-                    print(error.localizedDescription)
-            }
-        }
-    }
+//    func login() {
+//        
+////        let defaults = UserDefaults.standard
+//        
+//        API().login(email_or_username: email_or_username, password: password) { result in
+//            switch result {
+//                case .success(let token):
+//                    print("DEBUG: \(result)")
+////                    defaults.setValue(token, forKey: "jsonwebtoken")
+//                    DAKeychain.shared["token"] = token // Store
+//                    DispatchQueue.main.async {
+//                        self.isAuthenticated = true
+//                    }
+//                case .failure(let error):
+//                    print(error.localizedDescription)
+//            }
+//        }
+//    }
     
     func signout() {
            
-        let defaults = UserDefaults.standard
-        defaults.removeObject(forKey: "jsonwebtoken")
+//        let defaults = UserDefaults.standard
+//        defaults.removeObject(forKey: "jsonwebtoken")
         DispatchQueue.main.async {
             self.isAuthenticated = false
             self.welcomeAgreed = false
@@ -56,8 +57,9 @@ class LoginViewModel: ObservableObject {
             case .success(let token):
                 self.token = token
                 self.isAuthenticated = true
-                let defaults = UserDefaults.standard
-                defaults.setValue(token, forKey: "jsonwebtoken")
+//                let defaults = UserDefaults.standard
+//                defaults.setValue(token, forKey: "jsonwebtoken")
+                DAKeychain.shared["token"] = token // Store
                 print("DEBUG loginVM \(self.gmailString)")
             case .failure(let error):
                 print("DEBUG: \(error)")

@@ -15,13 +15,10 @@ class PhoneLoginViewModel: ObservableObject {
     
     func otpStart() {
         
-//        let defaults = UserDefaults.standard
-        
         API().otpStart(phone: phone) { result in
             switch result {
                 case .success(let new_user):
                     print("DEBUG: PhoneLoginVM new_user is \(new_user)")
-//                    defaults.setValue(token, forKey: "jsonwebtoken")
                     DispatchQueue.main.async {
                         self.phoneIsProvided = true
                     }
@@ -32,8 +29,6 @@ class PhoneLoginViewModel: ObservableObject {
     }
     
     func otpVerify(loginVM: LoginViewModel, bannerVM : BannerViewModel) {
-        
-        let defaults = UserDefaults.standard
         
         API().otpVerify(phone: phone, code: code) { result in
             switch result {
@@ -47,7 +42,7 @@ class PhoneLoginViewModel: ObservableObject {
                     if let token = responseDataContent.token {
                        // If key exist, this code will be executed
                         DispatchQueue.main.async {
-                            defaults.setValue(token, forKey: "jsonwebtoken")
+                            DAKeychain.shared["token"] = token // Store
                             self.phone = ""
                             self.phoneIsVerified = false
                             self.code = ""
