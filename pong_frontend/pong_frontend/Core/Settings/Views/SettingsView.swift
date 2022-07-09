@@ -29,6 +29,9 @@ struct SettingsView: View {
                         GIDSignIn.sharedInstance.disconnect()
                         loginVM.signout()
                         showSettings = false
+                        // delete keychain
+                        DAKeychain.shared["token"] = nil
+                        
                     } label: {
                         SettingsOptionRowView(viewModel: viewModel)
                     }

@@ -14,7 +14,7 @@ struct ContentView: View {
     @State private var showSettings = false
     
     var body: some View {
-        if loginVM.isAuthenticated && loginVM.welcomeAgreed {
+        if let token = DAKeychain.shared["token"] {
             MainInterfaceView
         } else if loginVM.isAuthenticated {
             WelcomeView(loginVM: loginVM)
