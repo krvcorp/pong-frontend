@@ -179,7 +179,7 @@ struct PullToRefresh: View {
                     .onAppear {
                         needRefresh = true
                         onRefresh { () -> () in
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                 // Put your code which should be executed with a delay here
                                 needRefresh = false
                             }
@@ -192,11 +192,11 @@ struct PullToRefresh: View {
                 if needRefresh {
                     ProgressView()
                 } else {
-                    Image(systemName: "arrow.down").id("top")
+//                    Image(systemName: "arrow.down").id("top")
                 }
                 Spacer()
             }
-        }.padding(needRefresh ? .all : .top, needRefresh ? 25 : -50)
+        }.padding(needRefresh ? .bottom : .top, needRefresh ? 25 : -50)
     }
 }
 
