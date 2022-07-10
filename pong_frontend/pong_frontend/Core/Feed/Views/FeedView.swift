@@ -11,7 +11,8 @@ struct FeedView: View {
     var school: String // will need to filter entire page by community
     @Namespace var animation
     @State var selectedFilter: FeedFilterViewModel
-    @StateObject var feedVM = FeedViewModel()
+    
+    @StateObject private var feedVM = FeedViewModel()
     @State private var isRefreshing = false
     @State private var offset = CGSize.zero
     @State private var newPost = false
@@ -150,9 +151,11 @@ struct FeedView: View {
         }
         // when home appears, call api and load
         .onAppear {
-            feedVM.getPosts(selectedFilter: .hot)
-            feedVM.getPosts(selectedFilter: .recent)
-            feedVM.getPosts(selectedFilter: .top)
+            if !feedVM.initalOpen {
+                feedVM.getPosts(selectedFilter: .hot)
+                feedVM.getPosts(selectedFilter: .recent)
+                feedVM.getPosts(selectedFilter: .top)
+            }
         }
     }
 }

@@ -8,12 +8,14 @@ import Foundation
 import SwiftUI
 
 class FeedViewModel: ObservableObject {
-    @Published var topPosts: [Post] = []
-    @Published var hotPosts: [Post] = []
-    @Published var recentPosts: [Post] = []
+    @Published var initalOpen : Bool = false
+    @Published var topPosts : [Post] = []
+    @Published var hotPosts : [Post] = []
+    @Published var recentPosts : [Post] = []
     
     func getPosts(selectedFilter: FeedFilterViewModel) {
-//        print("DEBUG: GETPOSTS")
+        initalOpen = true
+        print("DEBUG: GETPOSTS")
 
         guard let token = DAKeychain.shared["token"] else { return } // Fetch
 //        print("DEBUG: FeedVM KEYCHAIN TOKEN IS \(token)")
