@@ -49,16 +49,16 @@ class PhoneLoginViewModel: ObservableObject {
                             self.code = ""
                             loginVM.isAuthenticated = true
                         }
-                    } else if let emailUnverified = responseDataContent.email_unverified {
+                    } else if responseDataContent.email_unverified != nil {
                       // If key does not exist, this code will be executed
                         DispatchQueue.main.async {
                             self.phoneIsVerified = true
                         }
-                    } else if let codeExpire = responseDataContent.code_expire {
+                    } else if responseDataContent.code_expire != nil {
                         bannerVM.bannerData = BannerModifier.BannerData(title: "Code Expired", detail: "Your code expired.", type: .Error)
                         bannerVM.showBanner = true
                         
-                    } else if let codeIncorrect = responseDataContent.code_incorrect {
+                    } else if responseDataContent.code_incorrect != nil {
                         bannerVM.bannerData = BannerModifier.BannerData(title: "Code Incorrect", detail: "Your code is incorrect.", type: .Error)
                         bannerVM.showBanner = true
                     }

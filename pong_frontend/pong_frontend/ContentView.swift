@@ -14,14 +14,13 @@ struct ContentView: View {
     @State private var showSettings = false
     
     var body: some View {
-        if DAKeychain.shared["token"] != nil && !loginVM.welcomeAgreed {
-            WelcomeView(loginVM: loginVM)
-        } else if DAKeychain.shared["token"] != nil {
+        if DAKeychain.shared["token"] != nil && !loginVM.initialOnboard {
             MainInterfaceView
+        } else if DAKeychain.shared["token"] != nil {
+            WelcomeView(loginVM: loginVM)
         } else {
             OnboardView(phone: $phoneLoginVM.phone, loginVM: loginVM, phoneLoginVM: phoneLoginVM)
         }
-//        MainInterfaceView
     }
 }
 

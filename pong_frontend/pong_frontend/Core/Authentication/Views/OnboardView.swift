@@ -25,9 +25,6 @@ struct OnboardView: View {
                     .navigationBarHidden(true)
             }
         }
-//        VerificationView(phoneNumber: $phoneLoginVM.phone)
-//        PhoneLoginView(phone: $phoneLoginVM.phone, loginVM: loginVM, phoneLoginVM: phoneLoginVM)
-
     }
 }
 

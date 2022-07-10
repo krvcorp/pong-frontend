@@ -17,7 +17,6 @@ struct PhoneLoginView: View {
     @ObservedObject var phoneLoginVM : PhoneLoginViewModel
     
     var body: some View {
-
         VStack {
             VStack(alignment: .leading) {
                 Text("Enter your phone number")
@@ -48,6 +47,7 @@ struct PhoneLoginView: View {
                 .simultaneousGesture(TapGesture().onEnded{
                     print("VIEW Continue to verification")
                     phoneLoginVM.otpStart()
+                    loginVM.initialOnboard = true
                 })
                 .background(Color(UIColor.label)) // If you have this
                 .cornerRadius(20)         // You also need the cornerRadius here

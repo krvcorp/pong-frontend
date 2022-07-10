@@ -15,38 +15,16 @@ class LoginViewModel: ObservableObject {
     @Published var isAuthenticated: Bool = false // this needs to be set to false when app launches. true only to troubleshoot app
     @Published var token: String = ""
     @Published var gmailString: String = ""
-    @Published var welcomeAgreed: Bool = false
-    
-//    func login() {
-//        
-////        let defaults = UserDefaults.standard
-//        
-//        API().login(email_or_username: email_or_username, password: password) { result in
-//            switch result {
-//                case .success(let token):
-//                    print("DEBUG: \(result)")
-////                    defaults.setValue(token, forKey: "jsonwebtoken")
-//                    DAKeychain.shared["token"] = token // Store
-//                    DispatchQueue.main.async {
-//                        self.isAuthenticated = true
-//                    }
-//                case .failure(let error):
-//                    print(error.localizedDescription)
-//            }
-//        }
-//    }
+    @Published var initialOnboard: Bool = false
     
     func signout() {
-           
-//        let defaults = UserDefaults.standard
-//        defaults.removeObject(forKey: "jsonwebtoken")
         DispatchQueue.main.async {
             self.isAuthenticated = false
-            self.welcomeAgreed = false
             self.token = ""
             self.gmailString = ""
             self.email_or_username = ""
             self.password = ""
+            self.initialOnboard = true
         }
     }
     
@@ -57,10 +35,8 @@ class LoginViewModel: ObservableObject {
             case .success(let token):
                 self.token = token
                 self.isAuthenticated = true
-//                let defaults = UserDefaults.standard
-//                defaults.setValue(token, forKey: "jsonwebtoken")
                 DAKeychain.shared["token"] = token // Store
-                print("DEBUG loginVM \(self.gmailString)")
+//                print("DEBUG loginVM \(self.gmailString)")
             case .failure(let error):
                 print("DEBUG: \(error)")
                 return

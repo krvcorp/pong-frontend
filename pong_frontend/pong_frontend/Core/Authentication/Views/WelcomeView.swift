@@ -32,7 +32,9 @@ struct WelcomeView: View {
             
             Button(action: {
                 print("DEBUG: Agree")
-                loginVM.welcomeAgreed = true
+                let _ = UserDefaults.standard.removeObject(forKey: "hasAgreed")
+                let _ = UserDefaults.standard.setValue(false, forKey: "initialOnboard")
+                loginVM.initialOnboard = false
             }) {
                 Text("Agree")
                     .frame(minWidth: 0, maxWidth: 150)
