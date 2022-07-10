@@ -83,10 +83,7 @@ struct FeedView: View {
                         ScrollViewReader { scrollReader in
                             
                             // pull to refresh component
-                            PullToRefresh(coordinateSpaceName: "pullToRefresh") {
-                                print("Refresh")
-                                feedVM.getPosts(selectedFilter: selectedFilter)
-                            }
+                            PullToRefresh(feedVM: feedVM, selectedFilter: $selectedFilter, coordinateSpaceName: "pullToRefresh")
                             
                             // actual stack of post bubbles
                             LazyVStack {
@@ -160,13 +157,20 @@ struct FeedView: View {
     }
 }
 
-// investigate distance to drag
+// INVESTIGATE DISTANCE TO DRAG
 struct PullToRefresh: View {
-    
+    @ObservedObject var feedVM : FeedViewModel
+    @Binding var selectedFilter : FeedFilterViewModel
     var coordinateSpaceName: String
-    var onRefresh: ()->Void
+    typealias FinishedDownload = () -> ()
     
     @State var needRefresh: Bool = false
+    
+    func onRefresh(completed: FinishedDownload) {
+       // Code for function that needs to complete
+        feedVM.getPosts(selectedFilter: selectedFilter)
+        completed()
+    }
     
     var body: some View {
         GeometryReader { geo in
@@ -174,16 +178,15 @@ struct PullToRefresh: View {
                 Spacer()
                     .onAppear {
                         needRefresh = true
-                    }
-            } else if (geo.frame(in: .named(coordinateSpaceName)).maxY < 150) {
-                Spacer()
-                    .onAppear {
-                        if needRefresh {
-                            needRefresh = false
-                            onRefresh()
+                        onRefresh { () -> () in
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                // Put your code which should be executed with a delay here
+                                needRefresh = false
+                            }
                         }
                     }
             }
+            
             HStack {
                 Spacer()
                 if needRefresh {
@@ -193,7 +196,7 @@ struct PullToRefresh: View {
                 }
                 Spacer()
             }
-        }.padding(.top, -50)
+        }.padding(needRefresh ? .all : .top, needRefresh ? 25 : -50)
     }
 }
 
