@@ -12,6 +12,7 @@ class PhoneLoginViewModel: ObservableObject {
     @Published var code: String = ""
     @Published var phoneIsProvided: Bool = false // this needs to be set to false when app launches. true only to troubleshoot app
     @Published var phoneIsVerified: Bool = false
+    @Published var firstTimeOnboard: Bool = true
     
     func otpStart() {
         

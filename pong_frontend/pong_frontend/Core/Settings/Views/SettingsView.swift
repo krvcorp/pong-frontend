@@ -29,6 +29,7 @@ struct SettingsView: View {
                         GIDSignIn.sharedInstance.disconnect()
                         loginVM.signout()
                         showSettings = false
+                        loginVM.welcomeAgreed = false
                         // delete keychain
                         DAKeychain.shared["token"] = nil
                         
