@@ -12,12 +12,12 @@ struct Post: Codable, Identifiable {
     var user: String
     var title: String
     var image: String?
-    var created_at: String
-    var updated_at: String
+    var createdAt: String
+    var updatedAt: String
     
-    var num_comments: Int
+    var numComments: Int
     var comments: [Comment]
     var score: Int
-    var time_since_posted: String
+    var timeSincePosted: String
 }
 

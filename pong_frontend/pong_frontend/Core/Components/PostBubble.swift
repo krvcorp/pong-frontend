@@ -24,7 +24,7 @@ struct PostBubble: View {
                     HStack(alignment: .top){
                         VStack(alignment: .leading){
                             
-                            Text("Anonymous - \(post.time_since_posted)")
+                            Text("Anonymous - \(post.timeSincePosted)")
                                 .font(.caption)
                                 .padding(.bottom, 4)
               
@@ -65,7 +65,7 @@ struct PostBubble: View {
                                 PostView(post: post)
                             }  label: {
                                 Image(systemName: "bubble.left")
-                                Text("\(post.num_comments) comments")
+                                Text("\(post.numComments) comments")
                                     .font(.subheadline).bold()
                             }
                         }

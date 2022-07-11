@@ -11,12 +11,12 @@ var default_post = Post(id: "DefaultId",
                         user: "DefaultUser",
                         title: "DefulatTitle",
                         image: "",
-                        created_at: "DefaultDate",
-                        updated_at: "DefaultDate",
-                        num_comments: -1,
+                        createdAt: "DefaultDate",
+                        updatedAt: "DefaultDate",
+                        numComments: -1,
                         comments: [],
                         score: -1,
-                        time_since_posted: "DefaultString")
+                        timeSincePosted: "DefaultString")
 
 var default_comment = Comment(id: "DefaultID",
                               user: "DefaultUser",

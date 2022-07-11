@@ -83,7 +83,7 @@ struct PostView: View {
                         HStack(alignment: .top){
                             VStack(alignment: .leading){
                                 
-                                Text("Anonymous - \(post.time_since_posted)")
+                                Text("Anonymous - \(post.timeSincePosted)")
                                     .font(.caption)
                                     .padding(.bottom, 4)
 
@@ -150,7 +150,7 @@ struct PostView: View {
                 .cornerRadius(20)         // You also need the cornerRadius here
                 ZStack {
                     Divider()
-                    Text("\(post.num_comments) Comments")
+                    Text("\(post.numComments) Comments")
                         .font(.caption)
                         .background(Rectangle().fill(Color(UIColor.systemBackground)).frame(minWidth: 90))
                         
