@@ -32,7 +32,7 @@ class NewPostViewModel: ObservableObject {
         request.addValue("Token \(token)", forHTTPHeaderField: "Authorization")
         let encoder = JSONEncoder()
         encoder.keyEncodingStrategy = .convertToSnakeCase
-        request.httpBody = try? JSONEncoder().encode(body)
+        request.httpBody = try? encoder.encode(body)
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             
@@ -46,11 +46,6 @@ class NewPostViewModel: ObservableObject {
                 completion(.failure(.invalidCredentials))
                 return
             }
-            print("DEBUG: \(loginResponse)")
-            
-//            DispatchQueue.main.async {
-//                self.post = loginResponse
-//            }
             
             completion(.success(loginResponse.title))
             

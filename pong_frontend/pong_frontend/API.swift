@@ -167,9 +167,9 @@ class API: ObservableObject {
                 completion(.failure(.custom(errorMessage: "No data")))
                 return
             }
+            
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
-            
             guard let otpVerifyResponse = try? decoder.decode(OTPVerifyResponseBody.self, from: data) else {
                 completion(.failure(.invalidCredentials))
                 return

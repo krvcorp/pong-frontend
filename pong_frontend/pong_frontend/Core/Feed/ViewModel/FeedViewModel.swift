@@ -15,7 +15,7 @@ class FeedViewModel: ObservableObject {
     
     func getPosts(selectedFilter: FeedFilterViewModel) {
         initalOpen = true
-        print("DEBUG: GETPOSTS")
+        print("DEBUG: feedVM getPosts")
 
         guard let token = DAKeychain.shared["token"] else { return } // Fetch
 //        print("DEBUG: FeedVM KEYCHAIN TOKEN IS \(token)")

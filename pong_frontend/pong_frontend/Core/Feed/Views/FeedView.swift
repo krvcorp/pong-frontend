@@ -119,9 +119,9 @@ struct FeedView: View {
                             .coordinateSpace(name: "pullToRefresh")
                             .onChange(of: newPost, perform: { value in
                                 if value {
-                                    print("DEBUG: switch and scroll")
+                                    print("DEBUG: Switch and Scroll to Top")
                                     selectedFilter = .recent
-                                    scrollReader.scrollTo("top") // scrolls to component with id "top" which is the down arrow within PullToRefresh
+                                    scrollReader.scrollTo("top") // scrolls to component with id "top" which is a spacer piece in PullToRefresh view
                                     newPost = false
                                     feedVM.getPosts(selectedFilter: selectedFilter)
                                 }
