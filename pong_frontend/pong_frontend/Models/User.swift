@@ -12,18 +12,18 @@ struct User: Identifiable, Codable {
     var email: String
     var name: String
     var timeout: Date
-    var has_been_verified: Bool
+    var hasBeenVerified: Bool
     var banned: Bool
-    var school_attending: String
+    var schoolAttending: String
     
-    var chat_notifications: Bool
-    var trending_post_notifications: Bool
-    var activity_notifications: Bool
+    var chatNotifications: Bool
+    var trendingPostNotifications: Bool
+    var activityNotifications: Bool
     
-    var is_active: Bool
-    var is_staff: Bool
-    var is_superuser: Bool
-    var last_login: Date
-    var date_joined: Date
+    var isActive: Bool
+    var isStaff: Bool
+    var isSuperuser: Bool
+    var lastLogin: Date
+    var dateJoined: Date
 }
 

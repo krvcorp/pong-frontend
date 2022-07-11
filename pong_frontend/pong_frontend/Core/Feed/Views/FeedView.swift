@@ -118,10 +118,13 @@ struct FeedView: View {
                             }
                             .coordinateSpace(name: "pullToRefresh")
                             .onChange(of: newPost, perform: { value in
-                                print("DEBUG: switch and scroll")
-                                selectedFilter = .recent
-                                scrollReader.scrollTo("top") // scrolls to component with id "top" which is the down arrow within PullToRefresh
-                                newPost = false
+                                if value {
+                                    print("DEBUG: switch and scroll")
+                                    selectedFilter = .recent
+                                    scrollReader.scrollTo("top") // scrolls to component with id "top" which is the down arrow within PullToRefresh
+                                    newPost = false
+                                    feedVM.getPosts(selectedFilter: selectedFilter)
+                                }
                             })
                         }
                     }
@@ -194,7 +197,7 @@ struct PullToRefresh: View {
                 } else {
 //                    Image(systemName: "arrow.down").id("top")
                 }
-                Spacer()
+                Spacer().id("top")
             }
         }.padding(needRefresh ? .bottom : .top, needRefresh ? 25 : -50)
     }

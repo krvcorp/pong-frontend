@@ -30,6 +30,8 @@ class NewPostViewModel: ObservableObject {
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("Token \(token)", forHTTPHeaderField: "Authorization")
+        let encoder = JSONEncoder()
+        encoder.keyEncodingStrategy = .convertToSnakeCase
         request.httpBody = try? JSONEncoder().encode(body)
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
@@ -38,8 +40,9 @@ class NewPostViewModel: ObservableObject {
                 completion(.failure(.custom(errorMessage: "No data")))
                 return
             }
-            
-            guard let loginResponse = try? JSONDecoder().decode(Post.self, from: data) else {
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            guard let loginResponse = try? decoder.decode(Post.self, from: data) else {
                 completion(.failure(.invalidCredentials))
                 return
             }

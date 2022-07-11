@@ -113,7 +113,9 @@ class API: ObservableObject {
             
             // convert to json
             do {
-                let posts = try JSONDecoder().decode([Post].self, from: data)
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                let posts = try decoder.decode([Post].self, from: data)
                 DispatchQueue.main.async {
                     self?.posts = posts
                 }

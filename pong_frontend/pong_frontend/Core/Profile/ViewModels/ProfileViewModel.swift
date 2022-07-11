@@ -30,7 +30,9 @@ class ProfileViewModel: ObservableObject {
                 return
             }
             
-            guard let loggedInUserInfoResponse = try? JSONDecoder().decode(LoggedInUserInfoResponseBody.self, from: data) else {
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            guard let loggedInUserInfoResponse = try? decoder.decode(LoggedInUserInfoResponseBody.self, from: data) else {
                 return
             }
             
