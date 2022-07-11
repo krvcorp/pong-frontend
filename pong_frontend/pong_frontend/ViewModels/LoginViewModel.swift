@@ -8,6 +8,15 @@
 
 import Foundation
 
+struct VerifyEmailRequestBody: Codable {
+    let phone: String
+    let email: String
+}
+
+struct VerifyEmailResponseBody: Codable {
+    let token: String?
+}
+
 class LoginViewModel: ObservableObject {
     
     @Published var password: String = ""

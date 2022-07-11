@@ -18,59 +18,11 @@ enum NetworkError: Error {
     case decodingError
 }
 
-struct LoginResponse: Codable {
-    let token: String?
-    let message: String?
-    let success: Bool?
-}
-
 struct PostRequestBody: Codable {
     let title: String
 }
 
-struct OTPStartRequestBody: Codable {
-    let phone: String
-}
 
-struct OTPStartResponseBody: Codable {
-    let newUser: Bool?
-    let phone: String?
-}
-
-struct OTPVerifyRequestBody: Codable {
-    let phone: String
-    let code: String
-}
-
-// token : String, new_user : Bool, code_expire : Bool, code_incorrect : Bool
-struct OTPVerifyResponseBody: Codable {
-    let token: String?
-    let emailUnverified: Bool?
-    let codeExpire: Bool?
-    let codeIncorrect: Bool?
-}
-
-struct VerifyEmailRequestBody: Codable {
-    let phone: String
-    let email: String
-}
-
-struct VerifyEmailResponseBody: Codable {
-    let token: String?
-}
-
-struct LoggedInUserInfoResponseBody: Codable {
-    let id: String
-    let email: String
-    let posts: [Post]
-    let comments: [Comment]
-    let inTimeout: Bool
-    let phone: String
-    let totalKarma: Int
-    let commentKarma: Int
-    let postKarma: Int
-    
-}
 
 class API: ObservableObject {
     var root: String = "http://localhost:8005/api/"
