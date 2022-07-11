@@ -8,15 +8,13 @@
 import Foundation
 
 class NewPostViewModel: ObservableObject {
-//    @Published var post: Post = default_post
-    
-    // LIST OF OBJECTS
+
     func newPost(title: String, completion: @escaping (Result<String, AuthenticationError>) -> Void) {
         
         guard let token = DAKeychain.shared["token"] else { return } // Fetch
         
         // change URL to real login
-        guard let url = URL(string: "http://127.0.0.1:8005/api/post/") else {
+        guard let url = URL(string: "\(API().root)post/") else {
             completion(.failure(.custom(errorMessage: "URL is not correct")))
             return
         }

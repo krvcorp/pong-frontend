@@ -24,13 +24,13 @@ class FeedViewModel: ObservableObject {
         
         if selectedFilter == .recent {
 //            print("DEBUG: GETPOSTS Recent")
-            url_to_use = "http://127.0.0.1:8005/api/post/?sort=new"
+            url_to_use = "\(API().root)post/?sort=new"
         } else if selectedFilter == .top {
 //            print("DEBUG: GETPOSTS Top")
-            url_to_use = "http://127.0.0.1:8005/api/post/?sort=top"
+            url_to_use = "\(API().root)post/?sort=top"
         } else {
 //            print("DEBUG: GETPOSTS Default Order")
-            url_to_use = "http://127.0.0.1:8005/api/post/?sort=old"
+            url_to_use = "\(API().root)post/?sort=old"
         }
         
         // URL handler
