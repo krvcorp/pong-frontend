@@ -25,7 +25,7 @@ class ProfileViewModel: ObservableObject {
     @Published var postKarma: Int = 0
     
     func getLoggedInUserInfo(id: String) {
-        guard let url = URL(string: "http://127.0.0.1:8005/api/" + "user/" + id + "/") else {
+        guard let url = URL(string: "\(API().root)" + "user/" + id + "/") else {
             return
         }
         
