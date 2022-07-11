@@ -16,7 +16,7 @@ class PhoneLoginViewModel: ObservableObject {
     
     func otpStart() {
         
-        API().otpStart(phone: phone) { result in
+        otpStartAPI(phone: phone) { result in
             switch result {
                 case .success(let newUser):
                     print("DEBUG: PhoneLoginVM newUser is \(newUser)")
@@ -29,9 +29,47 @@ class PhoneLoginViewModel: ObservableObject {
         }
     }
     
+    func otpStartAPI(phone: String, completion: @escaping (Result<Bool, AuthenticationError>) -> Void) {
+        print("DEBUG: API otpStart \(phone)")
+        
+        // change URL to real login
+        guard let url = URL(string: "\(API().root)" + "otp-start/") else {
+            completion(.failure(.custom(errorMessage: "URL is not correct")))
+            return
+        }
+        
+        let body = OTPStartRequestBody(phone: phone)
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = try? JSONEncoder().encode(body)
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            
+            guard let data = data, error == nil else {
+                completion(.failure(.custom(errorMessage: "No data")))
+                return
+            }
+            
+            guard let otpStartResponse = try? JSONDecoder().decode(OTPStartResponseBody.self, from: data) else {
+                completion(.failure(.invalidCredentials))
+                return
+            }
+            
+            guard let new_user = otpStartResponse.newUser else {
+                completion(.failure(.invalidCredentials))
+                return
+            }
+            
+            completion(.success(new_user))
+            
+        }.resume()
+    }
+    
     func otpVerify(loginVM: LoginViewModel, bannerVM : BannerViewModel) {
         
-        API().otpVerify(phone: phone, code: code) { result in
+        otpVerifyAPI(phone: phone, code: code) { result in
             switch result {
                 case .success(let responseDataContent):
                     print("DEBUG: PhoneLoginVM responseDataContent \(responseDataContent)")
@@ -67,5 +105,66 @@ class PhoneLoginViewModel: ObservableObject {
                     print(error.localizedDescription)
             }
         }
+    }
+    
+    func otpVerifyAPI(phone: String, code: String, completion: @escaping (Result<OTPVerifyResponseBody, AuthenticationError>) -> Void) {
+        // change URL to real login
+        guard let url = URL(string: "\(API().root)" + "otp-verify/") else {
+            completion(.failure(.custom(errorMessage: "URL is not correct")))
+            return
+        }
+        
+        let body = OTPVerifyRequestBody(phone: phone,code: code)
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = try? JSONEncoder().encode(body)
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            
+            guard let data = data, error == nil else {
+                completion(.failure(.custom(errorMessage: "No data")))
+                return
+            }
+            
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            guard let otpVerifyResponse = try? decoder.decode(OTPVerifyResponseBody.self, from: data) else {
+                completion(.failure(.invalidCredentials))
+                return
+            }
+            
+            print("DEBUG: API otpVerifyResponse is \(otpVerifyResponse)")
+            
+            // token : String, new_user : Bool, code_expire : Bool, code_incorrect : Bool
+            if let responseDataContent = otpVerifyResponse.token {
+                print("DEBUG: API Token is \(responseDataContent)")
+                completion(.success(otpVerifyResponse))
+                return
+            }
+            
+            if let responseDataContent = otpVerifyResponse.emailUnverified {
+                print("DEBUG: API email_unverified is \(responseDataContent)")
+                completion(.success(otpVerifyResponse))
+                return
+            }
+            
+            if let responseDataContent = otpVerifyResponse.codeExpire {
+                print("DEBUG: code_expire is \(responseDataContent)")
+                completion(.success(otpVerifyResponse))
+                return
+            }
+            
+            if let responseDataContent = otpVerifyResponse.codeIncorrect {
+                print("DEBUG: code_incorrect is \(responseDataContent)")
+                completion(.success(otpVerifyResponse))
+                return
+            }
+            
+            print("DEBUG: API \(otpVerifyResponse)")
+            completion(.failure(.custom(errorMessage: "Broken")))
+            
+        }.resume()
     }
 }
