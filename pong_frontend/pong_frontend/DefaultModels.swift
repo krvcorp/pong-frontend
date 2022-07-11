@@ -22,6 +22,6 @@ var default_comment = Comment(id: "DefaultID",
                               user: "DefaultUser",
                               post: -1,
                               comment: "Default comment",
-                              created_at: "Default Date",
-                              updated_at: "Default Date",
+                              createdAt: "Default Date",
+                              updatedAt: "Default Date",
                               score: -1)

@@ -12,7 +12,7 @@ struct Comment: Identifiable, Codable {
     var user: String
     var post: Int
     var comment: String
-    var created_at: String
-    var updated_at: String
+    var createdAt: String
+    var updatedAt: String
     var score: Int
 }

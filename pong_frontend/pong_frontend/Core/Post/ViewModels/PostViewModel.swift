@@ -22,7 +22,9 @@ class PostViewModel: ObservableObject {
             
             // convert to json. replaced Object w/ object
             do {
-                let comments = try JSONDecoder().decode([Comment].self, from: data)
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                let comments = try decoder.decode([Comment].self, from: data)
                 DispatchQueue.main.async {
                     self?.comments = comments
                 }

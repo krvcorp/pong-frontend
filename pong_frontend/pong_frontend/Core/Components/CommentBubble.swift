@@ -20,7 +20,7 @@ struct CommentBubble: View {
                     HStack(alignment: .top){
                         VStack(alignment: .leading){
                             
-                            Text("\(comment.user) ~ \(comment.created_at)")
+                            Text("\(comment.user) ~ \(comment.createdAt)")
                                 .font(.caption)
                                 .padding(.bottom, 4)
                                                    
