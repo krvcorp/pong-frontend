@@ -12,11 +12,8 @@ class NewPostViewModel: ObservableObject {
     
     // LIST OF OBJECTS
     func newPost(title: String, completion: @escaping (Result<String, AuthenticationError>) -> Void) {
-        let defaults = UserDefaults.standard
         
-        guard let token = defaults.string(forKey: "jsonwebtoken") else {
-                return
-            }
+        guard let token = DAKeychain.shared["token"] else { return } // Fetch
         
         // change URL to real login
         guard let url = URL(string: "http://127.0.0.1:8005/api/post/") else {

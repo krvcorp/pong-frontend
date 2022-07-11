@@ -18,7 +18,6 @@ class FeedViewModel: ObservableObject {
         print("DEBUG: feedVM getPosts")
 
         guard let token = DAKeychain.shared["token"] else { return } // Fetch
-//        print("DEBUG: FeedVM KEYCHAIN TOKEN IS \(token)")
         
         // GET params
         let url_to_use: String
