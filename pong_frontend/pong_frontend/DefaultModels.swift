@@ -7,7 +7,7 @@
 
 import Foundation
 
-var default_post = Post(id: "DefaultId",
+var defaultPost = Post(id: "DefaultId",
                         user: "DefaultUser",
                         title: "DefulatTitle",
                         image: "",
@@ -18,7 +18,7 @@ var default_post = Post(id: "DefaultId",
                         score: -1,
                         timeSincePosted: "DefaultString")
 
-var default_comment = Comment(id: "DefaultID",
+var defaultComment = Comment(id: "DefaultID",
                               user: "DefaultUser",
                               post: -1,
                               comment: "Default comment",

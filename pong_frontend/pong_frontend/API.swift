@@ -18,11 +18,6 @@ enum NetworkError: Error {
     case decodingError
 }
 
-struct LoginRequestBody: Codable {
-    let email_or_username: String
-    let password: String
-}
-
 struct LoginResponse: Codable {
     let token: String?
     let message: String?
@@ -33,25 +28,12 @@ struct PostRequestBody: Codable {
     let title: String
 }
 
-struct PostRequestResponse: Codable {
-    let id: Int
-    let user: Int
-    let title: String
-    let created_at: String
-    let updated_at: String
-    let image: String?
-    let num_comments: Int
-    let comments: [Comment]
-    let score: Int
-    let time_since_posted: String
-}
-
 struct OTPStartRequestBody: Codable {
     let phone: String
 }
 
 struct OTPStartResponseBody: Codable {
-    let new_user: Bool?
+    let newUser: Bool?
     let phone: String?
 }
 
@@ -63,9 +45,9 @@ struct OTPVerifyRequestBody: Codable {
 // token : String, new_user : Bool, code_expire : Bool, code_incorrect : Bool
 struct OTPVerifyResponseBody: Codable {
     let token: String?
-    let email_unverified: Bool?
-    let code_expire: Bool?
-    let code_incorrect: Bool?
+    let emailUnverified: Bool?
+    let codeExpire: Bool?
+    let codeIncorrect: Bool?
 }
 
 struct VerifyEmailRequestBody: Codable {
@@ -82,11 +64,11 @@ struct LoggedInUserInfoResponseBody: Codable {
     let email: String
     let posts: [Post]
     let comments: [Comment]
-    let in_timeout: Bool
+    let inTimeout: Bool
     let phone: String
-    let total_karma: Int
-    let comment_karma: Int
-    let post_karma: Int
+    let totalKarma: Int
+    let commentKarma: Int
+    let postKarma: Int
     
 }
 
@@ -155,7 +137,7 @@ class API: ObservableObject {
                 return
             }
             
-            guard let new_user = otpStartResponse.new_user else {
+            guard let new_user = otpStartResponse.newUser else {
                 completion(.failure(.invalidCredentials))
                 return
             }
@@ -185,8 +167,10 @@ class API: ObservableObject {
                 completion(.failure(.custom(errorMessage: "No data")))
                 return
             }
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
             
-            guard let otpVerifyResponse = try? JSONDecoder().decode(OTPVerifyResponseBody.self, from: data) else {
+            guard let otpVerifyResponse = try? decoder.decode(OTPVerifyResponseBody.self, from: data) else {
                 completion(.failure(.invalidCredentials))
                 return
             }
@@ -200,19 +184,19 @@ class API: ObservableObject {
                 return
             }
             
-            if let responseDataContent = otpVerifyResponse.email_unverified {
+            if let responseDataContent = otpVerifyResponse.emailUnverified {
                 print("DEBUG: API email_unverified is \(responseDataContent)")
                 completion(.success(otpVerifyResponse))
                 return
             }
             
-            if let responseDataContent = otpVerifyResponse.code_expire {
+            if let responseDataContent = otpVerifyResponse.codeExpire {
                 print("DEBUG: code_expire is \(responseDataContent)")
                 completion(.success(otpVerifyResponse))
                 return
             }
             
-            if let responseDataContent = otpVerifyResponse.code_incorrect {
+            if let responseDataContent = otpVerifyResponse.codeIncorrect {
                 print("DEBUG: code_incorrect is \(responseDataContent)")
                 completion(.success(otpVerifyResponse))
                 return

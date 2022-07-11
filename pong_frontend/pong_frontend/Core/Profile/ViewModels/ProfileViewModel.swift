@@ -38,11 +38,11 @@ class ProfileViewModel: ObservableObject {
             
             print("\(loggedInUserInfoResponse)")
             
-            print("totalKarma: \(loggedInUserInfoResponse.total_karma)")
+            print("totalKarma: \(loggedInUserInfoResponse.totalKarma)")
             
-            self.totalKarma = loggedInUserInfoResponse.total_karma
-            self.commentKarma = loggedInUserInfoResponse.comment_karma
-            self.postKarma = loggedInUserInfoResponse.post_karma
+            self.totalKarma = loggedInUserInfoResponse.totalKarma
+            self.commentKarma = loggedInUserInfoResponse.commentKarma
+            self.postKarma = loggedInUserInfoResponse.postKarma
             
         }.resume()
     }

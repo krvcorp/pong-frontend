@@ -81,6 +81,6 @@ struct CommentBubble: View {
 
 struct CommentBubble_Previews: PreviewProvider {
     static var previews: some View {
-        CommentBubble(comment: default_comment)
+        CommentBubble(comment: defaultComment)
     }
 }

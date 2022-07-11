@@ -18,8 +18,8 @@ class PhoneLoginViewModel: ObservableObject {
         
         API().otpStart(phone: phone) { result in
             switch result {
-                case .success(let new_user):
-                    print("DEBUG: PhoneLoginVM new_user is \(new_user)")
+                case .success(let newUser):
+                    print("DEBUG: PhoneLoginVM newUser is \(newUser)")
                     DispatchQueue.main.async {
                         self.phoneIsProvided = true
                     }
@@ -49,16 +49,16 @@ class PhoneLoginViewModel: ObservableObject {
                             self.code = ""
                             loginVM.isAuthenticated = true
                         }
-                    } else if responseDataContent.email_unverified != nil {
+                    } else if responseDataContent.emailUnverified != nil {
                       // If key does not exist, this code will be executed
                         DispatchQueue.main.async {
                             self.phoneIsVerified = true
                         }
-                    } else if responseDataContent.code_expire != nil {
+                    } else if responseDataContent.codeExpire != nil {
                         bannerVM.bannerData = BannerModifier.BannerData(title: "Code Expired", detail: "Your code expired.", type: .Error)
                         bannerVM.showBanner = true
                         
-                    } else if responseDataContent.code_incorrect != nil {
+                    } else if responseDataContent.codeIncorrect != nil {
                         bannerVM.bannerData = BannerModifier.BannerData(title: "Code Incorrect", detail: "Your code is incorrect.", type: .Error)
                         bannerVM.showBanner = true
                     }
