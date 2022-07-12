@@ -1,5 +1,5 @@
 from django.contrib.auth.backends import BaseBackend
-from base.models import User, PhoneLoginCode
+from .models import User, PhoneLoginCode
 
 
 class PhoneLoginBackend(BaseBackend):
