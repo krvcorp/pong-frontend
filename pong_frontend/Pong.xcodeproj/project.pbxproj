@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6A218459287756DD00681C86 /* PhoneLoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A218458287756DD00681C86 /* PhoneLoginViewModel.swift */; };
 		6A21845B28775DA100681C86 /* PhoneLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A21845A28775DA100681C86 /* PhoneLoginView.swift */; };
 		6A21846228788D2E00681C86 /* GoogleSignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A21846128788D2E00681C86 /* GoogleSignInView.swift */; };
 		6A21846428794C4F00681C86 /* Banner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A21846328794C4F00681C86 /* Banner.swift */; };
@@ -74,6 +73,7 @@
 		6AEB6264287DA85E007CA113 /* PostRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEB6263287DA85E007CA113 /* PostRequestBody.swift */; };
 		6AEB6266287DA8C8007CA113 /* VerifyEmailRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEB6265287DA8C8007CA113 /* VerifyEmailRequestBody.swift */; };
 		6AEB6268287DA8E3007CA113 /* VerifyEmailResponseBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEB6267287DA8E3007CA113 /* VerifyEmailResponseBody.swift */; };
+		6AEB626A287DA9B1007CA113 /* PhoneLoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEB6269287DA9B1007CA113 /* PhoneLoginViewModel.swift */; };
 		DCB9394884F3C599B368C950 /* Pods_Pong.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CCAEEA5D0040063EB6FB9DD /* Pods_Pong.framework */; };
 /* End PBXBuildFile section */
 
@@ -81,7 +81,6 @@
 		1CCAEEA5D0040063EB6FB9DD /* Pods_Pong.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Pong.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		274E28C746E9C9AA044081A9 /* Pods-Pong.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pong.release.xcconfig"; path = "Target Support Files/Pods-Pong/Pods-Pong.release.xcconfig"; sourceTree = "<group>"; };
 		6A21845728754D1000681C86 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = Pong/Info.plist; sourceTree = "<group>"; };
-		6A218458287756DD00681C86 /* PhoneLoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PhoneLoginViewModel.swift; path = pong_frontend/Core/Authentication/ViewModels/PhoneLoginViewModel.swift; sourceTree = SOURCE_ROOT; };
 		6A21845A28775DA100681C86 /* PhoneLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneLoginView.swift; sourceTree = "<group>"; };
 		6A21846128788D2E00681C86 /* GoogleSignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSignInView.swift; sourceTree = "<group>"; };
 		6A21846328794C4F00681C86 /* Banner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Banner.swift; sourceTree = "<group>"; };
@@ -148,6 +147,7 @@
 		6AEB6263287DA85E007CA113 /* PostRequestBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRequestBody.swift; sourceTree = "<group>"; };
 		6AEB6265287DA8C8007CA113 /* VerifyEmailRequestBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyEmailRequestBody.swift; sourceTree = "<group>"; };
 		6AEB6267287DA8E3007CA113 /* VerifyEmailResponseBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyEmailResponseBody.swift; sourceTree = "<group>"; };
+		6AEB6269287DA9B1007CA113 /* PhoneLoginViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneLoginViewModel.swift; sourceTree = "<group>"; };
 		E29187429C49D00FC0045080 /* Pods-Pong.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pong.debug.xcconfig"; path = "Target Support Files/Pods-Pong/Pods-Pong.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -176,7 +176,7 @@
 		6A21845C2877676B00681C86 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				6A218458287756DD00681C86 /* PhoneLoginViewModel.swift */,
+				6AEB6269287DA9B1007CA113 /* PhoneLoginViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -724,7 +724,6 @@
 			files = (
 				6A5DF15B285134EE00F28A06 /* FeedFilterViewModel.swift in Sources */,
 				6AEB625A287DA739007CA113 /* OTPVerifyRequestBody.swift in Sources */,
-				6A218459287756DD00681C86 /* PhoneLoginViewModel.swift in Sources */,
 				6A5DF171285246F400F28A06 /* DefaultModels.swift in Sources */,
 				6A5DF156285134EE00F28A06 /* MessageBlock.swift in Sources */,
 				6AEB6264287DA85E007CA113 /* PostRequestBody.swift in Sources */,
@@ -785,6 +784,7 @@
 				6AEB6254287DA6F6007CA113 /* OTPStartRequestBody.swift in Sources */,
 				6A5DF15D285134EE00F28A06 /* MainTabView.swift in Sources */,
 				6A44F437286F952300E63423 /* ChooseLocationViewModel.swift in Sources */,
+				6AEB626A287DA9B1007CA113 /* PhoneLoginViewModel.swift in Sources */,
 				6A5DF1842856B8CB00F28A06 /* SettingsOptionRowView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
