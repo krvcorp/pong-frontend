@@ -286,7 +286,7 @@
 			isa = PBXGroup;
 			children = (
 				6A5DF11F285134EE00F28A06 /* Components */,
-				6A5DF13B285134EE00F28A06 /* Authentication */,
+				6A5DF13B285134EE00F28A06 /* OnboardingProcess */,
 				6A5DF131285134EE00F28A06 /* MainTab */,
 				6A5DF12C285134EE00F28A06 /* Feed */,
 				6A44F431286F94EE00E63423 /* ChooseLocation */,
@@ -530,13 +530,13 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		6A5DF13B285134EE00F28A06 /* Authentication */ = {
+		6A5DF13B285134EE00F28A06 /* OnboardingProcess */ = {
 			isa = PBXGroup;
 			children = (
 				6A21845C2877676B00681C86 /* ViewModels */,
 				6A5DF13D285134EE00F28A06 /* Views */,
 			);
-			path = Authentication;
+			path = OnboardingProcess;
 			sourceTree = "<group>";
 		};
 		6A5DF13D285134EE00F28A06 /* Views */ = {
