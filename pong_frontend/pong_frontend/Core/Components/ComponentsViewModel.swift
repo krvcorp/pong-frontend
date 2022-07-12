@@ -4,9 +4,6 @@
 //
 //  Created by Khoi Nguyen on 6/9/22.
 //
-struct Votes: Codable, Hashable {
-    var votes: Int
-}
 
 
 import Foundation

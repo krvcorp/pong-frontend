@@ -18,12 +18,6 @@ enum NetworkError: Error {
     case decodingError
 }
 
-struct PostRequestBody: Codable {
-    let title: String
-}
-
-
-
 class API: ObservableObject {
     var root: String = "http://localhost:8005/api/"
     @Published var posts: [Post] = []

@@ -7,28 +7,6 @@
 
 import Foundation
 
-struct OTPStartRequestBody: Codable {
-    let phone: String
-}
-
-struct OTPStartResponseBody: Codable {
-    let newUser: Bool?
-    let phone: String?
-}
-
-struct OTPVerifyRequestBody: Codable {
-    let phone: String
-    let code: String
-}
-
-// token : String, new_user : Bool, code_expire : Bool, code_incorrect : Bool
-struct OTPVerifyResponseBody: Codable {
-    let token: String?
-    let emailUnverified: Bool?
-    let codeExpire: Bool?
-    let codeIncorrect: Bool?
-}
-
 class PhoneLoginViewModel: ObservableObject {
     @Published var phone: String = ""
     @Published var code: String = ""

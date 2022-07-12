@@ -7,18 +7,6 @@
 
 import Foundation
 
-struct LoggedInUserInfoResponseBody: Codable {
-    let id: String
-    let email: String
-    let posts: [Post]
-    let comments: [Comment]
-    let inTimeout: Bool
-    let phone: String
-    let totalKarma: Int
-    let commentKarma: Int
-    let postKarma: Int
-}
-
 class ProfileViewModel: ObservableObject {    
     @Published var totalKarma: Int = 0
     @Published var commentKarma: Int = 0

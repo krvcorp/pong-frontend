@@ -65,6 +65,13 @@
 		6A5DF1842856B8CB00F28A06 /* SettingsOptionRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5DF1832856B8CB00F28A06 /* SettingsOptionRowView.swift */; };
 		6AEB6250287A33E1007CA113 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEB624F287A33E1007CA113 /* ProfileViewModel.swift */; };
 		6AEB6252287C879F007CA113 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEB6251287C879F007CA113 /* ImagePicker.swift */; };
+		6AEB6254287DA6F6007CA113 /* OTPStartRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEB6253287DA6F6007CA113 /* OTPStartRequestBody.swift */; };
+		6AEB6256287DA70D007CA113 /* OTPStartResponseBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEB6255287DA70D007CA113 /* OTPStartResponseBody.swift */; };
+		6AEB6258287DA71C007CA113 /* OTPVerifyResponseBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEB6257287DA71C007CA113 /* OTPVerifyResponseBody.swift */; };
+		6AEB625A287DA739007CA113 /* OTPVerifyRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEB6259287DA739007CA113 /* OTPVerifyRequestBody.swift */; };
+		6AEB625C287DA758007CA113 /* Votes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEB625B287DA758007CA113 /* Votes.swift */; };
+		6AEB6262287DA7AF007CA113 /* LoggedInInfoResponseBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEB6261287DA7AF007CA113 /* LoggedInInfoResponseBody.swift */; };
+		6AEB6264287DA85E007CA113 /* PostRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEB6263287DA85E007CA113 /* PostRequestBody.swift */; };
 		DCB9394884F3C599B368C950 /* Pods_Pong.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CCAEEA5D0040063EB6FB9DD /* Pods_Pong.framework */; };
 /* End PBXBuildFile section */
 
@@ -130,6 +137,13 @@
 		6A5DF1832856B8CB00F28A06 /* SettingsOptionRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsOptionRowView.swift; sourceTree = "<group>"; };
 		6AEB624F287A33E1007CA113 /* ProfileViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		6AEB6251287C879F007CA113 /* ImagePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		6AEB6253287DA6F6007CA113 /* OTPStartRequestBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPStartRequestBody.swift; sourceTree = "<group>"; };
+		6AEB6255287DA70D007CA113 /* OTPStartResponseBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPStartResponseBody.swift; sourceTree = "<group>"; };
+		6AEB6257287DA71C007CA113 /* OTPVerifyResponseBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPVerifyResponseBody.swift; sourceTree = "<group>"; };
+		6AEB6259287DA739007CA113 /* OTPVerifyRequestBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPVerifyRequestBody.swift; sourceTree = "<group>"; };
+		6AEB625B287DA758007CA113 /* Votes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Votes.swift; sourceTree = "<group>"; };
+		6AEB6261287DA7AF007CA113 /* LoggedInInfoResponseBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedInInfoResponseBody.swift; sourceTree = "<group>"; };
+		6AEB6263287DA85E007CA113 /* PostRequestBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRequestBody.swift; sourceTree = "<group>"; };
 		E29187429C49D00FC0045080 /* Pods-Pong.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pong.debug.xcconfig"; path = "Target Support Files/Pods-Pong/Pods-Pong.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -243,6 +257,13 @@
 				6A5DF108285134ED00F28A06 /* Message.swift */,
 				6A5DF109285134ED00F28A06 /* User.swift */,
 				6A5DF10A285134ED00F28A06 /* Post.swift */,
+				6AEB6263287DA85E007CA113 /* PostRequestBody.swift */,
+				6AEB6253287DA6F6007CA113 /* OTPStartRequestBody.swift */,
+				6AEB6255287DA70D007CA113 /* OTPStartResponseBody.swift */,
+				6AEB6259287DA739007CA113 /* OTPVerifyRequestBody.swift */,
+				6AEB6257287DA71C007CA113 /* OTPVerifyResponseBody.swift */,
+				6AEB6261287DA7AF007CA113 /* LoggedInInfoResponseBody.swift */,
+				6AEB625B287DA758007CA113 /* Votes.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -696,10 +717,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A5DF15B285134EE00F28A06 /* FeedFilterViewModel.swift in Sources */,
+				6AEB625A287DA739007CA113 /* OTPVerifyRequestBody.swift in Sources */,
 				6A218459287756DD00681C86 /* PhoneLoginViewModel.swift in Sources */,
 				6A5DF171285246F400F28A06 /* DefaultModels.swift in Sources */,
 				6A5DF156285134EE00F28A06 /* MessageBlock.swift in Sources */,
+				6AEB6264287DA85E007CA113 /* PostRequestBody.swift in Sources */,
 				6A5DF151285134EE00F28A06 /* LeaderboardView.swift in Sources */,
+				6AEB6258287DA71C007CA113 /* OTPVerifyResponseBody.swift in Sources */,
 				6A218466287A052A00681C86 /* BannerViewModel.swift in Sources */,
 				6A5DF17328525CAE00F28A06 /* ComponentsViewModel.swift in Sources */,
 				6AEB6252287C879F007CA113 /* ImagePicker.swift in Sources */,
@@ -721,11 +745,13 @@
 				6A5DF148285134EE00F28A06 /* Comment.swift in Sources */,
 				6A5DF15C285134EE00F28A06 /* FeedView.swift in Sources */,
 				6A5DF149285134EE00F28A06 /* Message.swift in Sources */,
+				6AEB6262287DA7AF007CA113 /* LoggedInInfoResponseBody.swift in Sources */,
 				6A5DF16F2852459700F28A06 /* PostViewModel.swift in Sources */,
 				6A5DF14A285134EE00F28A06 /* User.swift in Sources */,
 				6A5DF15A285134EE00F28A06 /* ProfileView.swift in Sources */,
 				6AEB6250287A33E1007CA113 /* ProfileViewModel.swift in Sources */,
 				6A3F3D8B286A7AC600EC43A3 /* LoginViewModel.swift in Sources */,
+				6AEB6256287DA70D007CA113 /* OTPStartResponseBody.swift in Sources */,
 				6A5DF164285134EE00F28A06 /* NotificationsView.swift in Sources */,
 				6A5DF1822856B77600F28A06 /* SettingsView.swift in Sources */,
 				6A5DF155285134EE00F28A06 /* MessageBubble.swift in Sources */,
@@ -743,10 +769,12 @@
 				6A44F435286F951700E63423 /* ChooseLocationView.swift in Sources */,
 				6A5DF160285134EE00F28A06 /* OnboardView.swift in Sources */,
 				6A5DF177285294EF00F28A06 /* ShareSheet.swift in Sources */,
+				6AEB625C287DA758007CA113 /* Votes.swift in Sources */,
 				6A5DF167285134EE00F28A06 /* ContentView.swift in Sources */,
 				6A5DF152285134EE00F28A06 /* TextArea.swift in Sources */,
 				6A5DF14B285134EE00F28A06 /* Post.swift in Sources */,
 				6A5DF17528526D5000F28A06 /* API.swift in Sources */,
+				6AEB6254287DA6F6007CA113 /* OTPStartRequestBody.swift in Sources */,
 				6A5DF15D285134EE00F28A06 /* MainTabView.swift in Sources */,
 				6A44F437286F952300E63423 /* ChooseLocationViewModel.swift in Sources */,
 				6A5DF1842856B8CB00F28A06 /* SettingsOptionRowView.swift in Sources */,
