@@ -10,7 +10,7 @@ import SwiftUI
 struct PostBubble: View {
     var post: Post
     var expanded: Bool
-    @StateObject var viewModel = ComponentsViewModel()
+    @StateObject var viewModel = PostBubbleViewModel()
     @State var sheet = false
     @State private var rect1: CGRect = .zero
     @State private var uiimage: UIImage? = nil

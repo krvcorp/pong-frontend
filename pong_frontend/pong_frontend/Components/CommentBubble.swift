@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CommentBubble: View {
     var comment: Comment
-    @StateObject var viewModel = ComponentsViewModel()
+    @StateObject var viewModel = PostBubbleViewModel()
     
     var body: some View {
         VStack {
