@@ -16,13 +16,40 @@ struct GoogleSignInView: View {
     @ObservedObject var phoneLoginVM : PhoneLoginViewModel
     
     var body: some View {
-        Text("Your phone number is \(phoneLoginVM.phone)")
-        
-        Button {
-            print("DEBUG: VIEW GoogleSignIn")
-            handleSignInButton()
-        } label: {
-            Text("Google Sign In")
+        VStack() {
+            VStack(alignment: .leading) {
+                Text("Your phone number is ")
+                    .font(.title).bold()
+                
+                Text(phoneLoginVM.phone)
+                    .font(.title).bold()
+                    .padding(.bottom)
+                
+                Text("Please sign in with your college email")
+                    .font(.title).bold()
+            }
+            
+            Spacer()
+            
+            Button {
+                print("DEBUG: VIEW GoogleSignIn")
+                handleSignInButton()
+            } label: {
+                HStack {
+                    Image("googlelogo")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 50, height: 50)
+                    
+                    Text("Sign in with Google")
+                        .font(.title.bold())
+                }
+                .padding(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
+                .background(Color.white)
+                .cornerRadius(8.0)
+                .shadow(radius: 4.0)
+
+            }
         }
     }
     
@@ -35,12 +62,6 @@ struct GoogleSignInView: View {
             print("There is no root view controller!")
             return
         }
-        
-        // Depreciated above should fix?
-    //    guard let presentingViewController = UIApplication.shared.windows.first?.rootViewController else {
-    //        print("There is no root view controller!")
-    //        return
-    //    }
         
         GIDSignIn.sharedInstance.signIn(with: signInConfig, presenting: presentingViewController) { user, error in
             guard error == nil else { return }

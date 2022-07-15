@@ -8,7 +8,7 @@
 
 import Foundation
 
-class LoginViewModel: ObservableObject {
+@MainActor class LoginViewModel: ObservableObject {
     
     @Published var password: String = ""
     @Published var isAuthenticated: Bool = false // this needs to be set to false when app launches. true only to troubleshoot app
@@ -34,7 +34,6 @@ class LoginViewModel: ObservableObject {
                 self.token = token
                 self.isAuthenticated = true
                 DAKeychain.shared["token"] = token // Store
-//                print("DEBUG loginVM \(self.gmailString)")
             case .failure(let error):
                 print("DEBUG: \(error)")
                 return
