@@ -31,11 +31,24 @@ struct VerificationView: View {
                 Spacer()
                 
                 VStack {
-                 
-                    Button(action: {
-                        print("DEBUG: Continue to verify")
-                        phoneLoginVM.otpVerify(loginVM: loginVM, bannerVM: bannerVM)
-                    }) {
+                    if phoneLoginVM.code.count == 6 {
+                        Button(action: {
+                            print("DEBUG: Continue to verify")
+                            phoneLoginVM.otpVerify(loginVM: loginVM, bannerVM: bannerVM)
+                        }) {
+                            Text("Continue")
+                                .frame(minWidth: 0, maxWidth: .infinity)
+                                .font(.system(size: 18).bold())
+                                .padding()
+                                .foregroundColor(Color(UIColor.systemBackground))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 5)
+                                        .stroke(Color(UIColor.systemBackground), lineWidth: 2)
+                            )
+                        }
+                        .background(Color(UIColor.label)) // If you have this
+                        .cornerRadius(20)         // You also need the cornerRadius here
+                    } else {
                         Text("Continue")
                             .frame(minWidth: 0, maxWidth: .infinity)
                             .font(.system(size: 18).bold())
@@ -43,11 +56,11 @@ struct VerificationView: View {
                             .foregroundColor(Color(UIColor.systemBackground))
                             .overlay(
                                 RoundedRectangle(cornerRadius: 5)
-                                    .stroke(Color(UIColor.systemBackground), lineWidth: 2)
-                        )
+                                    .stroke(Color(UIColor.systemBackground), lineWidth: 2))
+                            .background(Color(UIColor.systemFill)) // If you have this
+                            .cornerRadius(20)         // You also need the cornerRadius here
                     }
-                    .background(Color(UIColor.label)) // If you have this
-                    .cornerRadius(20)         // You also need the cornerRadius here
+
                 }
             }
             .padding(20)

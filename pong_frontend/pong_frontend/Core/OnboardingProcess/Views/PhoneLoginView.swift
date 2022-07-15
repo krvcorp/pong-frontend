@@ -32,8 +32,27 @@ struct PhoneLoginView: View {
             
             VStack {
                 Text("By pressing continue you agree to receive a text message from us")
-                
-                NavigationLink(destination: VerificationView(phoneLoginVM: phoneLoginVM, loginVM: loginVM)) {
+                // phoneLoginVM.phone.count == 14 means phone field needs to be completely filled with a length of 14 to click continue
+                if phoneLoginVM.phone.count == 14 {
+                    NavigationLink(destination: VerificationView(phoneLoginVM: phoneLoginVM, loginVM: loginVM)) {
+                        Text("Continue")
+                            .frame(minWidth: 0, maxWidth: .infinity)
+                            .font(.system(size: 18).bold())
+                            .padding()
+                            .foregroundColor(Color(UIColor.systemBackground))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 5)
+                                    .stroke(Color(UIColor.systemBackground), lineWidth: 2)
+                            )
+                    }
+                    .simultaneousGesture(TapGesture().onEnded{
+                        print("VIEW Continue to verification")
+                        phoneLoginVM.otpStart()
+                        loginVM.initialOnboard = true
+                    })
+                    .background(Color(UIColor.label)) // If you have this
+                    .cornerRadius(20)         // You also need the cornerRadius here
+                } else {
                     Text("Continue")
                         .frame(minWidth: 0, maxWidth: .infinity)
                         .font(.system(size: 18).bold())
@@ -43,14 +62,10 @@ struct PhoneLoginView: View {
                             RoundedRectangle(cornerRadius: 5)
                                 .stroke(Color(UIColor.systemBackground), lineWidth: 2)
                         )
+                        .background(Color(UIColor.systemFill)) // If you have this
+                        .cornerRadius(20)         // You also need the cornerRadius here
                 }
-                .simultaneousGesture(TapGesture().onEnded{
-                    print("VIEW Continue to verification")
-                    phoneLoginVM.otpStart()
-                    loginVM.initialOnboard = true
-                })
-                .background(Color(UIColor.label)) // If you have this
-                .cornerRadius(20)         // You also need the cornerRadius here
+
             }
         }
         .padding(20)
