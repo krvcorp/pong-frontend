@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 from locale import normalize
 from rest_framework import serializers
-from base.models import (
+from .models import (
     User,
     Post,
     Comment,
@@ -69,7 +69,37 @@ class UserSerializerLeaderboard(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ("id", "email", "phone", "score")
+        fields = ("id", "score")
+
+
+class UserSerializerProfile(serializers.ModelSerializer):
+    posts = serializers.SerializerMethodField(read_only=True)
+    comments = serializers.SerializerMethodField(read_only=True)
+    upvoted_posts = serializers.SerializerMethodField(read_only=True)
+
+    def get_posts(self, obj):
+        return PostSerializer(obj.get_posts(), many=True).data
+
+    def get_comments(self, obj):
+        return CommentSerializer(obj.get_comments(), many=True).data
+
+    def get_upvoted_posts(self, obj):
+        return PostSerializer(obj.get_upvoted_posts(), many=True).data
+
+    class Meta:
+        model = User
+        fields = (
+            "id",
+            "email",
+            "posts",
+            "comments",
+            "in_timeout",
+            "phone",
+            "comment_karma",
+            "post_karma",
+            "total_karma",
+            "upvoted_posts",
+        )
 
 
 class PostSerializer(serializers.ModelSerializer):

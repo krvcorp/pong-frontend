@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     # My Apps
     "base",
+    "api",
     # DRF
     "rest_framework",
     "rest_framework.authtoken",
@@ -140,7 +141,7 @@ SWAGGER_SETTINGS = {
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 
-AUTH_USER_MODEL = "base.User"
+AUTH_USER_MODEL = "api.User"
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",

@@ -14,3 +14,7 @@ phone_validator = RegexValidator(
     r"^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$",
     "The phone number provided is invalid",
 )
+
+
+def clean_phone_number(phone_number):
+    return "".join(filter(lambda x: x.isdigit(), phone_number))

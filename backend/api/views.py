@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
-from base.models import (
+from .models import (
     User,
     Post,
     Comment,
@@ -31,6 +31,7 @@ from .serializers import (
     CommentVoteSerializer,
     PostVoteSerializer,
     PhoneLoginTokenSerializer,
+    UserSerializerProfile,
 )
 from .permissions import IsOwnerOrReadOnly, IsNotInTimeout
 from rest_framework.response import Response
@@ -93,6 +94,8 @@ class ListCreateUserAPIView(ListCreateAPIView):
         sort = self.request.query_params.get("sort", None)
         if sort == "leaderboard":
             return UserSerializerLeaderboard(*args, **kwargs)
+        if sort == "profile":
+            return UserSerializerProfile(*args, **kwargs)
         return UserSerializer(*args, **kwargs)
 
     def perform_create(self, serializer):
@@ -228,7 +231,8 @@ class OTPStart(APIView):
 
     def post(self, request):
         context = {}
-        user, created = User.objects.get_or_create(phone=request.data["phone"])
+        phone = request.data["phone"]
+        user, created = User.objects.get_or_create(phone=phone)
         phone_login_code = PhoneLoginCode.objects.create(user=user)
         generated_code = phone_login_code.code
 
@@ -242,6 +246,25 @@ class OTPStart(APIView):
         # TWILIO_NUMBER = os.environ.get("TWILIO_NUMBER")
 
         client = Client(TWILIO_ACCOUNT_SID, TWILIO_SECRET_KEY)
+
+        if len(phone) == 0:
+            return JsonResponse(
+                {"error": "Phone number is required"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        phone = "".join(filter(lambda x: x.isdigit(), phone))
+        if len(phone) != 10:
+            return JsonResponse(
+                {"error": "Phone number is invalid"}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Lookup for VoIP number
+        # phone_number_carrier = client.lookups.phone_numbers(phone).fetch(type="carrier")
+
+        # if phone_number_carrier.carrier["type"] != "mobile":
+        #     return JsonResponse(
+        #         {"error": "Phone number can't be VoIP."}, status=status.HTTP_400_BAD_REQUEST
+        #     )
 
         # Local
         message = client.messages.create(
@@ -258,7 +281,7 @@ class OTPStart(APIView):
         # )
 
         context["new_user"] = created
-        context["phone"] = request.data["phone"]
+        context["phone"] = phone
 
         return JsonResponse(context)
 

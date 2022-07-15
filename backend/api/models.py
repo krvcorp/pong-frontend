@@ -24,8 +24,10 @@ class UserManager(UserManager):
         """
         if len(phone) == 0:
             raise ValueError("Users must have a phone number.")
+        phone = "".join(filter(lambda x: x.isdigit(), phone))
+        if len(phone) != 10:
+            raise ValueError("Users must have a valid phone number.")
 
-        # email = self.normalize_email(email)
         user = self.model(phone=phone, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
@@ -53,13 +55,13 @@ class UserManager(UserManager):
 class User(AbstractBaseUser, PermissionsMixin):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.EmailField(null=True, blank=True, unique=True)
-    phone = models.CharField(max_length=20, validators=[phone_validator], unique=True)
+    phone = models.CharField(max_length=20, unique=True)
     name = models.CharField(max_length=200, blank=True, default="")
     timeout = models.DateTimeField(blank=True, null=True)
     has_been_verified = models.BooleanField(default=False)
     banned = models.BooleanField(default=False)
     school_attending = models.ForeignKey(
-        "base.School", on_delete=models.SET_NULL, null=True, blank=True
+        "api.School", on_delete=models.SET_NULL, null=True, blank=True
     )
     chat_notifications = models.BooleanField(default=True)
     trending_post_notifications = models.BooleanField(default=True)
@@ -94,7 +96,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     @property
     def total_karma(self):
-        return self.total_score()
+        return self.total_post_score() + self.total_comment_score()
 
     @property
     def post_karma(self):
@@ -117,27 +119,18 @@ class User(AbstractBaseUser, PermissionsMixin):
         else:
             return ""
 
-    def total_score(self):
-        # print("being accessed")
-        return self.total_post_score() + self.total_comment_score()
-
     def total_post_score(self):
-        # print("being accessed")
+        relevant_votes = PostVote.objects.filter(post__user=self)
         total = 0
-        try:
-            for vote in PostVote.objects.all():
-                if vote.post.user == self:
-                    total += vote.vote
-        except Exception as e:
-            print(e)
+        for vote in relevant_votes:
+            total += vote.vote
         return total
 
     def total_comment_score(self):
+        relevant_votes = CommentVote.objects.filter(comment__user=self)
         total = 0
-        for vote in CommentVote.objects.all():
-            if vote.comment.user == self:
-                total += vote.vote
-        # print("total", total)
+        for vote in relevant_votes:
+            total += vote.vote
         return total
 
     def get_posts(self):
@@ -202,7 +195,7 @@ class Post(models.Model):
     title = models.TextField(default="")
     image = models.ImageField(upload_to="images/", blank=True)
     poll = models.ForeignKey(
-        "base.Poll", on_delete=models.SET_NULL, null=True, blank=True
+        "api.Poll", on_delete=models.SET_NULL, null=True, blank=True
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
