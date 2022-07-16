@@ -192,6 +192,7 @@ class PhoneLoginCode(models.Model):
 class Post(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+
     title = models.TextField(default="")
     image = models.ImageField(upload_to="images/", blank=True)
     poll = models.ForeignKey(
@@ -318,9 +319,6 @@ class PostVote(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    class Meta:
-        unique_together = ("user", "post")
-
     def __str__(self):
         return str(self.id) + " " + str(self.vote)
 
@@ -333,8 +331,8 @@ class CommentVote(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    class Meta:
-        unique_together = ("user", "comment")
+    # class Meta:
+    #     unique_together = ("user", "comment")
 
     def __str__(self):
         return str(self.id) + " " + str(self.vote)
