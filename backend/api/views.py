@@ -1,13 +1,16 @@
+from ast import IsNot
 import datetime
 import os
 import operator
 import re
 from tempfile import TemporaryFile
+from typing import List
 from django.shortcuts import render, redirect
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
 from .models import (
+    Poll,
     User,
     Post,
     Comment,
@@ -22,6 +25,7 @@ from .models import (
 )
 from .serializers import (
     DirectMessageSerializer,
+    PollSerializer,
     UserSerializer,
     UserSerializerLeaderboard,
     PostSerializer,
@@ -33,7 +37,7 @@ from .serializers import (
     PhoneLoginTokenSerializer,
     UserSerializerProfile,
 )
-from .permissions import IsOwnerOrReadOnly, IsNotInTimeout
+from .permissions import IsAdmin, IsOwnerOrReadOnly, IsNotInTimeout
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
@@ -121,6 +125,22 @@ class ListCreatePostAPIView(ListCreateAPIView):
         read_only_fields = ["time_since_posted"]
 
     def perform_create(self, serializer):
+
+        # Example Poll Object Input
+        # "poll": {
+        #     "title": "Sample Poll",
+        #     "options": [
+        #          "Option 1",
+        #          "Option 2",
+        #             ...
+        #       ]
+        # }
+
+        print("creating")
+        if "poll" in self.request.data:
+            poll_data = self.request.data["poll"]
+            Poll.objects.create(user=self.request.user, title=self)
+        print(self.request.data)
         serializer.save(user=self.request.user)
         PostVote.objects.create(
             user=self.request.user, post=serializer.instance, vote=1
@@ -163,8 +183,19 @@ class ListCreateCommentAPIView(ListCreateAPIView):
         post = Post.objects.get(id=self.request.data["post_id"])
         serializer.save(user=self.request.user, post=post)
         CommentVote.objects.create(
-            user=self.request.user, comment=serializer.instance, vote=1
+            user=self.request.user,
+            comment=serializer.instance,
+            vote=self.request.data["vote"],
         )
+
+
+class ListCreatePollAPIView(ListCreateAPIView):
+    serializer_class = PollSerializer
+    queryset = Poll.objects.all()
+    permission_classes = (IsAuthenticated & IsNotInTimeout | IsAdminUser,)
+
+    def perform_create(self, serializer):
+        return super().perform_create(serializer)
 
 
 class ListCreatePostReportAPIView(ListCreateAPIView):
@@ -186,6 +217,7 @@ class ListCreatePostVoteAPIView(ListCreateAPIView):
         serializer.save(
             user=self.request.user,
             post=Post.objects.get(id=self.request.data["post_id"]),
+            vote=(1 if self.request.data["vote"] == "up" else -1),
         )
 
 
