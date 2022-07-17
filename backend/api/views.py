@@ -8,7 +8,7 @@ from typing import List
 from django.shortcuts import render, redirect
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from .models import (
     Poll,
     User,
@@ -124,7 +124,7 @@ class ListCreatePostAPIView(ListCreateAPIView):
         fields = "__all__"
         read_only_fields = ["time_since_posted"]
 
-    def perform_create(self, serializer):
+    def create_perform(self, serializer):
 
         # Example Poll Object Input
         # "poll": {
@@ -213,12 +213,12 @@ class ListCreatePostVoteAPIView(ListCreateAPIView):
     queryset = PostVote.objects.all()
     permission_classes = (IsAuthenticated | IsAdminUser,)
 
-    def create_perform(self, serializer):
-        serializer.save(
-            user=self.request.user,
-            post=Post.objects.get(id=self.request.data["post_id"]),
-            vote=(1 if self.request.data["vote"] == "up" else -1),
-        )
+    # def perform_create(self, serializer):
+    #     serializer.save(
+    #         user=self.request.user,
+    #         post=Post.objects.get(id=self.request.data["post_id"]),
+    #         vote=(1 if self.request.data["vote"] == "up" else -1),
+    #     )
 
 
 class ListCreateCommentVoteAPIView(ListCreateAPIView):
@@ -230,6 +230,7 @@ class ListCreateCommentVoteAPIView(ListCreateAPIView):
         serializer.save(
             user=self.request.user,
             comment=Comment.objects.get(id=self.request.data["comment_id"]),
+            vote=(1 if self.request.data["vote"] == "up" else -1),
         )
 
 

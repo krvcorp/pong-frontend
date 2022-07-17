@@ -1,5 +1,7 @@
+from asyncore import read
 from datetime import datetime, timezone
 from locale import normalize
+from attr import attr
 from rest_framework import serializers
 from .models import (
     User,
@@ -199,22 +201,36 @@ class PostVoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = PostVote
         fields = ("id", "post", "user", "vote", "created_at", "updated_at")
+        read_only_fields = ("post", "user")
+        extra_kwargs = {
+            "vote": {"required": False},
+        }
 
-    def validate(self, attrs):
-        if attrs["vote"] not in [1, -1]:
-            raise serializers.ValidationError("Vote must be 1 or -1")
-        return super().validate(attrs)
+    def create(self, validated_data):
+        user = self.context["request"].user
+        vote = self.context["request"].data["vote"]
+        post = Post.objects.get(id=self.context["request"].data["post_id"])
+        if PostVote.objects.filter(post=post, user=user).exists():
+            raise ValidationError("You have already voted on this post")
+        return PostVote.objects.create(post=post, user=user, vote=vote)
 
 
 class CommentVoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = CommentVote
         fields = ("id", "comment", "user", "vote", "created_at", "updated_at")
+        read_only_fields = ("post", "user")
+        extra_kwargs = {
+            "vote": {"required": False},
+        }
 
-    def validate(self, attrs):
-        if attrs["vote"] not in [1, -1]:
-            raise serializers.ValidationError("Vote must be 1 or -1")
-        return super().validate(attrs)
+    def create(self, validated_data):
+        user = self.context["request"].user
+        vote = self.context["request"].data["vote"]
+        post = Post.objects.get(id=self.context["request"].data["post_id"])
+        if CommentVote.objects.filter(post=post, user=user).exists():
+            raise ValidationError("You have already voted on this comment")
+        return CommentVote.objects.create(post=post, user=user, vote=vote)
 
 
 class DirectMessageSerializer(serializers.ModelSerializer):
