@@ -9,12 +9,12 @@ import SwiftUI
 
 struct PostView: View {
     @Environment(\.presentationMode) var presentationMode
-    @StateObject var viewModel = PostViewModel()
-    @StateObject var componentViewModel = ComponentsViewModel()
+    @StateObject var postVM = PostViewModel()
     @State private var message = ""
     @State var sheet = false
     
     var post: Post
+
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -31,7 +31,10 @@ struct PostView: View {
                 CustomTextField(placeholder: Text("Enter your message here"), text: $message)
                 
                 Button {
-                    print("DEBUG: Message sent")
+                    print("DEBUG: PostView Send Message")
+                    postVM.createComment(postid: post.id, comment: message) { result in
+                        
+                    }
                     message = ""
                 } label: {
                     Image(systemName: "paperplane.fill")
@@ -97,13 +100,17 @@ struct PostView: View {
                             
                             VStack{
                                 Button {
-                                    componentViewModel.createPostVote(postid: post.id, direction: "up")
+                                    postVM.postVote(postid: post.id, direction: "up") { result in
+                                        
+                                    }
                                 } label: {
                                     Image(systemName: "arrow.up")
                                 }
                                 Text("\(post.score)")
                                 Button {
-                                    componentViewModel.createPostVote(postid: post.id, direction: "down")
+                                    postVM.postVote(postid: post.id, direction: "down") { result in
+                                        
+                                    }
                                 } label: {
                                     Image(systemName: "arrow.down")
                                 }

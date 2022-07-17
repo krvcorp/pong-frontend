@@ -10,7 +10,7 @@ import SwiftUI
 struct PostBubble: View {
     var post: Post
     var expanded: Bool
-    @StateObject var viewModel = PostBubbleViewModel()
+    @StateObject var postBubbleVM = PostBubbleViewModel()
     @State var sheet = false
     @State private var rect1: CGRect = .zero
     @State private var uiimage: UIImage? = nil
@@ -36,13 +36,17 @@ struct PostBubble: View {
                         
                         VStack{
                             Button {
-                                viewModel.createPostVote(postid: post.id, direction: "up")
+                                postBubbleVM.postVote(postid: post.id, direction: "up") { result in
+                                    
+                                }
                             } label: {
                                 Image(systemName: "arrow.up")
                             }
                             Text("\(post.score)")
                             Button {
-                                viewModel.createPostVote(postid: post.id, direction: "down")
+                                postBubbleVM.postVote(postid: post.id, direction: "down") { result in
+                                    
+                                }
                             } label: {
                                 Image(systemName: "arrow.down")
                             }
@@ -58,7 +62,6 @@ struct PostBubble: View {
                                 print("DEBUG: Reply")
                             } label: {
                                 Text("Reply")
-                                
                             }
                         } else {
                             NavigationLink {

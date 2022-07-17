@@ -11,7 +11,6 @@ struct FeedView: View {
     var school: String // will need to filter entire page by community
     @Namespace var animation
     @State var selectedFilter: FeedFilterViewModel
-    
     @StateObject private var feedVM = FeedViewModel()
     @State private var isRefreshing = false
     @State private var offset = CGSize.zero
