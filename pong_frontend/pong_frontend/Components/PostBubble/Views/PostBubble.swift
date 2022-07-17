@@ -36,7 +36,7 @@ struct PostBubble: View {
                         
                         VStack{
                             Button {
-                                postBubbleVM.postVote(postid: post.id, direction: "up") { result in
+                                postBubbleVM.postVote(id: post.id, direction: 1, currentDirection: 1) { result in
                                     
                                 }
                             } label: {
@@ -44,7 +44,7 @@ struct PostBubble: View {
                             }
                             Text("\(post.score)")
                             Button {
-                                postBubbleVM.postVote(postid: post.id, direction: "down") { result in
+                                postBubbleVM.postVote(id: post.id, direction: -1, currentDirection: 1) { result in
                                     
                                 }
                             } label: {

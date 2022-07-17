@@ -100,7 +100,7 @@ struct PostView: View {
                             
                             VStack{
                                 Button {
-                                    postVM.postVote(postid: post.id, direction: "up") { result in
+                                    postVM.postVote(id: post.id, direction: 1, currentDirection: 1) { result in
                                         
                                     }
                                 } label: {
@@ -108,7 +108,7 @@ struct PostView: View {
                                 }
                                 Text("\(post.score)")
                                 Button {
-                                    postVM.postVote(postid: post.id, direction: "down") { result in
+                                    postVM.postVote(id: post.id, direction: -1, currentDirection: -1) { result in
                                         
                                     }
                                 } label: {

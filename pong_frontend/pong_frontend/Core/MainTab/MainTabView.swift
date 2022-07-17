@@ -16,21 +16,42 @@ enum Tabs: String {
 
 struct MainTabView: View {
     @Binding var showSettings: Bool
+    @State private var selection = 0
+    @StateObject private var feedVM = FeedViewModel()
+    
+    var handler: Binding<Int> { Binding(
+        get: { self.selection },
+        set: {
+            if $0 == self.selection {
+                print("Refresh Home!")
+                feedVM.getPosts(selectedFilter: .top)
+                feedVM.getPosts(selectedFilter: .hot)
+                feedVM.getPosts(selectedFilter: .recent)
+            }
+            self.selection = $0
+        }
+    )}
     
     var body: some View {
     
-        TabView {
+        TabView(selection: handler) {
             NavigationView {
-                FeedView(school: "Harvard", selectedFilter: .hot)
-            }.tabItem{Image(systemName: "house")}
+                FeedView(school: "Harvard", selectedFilter: .hot, feedVM: feedVM)
+            }
+            .tabItem{Image(systemName: "house")}
+            .tag(0)
             
             NavigationView {
                 MessagesView()
-            }.tabItem{Image(systemName: "envelope")}
+            }
+            .tabItem{Image(systemName: "envelope")}
+            .tag(1)
             
             NavigationView {
                 ProfileView(showSettings: $showSettings)
-            }.tabItem{Image(systemName: "person")}
+            }
+            .tabItem{Image(systemName: "person")}
+            .tag(2)
         }
         .onAppear {
             // correct the transparency bug for Tab bars

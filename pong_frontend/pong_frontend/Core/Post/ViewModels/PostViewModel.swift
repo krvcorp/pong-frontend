@@ -10,10 +10,10 @@ import Foundation
 class PostViewModel: ObservableObject {
     @Published var comments: [Comment] = []
     
-    func postVote(postid: String, direction: String, completion: @escaping (Result<String, AuthenticationError>) -> Void) {
+    func postVote(id: String, direction: Int, currentDirection: Int, completion: @escaping (Result<String, AuthenticationError>) -> Void) {
         guard let token = DAKeychain.shared["token"] else { return } // Fetch
         
-        print("DEBUG: postVote \(direction) \(postid) \(token)")
+        print("DEBUG: postVote \(direction) \(id) \(token)")
             
         // change URL to real login
         guard let url = URL(string: "\(API().root)postvote/") else {
@@ -21,7 +21,7 @@ class PostViewModel: ObservableObject {
             return
         }
         
-        let body = PostVoteRequestBody(post: postid, user: "9fcafc5b-1519-409c-982c-05189a7ea98b", vote: direction)
+        let body = PostVoteRequestBody(post_id: id, user: "9fcafc5b-1519-409c-982c-05189a7ea98b", vote: direction)
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
