@@ -12,9 +12,7 @@ struct PostView: View {
     @StateObject var postVM = PostViewModel()
     @State private var message = ""
     @State var sheet = false
-    
     var post: Post
-
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -60,109 +58,75 @@ struct PostView: View {
         }
     }
     
-    // unused component
-    var postHeader: some View {
-        ZStack{
-            HStack(alignment: .center) {
-                Button {
-                    presentationMode.wrappedValue.dismiss()
-                } label: {
-                    Image(systemName: "arrow.left")
-                }
-                .padding()
-                Spacer()
-            }
-        }
-    }
-    
     var mainPost: some View {
-        ScrollView {
-            LazyVStack{
-                Button(action: {
-                    print("DEBUG: Reply")
-                }) {
+        VStack {
+            VStack {
+                HStack(alignment: .top){
+                    VStack(alignment: .leading){
+                        
+                        Text("Anonymous - \(post.timeSincePosted)")
+                            .font(.caption)
+                            .padding(.bottom, 4)
+
+                                               
+                        Text(post.title)
+                            .multilineTextAlignment(.leading)
+                        
+                    }
+                    
+                    Spacer()
+                    
                     VStack{
-                        
-                        HStack(alignment: .top){
-                            VStack(alignment: .leading){
-                                
-                                Text("Anonymous - \(post.timeSincePosted)")
-                                    .font(.caption)
-                                    .padding(.bottom, 4)
-
-                                                       
-                                Text(post.title)
-                                    .multilineTextAlignment(.leading)
-                                
+                        Button {
+                            postVM.postVote(id: post.id, direction: 1, currentDirection: 1) { result in
                             }
-                            
-                            Spacer()
-                            
-                            VStack{
-                                Button {
-                                    postVM.postVote(id: post.id, direction: 1, currentDirection: 1) { result in
-                                        
-                                    }
-                                } label: {
-                                    Image(systemName: "arrow.up")
-                                }
-                                Text("\(post.score)")
-                                Button {
-                                    postVM.postVote(id: post.id, direction: -1, currentDirection: -1) { result in
-                                        
-                                    }
-                                } label: {
-                                    Image(systemName: "arrow.down")
-                                }
-
-                            }
-                            
+                        } label: {
+                            Image(systemName: "arrow.up")
                         }
-                        .padding(.bottom)
                         
-
-                        //
-                        HStack {
-                            // comments, share, mail, flag
-
-                            Spacer()
-                            
-                            Button {
-//                                let image = self.mainPost.snapshot()
-//                                UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
-                                sheet.toggle()
-                            } label: {
-                                Image(systemName: "square.and.arrow.up")
+                        Text("\(post.score)")
+                        
+                        Button {
+                            postVM.postVote(id: post.id, direction: -1, currentDirection: -1) { result in
                             }
-                            .sheet(isPresented: $sheet) {
-                                ShareSheet(items: ["\(post.title)"])
-                            }
-                            Button {
-                                print("DEBUG: DM")
-                            } label: {
-                                Image(systemName: "envelope")
-                            }
-                            Button {
-                                print("DEBUG: Report")
-                            } label: {
-                                Image(systemName: "flag")
-                            }
+                        } label: {
+                            Image(systemName: "arrow.down")
                         }
                     }
-                    .font(.system(size: 18).bold())
-                    .padding()
-                    .foregroundColor(Color(UIColor.label))
                 }
-                .background(Color(UIColor.systemBackground)) // If you have this
-                .cornerRadius(20)         // You also need the cornerRadius here
-                ZStack {
-                    Divider()
-                    Text("\(post.numComments) Comments")
-                        .font(.caption)
-                        .background(Rectangle().fill(Color(UIColor.systemBackground)).frame(minWidth: 90))
-                        
-                }
+                .padding(.bottom)
 
+                HStack {
+                    // comments, share, mail, flag
+                    Spacer()
+                    
+                    Button {
+                        sheet.toggle()
+                    } label: {
+                        Image(systemName: "square.and.arrow.up")
+                    }
+                    .sheet(isPresented: $sheet) {
+                        ShareSheet(items: ["\(post.title)"])
+                    }
+
+                    Button {
+                        print("DEBUG: Report")
+                    } label: {
+                        Image(systemName: "flag")
+                    }
+                }
+            }
+            .font(.system(size: 18).bold())
+            .padding()
+            .foregroundColor(Color(UIColor.label))
+            .background(Color(UIColor.systemBackground)) // If you have this
+            .cornerRadius(20)         // You also need the cornerRadius here
+
+            ZStack {
+                Divider()
+                Text("\(post.numComments) Comments")
+                    .font(.caption)
+                    .background(Rectangle().fill(Color(UIColor.systemBackground)).frame(minWidth: 90))
             }
         }
     }

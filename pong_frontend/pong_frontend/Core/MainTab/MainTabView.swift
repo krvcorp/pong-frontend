@@ -13,7 +13,6 @@ enum Tabs: String {
     case profile
 }
 
-
 struct MainTabView: View {
     @Binding var showSettings: Bool
     @State private var selection = 0
@@ -36,7 +35,7 @@ struct MainTabView: View {
     
         TabView(selection: handler) {
             NavigationView {
-                FeedView(school: "Harvard", selectedFilter: .hot, feedVM: feedVM)
+                FeedView("Harvard", .hot, feedVM)
             }
             .tabItem{Image(systemName: "house")}
             .tag(0)
@@ -65,6 +64,10 @@ struct MainTabView: View {
             navigationBarAppearance.configureWithOpaqueBackground()
             UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
             navigationBarAppearance.backgroundColor = .secondarySystemBackground
+            // remove bottom border
+            navigationBarAppearance.shadowColor = .clear
+            UINavigationBar.appearance().standardAppearance = navigationBarAppearance
+            UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
         }
     }
 }

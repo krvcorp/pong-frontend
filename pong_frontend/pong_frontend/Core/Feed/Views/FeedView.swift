@@ -16,10 +16,15 @@ struct FeedView: View {
     @State private var offset = CGSize.zero
     @State private var newPost = false
 
+    init(_ school: String, _ selectedFilter: FeedFilterViewModel, _ feedVM: FeedViewModel) {
+        self.school = school
+        self.selectedFilter = selectedFilter
+        self.feedVM = feedVM
+    }
+    
     var body: some View {
         VStack {
             feedFilterBar
-                .padding(.top)
             feedItself
         }
         .toolbar{
@@ -50,8 +55,7 @@ struct FeedView: View {
             ForEach(FeedFilterViewModel.allCases, id: \.rawValue) { item in
                 VStack {
                     Text(item.title)
-                        .font(.subheadline)
-                        .fontWeight(selectedFilter == item ? .semibold : .regular)
+                        .font(.subheadline.bold())
                         .foregroundColor(selectedFilter == item ? Color(UIColor.label) : .gray)
                     if selectedFilter == item {
                         Capsule()
@@ -71,6 +75,7 @@ struct FeedView: View {
                 }
             }
         }
+        .background(Color(UIColor.secondarySystemBackground))
         .overlay(Divider().offset(x: 0, y: 16))
     }
     
@@ -89,7 +94,7 @@ struct FeedView: View {
                                 // top
                                 if view == .top {
                                     ForEach(feedVM.topPosts) { post in
-                                        PostBubble(post: post, expanded: false)
+                                        PostBubble(post: post)
                                     }
                                 }
                                 
@@ -97,21 +102,21 @@ struct FeedView: View {
                                 // hot
                                 else if view == .hot {
                                     ForEach(feedVM.hotPosts) { post in
-                                        PostBubble(post: post, expanded: false)
+                                        PostBubble(post: post)
                                     }
                                 }
                                 
                                 // recent
                                 else if view == .recent {
                                     ForEach(feedVM.recentPosts) { post in
-                                        PostBubble(post: post, expanded: false)
+                                        PostBubble(post: post)
                                     }
                                 }
                                 
                                 // default
                                 else {
                                     ForEach(feedVM.hotPosts) { post in
-                                        PostBubble(post: post, expanded: false)
+                                        PostBubble(post: post)
                                     }
                                 }
                             }

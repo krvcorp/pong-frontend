@@ -121,7 +121,7 @@ struct ProfileView: View {
                 ScrollView {
                     LazyVStack {
                         ForEach(api.posts) { post in
-                            PostBubble(post: post, expanded: false)
+                            PostBubble(post: post)
                         }
                     }
                     .onAppear {
