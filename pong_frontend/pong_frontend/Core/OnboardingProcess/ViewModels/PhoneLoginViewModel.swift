@@ -82,6 +82,7 @@ class PhoneLoginViewModel: ObservableObject {
                        // If key exist, this code will be executed
                         DispatchQueue.main.async {
                             DAKeychain.shared["token"] = token // Store
+                            DAKeychain.shared["userId"] = "9fcafc5b-1519-409c-982c-05189a7ea98b" 
                             self.phone = ""
                             self.phoneIsVerified = false
                             self.code = ""

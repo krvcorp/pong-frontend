@@ -26,12 +26,9 @@ struct SettingsView: View {
                 } else if viewModel == .logout {
                     Button {
                         print("DEBUG: SIGN OUT")
-                        GIDSignIn.sharedInstance.disconnect()
+
                         loginVM.signout()
                         showSettings = false
-                        // delete keychain
-                        DAKeychain.shared["token"] = nil
-                        
                     } label: {
                         SettingsOptionRowView(viewModel: viewModel)
                     }

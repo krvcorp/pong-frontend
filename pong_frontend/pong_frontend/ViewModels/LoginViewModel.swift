@@ -7,6 +7,7 @@
 
 
 import Foundation
+import GoogleSignIn
 
 // main actor allows observable object to run in the main queue
 @MainActor class LoginViewModel: ObservableObject {
@@ -22,6 +23,9 @@ import Foundation
             self.gmailString = ""
             self.password = ""
             self.initialOnboard = true
+            GIDSignIn.sharedInstance.disconnect()
+            DAKeychain.shared["userId"] = nil
+            DAKeychain.shared["token"] = nil
         }
     }
     
@@ -32,6 +36,7 @@ import Foundation
             case .success(let token):
                 self.isAuthenticated = true
                 DAKeychain.shared["token"] = token // Store
+                DAKeychain.shared["userId"] = "9fcafc5b-1519-409c-982c-05189a7ea98b" 
             case .failure(let error):
                 print("DEBUG: \(error)")
                 return
