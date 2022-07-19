@@ -85,7 +85,6 @@ struct FeedView: View {
                 ForEach(FeedFilterViewModel.allCases, id: \.self) { view in
                     RefreshableScrollView {
                         ScrollViewReader { scrollReader in
-                            
                             // actual stack of post bubbles
                             LazyVStack {
                                 // top
@@ -94,7 +93,6 @@ struct FeedView: View {
                                         PostBubble(post: post)
                                     }
                                 }
-                                
                                 
                                 // hot
                                 else if view == .hot {
@@ -137,7 +135,7 @@ struct FeedView: View {
                     }
                 }
             }
-            .background(Color(UIColor.secondarySystemBackground))
+            .background(Color(UIColor.systemGroupedBackground))
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             .ignoresSafeArea(.all, edges: .bottom)
             

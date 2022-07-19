@@ -16,7 +16,7 @@ struct ProfileView: View {
     
     var body: some View {
         
-        VStack {
+        VStack(spacing: 0) {
             karmaInfo
             .padding(.horizontal, 30)
             .padding(.top, 20)
@@ -137,6 +137,7 @@ struct ProfileView: View {
                 .tag(view.rawValue) // by having the tag be the enum's raw value,
                                         // you can always compare enum to enum.
             }
+            .background(Color(UIColor.systemGroupedBackground))
         }
     }
 }

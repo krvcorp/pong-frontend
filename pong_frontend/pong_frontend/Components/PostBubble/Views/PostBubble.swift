@@ -111,12 +111,12 @@ struct PostBubble: View {
                 }
             }
         }
-        .frame(minWidth: 0, maxWidth: UIScreen.main.bounds.size.width - 50)
+        .frame(minWidth: 0, maxWidth: UIScreen.main.bounds.size.width - 45)
         .font(.system(size: 18).bold())
         .padding()
         .foregroundColor(Color(UIColor.label))
-        .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color(UIColor.secondaryLabel), lineWidth: 5))
-        .background(Color(UIColor.systemBackground)) // If you have this
+        .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color(UIColor.tertiarySystemBackground), lineWidth: 5))
+        .background(Color(UIColor.tertiarySystemBackground)) // If you have this
         .cornerRadius(10)         // You also need the cornerRadius here
         .onTapGesture {
             tapped.toggle()

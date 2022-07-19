@@ -96,7 +96,7 @@ public struct RefreshableScrollView<Content: View>: View {
         content()
           .frame(width: proxy.size.width)
       }
-      .ignoresSafeArea()
+//      .ignoresSafeArea() this bad boy prevents scrolling to the bottom some reason
     }
   }
 }
