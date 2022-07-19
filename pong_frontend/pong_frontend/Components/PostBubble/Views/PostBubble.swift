@@ -116,7 +116,7 @@ struct PostBubble: View {
         .padding()
         .foregroundColor(Color(UIColor.label))
         .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color(UIColor.secondaryLabel), lineWidth: 5))
-        .background(Color(UIColor.secondarySystemBackground)) // If you have this
+        .background(Color(UIColor.systemBackground)) // If you have this
         .cornerRadius(10)         // You also need the cornerRadius here
         .onTapGesture {
             tapped.toggle()

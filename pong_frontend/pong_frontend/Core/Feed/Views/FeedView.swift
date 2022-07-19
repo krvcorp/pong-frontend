@@ -23,7 +23,7 @@ struct FeedView: View {
     }
     
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             feedFilterBar
             feedItself
         }
@@ -86,9 +86,6 @@ struct FeedView: View {
                     RefreshableScrollView {
                         ScrollViewReader { scrollReader in
                             
-//                            // pull to refresh component
-//                            PullToRefresh(feedVM: feedVM, selectedFilter: $selectedFilter, coordinateSpaceName: "pullToRefresh")
-                            
                             // actual stack of post bubbles
                             LazyVStack {
                                 // top
@@ -140,6 +137,7 @@ struct FeedView: View {
                     }
                 }
             }
+            .background(Color(UIColor.secondarySystemBackground))
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             .ignoresSafeArea(.all, edges: .bottom)
             
@@ -169,48 +167,9 @@ struct FeedView: View {
         }
     }
 }
-//
-//// INVESTIGATE DISTANCE TO DRAG
-//struct PullToRefresh: View {
-//    @ObservedObject var feedVM : FeedViewModel
-//    @Binding var selectedFilter : FeedFilterViewModel
-//    var coordinateSpaceName: String
-//    typealias FinishedDownload = () -> ()
-//
-//    @State var needRefresh: Bool = false
-//
-//    func onRefresh(completed: FinishedDownload) {
-//       // Code for function that needs to complete
-//        feedVM.getPosts(selectedFilter: selectedFilter)
-//        completed()
-//    }
-//
-//    var body: some View {
-//        GeometryReader { geo in
-//            if (geo.frame(in: .named(coordinateSpaceName)).maxY > 200) {
-//                Spacer()
-//                    .onAppear {
-//                        needRefresh = true
-//                        onRefresh { () -> () in
-//                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-//                                // Put your code which should be executed with a delay here
-//                                needRefresh = false
-//                            }
-//                        }
-//                    }
-//            }
-//
-//            HStack {
-//                Spacer()
-//                if needRefresh {
-//                    ProgressView()
-//                } else {
-////                    Image(systemName: "arrow.down").id("top")
-//                }
-//                Spacer().id("top")
-//            }
-//        }.padding(needRefresh ? .bottom : .top, needRefresh ? 25 : -50)
-//    }
-//}
 
-
+struct FeedView_Previews: PreviewProvider {
+    static var previews: some View {
+        FeedView("Harvard", .hot, FeedViewModel())
+    }
+}
