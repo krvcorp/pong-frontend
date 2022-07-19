@@ -83,11 +83,11 @@ struct FeedView: View {
         ZStack(alignment: .bottom) {
             TabView(selection: $selectedFilter) {
                 ForEach(FeedFilterViewModel.allCases, id: \.self) { view in
-                    ScrollView {
+                    RefreshableScrollView {
                         ScrollViewReader { scrollReader in
                             
-                            // pull to refresh component
-                            PullToRefresh(feedVM: feedVM, selectedFilter: $selectedFilter, coordinateSpaceName: "pullToRefresh")
+//                            // pull to refresh component
+//                            PullToRefresh(feedVM: feedVM, selectedFilter: $selectedFilter, coordinateSpaceName: "pullToRefresh")
                             
                             // actual stack of post bubbles
                             LazyVStack {
@@ -120,7 +120,6 @@ struct FeedView: View {
                                     }
                                 }
                             }
-                            .coordinateSpace(name: "pullToRefresh")
                             .onChange(of: newPost, perform: { value in
                                 if value {
                                     print("DEBUG: Switch and Scroll to Top")
@@ -131,6 +130,13 @@ struct FeedView: View {
                                 }
                             })
                         }
+                    }
+                    .refreshable {
+                        do {
+                          // Sleep for 2 seconds
+                          try await Task.sleep(nanoseconds: 2 * 1_000_000_000)
+                        } catch {}
+                        feedVM.getPosts(selectedFilter: selectedFilter)
                     }
                 }
             }
@@ -163,48 +169,48 @@ struct FeedView: View {
         }
     }
 }
-
-// INVESTIGATE DISTANCE TO DRAG
-struct PullToRefresh: View {
-    @ObservedObject var feedVM : FeedViewModel
-    @Binding var selectedFilter : FeedFilterViewModel
-    var coordinateSpaceName: String
-    typealias FinishedDownload = () -> ()
-    
-    @State var needRefresh: Bool = false
-    
-    func onRefresh(completed: FinishedDownload) {
-       // Code for function that needs to complete
-        feedVM.getPosts(selectedFilter: selectedFilter)
-        completed()
-    }
-    
-    var body: some View {
-        GeometryReader { geo in
-            if (geo.frame(in: .named(coordinateSpaceName)).maxY > 200) {
-                Spacer()
-                    .onAppear {
-                        needRefresh = true
-                        onRefresh { () -> () in
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                // Put your code which should be executed with a delay here
-                                needRefresh = false
-                            }
-                        }
-                    }
-            }
-            
-            HStack {
-                Spacer()
-                if needRefresh {
-                    ProgressView()
-                } else {
-//                    Image(systemName: "arrow.down").id("top")
-                }
-                Spacer().id("top")
-            }
-        }.padding(needRefresh ? .bottom : .top, needRefresh ? 25 : -50)
-    }
-}
+//
+//// INVESTIGATE DISTANCE TO DRAG
+//struct PullToRefresh: View {
+//    @ObservedObject var feedVM : FeedViewModel
+//    @Binding var selectedFilter : FeedFilterViewModel
+//    var coordinateSpaceName: String
+//    typealias FinishedDownload = () -> ()
+//
+//    @State var needRefresh: Bool = false
+//
+//    func onRefresh(completed: FinishedDownload) {
+//       // Code for function that needs to complete
+//        feedVM.getPosts(selectedFilter: selectedFilter)
+//        completed()
+//    }
+//
+//    var body: some View {
+//        GeometryReader { geo in
+//            if (geo.frame(in: .named(coordinateSpaceName)).maxY > 200) {
+//                Spacer()
+//                    .onAppear {
+//                        needRefresh = true
+//                        onRefresh { () -> () in
+//                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+//                                // Put your code which should be executed with a delay here
+//                                needRefresh = false
+//                            }
+//                        }
+//                    }
+//            }
+//
+//            HStack {
+//                Spacer()
+//                if needRefresh {
+//                    ProgressView()
+//                } else {
+////                    Image(systemName: "arrow.down").id("top")
+//                }
+//                Spacer().id("top")
+//            }
+//        }.padding(needRefresh ? .bottom : .top, needRefresh ? 25 : -50)
+//    }
+//}
 
 

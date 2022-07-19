@@ -118,7 +118,7 @@ struct ProfileView: View {
         TabView(selection: $selectedFilter) {
             ForEach(ProfileFilterViewModel.allCases, id: \.self) { view in // This iterates through all of the enum cases.
                 // make something different happen in each case
-                ScrollView {
+                RefreshableScrollView {
                     LazyVStack {
                         ForEach(api.posts) { post in
                             PostBubble(post: post)
@@ -127,7 +127,14 @@ struct ProfileView: View {
                     .onAppear {
                         api.getPosts()
                     }
-                }.tag(view.rawValue) // by having the tag be the enum's raw value,
+                }
+                .refreshable {
+                    do {
+                      // Sleep for 2 seconds
+                      try await Task.sleep(nanoseconds: 2 * 1_000_000_000)
+                    } catch {}
+                }
+                .tag(view.rawValue) // by having the tag be the enum's raw value,
                                         // you can always compare enum to enum.
             }
         }
