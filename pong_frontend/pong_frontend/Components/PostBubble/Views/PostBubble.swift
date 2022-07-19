@@ -11,7 +11,8 @@ struct PostBubble: View {
     var post: Post
     @StateObject var postBubbleVM = PostBubbleViewModel()
     @State var sheet = false
-    @State var tapped = false
+    @State private var tapped = false
+    @State private var showScore = false
     
     var body: some View {
         // instead of navigationlink as a button, we use a container to toggle navigation link
@@ -32,29 +33,50 @@ struct PostBubble: View {
                     
                     Spacer()
                     
-                    VStack{
-                        Button {
-                            postBubbleVM.postVote(id: post.id, direction: 1, currentDirection: 1) { result in
+                    VStack {
+                        if !showScore {
+                            Button {
+                                postBubbleVM.postVote(id: post.id, direction: 1, currentDirection: 1) { result in
+                                }
+                            } label: {
+                                Image(systemName: "arrow.up")
                             }
-                        } label: {
-                            Image(systemName: "arrow.up")
-                        }
-                        
-                        Button {
-                            print("DEBUG: Score check")
-                        } label: {
-                            Text("\(post.score)")
-                        }
-                        
+                            
+                            Button {
+                                print("DEBUG: Score check")
+                                withAnimation {
+                                    showScore.toggle()
+                                }
 
-                        
-                        Button {
-                            postBubbleVM.postVote(id: post.id, direction: -1, currentDirection: 1) { result in
+                            } label: {
+                                Text("\(post.score)")
                             }
-                        } label: {
-                            Image(systemName: "arrow.down")
+                            
+                            Button {
+                                postBubbleVM.postVote(id: post.id, direction: -1, currentDirection: 1) { result in
+                                }
+                            } label: {
+                                Image(systemName: "arrow.down")
+                            }
+                        } else {
+                            Button {
+                                print("DEBUG: Score check")
+                                withAnimation {
+                                    showScore.toggle()
+                                }
+
+                            } label: {
+                                VStack {
+                                    Text("\(post.score)")
+                                        .foregroundColor(.green)
+                                    Text("\(post.score)")
+                                        .foregroundColor(.red)
+                                }
+                            }
                         }
+
                     }
+                    .frame(width: 15, height: 50)
                 }
                 .padding(.bottom)
 
