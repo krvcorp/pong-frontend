@@ -18,16 +18,19 @@ struct ProfileView: View {
         
         VStack(spacing: 0) {
             karmaInfo
-            .padding(.horizontal, 30)
-            .padding(.top, 20)
+                .background(Color(UIColor.tertiarySystemBackground))
+                .padding(.horizontal, 30)
+                .padding(.top, 20)
             
             profileFilterBar
+                .background(Color(UIColor.tertiarySystemBackground))
                 .padding(.top)
             
             profileFilteredItems
-            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-            .ignoresSafeArea(.all, edges: .bottom)
+                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+                .ignoresSafeArea(.all, edges: .bottom)
         }
+        .background(Color(UIColor.tertiarySystemBackground))
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Text("Me")

@@ -75,7 +75,7 @@ struct FeedView: View {
                 }
             }
         }
-        .background(Color(UIColor.secondarySystemBackground))
+        .background(Color(UIColor.tertiarySystemBackground))
         .overlay(Divider().offset(x: 0, y: 16))
     }
     
