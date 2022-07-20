@@ -110,7 +110,9 @@ struct PostView: View {
                     }
 
                     Button {
-                        print("DEBUG: Report")
+                        postVM.reportPost(postid: post.id) { result in
+                            
+                        }
                     } label: {
                         Image(systemName: "flag")
                     }

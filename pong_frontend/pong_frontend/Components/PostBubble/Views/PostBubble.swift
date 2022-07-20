@@ -104,7 +104,7 @@ struct PostBubble: View {
                     }
                     
                     Button {
-                        print("DEBUG: Report")
+                        postBubbleVM.reportPost(postid: post.id) { result in }
                     } label: {
                         Image(systemName: "flag")
                     }
