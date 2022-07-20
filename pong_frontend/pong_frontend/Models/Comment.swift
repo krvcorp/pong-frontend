@@ -9,10 +9,11 @@ import Foundation
 
 struct Comment: Identifiable, Codable {
     var id: String
+    var post: String
     var user: String
-    var post: Int
     var comment: String
     var createdAt: String
     var updatedAt: String
     var score: Int
+    var timeSincePosted: String
 }

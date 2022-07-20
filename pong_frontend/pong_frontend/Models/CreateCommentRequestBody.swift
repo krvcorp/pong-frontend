@@ -8,7 +8,6 @@
 import Foundation
 
 struct CreateCommentRequestBody: Encodable {
-    let post: String
-    let user: String
+    let post_id: String
     let comment: String
 }

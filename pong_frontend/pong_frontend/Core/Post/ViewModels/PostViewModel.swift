@@ -63,8 +63,7 @@ class PostViewModel: ObservableObject {
             return
         }
         
-        let body = CreateCommentRequestBody(post: postid, user: "9fcafc5b-1519-409c-982c-05189a7ea98b", comment: comment)
-        
+        let body = CreateCommentRequestBody(post_id: postid, comment: comment)
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -80,15 +79,14 @@ class PostViewModel: ObservableObject {
                 return
             }
             
-            // response stuff if it exists
-//            let decoder = JSONDecoder()
-//            decoder.keyDecodingStrategy = .convertFromSnakeCase
-//            guard let loginResponse = try? decoder.decode(Post.self, from: data) else {
-//                completion(.failure(.invalidCredentials))
-//                return
-//            }
-//
-//            completion(.success(loginResponse.title))
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            guard let commentResponse = try? decoder.decode(Comment.self, from: data) else {
+                completion(.failure(.invalidCredentials))
+                return
+            }
+            debugPrint(commentResponse)
+            completion(.success(commentResponse.comment))
             
         }.resume()
     }

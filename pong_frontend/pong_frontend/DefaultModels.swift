@@ -19,9 +19,10 @@ var defaultPost = Post(id: "DefaultId",
                         timeSincePosted: "DefaultString")
 
 var defaultComment = Comment(id: "DefaultID",
-                              user: "DefaultUser",
-                              post: -1,
+                             post: "DefaultPostID",
+                             user: "DefaultUser",
                               comment: "Default comment",
                               createdAt: "Default Date",
                               updatedAt: "Default Date",
-                              score: -1)
+                              score: -1,
+                             timeSincePosted: "Default Time Since Posted")

@@ -20,7 +20,7 @@ struct CommentBubble: View {
                     HStack(alignment: .top){
                         VStack(alignment: .leading){
                             
-                            Text("\(comment.user) ~ \(comment.createdAt)")
+                            Text("Anonymous ~ \(comment.timeSincePosted)")
                                 .font(.caption)
                                 .padding(.bottom, 4)
                                                    

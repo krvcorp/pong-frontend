@@ -13,17 +13,18 @@ class ProfileViewModel: ObservableObject {
     @Published var postKarma: Int = 0
     
     func getLoggedInUserInfo(id: String) {
+        guard let token = DAKeychain.shared["token"] else { return } // Fetch
+        
         guard let url = URL(string: "\(API().root)" + "user/" + id + "/") else {
             return
         }
         
-        print("\(url)")
         
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("Token 50af864e998ac9340d775b9547e5577edd7497ee", forHTTPHeaderField: "Authorization")
+        request.addValue("Token \(token)", forHTTPHeaderField: "Authorization")
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             guard let data = data, error == nil else {
