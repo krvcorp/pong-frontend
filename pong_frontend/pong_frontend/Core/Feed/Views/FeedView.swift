@@ -80,7 +80,7 @@ struct FeedView: View {
     }
     
     var feedItself: some View {
-        ZStack(alignment: .bottom) {
+        ZStack(alignment: .bottomTrailing) {
             TabView(selection: $selectedFilter) {
                 ForEach(FeedFilterViewModel.allCases, id: \.self) { view in
                     RefreshableScrollView {
@@ -139,21 +139,21 @@ struct FeedView: View {
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             .ignoresSafeArea(.all, edges: .bottom)
             
+            // NewPost Overlay
             NavigationLink {
                 NewPostView(newPost: $newPost)
             } label: {
-                Text("New Post")
-                    .frame(minWidth: 100, maxWidth: 150)
-                    .font(.system(size: 18).bold())
+                Image(systemName: "arrowshape.bounce.forward.fill")
+                    .resizable()
+                    .renderingMode(.template)
+                    .frame(width: 50, height: 50)
                     .padding()
-                    .foregroundColor(Color(UIColor.systemBackground))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 20)
-                            .stroke(Color(UIColor.systemBackground), lineWidth: 2))
             }
-            .background(Color(UIColor.label)) // If you have this
-            .cornerRadius(20)         // You also need the cornerRadius here
-            .padding(.bottom)
+            .foregroundColor(Color(UIColor.tertiarySystemBackground))
+            .background(Color(UIColor.label))
+            .clipShape(Circle())
+            .padding()
+            .shadow(radius: 10)
         }
         // when home appears, call api and load
         .onAppear {
