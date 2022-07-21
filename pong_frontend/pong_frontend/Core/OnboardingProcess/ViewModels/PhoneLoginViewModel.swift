@@ -67,7 +67,7 @@ class PhoneLoginViewModel: ObservableObject {
         }.resume()
     }
     
-    func otpVerify(loginVM: LoginViewModel, bannerVM : BannerViewModel) {
+    func otpVerify(loginVM: LoginViewModel, verificationVM : VerificationViewModel) {
         
         otpVerifyAPI(phone: phone, code: code) { result in
             switch result {
@@ -96,12 +96,10 @@ class PhoneLoginViewModel: ObservableObject {
                             self.phoneIsVerified = true
                         }
                     } else if responseDataContent.codeExpire != nil {
-                        bannerVM.bannerData = BannerModifier.BannerData(title: "Code Expired", detail: "Your code expired.", type: .Error)
-                        bannerVM.showBanner = true
+                        verificationVM.showingCodeExpired = true
                         
                     } else if responseDataContent.codeIncorrect != nil {
-                        bannerVM.bannerData = BannerModifier.BannerData(title: "Code Incorrect", detail: "Your code is incorrect.", type: .Error)
-                        bannerVM.showBanner = true
+                        verificationVM.showingCodeWrong = true
                     }
 
                 case .failure(let error):

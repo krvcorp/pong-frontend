@@ -7,18 +7,13 @@
 
 import SwiftUI
 import iPhoneNumberField
-
-struct ToastsState {
-    var showingCodeWrong = false
-    var showingCodeExpired = false
-}
+import ExytePopupView
 
 struct VerificationView: View {
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var phoneLoginVM : PhoneLoginViewModel
     @ObservedObject var loginVM : LoginViewModel
-    @ObservedObject var bannerVM = BannerViewModel()
-    @State var floats = ToastsState()
+    @ObservedObject var verificationVM = VerificationViewModel()
     
     var body: some View {
 
@@ -41,7 +36,7 @@ struct VerificationView: View {
                     if phoneLoginVM.code.count == 6 {
                         Button(action: {
                             print("DEBUG: Continue to verify")
-                            phoneLoginVM.otpVerify(loginVM: loginVM, bannerVM: bannerVM)
+                            phoneLoginVM.otpVerify(loginVM: loginVM, verificationVM: verificationVM)
                         }) {
                             Text("Continue")
                                 .frame(minWidth: 0, maxWidth: .infinity)
@@ -82,7 +77,9 @@ struct VerificationView: View {
                 }
             }
         }
-        .banner(data: $bannerVM.bannerData, show: $bannerVM.showBanner)
+        .popup(isPresented: $verificationVM.showingCodeWrong, type: .floater(), position: .top, animation: .spring(), autohideIn: 3) {
+            FloatShowingCodeWrong()
+        }
         .navigationBarTitleDisplayMode(.inline)
     }
 }
