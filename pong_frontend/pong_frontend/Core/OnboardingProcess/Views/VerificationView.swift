@@ -8,13 +8,20 @@
 import SwiftUI
 import iPhoneNumberField
 
+struct ToastsState {
+    var showingCodeWrong = false
+    var showingCodeExpired = false
+}
+
 struct VerificationView: View {
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var phoneLoginVM : PhoneLoginViewModel
     @ObservedObject var loginVM : LoginViewModel
     @ObservedObject var bannerVM = BannerViewModel()
+    @State var floats = ToastsState()
     
     var body: some View {
+
         ZStack {
             VStack {
                 VStack(alignment: .leading) {

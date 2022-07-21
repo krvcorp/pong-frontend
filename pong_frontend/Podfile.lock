@@ -5,6 +5,7 @@ PODS:
   - AppAuth/Core (1.5.0)
   - AppAuth/ExternalUserAgent (1.5.0):
     - AppAuth/Core
+  - ExytePopupView (1.1.5)
   - GoogleSignIn (6.2.2):
     - AppAuth (~> 1.5)
     - GTMAppAuth (~> 1.3)
@@ -17,12 +18,14 @@ PODS:
   - GTMSessionFetcher/Core (1.7.2)
 
 DEPENDENCIES:
+  - ExytePopupView
   - GoogleSignIn
   - GoogleSignInSwiftSupport
 
 SPEC REPOS:
   trunk:
     - AppAuth
+    - ExytePopupView
     - GoogleSignIn
     - GoogleSignInSwiftSupport
     - GTMAppAuth
@@ -30,11 +33,12 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   AppAuth: 80317d99ac7ff2801a2f18ff86b48cd315ed465d
+  ExytePopupView: 668332226445ba79cec01a83db42a5e0c4fcde34
   GoogleSignIn: 3c68388ac221f379676e8f1cb115df3aaf73b93f
   GoogleSignInSwiftSupport: d092b89d16a569d36f1762d8782874a7098df27b
   GTMAppAuth: 4d8f864896f3646f0c33baf38a28362f4c601e15
   GTMSessionFetcher: 5595ec75acf5be50814f81e9189490412bad82ba
 
-PODFILE CHECKSUM: 207a3f1e8feb4a4e9abdfac737c5869cbd6960f3
+PODFILE CHECKSUM: f55194a705249177738cebb1386f6ba76f794317
 
 COCOAPODS: 1.11.3
