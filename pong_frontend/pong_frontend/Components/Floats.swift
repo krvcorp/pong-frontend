@@ -14,11 +14,11 @@ struct FloatShowingCodeWrong: View {
             VStack(alignment: .leading, spacing: 2) {
                 Text("Error")
                     .foregroundColor(.white)
-                    .font(.system(size: 18))
+                    .font(.headline.bold())
                 
                 Text("Your code is wrong.")
                     .foregroundColor(.white)
-                    .font(.system(size: 16))
+                    .font(.subheadline)
                     .opacity(0.8)
             }
             
@@ -29,8 +29,8 @@ struct FloatShowingCodeWrong: View {
                 .foregroundColor(Color(UIColor.systemBackground))
         }
         .padding(16)
-        .background(Color(UIColor.label).cornerRadius(12))
-        .shadow(color: Color(UIColor.label).opacity(0.5), radius: 40, x: 0, y: 12)
+        .background(Color(.red).cornerRadius(12))
+        .shadow(color: Color(UIColor.label).opacity(0.4), radius: 40, x: 0, y: 12)
         .padding(.horizontal, 16)
     }
 }

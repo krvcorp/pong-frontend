@@ -15,7 +15,6 @@ class PhoneLoginViewModel: ObservableObject {
     @Published var firstTimeOnboard: Bool = true
     
     func otpStart() {
-        
         otpStartAPI(phone: phone) { result in
             switch result {
                 case .success(let newUser):
@@ -96,10 +95,14 @@ class PhoneLoginViewModel: ObservableObject {
                             self.phoneIsVerified = true
                         }
                     } else if responseDataContent.codeExpire != nil {
-                        verificationVM.showingCodeExpired = true
+                        DispatchQueue.main.async {
+                            verificationVM.showingCodeExpired = true
+                        }
                         
                     } else if responseDataContent.codeIncorrect != nil {
-                        verificationVM.showingCodeWrong = true
+                        DispatchQueue.main.async {
+                            verificationVM.showingCodeWrong = true
+                        }
                     }
 
                 case .failure(let error):
