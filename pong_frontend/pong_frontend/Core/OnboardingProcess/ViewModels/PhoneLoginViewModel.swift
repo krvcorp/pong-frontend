@@ -73,7 +73,7 @@ class PhoneLoginViewModel: ObservableObject {
             switch result {
                 case .success(let responseDataContent):
                     print("DEBUG: PhoneLoginVM responseDataContent \(responseDataContent)")
-
+                    debugPrint(responseDataContent)
                     // if token then go to main view
                     // if email_unverified is true then go to GoogleSignInView
                     // if code_expire is true then banner activate that code_expired
@@ -82,7 +82,9 @@ class PhoneLoginViewModel: ObservableObject {
                        // If key exist, this code will be executed
                         DispatchQueue.main.async {
                             DAKeychain.shared["token"] = token // Store
-                            DAKeychain.shared["userId"] = "9fcafc5b-1519-409c-982c-05189a7ea98b" 
+                            if let userId = responseDataContent.userId {
+                                DAKeychain.shared["userId"] = userId
+                            }
                             self.phone = ""
                             self.phoneIsVerified = false
                             self.code = ""

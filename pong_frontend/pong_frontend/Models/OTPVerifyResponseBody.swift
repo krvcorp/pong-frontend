@@ -13,4 +13,5 @@ struct OTPVerifyResponseBody: Decodable {
     let emailUnverified: Bool?
     let codeExpire: Bool?
     let codeIncorrect: Bool?
+    let userId: String?
 }

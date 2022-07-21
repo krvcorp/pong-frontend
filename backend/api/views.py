@@ -124,7 +124,7 @@ class ListCreatePostAPIView(ListCreateAPIView):
         fields = "__all__"
         read_only_fields = ["time_since_posted"]
 
-    def create_perform(self, serializer):
+    def perform_create(self, serializer):
 
         # Example Poll Object Input
         # "poll": {
@@ -183,9 +183,7 @@ class ListCreateCommentAPIView(ListCreateAPIView):
         post = Post.objects.get(id=self.request.data["post_id"])
         serializer.save(user=self.request.user, post=post)
         CommentVote.objects.create(
-            user=self.request.user,
-            comment=serializer.instance,
-            vote=self.request.data["vote"],
+            user=self.request.user, comment=serializer.instance, vote=1
         )
 
 
@@ -203,9 +201,13 @@ class ListCreatePostReportAPIView(ListCreateAPIView):
     queryset = PostReport.objects.all()
     permission_classes = (IsAuthenticated,)
 
-    def perform_create(self, serializer):
-        post = Post.objects.get(id=self.request.data["post_id"])
-        serializer.save(user=self.request.user, post=post)
+    def create(self, request, *args, **kwargs):
+        # https://stackoverflow.com/questions/33861545/how-can-modify-request-data-in-django-rest-framework
+        # https://stackoverflow.com/questions/34661853/django-rest-framework-this-field-is-required-with-required-false-and-unique
+        request.data._mutable = True
+        request.data["user"] = request.user.id
+        request.data["post"] = request.data["post_id"]
+        return super().create(request, *args, **kwargs)
 
 
 class ListCreatePostVoteAPIView(ListCreateAPIView):
@@ -299,6 +301,62 @@ class OTPStart(APIView):
         #         {"error": "Phone number can't be VoIP."}, status=status.HTTP_400_BAD_REQUEST
         #     )
 
+        # Commented out for saving money, check in admin panel if you want to use this
+        # message = client.messages.create(
+        #     body=generated_code,
+        #     to=request.data["phone"],
+        #     from_="+19283623318",
+        # )
+
+        # Prod
+        # message = client.messages.create(
+        #     body=generated_code,
+        #     to=request.data["phone"],
+        #     from_=TWILIO_NUMBER,
+        # )
+
+        context["new_user"] = created
+        context["phone"] = phone
+
+        return JsonResponse(context)
+
+
+class ResendOTP(APIView):
+    """
+    This method is used to resend the most recently generated OTP code to the user, based on the phone number in the request.
+    """
+
+    def post(self, request):
+        context = {}
+        phone = request.data["phone"]
+        user, created = User.objects.get_or_create(phone=phone)
+        if created:
+            return JsonResponse(
+                {"error": "Phone number does not exist."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        try:
+            most_recent_code = PhoneLoginCode.objects.filter(user=user).order_by(
+                "-created_at"
+            )[0]
+            generated_code = most_recent_code.code
+        except Exception as e:
+            return JsonResponse(
+                {"error": "User has no OTP codes."}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Local
+        TWILIO_ACCOUNT_SID = "AC5e7be9e9a0d92520bc1b79a9e4ce7963"
+        TWILIO_SECRET_KEY = "b733808ab5bebcc9eccde14f9dcf56dc"
+
+        # Prod
+        # TWILIO_ACCOUNT_SID = os.environ.get("TWILIO_ACCOUNT_SID")
+        # TWILIO_SECRET_KEY = os.environ.get("TWILIO_AUTH_TOKEN")
+        # TWILIO_NUMBER = os.environ.get("TWILIO_NUMBER")
+
+        client = Client(TWILIO_ACCOUNT_SID, TWILIO_SECRET_KEY)
+
         # Local
         message = client.messages.create(
             body=generated_code,
@@ -313,7 +371,6 @@ class OTPStart(APIView):
         #     from_=TWILIO_NUMBER,
         # )
 
-        context["new_user"] = created
         context["phone"] = phone
 
         return JsonResponse(context)
@@ -335,13 +392,13 @@ class OTPVerify(APIView):
                 phone_login_code.use()
                 if user.has_been_verified:
                     context["token"] = Token.objects.get(user=user).key
+                    context["user_id"] = user.id
                 else:
                     context["email_unverified"] = True
             else:
                 context["code_expired"] = True
         else:
             context["code_incorrect"] = True
-        print(context)
         return JsonResponse(context)
 
 
@@ -359,6 +416,8 @@ class VerifyUser(APIView):
         user.save()
 
         context["token"] = Token.objects.get(user=user).key
+        context["user"] = UserSerializer(user).data
+        print(context)
         return JsonResponse(context)
 
 
@@ -374,6 +433,7 @@ class ObtainAuthToken(APIView):
     renderer_classes = (JSONRenderer,)
 
     def post(self, request):
+        context = {}
         if "code" in request.data:
             serializer = PhoneLoginTokenSerializer(data=request.data)
         else:
@@ -382,8 +442,6 @@ class ObtainAuthToken(APIView):
         user = serializer.validated_data["user"]
         token, _ = Token.objects.get_or_create(user=user)
 
-        return Response(
-            {
-                "token": token.key,
-            }
-        )
+        context["token"] = token.key
+        context["user"] = UserSerializer(user).data
+        return JsonResponse(context)

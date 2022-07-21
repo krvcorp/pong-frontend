@@ -12,14 +12,13 @@ class ProfileViewModel: ObservableObject {
     @Published var commentKarma: Int = 0
     @Published var postKarma: Int = 0
     
-    func getLoggedInUserInfo(id: String) {
+    func    getLoggedInUserInfo() {
         guard let token = DAKeychain.shared["token"] else { return } // Fetch
+        guard let userId = DAKeychain.shared["userId"] else { return }
         
-        guard let url = URL(string: "\(API().root)" + "user/" + id + "/") else {
+        guard let url = URL(string: "\(API().root)" + "user/" + userId + "/") else {
             return
         }
-        
-        
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"

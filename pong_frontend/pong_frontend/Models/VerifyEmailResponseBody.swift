@@ -9,4 +9,5 @@ import Foundation
 
 struct VerifyEmailResponseBody: Codable {
     let token: String?
+    let userId: String?
 }
