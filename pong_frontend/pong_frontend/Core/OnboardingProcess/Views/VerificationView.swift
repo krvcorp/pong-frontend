@@ -7,7 +7,6 @@
 
 import SwiftUI
 import iPhoneNumberField
-import ExytePopupView
 
 struct VerificationView: View {
     @Environment(\.presentationMode) var presentationMode

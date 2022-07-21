@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import ExytePopupView
+import PopupView
 
 struct FloatShowingCodeWrong: View {
     var body: some View {

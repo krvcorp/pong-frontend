@@ -10,7 +10,6 @@ target 'Pong' do
   # Pods for Pong
   pod 'GoogleSignIn'
   pod 'GoogleSignInSwiftSupport'
-  pod 'ExytePopupView'
   
   platform :ios, '15.5'
 end

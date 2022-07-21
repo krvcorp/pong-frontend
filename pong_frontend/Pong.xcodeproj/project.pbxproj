@@ -65,6 +65,7 @@
 		6A68DC082889CCB200BF2775 /* ReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A68DC072889CCB200BF2775 /* ReportView.swift */; };
 		6A68DC0D2889DA0700BF2775 /* Floats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A68DC0C2889DA0700BF2775 /* Floats.swift */; };
 		6A68DC1E288A099300BF2775 /* VerificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A68DC1D288A099300BF2775 /* VerificationViewModel.swift */; };
+		6A68DC21288A0F8800BF2775 /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = 6A68DC20288A0F8800BF2775 /* PopupView */; };
 		6AEB6250287A33E1007CA113 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEB624F287A33E1007CA113 /* ProfileViewModel.swift */; };
 		6AEB6254287DA6F6007CA113 /* OTPStartRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEB6253287DA6F6007CA113 /* OTPStartRequestBody.swift */; };
 		6AEB6256287DA70D007CA113 /* OTPStartResponseBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEB6255287DA70D007CA113 /* OTPStartResponseBody.swift */; };
@@ -166,6 +167,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6A68DC21288A0F8800BF2775 /* PopupView in Frameworks */,
 				DCB9394884F3C599B368C950 /* Pods_Pong.framework in Frameworks */,
 				6A218469287A0C8200681C86 /* iPhoneNumberField in Frameworks */,
 			);
@@ -692,6 +694,7 @@
 			name = Pong;
 			packageProductDependencies = (
 				6A218468287A0C8200681C86 /* iPhoneNumberField */,
+				6A68DC20288A0F8800BF2775 /* PopupView */,
 			);
 			productName = pong;
 			productReference = 6A5DF0E32851321000F28A06 /* Pong.app */;
@@ -724,6 +727,7 @@
 			mainGroup = 6A5DF0DA2851321000F28A06;
 			packageReferences = (
 				6A218467287A0C8200681C86 /* XCRemoteSwiftPackageReference "iPhoneNumberField" */,
+				6A68DC1F288A0F8800BF2775 /* XCRemoteSwiftPackageReference "PopupView" */,
 			);
 			productRefGroup = 6A5DF0E42851321000F28A06 /* Products */;
 			projectDirPath = "";
@@ -1085,6 +1089,14 @@
 				kind = branch;
 			};
 		};
+		6A68DC1F288A0F8800BF2775 /* XCRemoteSwiftPackageReference "PopupView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/exyte/PopupView.git";
+			requirement = {
+				kind = exactVersion;
+				version = 1.1.5;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1092,6 +1104,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 6A218467287A0C8200681C86 /* XCRemoteSwiftPackageReference "iPhoneNumberField" */;
 			productName = iPhoneNumberField;
+		};
+		6A68DC20288A0F8800BF2775 /* PopupView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6A68DC1F288A0F8800BF2775 /* XCRemoteSwiftPackageReference "PopupView" */;
+			productName = PopupView;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
