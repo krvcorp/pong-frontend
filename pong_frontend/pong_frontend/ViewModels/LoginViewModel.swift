@@ -34,9 +34,11 @@ import GoogleSignIn
         verifyEmailAPI(phone: phone, email: email) { result in
             switch result {
             case .success(let token):
-                self.isAuthenticated = true
-                DAKeychain.shared["token"] = token // Store
-                DAKeychain.shared["userId"] = "9fcafc5b-1519-409c-982c-05189a7ea98b" 
+                DispatchQueue.main.async {
+                    DAKeychain.shared["token"] = token // Store
+                    DAKeychain.shared["userId"] = "9fcafc5b-1519-409c-982c-05189a7ea98b"
+                    self.isAuthenticated = true
+                }
             case .failure(let error):
                 print("DEBUG: \(error)")
                 return
