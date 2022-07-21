@@ -80,6 +80,9 @@ struct VerificationView: View {
         .popup(isPresented: $verificationVM.showingCodeWrong, type: .floater(), position: .top, animation: .spring(), autohideIn: 3) {
             FloatShowingCodeWrong()
         }
+        .popup(isPresented: $verificationVM.showingCodeExpired, type: .floater(), position: .top, animation: .spring(), autohideIn: 3) {
+            FloatShowingCodeExpired()
+        }
         .navigationBarTitleDisplayMode(.inline)
     }
 }
