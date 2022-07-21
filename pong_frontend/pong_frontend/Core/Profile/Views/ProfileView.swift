@@ -50,7 +50,7 @@ struct ProfileView: View {
         }
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
-            profileVM.getLoggedInUserInfo(id: "0ff127a6-23a5-4b8f-a899-bc1e60822135")
+            profileVM.getLoggedInUserInfo()
         }
         
     }

@@ -30,27 +30,7 @@ import GoogleSignIn
     }
     
     func verifyEmail(phone: String, email: String) {
-        
-        verifyEmailAPI(phone: phone, email: email) { result in
-            switch result {
-            case .success(let token):
-                self.isAuthenticated = true
-                DAKeychain.shared["token"] = token // Store
-                DAKeychain.shared["userId"] = "9fcafc5b-1519-409c-982c-05189a7ea98b" 
-            case .failure(let error):
-                print("DEBUG: \(error)")
-                return
-            }
-
-        }
-    }
-    
-    func verifyEmailAPI(phone: String, email: String, completion: @escaping (Result <String, AuthenticationError>) -> Void ) {
-        
-        guard let url = URL(string: "\(API().root)" + "verify-user/") else {
-            completion(.failure(.custom(errorMessage: "URL is not correct")))
-            return
-        }
+        guard let url = URL(string: "\(API().root)" + "verify-user/") else {return}
         
         let body = VerifyEmailRequestBody(phone: phone, email: email)
         
@@ -60,30 +40,20 @@ import GoogleSignIn
         request.httpBody = try? JSONEncoder().encode(body)
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
-            guard let data = data, error == nil else {
-                completion(.failure(.custom(errorMessage: "No data")))
-                return
-            }
+            guard let data = data, error == nil else {return}
             
-            guard let verifyEmailResponse = try? JSONDecoder().decode(VerifyEmailResponseBody.self, from: data) else {
-                completion(.failure(.invalidCredentials))
-                return
-            }
+            guard let verifyEmailResponse = try? JSONDecoder().decode(VerifyEmailResponseBody.self, from: data) else {return}
             
             print("DEBUG: API otpVerifyResponse is \(verifyEmailResponse)")
             
-            // token : String, new_user : Bool, code_expire : Bool, code_incorrect : Bool
-            if let responseDataContent = verifyEmailResponse.token {
-                print("DEBUG: API Token is \(responseDataContent)")
-                completion(.success(verifyEmailResponse.token!))
-                return
+            if let token = verifyEmailResponse.token {
+                DAKeychain.shared["token"] = token
             }
-            
-            
-            print("DEBUG: API \(verifyEmailResponse.token!)")
-            completion(.failure(.custom(errorMessage: "new_user not returned. Consider code_expire or code_incorrect")))
-            
+            if let userId = verifyEmailResponse.userId {
+                DAKeychain.shared["userId"] = userId
+            }
+            self.isAuthenticated = true
         }.resume()
-        
     }
+    
 }
