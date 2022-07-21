@@ -12,7 +12,6 @@ class PostBubbleViewModel: ObservableObject {
     func postVote(id: String, direction: Int, currentDirection: Int, completion: @escaping (Result<String, AuthenticationError>) -> Void) {
         guard let token = DAKeychain.shared["token"] else { return } // Fetch
         
-        
         print("DEBUG: postVote \(direction) \(id) \(token)")
             
         // change URL to real login
