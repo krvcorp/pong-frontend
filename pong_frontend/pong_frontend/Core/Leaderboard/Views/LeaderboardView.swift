@@ -12,8 +12,8 @@ struct LeaderboardView: View {
     @StateObject var leaderboardVM = LeaderboardViewModel()
     
     var body: some View {
-        ScrollView {
-            VStack {
+        VStack {
+            RefreshableScrollView {
                 Text("Your Karma: 201")
                     .font(.headline)
                 
@@ -35,7 +35,6 @@ struct LeaderboardView: View {
                     .background(Color(UIColor.tertiarySystemBackground)) // If you have this
                     .cornerRadius(10)         // You also need the cornerRadius here
                 }
-
             }
             .background(Color(UIColor.systemGroupedBackground))
             .navigationBarBackButtonHidden(true)
@@ -53,6 +52,7 @@ struct LeaderboardView: View {
                 }
             }
         }
+        .background(Color(UIColor.systemGroupedBackground))
     }
 }
 
