@@ -9,6 +9,7 @@ import SwiftUI
 
 struct LeaderboardView: View {
     @Environment(\.presentationMode) var presentationMode
+    @StateObject var leaderboardVM = LeaderboardViewModel()
     
     var body: some View {
         ScrollView {
@@ -18,44 +19,38 @@ struct LeaderboardView: View {
                 
                 VStack {
                     VStack (alignment: .leading) {
-                        HStack {
-                            Text("1")
-                            Text("1233445")
-                            Spacer()
-                        }
-                        HStack {
-                            Text("2")
-                            Text("123")
-                            Spacer()
-                        }
-                        HStack {
-                            Text("3")
-                            Text("2")
-                            Spacer()
+                        ForEach(leaderboardVM.leaderboardList) { entry in
+                            HStack {
+                                Text("Placement")
+                                Text("\(entry.totalScore)")
+                                Spacer()
+                            }
                         }
                     }
                     .frame(minWidth: 0, maxWidth: UIScreen.main.bounds.size.width - 50)
                     .font(.system(size: 18).bold())
                     .padding()
                     .foregroundColor(Color(UIColor.label))
-                    .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color(UIColor.label), lineWidth: 10))
+                    .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color(UIColor.tertiarySystemBackground), lineWidth: 5))
+                    .background(Color(UIColor.tertiarySystemBackground)) // If you have this
+                    .cornerRadius(10)         // You also need the cornerRadius here
                 }
-                .background(Color(UIColor.systemBackground)) // If you have this
-                .cornerRadius(20)         // You also need the cornerRadius here
 
-        }
-        .navigationBarBackButtonHidden(true)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button {
-                    presentationMode.wrappedValue.dismiss()
-                } label: {
-                    Image(systemName: "chevron.backward")
-                }
             }
-            ToolbarItem(placement: .principal) {
-                Text("Leaderboard")
-                    .font(.title.bold())
+            .background(Color(UIColor.systemGroupedBackground))
+            .navigationBarBackButtonHidden(true)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        presentationMode.wrappedValue.dismiss()
+                    } label: {
+                        Image(systemName: "chevron.backward")
+                    }
+                }
+                ToolbarItem(placement: .principal) {
+                    Text("Leaderboard")
+                        .font(.title.bold())
+                }
             }
         }
     }
@@ -66,4 +61,4 @@ struct LeaderboardView_Previews: PreviewProvider {
         LeaderboardView()
     }
 }
-}
+
