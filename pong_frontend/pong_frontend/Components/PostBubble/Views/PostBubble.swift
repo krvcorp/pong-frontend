@@ -13,6 +13,7 @@ struct PostBubble: View {
     @State var sheet = false
     @State private var tapped = false
     @State private var showScore = false
+//    @State var showingPopup = false
     
     var body: some View {
         // instead of navigationlink as a button, we use a container to toggle navigation link
@@ -105,6 +106,7 @@ struct PostBubble: View {
                     
                     Button {
                         postBubbleVM.reportPost(postid: post.id) { result in }
+//                        self.showingPopup = true
                     } label: {
                         Image(systemName: "flag")
                     }
@@ -121,6 +123,10 @@ struct PostBubble: View {
         .onTapGesture {
             tapped.toggle()
         }
+//        .popup(isPresented: $showingPopup, type: .toast, position: .bottom, dragToDismiss: true) {
+//            // your content
+//            ReportView()
+//        }
     }
 }
 

@@ -25,7 +25,7 @@ struct VerificationView: View {
                     Text("\(phoneLoginVM.phone)")
                         .font(.title).bold()
                     TextField("ABC123", text: $phoneLoginVM.code)
-                        .textInputAutocapitalization(.never)
+                        .textInputAutocapitalization(.characters)
                         .accentColor(.gray)
                         .font(.title.bold())
                 }
