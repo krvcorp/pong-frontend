@@ -27,12 +27,16 @@ from django.contrib.auth import authenticate
 class UserSerializer(serializers.ModelSerializer):
     posts = serializers.SerializerMethodField(read_only=True)
     comments = serializers.SerializerMethodField(read_only=True)
+    saved_posts = serializers.SerializerMethodField(read_only=True)
 
     def get_posts(self, obj):
         return PostSerializer(obj.get_posts(), many=True).data
 
     def get_comments(self, obj):
         return CommentSerializer(obj.get_comments(), many=True).data
+
+    def get_saved_posts(self, obj):
+        return PostSerializer(obj.get_saved_posts(), many=True).data
 
     class Meta:
         model = User
@@ -46,6 +50,7 @@ class UserSerializer(serializers.ModelSerializer):
             "comment_karma",
             "post_karma",
             "total_karma",
+            "saved_posts",
         )
 
 
@@ -79,6 +84,7 @@ class UserSerializerProfile(serializers.ModelSerializer):
     posts = serializers.SerializerMethodField(read_only=True)
     comments = serializers.SerializerMethodField(read_only=True)
     upvoted_posts = serializers.SerializerMethodField(read_only=True)
+    saved_posts = serializers.SerializerMethodField(read_only=True)
 
     def get_posts(self, obj):
         return PostSerializer(obj.get_posts(), many=True).data
@@ -88,6 +94,9 @@ class UserSerializerProfile(serializers.ModelSerializer):
 
     def get_upvoted_posts(self, obj):
         return PostSerializer(obj.get_upvoted_posts(), many=True).data
+
+    def get_saved_posts(self, obj):
+        return PostSerializer(obj.get_saved_posts(), many=True).data
 
     class Meta:
         model = User
@@ -102,6 +111,7 @@ class UserSerializerProfile(serializers.ModelSerializer):
             "post_karma",
             "total_karma",
             "upvoted_posts",
+            "saved_posts",
         )
 
 
@@ -257,7 +267,7 @@ class CommentVoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = CommentVote
         fields = ("id", "comment", "user", "vote", "created_at", "updated_at")
-        read_only_fields = ("post", "user")
+        read_only_fields = ("comment", "user")
         extra_kwargs = {
             "vote": {"required": False},
         }
@@ -265,10 +275,10 @@ class CommentVoteSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = self.context["request"].user
         vote = self.context["request"].data["vote"]
-        post = Post.objects.get(id=self.context["request"].data["post_id"])
-        if CommentVote.objects.filter(post=post, user=user).exists():
+        comment = Comment.objects.get(id=self.context["request"].data["comment_id"])
+        if CommentVote.objects.filter(comment=comment, user=user).exists():
             raise ValidationError("You have already voted on this comment")
-        return CommentVote.objects.create(post=post, user=user, vote=vote)
+        return CommentVote.objects.create(comment=comment, user=user, vote=vote)
 
 
 class DirectMessageSerializer(serializers.ModelSerializer):

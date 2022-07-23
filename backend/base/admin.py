@@ -13,6 +13,7 @@ from api.models import (
     DirectConversation,
     DirectMessage,
     PhoneLoginCode,
+    PostSave,
 )
 
 
@@ -25,4 +26,5 @@ admin.site.register(PostReport)
 admin.site.register(DirectConversation)
 admin.site.register(DirectMessage)
 admin.site.register(PhoneLoginCode)
+admin.site.register(PostSave)
 # admin.site.register(DirectMessage)
