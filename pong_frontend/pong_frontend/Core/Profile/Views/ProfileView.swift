@@ -126,12 +126,32 @@ struct ProfileView: View {
                 // make something different happen in each case
                 RefreshableScrollView {
                     LazyVStack {
-                        ForEach(api.posts) { post in
-                            PostBubble(post: post)
+                        if view == .posts {
+//                            let _ = debugPrint(api.posts)
+                            let _ = debugPrint(profileVM.posts)
+                            ForEach(api.posts) { post in
+                                PostBubble(post: post)
+                            }
                         }
+//                        else if view == .comments {
+//                            let _ = debugPrint(profileVM.comments)
+//                        }
+                        
+//                        else if view == .comments {
+//                            ForEach(api.posts) {
+//                                post in ForEach(post.comments) { comment in
+//                                    ProfileCommentBubble(comment: comment)
+//                                }
+//                            }
+//                        }
                     }
                     .onAppear {
                         api.getPosts()
+                        profileVM.getPosts()
+                        profileVM.getComments()
+                        debugPrint(api.posts)
+                        debugPrint(profileVM.comments)
+                        debugPrint(profileVM.posts)
                     }
                 }
                 .refreshable {
