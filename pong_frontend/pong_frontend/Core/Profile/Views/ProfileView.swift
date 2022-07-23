@@ -6,13 +6,15 @@
 //
 
 import SwiftUI
+import PopupView
 
 struct ProfileView: View {
     @State private var selectedFilter: ProfileFilterViewModel = .posts
     @StateObject private var profileVM = ProfileViewModel()
     @Namespace var animation
     @StateObject var api = API()
-    @Binding var showSettings: Bool
+    @Binding var showSettingsSheetView: Bool
+    @Binding var showLegalSheetView: Bool
     
     var body: some View {
         
@@ -40,7 +42,7 @@ struct ProfileView: View {
             ToolbarItem(){
                 Button {
                     withAnimation(.easeInOut) {
-                        showSettings.toggle()
+                        showSettingsSheetView.toggle()
                     }
                 } label: {
                     Image(systemName: "gearshape.fill")
@@ -52,6 +54,7 @@ struct ProfileView: View {
         .onAppear {
             profileVM.getLoggedInUserInfo()
         }
+
         
     }
     

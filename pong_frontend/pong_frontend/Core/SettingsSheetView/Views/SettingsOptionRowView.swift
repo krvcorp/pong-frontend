@@ -9,21 +9,21 @@ import SwiftUI
 
 struct SettingsOptionRowView: View {
     let viewModel: SettingsViewModel
-    
+
     var body: some View {
         HStack(spacing: 16) {
-            
+
             Image(systemName: viewModel.imageName)
                 .font(.headline)
                 .foregroundColor(.gray)
-            
-            
+
+
             Text(viewModel.title)
                 .font(.subheadline)
                 .foregroundColor(Color(UIColor.label))
-            
+
             Spacer()
-            
+
         }
         .frame(height: 40)
         .padding(.horizontal)
