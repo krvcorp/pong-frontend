@@ -11,7 +11,9 @@ import GoogleSignIn
 struct ContentView: View {
     @StateObject private var phoneLoginVM = PhoneLoginViewModel()
     @StateObject private var loginVM = LoginViewModel()
-    @State private var showSettings = false
+    // potentially add some ObservableObject that contains these two variables?
+    @State private var showSettingsSheetView = false
+    @State private var showLegalSheetView = false
     
     var body: some View {
         if DAKeychain.shared["token"] != nil && !loginVM.initialOnboard {
@@ -27,30 +29,16 @@ struct ContentView: View {
 extension ContentView {
     var MainInterfaceView: some View {
         ZStack(alignment: .topTrailing){
-           
-            MainTabView(showSettings: $showSettings)
-            
-            // tappable dark area
-            if showSettings {
-                ZStack {
-                    Color(.black)
-                        .opacity(showSettings ? 0.25 : 0.0)
-                        
-                }.onTapGesture {
-                    withAnimation(.easeInOut) {
-                        showSettings = false
-                    }
+            MainTabView(showSettingsSheetView: $showSettingsSheetView, showLegalSheetView: $showLegalSheetView)
+                .popup(isPresented: $showSettingsSheetView, type: .toast, position: .bottom, closeOnTap: false, closeOnTapOutside: true, backgroundColor: .black.opacity(0.4)) {
+                    // your content
+                    SettingsSheetView(loginVM: loginVM, showSettings: $showSettingsSheetView, showLegalSheetView: $showLegalSheetView)
                 }
-                .ignoresSafeArea()
-            }
-            
-            // settings side menu
-            SettingsView(loginVM: loginVM, showSettings: $showSettings)
-                .frame(minWidth: 200, maxWidth: 250)
-                .offset(x: showSettings ? 0 : 300)
-            
-            // TODO user/group side menu
-            
+                .popup(isPresented: $showLegalSheetView, type: .toast, position: .bottom, closeOnTap: false, closeOnTapOutside: true, backgroundColor: .black.opacity(0.4)) {
+                    // your content
+                    LegalSheetView()
+                }
+
         }
     }
 }

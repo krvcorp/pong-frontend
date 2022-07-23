@@ -14,7 +14,8 @@ enum Tabs: String {
 }
 
 struct MainTabView: View {
-    @Binding var showSettings: Bool
+    @Binding var showSettingsSheetView : Bool
+    @Binding var showLegalSheetView : Bool
     @State private var selection = 0
     @StateObject private var feedVM = FeedViewModel()
     
@@ -47,7 +48,7 @@ struct MainTabView: View {
             .tag(1)
             
             NavigationView {
-                ProfileView(showSettings: $showSettings)
+                ProfileView(showSettingsSheetView: $showSettingsSheetView, showLegalSheetView: $showLegalSheetView)
             }
             .tabItem{Image(systemName: "person")}
             .tag(2)
@@ -69,6 +70,7 @@ struct MainTabView: View {
             UINavigationBar.appearance().standardAppearance = navigationBarAppearance
             UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
         }
+
     }
 }
 

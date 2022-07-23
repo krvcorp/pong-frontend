@@ -11,14 +11,14 @@ enum FeedFilterViewModel: Int, CaseIterable {
     case top
     case hot
     case recent
-    case forYou
+//    case forYou
     
     var title: String {
         switch self {
         case .top: return "Top"
         case .hot: return "Hot"
         case .recent: return "Recent"
-        case .forYou: return "For You"
+//        case .forYou: return "For You"
         }
     }
 }
