@@ -47,6 +47,12 @@ urlpatterns = [
     path(
         "commentvote/", views.ListCreateCommentVoteAPIView.as_view(), name="commentvote"
     ),
+    path(
+        "postsave/<str:id>",
+        views.RetrieveUpdateDestroyPostSaveAPIView.as_view(),
+        name="postsave",
+    ),
+    path("postsave/", views.ListCreatePostSaveAPIView.as_view(), name="commentvote"),
     path("otp-start/", views.OTPStart.as_view(), name="otp-start"),
     path("otp-verify/", views.OTPVerify.as_view(), name="otp-verify"),
     path("verify-user/", views.VerifyUser.as_view(), name="verify-user"),

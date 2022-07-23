@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from .models import (
     Poll,
+    PostSave,
     User,
     Post,
     Comment,
@@ -36,6 +37,7 @@ from .serializers import (
     PostVoteSerializer,
     PhoneLoginTokenSerializer,
     UserSerializerProfile,
+    PostSaveSerializer,
 )
 from .permissions import IsAdmin, IsOwnerOrReadOnly, IsNotInTimeout
 from rest_framework.response import Response
@@ -89,6 +91,23 @@ class RetrieveUpdateDestroyPostVoteAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class = PostVoteSerializer
     queryset = PostVote.objects.all()
     permission_classes = (IsAuthenticated & IsOwnerOrReadOnly | IsAdminUser,)
+
+
+# Retrieve Update Destroy PostSave  APIView
+class RetrieveUpdateDestroyPostSaveAPIView(RetrieveUpdateDestroyAPIView):
+    lookup_field = "id"
+    serializer_class = PostSaveSerializer
+    queryset = PostSave.objects.all()
+    permission_classes = (IsAuthenticated & IsOwnerOrReadOnly | IsAdminUser,)
+
+
+class ListCreatePostSaveAPIView(RetrieveUpdateDestroyAPIView):
+    serializer_class = PostSaveSerializer
+    queryset = PostSave.objects.all()
+    permission_classes = (IsAuthenticated & IsNotInTimeout | IsAdminUser,)
+
+    def perform_create(self, serializer):
+        return super().perform_create(serializer)
 
 
 class ListCreateUserAPIView(ListCreateAPIView):
@@ -204,6 +223,8 @@ class ListCreatePostReportAPIView(ListCreateAPIView):
     def create(self, request, *args, **kwargs):
         # https://stackoverflow.com/questions/33861545/how-can-modify-request-data-in-django-rest-framework
         # https://stackoverflow.com/questions/34661853/django-rest-framework-this-field-is-required-with-required-false-and-unique
+        print(request)
+        print(request.data)
         request.data._mutable = True
         request.data["user"] = request.user.id
         request.data["post"] = request.data["post_id"]
