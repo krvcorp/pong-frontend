@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import ScalingHeaderScrollView
 
 struct FeedView: View {
     var school: String // will need to filter entire page by community
@@ -23,6 +24,65 @@ struct FeedView: View {
     }
     
     var body: some View {
+        // EXYTE
+//        ZStack(alignment: .bottomTrailing) {
+//            ScalingHeaderScrollView {
+//                feedFilterBar
+//            } content: {
+//                TabView(selection: $selectedFilter) {
+//                    Text("Hello world")
+//                }
+//                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+//                .ignoresSafeArea(.all, edges: .bottom)
+//            }
+//
+//            // NewPost Overlay
+//            NavigationLink {
+//                NewPostView(newPost: $newPost)
+//            } label: {
+//                Image(systemName: "arrowshape.bounce.forward.fill")
+//                    .resizable()
+//                    .renderingMode(.template)
+//                    .frame(width: 50, height: 50)
+//                    .padding()
+//            }
+//            .foregroundColor(Color(UIColor.tertiarySystemBackground))
+//            .background(Color(UIColor.label))
+//            .clipShape(Circle())
+//            .padding()
+//            .shadow(radius: 10)
+//        }
+//        // when home appears, call api and load
+//        .onAppear {
+//            if !feedVM.initalOpen {
+//                feedVM.getPosts(selectedFilter: .hot)
+//                feedVM.getPosts(selectedFilter: .recent)
+//                feedVM.getPosts(selectedFilter: .top)
+//            }
+//        }
+//        .toolbar{
+//            ToolbarItem(placement: .navigationBarLeading) {
+//                NavigationLink {
+//                    ChooseLocationView()
+//                } label: {
+//                    Text("Harvard")
+//                        .font(.title.bold())
+//                        .foregroundColor(Color(UIColor.label))
+//                }
+//            }
+//
+//            ToolbarItem(){
+//                NavigationLink {
+//                    LeaderboardView()
+//                } label: {
+//                    Image(systemName: "chart.bar.fill")
+//                }
+//                .padding()
+//            }
+//        }
+//        .navigationBarTitleDisplayMode(.inline)
+
+        // ORIGINAL
         VStack(spacing: 0) {
             feedFilterBar
             feedItself
@@ -37,7 +97,7 @@ struct FeedView: View {
                         .foregroundColor(Color(UIColor.label))
                 }
             }
-            
+
             ToolbarItem(){
                 NavigationLink {
                     LeaderboardView()

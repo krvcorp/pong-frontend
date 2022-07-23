@@ -67,9 +67,9 @@
 		6A68DC32288A225700BF2775 /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = 6A68DC31288A225700BF2775 /* PopupView */; };
 		6A68DC37288A28C000BF2775 /* LeaderboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A68DC36288A28C000BF2775 /* LeaderboardViewModel.swift */; };
 		6A68DC39288A333D00BF2775 /* TotalScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A68DC38288A333D00BF2775 /* TotalScore.swift */; };
-		6A68DC3F288AF09D00BF2775 /* SideMenu in Frameworks */ = {isa = PBXBuildFile; productRef = 6A68DC3E288AF09D00BF2775 /* SideMenu */; };
 		6A68DC41288B572C00BF2775 /* ActionSheets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A68DC40288B572C00BF2775 /* ActionSheets.swift */; };
 		6A68DC43288B72DD00BF2775 /* LegalSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A68DC42288B72DD00BF2775 /* LegalSheetView.swift */; };
+		6A68DC46288B7A3100BF2775 /* ScalingHeaderScrollView in Frameworks */ = {isa = PBXBuildFile; productRef = 6A68DC45288B7A3100BF2775 /* ScalingHeaderScrollView */; };
 		6AEB6250287A33E1007CA113 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEB624F287A33E1007CA113 /* ProfileViewModel.swift */; };
 		6AEB6254287DA6F6007CA113 /* OTPStartRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEB6253287DA6F6007CA113 /* OTPStartRequestBody.swift */; };
 		6AEB6256287DA70D007CA113 /* OTPStartResponseBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEB6255287DA70D007CA113 /* OTPStartResponseBody.swift */; };
@@ -176,8 +176,8 @@
 			files = (
 				6A68DC32288A225700BF2775 /* PopupView in Frameworks */,
 				DCB9394884F3C599B368C950 /* Pods_Pong.framework in Frameworks */,
-				6A68DC3F288AF09D00BF2775 /* SideMenu in Frameworks */,
 				6A218469287A0C8200681C86 /* iPhoneNumberField in Frameworks */,
+				6A68DC46288B7A3100BF2775 /* ScalingHeaderScrollView in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -706,7 +706,7 @@
 			packageProductDependencies = (
 				6A218468287A0C8200681C86 /* iPhoneNumberField */,
 				6A68DC31288A225700BF2775 /* PopupView */,
-				6A68DC3E288AF09D00BF2775 /* SideMenu */,
+				6A68DC45288B7A3100BF2775 /* ScalingHeaderScrollView */,
 			);
 			productName = pong;
 			productReference = 6A5DF0E32851321000F28A06 /* Pong.app */;
@@ -740,7 +740,7 @@
 			packageReferences = (
 				6A218467287A0C8200681C86 /* XCRemoteSwiftPackageReference "iPhoneNumberField" */,
 				6A68DC30288A225700BF2775 /* XCRemoteSwiftPackageReference "PopupView" */,
-				6A68DC3D288AF09D00BF2775 /* XCRemoteSwiftPackageReference "SideMenu" */,
+				6A68DC44288B7A3100BF2775 /* XCRemoteSwiftPackageReference "ScalingHeaderScrollView" */,
 			);
 			productRefGroup = 6A5DF0E42851321000F28A06 /* Products */;
 			projectDirPath = "";
@@ -1113,12 +1113,12 @@
 				version = 1.1.5;
 			};
 		};
-		6A68DC3D288AF09D00BF2775 /* XCRemoteSwiftPackageReference "SideMenu" */ = {
+		6A68DC44288B7A3100BF2775 /* XCRemoteSwiftPackageReference "ScalingHeaderScrollView" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/kukushi/SideMenu.git";
+			repositoryURL = "https://github.com/exyte/ScalingHeaderScrollView.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.0;
+				minimumVersion = 0.0.3;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -1134,10 +1134,10 @@
 			package = 6A68DC30288A225700BF2775 /* XCRemoteSwiftPackageReference "PopupView" */;
 			productName = PopupView;
 		};
-		6A68DC3E288AF09D00BF2775 /* SideMenu */ = {
+		6A68DC45288B7A3100BF2775 /* ScalingHeaderScrollView */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 6A68DC3D288AF09D00BF2775 /* XCRemoteSwiftPackageReference "SideMenu" */;
-			productName = SideMenu;
+			package = 6A68DC44288B7A3100BF2775 /* XCRemoteSwiftPackageReference "ScalingHeaderScrollView" */;
+			productName = ScalingHeaderScrollView;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

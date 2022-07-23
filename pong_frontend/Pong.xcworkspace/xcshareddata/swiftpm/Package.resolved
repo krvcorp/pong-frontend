@@ -28,12 +28,21 @@
       }
     },
     {
-      "identity" : "sidemenu",
+      "identity" : "scalingheaderscrollview",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/kukushi/SideMenu.git",
+      "location" : "https://github.com/exyte/ScalingHeaderScrollView.git",
       "state" : {
-        "revision" : "c168c143a1acb690ebb992406d9a03ce8791f47c",
-        "version" : "2.0.9"
+        "revision" : "69cd4671775acffcef182e908296710e7de2565c",
+        "version" : "0.0.3"
+      }
+    },
+    {
+      "identity" : "swiftui-introspect",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/siteline/SwiftUI-Introspect.git",
+      "state" : {
+        "revision" : "f2616860a41f9d9932da412a8978fec79c06fe24",
+        "version" : "0.1.4"
       }
     }
   ],
