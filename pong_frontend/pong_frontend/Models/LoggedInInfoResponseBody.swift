@@ -1,14 +1,6 @@
-//
-//  LoggedInInfoResponseBody.swift
-//  Pong
-//
-//  Created by Khoi Nguyen on 7/12/22.
-//
 
 import Foundation
 
-// response should always be decodable
-//
 struct LoggedInUserInfoResponseBody: Decodable {
     let id: String
     let email: String?
@@ -19,4 +11,5 @@ struct LoggedInUserInfoResponseBody: Decodable {
     let totalKarma: Int
     let commentKarma: Int
     let postKarma: Int
+    let savedPosts: [Post]
 }
