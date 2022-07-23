@@ -30,7 +30,8 @@ class UserSerializer(serializers.ModelSerializer):
     saved_posts = serializers.SerializerMethodField(read_only=True)
 
     def get_posts(self, obj):
-        return PostSerializer(obj.get_posts(), many=True).data
+        posts = Post.objects.filter(user=obj).order_by("-created_at")
+        return PostSerializer(posts, many=True).data
 
     def get_comments(self, obj):
         return CommentSerializer(obj.get_comments(), many=True).data
