@@ -420,3 +420,19 @@ class BlockedUser(models.Model):
 
     def __str__(self):
         return str(self.blocker) + " " + str(self.blockee)
+
+
+# Marketplace item
+class Item(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    image = models.ImageField(upload_to="item_images")
+    owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
+
+
