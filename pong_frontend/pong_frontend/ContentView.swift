@@ -31,11 +31,9 @@ extension ContentView {
         ZStack(alignment: .topTrailing){
             MainTabView(showSettingsSheetView: $showSettingsSheetView, showLegalSheetView: $showLegalSheetView)
                 .popup(isPresented: $showSettingsSheetView, type: .toast, position: .bottom, closeOnTap: false, closeOnTapOutside: true, backgroundColor: .black.opacity(0.4)) {
-                    // your content
                     SettingsSheetView(loginVM: loginVM, showSettings: $showSettingsSheetView, showLegalSheetView: $showLegalSheetView)
                 }
                 .popup(isPresented: $showLegalSheetView, type: .toast, position: .bottom, closeOnTap: false, closeOnTapOutside: true, backgroundColor: .black.opacity(0.4)) {
-                    // your content
                     LegalSheetView()
                 }
 

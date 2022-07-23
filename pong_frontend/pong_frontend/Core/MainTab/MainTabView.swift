@@ -58,13 +58,13 @@ struct MainTabView: View {
             let tabBarAppearance = UITabBarAppearance()
             tabBarAppearance.configureWithOpaqueBackground()
             UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
-            tabBarAppearance.backgroundColor = .tertiarySystemBackground
+            tabBarAppearance.backgroundColor = .red
             
             // correct the transparency bug for Navigation bars
             let navigationBarAppearance = UINavigationBarAppearance()
             navigationBarAppearance.configureWithOpaqueBackground()
             UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
-            navigationBarAppearance.backgroundColor = .tertiarySystemBackground
+            navigationBarAppearance.backgroundColor = .red
             // remove bottom border
             navigationBarAppearance.shadowColor = .clear
             UINavigationBar.appearance().standardAppearance = navigationBarAppearance
