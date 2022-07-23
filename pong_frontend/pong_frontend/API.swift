@@ -23,23 +23,19 @@ class API: ObservableObject {
     @Published var posts: [Post] = []
     
     func getPosts() {
-        print("DEBUG: API getPosts")
         
         guard let token = DAKeychain.shared["token"] else { return } // Fetch
         
-        // url handler
         guard let url = URL(string: "\(root)" + "post/") else { return }
 
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.addValue("Token \(token)", forHTTPHeaderField: "Authorization")
         
-        // task handler. [weak self] prevents memory leaks
         let task = URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
             
             guard let data = data, error == nil else { return }
             
-            // convert to json
             do {
                 let decoder = JSONDecoder()
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
@@ -47,11 +43,8 @@ class API: ObservableObject {
                 DispatchQueue.main.async {
                     self?.posts = posts
                 }
-            } catch {
-                print("DEBUG: \(error)")
-            }
+            } catch { }
         }
-        // activates api call
         task.resume()
     }
 }

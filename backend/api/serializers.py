@@ -15,6 +15,7 @@ from .models import (
     Poll,
     PollOption,
     PollVote,
+    PostSave,
 )
 from rest_framework.authtoken.models import Token
 from django.core.validators import validate_email
@@ -303,6 +304,20 @@ class PollOptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = PollOption
         fields = ("id", "title", "votes")
+
+
+class PostSaveSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PostSave
+        fields = ("id", "post", "user", "created_at", "updated_at")
+        read_only_fields = ("post", "user")
+
+    def create(self, validated_data):
+        user = self.context["request"].user
+        post = Post.objects.get(id=self.context["request"].data["post_id"])
+        if PostSave.objects.filter(post=post, user=user).exists():
+            raise ValidationError("You have already saved this post")
+        return PostSave.objects.create(post=post, user=user)
 
 
 class AuthCustomTokenSerializer(serializers.Serializer):

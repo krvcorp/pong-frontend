@@ -10,13 +10,13 @@ import Foundation
 enum ProfileFilterViewModel: Int, CaseIterable {
     case posts
     case comments
-    case liked
+    case saved
     
     var title: String {
         switch self {
         case .posts: return "Posts"
         case .comments: return "Comments"
-        case .liked: return "Liked"
+        case .saved: return "Saved"
         }
     }
 }
