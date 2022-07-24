@@ -95,6 +95,18 @@ struct PostBubble: View {
 
                     Spacer()
                     
+                    // delete button if post id matches user id stored in keychain
+                    if DAKeychain.shared["userId"] == post.user {
+                        Button {
+                            print("DEBUG: DELETE POST")
+                            postBubbleVM.deletePost(postId: post.id) { result in
+                                print("DEBUG: \(result)")
+                            }
+                        } label: {
+                            Image(systemName: "trash")
+                        }
+                    }
+                    
                     Button {
                         sheet.toggle()
 
