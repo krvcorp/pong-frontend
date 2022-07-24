@@ -16,13 +16,17 @@ struct PostView: View {
     
     var body: some View {
         ZStack(alignment: .bottom) {
-            ScrollView {
+            RefreshableScrollView {
                 mainPost
                 LazyVStack {
                     ForEach(post.comments) { comment in
                         CommentBubble(comment: comment)
                     }
                 }
+            }
+            .refreshable {
+                print("DEBUG: Pull to refresh")
+                // when refreshing a get single post should be called to replace self.post
             }
            
             HStack {
