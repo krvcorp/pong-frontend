@@ -8,7 +8,7 @@
 import Foundation
 
 struct VerifyEmailRequestBody: Encodable {
-    let phone: String
-    let email: String
+    let idToken : String
+    let phone : String
 }
 

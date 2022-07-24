@@ -1,5 +1,5 @@
 //
-//  GoogleSignInView.swift
+//  EmailVerificationView.swift
 //  Pong
 //
 //  Created by Khoi Nguyen on 7/8/22.
@@ -11,7 +11,7 @@ import GoogleSignIn
 
 let signInConfig = GIDConfiguration(clientID: "983201170682-kttqq1l89i4fpgk15fud1u1hf192fq1q.apps.googleusercontent.com")
 
-struct GoogleSignInView: View {
+struct EmailVerificationView: View {
     @ObservedObject var loginVM : LoginViewModel
     @ObservedObject var phoneLoginVM : PhoneLoginViewModel
     
@@ -33,7 +33,7 @@ struct GoogleSignInView: View {
             
             Button {
                 print("DEBUG: VIEW GoogleSignIn")
-                handleSignInButton()
+                googleSignInButton()
             } label: {
                 HStack {
                     Image("googlelogo")
@@ -53,7 +53,7 @@ struct GoogleSignInView: View {
         }
     }
     
-    func handleSignInButton() {
+    func googleSignInButton() {
         let scenes = UIApplication.shared.connectedScenes
         let windowScene = scenes.first as? UIWindowScene
         let window = windowScene?.windows.first
@@ -79,8 +79,6 @@ struct GoogleSignInView: View {
         }
     }
 }
-
-
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -110,8 +108,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
-struct GoogleSignInView_Previews: PreviewProvider {
+struct EmailVerificationView_Previews: PreviewProvider {
     static var previews: some View {
-        GoogleSignInView(loginVM: LoginViewModel(), phoneLoginVM: PhoneLoginViewModel())
+        EmailVerificationView(loginVM: LoginViewModel(), phoneLoginVM: PhoneLoginViewModel())
     }
 }

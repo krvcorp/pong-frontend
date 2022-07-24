@@ -32,7 +32,7 @@ import GoogleSignIn
     func verifyEmail(idToken: String, phone: String) {
         guard let url = URL(string: "\(API().root)" + "verify-user/") else {return}
         
-        let body = TokenSignRequestBody(idToken: idToken, phone: phone)
+        let body = VerifyEmailRequestBody(idToken: idToken, phone: phone)
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"

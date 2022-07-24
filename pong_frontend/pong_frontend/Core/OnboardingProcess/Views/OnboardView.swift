@@ -18,7 +18,7 @@ struct OnboardView: View {
     
     var body: some View {
         if phoneLoginVM.phoneIsVerified {
-            GoogleSignInView(loginVM: loginVM, phoneLoginVM: phoneLoginVM)
+            EmailVerificationView(loginVM: loginVM, phoneLoginVM: phoneLoginVM)
         } else {
             NavigationView {
                 PhoneLoginView(phone: $phoneLoginVM.phone, loginVM: loginVM, phoneLoginVM: phoneLoginVM)
