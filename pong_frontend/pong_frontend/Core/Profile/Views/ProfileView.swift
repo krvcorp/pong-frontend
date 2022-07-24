@@ -92,8 +92,6 @@ struct ProfileView: View {
     }
     
     var karmaInfo: some View {
-        
-        
         ZStack {
             HStack {
                 VStack(alignment: .center) {
@@ -155,6 +153,7 @@ struct ProfileView: View {
             }
             .background(Color(UIColor.systemGroupedBackground))
         }
+        .background(Color(UIColor.systemGroupedBackground))
     }
 }
 
