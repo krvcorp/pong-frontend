@@ -33,9 +33,24 @@ struct VerificationView: View {
                 Spacer()
                 
                 VStack {
+                    Button(action: {
+                        print("DEBUG: VerificationView Resend OTP")
+                        phoneLoginVM.otpStart()
+                    }) {
+                        Text("Resend OTP")
+                            .frame(minWidth: 0, maxWidth: .infinity)
+                            .font(.system(size: 18).bold())
+                            .padding()
+                            .foregroundColor(Color(UIColor.systemBackground))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 5)
+                                    .stroke(Color(UIColor.systemBackground), lineWidth: 2))
+                            .background(Color(UIColor.label)) // If you have this
+                            .cornerRadius(20)         // You also need the cornerRadius here
+                    }
                     if phoneLoginVM.code.count == 6 {
                         Button(action: {
-                            print("DEBUG: Continue to verify")
+                            print("DEBUG: VerificationView Continue to verify")
                             phoneLoginVM.otpVerify(loginVM: loginVM, verificationVM: verificationVM)
                         }) {
                             Text("Continue")
@@ -45,11 +60,10 @@ struct VerificationView: View {
                                 .foregroundColor(Color(UIColor.systemBackground))
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 5)
-                                        .stroke(Color(UIColor.systemBackground), lineWidth: 2)
-                            )
+                                        .stroke(Color(UIColor.systemBackground), lineWidth: 2))
+                                .background(Color(UIColor.label)) // If you have this
+                                .cornerRadius(20)         // You also need the cornerRadius here
                         }
-                        .background(Color(UIColor.label)) // If you have this
-                        .cornerRadius(20)         // You also need the cornerRadius here
                     } else {
                         Text("Continue")
                             .frame(minWidth: 0, maxWidth: .infinity)
@@ -139,5 +153,11 @@ struct FloatShowingCodeExpired: View {
         .background(Color(.red).cornerRadius(12))
         .shadow(color: Color(UIColor.label).opacity(0.4), radius: 40, x: 0, y: 12)
         .padding(.horizontal, 16)
+    }
+}
+
+struct VerificationView_Previews: PreviewProvider {
+    static var previews: some View {
+        VerificationView(phoneLoginVM: PhoneLoginViewModel(), loginVM: LoginViewModel())
     }
 }
