@@ -101,13 +101,10 @@ class RetrieveUpdateDestroyPostSaveAPIView(RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAuthenticated & IsOwnerOrReadOnly | IsAdminUser,)
 
 
-class ListCreatePostSaveAPIView(RetrieveUpdateDestroyAPIView):
+class ListCreatePostSaveAPIView(ListCreateAPIView):
     serializer_class = PostSaveSerializer
     queryset = PostSave.objects.all()
     permission_classes = (IsAuthenticated & IsNotInTimeout | IsAdminUser,)
-
-    def perform_create(self, serializer):
-        return super().perform_create(serializer)
 
 
 class ListCreateUserAPIView(ListCreateAPIView):
@@ -236,25 +233,11 @@ class ListCreatePostVoteAPIView(ListCreateAPIView):
     queryset = PostVote.objects.all()
     permission_classes = (IsAuthenticated | IsAdminUser,)
 
-    # def perform_create(self, serializer):
-    #     serializer.save(
-    #         user=self.request.user,
-    #         post=Post.objects.get(id=self.request.data["post_id"]),
-    #         vote=(1 if self.request.data["vote"] == "up" else -1),
-    #     )
-
 
 class ListCreateCommentVoteAPIView(ListCreateAPIView):
     serializer_class = CommentVoteSerializer
     queryset = CommentVote.objects.all()
     permission_classes = (IsAuthenticated | IsAdminUser,)
-
-    def perform_create(self, serializer):
-        serializer.save(
-            user=self.request.user,
-            comment=Comment.objects.get(id=self.request.data["comment_id"]),
-            vote=(1 if self.request.data["vote"] == "up" else -1),
-        )
 
 
 # This is the method to create a new DirectMessage

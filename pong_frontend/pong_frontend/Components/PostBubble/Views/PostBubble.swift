@@ -81,6 +81,7 @@ struct PostBubble: View {
                 }
                 .padding(.bottom)
 
+                Color.black.frame(height:CGFloat(1) / UIScreen.main.scale)
                 // bottom row of contents
                 HStack {
                     // comments, share, mail, flag

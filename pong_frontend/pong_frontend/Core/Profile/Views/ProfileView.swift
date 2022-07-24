@@ -20,19 +20,19 @@ struct ProfileView: View {
         
         VStack(spacing: 0) {
             karmaInfo
-                .background(Color(UIColor.tertiarySystemBackground))
                 .padding(.horizontal, 30)
                 .padding(.top, 20)
+                .background(Color(UIColor.red))
             
             profileFilterBar
-                .background(Color(UIColor.tertiarySystemBackground))
                 .padding(.top)
+                .background(Color(UIColor.tertiarySystemBackground))
             
             profileFilteredItems
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                 .ignoresSafeArea(.all, edges: .bottom)
         }
-        .background(Color(UIColor.tertiarySystemBackground))
+        .background(Color(UIColor.red))
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Text("Me")
@@ -88,6 +88,7 @@ struct ProfileView: View {
             }
         }
         .overlay(Divider().offset(x: 0, y: 16))
+        .background(Color(UIColor.red))
     }
     
     var karmaInfo: some View {
@@ -127,31 +128,22 @@ struct ProfileView: View {
                 RefreshableScrollView {
                     LazyVStack {
                         if view == .posts {
-//                            let _ = debugPrint(api.posts)
-                            let _ = debugPrint(profileVM.posts)
-                            ForEach(api.posts) { post in
+                            ForEach(profileVM.posts) { post in
                                 PostBubble(post: post)
                             }
                         }
-//                        else if view == .comments {
-//                            let _ = debugPrint(profileVM.comments)
-//                        }
-                        
-//                        else if view == .comments {
-//                            ForEach(api.posts) {
-//                                post in ForEach(post.comments) { comment in
-//                                    ProfileCommentBubble(comment: comment)
-//                                }
-//                            }
-//                        }
+                        else if view == .comments {
+                            ForEach(profileVM.comments) { comment in
+                                ProfileCommentBubble(comment: comment)
+                            }
+                        }
+                        else if view == .saved {
+                            ForEach(profileVM.savedPosts) { post in
+                                PostBubble(post: post)
+                            }
+                        }
                     }
                     .onAppear {
-                        api.getPosts()
-                        profileVM.getPosts()
-                        profileVM.getComments()
-                        debugPrint(api.posts)
-                        debugPrint(profileVM.comments)
-                        debugPrint(profileVM.posts)
                     }
                 }
                 .refreshable {
@@ -160,10 +152,8 @@ struct ProfileView: View {
                       try await Task.sleep(nanoseconds: 2 * 1_000_000_000)
                     } catch {}
                 }
-                .tag(view.rawValue) // by having the tag be the enum's raw value,
-                                        // you can always compare enum to enum.
             }
-            .background(Color(UIColor.systemGroupedBackground))
+            .background(Color(UIColor.red))
         }
     }
 }

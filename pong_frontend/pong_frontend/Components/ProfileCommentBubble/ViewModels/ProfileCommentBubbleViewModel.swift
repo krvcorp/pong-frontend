@@ -3,16 +3,16 @@ import Foundation
 class ProfileCommentBubbleViewModel: ObservableObject {
     func deleteComment(comment_id: String) {
         guard let token = DAKeychain.shared["token"] else { return }
-        guard let url = URL(string: "\(API().root)comment/") else { return }
+        guard let url = URL(string: "\(API().root)comment/" + comment_id + "/") else { return }
         
-        let body = DeleteCommentRequestBody(comment_id: comment_id)
+//        let body = DeleteCommentRequestBody(comment_id: comment_id)
         var request = URLRequest(url: url)
         request.httpMethod = "DELETE"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("Token \(token)", forHTTPHeaderField: "Authorization")
         let encoder = JSONEncoder()
         encoder.keyEncodingStrategy = .convertToSnakeCase
-        request.httpBody = try? encoder.encode(body)
+//        request.httpBody = try? encoder.encode(body)
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             guard let data = data, error == nil else { return }
@@ -24,18 +24,18 @@ class ProfileCommentBubbleViewModel: ObservableObject {
         }.resume()
     }
     
-    func commentVote(id: String, direction: Int, currentDirection: Int) {
+    func commentVote(id: String, vote: Int) {
         guard let token = DAKeychain.shared["token"] else { return }
-        guard let url = URL(string: "\(API().root)postvote/") else { return }
+        guard let url = URL(string: "\(API().root)commentvote/") else { return }
         
-        let body = PostVoteRequestBody(post_id: id, user: "9fcafc5b-1519-409c-982c-05189a7ea98b", vote: direction)
+        let body = CommentVoteRequestBody(comment_id: id, vote: vote)
         
         var request = URLRequest(url: url)
-        if (currentDirection == 1 || currentDirection == -1) && direction != currentDirection {
-            request.httpMethod = "PATCH"
-        } else {
-            request.httpMethod = "POST"
-        }
+//        if (currentDirection == 1 || currentDirection == -1) && direction != currentDirection {
+//            request.httpMethod = "PATCH"
+//        } else {
+//            request.httpMethod = "POST"
+//        }
 
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("Token \(token)", forHTTPHeaderField: "Authorization")

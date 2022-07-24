@@ -153,6 +153,14 @@ class User(AbstractBaseUser, PermissionsMixin):
         ]
         return posts
 
+    # get saved posts
+    def get_saved_posts(self):
+        return [
+            postsaveobject.post
+            for postsaveobject in PostSave.objects.filter(user=self)
+            if postsaveobject.post
+        ]
+
     def __str__(self):
         return self.phone
 
@@ -326,21 +334,6 @@ class PostVote(models.Model):
         return str(self.id) + " " + str(self.vote)
 
 
-# a class for a user saving a post
-class PostSave(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    post = models.ForeignKey(Post, on_delete=models.SET_NULL, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        unique_together = ("user", "post")
-
-    def __str__(self):
-        return str(self.id)
-
-
 class CommentVote(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
@@ -354,6 +347,21 @@ class CommentVote(models.Model):
 
     def __str__(self):
         return str(self.id) + " " + str(self.vote)
+
+
+# a class for a user saving a post
+class PostSave(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    post = models.ForeignKey(Post, on_delete=models.SET_NULL, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ("user", "post")
+
+    def __str__(self):
+        return str(self.id)
 
 
 class PostReport(models.Model):
@@ -410,6 +418,7 @@ class School(models.Model):
     name = models.CharField(max_length=100)
     domain = models.CharField(max_length=100, unique=True)
     description = models.TextField()
+    main_color = models.CharField(max_length=7)
     creator = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
