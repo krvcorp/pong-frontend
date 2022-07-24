@@ -24,7 +24,7 @@ struct PostBubble: View {
                 HStack(alignment: .top){
                     VStack(alignment: .leading){
                         
-                        Text("Anonymous - \(post.timeSincePosted)")
+                        Text("\(post.timeSincePosted)")
                             .font(.caption)
                             .padding(.bottom, 4)
           
@@ -131,3 +131,8 @@ struct PostBubble: View {
     }
 }
 
+struct PostBubbleView_Previews: PreviewProvider {
+    static var previews: some View {
+        PostBubble(post: defaultPost)
+    }
+}

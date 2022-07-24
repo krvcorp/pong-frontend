@@ -70,7 +70,6 @@ struct MainTabView: View {
             UINavigationBar.appearance().standardAppearance = navigationBarAppearance
             UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
         }
-
     }
 }
 

@@ -64,7 +64,7 @@ struct PostView: View {
                 HStack(alignment: .top){
                     VStack(alignment: .leading){
                         
-                        Text("Anonymous - \(post.timeSincePosted)")
+                        Text("\(post.timeSincePosted)")
                             .font(.caption)
                             .padding(.bottom, 4)
 
