@@ -15,17 +15,13 @@ struct SettingsOptionRowView: View {
             HStack(spacing: 16) {
 
                 Image(systemName: viewModel.imageName)
-                    .font(.headline)
                     .foregroundColor(.gray)
 
-
                 Text(viewModel.title)
-                    .font(.subheadline)
+                    .font(.subheadline.bold())
                     .foregroundColor(Color(UIColor.label))
-
                 
                 Spacer()
-
             }
             .frame(height: 40)
             .padding(.horizontal)
