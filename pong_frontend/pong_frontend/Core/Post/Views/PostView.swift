@@ -23,6 +23,7 @@ struct PostView: View {
                         CommentBubble(comment: comment)
                     }
                 }
+                .padding(.bottom, 150)
             }
             .refreshable {
                 print("DEBUG: Pull to refresh")

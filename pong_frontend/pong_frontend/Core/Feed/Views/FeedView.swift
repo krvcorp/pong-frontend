@@ -175,6 +175,7 @@ struct FeedView: View {
                                     }
                                 }
                             }
+                            .padding(.bottom, 150)
                             .onChange(of: newPost, perform: { value in
                                 if value {
                                     print("DEBUG: Switch and Scroll to Top")
