@@ -29,31 +29,35 @@ import GoogleSignIn
         }
     }
     
-    func verifyEmail(phone: String, email: String) {
+    func verifyEmail(idToken: String, phone: String) {
         guard let url = URL(string: "\(API().root)" + "verify-user/") else {return}
         
-        let body = VerifyEmailRequestBody(phone: phone, email: email)
+        let body = TokenSignRequestBody(idToken: idToken, phone: phone)
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = try? JSONEncoder().encode(body)
+        let encoder = JSONEncoder()
+        encoder.keyEncodingStrategy = .convertToSnakeCase
+        request.httpBody = try? encoder.encode(body)
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
+            // handle response from backend
             guard let data = data, error == nil else {return}
             
             guard let verifyEmailResponse = try? JSONDecoder().decode(VerifyEmailResponseBody.self, from: data) else {return}
             
             print("DEBUG: API otpVerifyResponse is \(verifyEmailResponse)")
             
-            if let token = verifyEmailResponse.token {
-                DAKeychain.shared["token"] = token
+            DispatchQueue.main.async {
+                if let token = verifyEmailResponse.token {
+                    DAKeychain.shared["token"] = token
+                }
+                if let userId = verifyEmailResponse.userId {
+                    DAKeychain.shared["userId"] = userId
+                }
+                self.isAuthenticated = true
             }
-            if let userId = verifyEmailResponse.userId {
-                DAKeychain.shared["userId"] = userId
-            }
-            self.isAuthenticated = true
         }.resume()
     }
-    
 }

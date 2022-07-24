@@ -63,16 +63,19 @@ struct GoogleSignInView: View {
             return
         }
         
+        // send the id token to server
         GIDSignIn.sharedInstance.signIn(with: signInConfig, presenting: presentingViewController) { user, error in
             guard error == nil else { return }
             guard let user = user else { return }
 
-            let emailAddress = user.profile?.email
-            print("DEBUG: emailAddress is \(String(describing: emailAddress))")
-            loginVM.verifyEmail(phone: phoneLoginVM.phone, email: emailAddress!)
-            phoneLoginVM.phoneIsVerified = false
-            phoneLoginVM.phone = ""
-            phoneLoginVM.code = ""
+            user.authentication.do { authentication, error in
+                guard error == nil else { return }
+                guard let authentication = authentication else { return }
+
+                let idToken = authentication.idToken
+                // Send ID token to backend (example below).
+                loginVM.verifyEmail(idToken: idToken!, phone: phoneLoginVM.phone)
+            }
         }
     }
 }

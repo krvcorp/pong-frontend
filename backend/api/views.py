@@ -423,25 +423,6 @@ class OTPVerify(APIView):
         return JsonResponse(context)
 
 
-class VerifyUser(APIView):
-    def post(self, request):
-        context = {}
-
-        domain = re.search("@[\w.]+", request.data["email"])
-        school, _ = School.objects.get_or_create(domain=domain)
-        user = User.objects.get(phone=request.data["phone"])
-
-        user.has_been_verified = True
-        user.school = school
-        user.email = request.POST.get("email")
-        user.save()
-
-        context["token"] = Token.objects.get(user=user).key
-        context["user"] = UserSerializer(user).data
-        print(context)
-        return JsonResponse(context)
-
-
 # Login Method
 class ObtainAuthToken(APIView):
     throttle_classes = ()
@@ -466,3 +447,34 @@ class ObtainAuthToken(APIView):
         context["token"] = token.key
         context["user"] = UserSerializer(user).data
         return JsonResponse(context)
+
+# TokenSignIn Method / VerifyUser replacement
+from google.oauth2 import id_token
+from google.auth.transport import requests
+
+class VerifyUser(APIView):
+    def post(self, request):
+        try:
+            # Specify the CLIENT_ID of the app that accesses the backend:
+            idinfo = id_token.verify_oauth2_token(request.data["id_token"], requests.Request(), "983201170682-kttqq1l89i4fpgk15fud1u1hf192fq1q.apps.googleusercontent.com")
+
+            # ID token is valid. Get the user's Google Account ID from the decoded token.
+            context = {}
+
+            domain = re.search("@[\w.]+", idinfo['email'])
+            school, _ = School.objects.get_or_create(domain=domain)
+            user = User.objects.get(phone=request.data["phone"])
+
+            user.has_been_verified = True
+            user.school = school
+            user.email = idinfo['email']
+            user.save()
+
+            context["token"] = Token.objects.get(user=user).key
+            context["user"] = UserSerializer(user).data
+            print(context)
+            return JsonResponse(context)
+
+        except ValueError:
+            # Invalid token
+            pass
