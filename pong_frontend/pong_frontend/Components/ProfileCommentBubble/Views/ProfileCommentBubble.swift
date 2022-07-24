@@ -17,14 +17,15 @@ struct ProfileCommentBubble: View {
     
     
     var body: some View {
-//        NavigationLink("", destination: PostView(), isActive: $tapped)
+        // somehow this navigation link takes up space which makes the view as desired
+        NavigationLink("", destination: PostView(post: defaultPost), isActive: $tapped)
         
         VStack {
             VStack {
                 HStack(alignment: .top){
                     VStack(alignment: .leading){
                         
-                        Text("Anonymous - \(comment.timeSincePosted)")
+                        Text("\(comment.timeSincePosted)")
                             .font(.caption)
                             .padding(.bottom, 4)
           
@@ -81,6 +82,8 @@ struct ProfileCommentBubble: View {
                 }
                 .padding(.bottom)
 
+                Color.black.frame(height:CGFloat(1) / UIScreen.main.scale)
+                
                 // bottom row of contents
                 HStack {
                     NavigationLink {
@@ -116,8 +119,8 @@ struct ProfileCommentBubble: View {
         .padding()
         .foregroundColor(Color(UIColor.label))
         .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color(UIColor.tertiarySystemBackground), lineWidth: 5))
-        .background(Color(UIColor.tertiarySystemBackground))
-        .cornerRadius(10)
+        .background(Color(UIColor.tertiarySystemBackground)) // If you have this
+        .cornerRadius(10)         // You also need the cornerRadius here
         .onTapGesture {
             tapped.toggle()
         }
