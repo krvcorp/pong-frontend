@@ -20,19 +20,19 @@ struct ProfileView: View {
         
         VStack(spacing: 0) {
             karmaInfo
+                .background(Color(UIColor.tertiarySystemBackground))
                 .padding(.horizontal, 30)
                 .padding(.top, 20)
-                .background(Color(UIColor.red))
-            
+
             profileFilterBar
-                .padding(.top)
                 .background(Color(UIColor.tertiarySystemBackground))
+                .padding(.top)
             
             profileFilteredItems
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                 .ignoresSafeArea(.all, edges: .bottom)
         }
-        .background(Color(UIColor.red))
+        .background(Color(UIColor.tertiarySystemBackground))
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Text("Me")
@@ -54,6 +54,7 @@ struct ProfileView: View {
         .onAppear {
             profileVM.getLoggedInUserInfo()
         }
+
 
         
     }
@@ -88,7 +89,6 @@ struct ProfileView: View {
             }
         }
         .overlay(Divider().offset(x: 0, y: 16))
-        .background(Color(UIColor.red))
     }
     
     var karmaInfo: some View {
@@ -153,8 +153,13 @@ struct ProfileView: View {
                     } catch {}
                 }
             }
-            .background(Color(UIColor.red))
+            .background(Color(UIColor.systemGroupedBackground))
         }
     }
 }
 
+struct ProfileView_Previews: PreviewProvider {
+    static var previews: some View {
+        ProfileView(showSettingsSheetView: .constant(false), showLegalSheetView: .constant(false))
+    }
+}

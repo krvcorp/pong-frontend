@@ -94,7 +94,7 @@ struct FeedView: View {
                 } label: {
                     Text("Harvard")
                         .font(.title.bold())
-                        .foregroundColor(Color(UIColor.white))
+                        .foregroundColor(Color(UIColor.label))
                 }
             }
 
@@ -135,7 +135,7 @@ struct FeedView: View {
                 }
             }
         }
-        .background(Color(UIColor.red))
+        .background(Color(UIColor.tertiarySystemBackground))
         .overlay(Divider().offset(x: 0, y: 16))
     }
     
@@ -195,7 +195,7 @@ struct FeedView: View {
                     }
                 }
             }
-            .background(Color(UIColor.red))
+            .background(Color(UIColor.systemGroupedBackground))
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             .ignoresSafeArea(.all, edges: .bottom)
             
