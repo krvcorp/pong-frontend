@@ -57,3 +57,9 @@ struct SettingsSheetView: View {
         }
     }
 }
+
+struct SettingsSheet_Previews: PreviewProvider {
+    static var previews: some View {
+        SettingsSheetView(loginVM: LoginViewModel(), showSettings: .constant(true), showLegalSheetView: .constant(true))
+    }
+}
