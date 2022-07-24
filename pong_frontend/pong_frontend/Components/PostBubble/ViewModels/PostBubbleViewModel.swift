@@ -55,14 +55,14 @@ class PostBubbleViewModel: ObservableObject {
         }.resume()
     }
     
-    func reportPost(postid: String, completion: @escaping (Result<String, AuthenticationError>) -> Void) {
+    func reportPost(postId: String, completion: @escaping (Result<String, AuthenticationError>) -> Void) {
         guard let token = DAKeychain.shared["token"] else { return }
         guard let url = URL(string: "\(API().root)postreport/") else {
             completion(.failure(.custom(errorMessage: "URL is not correct")))
             return
         }
         
-        let body = CreatePostReportRequestBody(post_id: postid)
+        let body = CreatePostReportRequestBody(postId: postId)
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")

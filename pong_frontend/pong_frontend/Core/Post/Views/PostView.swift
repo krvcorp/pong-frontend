@@ -12,7 +12,7 @@ struct PostView: View {
     @StateObject var postVM = PostViewModel()
     @State private var message = ""
     @State var sheet = false
-    var post: Post
+    @State var post: Post
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -29,9 +29,14 @@ struct PostView: View {
                 CustomTextField(placeholder: Text("Enter your message here"), text: $message)
                 
                 Button {
-                    print("DEBUG: PostView Send Message")
+                    // creates coments and returns completion of the new comment
                     postVM.createComment(postid: post.id, comment: message) { result in
-                        
+                        switch result {
+                            case .success(let commentReturn):
+                                self.post.comments.append(commentReturn)
+                            case .failure(let failure):
+                                print("DEBUG \(failure)")
+                        }
                     }
                     message = ""
                 } label: {
@@ -110,7 +115,7 @@ struct PostView: View {
                     }
 
                     Button {
-                        postVM.reportPost(postid: post.id) { result in
+                        postVM.reportPost(postId: post.id) { result in
                             
                         }
                     } label: {

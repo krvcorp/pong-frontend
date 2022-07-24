@@ -106,7 +106,7 @@ struct PostBubble: View {
                     }
                     
                     Button {
-                        postBubbleVM.reportPost(postid: post.id) { result in }
+                        postBubbleVM.reportPost(postId: post.id) { result in }
 //                        self.showingPopup = true
                     } label: {
                         Image(systemName: "flag")
