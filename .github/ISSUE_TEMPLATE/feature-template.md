@@ -1,12 +1,10 @@
 ---
 name: Feature Template
 about: Feature
-title: ''
+title: "[FEATURE]"
 labels: ''
 assignees: ''
 
 ---
 
 ## Acceptance criteria
-
-##
