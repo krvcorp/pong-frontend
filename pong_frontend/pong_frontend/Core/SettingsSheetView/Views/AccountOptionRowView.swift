@@ -1,16 +1,23 @@
+//
+//  AccountOptionRowView.swift
+//  Pong
+//
+//  Created by Khoi Nguyen on 7/25/22.
+//
+
 import SwiftUI
 
-struct SettingsOptionRowView: View {
-    let settingsSheetEnum: SettingsSheetEnum
+struct AccountOptionRowView: View {
+    let accountSheetEnum: AccountSheetEnum
 
     var body: some View {
         VStack {
             HStack(spacing: 16) {
 
-                Image(systemName: settingsSheetEnum.imageName)
+                Image(systemName: accountSheetEnum.imageName)
                     .foregroundColor(.gray)
 
-                Text(settingsSheetEnum.title)
+                Text(accountSheetEnum.title)
                     .font(.subheadline.bold())
                     .foregroundColor(Color(UIColor.label))
                 
@@ -24,8 +31,8 @@ struct SettingsOptionRowView: View {
     }
 }
 
-struct SettingsOptionRowView_Previews: PreviewProvider {
+struct AccountOptionRowView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsOptionRowView(settingsSheetEnum: .notifications)
+        AccountOptionRowView(accountSheetEnum: .deleteAccount)
     }
 }

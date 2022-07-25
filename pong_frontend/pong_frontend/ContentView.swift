@@ -11,9 +11,7 @@ import GoogleSignIn
 struct ContentView: View {
     @StateObject private var phoneLoginVM = PhoneLoginViewModel()
     @StateObject private var loginVM = LoginViewModel()
-    // potentially add some ObservableObject that contains these two variables?
-    @State private var showSettingsSheetView = false
-    @State private var showLegalSheetView = false
+    @StateObject private var settingsSheetVM = SettingsSheetViewModel()
     @StateObject private var postSettingsVM = PostSettingsViewModel()
     
     var body: some View {
@@ -30,13 +28,20 @@ struct ContentView: View {
 extension ContentView {
     var MainInterfaceView: some View {
         ZStack(alignment: .topTrailing){
-            MainTabView(showSettingsSheetView: $showSettingsSheetView, showLegalSheetView: $showLegalSheetView, postSettingsVM: postSettingsVM)
-                .popup(isPresented: $showSettingsSheetView, type: .toast, position: .bottom, closeOnTap: false, closeOnTapOutside: true, backgroundColor: .black.opacity(0.4)) {
-                    SettingsSheetView(loginVM: loginVM, showSettings: $showSettingsSheetView, showLegalSheetView: $showLegalSheetView)
+            MainTabView(settingsSheetVM: settingsSheetVM, postSettingsVM: postSettingsVM)
+                // SettingsSheetView
+                .popup(isPresented: $settingsSheetVM.showSettingsSheetView, type: .toast, position: .bottom, closeOnTap: false, closeOnTapOutside: true, backgroundColor: .black.opacity(0.4)) {
+                    SettingsSheetView(loginVM: loginVM, settingsSheetVM: settingsSheetVM)
                 }
-                .popup(isPresented: $showLegalSheetView, type: .toast, position: .bottom, closeOnTap: false, closeOnTapOutside: true, backgroundColor: .black.opacity(0.4)) {
+                // AccountSheetView
+                .popup(isPresented: $settingsSheetVM.showAccountSheetView, type: .toast, position: .bottom, closeOnTap: false, closeOnTapOutside: true, backgroundColor: .black.opacity(0.4)) {
+                    AccountSheetView()
+                }
+                // LegalSheetView
+                .popup(isPresented: $settingsSheetVM.showLegalSheetView, type: .toast, position: .bottom, closeOnTap: false, closeOnTapOutside: true, backgroundColor: .black.opacity(0.4)) {
                     LegalSheetView()
                 }
+                // PostSettingsView
                 .popup(isPresented: $postSettingsVM.showPostSettingsView, type: .toast, position: .bottom, closeOnTap: false, closeOnTapOutside: true, backgroundColor: .black.opacity(0.4)) {
                     PostSettingsView()
                 }

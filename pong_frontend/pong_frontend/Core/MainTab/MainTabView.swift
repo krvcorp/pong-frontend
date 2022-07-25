@@ -14,8 +14,7 @@ enum Tabs: String {
 }
 
 struct MainTabView: View {
-    @Binding var showSettingsSheetView : Bool
-    @Binding var showLegalSheetView : Bool
+    @ObservedObject var settingsSheetVM : SettingsSheetViewModel
     @ObservedObject var postSettingsVM : PostSettingsViewModel
     @State private var selection = 0
     @StateObject private var feedVM = FeedViewModel()
@@ -52,7 +51,7 @@ struct MainTabView: View {
             .tag(1)
             
             NavigationView {
-                ProfileView(showSettingsSheetView: $showSettingsSheetView, showLegalSheetView: $showLegalSheetView)
+                ProfileView(settingsSheetVM: settingsSheetVM)
             }
             .tabItem{Image(systemName: "person")}
             .tag(2)

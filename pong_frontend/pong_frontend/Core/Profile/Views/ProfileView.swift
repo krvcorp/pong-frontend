@@ -13,8 +13,7 @@ struct ProfileView: View {
     @StateObject private var profileVM = ProfileViewModel()
     @Namespace var animation
     @StateObject var api = API()
-    @Binding var showSettingsSheetView: Bool
-    @Binding var showLegalSheetView: Bool
+    @ObservedObject var settingsSheetVM : SettingsSheetViewModel
     
     var body: some View {
         
@@ -42,7 +41,7 @@ struct ProfileView: View {
             ToolbarItem(){
                 Button {
                     withAnimation(.easeInOut) {
-                        showSettingsSheetView.toggle()
+                        settingsSheetVM.showSettingsSheetView.toggle()
                     }
                 } label: {
                     Image(systemName: "gearshape.fill")
@@ -159,6 +158,6 @@ struct ProfileView: View {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView(showSettingsSheetView: .constant(false), showLegalSheetView: .constant(false))
+        ProfileView(settingsSheetVM: SettingsSheetViewModel())
     }
 }

@@ -54,7 +54,7 @@ struct ActionSheets_Previews: PreviewProvider {
         ZStack {
             Rectangle()
                 .ignoresSafeArea()
-            SettingsSheetView(loginVM: LoginViewModel(), showSettings: .constant(false), showLegalSheetView: .constant(false))
+            SettingsSheetView(loginVM: LoginViewModel(), settingsSheetVM: SettingsSheetViewModel())
         }
         
         ZStack {

@@ -10,47 +10,49 @@ import GoogleSignIn
 
 struct SettingsSheetView: View {
     @ObservedObject var loginVM : LoginViewModel
-    @Binding var showSettings: Bool
-    @Binding var showLegalSheetView: Bool
+    @ObservedObject var settingsSheetVM : SettingsSheetViewModel
     
     var body: some View {
         ActionSheetView(bgColor: Color(UIColor.secondarySystemBackground)) {
             ScrollView {
                 VStack(alignment: .leading, spacing: 32) {
                     
-                    ForEach(SettingsEnums.allCases, id: \.rawValue) { settingsEnum in
-                        if settingsEnum == .account {
+                    ForEach(SettingsSheetEnum.allCases, id: \.rawValue) { settingsSheetEnum in
+                        if settingsSheetEnum == .account {
                             Button {
-                                print("DEBUG: SettingsSheetView Button click account")
+                                DispatchQueue.main.async {
+                                    print("DEBUG: SettingsSheetView Button click account")
+                                    settingsSheetVM.showAccountSheetView.toggle()
+                                    settingsSheetVM.showSettingsSheetView = false
+                                }
                             } label: {
-                                SettingsOptionRowView(settingsEnums: settingsEnum)
+                                SettingsOptionRowView(settingsSheetEnum: settingsSheetEnum)
                             }
-                        } else if settingsEnum == .notifications {
+                        } else if settingsSheetEnum == .notifications {
                             Button {
                                 print("DEBUG: SettingsSheetView Button click notifications")
                             } label: {
-                                SettingsOptionRowView(settingsEnums: settingsEnum)
+                                SettingsOptionRowView(settingsSheetEnum: settingsSheetEnum)
                             }
-                        } else if settingsEnum == .legal {
+                        } else if settingsSheetEnum == .legal {
                             Button {
-                                print("DEBUG: SettingsSheetView Button click legal")
-                                showLegalSheetView.toggle()
-                                showSettings.toggle()
+                                DispatchQueue.main.async {
+                                    print("DEBUG: SettingsSheetView Button click legal")
+                                    settingsSheetVM.showLegalSheetView.toggle()
+                                    settingsSheetVM.showSettingsSheetView = false
+                                }
                             } label: {
-                                SettingsOptionRowView(settingsEnums: settingsEnum)
+                                SettingsOptionRowView(settingsSheetEnum: settingsSheetEnum)
                             }
-                        } else if settingsEnum == .logout {
+                        } else if settingsSheetEnum == .logout {
                             Button {
                                 print("DEBUG: SIGN OUT")
-
                                 loginVM.signout()
-                                showSettings = false
+                                settingsSheetVM.showSettingsSheetView = false
                             } label: {
-                                SettingsOptionRowView(settingsEnums: settingsEnum)
+                                SettingsOptionRowView(settingsSheetEnum: settingsSheetEnum)
                             }
                             
-                        } else {
-                            SettingsOptionRowView(settingsEnums: settingsEnum)
                         }
                     }
                     Spacer()
@@ -64,6 +66,6 @@ struct SettingsSheetView: View {
 
 struct SettingsSheet_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsSheetView(loginVM: LoginViewModel(), showSettings: .constant(true), showLegalSheetView: .constant(true))
+        SettingsSheetView(loginVM: LoginViewModel(), settingsSheetVM: SettingsSheetViewModel())
     }
 }
