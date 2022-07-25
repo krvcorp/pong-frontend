@@ -16,6 +16,7 @@ enum Tabs: String {
 struct MainTabView: View {
     @Binding var showSettingsSheetView : Bool
     @Binding var showLegalSheetView : Bool
+    @ObservedObject var postSettingsVM : PostSettingsViewModel
     @State private var selection = 0
     @StateObject private var feedVM = FeedViewModel()
     
@@ -39,7 +40,7 @@ struct MainTabView: View {
     
         TabView(selection: handler) {
             NavigationView {
-                FeedView("Harvard", .hot, feedVM)
+                FeedView("Harvard", .hot, feedVM, postSettingsVM)
             }
             .tabItem{Image(systemName: "house")}
             .tag(0)

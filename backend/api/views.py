@@ -49,6 +49,8 @@ from rest_framework.parsers import JSONParser, MultiPartParser, FormParser
 from rest_framework.renderers import JSONRenderer
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from twilio.rest import Client
+from google.oauth2 import id_token
+from google.auth.transport import requests
 
 
 class RetrieveUpdateDestroyUserAPIView(RetrieveUpdateDestroyAPIView):
@@ -126,7 +128,7 @@ class ListCreateUserAPIView(ListCreateAPIView):
         sort = self.request.query_params.get("sort", None)
         if sort == "leaderboard":
             queryset = list(queryset)
-            queryset.sort(key=operator.attrgetter("score"), reverse=True)
+            queryset.sort(key=operator.attrgetter("total_karma"), reverse=True)
             queryset = queryset[:10]
         return queryset
 
@@ -431,26 +433,31 @@ class ObtainAuthToken(APIView):
         context["user"] = UserSerializer(user).data
         return JsonResponse(context)
 
+
 # TokenSignIn Method / VerifyUser replacement
-from google.oauth2 import id_token
-from google.auth.transport import requests
+
 
 class VerifyUser(APIView):
     def post(self, request):
         try:
             # Specify the CLIENT_ID of the app that accesses the backend:
-            idinfo = id_token.verify_oauth2_token(request.data["id_token"], requests.Request(), "983201170682-kttqq1l89i4fpgk15fud1u1hf192fq1q.apps.googleusercontent.com")
+            idinfo = id_token.verify_oauth2_token(
+                request.data["id_token"],
+                requests.Request(),
+                "983201170682-kttqq1l89i4fpgk15fud1u1hf192fq1q.apps.googleusercontent.com",
+                # needs to go into environment variable
+            )
 
             # ID token is valid. Get the user's Google Account ID from the decoded token.
             context = {}
 
-            domain = re.search("@[\w.]+", idinfo['email'])
+            domain = re.search("@[\w.]+", idinfo["email"])
             school, _ = School.objects.get_or_create(domain=domain)
             user = User.objects.get(phone=request.data["phone"])
 
             user.has_been_verified = True
             user.school = school
-            user.email = idinfo['email']
+            user.email = idinfo["email"]
             user.save()
 
             context["token"] = Token.objects.get(user=user).key

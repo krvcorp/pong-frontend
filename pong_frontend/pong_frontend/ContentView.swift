@@ -14,6 +14,7 @@ struct ContentView: View {
     // potentially add some ObservableObject that contains these two variables?
     @State private var showSettingsSheetView = false
     @State private var showLegalSheetView = false
+    @StateObject private var postSettingsVM = PostSettingsViewModel()
     
     var body: some View {
         if DAKeychain.shared["token"] != nil && !loginVM.initialOnboard {
@@ -29,12 +30,16 @@ struct ContentView: View {
 extension ContentView {
     var MainInterfaceView: some View {
         ZStack(alignment: .topTrailing){
-            MainTabView(showSettingsSheetView: $showSettingsSheetView, showLegalSheetView: $showLegalSheetView)
+            MainTabView(showSettingsSheetView: $showSettingsSheetView, showLegalSheetView: $showLegalSheetView, postSettingsVM: postSettingsVM)
                 .popup(isPresented: $showSettingsSheetView, type: .toast, position: .bottom, closeOnTap: false, closeOnTapOutside: true, backgroundColor: .black.opacity(0.4)) {
                     SettingsSheetView(loginVM: loginVM, showSettings: $showSettingsSheetView, showLegalSheetView: $showLegalSheetView)
                 }
                 .popup(isPresented: $showLegalSheetView, type: .toast, position: .bottom, closeOnTap: false, closeOnTapOutside: true, backgroundColor: .black.opacity(0.4)) {
                     LegalSheetView()
+                }
+                .popup(isPresented: $postSettingsVM.showPostSettingsView, type: .toast, position: .bottom, closeOnTap: false, closeOnTapOutside: true, backgroundColor: .black.opacity(0.4)) {
+                    Text("\(postSettingsVM.post.title)")
+//                    PostSettingsView(loginVM: loginVM, postSettingsVM: postSettingsVM)
                 }
 
         }

@@ -13,6 +13,8 @@ struct PostBubble: View {
     @State var sheet = false
     @State private var tapped = false
     @State private var showScore = false
+    @StateObject private var loginVM = LoginViewModel()
+    @ObservedObject var postSettingsVM : PostSettingsViewModel
     
     var body: some View {
         // instead of navigationlink as a button, we use a container to toggle navigation link
@@ -87,7 +89,7 @@ struct PostBubble: View {
                         PostView(post: post)
                     }  label: {
                         Image(systemName: "bubble.left")
-                        Text("\(post.numComments) comments")
+                        Text("\(post.numComments)")
                             .font(.subheadline).bold()
                     }
 
@@ -115,9 +117,19 @@ struct PostBubble: View {
                         ShareSheet(items: ["\(post.title)"])
                     }
                     
+                     Button {
+                         DispatchQueue.main.async {
+                             postSettingsVM.showPostSettingsView = true
+                             postSettingsVM.reportPost(postId: post.id)
+                             postSettingsVM.post = self.post
+                         }
+                         
+                     } label: {
+                         Image(systemName: "ellipsis")
+                     }
+                    
                     Button {
                         postBubbleVM.reportPost(postId: post.id) { result in }
-//                        self.showingPopup = true
                     } label: {
                         Image(systemName: "flag")
                     }
@@ -141,8 +153,8 @@ struct PostBubble: View {
     }
 }
 
-struct PostBubbleView_Previews: PreviewProvider {
-    static var previews: some View {
-        PostBubble(post: defaultPost)
-    }
-}
+//struct PostBubbleView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        PostBubble(post: defaultPost, post)
+//    }
+//}

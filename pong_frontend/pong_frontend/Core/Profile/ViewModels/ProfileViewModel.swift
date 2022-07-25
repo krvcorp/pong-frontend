@@ -64,6 +64,7 @@ class ProfileViewModel: ObservableObject {
 //    }
 
     func getLoggedInUserInfo() {
+        
         guard let token = DAKeychain.shared["token"] else { return }
         guard let userId = DAKeychain.shared["userId"] else { return }
 
@@ -75,6 +76,7 @@ class ProfileViewModel: ObservableObject {
         request.addValue("Token \(token)", forHTTPHeaderField: "Authorization")
 
         URLSession.shared.dataTask(with: request) { (data, response, error) in
+            
             guard let data = data, error == nil else { return }
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
