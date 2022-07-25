@@ -74,7 +74,7 @@ class UserSerializerLeaderboard(serializers.ModelSerializer):
     score = serializers.SerializerMethodField(read_only=True)
 
     def get_score(self, obj):
-        return obj.total_score()
+        return obj.total_karma
 
     class Meta:
         model = User
