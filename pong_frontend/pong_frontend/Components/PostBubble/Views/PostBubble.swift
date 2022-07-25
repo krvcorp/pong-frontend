@@ -13,6 +13,7 @@ struct PostBubble: View {
     @State var sheet = false
     @State private var tapped = false
     @State private var showScore = false
+    @StateObject private var loginVM = LoginViewModel()
 //    @State var showingPopup = false
     
     var body: some View {
@@ -89,7 +90,7 @@ struct PostBubble: View {
                         PostView(post: post)
                     }  label: {
                         Image(systemName: "bubble.left")
-                        Text("\(post.numComments) comments")
+                        Text("\(post.numComments)")
                             .font(.subheadline).bold()
                     }
 
@@ -106,8 +107,15 @@ struct PostBubble: View {
                     }
                     
                     Button {
+                        .popup(isPresented: true, type: .toast, position: .bottom, closeOnTap: false, closeOnTapOutside: true, backgroundColor: .black.opacity(0.4)) {
+                            SettingsSheetView(loginVM: loginVM, showSettings: true, showLegalSheetView: false)
+                        }
+                    } label: {
+                        Image(systemName: "ellipsis")
+                    }
+                    
+                    Button {
                         postBubbleVM.reportPost(postid: post.id) { result in }
-//                        self.showingPopup = true
                     } label: {
                         Image(systemName: "flag")
                     }
