@@ -18,36 +18,39 @@ struct SettingsSheetView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 32) {
                     
-                    ForEach(SettingsViewModel.allCases, id: \.rawValue) { viewModel in
-                        if viewModel == .account {
+                    ForEach(SettingsEnums.allCases, id: \.rawValue) { settingsEnum in
+                        if settingsEnum == .account {
                             Button {
                                 print("DEBUG: SettingsSheetView Button click account")
                             } label: {
-                                SettingsOptionRowView(viewModel: viewModel)
+                                SettingsOptionRowView(settingsEnums: settingsEnum)
                             }
-                        } else if viewModel == .legal {
+                        } else if settingsEnum == .notifications {
+                            Button {
+                                print("DEBUG: SettingsSheetView Button click notifications")
+                            } label: {
+                                SettingsOptionRowView(settingsEnums: settingsEnum)
+                            }
+                        } else if settingsEnum == .legal {
                             Button {
                                 print("DEBUG: SettingsSheetView Button click legal")
                                 showLegalSheetView.toggle()
                                 showSettings.toggle()
                             } label: {
-                                SettingsOptionRowView(viewModel: viewModel)
+                                SettingsOptionRowView(settingsEnums: settingsEnum)
                             }
-
-                        }
-                        
-                        else if viewModel == .logout {
+                        } else if settingsEnum == .logout {
                             Button {
                                 print("DEBUG: SIGN OUT")
 
                                 loginVM.signout()
                                 showSettings = false
                             } label: {
-                                SettingsOptionRowView(viewModel: viewModel)
+                                SettingsOptionRowView(settingsEnums: settingsEnum)
                             }
                             
                         } else {
-                            SettingsOptionRowView(viewModel: viewModel)
+                            SettingsOptionRowView(settingsEnums: settingsEnum)
                         }
                     }
                     Spacer()

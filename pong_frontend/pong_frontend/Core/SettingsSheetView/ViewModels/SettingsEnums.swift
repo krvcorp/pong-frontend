@@ -1,5 +1,5 @@
 //
-//  SettingsViewModel.swift
+//  SettingsEnums.swift
 //  pong_frontend
 //
 //  Created by Khoi Nguyen on 6/12/22.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum SettingsViewModel: Int, CaseIterable {
+enum SettingsEnums: Int, CaseIterable {
     case account
     case notifications
     case legal

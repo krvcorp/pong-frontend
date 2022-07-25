@@ -8,16 +8,16 @@
 import SwiftUI
 
 struct SettingsOptionRowView: View {
-    let viewModel: SettingsViewModel
+    let settingsEnums: SettingsEnums
 
     var body: some View {
         VStack {
             HStack(spacing: 16) {
 
-                Image(systemName: viewModel.imageName)
+                Image(systemName: settingsEnums.imageName)
                     .foregroundColor(.gray)
 
-                Text(viewModel.title)
+                Text(settingsEnums.title)
                     .font(.subheadline.bold())
                     .foregroundColor(Color(UIColor.label))
                 
@@ -33,6 +33,6 @@ struct SettingsOptionRowView: View {
 
 struct SettingsOptionRowView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsOptionRowView(viewModel: .notifications)
+        SettingsOptionRowView(settingsEnums: .notifications)
     }
 }
