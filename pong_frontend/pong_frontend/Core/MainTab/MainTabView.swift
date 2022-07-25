@@ -22,6 +22,9 @@ struct MainTabView: View {
     var handler: Binding<Int> { Binding(
         get: { self.selection },
         set: {
+            // add some logic here that checks if the user is scrolled to the top
+            // if the user is not scrolled to the top, just scroll to the top
+            // if the user is scrolled to the top, activate pull to refresh
             if $0 == self.selection {
                 print("Refresh Home!")
                 feedVM.getPosts(selectedFilter: .top)

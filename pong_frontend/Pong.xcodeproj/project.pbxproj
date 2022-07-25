@@ -74,6 +74,7 @@
 		6A68DC4D288BBB7400BF2775 /* ProfileCommentBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A68DC4B288BBB7400BF2775 /* ProfileCommentBubble.swift */; };
 		6A68DC4F288BBBB100BF2775 /* DeleteCommentRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A68DC4E288BBBB100BF2775 /* DeleteCommentRequestBody.swift */; };
 		6A68DC53288CCF9E00BF2775 /* CommentVoteRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A68DC52288CCF9E00BF2775 /* CommentVoteRequestBody.swift */; };
+		6A68DC55288DD00400BF2775 /* ReadPostRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A68DC54288DD00400BF2775 /* ReadPostRequestBody.swift */; };
 		6AEB6250287A33E1007CA113 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEB624F287A33E1007CA113 /* ProfileViewModel.swift */; };
 		6AEB6254287DA6F6007CA113 /* OTPStartRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEB6253287DA6F6007CA113 /* OTPStartRequestBody.swift */; };
 		6AEB6256287DA70D007CA113 /* OTPStartResponseBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEB6255287DA70D007CA113 /* OTPStartResponseBody.swift */; };
@@ -160,6 +161,7 @@
 		6A68DC4B288BBB7400BF2775 /* ProfileCommentBubble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileCommentBubble.swift; sourceTree = "<group>"; };
 		6A68DC4E288BBBB100BF2775 /* DeleteCommentRequestBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeleteCommentRequestBody.swift; sourceTree = "<group>"; };
 		6A68DC52288CCF9E00BF2775 /* CommentVoteRequestBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentVoteRequestBody.swift; sourceTree = "<group>"; };
+		6A68DC54288DD00400BF2775 /* ReadPostRequestBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadPostRequestBody.swift; sourceTree = "<group>"; };
 		6AEB624F287A33E1007CA113 /* ProfileViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		6AEB6253287DA6F6007CA113 /* OTPStartRequestBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPStartRequestBody.swift; sourceTree = "<group>"; };
 		6AEB6255287DA70D007CA113 /* OTPStartResponseBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPStartResponseBody.swift; sourceTree = "<group>"; };
@@ -287,7 +289,6 @@
 			children = (
 				6A68DC52288CCF9E00BF2775 /* CommentVoteRequestBody.swift */,
 				6A68DC4E288BBBB100BF2775 /* DeleteCommentRequestBody.swift */,
-				6A68DBFD2889CB3400BF2775 /* CreatePostReportRequestBody.swift */,
 				6A68DBFC2889CB3400BF2775 /* PostReport.swift */,
 				6A5DF107285134ED00F28A06 /* Comment.swift */,
 				6A5DF108285134ED00F28A06 /* Message.swift */,
@@ -305,6 +306,8 @@
 				6AEB627028827584007CA113 /* PostVoteRequestBody.swift */,
 				6AEB627228837378007CA113 /* CreateCommentRequestBody.swift */,
 				6A68DC38288A333D00BF2775 /* TotalScore.swift */,
+				6A68DBFD2889CB3400BF2775 /* CreatePostReportRequestBody.swift */,
+				6A68DC54288DD00400BF2775 /* ReadPostRequestBody.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -607,8 +610,8 @@
 		6A5DF17D2856B75900F28A06 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				6A5DF1812856B77600F28A06 /* SettingsSheetView.swift */,
 				6A5DF1832856B8CB00F28A06 /* SettingsOptionRowView.swift */,
+				6A5DF1812856B77600F28A06 /* SettingsSheetView.swift */,
 				6A68DC42288B72DD00BF2775 /* LegalSheetView.swift */,
 			);
 			path = Views;
@@ -896,6 +899,7 @@
 				6AEB6266287DA8C8007CA113 /* VerifyEmailRequestBody.swift in Sources */,
 				6AEB627128827584007CA113 /* PostVoteRequestBody.swift in Sources */,
 				6A3F3D86285D178400EC43A3 /* ChatSideMenuRowView.swift in Sources */,
+				6A68DC55288DD00400BF2775 /* ReadPostRequestBody.swift in Sources */,
 				6A68DBFF2889CB3400BF2775 /* CreatePostReportRequestBody.swift in Sources */,
 				6A5DF159285134EE00F28A06 /* ProfileFilterViewModel.swift in Sources */,
 				6A68DC4C288BBB7400BF2775 /* ProfileCommentBubbleViewModel.swift in Sources */,

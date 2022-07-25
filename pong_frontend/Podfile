@@ -10,6 +10,7 @@ target 'Pong' do
   # Pods for Pong
   pod 'GoogleSignIn'
   pod 'GoogleSignInSwiftSupport'
+#  pod 'MSAL'
   
   platform :ios, '15.5'
 end

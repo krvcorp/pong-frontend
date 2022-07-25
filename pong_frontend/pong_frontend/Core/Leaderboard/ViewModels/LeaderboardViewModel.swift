@@ -19,7 +19,6 @@ class LeaderboardViewModel: ObservableObject {
         let url_to_use: String = "\(API().root)user/?sort=leaderboard"
         
         // URL handler
-        
         guard let url = URL(string: url_to_use) else { return }
         
         var request = URLRequest(url: url)

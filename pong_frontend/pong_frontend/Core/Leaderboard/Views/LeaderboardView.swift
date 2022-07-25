@@ -36,6 +36,7 @@ struct LeaderboardView: View {
                     .cornerRadius(10)         // You also need the cornerRadius here
                 }
             }
+            .onAppear(perform: leaderboardVM.getLeaderboard)
             .background(Color(UIColor.systemGroupedBackground))
             .navigationBarBackButtonHidden(true)
             .toolbar {
