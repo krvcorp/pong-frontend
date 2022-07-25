@@ -1,7 +1,7 @@
 import SwiftUI
 
-struct SettingsOptionRowView: View {
-    let viewModel: SettingsViewModel
+struct PostSettingsRowView: View {
+    let viewModel: PostSettingsOptionsViewModel
 
     var body: some View {
         VStack {
@@ -24,8 +24,8 @@ struct SettingsOptionRowView: View {
     }
 }
 
-struct SettingsOptionRowView_Previews: PreviewProvider {
-    static var previews: some View {
-        SettingsOptionRowView(viewModel: .notifications)
-    }
-}
+//struct SettingsOptionRowView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        SettingsOptionRowView(viewModel: .notifications)
+//    }
+//}

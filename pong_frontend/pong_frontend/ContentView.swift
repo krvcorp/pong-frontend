@@ -38,8 +38,7 @@ extension ContentView {
                     LegalSheetView()
                 }
                 .popup(isPresented: $postSettingsVM.showPostSettingsView, type: .toast, position: .bottom, closeOnTap: false, closeOnTapOutside: true, backgroundColor: .black.opacity(0.4)) {
-                    Text("\(postSettingsVM.post.title)")
-//                    PostSettingsView(loginVM: loginVM, postSettingsVM: postSettingsVM)
+                    PostSettingsView()
                 }
 
         }

@@ -17,7 +17,6 @@ struct SettingsSheetView: View {
         ActionSheetView(bgColor: Color(UIColor.secondarySystemBackground)) {
             ScrollView {
                 VStack(alignment: .leading, spacing: 32) {
-                    
                     ForEach(SettingsViewModel.allCases, id: \.rawValue) { viewModel in
                         if viewModel == .account {
                             Button {
