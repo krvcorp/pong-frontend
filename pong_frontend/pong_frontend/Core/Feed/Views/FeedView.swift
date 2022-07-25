@@ -16,11 +16,13 @@ struct FeedView: View {
     @State private var isRefreshing = false
     @State private var offset = CGSize.zero
     @State private var newPost = false
+    @ObservedObject var postSettingsVM: PostSettingsViewModel
 
-    init(_ school: String, _ selectedFilter: FeedFilterViewModel, _ feedVM: FeedViewModel) {
+    init(_ school: String, _ selectedFilter: FeedFilterViewModel, _ feedVM: FeedViewModel, _ postSettingsVM: PostSettingsViewModel) {
         self.school = school
         self.selectedFilter = selectedFilter
         self.feedVM = feedVM
+        self.postSettingsVM = postSettingsVM
     }
     
     var body: some View {
@@ -150,28 +152,28 @@ struct FeedView: View {
                                 // top
                                 if view == .top {
                                     ForEach(feedVM.topPosts) { post in
-                                        PostBubble(post: post)
+                                        PostBubble(post: post, postSettingsVM: postSettingsVM)
                                     }
                                 }
                                 
                                 // hot
                                 else if view == .hot {
                                     ForEach(feedVM.hotPosts) { post in
-                                        PostBubble(post: post)
+                                        PostBubble(post: post, postSettingsVM: postSettingsVM)
                                     }
                                 }
                                 
                                 // recent
                                 else if view == .recent {
                                     ForEach(feedVM.recentPosts) { post in
-                                        PostBubble(post: post)
+                                        PostBubble(post: post, postSettingsVM: postSettingsVM)
                                     }
                                 }
                                 
                                 // default
                                 else {
                                     ForEach(feedVM.hotPosts) { post in
-                                        PostBubble(post: post)
+                                        PostBubble(post: post, postSettingsVM: postSettingsVM)
                                     }
                                 }
                             }
@@ -229,6 +231,6 @@ struct FeedView: View {
 
 struct FeedView_Previews: PreviewProvider {
     static var previews: some View {
-        FeedView("Harvard", .hot, FeedViewModel())
+        FeedView("Harvard", .hot, FeedViewModel(), PostSettingsViewModel())
     }
 }

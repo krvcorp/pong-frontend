@@ -14,7 +14,7 @@ struct PostBubble: View {
     @State private var tapped = false
     @State private var showScore = false
     @StateObject private var loginVM = LoginViewModel()
-//    @State var showingPopup = false
+    @ObservedObject var postSettingsVM : PostSettingsViewModel
     
     var body: some View {
         // instead of navigationlink as a button, we use a container to toggle navigation link
@@ -118,16 +118,19 @@ struct PostBubble: View {
                         ShareSheet(items: ["\(post.title)"])
                     }
                     
-                    // Button {
-                    //     .popup(isPresented: true, type: .toast, position: .bottom, closeOnTap: false, closeOnTapOutside: true, backgroundColor: .black.opacity(0.4)) {
-                    //         SettingsSheetView(loginVM: loginVM, showSettings: true, showLegalSheetView: false)
-                    //     }
-                    // } label: {
-                    //     Image(systemName: "ellipsis")
-                    // }
+                     Button {
+                         DispatchQueue.main.async {
+                             postSettingsVM.showPostSettingsView = true
+                             postSettingsVM.reportPost(postId: post.id)
+                             postSettingsVM.post = self.post
+                         }
+                         
+                     } label: {
+                         Image(systemName: "ellipsis")
+                     }
                     
                     Button {
-                        postBubbleVM.reportPost(postid: post.id) { result in }
+                        postBubbleVM.reportPost(postId: post.id) { result in }
                     } label: {
                         Image(systemName: "flag")
                     }
@@ -151,8 +154,8 @@ struct PostBubble: View {
     }
 }
 
-struct PostBubbleView_Previews: PreviewProvider {
-    static var previews: some View {
-        PostBubble(post: defaultPost)
-    }
-}
+//struct PostBubbleView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        PostBubble(post: defaultPost, post)
+//    }
+//}
