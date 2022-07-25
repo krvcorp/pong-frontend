@@ -11,22 +11,23 @@ struct SettingsOptionRowView: View {
     let viewModel: SettingsViewModel
 
     var body: some View {
-        HStack(spacing: 16) {
+        VStack {
+            HStack(spacing: 16) {
 
-            Image(systemName: viewModel.imageName)
-                .font(.headline)
-                .foregroundColor(.gray)
+                Image(systemName: viewModel.imageName)
+                    .foregroundColor(.gray)
 
-
-            Text(viewModel.title)
-                .font(.subheadline)
-                .foregroundColor(Color(UIColor.label))
-
-            Spacer()
-
+                Text(viewModel.title)
+                    .font(.subheadline.bold())
+                    .foregroundColor(Color(UIColor.label))
+                
+                Spacer()
+            }
+            .frame(height: 40)
+            .padding(.horizontal)
+            
+            Divider()
         }
-        .frame(height: 40)
-        .padding(.horizontal)
     }
 }
 

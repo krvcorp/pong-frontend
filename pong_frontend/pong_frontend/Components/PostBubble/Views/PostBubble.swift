@@ -25,7 +25,7 @@ struct PostBubble: View {
                 HStack(alignment: .top){
                     VStack(alignment: .leading){
                         
-                        Text("Anonymous - \(post.timeSincePosted)")
+                        Text("\(post.timeSincePosted)")
                             .font(.caption)
                             .padding(.bottom, 4)
           
@@ -96,6 +96,18 @@ struct PostBubble: View {
 
                     Spacer()
                     
+                    // delete button if post id matches user id stored in keychain
+                    if DAKeychain.shared["userId"] == post.user {
+                        Button {
+                            print("DEBUG: DELETE POST")
+                            postBubbleVM.deletePost(postId: post.id) { result in
+                                print("DEBUG: \(result)")
+                            }
+                        } label: {
+                            Image(systemName: "trash")
+                        }
+                    }
+                    
                     Button {
                         sheet.toggle()
 
@@ -106,13 +118,13 @@ struct PostBubble: View {
                         ShareSheet(items: ["\(post.title)"])
                     }
                     
-                    Button {
-                        .popup(isPresented: true, type: .toast, position: .bottom, closeOnTap: false, closeOnTapOutside: true, backgroundColor: .black.opacity(0.4)) {
-                            SettingsSheetView(loginVM: loginVM, showSettings: true, showLegalSheetView: false)
-                        }
-                    } label: {
-                        Image(systemName: "ellipsis")
-                    }
+                    // Button {
+                    //     .popup(isPresented: true, type: .toast, position: .bottom, closeOnTap: false, closeOnTapOutside: true, backgroundColor: .black.opacity(0.4)) {
+                    //         SettingsSheetView(loginVM: loginVM, showSettings: true, showLegalSheetView: false)
+                    //     }
+                    // } label: {
+                    //     Image(systemName: "ellipsis")
+                    // }
                     
                     Button {
                         postBubbleVM.reportPost(postid: post.id) { result in }
@@ -139,3 +151,8 @@ struct PostBubble: View {
     }
 }
 
+struct PostBubbleView_Previews: PreviewProvider {
+    static var previews: some View {
+        PostBubble(post: defaultPost)
+    }
+}

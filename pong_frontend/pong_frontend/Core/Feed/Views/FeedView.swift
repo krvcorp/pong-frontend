@@ -94,7 +94,7 @@ struct FeedView: View {
                 } label: {
                     Text("Harvard")
                         .font(.title.bold())
-                        .foregroundColor(Color(UIColor.white))
+                        .foregroundColor(Color(UIColor.label))
                 }
             }
 
@@ -135,7 +135,7 @@ struct FeedView: View {
                 }
             }
         }
-        .background(Color(UIColor.red))
+        .background(Color(UIColor.tertiarySystemBackground))
         .overlay(Divider().offset(x: 0, y: 16))
     }
     
@@ -175,6 +175,7 @@ struct FeedView: View {
                                     }
                                 }
                             }
+                            .padding(.bottom, 150)
                             .onChange(of: newPost, perform: { value in
                                 if value {
                                     print("DEBUG: Switch and Scroll to Top")
@@ -188,14 +189,14 @@ struct FeedView: View {
                     }
                     .refreshable {
                         do {
-                          // Sleep for 2 seconds
-                          try await Task.sleep(nanoseconds: 2 * 1_000_000_000)
+                          // Sleep for 1 seconds
+                            try await Task.sleep(nanoseconds: 1 * 1_000_000_000)
                         } catch {}
                         feedVM.getPosts(selectedFilter: selectedFilter)
                     }
                 }
             }
-            .background(Color(UIColor.red))
+            .background(Color(UIColor.systemGroupedBackground))
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             .ignoresSafeArea(.all, edges: .bottom)
             

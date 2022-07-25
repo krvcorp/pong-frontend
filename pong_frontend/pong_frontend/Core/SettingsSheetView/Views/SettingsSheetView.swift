@@ -21,14 +21,15 @@ struct SettingsSheetView: View {
                     ForEach(SettingsViewModel.allCases, id: \.rawValue) { viewModel in
                         if viewModel == .account {
                             Button {
-                                print("DEBUG: ACCOUNT")
+                                print("DEBUG: SettingsSheetView Button click account")
                             } label: {
                                 SettingsOptionRowView(viewModel: viewModel)
                             }
                         } else if viewModel == .legal {
                             Button {
-                                print("DEBUG: NOTIFICATIONS")
+                                print("DEBUG: SettingsSheetView Button click legal")
                                 showLegalSheetView.toggle()
+                                showSettings.toggle()
                             } label: {
                                 SettingsOptionRowView(viewModel: viewModel)
                             }

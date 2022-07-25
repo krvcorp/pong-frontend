@@ -12,26 +12,36 @@ struct PostView: View {
     @StateObject var postVM = PostViewModel()
     @State private var message = ""
     @State var sheet = false
-    var post: Post
+    @State var post: Post
     
     var body: some View {
         ZStack(alignment: .bottom) {
-            ScrollView {
+            RefreshableScrollView {
                 mainPost
                 LazyVStack {
                     ForEach(post.comments) { comment in
                         CommentBubble(comment: comment)
                     }
                 }
+                .padding(.bottom, 150)
+            }
+            .refreshable {
+                print("DEBUG: Pull to refresh")
+                // when refreshing a get single post should be called to replace self.post
             }
            
             HStack {
                 CustomTextField(placeholder: Text("Enter your message here"), text: $message)
                 
                 Button {
-                    print("DEBUG: PostView Send Message")
+                    // creates coments and returns completion of the new comment
                     postVM.createComment(postid: post.id, comment: message) { result in
-                        
+                        switch result {
+                            case .success(let commentReturn):
+                                self.post.comments.append(commentReturn)
+                            case .failure(let failure):
+                                print("DEBUG \(failure)")
+                        }
                     }
                     message = ""
                 } label: {
@@ -64,7 +74,7 @@ struct PostView: View {
                 HStack(alignment: .top){
                     VStack(alignment: .leading){
                         
-                        Text("Anonymous - \(post.timeSincePosted)")
+                        Text("\(post.timeSincePosted)")
                             .font(.caption)
                             .padding(.bottom, 4)
 
@@ -110,7 +120,7 @@ struct PostView: View {
                     }
 
                     Button {
-                        postVM.reportPost(postid: post.id) { result in
+                        postVM.reportPost(postId: post.id) { result in
                             
                         }
                     } label: {
