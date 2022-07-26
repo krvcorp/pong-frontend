@@ -13,5 +13,4 @@ import Foundation
     @Published var showPreferencesSheetView = false
     @Published var showNotificationsSheetView = false
     @Published var showLegalSheetView = false
-
 }

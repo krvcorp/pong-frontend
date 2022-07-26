@@ -7,19 +7,19 @@
 
 import SwiftUI
 
-struct AccountOptionRowView: View {
-    let accountSheetEnum: AccountSheetEnum
+struct AccountsOptionRowView: View {
+    let accountsSheetEnum: AccountsSheetEnum
 
     var body: some View {
         VStack {
             HStack(spacing: 16) {
 
-                Image(systemName: accountSheetEnum.imageName)
-                    .foregroundColor(accountSheetEnum != .deleteAccount ? .gray : Color(UIColor.red))
+                Image(systemName: accountsSheetEnum.imageName)
+                    .foregroundColor(accountsSheetEnum != .deleteAccount ? .gray : Color(UIColor.red))
 
-                Text(accountSheetEnum.title)
+                Text(accountsSheetEnum.title)
                     .font(.subheadline.bold())
-                    .foregroundColor(accountSheetEnum != .deleteAccount ? Color(UIColor.label) : Color(UIColor.red))
+                    .foregroundColor(accountsSheetEnum != .deleteAccount ? Color(UIColor.label) : Color(UIColor.red))
 
                 Spacer()
             }
@@ -32,8 +32,8 @@ struct AccountOptionRowView: View {
     }
 }
 
-struct AccountOptionRowView_Previews: PreviewProvider {
+struct AccountsOptionRowView_Previews: PreviewProvider {
     static var previews: some View {
-        AccountOptionRowView(accountSheetEnum: .deleteAccount)
+        AccountsOptionRowView(accountsSheetEnum: .deleteAccount)
     }
 }

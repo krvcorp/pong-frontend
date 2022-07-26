@@ -35,7 +35,7 @@ extension ContentView {
             }
             // AccountSheetView
             .popup(isPresented: $settingsSheetVM.showAccountSheetView, type: .toast, position: .bottom, closeOnTap: false, closeOnTapOutside: true, backgroundColor: .black.opacity(0.4)) {
-                AccountSheetView(settingsSheetVM: settingsSheetVM)
+                AccountsSheetView(settingsSheetVM: settingsSheetVM)
             }
             // PreferencesSheetsView
             .popup(isPresented: $settingsSheetVM.showPreferencesSheetView, type: .toast, position: .bottom, closeOnTap: false, closeOnTapOutside: true, backgroundColor: .black.opacity(0.4)) {

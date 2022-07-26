@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum AccountSheetEnum: Int, CaseIterable {
+enum AccountsSheetEnum: Int, CaseIterable {
     case changePhone
     case changeEmail
     case deleteAccount

@@ -1,5 +1,5 @@
 //
-//  AccountSheetView.swift
+//  AccountsSheetView.swift
 //  Pong
 //
 //  Created by Khoi Nguyen on 7/25/22.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct AccountSheetView: View {
+struct AccountsSheetView: View {
     @ObservedObject var settingsSheetVM: SettingsSheetViewModel
     
     var body: some View {
@@ -32,20 +32,20 @@ struct AccountSheetView: View {
                 }
                 // BODY
                 VStack(alignment: .leading, spacing: 32) {
-                    ForEach(AccountSheetEnum.allCases, id: \.rawValue) { accountSheetEnum in
+                    ForEach(AccountsSheetEnum.allCases, id: \.rawValue) { accountSheetEnum in
                         switch accountSheetEnum {
                         case .changeEmail:
-                            AccountOptionRowView(accountSheetEnum: accountSheetEnum)
+                            AccountsOptionRowView(accountsSheetEnum: accountSheetEnum)
                                 .onTapGesture {
                                     print("DEBUG: AccountSheetView Button click change email")
                                 }
                         case .changePhone:
-                            AccountOptionRowView(accountSheetEnum: accountSheetEnum)
+                            AccountsOptionRowView(accountsSheetEnum: accountSheetEnum)
                                 .onTapGesture {
                                     print("DEBUG: AccountSheetView Button click change phone")
                                 }
                         case .deleteAccount:
-                            AccountOptionRowView(accountSheetEnum: accountSheetEnum)
+                            AccountsOptionRowView(accountsSheetEnum: accountSheetEnum)
                                 .onTapGesture {
                                     print("DEBUG: AccountSheetView Button click delete account")
                                 }
@@ -61,8 +61,8 @@ struct AccountSheetView: View {
     }
 }
 
-struct AccountSheetView_Previews: PreviewProvider {
+struct AccountsSheetView_Previews: PreviewProvider {
     static var previews: some View {
-        AccountSheetView(settingsSheetVM: SettingsSheetViewModel())
+        AccountsSheetView(settingsSheetVM: SettingsSheetViewModel())
     }
 }
