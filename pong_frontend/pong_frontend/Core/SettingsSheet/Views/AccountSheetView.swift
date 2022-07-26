@@ -31,35 +31,31 @@ struct AccountSheetView: View {
                         .font(.title.bold())
                 }
                 // BODY
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 32) {
-                        ForEach(AccountSheetEnum.allCases, id: \.rawValue) { accountSheetEnum in
-                            switch accountSheetEnum {
-                            case .changeEmail:
-                                Button {
+                VStack(alignment: .leading, spacing: 32) {
+                    ForEach(AccountSheetEnum.allCases, id: \.rawValue) { accountSheetEnum in
+                        switch accountSheetEnum {
+                        case .changeEmail:
+                            AccountOptionRowView(accountSheetEnum: accountSheetEnum)
+                                .onTapGesture {
                                     print("DEBUG: AccountSheetView Button click change email")
-                                } label: {
-                                    AccountOptionRowView(accountSheetEnum: accountSheetEnum)
                                 }
-                            case .changePhone:
-                                Button {
+                        case .changePhone:
+                            AccountOptionRowView(accountSheetEnum: accountSheetEnum)
+                                .onTapGesture {
                                     print("DEBUG: AccountSheetView Button click change phone")
-                                } label: {
-                                    AccountOptionRowView(accountSheetEnum: accountSheetEnum)
                                 }
-                            case .deleteAccount:
-                                Button {
+                        case .deleteAccount:
+                            AccountOptionRowView(accountSheetEnum: accountSheetEnum)
+                                .onTapGesture {
                                     print("DEBUG: AccountSheetView Button click delete account")
-                                } label: {
-                                    AccountOptionRowView(accountSheetEnum: accountSheetEnum)
                                 }
-                            }
                         }
-                        Spacer()
                     }
-                    .background(Color(UIColor.secondarySystemBackground))
-                    .padding(.horizontal, 20)
+                    Spacer()
                 }
+                .background(Color(UIColor.secondarySystemBackground))
+                .padding(.horizontal, 20)
+
             }
         }
     }

@@ -41,6 +41,10 @@ extension ContentView {
             .popup(isPresented: $settingsSheetVM.showPreferencesSheetView, type: .toast, position: .bottom, closeOnTap: false, closeOnTapOutside: true, backgroundColor: .black.opacity(0.4)) {
                 PreferencesSheetView(settingsSheetVM: settingsSheetVM)
             }
+            // NotificationsSheetsView
+            .popup(isPresented: $settingsSheetVM.showNotificationsSheetView, type: .toast, position: .bottom, closeOnTap: false, closeOnTapOutside: true, backgroundColor: .black.opacity(0.4)) {
+                NotificationsSheetView(settingsSheetVM: settingsSheetVM)
+            }
             // LegalSheetView
             .popup(isPresented: $settingsSheetVM.showLegalSheetView, type: .toast, position: .bottom, closeOnTap: false, closeOnTapOutside: true, backgroundColor: .black.opacity(0.4)) {
                 LegalSheetView(settingsSheetVM: settingsSheetVM)

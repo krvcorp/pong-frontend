@@ -15,53 +15,60 @@ struct SettingsSheetView: View {
     var body: some View {
         ActionSheetView(bgColor: Color(UIColor.secondarySystemBackground)) {
             VStack {
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 32) {
-                        ForEach(SettingsSheetEnum.allCases, id: \.rawValue) { settingsSheetEnum in
-                            switch settingsSheetEnum {
-                            case .account:
-                                Button {
+                VStack(alignment: .leading, spacing: 32) {
+                    ForEach(SettingsSheetEnum.allCases, id: \.rawValue) { settingsSheetEnum in
+                        switch settingsSheetEnum {
+                        case .account:
+                            SettingsOptionRowView(settingsSheetEnum: settingsSheetEnum)
+                                .onTapGesture {
                                     DispatchQueue.main.async {
                                         print("DEBUG: SettingsSheetView Button click account")
                                         settingsSheetVM.showAccountSheetView.toggle()
                                         settingsSheetVM.showSettingsSheetView = false
                                     }
-                                } label: {
-                                    SettingsOptionRowView(settingsSheetEnum: settingsSheetEnum)
                                 }
-                            case .preferences:
-                                Button {
-                                    print("DEBUG: SettingsSheetView Button click notifications")
-                                    settingsSheetVM.showPreferencesSheetView.toggle()
-                                    settingsSheetVM.showSettingsSheetView = false
-                                } label: {
-                                    SettingsOptionRowView(settingsSheetEnum: settingsSheetEnum)
+                        case .preferences:
+                            SettingsOptionRowView(settingsSheetEnum: settingsSheetEnum)
+                                .onTapGesture {
+                                    DispatchQueue.main.async {
+                                        print("DEBUG: SettingsSheetView Button click notifications")
+                                        settingsSheetVM.showPreferencesSheetView.toggle()
+                                        settingsSheetVM.showSettingsSheetView = false
+                                    }
                                 }
-                            case .legal:
-                                Button {
+                        case .notifications:
+                            SettingsOptionRowView(settingsSheetEnum: settingsSheetEnum)
+                                .onTapGesture {
+                                    DispatchQueue.main.async {
+                                        print("DEBUG: SettingsSheetView Button click notifications")
+                                        settingsSheetVM.showNotificationsSheetView.toggle()
+                                        settingsSheetVM.showSettingsSheetView = false
+                                    }
+                                }
+                        case .legal:
+                            SettingsOptionRowView(settingsSheetEnum: settingsSheetEnum)
+                                .onTapGesture {
                                     DispatchQueue.main.async {
                                         print("DEBUG: SettingsSheetView Button click legal")
                                         settingsSheetVM.showLegalSheetView.toggle()
                                         settingsSheetVM.showSettingsSheetView = false
                                     }
-                                } label: {
-                                    SettingsOptionRowView(settingsSheetEnum: settingsSheetEnum)
                                 }
-                            case .logout:
-                                Button {
-                                    print("DEBUG: SIGN OUT")
-                                    loginVM.signout()
-                                    settingsSheetVM.showSettingsSheetView = false
-                                } label: {
-                                    SettingsOptionRowView(settingsSheetEnum: settingsSheetEnum)
+                        case .logout:
+                            SettingsOptionRowView(settingsSheetEnum: settingsSheetEnum)
+                                .onTapGesture {
+                                    DispatchQueue.main.async {
+                                        print("DEBUG: SIGN OUT")
+                                        loginVM.signout()
+                                        settingsSheetVM.showSettingsSheetView = false
+                                    }
                                 }
-                            }
                         }
-                        Spacer()
                     }
-                    .background(Color(UIColor.secondarySystemBackground))
-                    .padding(.horizontal, 20)
+                    Spacer()
                 }
+                .background(Color(UIColor.secondarySystemBackground))
+                .padding(.horizontal, 20)
             }
         }
     }

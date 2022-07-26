@@ -28,6 +28,7 @@ struct AccountOptionRowView: View {
 
             Divider()
         }
+        .background(Color(UIColor.systemGroupedBackground)) // necessary for clickable background
     }
 }
 

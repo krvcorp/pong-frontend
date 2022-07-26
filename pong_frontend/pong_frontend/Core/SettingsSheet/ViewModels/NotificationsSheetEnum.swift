@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum NotificationSettingsEnum: Int, CaseIterable {
+enum NotificationsSheetEnum: Int, CaseIterable {
     case announcements
     // post
     case upvotesOnPost

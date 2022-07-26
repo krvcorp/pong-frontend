@@ -1,5 +1,5 @@
 //
-//  PreferenceSettingsEnum.swift
+//  PreferencesSettingsEnum.swift
 //  Pong
 //
 //  Created by Khoi Nguyen on 7/25/22.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum PreferenceSettingsEnum: Int, CaseIterable {
+enum PreferencesSettingsEnum: Int, CaseIterable {
     case lightOrDarkAuto
     case darkMode
     

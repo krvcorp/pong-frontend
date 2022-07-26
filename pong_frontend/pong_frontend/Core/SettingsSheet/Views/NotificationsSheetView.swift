@@ -1,13 +1,13 @@
 //
-//  PreferencesSheetView.swift
+//  NotificationSheetView.swift
 //  Pong
 //
-//  Created by Khoi Nguyen on 7/25/22.
+//  Created by Khoi Nguyen on 7/26/22.
 //
 
 import SwiftUI
 
-struct PreferencesSheetView: View {
+struct NotificationsSheetView: View {
     @ObservedObject var settingsSheetVM: SettingsSheetViewModel
     
     var body: some View {
@@ -19,7 +19,7 @@ struct PreferencesSheetView: View {
                         Button {
                             print("DEBUG: PreferencesSheetView Back")
                             settingsSheetVM.showSettingsSheetView = true
-                            settingsSheetVM.showPreferencesSheetView = false
+                            settingsSheetVM.showNotificationsSheetView = false
                         } label: {
                             BackButton()
                         }
@@ -27,27 +27,25 @@ struct PreferencesSheetView: View {
                     }
                     .padding(.horizontal)
                     
-                    Text("Preferences")
+                    Text("Notifications")
                         .font(.title.bold())
                 }
                 // BODY
-
                 VStack(alignment: .leading, spacing: 32) {
-                    ForEach(PreferencesSettingsEnum.allCases, id: \.rawValue) { preferencesSettingsEnum in
-                        PreferencesOptionRowView(preferencesSettingsEnum: preferencesSettingsEnum)
+                    ForEach(NotificationsSheetEnum.allCases, id: \.rawValue) { notificationsSheetEnum in
+                        NotificationOptionRowView(notificationsSheetEnum: notificationsSheetEnum)
                     }
                     Spacer()
                 }
                 .background(Color(UIColor.secondarySystemBackground))
                 .padding(.horizontal, 20)
-
             }
         }
     }
 }
 
-struct PreferencesSheetView_Previews: PreviewProvider {
+struct NotificationSheetView_Previews: PreviewProvider {
     static var previews: some View {
-        PreferencesSheetView(settingsSheetVM: SettingsSheetViewModel())
+        NotificationsSheetView(settingsSheetVM: SettingsSheetViewModel())
     }
 }

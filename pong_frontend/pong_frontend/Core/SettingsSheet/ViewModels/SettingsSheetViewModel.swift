@@ -11,6 +11,7 @@ import Foundation
     @Published var showSettingsSheetView = false
     @Published var showAccountSheetView = false
     @Published var showPreferencesSheetView = false
+    @Published var showNotificationsSheetView = false
     @Published var showLegalSheetView = false
 
 }

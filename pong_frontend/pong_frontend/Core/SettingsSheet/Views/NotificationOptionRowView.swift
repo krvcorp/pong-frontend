@@ -1,5 +1,5 @@
 //
-//  PreferencesOptionRowView.swift
+//  NotificationOptionRowView.swift
 //  Pong
 //
 //  Created by Khoi Nguyen on 7/25/22.
@@ -7,22 +7,23 @@
 
 import SwiftUI
 
-struct PreferencesOptionRowView: View {
-    let preferencesSettingsEnum: PreferencesSettingsEnum
+struct NotificationOptionRowView: View {
+    let notificationsSheetEnum: NotificationsSheetEnum
     @State private var vibrateOnRing = false
 
     var body: some View {
         VStack {
-            HStack {
+            HStack() {
                 Toggle(isOn: $vibrateOnRing) {
-                    Image(systemName: preferencesSettingsEnum.imageName)
+                    Image(systemName: notificationsSheetEnum.imageName)
                         .foregroundColor(.gray)
+                        .padding(.trailing)
                     
-                    Text(preferencesSettingsEnum.title)
+                    Text(notificationsSheetEnum.title)
                         .font(.subheadline.bold())
                         .foregroundColor(Color(UIColor.label))
+                    Spacer()
                 }
-                Spacer()
             }
             .frame(height: 40)
             .padding(.leading)
@@ -33,8 +34,8 @@ struct PreferencesOptionRowView: View {
     }
 }
 
-struct PreferencesOptionRowView_Previews: PreviewProvider {
+struct NotificationOptionRowView_Previews: PreviewProvider {
     static var previews: some View {
-        PreferencesOptionRowView(preferencesSettingsEnum: .darkMode)
+        NotificationOptionRowView(notificationsSheetEnum: .announcements)
     }
 }
