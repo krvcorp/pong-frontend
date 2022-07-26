@@ -27,7 +27,14 @@ struct PostView: View {
             }
             .refreshable {
                 print("DEBUG: Pull to refresh")
-                // when refreshing a get single post should be called to replace self.post
+                postVM.readPost(postId: post.id) { result in
+                    switch result {
+                    case .success(let post):
+                        self.post = post
+                    case .failure(let error):
+                        print("DEBUG: PostView readPost failure \(error)")
+                    }
+                }
             }
            
             HStack {
@@ -40,7 +47,7 @@ struct PostView: View {
                             case .success(let commentReturn):
                                 self.post.comments.append(commentReturn)
                             case .failure(let failure):
-                                print("DEBUG \(failure)")
+                                print("DEBUG: PostView createComment failure \(failure)")
                         }
                     }
                     message = ""
