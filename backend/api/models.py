@@ -22,12 +22,6 @@ class UserManager(UserManager):
         """
         Create and save a User with the provided phone and password.
         """
-        if len(phone) == 0:
-            raise ValueError("Users must have a phone number.")
-        phone = "".join(filter(lambda x: x.isdigit(), phone))
-        if len(phone) != 10:
-            raise ValueError("Users must have a valid phone number.")
-
         user = self.model(phone=phone, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
@@ -37,8 +31,6 @@ class UserManager(UserManager):
         extra_fields.setdefault("is_staff", False)
         extra_fields.setdefault("is_superuser", False)
         return self._create_user(phone, password, **extra_fields)
-
-    # create staff user
 
     def create_superuser(self, phone, password, **extra_fields):
         extra_fields.setdefault("is_staff", True)

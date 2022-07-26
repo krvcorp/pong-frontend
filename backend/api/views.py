@@ -272,40 +272,38 @@ class OTPStart(APIView):
 
     def post(self, request):
         context = {}
-        phone = request.data["phone"]
-        user, created = User.objects.get_or_create(phone=phone)
-        phone_login_code = PhoneLoginCode.objects.create(user=user)
-        generated_code = phone_login_code.code
+        context["new_user"] = True  # By default, assume the user is new
 
-        # Local
+        phone = request.data["phone"]
+        phone = "".join(filter(lambda x: x.isdigit(), phone))
+        user_phone_numbers = User.objects.values_list("phone", flat=True)
+        if phone in user_phone_numbers:
+            context["new_user"] = False
+
+        if len(phone) != 10:
+            return JsonResponse(
+                {"error": "number_invalid"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        # Lookup for VoIP number
+        # phone_number_carrier = client.lookups.phone_numbers(phone).fetch(type="carrier")
+        # if phone_number_carrier.carrier["type"] != "mobile":
+        #     return JsonResponse(
+        #         {"error": "number_voip"},
+        #         status=status.HTTP_400_BAD_REQUEST
+        #     )
+
+        if context["new_user"]:
+            user = User.objects.create_user(phone)
+            PhoneLoginCode.objects.create(user=user)
+        else:
+            user = User.objects.get(phone=phone)
+            PhoneLoginCode.objects.create(user=user)
+
         TWILIO_ACCOUNT_SID = "AC5e7be9e9a0d92520bc1b79a9e4ce7963"
         TWILIO_SECRET_KEY = "b733808ab5bebcc9eccde14f9dcf56dc"
 
-        # Prod
-        # TWILIO_ACCOUNT_SID = os.environ.get("TWILIO_ACCOUNT_SID")
-        # TWILIO_SECRET_KEY = os.environ.get("TWILIO_AUTH_TOKEN")
-        # TWILIO_NUMBER = os.environ.get("TWILIO_NUMBER")
-
         client = Client(TWILIO_ACCOUNT_SID, TWILIO_SECRET_KEY)
-
-        if len(phone) == 0:
-            return JsonResponse(
-                {"error": "Phone number is required"},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-        phone = "".join(filter(lambda x: x.isdigit(), phone))
-        if len(phone) != 10:
-            return JsonResponse(
-                {"error": "Phone number is invalid"}, status=status.HTTP_400_BAD_REQUEST
-            )
-
-        # Lookup for VoIP number
-        # phone_number_carrier = client.lookups.phone_numbers(phone).fetch(type="carrier")
-
-        # if phone_number_carrier.carrier["type"] != "mobile":
-        #     return JsonResponse(
-        #         {"error": "Phone number can't be VoIP."}, status=status.HTTP_400_BAD_REQUEST
-        #     )
 
         # Commented out for saving money, check in admin panel if you want to use this
         # message = client.messages.create(
@@ -314,16 +312,7 @@ class OTPStart(APIView):
         #     from_="+19283623318",
         # )
 
-        # Prod
-        # message = client.messages.create(
-        #     body=generated_code,
-        #     to=request.data["phone"],
-        #     from_=TWILIO_NUMBER,
-        # )
-
-        context["new_user"] = created
         context["phone"] = phone
-
         return JsonResponse(context)
 
 
@@ -335,6 +324,7 @@ class ResendOTP(APIView):
     def post(self, request):
         context = {}
         phone = request.data["phone"]
+        phone = "".join(filter(lambda x: x.isdigit(), phone))
         user, created = User.objects.get_or_create(phone=phone)
         if created:
             return JsonResponse(
@@ -389,7 +379,9 @@ class OTPVerify(APIView):
 
     def post(self, request):
         context = {}
-        user = User.objects.get(phone=request.data["phone"])
+        phone = request.data["phone"]
+        phone = "".join(filter(lambda x: x.isdigit(), phone))
+        user = User.objects.get(phone=phone)
         phone_login_code = PhoneLoginCode.objects.filter(user=user).order_by(
             "-created_at"
         )[0]
@@ -448,12 +440,15 @@ class VerifyUser(APIView):
                 # needs to go into environment variable
             )
 
+            phone = request.data["phone"]
+            phone = "".join(filter(lambda x: x.isdigit(), phone))
+
             # ID token is valid. Get the user's Google Account ID from the decoded token.
             context = {}
 
             domain = re.search("@[\w.]+", idinfo["email"])
             school, _ = School.objects.get_or_create(domain=domain)
-            user = User.objects.get(phone=request.data["phone"])
+            user = User.objects.get(phone=phone)
 
             user.has_been_verified = True
             user.school = school
@@ -462,7 +457,6 @@ class VerifyUser(APIView):
 
             context["token"] = Token.objects.get(user=user).key
             context["user"] = UserSerializer(user).data
-            print(context)
             return JsonResponse(context)
 
         except ValueError:
