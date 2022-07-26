@@ -111,7 +111,6 @@
 /* Begin PBXFileReference section */
 		1CCAEEA5D0040063EB6FB9DD /* Pods_Pong.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Pong.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		274E28C746E9C9AA044081A9 /* Pods-Pong.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pong.release.xcconfig"; path = "Target Support Files/Pods-Pong/Pods-Pong.release.xcconfig"; sourceTree = "<group>"; };
-		6A21845728754D1000681C86 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = Pong/Info.plist; sourceTree = "<group>"; };
 		6A21845A28775DA100681C86 /* PhoneLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneLoginView.swift; sourceTree = "<group>"; };
 		6A21846128788D2E00681C86 /* EmailVerificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailVerificationView.swift; sourceTree = "<group>"; };
 		6A21846A287A1C4C00681C86 /* Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
@@ -360,7 +359,6 @@
 		6A5DF0DA2851321000F28A06 = {
 			isa = PBXGroup;
 			children = (
-				6A21845728754D1000681C86 /* Info.plist */,
 				6A5DF0E52851321000F28A06 /* pong_frontend */,
 				6A5DF0E42851321000F28A06 /* Products */,
 				68F492BF461B66BE830D9B2B /* Pods */,
@@ -1205,7 +1203,7 @@
 				DEVELOPMENT_TEAM = 2N66Q3A64N;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Pong/Info.plist;
+				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -1240,7 +1238,7 @@
 				DEVELOPMENT_TEAM = 2N66Q3A64N;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Pong/Info.plist;
+				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
