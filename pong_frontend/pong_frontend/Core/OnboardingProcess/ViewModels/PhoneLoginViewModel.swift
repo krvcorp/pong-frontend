@@ -81,13 +81,13 @@ class PhoneLoginViewModel: ObservableObject {
                        // If key exist, this code will be executed
                         DispatchQueue.main.async {
                             DAKeychain.shared["token"] = token // Store
+                            self.phone = ""
+                            self.phoneIsProvided = false
+                            self.phoneIsVerified = false
+                            self.code = ""
                             if let userId = responseDataContent.userId {
                                 DAKeychain.shared["userId"] = userId
                             }
-                            self.phone = ""
-                            self.phoneIsVerified = false
-                            self.code = ""
-                            loginVM.isAuthenticated = true
                         }
                     } else if responseDataContent.emailUnverified != nil {
                       // If key does not exist, this code will be executed

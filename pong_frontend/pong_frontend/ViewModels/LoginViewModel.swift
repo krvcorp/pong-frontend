@@ -13,13 +13,11 @@ import GoogleSignIn
 @MainActor class LoginViewModel: ObservableObject {
     
     @Published var password: String = ""
-    @Published var isAuthenticated: Bool = false // this needs to be set to false when app launches. true only to troubleshoot app
     @Published var gmailString: String = ""
     @Published var initialOnboard: Bool = false
     
     func signout() {
         DispatchQueue.main.async {
-            self.isAuthenticated = false
             self.gmailString = ""
             self.password = ""
             self.initialOnboard = true
@@ -29,10 +27,10 @@ import GoogleSignIn
         }
     }
     
-    func verifyEmail(idToken: String, phone: String) {
+    func verifyEmail(idToken: String, phoneLoginVM: PhoneLoginViewModel) {
         guard let url = URL(string: "\(API().root)" + "verify-user/") else {return}
         
-        let body = VerifyEmailRequestBody(idToken: idToken, phone: phone)
+        let body = VerifyEmailRequestBody(idToken: idToken, phone: phoneLoginVM.phone)
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -56,7 +54,11 @@ import GoogleSignIn
                 if let userId = verifyEmailResponse.userId {
                     DAKeychain.shared["userId"] = userId
                 }
-                self.isAuthenticated = true
+                // resets phoneLoginVM and authenticates user
+                phoneLoginVM.phone = ""
+                phoneLoginVM.phoneIsProvided = false
+                phoneLoginVM.phoneIsVerified = false
+                phoneLoginVM.code = ""
             }
         }.resume()
     }

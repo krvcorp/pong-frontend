@@ -74,7 +74,7 @@ struct EmailVerificationView: View {
 
                 let idToken = authentication.idToken
                 // Send ID token to backend (example below).
-                loginVM.verifyEmail(idToken: idToken!, phone: phoneLoginVM.phone)
+                loginVM.verifyEmail(idToken: idToken!, phoneLoginVM: phoneLoginVM)
             }
         }
     }
