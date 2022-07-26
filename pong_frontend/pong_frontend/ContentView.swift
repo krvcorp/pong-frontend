@@ -29,23 +29,30 @@ extension ContentView {
     var MainInterfaceView: some View {
         ZStack(alignment: .topTrailing){
             MainTabView(settingsSheetVM: settingsSheetVM, postSettingsVM: postSettingsVM)
-                // SettingsSheetView
-                .popup(isPresented: $settingsSheetVM.showSettingsSheetView, type: .toast, position: .bottom, closeOnTap: false, closeOnTapOutside: true, backgroundColor: .black.opacity(0.4)) {
-                    SettingsSheetView(loginVM: loginVM, settingsSheetVM: settingsSheetVM)
-                }
-                // AccountSheetView
-                .popup(isPresented: $settingsSheetVM.showAccountSheetView, type: .toast, position: .bottom, closeOnTap: false, closeOnTapOutside: true, backgroundColor: .black.opacity(0.4)) {
-                    AccountSheetView()
-                }
-                // LegalSheetView
-                .popup(isPresented: $settingsSheetVM.showLegalSheetView, type: .toast, position: .bottom, closeOnTap: false, closeOnTapOutside: true, backgroundColor: .black.opacity(0.4)) {
-                    LegalSheetView()
-                }
-                // PostSettingsView
-                .popup(isPresented: $postSettingsVM.showPostSettingsView, type: .toast, position: .bottom, closeOnTap: false, closeOnTapOutside: true, backgroundColor: .black.opacity(0.4)) {
-                    PostSettingsView()
-                }
-
+            // SettingsSheetView
+            .popup(isPresented: $settingsSheetVM.showSettingsSheetView, type: .toast, position: .bottom, closeOnTap: false, closeOnTapOutside: true, backgroundColor: .black.opacity(0.4)) {
+                SettingsSheetView(loginVM: loginVM, settingsSheetVM: settingsSheetVM)
+            }
+            // AccountSheetView
+            .popup(isPresented: $settingsSheetVM.showAccountSheetView, type: .toast, position: .bottom, closeOnTap: false, closeOnTapOutside: true, backgroundColor: .black.opacity(0.4)) {
+                AccountsSheetView(settingsSheetVM: settingsSheetVM)
+            }
+            // PreferencesSheetsView
+            .popup(isPresented: $settingsSheetVM.showPreferencesSheetView, type: .toast, position: .bottom, closeOnTap: false, closeOnTapOutside: true, backgroundColor: .black.opacity(0.4)) {
+                PreferencesSheetView(settingsSheetVM: settingsSheetVM)
+            }
+            // NotificationsSheetsView
+            .popup(isPresented: $settingsSheetVM.showNotificationsSheetView, type: .toast, position: .bottom, closeOnTap: false, closeOnTapOutside: true, backgroundColor: .black.opacity(0.4)) {
+                NotificationsSheetView(settingsSheetVM: settingsSheetVM)
+            }
+            // LegalSheetView
+            .popup(isPresented: $settingsSheetVM.showLegalSheetView, type: .toast, position: .bottom, closeOnTap: false, closeOnTapOutside: true, backgroundColor: .black.opacity(0.4)) {
+                LegalSheetView(settingsSheetVM: settingsSheetVM)
+            }
+            // PostSettingsView
+            .popup(isPresented: $postSettingsVM.showPostSettingsView, type: .toast, position: .bottom, closeOnTap: false, closeOnTapOutside: true, backgroundColor: .black.opacity(0.4)) {
+                PostSettingsView()
+            }
         }
     }
 }

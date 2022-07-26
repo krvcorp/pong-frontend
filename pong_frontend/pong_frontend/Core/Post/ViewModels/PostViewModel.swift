@@ -123,25 +123,21 @@ class PostViewModel: ObservableObject {
     }
     // this logic should probably go into feedviewmodel where tapping on a post calls an API to get updated post information regarding a post
     func readPost(postId: String, completion: @escaping (Result<Post, AuthenticationError>) -> Void) {
-        print("DEBUG: POSTVM readPost \(postId)")
+        print("DEBUG: postVM readPost \(postId)")
         
         guard let token = DAKeychain.shared["token"] else { return }
-        guard let url = URL(string: "\(API().root)post/") else {
+        guard let url = URL(string: "\(API().root)post/\(postId)/") else {
             completion(.failure(.custom(errorMessage: "URL is not correct")))
             return
         }
-        
-        let body = ReadPostRequestBody(postId: postId)
+
         var request = URLRequest(url: url)
-        request.httpMethod = "POST"
+        request.httpMethod = "GET"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("Token \(token)", forHTTPHeaderField: "Authorization")
-        let encoder = JSONEncoder()
-        encoder.keyEncodingStrategy = .convertToSnakeCase
-        request.httpBody = try? encoder.encode(body)
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
-            
+            print("DEBUG: postVM readPost data \(data)")
             guard let data = data, error == nil else {
                 completion(.failure(.custom(errorMessage: "No data")))
                 return
@@ -150,10 +146,9 @@ class PostViewModel: ObservableObject {
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
             guard let postResponse = try? decoder.decode(Post.self, from: data) else {
-                completion(.failure(.invalidCredentials))
+                completion(.failure(.custom(errorMessage: "Decode failure")))
                 return
             }
-            print("DEBUG: PostViewModel readPost \(postResponse)")
             completion(.success(postResponse))
             
         }.resume()

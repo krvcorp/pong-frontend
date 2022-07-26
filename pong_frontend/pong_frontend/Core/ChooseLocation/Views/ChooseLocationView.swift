@@ -40,7 +40,7 @@ struct ChooseLocationView: View {
                 Button {
                     presentationMode.wrappedValue.dismiss()
                 } label: {
-                    Image(systemName: "chevron.backward")
+                    BackButton()
                 }
             }
             ToolbarItem(placement: .principal) {

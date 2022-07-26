@@ -21,11 +21,12 @@ struct SettingsOptionRowView: View {
             
             Divider()
         }
+        .background(Color(UIColor.secondarySystemBackground)) // necessary for clickable background
     }
 }
 
 struct SettingsOptionRowView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsOptionRowView(settingsSheetEnum: .notifications)
+        SettingsOptionRowView(settingsSheetEnum: .preferences)
     }
 }
