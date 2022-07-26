@@ -9,6 +9,7 @@ from django.shortcuts import render, redirect
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+from pytz import timezone
 from .models import (
     Poll,
     PostSave,
@@ -293,12 +294,24 @@ class OTPStart(APIView):
         #         status=status.HTTP_400_BAD_REQUEST
         #     )
 
+        user = None
         if context["new_user"]:
             user = User.objects.create_user(phone)
-            PhoneLoginCode.objects.create(user=user)
         else:
             user = User.objects.get(phone=phone)
-            PhoneLoginCode.objects.create(user=user)
+        code = PhoneLoginCode.objects.filter(user=user).order_by("-created_at")
+        if code.count() > 0:
+            code = code[0]
+            time_elapsed = (
+                datetime.datetime.now(datetime.timezone.utc) - code.created_at
+            )
+            if time_elapsed.total_seconds() < 30:
+                return JsonResponse(
+                    {"error": "code_already_sent"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+        code = PhoneLoginCode.objects.create(user=user)
 
         TWILIO_ACCOUNT_SID = "AC5e7be9e9a0d92520bc1b79a9e4ce7963"
         TWILIO_SECRET_KEY = "b733808ab5bebcc9eccde14f9dcf56dc"
@@ -307,68 +320,12 @@ class OTPStart(APIView):
 
         # Commented out for saving money, check in admin panel if you want to use this
         # message = client.messages.create(
-        #     body=generated_code,
+        #     body=code.code,
         #     to=request.data["phone"],
         #     from_="+19283623318",
         # )
 
         context["phone"] = phone
-        return JsonResponse(context)
-
-
-class ResendOTP(APIView):
-    """
-    This method is used to resend the most recently generated OTP code to the user, based on the phone number in the request.
-    """
-
-    def post(self, request):
-        context = {}
-        phone = request.data["phone"]
-        phone = "".join(filter(lambda x: x.isdigit(), phone))
-        user, created = User.objects.get_or_create(phone=phone)
-        if created:
-            return JsonResponse(
-                {"error": "Phone number does not exist."},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-        try:
-            most_recent_code = PhoneLoginCode.objects.filter(user=user).order_by(
-                "-created_at"
-            )[0]
-            generated_code = most_recent_code.code
-        except Exception as e:
-            return JsonResponse(
-                {"error": "User has no OTP codes."}, status=status.HTTP_400_BAD_REQUEST
-            )
-
-        # Local
-        TWILIO_ACCOUNT_SID = "AC5e7be9e9a0d92520bc1b79a9e4ce7963"
-        TWILIO_SECRET_KEY = "b733808ab5bebcc9eccde14f9dcf56dc"
-
-        # Prod
-        # TWILIO_ACCOUNT_SID = os.environ.get("TWILIO_ACCOUNT_SID")
-        # TWILIO_SECRET_KEY = os.environ.get("TWILIO_AUTH_TOKEN")
-        # TWILIO_NUMBER = os.environ.get("TWILIO_NUMBER")
-
-        client = Client(TWILIO_ACCOUNT_SID, TWILIO_SECRET_KEY)
-
-        # Local
-        message = client.messages.create(
-            body=generated_code,
-            to=request.data["phone"],
-            from_="+19283623318",
-        )
-
-        # Prod
-        # message = client.messages.create(
-        #     body=generated_code,
-        #     to=request.data["phone"],
-        #     from_=TWILIO_NUMBER,
-        # )
-
-        context["phone"] = phone
-
         return JsonResponse(context)
 
 
