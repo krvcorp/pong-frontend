@@ -8,8 +8,8 @@ struct LoggedInUserInfoResponseBody: Decodable {
     let comments: [Comment]
     let inTimeout: Bool
     let phone: String
-    let totalKarma: Int
     let commentKarma: Int
     let postKarma: Int
+    let totalKarma: Int
     let savedPosts: [Post]
 }

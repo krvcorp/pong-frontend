@@ -7,9 +7,7 @@
 
 import SwiftUI
 
-// SHARE SHEET
 struct ShareSheet : UIViewControllerRepresentable {
-    // the data you need to share...
     var items : [Any]
     
     func makeUIViewController(context: Context) -> UIActivityViewController {

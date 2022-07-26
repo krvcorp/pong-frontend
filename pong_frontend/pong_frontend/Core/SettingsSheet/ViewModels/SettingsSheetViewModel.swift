@@ -9,6 +9,8 @@ import Foundation
 
 @MainActor class SettingsSheetViewModel: ObservableObject {
     @Published var showSettingsSheetView = false
-    @Published var showLegalSheetView = false
     @Published var showAccountSheetView = false
+    @Published var showPreferencesSheetView = false
+    @Published var showLegalSheetView = false
+
 }

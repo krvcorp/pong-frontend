@@ -60,7 +60,7 @@ struct ActionSheets_Previews: PreviewProvider {
         ZStack {
             Rectangle()
                 .ignoresSafeArea()
-            LegalSheetView()
+            LegalSheetView(settingsSheetVM: SettingsSheetViewModel())
         }
     }
 }

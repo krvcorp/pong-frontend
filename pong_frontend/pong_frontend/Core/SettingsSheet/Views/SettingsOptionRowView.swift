@@ -26,6 +26,6 @@ struct SettingsOptionRowView: View {
 
 struct SettingsOptionRowView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsOptionRowView(settingsSheetEnum: .notifications)
+        SettingsOptionRowView(settingsSheetEnum: .preferences)
     }
 }

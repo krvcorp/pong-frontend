@@ -15,17 +15,17 @@ struct AccountOptionRowView: View {
             HStack(spacing: 16) {
 
                 Image(systemName: accountSheetEnum.imageName)
-                    .foregroundColor(.gray)
+                    .foregroundColor(accountSheetEnum != .deleteAccount ? .gray : Color(UIColor.red))
 
                 Text(accountSheetEnum.title)
                     .font(.subheadline.bold())
-                    .foregroundColor(Color(UIColor.label))
-                
+                    .foregroundColor(accountSheetEnum != .deleteAccount ? Color(UIColor.label) : Color(UIColor.red))
+
                 Spacer()
             }
             .frame(height: 40)
             .padding(.horizontal)
-            
+
             Divider()
         }
     }

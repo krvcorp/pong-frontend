@@ -8,9 +8,9 @@
 import Foundation
 
 enum AccountSheetEnum: Int, CaseIterable {
-    case deleteAccount
     case changePhone
     case changeEmail
+    case deleteAccount
     
     var title: String {
         switch self {

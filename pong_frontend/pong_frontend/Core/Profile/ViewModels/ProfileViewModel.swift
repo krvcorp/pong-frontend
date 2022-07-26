@@ -64,7 +64,7 @@ class ProfileViewModel: ObservableObject {
 //    }
 
     func getLoggedInUserInfo() {
-        
+        print("DEBUG: ProfileVM getLoggedInUserInfo")
         guard let token = DAKeychain.shared["token"] else { return }
         guard let userId = DAKeychain.shared["userId"] else { return }
 
@@ -75,25 +75,24 @@ class ProfileViewModel: ObservableObject {
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("Token \(token)", forHTTPHeaderField: "Authorization")
 
-        URLSession.shared.dataTask(with: request) { (data, response, error) in
+        URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
             
             guard let data = data, error == nil else { return }
+            print("DEBUG: ProfileVM getLoggedInUserInfo data: \(data)")
+            
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
             guard let loggedInUserInfoResponse = try? decoder.decode(LoggedInUserInfoResponseBody.self, from: data) else {
+                print("DEBUG: ProfileVM getLoggedInUserInfo decode error")
                 return
             }
-            
-            debugPrint(loggedInUserInfoResponse.savedPosts)
-
-
-            self.totalKarma = loggedInUserInfoResponse.totalKarma
-            self.commentKarma = loggedInUserInfoResponse.commentKarma
-            self.postKarma = loggedInUserInfoResponse.postKarma
-            self.savedPosts = loggedInUserInfoResponse.savedPosts
-            self.posts = loggedInUserInfoResponse.posts
-            self.comments = loggedInUserInfoResponse.comments
-            
+            print("DEBUG: ProfileVM \(loggedInUserInfoResponse)")
+            self?.totalKarma = loggedInUserInfoResponse.totalKarma
+            self?.commentKarma = loggedInUserInfoResponse.commentKarma
+            self?.postKarma = loggedInUserInfoResponse.postKarma
+            self?.savedPosts = loggedInUserInfoResponse.savedPosts
+            self?.posts = loggedInUserInfoResponse.posts
+            self?.comments = loggedInUserInfoResponse.comments
 
         }.resume()
     }

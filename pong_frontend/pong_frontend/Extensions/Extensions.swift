@@ -9,10 +9,12 @@ import Foundation
 import SwiftUI
 
 extension View {
+    // rounded corners
     func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
         clipShape(RoundedCorner(radius: radius, corners: corners))
     }
     
+    // some shit with the exyte popup
     @ViewBuilder
     func applyIf<T: View>(_ condition: Bool, apply: (Self) -> T) -> some View {
         if condition {
@@ -23,6 +25,7 @@ extension View {
     }
 }
 
+// roundedcorner
 struct RoundedCorner: Shape {
     var radius: CGFloat = .infinity
     var corners: UIRectCorner = .allCorners
@@ -44,6 +47,7 @@ extension UINavigationController: UIGestureRecognizerDelegate {
     }
 }
 
+// upload image
 struct ImagePicker: UIViewControllerRepresentable {
     @Environment(\.presentationMode) private var presentationMode
     var sourceType: UIImagePickerController.SourceType = .photoLibrary
@@ -203,3 +207,9 @@ class ScrollViewController<Content: View>: UIViewController, UIScrollViewDelegat
     }
 }
 
+// screen width/height extension
+extension UIScreen{
+   static let screenWidth = UIScreen.main.bounds.size.width
+   static let screenHeight = UIScreen.main.bounds.size.height
+   static let screenSize = UIScreen.main.bounds.size
+}
