@@ -20,6 +20,7 @@ struct LegalSheetView: View {
                         .font(.system(size: 14))
                         .opacity(0.6)
                 }
+                .background(Color(UIColor.secondarySystemBackground))
                 .padding(.horizontal, 24)
             }
         }
