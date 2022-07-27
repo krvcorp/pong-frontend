@@ -98,6 +98,14 @@ class User(AbstractBaseUser, PermissionsMixin):
     def comment_karma(self):
         return self.total_comment_score()
 
+    def vote_status_post(self, post):
+        # check if a user has voted on the post
+        status = PostVote.objects.filter(user=self, post=post)
+        if status.exists():
+            return status[0].vote
+        else:
+            return 0
+
     def verify(self):
         self.has_been_verified = True
         self.save()

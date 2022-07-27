@@ -11,6 +11,7 @@ struct LeaderboardView: View {
     @Environment(\.presentationMode) var presentationMode
     @StateObject private var leaderboardVM = LeaderboardViewModel()
     @StateObject private var profileVM = ProfileViewModel()
+    @State private var newPost = false
     
     var body: some View {
         VStack {
@@ -57,6 +58,19 @@ struct LeaderboardView: View {
                         .font(.title.bold())
                 }
             }
+            
+            NavigationLink {
+                NewPostView(newPost: $newPost)
+            } label: {
+                Text("Try to catch up :)")
+                    .frame(width: 100, height: 100)
+                    .padding()
+            }
+            .foregroundColor(Color(UIColor.tertiarySystemBackground))
+            .background(Color(UIColor.label))
+            .clipShape(Circle())
+            .padding()
+            .shadow(radius: 10)
         }
         .background(Color(UIColor.systemGroupedBackground))
     }

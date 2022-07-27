@@ -19,6 +19,7 @@ struct Post: Codable, Identifiable {
     var comments: [Comment]
     var score: Int
     var timeSincePosted: String
+    var voteStatus: Int
 }
 
 extension Post: Equatable {}

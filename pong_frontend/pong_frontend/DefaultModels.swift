@@ -16,7 +16,8 @@ var defaultPost = Post(id: "DefaultId",
                         numComments: -1,
                         comments: [],
                         score: -1,
-                        timeSincePosted: "DefaultString")
+                        timeSincePosted: "DefaultString",
+                        voteStatus: 0)
 
 var defaultComment = Comment(id: "DefaultID",
                              post: "DefaultPostID",
@@ -26,3 +27,5 @@ var defaultComment = Comment(id: "DefaultID",
                               updatedAt: "Default Date",
                               score: -1,
                              timeSincePosted: "Default Time Since Posted")
+
+var defaultTotalScore = TotalScore(score: 1, place:"1")

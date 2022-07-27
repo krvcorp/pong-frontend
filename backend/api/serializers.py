@@ -72,13 +72,17 @@ class UserSerializer(serializers.ModelSerializer):
 
 class UserSerializerLeaderboard(serializers.ModelSerializer):
     score = serializers.SerializerMethodField(read_only=True)
+    place = serializers.SerializerMethodField(read_only=True)
 
     def get_score(self, obj):
         return obj.total_karma
 
+    def get_place(self, obj):
+        return "1"
+
     class Meta:
         model = User
-        fields = ("id", "score")
+        fields = ("score", "place")
 
 
 class UserSerializerProfile(serializers.ModelSerializer):
@@ -121,6 +125,7 @@ class PostSerializer(serializers.ModelSerializer):
     comments = serializers.SerializerMethodField()
     score = serializers.SerializerMethodField()
     time_since_posted = serializers.SerializerMethodField()
+    vote_status = serializers.SerializerMethodField()
 
     def get_num_comments(self, obj):
         return obj.num_comments()
@@ -132,6 +137,9 @@ class PostSerializer(serializers.ModelSerializer):
         comments = obj.get_comments()
         comments = sorted(comments, key=lambda x: x.score, reverse=True)
         return CommentSerializer(comments, many=True).data
+
+    def get_vote_status(self, obj):
+        return self.context["request"].user.vote_status_post(obj)
 
     def get_time_since_posted(self, obj):
         time = datetime.now(timezone.utc) - obj.created_at
@@ -181,6 +189,7 @@ class PostSerializer(serializers.ModelSerializer):
             "comments",
             "score",
             "time_since_posted",
+            "vote_status",
         )
 
 
