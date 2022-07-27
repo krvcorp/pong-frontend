@@ -21,3 +21,9 @@ struct Post: Codable, Identifiable {
     var timeSincePosted: String
 }
 
+extension Post: Equatable {}
+func ==(lhs: Post, rhs: Post) -> Bool {
+    let areEqual = lhs.id == rhs.id
+    return areEqual
+}
+

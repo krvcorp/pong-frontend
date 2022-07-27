@@ -126,7 +126,7 @@ struct ProfileView: View {
                     LazyVStack {
                         if view == .posts {
                             ForEach(profileVM.posts) { post in
-                                PostBubble(post: post, postSettingsVM: PostSettingsViewModel())
+                                PostBubble(post: post, postSettingsVM: PostSettingsViewModel(), feedVM: FeedViewModel())
                             }
                         }
                         else if view == .comments {
@@ -136,7 +136,7 @@ struct ProfileView: View {
                         }
                         else if view == .saved {
                             ForEach(profileVM.savedPosts) { post in
-                                PostBubble(post: post, postSettingsVM: PostSettingsViewModel())
+                                PostBubble(post: post, postSettingsVM: PostSettingsViewModel(), feedVM: FeedViewModel())
                             }
                         }
                     }

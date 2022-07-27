@@ -90,11 +90,11 @@ class PostBubbleViewModel: ObservableObject {
         }.resume()
     }
     
-    func deletePost(postId: String, completion: @escaping (Result<String, AuthenticationError>) -> Void) {
-        print("DEBUG: PostBubbleVM deletePost \(postId)")
+    func deletePost(post: Post, feedVM: FeedViewModel, completion: @escaping (Result<String, AuthenticationError>) -> Void) {
+        print("DEBUG: PostBubbleVM deletePost \(post.id)")
         
         guard let token = DAKeychain.shared["token"] else { return }
-        guard let url = URL(string: "\(API().root)post/\(postId)/") else {
+        guard let url = URL(string: "\(API().root)post/\(post.id)/") else {
             completion(.failure(.custom(errorMessage: "URL is not correct")))
             return
         }
@@ -108,6 +108,16 @@ class PostBubbleViewModel: ObservableObject {
             guard let data = data, error == nil else {
                 completion(.failure(.custom(errorMessage: "No data")))
                 return
+            }
+            // clear locally the deleted post
+            if let index = feedVM.hotPosts.firstIndex(of: post) {
+                feedVM.hotPosts.remove(at: index)
+            }
+            if let index = feedVM.recentPosts.firstIndex(of: post) {
+                feedVM.recentPosts.remove(at: index)
+            }
+            if let index = feedVM.topPosts.firstIndex(of: post) {
+                feedVM.topPosts.remove(at: index)
             }
         }.resume()
     }

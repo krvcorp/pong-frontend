@@ -12,7 +12,7 @@ struct PostView: View {
     @StateObject var postVM = PostViewModel()
     @State private var message = ""
     @State var sheet = false
-    @State var post: Post
+    @Binding var post: Post
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -153,6 +153,6 @@ struct PostView: View {
 
 struct PostView_Previews: PreviewProvider {
     static var previews: some View {
-        PostView(post: defaultPost)
+        PostView(post: .constant(defaultPost))
     }
 }
