@@ -33,12 +33,6 @@ struct PostSettingsView: View {
                             } label: {
                                 PostSettingsRowView(viewModel: viewModel)
                             }
-                        } else if viewModel == .temp {
-                            Button {
-                                print("DEBUG: REPORT")
-                            } label: {
-                                PostSettingsRowView(viewModel: viewModel)
-                            }
                         } else {
                             PostSettingsRowView(viewModel: viewModel)
                         }

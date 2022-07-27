@@ -8,7 +8,7 @@
 import Foundation
 
 class LeaderboardViewModel: ObservableObject {
-    @Published var leaderboardList : [TotalScore] = []
+    @Published var leaderboardList : [TotalScore] = [defaultTotalScore]
     
     func getLeaderboard() {
         print("DEBUG: leaderboardBM getLeaderboard")
@@ -16,7 +16,7 @@ class LeaderboardViewModel: ObservableObject {
         guard let token = DAKeychain.shared["token"] else { return } // Fetch
         
         // GET params
-        let url_to_use: String = "\(API().root)user/?sort=leaderboard"
+        let url_to_use: String = "\(API().root)leaderboard/"
         
         // URL handler
         guard let url = URL(string: url_to_use) else { return }
@@ -34,10 +34,17 @@ class LeaderboardViewModel: ObservableObject {
             do {
                 let decoder = JSONDecoder()
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
-                let leaderboardList = try decoder.decode([TotalScore].self, from: data)
+                var leaderboardList = try decoder.decode([TotalScore].self, from: data)
+                
+                var count : Int = 1
+                for _ in leaderboardList {
+                    leaderboardList[count-1].place = String(count)
+                    count += 1
+                }
                 DispatchQueue.main.async {
                     self?.leaderboardList = leaderboardList
                 }
+                
             } catch {
                 print("DEBUG: \(error)")
             }

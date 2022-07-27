@@ -11,14 +11,12 @@ enum PostSettingsOptionsViewModel: Int, CaseIterable {
     case save
     case report
     case block
-    case temp
     
     var title: String {
         switch self {
         case .save: return "Save Post"
         case .block: return "Report Post"
         case .report: return "Block User"
-        case .temp: return "Temp"
         }
     }
     
@@ -27,7 +25,6 @@ enum PostSettingsOptionsViewModel: Int, CaseIterable {
         case .save: return "bookmark"
         case .block: return "xmark.circle"
         case .report: return "flag"
-        case .temp: return "flag"
         }
     }
 }

@@ -45,7 +45,11 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.views import APIView
-from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListCreateAPIView
+from rest_framework.generics import (
+    RetrieveUpdateDestroyAPIView,
+    ListCreateAPIView,
+    ListAPIView,
+)
 from rest_framework.parsers import JSONParser, MultiPartParser, FormParser
 from rest_framework.renderers import JSONRenderer
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
@@ -131,6 +135,18 @@ class ListCreateUserAPIView(ListCreateAPIView):
             queryset = list(queryset)
             queryset.sort(key=operator.attrgetter("total_karma"), reverse=True)
             queryset = queryset[:10]
+        return queryset
+
+
+class LeaderboardAPIView(ListAPIView):
+    serializer_class = UserSerializerLeaderboard
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        queryset = User.objects.all()
+        queryset = list(queryset)
+        queryset.sort(key=operator.attrgetter("total_karma"), reverse=True)
+        queryset = queryset[:10]
         return queryset
 
 
