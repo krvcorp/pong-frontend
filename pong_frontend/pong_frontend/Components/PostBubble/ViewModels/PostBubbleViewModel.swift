@@ -8,7 +8,6 @@
 import Foundation
 
 class PostBubbleViewModel: ObservableObject {
-    
     func postVote(id: String, direction: Int, currentDirection: Int, completion: @escaping (Result<String, AuthenticationError>) -> Void) {
         guard let token = DAKeychain.shared["token"] else { return } // Fetch
         

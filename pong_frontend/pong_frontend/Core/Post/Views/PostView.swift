@@ -9,6 +9,7 @@ import SwiftUI
 
 struct PostView: View {
     @Environment(\.presentationMode) var presentationMode
+    @ObservedObject var feedVM : FeedViewModel
     @StateObject var postVM = PostViewModel()
     @State private var message = ""
     @State var sheet = false
@@ -30,7 +31,9 @@ struct PostView: View {
                 postVM.readPost(postId: post.id) { result in
                     switch result {
                     case .success(let post):
+                        print("DEBUG: PostView Refreshable \(post)")
                         self.post = post
+                        print("DEBUG: PostView Refreshable \(self.post)")
                     case .failure(let error):
                         print("DEBUG: PostView readPost failure \(error)")
                     }
@@ -117,6 +120,21 @@ struct PostView: View {
                     // comments, share, mail, flag
                     Spacer()
                     
+                    // DELETE BUTTON
+                    if DAKeychain.shared["userId"] == post.user {
+                        Button {
+                            print("DEBUG: DELETE POST")
+                            DispatchQueue.main.async {
+                                postVM.deletePost(post: post, feedVM: feedVM) { result in
+                                    print("DEBUG: \(result)")
+                                }
+                                presentationMode.wrappedValue.dismiss()
+                            }
+                        } label: {
+                            Image(systemName: "trash")
+                        }
+                    }
+                    
                     Button {
                         sheet.toggle()
                     } label: {
@@ -153,6 +171,6 @@ struct PostView: View {
 
 struct PostView_Previews: PreviewProvider {
     static var previews: some View {
-        PostView(post: .constant(defaultPost))
+        PostView(feedVM: FeedViewModel(), post: .constant(defaultPost))
     }
 }
