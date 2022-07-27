@@ -9,20 +9,22 @@ import SwiftUI
 
 struct LeaderboardView: View {
     @Environment(\.presentationMode) var presentationMode
-    @StateObject var leaderboardVM = LeaderboardViewModel()
+    @StateObject private var leaderboardVM = LeaderboardViewModel()
+    @StateObject private var profileVM = ProfileViewModel()
     
     var body: some View {
         VStack {
             RefreshableScrollView {
-                Text("Your Karma: 201")
+                Text("Your Karma: \(profileVM.totalKarma)")
                     .font(.headline)
+                    .padding()
                 
                 VStack {
                     VStack (alignment: .leading) {
                         ForEach(leaderboardVM.leaderboardList) { entry in
                             HStack {
-                                Text("Placement")
-                                Text("\(entry.totalScore)")
+                                Text("\(entry.place).")
+                                Text("\(entry.score)")
                                 Spacer()
                             }
                         }
@@ -36,7 +38,10 @@ struct LeaderboardView: View {
                     .cornerRadius(10)         // You also need the cornerRadius here
                 }
             }
-            .onAppear(perform: leaderboardVM.getLeaderboard)
+            .onAppear {
+                leaderboardVM.getLeaderboard()
+                profileVM.getLoggedInUserInfo()
+            }
             .background(Color(UIColor.systemGroupedBackground))
             .navigationBarBackButtonHidden(true)
             .toolbar {
