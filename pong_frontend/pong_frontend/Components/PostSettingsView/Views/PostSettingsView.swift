@@ -9,7 +9,7 @@ import SwiftUI
 import GoogleSignIn
 
 struct PostSettingsView: View {
-    
+    @ObservedObject var postSettingsVM : PostSettingsViewModel
     var body: some View {
         ActionSheetView(bgColor: Color(UIColor.secondarySystemBackground)) {
             ScrollView {
@@ -17,19 +17,19 @@ struct PostSettingsView: View {
                     ForEach(PostSettingsOptionsViewModel.allCases, id: \.rawValue) { viewModel in
                         if viewModel == .save {
                             Button {
-                                print("DEBUG: SAVE")
+                                postSettingsVM.savePostAlamofire()
                             } label: {
                                 PostSettingsRowView(viewModel: viewModel)
                             }
                         } else if viewModel == .block {
                             Button {
-                                print("DEBUG: BLOCK")
+                                postSettingsVM.blockUserAlamofire()
                             } label: {
                                 PostSettingsRowView(viewModel: viewModel)
                             }
                         } else if viewModel == .report {
                             Button {
-                                print("DEBUG: REPORT")
+                                postSettingsVM.reportPostAlamofire()
                             } label: {
                                 PostSettingsRowView(viewModel: viewModel)
                             }
@@ -46,8 +46,8 @@ struct PostSettingsView: View {
     }
 }
 
-struct PostSettings_Previews: PreviewProvider {
-    static var previews: some View {
-        PostSettingsView()
-    }
-}
+//struct PostSettings_Previews: PreviewProvider {
+//    static var previews: some View {
+//        PostSettingsView()
+//    }
+//}

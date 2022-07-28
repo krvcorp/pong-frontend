@@ -8,6 +8,7 @@ target 'Pong' do
   
 
   # Pods for Pong
+  pod 'Alamofire'
   pod 'GoogleSignIn'
   pod 'GoogleSignInSwiftSupport'
 #  pod 'MSAL'

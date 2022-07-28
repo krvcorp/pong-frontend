@@ -14,6 +14,9 @@ struct Post: Codable, Identifiable {
     var image: String?
     var createdAt: String
     var updatedAt: String
+    var saved: Bool
+    var flagged: Bool
+    var blocked: Bool
     
     var numComments: Int
     var comments: [Comment]

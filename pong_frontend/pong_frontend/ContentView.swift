@@ -14,6 +14,7 @@ struct ContentView: View {
     @StateObject private var settingsSheetVM = SettingsSheetViewModel()
     @StateObject private var postSettingsVM = PostSettingsViewModel()
     
+    
     var body: some View {
         if DAKeychain.shared["token"] != nil && !loginVM.initialOnboard {
             MainInterfaceView
@@ -51,7 +52,7 @@ extension ContentView {
             }
             // PostSettingsView
             .popup(isPresented: $postSettingsVM.showPostSettingsView, type: .toast, position: .bottom, closeOnTap: false, closeOnTapOutside: true, backgroundColor: .black.opacity(0.4)) {
-                PostSettingsView()
+                PostSettingsView(postSettingsVM: postSettingsVM)
             }
         }
     }

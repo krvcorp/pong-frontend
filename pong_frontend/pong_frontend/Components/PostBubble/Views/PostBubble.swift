@@ -84,7 +84,6 @@ struct PostBubble: View {
                      Button {
                          DispatchQueue.main.async {
                              postSettingsVM.showPostSettingsView.toggle()
-//                             postSettingsVM.reportPost(postId: post.id)
                              postSettingsVM.post = self.post
                          }
                          
