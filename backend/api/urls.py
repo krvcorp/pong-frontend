@@ -25,12 +25,7 @@ urlpatterns = [
     ),
     path("comment/", views.ListCreateCommentAPIView.as_view(), name="comment"),
     # Post Report
-    path(
-        "postreport/<str:id>",
-        views.RetrieveUpdateDestroyPostReportAPIView.as_view(),
-        name="get_delete_update_postreport",
-    ),
-    path("postreport/", views.ListCreatePostReportAPIView.as_view(), name="postreport"),
+    path("postreport/", views.PostReportAPIView.as_view(), name="postreport"),
     # PostVote
     path(
         "postvote/<str:id>",

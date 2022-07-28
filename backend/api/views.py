@@ -80,13 +80,6 @@ class RetrieveUpdateDestroyCommentAPIView(RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAuthenticated & IsOwnerOrReadOnly | IsAdminUser,)
 
 
-class RetrieveUpdateDestroyPostReportAPIView(RetrieveUpdateDestroyAPIView):
-    lookup_field = "id"
-    serializer_class = PostReportSerializer
-    queryset = PostReport.objects.all()
-    permission_classes = (IsAuthenticated & IsOwnerOrReadOnly | IsAdminUser,)
-
-
 class RetrieveUpdateDestroyCommentVoteAPIView(RetrieveUpdateDestroyAPIView):
     lookup_field = "id"
     serializer_class = CommentVoteSerializer
@@ -278,20 +271,20 @@ class ListCreatePollAPIView(ListCreateAPIView):
         return super().perform_create(serializer)
 
 
-class ListCreatePostReportAPIView(ListCreateAPIView):
-    serializer_class = PostReportSerializer
-    queryset = PostReport.objects.all()
-    permission_classes = (IsAuthenticated,)
+class PostReportAPIView(APIView):
+    permission_classes = (IsAuthenticated | IsOwnerOrReadOnly,)
 
-    def create(self, request, *args, **kwargs):
-        # https://stackoverflow.com/questions/33861545/how-can-modify-request-data-in-django-rest-framework
-        # https://stackoverflow.com/questions/34661853/django-rest-framework-this-field-is-required-with-required-false-and-unique
-        print(request)
-        print(request.data)
-        request.data._mutable = True
-        request.data["user"] = request.user.id
-        request.data["post"] = request.data["post_id"]
-        return super().create(request, *args, **kwargs)
+    def post(self, request, *args, **kwargs):
+        post = Post.objects.get(id=self.request.data["post_id"])
+        post_report = PostReport.objects.create(user=request.user, post=post)
+        post_report.save()
+        return Response(status=status.HTTP_200_OK)
+
+    def delete(self, request, *args, **kwargs):
+        post = Post.objects.get(id=self.request.data["post_id"])
+        post_report = PostReport.objects.get(user=request.user, post=post)
+        post_report.delete()
+        return Response(status=status.HTTP_200_OK)
 
 
 class ListCreatePostVoteAPIView(ListCreateAPIView):
