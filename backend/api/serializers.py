@@ -4,6 +4,7 @@ from locale import normalize
 from attr import attr
 from rest_framework import serializers
 from .models import (
+    BlockedUser,
     User,
     Post,
     Comment,
@@ -53,21 +54,6 @@ class UserSerializer(serializers.ModelSerializer):
             "total_karma",
             "saved_posts",
         )
-
-
-# class UserSerializerWithoutTimeout(serializers.ModelSerializer):
-#     posts = serializers.SerializerMethodField(read_only=True)
-#     comments = serializers.SerializerMethodField(read_only=True)
-
-#     def get_posts(self, obj):
-#         return PostSerializer(obj.get_posts(), many=True).data
-
-#     def get_comments(self, obj):
-#         return CommentSerializer(obj.get_comments(), many=True).data
-
-#     class Meta:
-#         model = User
-#         fields = ("id", "email", "posts", "comments", "phone")
 
 
 class UserSerializerLeaderboard(serializers.ModelSerializer):
@@ -126,6 +112,8 @@ class PostSerializer(serializers.ModelSerializer):
     score = serializers.SerializerMethodField()
     time_since_posted = serializers.SerializerMethodField()
     vote_status = serializers.SerializerMethodField()
+    saved = serializers.SerializerMethodField()
+    blocked = serializers.SerializerMethodField()
 
     def get_num_comments(self, obj):
         return obj.num_comments()
@@ -140,6 +128,14 @@ class PostSerializer(serializers.ModelSerializer):
 
     def get_vote_status(self, obj):
         return self.context["request"].user.vote_status_post(obj)
+
+    def get_saved(self, obj):
+        return PostSave.objects.filter(
+            post=obj, user=self.context["request"].user
+        ).exists()
+
+    def get_blocked(self, obj):
+        return self.context["request"].user.check_if_blocked(obj.user)
 
     def get_time_since_posted(self, obj):
         time = datetime.now(timezone.utc) - obj.created_at
@@ -190,6 +186,9 @@ class PostSerializer(serializers.ModelSerializer):
             "score",
             "time_since_posted",
             "vote_status",
+            "saved",
+            "flagged",
+            "blocked",
         )
 
 

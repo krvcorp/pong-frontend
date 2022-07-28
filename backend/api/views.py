@@ -24,6 +24,7 @@ from .models import (
     DirectMessage,
     Token,
     PhoneLoginCode,
+    BlockedUser,
 )
 from .serializers import (
     DirectMessageSerializer,
@@ -100,18 +101,35 @@ class RetrieveUpdateDestroyPostVoteAPIView(RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAuthenticated & IsOwnerOrReadOnly | IsAdminUser,)
 
 
-# Retrieve Update Destroy PostSave  APIView
-class RetrieveUpdateDestroyPostSaveAPIView(RetrieveUpdateDestroyAPIView):
-    lookup_field = "id"
-    serializer_class = PostSaveSerializer
-    queryset = PostSave.objects.all()
+class PostSaveAPIView(APIView):
     permission_classes = (IsAuthenticated & IsOwnerOrReadOnly | IsAdminUser,)
 
+    def post(self, request, *args, **kwargs):
+        """
+        Creates a new PostSave object based off of post_id in the request body.
+        """
 
-class ListCreatePostSaveAPIView(ListCreateAPIView):
-    serializer_class = PostSaveSerializer
-    queryset = PostSave.objects.all()
-    permission_classes = (IsAuthenticated & IsNotInTimeout | IsAdminUser,)
+        post = Post.objects.get(id=request.data.get("post_id"))
+        if PostSave.objects.filter(user=request.user, post=post).exists():
+            return Response(
+                {"error": "post_already_saved"}, status=status.HTTP_400_BAD_REQUEST
+            )
+        post_save = PostSave.objects.create(post=post, user=request.user)
+        post_save.save()
+        return Response(status=status.HTTP_201_CREATED)
+
+    def delete(self, request, *args, **kwargs):
+        """
+        Deletes a PostSave object based off of post_id in the request body.
+        """
+
+        post = Post.objects.get(id=request.data.get("post_id"))
+        if not PostSave.objects.filter(user=request.user, post=post).exists():
+            return Response(
+                {"error": "post_not_saved"}, status=status.HTTP_400_BAD_REQUEST
+            )
+        PostSave.objects.filter(user=request.user, post=post).delete()
+        return Response(status=status.HTTP_200_OK)
 
 
 class ListCreateUserAPIView(ListCreateAPIView):
@@ -148,6 +166,35 @@ class LeaderboardAPIView(ListAPIView):
         queryset.sort(key=operator.attrgetter("total_karma"), reverse=True)
         queryset = queryset[:10]
         return queryset
+
+
+class BlockUserAPIView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request, *args, **kwargs):
+        """
+        Blocks a user based off of the ID of the post_id sent in the request
+        """
+        user = Post.objects.get(id=request.data["post_id"]).user
+        blocked_user = BlockedUser(blockee=user, blocker=request.user)
+        blocked_user.save()
+        return Response(status=status.HTTP_200_OK)
+
+    def delete(self, request, *args, **kwargs):
+        """
+        Unblocks a user based off of the ID of the post_id sent in the request
+        """
+        user = Post.objects.get(id=request.data["post_id"]).user
+        blocked_user = BlockedUser.objects.get(blocker=request.user, blockee=user)
+
+        if user == request.user:
+            return JsonResponse(
+                {"error": "You cannot block yourself"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        blocked_user.delete()
+        return Response(status=status.HTTP_200_OK)
 
 
 class ListCreatePostAPIView(ListCreateAPIView):

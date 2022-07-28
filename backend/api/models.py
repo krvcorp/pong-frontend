@@ -153,13 +153,18 @@ class User(AbstractBaseUser, PermissionsMixin):
         ]
         return posts
 
-    # get saved posts
     def get_saved_posts(self):
         return [
             postsaveobject.post
             for postsaveobject in PostSave.objects.filter(user=self)
             if postsaveobject.post
         ]
+
+    def check_if_blocked(self, user):
+        return (
+            BlockedUser.objects.filter(blockee=self, blocker=user).exists()
+            or BlockedUser.objects.filter(blockee=user, blocker=self).exists()
+        )
 
     def __str__(self):
         return self.phone
@@ -206,6 +211,7 @@ class Post(models.Model):
     poll = models.ForeignKey(
         "api.Poll", on_delete=models.SET_NULL, null=True, blank=True
     )
+    flagged = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

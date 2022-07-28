@@ -14,6 +14,7 @@ from api.models import (
     DirectMessage,
     PhoneLoginCode,
     PostSave,
+    BlockedUser,
 )
 
 
@@ -27,4 +28,5 @@ admin.site.register(DirectConversation)
 admin.site.register(DirectMessage)
 admin.site.register(PhoneLoginCode)
 admin.site.register(PostSave)
+admin.site.register(BlockedUser)
 # admin.site.register(DirectMessage)

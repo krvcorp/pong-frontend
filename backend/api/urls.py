@@ -47,12 +47,8 @@ urlpatterns = [
     path(
         "commentvote/", views.ListCreateCommentVoteAPIView.as_view(), name="commentvote"
     ),
-    path(
-        "postsave/<str:id>",
-        views.RetrieveUpdateDestroyPostSaveAPIView.as_view(),
-        name="get_delete_update_postsave",
-    ),
-    path("postsave/", views.ListCreatePostSaveAPIView.as_view(), name="postsave"),
+    path("block/", views.BlockUserAPIView.as_view(), name="block"),
+    path("postsave/", views.PostSaveAPIView.as_view(), name="postsave"),
     path("otp-start/", views.OTPStart.as_view(), name="otp-start"),
     path("otp-verify/", views.OTPVerify.as_view(), name="otp-verify"),
     path("verify-user/", views.VerifyUser.as_view(), name="verify-user"),
