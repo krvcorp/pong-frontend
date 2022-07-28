@@ -7,7 +7,7 @@
 import Foundation
 import SwiftUI
 
-class FeedViewModel: ObservableObject {
+@MainActor class FeedViewModel: ObservableObject {
     @Published var initalOpen : Bool = false
     @Published var topPosts : [Post] = []
     @Published var hotPosts : [Post] = []

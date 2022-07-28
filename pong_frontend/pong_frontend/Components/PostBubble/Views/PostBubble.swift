@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct PostBubble: View {
-    var post: Post
+    @State var post: Post
     @StateObject var postBubbleVM = PostBubbleViewModel()
     @StateObject private var loginVM = LoginViewModel()
     @ObservedObject var postSettingsVM : PostSettingsViewModel
+    @ObservedObject var feedVM: FeedViewModel
     // local logic for karma
     @State private var voteStatus = "none"
     @State private var tapped = false
@@ -21,13 +22,13 @@ struct PostBubble: View {
     
     var body: some View {
         // instead of navigationlink as a button, we use a container to toggle navigation link
-        NavigationLink("", destination: PostView(post: post), isActive: $tapped)
+        NavigationLink("", destination: PostView(feedVM: feedVM, post: $post), isActive: $tapped)
         
         VStack {
             VStack {
                 HStack(alignment: .top){
                     VStack(alignment: .leading){
-                        
+                        let _ = print("DEBUG: \(post.timeSincePosted)")
                         Text("\(post.timeSincePosted)")
                             .font(.caption)
                             .padding(.bottom, 4)
@@ -49,7 +50,7 @@ struct PostBubble: View {
                 HStack {
                     // comments, share, mail, flag
                     NavigationLink {
-                        PostView(post: post)
+                        PostView(feedVM: feedVM, post: $post)
                     }  label: {
                         Image(systemName: "bubble.left")
                         Text("\(post.numComments)")
@@ -62,7 +63,7 @@ struct PostBubble: View {
                     if DAKeychain.shared["userId"] == post.user {
                         Button {
                             print("DEBUG: DELETE POST")
-                            postBubbleVM.deletePost(postId: post.id) { result in
+                            postBubbleVM.deletePost(post: post, feedVM: feedVM) { result in
                                 print("DEBUG: \(result)")
                             }
                         } label: {
@@ -155,6 +156,6 @@ struct PostBubble: View {
 
 struct PostBubbleView_Previews: PreviewProvider {
     static var previews: some View {
-        PostBubble(post: defaultPost, postSettingsVM: PostSettingsViewModel())
+        PostBubble(post: defaultPost, postSettingsVM: PostSettingsViewModel(), feedVM: FeedViewModel())
     }
 }

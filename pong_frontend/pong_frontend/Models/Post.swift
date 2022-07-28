@@ -25,3 +25,9 @@ struct Post: Codable, Identifiable {
     var voteStatus: Int
 }
 
+extension Post: Equatable {}
+func ==(lhs: Post, rhs: Post) -> Bool {
+    let areEqual = lhs.id == rhs.id
+    return areEqual
+}
+

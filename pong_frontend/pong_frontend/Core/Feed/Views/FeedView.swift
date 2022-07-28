@@ -9,14 +9,17 @@ import SwiftUI
 import ScalingHeaderScrollView
 
 struct FeedView: View {
-    var school: String // will need to filter entire page by community
     @Namespace var animation
     @State var selectedFilter: FeedFilterViewModel
+    // observed objects
     @ObservedObject var feedVM: FeedViewModel
+    @ObservedObject var postSettingsVM: PostSettingsViewModel
+    // variables
     @State private var isRefreshing = false
     @State private var offset = CGSize.zero
     @State private var newPost = false
-    @ObservedObject var postSettingsVM: PostSettingsViewModel
+    var school: String // will need to filter entire page by community
+
 
     init(_ school: String, _ selectedFilter: FeedFilterViewModel, _ feedVM: FeedViewModel, _ postSettingsVM: PostSettingsViewModel) {
         self.school = school
@@ -26,64 +29,6 @@ struct FeedView: View {
     }
     
     var body: some View {
-        // EXYTE
-//        ZStack(alignment: .bottomTrailing) {
-//            ScalingHeaderScrollView {
-//                feedFilterBar
-//            } content: {
-//                TabView(selection: $selectedFilter) {
-//                    Text("Hello world")
-//                }
-//                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-//                .ignoresSafeArea(.all, edges: .bottom)
-//            }
-//
-//            // NewPost Overlay
-//            NavigationLink {
-//                NewPostView(newPost: $newPost)
-//            } label: {
-//                Image(systemName: "arrowshape.bounce.forward.fill")
-//                    .resizable()
-//                    .renderingMode(.template)
-//                    .frame(width: 50, height: 50)
-//                    .padding()
-//            }
-//            .foregroundColor(Color(UIColor.tertiarySystemBackground))
-//            .background(Color(UIColor.label))
-//            .clipShape(Circle())
-//            .padding()
-//            .shadow(radius: 10)
-//        }
-//        // when home appears, call api and load
-//        .onAppear {
-//            if !feedVM.initalOpen {
-//                feedVM.getPosts(selectedFilter: .hot)
-//                feedVM.getPosts(selectedFilter: .recent)
-//                feedVM.getPosts(selectedFilter: .top)
-//            }
-//        }
-//        .toolbar{
-//            ToolbarItem(placement: .navigationBarLeading) {
-//                NavigationLink {
-//                    ChooseLocationView()
-//                } label: {
-//                    Text("Harvard")
-//                        .font(.title.bold())
-//                        .foregroundColor(Color(UIColor.label))
-//                }
-//            }
-//
-//            ToolbarItem(){
-//                NavigationLink {
-//                    LeaderboardView()
-//                } label: {
-//                    Image(systemName: "chart.bar.fill")
-//                }
-//                .padding()
-//            }
-//        }
-//        .navigationBarTitleDisplayMode(.inline)
-
         // ORIGINAL
         VStack(spacing: 0) {
             feedFilterBar
@@ -152,28 +97,21 @@ struct FeedView: View {
                                 // top
                                 if view == .top {
                                     ForEach(feedVM.topPosts) { post in
-                                        PostBubble(post: post, postSettingsVM: postSettingsVM)
+                                        PostBubble(post: post, postSettingsVM: postSettingsVM, feedVM: feedVM)
                                     }
                                 }
                                 
                                 // hot
                                 else if view == .hot {
                                     ForEach(feedVM.hotPosts) { post in
-                                        PostBubble(post: post, postSettingsVM: postSettingsVM)
+                                        PostBubble(post: post, postSettingsVM: postSettingsVM, feedVM: feedVM)
                                     }
                                 }
                                 
                                 // recent
                                 else if view == .recent {
                                     ForEach(feedVM.recentPosts) { post in
-                                        PostBubble(post: post, postSettingsVM: postSettingsVM)
-                                    }
-                                }
-                                
-                                // default
-                                else {
-                                    ForEach(feedVM.hotPosts) { post in
-                                        PostBubble(post: post, postSettingsVM: postSettingsVM)
+                                        PostBubble(post: post, postSettingsVM: postSettingsVM, feedVM: feedVM)
                                     }
                                 }
                             }
