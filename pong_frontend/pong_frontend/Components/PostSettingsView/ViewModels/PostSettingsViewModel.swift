@@ -7,36 +7,56 @@
 
 
 import Foundation
+import Alamofire
 
 @MainActor class PostSettingsViewModel: ObservableObject {
     
     @Published var post: Post = defaultPost
     @Published var showPostSettingsView : Bool = false
     
-    func reportPost(postId: String) {
-        guard let token = DAKeychain.shared["token"] else { return }
-        guard let url = URL(string: "\(API().root)postreport/") else {
-            return
+    
+    func reportPostAlamofire() {
+        let parameters: [String: Any] = [
+            "post_id": post.id
+        ]
+        let method = HTTPMethod.post
+        let headers: HTTPHeaders = [
+            "Authorization": "Token \(DAKeychain.shared["token"]!)",
+            "Content-Type": "application/x-www-form-urlencoded"
+        ]
+
+        AF.request("\(API().root)postreport/", method: method, parameters: parameters, headers: headers).response { response in
+            debugPrint(response)
         }
-        
-        let body = CreatePostReportRequestBody(postId: postId)
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("Token \(token)", forHTTPHeaderField: "Authorization")
-        let encoder = JSONEncoder()
-        encoder.keyEncodingStrategy = .convertToSnakeCase
-        request.httpBody = try? encoder.encode(body)
-        
-        URLSession.shared.dataTask(with: request) { (data, response, error) in
-            
-            guard let data = data, error == nil else { return }
-            
-            let decoder = JSONDecoder()
-            decoder.keyDecodingStrategy = .convertFromSnakeCase
-            guard let commentResponse = try? decoder.decode(Comment.self, from: data) else { return }
-            debugPrint(commentResponse)
-            
-        }.resume()
+    }
+
+    func savePostAlamofire() {
+        let parameters: [String: Any] = [
+            "post_id": post.id
+        ]
+        let method = HTTPMethod.post
+        let headers: HTTPHeaders = [
+            "Authorization": "Token \(DAKeychain.shared["token"]!)",
+            "Content-Type": "application/x-www-form-urlencoded"
+        ]
+
+        AF.request("\(API().root)postsave/", method: method, parameters: parameters, headers: headers).response { response in
+            debugPrint(response)
+        }
+    }
+
+    func blockUserAlamofire() {
+        let parameters: [String: Any] = [
+            "post_id": post.id
+        ]
+        let method = HTTPMethod.post
+        let headers: HTTPHeaders = [
+            "Authorization": "Token \(DAKeychain.shared["token"]!)",
+            "Content-Type": "application/x-www-form-urlencoded"
+        ]
+
+        AF.request("\(API().root)block/", method: method, parameters: parameters, headers: headers).response { response in
+            debugPrint(response)
+        }
     }
 }
