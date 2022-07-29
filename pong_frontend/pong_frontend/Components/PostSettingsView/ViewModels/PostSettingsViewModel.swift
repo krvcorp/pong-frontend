@@ -12,6 +12,7 @@ import Alamofire
 @MainActor class PostSettingsViewModel: ObservableObject {
     @Published var post: Post = defaultPost
     @Published var showPostSettingsView : Bool = false
+    @Published var showDeleteConfirmationView : Bool = false
     
     
     func reportPostAlamofire() {

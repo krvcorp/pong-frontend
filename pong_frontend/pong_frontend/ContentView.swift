@@ -13,6 +13,7 @@ struct ContentView: View {
     @StateObject private var loginVM = LoginViewModel()
     @StateObject private var settingsSheetVM = SettingsSheetViewModel()
     @StateObject private var postSettingsVM = PostSettingsViewModel()
+    @StateObject private var feedVM = FeedViewModel()
     
     
     var body: some View {
@@ -29,7 +30,7 @@ struct ContentView: View {
 extension ContentView {
     var MainInterfaceView: some View {
         ZStack(alignment: .topTrailing){
-            MainTabView(settingsSheetVM: settingsSheetVM, postSettingsVM: postSettingsVM)
+            MainTabView(settingsSheetVM: settingsSheetVM, postSettingsVM: postSettingsVM, feedVM: feedVM)
             // SettingsSheetView
             .popup(isPresented: $settingsSheetVM.showSettingsSheetView, type: .toast, position: .bottom, closeOnTap: false, closeOnTapOutside: true, backgroundColor: .black.opacity(0.4)) {
                 SettingsSheetView(loginVM: loginVM, settingsSheetVM: settingsSheetVM)
@@ -53,6 +54,10 @@ extension ContentView {
             // PostSettingsView
             .popup(isPresented: $postSettingsVM.showPostSettingsView, type: .toast, position: .bottom, closeOnTap: false, closeOnTapOutside: true, backgroundColor: .black.opacity(0.4)) {
                 PostSettingsView(postSettingsVM: postSettingsVM)
+            }
+            // DeleteConfirmationView
+            .popup(isPresented: $postSettingsVM.showDeleteConfirmationView, type: .`default`, closeOnTap: false, closeOnTapOutside: true, backgroundColor: .black.opacity(0.4)) {
+                DeleteConfirmationView(postSettingsVM: postSettingsVM, feedVM: feedVM)
             }
         }
     }

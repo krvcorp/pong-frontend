@@ -63,9 +63,8 @@ struct PostBubble: View {
                     if DAKeychain.shared["userId"] == post.user {
                         Button {
                             print("DEBUG: DELETE POST")
-                            postBubbleVM.deletePost(post: post, feedVM: feedVM) { result in
-                                print("DEBUG: \(result)")
-                            }
+                            postSettingsVM.showDeleteConfirmationView.toggle()
+                            postSettingsVM.post = post
                         } label: {
                             Image(systemName: "trash")
                         }
@@ -101,7 +100,6 @@ struct PostBubble: View {
         .background(Color(UIColor.tertiarySystemBackground)) // If you have this
         .cornerRadius(10)         // You also need the cornerRadius here
         .onTapGesture {
-            // some issue here idk what's up
             feedVM.readPost(post: post) { result in
                 switch result {
                 case .success(let postResult):

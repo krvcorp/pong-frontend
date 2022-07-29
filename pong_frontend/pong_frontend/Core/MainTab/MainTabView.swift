@@ -16,8 +16,10 @@ enum Tabs: String {
 struct MainTabView: View {
     @ObservedObject var settingsSheetVM : SettingsSheetViewModel
     @ObservedObject var postSettingsVM : PostSettingsViewModel
+    @ObservedObject var feedVM : FeedViewModel
+    // tab selection
     @State private var selection = 0
-    @StateObject private var feedVM = FeedViewModel()
+
     
     var handler: Binding<Int> { Binding(
         get: { self.selection },

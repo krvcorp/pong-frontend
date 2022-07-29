@@ -10,6 +10,7 @@ import GoogleSignIn
 
 struct PostSettingsView: View {
     @ObservedObject var postSettingsVM : PostSettingsViewModel
+    
     var body: some View {
         ActionSheetView(bgColor: Color(UIColor.secondarySystemBackground)) {
             ScrollView {
@@ -46,8 +47,8 @@ struct PostSettingsView: View {
     }
 }
 
-//struct PostSettings_Previews: PreviewProvider {
-//    static var previews: some View {
-//        PostSettingsView()
-//    }
-//}
+struct PostSettings_Previews: PreviewProvider {
+    static var previews: some View {
+        PostSettingsView(postSettingsVM: PostSettingsViewModel())
+    }
+}
