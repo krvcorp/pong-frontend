@@ -32,30 +32,6 @@ struct ProfileView: View {
                 .ignoresSafeArea(.all, edges: .bottom)
         }
         .background(Color(UIColor.tertiarySystemBackground))
-        .toolbar {
-            ToolbarItem(placement: .principal) {
-                Text("Me")
-                    .font(.title.bold())
-            }
-            
-            ToolbarItem(){
-                Button {
-                    withAnimation(.easeInOut) {
-                        settingsSheetVM.showSettingsSheetView.toggle()
-                    }
-                } label: {
-                    Image(systemName: "gearshape.fill")
-                }
-                .padding()
-            }
-        }
-        .navigationBarTitleDisplayMode(.inline)
-        .onAppear {
-            profileVM.getLoggedInUserInfo()
-        }
-
-
-        
     }
     
     var profileFilterBar: some View {

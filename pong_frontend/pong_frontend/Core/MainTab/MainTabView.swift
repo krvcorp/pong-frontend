@@ -18,46 +18,96 @@ struct MainTabView: View {
     @ObservedObject var postSettingsVM : PostSettingsViewModel
     @ObservedObject var feedVM : FeedViewModel
     // tab selection
-    @State private var selection = 0
-
+    @State private var tabSelection : Tabs = .feed
     
-    var handler: Binding<Int> { Binding(
-        get: { self.selection },
+    var handler: Binding<Tabs> { Binding(
+        get: { self.tabSelection },
         set: {
             // add some logic here that checks if the user is scrolled to the top
             // if the user is not scrolled to the top, just scroll to the top
             // if the user is scrolled to the top, activate pull to refresh
-            if $0 == self.selection {
+            if $0 == self.tabSelection {
                 print("Refresh Home!")
                 feedVM.getPosts(selectedFilter: .top)
                 feedVM.getPosts(selectedFilter: .hot)
                 feedVM.getPosts(selectedFilter: .recent)
             }
-            self.selection = $0
+            self.tabSelection = $0
         }
     )}
     
     var body: some View {
-    
-        TabView(selection: handler) {
-            NavigationView {
-//                FeedView("Harvard", .hot, feedVM, postSettingsVM)
+        NavigationView {
+            TabView(selection: handler) {
                 FeedView(selectedFilter: .hot, feedVM: feedVM, postSettingsVM: postSettingsVM, school: "Harvard")
-            }
-            .tabItem{Image(systemName: "house")}
-            .tag(0)
-            
-            NavigationView {
+                .tabItem{Image(systemName: "house")}
+                .tag(Tabs.feed)
+
                 MessagesView()
-            }
-            .tabItem{Image(systemName: "envelope")}
-            .tag(1)
-            
-            NavigationView {
+                .tabItem{Image(systemName: "envelope")}
+                .tag(Tabs.messages)
+
                 ProfileView(settingsSheetVM: settingsSheetVM)
+                .tabItem{Image(systemName: "person")}
+                .tag(Tabs.profile)
             }
-            .tabItem{Image(systemName: "person")}
-            .tag(2)
+            // this bad boy is the toolbar
+            .toolbar {
+                // toolbar item in the left
+                ToolbarItem(placement: .navigationBarLeading) {
+                    if self.tabSelection == .feed {
+                        NavigationLink {
+                            ChooseLocationView()
+                        } label: {
+                            Text("Harvard")
+                                .font(.title.bold())
+                                .foregroundColor(Color(UIColor.label))
+                        }
+                    } else if self.tabSelection == .messages {
+                    }
+                }
+                
+                // toolbar item in the center
+                ToolbarItem(placement: .principal) {
+                    if self.tabSelection == .profile {
+                        Text("Me")
+                            .font(.title.bold())
+                    } else if self.tabSelection == .messages {
+                        Text("Messages")
+                            .font(.title.bold())
+                    }
+                }
+                
+                // toolbar item on the right
+                ToolbarItem(){
+                    if self.tabSelection == .feed {
+                        NavigationLink {
+                            LeaderboardView()
+                        } label: {
+                            Image(systemName: "chart.bar.fill")
+                        }
+                        .padding()
+                    } else if self.tabSelection == .messages {
+                        NavigationLink {
+                            NewChatView()
+                        } label: {
+                            Image(systemName: "plus.message.fill")
+                        }
+                        .padding()
+                    } else if self.tabSelection == .profile {
+                        Button {
+                            withAnimation(.easeInOut) {
+                                settingsSheetVM.showSettingsSheetView.toggle()
+                            }
+                        } label: {
+                            Image(systemName: "gearshape.fill")
+                        }
+                        .padding()
+                    }
+
+                }
+            }
+            .navigationBarTitleDisplayMode(.inline)
         }
         .onAppear {
             // correct the transparency bug for Tab bars
@@ -79,3 +129,8 @@ struct MainTabView: View {
     }
 }
 
+struct MainTabView_Previews: PreviewProvider {
+    static var previews: some View {
+        MainTabView(settingsSheetVM: SettingsSheetViewModel(), postSettingsVM: PostSettingsViewModel(), feedVM: FeedViewModel())
+    }
+}

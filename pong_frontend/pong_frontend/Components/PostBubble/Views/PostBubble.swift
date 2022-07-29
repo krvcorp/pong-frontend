@@ -48,14 +48,9 @@ struct PostBubble: View {
 
                 HStack {
                     // comments, share, mail, flag
-                    NavigationLink {
-                        PostView(feedVM: feedVM, postSettingsVM: postSettingsVM, post: $post)
-//                        PostView(post: $post)
-                    }  label: {
-                        Image(systemName: "bubble.left")
-                        Text("\(post.numComments)")
-                            .font(.subheadline).bold()
-                    }
+                    Image(systemName: "bubble.left")
+                    Text("\(post.numComments)")
+                        .font(.subheadline).bold()
 
                     Spacer()
                     

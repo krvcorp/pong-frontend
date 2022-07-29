@@ -30,22 +30,6 @@ struct MessagesView: View {
                 }
             }
         }
-        .toolbar {
-            ToolbarItem(placement: .principal) {
-                Text("Messages")
-                    .font(.title.bold())
-            }
-            
-            ToolbarItem(){
-                NavigationLink {
-                    NewChatView()
-                } label: {
-                    Image(systemName: "plus.message.fill")
-                }
-                .padding()
-            }
-        }
-        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

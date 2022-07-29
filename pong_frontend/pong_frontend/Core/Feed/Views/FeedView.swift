@@ -34,27 +34,6 @@ struct FeedView: View {
             feedFilterBar
             feedItself
         }
-        .toolbar{
-            ToolbarItem(placement: .navigationBarLeading) {
-                NavigationLink {
-                    ChooseLocationView()
-                } label: {
-                    Text("Harvard")
-                        .font(.title.bold())
-                        .foregroundColor(Color(UIColor.label))
-                }
-            }
-
-            ToolbarItem(){
-                NavigationLink {
-                    LeaderboardView()
-                } label: {
-                    Image(systemName: "chart.bar.fill")
-                }
-                .padding()
-            }
-        }
-        .navigationBarTitleDisplayMode(.inline)
     }
     
     var feedFilterBar: some View {
@@ -170,7 +149,6 @@ struct FeedView: View {
 
 struct FeedView_Previews: PreviewProvider {
     static var previews: some View {
-//        FeedView("Harvard", .hot, FeedViewModel(), PostSettingsViewModel())
         FeedView(selectedFilter: .hot, feedVM: FeedViewModel(), postSettingsVM: PostSettingsViewModel(), school: "Harvard")
     }
 }
