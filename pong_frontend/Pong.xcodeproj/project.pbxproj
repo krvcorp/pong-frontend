@@ -23,6 +23,8 @@
 		6A5479AB288FA2A500BC18CD /* NotificationsSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5479AA288FA2A500BC18CD /* NotificationsSheetView.swift */; };
 		6A5479AD28904C7A00BC18CD /* ProfileSettingsAbstractedEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5479AC28904C7A00BC18CD /* ProfileSettingsAbstractedEnums.swift */; };
 		6A5479AF289056F300BC18CD /* PreferencesSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5479AE289056F300BC18CD /* PreferencesSettingsViewModel.swift */; };
+		6A5479BD289462C300BC18CD /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5479BC289462C300BC18CD /* NetworkManager.swift */; };
+		6A5479C02894655800BC18CD /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5479BF2894655800BC18CD /* AuthManager.swift */; };
 		6A5C9CFD288EEF6B00B57587 /* SettingsSheetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5C9CFC288EEF6B00B57587 /* SettingsSheetViewModel.swift */; };
 		6A5C9CFF288EF68900B57587 /* AccountsSheetEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5C9CFE288EF68900B57587 /* AccountsSheetEnum.swift */; };
 		6A5C9D01288EF6E700B57587 /* AccountsSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5C9D00288EF6E700B57587 /* AccountsSheetView.swift */; };
@@ -126,6 +128,8 @@
 		6A5479AA288FA2A500BC18CD /* NotificationsSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsSheetView.swift; sourceTree = "<group>"; };
 		6A5479AC28904C7A00BC18CD /* ProfileSettingsAbstractedEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsAbstractedEnums.swift; sourceTree = "<group>"; };
 		6A5479AE289056F300BC18CD /* PreferencesSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesSettingsViewModel.swift; sourceTree = "<group>"; };
+		6A5479BC289462C300BC18CD /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		6A5479BF2894655800BC18CD /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		6A5C9CFC288EEF6B00B57587 /* SettingsSheetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSheetViewModel.swift; sourceTree = "<group>"; };
 		6A5C9CFE288EF68900B57587 /* AccountsSheetEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsSheetEnum.swift; sourceTree = "<group>"; };
 		6A5C9D00288EF6E700B57587 /* AccountsSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsSheetView.swift; sourceTree = "<group>"; };
@@ -356,6 +360,15 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
+		6A5479BB289462B100BC18CD /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				6A5479BF2894655800BC18CD /* AuthManager.swift */,
+				6A5479BC289462C300BC18CD /* NetworkManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
 		6A5DF0DA2851321000F28A06 = {
 			isa = PBXGroup;
 			children = (
@@ -377,6 +390,7 @@
 		6A5DF0E52851321000F28A06 /* pong_frontend */ = {
 			isa = PBXGroup;
 			children = (
+				6A5479BB289462B100BC18CD /* Managers */,
 				6A5DF106285134ED00F28A06 /* Models */,
 				6A3F3D89286A7ABB00EC43A3 /* ViewModels */,
 				6A5DF11F285134EE00F28A06 /* Components */,
@@ -979,6 +993,7 @@
 				6A5DF15B285134EE00F28A06 /* FeedFilterViewModel.swift in Sources */,
 				6A68DC5C288E574F00BF2775 /* PostSettingsView.swift in Sources */,
 				6AEB625A287DA739007CA113 /* OTPVerifyRequestBody.swift in Sources */,
+				6A5479BD289462C300BC18CD /* NetworkManager.swift in Sources */,
 				6A5C9D0B288F663600B57587 /* PreferencesSettingsEnum.swift in Sources */,
 				6A68DC26288A1A6C00BF2775 /* ReportView.swift in Sources */,
 				6A5C9D05288F4A2A00B57587 /* NotificationsSheetEnum.swift in Sources */,
@@ -988,6 +1003,7 @@
 				6AEB6264287DA85E007CA113 /* PostRequestBody.swift in Sources */,
 				6A5C9CFD288EEF6B00B57587 /* SettingsSheetViewModel.swift in Sources */,
 				6AEB626F287DB69C007CA113 /* PostBubbleViewModel.swift in Sources */,
+				6A5479C02894655800BC18CD /* AuthManager.swift in Sources */,
 				6A68DC37288A28C000BF2775 /* LeaderboardViewModel.swift in Sources */,
 				6A5DF151285134EE00F28A06 /* LeaderboardView.swift in Sources */,
 				6A68DC28288A1A7400BF2775 /* ReportViewModel.swift in Sources */,
