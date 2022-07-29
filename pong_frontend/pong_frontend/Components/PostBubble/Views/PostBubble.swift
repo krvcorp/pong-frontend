@@ -12,7 +12,7 @@ struct PostBubble: View {
     @StateObject var postBubbleVM = PostBubbleViewModel()
     @StateObject private var loginVM = LoginViewModel()
     @ObservedObject var postSettingsVM : PostSettingsViewModel
-     @ObservedObject var feedVM: FeedViewModel
+    @ObservedObject var feedVM: FeedViewModel
     // local logic for karma
     @State private var voteStatus = "none"
     @State private var tapped = false
@@ -23,7 +23,6 @@ struct PostBubble: View {
     var body: some View {
         // instead of navigationlink as a button, we use a container to toggle navigation link
         NavigationLink("", destination: PostView(feedVM: feedVM, post: $post), isActive: $tapped)
-//        NavigationLink("", destination: PostView(post: $post), isActive: $tapped)
         
         VStack {
             VStack {
@@ -102,6 +101,15 @@ struct PostBubble: View {
         .background(Color(UIColor.tertiarySystemBackground)) // If you have this
         .cornerRadius(10)         // You also need the cornerRadius here
         .onTapGesture {
+            // some issue here idk what's up
+            feedVM.readPost(post: post) { result in
+                switch result {
+                case .success(let postResult):
+                    self.post = postResult
+                case .failure(let errorMessage):
+                    print("DEBUG: \(errorMessage)")
+                }
+            }
             tapped.toggle()
         }
     }

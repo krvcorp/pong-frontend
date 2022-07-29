@@ -71,4 +71,48 @@ class FeedViewModel: ObservableObject {
         // activates api call
         task.resume()
     }
+    
+    // this logic should probably go into feedviewmodel where tapping on a post calls an API to get updated post information regarding a post
+    func readPost(post: Post, completion: @escaping (Result<Post, AuthenticationError>) -> Void) {
+        print("DEBUG: PostBubbleVM readPost \(post.id)")
+        
+        guard let token = DAKeychain.shared["token"] else { return }
+        guard let url = URL(string: "\(API().root)post/\(post.id)/") else {
+            completion(.failure(.custom(errorMessage: "URL is not correct")))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("Token \(token)", forHTTPHeaderField: "Authorization")
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            guard let data = data, error == nil else {
+                completion(.failure(.custom(errorMessage: "No data")))
+                return
+            }
+            
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            guard let postResponse = try? decoder.decode(Post.self, from: data) else {
+                completion(.failure(.custom(errorMessage: "Decode failure")))
+                return
+            }
+            // replace the local post
+            if let index = self.hotPosts.firstIndex(of: post) {
+                self.hotPosts[index] = postResponse
+            }
+            if let index = self.recentPosts.firstIndex(of: post) {
+                self.recentPosts[index] = postResponse
+            }
+            if let index = self.topPosts.firstIndex(of: post) {
+                self.topPosts[index] = postResponse
+            }
+            
+            completion(.success(postResponse))
+            
+
+        }.resume()
+    }
 }
