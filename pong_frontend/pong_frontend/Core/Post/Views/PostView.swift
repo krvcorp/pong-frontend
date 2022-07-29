@@ -10,6 +10,7 @@ import SwiftUI
 struct PostView: View {
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var feedVM : FeedViewModel
+    @ObservedObject var postSettingsVM : PostSettingsViewModel
     @StateObject var postVM = PostViewModel()
     @State private var message = ""
     @State var sheet = false
@@ -125,10 +126,8 @@ struct PostView: View {
                         Button {
                             print("DEBUG: DELETE POST")
                             DispatchQueue.main.async {
-                                postVM.deletePost(post: post, feedVM: feedVM) { result in
-                                    print("DEBUG: \(result)")
-                                }
-                                presentationMode.wrappedValue.dismiss()
+                                postSettingsVM.showDeleteConfirmationView.toggle()
+                                postSettingsVM.post = post
                             }
                         } label: {
                             Image(systemName: "trash")
@@ -171,6 +170,6 @@ struct PostView: View {
 
 struct PostView_Previews: PreviewProvider {
     static var previews: some View {
-        PostView(feedVM: FeedViewModel(), post: .constant(defaultPost))
+        PostView(feedVM: FeedViewModel(), postSettingsVM: PostSettingsViewModel(), post: .constant(defaultPost))
     }
 }

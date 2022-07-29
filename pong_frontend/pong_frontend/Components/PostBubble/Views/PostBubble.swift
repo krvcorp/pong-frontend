@@ -22,7 +22,7 @@ struct PostBubble: View {
     
     var body: some View {
         // instead of navigationlink as a button, we use a container to toggle navigation link
-        NavigationLink("", destination: PostView(feedVM: feedVM, post: $post), isActive: $tapped)
+        NavigationLink("", destination: PostView(feedVM: feedVM,postSettingsVM: postSettingsVM, post: $post), isActive: $tapped)
         
         VStack {
             VStack {
@@ -49,7 +49,7 @@ struct PostBubble: View {
                 HStack {
                     // comments, share, mail, flag
                     NavigationLink {
-                        PostView(feedVM: feedVM, post: $post)
+                        PostView(feedVM: feedVM, postSettingsVM: postSettingsVM, post: $post)
 //                        PostView(post: $post)
                     }  label: {
                         Image(systemName: "bubble.left")
