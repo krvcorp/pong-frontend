@@ -69,13 +69,14 @@ class ProfileViewModel: ObservableObject {
         guard let userId = DAKeychain.shared["userId"] else { return }
 
         guard let url = URL(string: "\(API().root)" + "user/" + userId + "/") else { return }
+        print("DEBUG: \(url)")
 
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("Token \(token)", forHTTPHeaderField: "Authorization")
 
-        URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
+        URLSession.shared.dataTask(with: request) { data, response, error in
             
             guard let data = data, error == nil else { return }
             print("DEBUG: ProfileVM getLoggedInUserInfo data: \(data)")
@@ -87,12 +88,12 @@ class ProfileViewModel: ObservableObject {
                 return
             }
             print("DEBUG: ProfileVM \(loggedInUserInfoResponse)")
-            self?.totalKarma = loggedInUserInfoResponse.totalKarma
-            self?.commentKarma = loggedInUserInfoResponse.commentKarma
-            self?.postKarma = loggedInUserInfoResponse.postKarma
-            self?.savedPosts = loggedInUserInfoResponse.savedPosts
-            self?.posts = loggedInUserInfoResponse.posts
-            self?.comments = loggedInUserInfoResponse.comments
+            self.totalKarma = loggedInUserInfoResponse.totalKarma
+            self.commentKarma = loggedInUserInfoResponse.commentKarma
+            self.postKarma = loggedInUserInfoResponse.postKarma
+            self.savedPosts = loggedInUserInfoResponse.savedPosts
+            self.posts = loggedInUserInfoResponse.posts
+            self.comments = loggedInUserInfoResponse.comments
 
         }.resume()
     }

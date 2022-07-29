@@ -39,7 +39,8 @@ struct MainTabView: View {
     
         TabView(selection: handler) {
             NavigationView {
-                FeedView("Harvard", .hot, feedVM, postSettingsVM)
+//                FeedView("Harvard", .hot, feedVM, postSettingsVM)
+                FeedView(selectedFilter: .hot, feedVM: feedVM, postSettingsVM: postSettingsVM, school: "Harvard")
             }
             .tabItem{Image(systemName: "house")}
             .tag(0)

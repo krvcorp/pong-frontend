@@ -23,19 +23,20 @@ class FeedViewModel: ObservableObject {
         let url_to_use: String
         
         if selectedFilter == .recent {
-//            print("DEBUG: GETPOSTS Recent")
+            print("DEBUG: GETPOSTS Recent")
             url_to_use = "\(API().root)post/?sort=new"
         } else if selectedFilter == .top {
-//            print("DEBUG: GETPOSTS Top")
+            print("DEBUG: GETPOSTS Top")
             url_to_use = "\(API().root)post/?sort=top"
         } else {
-//            print("DEBUG: GETPOSTS Default Order")
+            print("DEBUG: GETPOSTS Default Order")
             url_to_use = "\(API().root)post/?sort=old"
         }
         
         // URL handler
         
         guard let url = URL(string: url_to_use) else { return }
+        print("DEBUG: \(url)")
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
@@ -55,7 +56,9 @@ class FeedViewModel: ObservableObject {
                     if selectedFilter == .hot {
                         self?.hotPosts = posts
                     } else if selectedFilter == .recent {
+                        print("DEBUG: \(posts)")
                         self?.recentPosts = posts
+                        print("DEBUG: \(self!.recentPosts)")
                     } else if selectedFilter == .top {
                         self?.topPosts = posts
                     }

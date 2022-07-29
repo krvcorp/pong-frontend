@@ -20,13 +20,13 @@ struct FeedView: View {
     @State private var newPost = false
     var school: String // will need to filter entire page by community
 
-
-    init(_ school: String, _ selectedFilter: FeedFilterViewModel, _ feedVM: FeedViewModel, _ postSettingsVM: PostSettingsViewModel) {
-        self.school = school
-        self.selectedFilter = selectedFilter
-        self.feedVM = feedVM
-        self.postSettingsVM = postSettingsVM
-    }
+// remove init function because unnecessary for now
+//    init(_ school: String, _ selectedFilter: FeedFilterViewModel, _ feedVM: FeedViewModel, _ postSettingsVM: PostSettingsViewModel) {
+//        self.school = school
+//        self.selectedFilter = selectedFilter
+//        self.feedVM = feedVM
+//        self.postSettingsVM = postSettingsVM
+//    }
     
     var body: some View {
         // ORIGINAL
@@ -96,21 +96,22 @@ struct FeedView: View {
                             LazyVStack {
                                 // top
                                 if view == .top {
-                                    ForEach(feedVM.topPosts) { post in
+                                    ForEach(feedVM.recentPosts, id: \.self) { post in
                                         PostBubble(post: post, postSettingsVM: postSettingsVM, feedVM: feedVM)
+//                                        PostBubble(post: post, postSettingsVM: postSettingsVM)
                                     }
                                 }
                                 
                                 // hot
                                 else if view == .hot {
-                                    ForEach(feedVM.hotPosts) { post in
+                                    ForEach(feedVM.recentPosts, id: \.self) { post in
                                         PostBubble(post: post, postSettingsVM: postSettingsVM, feedVM: feedVM)
                                     }
                                 }
                                 
                                 // recent
                                 else if view == .recent {
-                                    ForEach(feedVM.recentPosts) { post in
+                                    ForEach(feedVM.recentPosts, id: \.self) { post in
                                         PostBubble(post: post, postSettingsVM: postSettingsVM, feedVM: feedVM)
                                     }
                                 }
@@ -169,6 +170,7 @@ struct FeedView: View {
 
 struct FeedView_Previews: PreviewProvider {
     static var previews: some View {
-        FeedView("Harvard", .hot, FeedViewModel(), PostSettingsViewModel())
+//        FeedView("Harvard", .hot, FeedViewModel(), PostSettingsViewModel())
+        FeedView(selectedFilter: .hot, feedVM: FeedViewModel(), postSettingsVM: PostSettingsViewModel(), school: "Harvard")
     }
 }

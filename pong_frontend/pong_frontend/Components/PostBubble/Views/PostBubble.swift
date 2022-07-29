@@ -12,7 +12,7 @@ struct PostBubble: View {
     @StateObject var postBubbleVM = PostBubbleViewModel()
     @StateObject private var loginVM = LoginViewModel()
     @ObservedObject var postSettingsVM : PostSettingsViewModel
-    @ObservedObject var feedVM: FeedViewModel
+     @ObservedObject var feedVM: FeedViewModel
     // local logic for karma
     @State private var voteStatus = "none"
     @State private var tapped = false
@@ -23,12 +23,12 @@ struct PostBubble: View {
     var body: some View {
         // instead of navigationlink as a button, we use a container to toggle navigation link
         NavigationLink("", destination: PostView(feedVM: feedVM, post: $post), isActive: $tapped)
+//        NavigationLink("", destination: PostView(post: $post), isActive: $tapped)
         
         VStack {
             VStack {
                 HStack(alignment: .top){
                     VStack(alignment: .leading){
-                        let _ = print("DEBUG: \(post.timeSincePosted)")
                         Text("\(post.timeSincePosted)")
                             .font(.caption)
                             .padding(.bottom, 4)
@@ -51,6 +51,7 @@ struct PostBubble: View {
                     // comments, share, mail, flag
                     NavigationLink {
                         PostView(feedVM: feedVM, post: $post)
+//                        PostView(post: $post)
                     }  label: {
                         Image(systemName: "bubble.left")
                         Text("\(post.numComments)")

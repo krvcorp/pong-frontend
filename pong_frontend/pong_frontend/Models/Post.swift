@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Post: Codable, Identifiable {
+struct Post: Hashable, Codable, Identifiable {
     var id: String
     var user: String
     var title: String
@@ -25,9 +25,10 @@ struct Post: Codable, Identifiable {
     var voteStatus: Int
 }
 
-extension Post: Equatable {}
-func ==(lhs: Post, rhs: Post) -> Bool {
-    let areEqual = lhs.id == rhs.id
-    return areEqual
-}
+// THIS FUCKING EXTENSION BROKE EVERYTHING????????? WTF
+//extension Post: Equatable {}
+//func ==(lhs: Post, rhs: Post) -> Bool {
+//    let areEqual = lhs.id == rhs.id
+//    return areEqual
+//}
 
