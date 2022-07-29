@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from pytz import timezone
 from .models import (
+    CommentReport,
     Poll,
     PostSave,
     User,
@@ -278,12 +279,40 @@ class PostReportAPIView(APIView):
         post = Post.objects.get(id=self.request.data["post_id"])
         post_report = PostReport.objects.create(user=request.user, post=post)
         post_report.save()
+
+        if post.num_reports() > 5:
+            post.flagged = True
+            post.save()
+
         return Response(status=status.HTTP_200_OK)
 
     def delete(self, request, *args, **kwargs):
         post = Post.objects.get(id=self.request.data["post_id"])
         post_report = PostReport.objects.get(user=request.user, post=post)
         post_report.delete()
+        return Response(status=status.HTTP_200_OK)
+
+
+class CommentReportAPIView(APIView):
+    permission_classes = (IsAuthenticated | IsOwnerOrReadOnly,)
+
+    def post(self, request, *args, **kwargs):
+        comment = Comment.objects.get(id=self.request.data["comment_id"])
+        comment_report = CommentReport.objects.create(
+            user=request.user, comment=comment
+        )
+        comment_report.save()
+
+        if comment.num_reports() > 5:
+            comment.flagged = True
+            comment.save()
+
+        return Response(status=status.HTTP_200_OK)
+
+    def delete(self, request, *args, **kwargs):
+        comment = Comment.objects.get(id=self.request.data["comment_id"])
+        comment_report = CommentReport.objects.get(user=request.user, comment=comment)
+        comment_report.delete()
         return Response(status=status.HTTP_200_OK)
 
 
@@ -299,7 +328,6 @@ class ListCreateCommentVoteAPIView(ListCreateAPIView):
     permission_classes = (IsAuthenticated | IsAdminUser,)
 
 
-# This is the method to create a new DirectMessage
 class ListCreateMessage(ListCreateAPIView):
     """
     List all messages or create a new message.

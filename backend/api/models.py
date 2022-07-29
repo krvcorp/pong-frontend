@@ -307,6 +307,7 @@ class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     post = models.ForeignKey(Post, on_delete=models.SET_NULL, null=True)
     comment = models.TextField()
+    flagged = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -318,8 +319,11 @@ class Comment(models.Model):
                 total += vote.vote
         return total
 
-    def has_voted(self, user):
-        return CommentVote.objects.filter(comment=self, user=user).count() > 0
+    def get_reports(self):
+        return CommentReport.objects.filter(comment=self)
+
+    def num_reports(self):
+        return self.get_reports().count()
 
     def __str__(self):
         return str(self.id) + " " + self.comment
@@ -379,6 +383,20 @@ class PostReport(models.Model):
 
     class Meta:
         unique_together = ("user", "post")
+
+    def __str__(self):
+        return str(self.id) + " " + str(self.user)
+
+
+class CommentReport(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    comment = models.ForeignKey(Comment, on_delete=models.SET_NULL, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ("user", "comment")
 
     def __str__(self):
         return str(self.id) + " " + str(self.user)

@@ -26,6 +26,8 @@ urlpatterns = [
     path("comment/", views.ListCreateCommentAPIView.as_view(), name="comment"),
     # Post Report
     path("postreport/", views.PostReportAPIView.as_view(), name="postreport"),
+    # Comment Report
+    path("commentreport/", views.CommentReportAPIView.as_view(), name="commentreport"),
     # PostVote
     path(
         "postvote/<str:id>",
