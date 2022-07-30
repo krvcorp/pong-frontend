@@ -23,7 +23,7 @@ class PostBubbleViewModel: ObservableObject {
         let body = PostVoteRequestBody(post_id: id, user: "9fcafc5b-1519-409c-982c-05189a7ea98b", vote: direction)
         
         var request = URLRequest(url: url)
-        if (currentDirection == 1 || currentDirection == -1) && direction != currentDirection {
+        if currentDirection != 0 {
             request.httpMethod = "PATCH"
         } else {
             request.httpMethod = "POST"
