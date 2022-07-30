@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		28E7C3222895E23B002C186A /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 28E7C3212895E23B002C186A /* GoogleSignIn */; };
+		28E7C3242895E23B002C186A /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 28E7C3232895E23B002C186A /* GoogleSignInSwift */; };
+		28E7C32A2895E302002C186A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 28E7C3292895E302002C186A /* Alamofire */; };
 		6A21845B28775DA100681C86 /* PhoneLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A21845A28775DA100681C86 /* PhoneLoginView.swift */; };
 		6A21846228788D2E00681C86 /* EmailVerificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A21846128788D2E00681C86 /* EmailVerificationView.swift */; };
 		6A218469287A0C8200681C86 /* iPhoneNumberField in Frameworks */ = {isa = PBXBuildFile; productRef = 6A218468287A0C8200681C86 /* iPhoneNumberField */; };
@@ -109,12 +112,9 @@
 		6AEB626F287DB69C007CA113 /* PostBubbleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEB626E287DB69C007CA113 /* PostBubbleViewModel.swift */; };
 		6AEB627128827584007CA113 /* PostVoteRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEB627028827584007CA113 /* PostVoteRequestBody.swift */; };
 		6AEB627328837378007CA113 /* CreateCommentRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEB627228837378007CA113 /* CreateCommentRequestBody.swift */; };
-		DCB9394884F3C599B368C950 /* Pods_Pong.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CCAEEA5D0040063EB6FB9DD /* Pods_Pong.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1CCAEEA5D0040063EB6FB9DD /* Pods_Pong.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Pong.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		274E28C746E9C9AA044081A9 /* Pods-Pong.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pong.release.xcconfig"; path = "Target Support Files/Pods-Pong/Pods-Pong.release.xcconfig"; sourceTree = "<group>"; };
 		6A21845A28775DA100681C86 /* PhoneLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneLoginView.swift; sourceTree = "<group>"; };
 		6A21846128788D2E00681C86 /* EmailVerificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailVerificationView.swift; sourceTree = "<group>"; };
 		6A21846A287A1C4C00681C86 /* Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
@@ -215,7 +215,6 @@
 		6AEB626E287DB69C007CA113 /* PostBubbleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostBubbleViewModel.swift; sourceTree = "<group>"; };
 		6AEB627028827584007CA113 /* PostVoteRequestBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostVoteRequestBody.swift; sourceTree = "<group>"; };
 		6AEB627228837378007CA113 /* CreateCommentRequestBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCommentRequestBody.swift; sourceTree = "<group>"; };
-		E29187429C49D00FC0045080 /* Pods-Pong.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pong.debug.xcconfig"; path = "Target Support Files/Pods-Pong/Pods-Pong.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -224,10 +223,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A68DC32288A225700BF2775 /* PopupView in Frameworks */,
-				DCB9394884F3C599B368C950 /* Pods_Pong.framework in Frameworks */,
+				28E7C32A2895E302002C186A /* Alamofire in Frameworks */,
+				28E7C3242895E23B002C186A /* GoogleSignInSwift in Frameworks */,
 				6A218469287A0C8200681C86 /* iPhoneNumberField in Frameworks */,
 				6A5479C72895BB9800BC18CD /* MSAL in Frameworks */,
 				6A68DC46288B7A3100BF2775 /* ScalingHeaderScrollView in Frameworks */,
+				28E7C3222895E23B002C186A /* GoogleSignIn in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -237,8 +238,6 @@
 		68F492BF461B66BE830D9B2B /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				E29187429C49D00FC0045080 /* Pods-Pong.debug.xcconfig */,
-				274E28C746E9C9AA044081A9 /* Pods-Pong.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -381,7 +380,6 @@
 				6A5DF0E52851321000F28A06 /* pong_frontend */,
 				6A5DF0E42851321000F28A06 /* Products */,
 				68F492BF461B66BE830D9B2B /* Pods */,
-				AC1673EF677F4577211086A0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -863,14 +861,6 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
-		AC1673EF677F4577211086A0 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				1CCAEEA5D0040063EB6FB9DD /* Pods_Pong.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -878,11 +868,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6A5DF0F12851321100F28A06 /* Build configuration list for PBXNativeTarget "Pong" */;
 			buildPhases = (
-				28018939AE45E420F1C7CB81 /* [CP] Check Pods Manifest.lock */,
 				6A5DF0DF2851321000F28A06 /* Sources */,
 				6A5DF0E02851321000F28A06 /* Frameworks */,
 				6A5DF0E12851321000F28A06 /* Resources */,
-				C1F0CF34DC78CAD17E1F880A /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -894,6 +882,9 @@
 				6A68DC31288A225700BF2775 /* PopupView */,
 				6A68DC45288B7A3100BF2775 /* ScalingHeaderScrollView */,
 				6A5479C62895BB9800BC18CD /* MSAL */,
+				28E7C3212895E23B002C186A /* GoogleSignIn */,
+				28E7C3232895E23B002C186A /* GoogleSignInSwift */,
+				28E7C3292895E302002C186A /* Alamofire */,
 			);
 			productName = pong;
 			productReference = 6A5DF0E32851321000F28A06 /* Pong.app */;
@@ -925,10 +916,12 @@
 			);
 			mainGroup = 6A5DF0DA2851321000F28A06;
 			packageReferences = (
-				6A218467287A0C8200681C86 /* XCRemoteSwiftPackageReference "iPhoneNumberField" */,
-				6A68DC30288A225700BF2775 /* XCRemoteSwiftPackageReference "PopupView" */,
-				6A68DC44288B7A3100BF2775 /* XCRemoteSwiftPackageReference "ScalingHeaderScrollView" */,
-				6A5479C52895BB9800BC18CD /* XCRemoteSwiftPackageReference "microsoft-authentication-library-for-objc" */,
+				6A218467287A0C8200681C86 /* XCRemoteSwiftPackageReference "iPhoneNumberField.git" */,
+				6A68DC30288A225700BF2775 /* XCRemoteSwiftPackageReference "PopupView.git" */,
+				6A68DC44288B7A3100BF2775 /* XCRemoteSwiftPackageReference "ScalingHeaderScrollView.git" */,
+				6A5479C52895BB9800BC18CD /* XCRemoteSwiftPackageReference "microsoft-authentication-library-for-objc.git" */,
+				28E7C3202895E23B002C186A /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS.git" */,
+				28E7C3282895E302002C186A /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			productRefGroup = 6A5DF0E42851321000F28A06 /* Products */;
 			projectDirPath = "";
@@ -950,48 +943,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		28018939AE45E420F1C7CB81 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Pong-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C1F0CF34DC78CAD17E1F880A /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Pong/Pods-Pong-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Pong/Pods-Pong-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Pong/Pods-Pong-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		6A5DF0DF2851321000F28A06 /* Sources */ = {
@@ -1218,7 +1169,6 @@
 		};
 		6A5DF0F22851321100F28A06 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E29187429C49D00FC0045080 /* Pods-Pong.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1254,7 +1204,6 @@
 		};
 		6A5DF0F32851321100F28A06 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 274E28C746E9C9AA044081A9 /* Pods-Pong.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1311,7 +1260,23 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		6A218467287A0C8200681C86 /* XCRemoteSwiftPackageReference "iPhoneNumberField" */ = {
+		28E7C3202895E23B002C186A /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS.git" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.0;
+			};
+		};
+		28E7C3282895E302002C186A /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.6.1;
+			};
+		};
+		6A218467287A0C8200681C86 /* XCRemoteSwiftPackageReference "iPhoneNumberField.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/MojtabaHs/iPhoneNumberField.git";
 			requirement = {
@@ -1319,7 +1284,7 @@
 				kind = branch;
 			};
 		};
-		6A5479C52895BB9800BC18CD /* XCRemoteSwiftPackageReference "microsoft-authentication-library-for-objc" */ = {
+		6A5479C52895BB9800BC18CD /* XCRemoteSwiftPackageReference "microsoft-authentication-library-for-objc.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/AzureAD/microsoft-authentication-library-for-objc.git";
 			requirement = {
@@ -1327,7 +1292,7 @@
 				minimumVersion = 1.0.0;
 			};
 		};
-		6A68DC30288A225700BF2775 /* XCRemoteSwiftPackageReference "PopupView" */ = {
+		6A68DC30288A225700BF2775 /* XCRemoteSwiftPackageReference "PopupView.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/exyte/PopupView.git";
 			requirement = {
@@ -1335,7 +1300,7 @@
 				version = 1.1.5;
 			};
 		};
-		6A68DC44288B7A3100BF2775 /* XCRemoteSwiftPackageReference "ScalingHeaderScrollView" */ = {
+		6A68DC44288B7A3100BF2775 /* XCRemoteSwiftPackageReference "ScalingHeaderScrollView.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/exyte/ScalingHeaderScrollView.git";
 			requirement = {
@@ -1346,24 +1311,39 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		28E7C3212895E23B002C186A /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 28E7C3202895E23B002C186A /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS.git" */;
+			productName = GoogleSignIn;
+		};
+		28E7C3232895E23B002C186A /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 28E7C3202895E23B002C186A /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS.git" */;
+			productName = GoogleSignInSwift;
+		};
+		28E7C3292895E302002C186A /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 28E7C3282895E302002C186A /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
 		6A218468287A0C8200681C86 /* iPhoneNumberField */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 6A218467287A0C8200681C86 /* XCRemoteSwiftPackageReference "iPhoneNumberField" */;
+			package = 6A218467287A0C8200681C86 /* XCRemoteSwiftPackageReference "iPhoneNumberField.git" */;
 			productName = iPhoneNumberField;
 		};
 		6A5479C62895BB9800BC18CD /* MSAL */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 6A5479C52895BB9800BC18CD /* XCRemoteSwiftPackageReference "microsoft-authentication-library-for-objc" */;
+			package = 6A5479C52895BB9800BC18CD /* XCRemoteSwiftPackageReference "microsoft-authentication-library-for-objc.git" */;
 			productName = MSAL;
 		};
 		6A68DC31288A225700BF2775 /* PopupView */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 6A68DC30288A225700BF2775 /* XCRemoteSwiftPackageReference "PopupView" */;
+			package = 6A68DC30288A225700BF2775 /* XCRemoteSwiftPackageReference "PopupView.git" */;
 			productName = PopupView;
 		};
 		6A68DC45288B7A3100BF2775 /* ScalingHeaderScrollView */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 6A68DC44288B7A3100BF2775 /* XCRemoteSwiftPackageReference "ScalingHeaderScrollView" */;
+			package = 6A68DC44288B7A3100BF2775 /* XCRemoteSwiftPackageReference "ScalingHeaderScrollView.git" */;
 			productName = ScalingHeaderScrollView;
 		};
 /* End XCSwiftPackageProductDependency section */
