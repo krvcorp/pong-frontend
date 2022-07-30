@@ -6,10 +6,10 @@ urlpatterns = [
     # User
     path(
         "user/<str:id>/",
-        views.RetrieveUpdateDestroyUserAPIView.as_view(),
-        name="get_delete_update_user",
+        views.RetrieveUserAPIView.as_view(),
+        name="get_user",
     ),
-    path("user/", views.ListCreateUserAPIView.as_view(), name="user"),
+    path("user/", views.ListUserAPIView.as_view(), name="user"),
     # Post
     path(
         "post/<str:id>/",
@@ -46,9 +46,6 @@ urlpatterns = [
     ),
     path("block/", views.BlockUserAPIView.as_view(), name="block"),
     path("postsave/", views.PostSaveAPIView.as_view(), name="postsave"),
-    path("otp-start/", views.OTPStart.as_view(), name="otp-start"),
-    path("otp-verify/", views.OTPVerify.as_view(), name="otp-verify"),
-    path("verify-user/", views.VerifyUser.as_view(), name="verify-user"),
     path("leaderboard/", views.LeaderboardAPIView.as_view(), name="leaderboard"),
     path("deleteaccount/", views.DeleteAccountAPIView.as_view(), name="deleteaccount"),
 ]

@@ -11,13 +11,27 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
         return obj.user == request.user
 
 
+class IsOwner(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+        return obj.user == request.user
+
+
+class IsAuthenticatedAndOwnerOrAdmin(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+        if request.user.is_authenticated:
+            if request.user.is_admin:
+                return True
+            return obj.user == request.user
+        return False
+
+
 class IsNotInTimeout(permissions.BasePermission):
     def has_permission(self, request, view):
         if request.method in SAFE_METHODS:
             return True
         if request.user.is_authenticated:
             if request.user.in_timeout:
-                raise PermissionDenied("You are in timeout")
+                return False
             else:
                 return True
         return False
@@ -29,5 +43,5 @@ class IsAdmin(permissions.BasePermission):
             if request.user.is_staff:
                 return True
             else:
-                raise PermissionDenied("You are not admin")
+                return False
         return False

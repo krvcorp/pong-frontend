@@ -10,10 +10,11 @@ from api.models import (
     PostVote,
     CommentVote,
     PostReport,
-    PhoneLoginCode,
     PostSave,
     BlockedUser,
 )
+
+from custom_auth.models import PhoneLoginCode
 
 
 admin.site.register(User)
