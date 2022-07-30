@@ -30,6 +30,7 @@ from .models import (
 from .serializers import (
     DirectMessageSerializer,
     PollSerializer,
+    PostCommentsSerializer,
     UserSerializer,
     UserSerializerLeaderboard,
     PostSerializer,
@@ -41,6 +42,7 @@ from .serializers import (
     PhoneLoginTokenSerializer,
     UserSerializerProfile,
     PostSaveSerializer,
+    PostCommentsSerializer,
 )
 from .permissions import IsAdmin, IsOwnerOrReadOnly, IsNotInTimeout
 from rest_framework.response import Response
@@ -255,12 +257,50 @@ class ListCreateCommentAPIView(ListCreateAPIView):
     queryset = Comment.objects.all()
     permission_classes = (IsAuthenticated & IsNotInTimeout | IsAdminUser,)
 
-    def perform_create(self, serializer):
-        post = Post.objects.get(id=self.request.data["post_id"])
-        serializer.save(user=self.request.user, post=post)
-        CommentVote.objects.create(
-            user=self.request.user, comment=serializer.instance, vote=1
+    def post(self, request, *args, **kwargs):
+        """
+        Creates a comment based off of the post_id sent in the request body.
+        """
+        post = Post.objects.get(id=request.data.get("post_id"))
+        parent = (
+            Comment.objects.get(id=request.data.get("parent_id"))
+            if request.data.get("parent_id")
+            else None
         )
+        n_o_p = None
+        if Comment.objects.filter(user=request.user, post=post).exists():
+            n_o_p = (
+                Comment.objects.filter(user=request.user, post=post)
+                .order_by("-number_on_post")[0]
+                .number_on_post
+            )
+        else:
+            n_o_p = (
+                Comment.objects.filter(post=post)
+                .order_by("-number_on_post")
+                .first()
+                .number_on_post
+                + 1
+                if Comment.objects.filter(post=post).exists()
+                else 0
+            )
+        comment = Comment.objects.create(
+            user=request.user,
+            post=post,
+            comment=request.data.get("comment"),
+            parent=parent,
+            number_on_post=n_o_p,
+        )
+        CommentVote.objects.create(user=self.request.user, comment=comment, vote=1)
+        return Response(status=status.HTTP_201_CREATED)
+
+    def get(self, request, *args, **kwargs):
+        """
+        Returns a list of comments based off of the post_id sent in the request body.
+        """
+        post = Post.objects.get(id=request.query_params.get("post_id"))
+        queryset = Comment.objects.filter(post=post, parent=None)
+        return Response(PostCommentsSerializer(queryset, many=True).data)
 
 
 class ListCreatePollAPIView(ListCreateAPIView):
@@ -439,35 +479,6 @@ class OTPVerify(APIView):
         else:
             context["code_incorrect"] = True
         return JsonResponse(context)
-
-
-# Login Method
-class ObtainAuthToken(APIView):
-    throttle_classes = ()
-    permission_classes = ()
-    parser_classes = (
-        FormParser,
-        MultiPartParser,
-        JSONParser,
-    )
-    renderer_classes = (JSONRenderer,)
-
-    def post(self, request):
-        context = {}
-        if "code" in request.data:
-            serializer = PhoneLoginTokenSerializer(data=request.data)
-        else:
-            serializer = AuthCustomTokenSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = serializer.validated_data["user"]
-        token, _ = Token.objects.get_or_create(user=user)
-
-        context["token"] = token.key
-        context["user"] = UserSerializer(user).data
-        return JsonResponse(context)
-
-
-# TokenSignIn Method / VerifyUser replacement
 
 
 class VerifyUser(APIView):
