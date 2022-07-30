@@ -308,37 +308,6 @@ class PostSaveSerializer(serializers.ModelSerializer):
         return PostSave.objects.create(post=post, user=user)
 
 
-class AuthCustomTokenSerializer(serializers.Serializer):
-    email = serializers.CharField()
-    password = serializers.CharField()
-
-    def validate(self, attrs):
-        email = attrs.get("email")
-        password = attrs.get("password")
-
-        if email and password:
-            if validate_email(email):
-                user_request = get_object_or_404(
-                    User,
-                    email=email,
-                )
-
-                email = user_request.username
-
-            user = authenticate(username=email, password=password)
-
-            if user:
-                if not user.is_active:
-                    return "User account is disabled."
-            else:
-                return "Unable to log in with provided credentials."
-        else:
-            return 'Must include "email" and "password"'
-
-        attrs["user"] = user
-        return attrs
-
-
 class PhoneLoginTokenSerializer(serializers.Serializer):
     code = serializers.CharField()
     phone = serializers.CharField()

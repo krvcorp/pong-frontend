@@ -33,7 +33,6 @@ from .serializers import (
     PostSerializer,
     CommentSerializer,
     PostReportSerializer,
-    AuthCustomTokenSerializer,
     CommentVoteSerializer,
     PostVoteSerializer,
     PhoneLoginTokenSerializer,
