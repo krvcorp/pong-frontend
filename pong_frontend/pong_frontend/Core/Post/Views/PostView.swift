@@ -15,6 +15,7 @@ struct PostView: View {
     @State private var message = ""
     @State var sheet = false
     @Binding var post: Post
+    @State private var showScore = false
     
     var body: some View {
         
@@ -98,23 +99,7 @@ struct PostView: View {
                     
                     Spacer()
                     
-                    VStack{
-                        Button {
-                            postVM.postVote(id: post.id, direction: 1, currentDirection: 1) { result in
-                            }
-                        } label: {
-                            Image(systemName: "arrow.up")
-                        }
-                        
-                        Text("\(post.score)")
-                        
-                        Button {
-                            postVM.postVote(id: post.id, direction: -1, currentDirection: -1) { result in
-                            }
-                        } label: {
-                            Image(systemName: "arrow.down")
-                        }
-                    }
+                    VoteComponent
                 }
                 .padding(.bottom)
 
@@ -166,6 +151,142 @@ struct PostView: View {
                     .background(Rectangle().fill(Color(UIColor.systemBackground)).frame(minWidth: 90))
             }
         }
+    }
+    var VoteComponent: some View {
+        VStack {
+            if !showScore {
+                // if not upvoted or downvoted
+                if post.voteStatus == 0 {
+                    Button {
+                        postVM.postVote(id: post.id, direction: 1, currentDirection: post.voteStatus) { result in
+                            switch result {
+                            case .success(let newVote):
+                                self.post.voteStatus = newVote
+                            case .failure(let error):
+                                print("DEBUG: postBubbleVM.postVote error: \(error)")
+                            }
+                        }
+                    } label: {
+                        Image(systemName: "arrow.up")
+                    }
+                    
+                    Button {
+                        print("DEBUG: Score check")
+                        withAnimation {
+                            showScore.toggle()
+                        }
+
+                    } label: {
+                        Text("\(post.score)")
+                    }
+                    
+                    Button {
+                        postVM.postVote(id: post.id, direction: -1, currentDirection: post.voteStatus) { result in
+                            switch result {
+                            case .success(let newVote):
+                                self.post.voteStatus = newVote
+                            case .failure(let error):
+                                print("DEBUG: postBubbleVM.postVote error: \(error)")
+                            }
+                        }
+                    } label: {
+                        Image(systemName: "arrow.down")
+                    }
+                } else if post.voteStatus == 1 {
+                    // if upvoted
+                    Button {
+                        postVM.postVote(id: post.id, direction: 1, currentDirection: post.voteStatus) { result in
+                            switch result {
+                            case .success(let newVote):
+                                self.post.voteStatus = newVote
+                            case .failure(let error):
+                                print("DEBUG: postBubbleVM.postVote error: \(error)")
+                            }
+                        }
+                    } label: {
+                        Image(systemName: "arrow.up")
+                            .foregroundColor(.yellow)
+                    }
+                    
+                    Button {
+                        print("DEBUG: Score check")
+                        withAnimation {
+                            showScore.toggle()
+                        }
+
+                    } label: {
+                        Text("\(post.score + 1)")
+                    }
+                    
+                    Button {
+                        postVM.postVote(id: post.id, direction: -1, currentDirection: post.voteStatus) { result in
+                            switch result {
+                            case .success(let newVote):
+                                self.post.voteStatus = newVote
+                            case .failure(let error):
+                                print("DEBUG: postBubbleVM.postVote error: \(error)")
+                            }
+                        }
+                    } label: {
+                        Image(systemName: "arrow.down")
+                    }
+                } else if post.voteStatus == -1 {
+                    // if downvoted
+                    Button {
+                        postVM.postVote(id: post.id, direction: 1, currentDirection: post.voteStatus) { result in
+                            switch result {
+                            case .success(let newVote):
+                                self.post.voteStatus = newVote
+                            case .failure(let error):
+                                print("DEBUG: postBubbleVM.postVote error: \(error)")
+                            }
+                        }
+                    } label: {
+                        Image(systemName: "arrow.up")
+                    }
+                    
+                    Button {
+                        print("DEBUG: Score check")
+                        withAnimation {
+                            showScore.toggle()
+                        }
+
+                    } label: {
+                        Text("\(post.score - 1)")
+                    }
+                    
+                    Button {
+                        postVM.postVote(id: post.id, direction: -1, currentDirection: post.voteStatus) { result in
+                            switch result {
+                            case .success(let newVote):
+                                self.post.voteStatus = newVote
+                            case .failure(let error):
+                                print("DEBUG: postBubbleVM.postVote error: \(error)")
+                            }
+                        }
+                    } label: {
+                        Image(systemName: "arrow.down")
+                            .foregroundColor(.yellow)
+                    }
+                }
+            } else {
+                Button {
+                    print("DEBUG: Score check")
+                    withAnimation {
+                        showScore.toggle()
+                    }
+
+                } label: {
+                    VStack {
+                        Text("\(post.score)")
+                            .foregroundColor(.green)
+                        Text("\(post.score)")
+                            .foregroundColor(.red)
+                    }
+                }
+            }
+        }
+        .frame(width: 15, height: 50)
     }
 }
 
