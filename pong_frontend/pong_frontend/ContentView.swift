@@ -15,7 +15,6 @@ struct ContentView: View {
     @StateObject private var postSettingsVM = PostSettingsViewModel()
     @StateObject private var feedVM = FeedViewModel()
     
-    
     var body: some View {
         if DAKeychain.shared["token"] != nil && !loginVM.initialOnboard {
             MainInterfaceView

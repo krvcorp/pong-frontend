@@ -7,11 +7,28 @@
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>Google</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>com.googleusercontent.apps.983201170682-kttqq1l89i4fpgk15fud1u1hf192fq1q</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>Microsoft</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>msauth.com.khoinguyen.pong</string>
+			</array>
+		</dict>
 	</array>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>msauthv2</string>
+        <string>msauthv3</string>
+    </array>
 </dict>
 </plist>
