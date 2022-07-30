@@ -8,7 +8,8 @@
 import Foundation
 
 class PostBubbleViewModel: ObservableObject {
-    func postVote(id: String, direction: Int, currentDirection: Int, completion: @escaping (Result<String, AuthenticationError>) -> Void) {
+    
+    func postVote(id: String, direction: Int, currentDirection: Int, completion: @escaping (Result<Int, AuthenticationError>) -> Void) {
         guard let token = DAKeychain.shared["token"] else { return } // Fetch
         
         print("DEBUG: postVote \(direction) \(id) \(token)")
@@ -41,15 +42,14 @@ class PostBubbleViewModel: ObservableObject {
                 return
             }
             
-            // response stuff if it exists
-//            let decoder = JSONDecoder()
-//            decoder.keyDecodingStrategy = .convertFromSnakeCase
-//            guard let loginResponse = try? decoder.decode(Post.self, from: data) else {
-//                completion(.failure(.invalidCredentials))
-//                return
-//            }
-//            
-//            completion(.success(loginResponse.title))
+            // upvote on upvote or downvote on downvote
+            if currentDirection == direction {
+                completion(.success(0))
+            } else if direction == 1 {
+                completion(.success(1))
+            } else if direction == -1 {
+                completion(.success(-1))
+            }
             
         }.resume()
     }

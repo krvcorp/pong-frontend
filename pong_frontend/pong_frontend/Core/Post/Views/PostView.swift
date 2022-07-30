@@ -17,6 +17,7 @@ struct PostView: View {
     @Binding var post: Post
     
     var body: some View {
+        
         ZStack(alignment: .bottom) {
             RefreshableScrollView {
                 mainPost
