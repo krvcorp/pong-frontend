@@ -288,7 +288,9 @@ class ListCreateCommentAPIView(ListCreateAPIView):
             number_on_post=n_o_p,
         )
         CommentVote.objects.create(user=self.request.user, comment=comment, vote=1)
-        return Response(status=status.HTTP_201_CREATED)
+        return Response(
+            PostCommentsSerializer(comment).data, status=status.HTTP_201_CREATED
+        )
 
     def get(self, request, *args, **kwargs):
         """

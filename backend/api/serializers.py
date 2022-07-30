@@ -220,6 +220,7 @@ class PostCommentsSerializer(serializers.ModelSerializer):
             "updated_at",
             "score",
             "time_since_posted",
+            "parent",
             "children",
             "number_on_post",
         )
