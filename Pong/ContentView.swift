@@ -9,18 +9,19 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject private var loginVM = LoginViewModel()
-    @StateObject private var settingsSheetVM = SettingsSheetViewModel()
     @StateObject private var postSettingsVM = PostSettingsViewModel()
     @StateObject private var feedVM = FeedViewModel()
+    @ObservedObject var settingsSheetVM = SettingsSheetViewModel()
     
     var body: some View {
-        if DAKeychain.shared["token"] != nil && !loginVM.initialOnboard {
-            MainInterfaceView
-        } else if DAKeychain.shared["token"] != nil {
-            WelcomeView(loginVM: loginVM)
-        } else {
-            OnboardView(loginVM: loginVM)
-        }
+//        if DAKeychain.shared["token"] != nil && !loginVM.initialOnboard {
+//            MainInterfaceView
+//        } else if DAKeychain.shared["token"] != nil {
+//            WelcomeView(loginVM: loginVM)
+//        } else {
+//            OnboardView(loginVM: loginVM)
+//        }
+        MainInterfaceView
     }
 }
 
