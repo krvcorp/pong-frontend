@@ -10,8 +10,6 @@ from api.models import (
     PostVote,
     CommentVote,
     PostReport,
-    DirectConversation,
-    DirectMessage,
     PhoneLoginCode,
     PostSave,
     BlockedUser,
@@ -24,8 +22,6 @@ admin.site.register(Comment)
 admin.site.register(PostVote)
 admin.site.register(CommentVote)
 admin.site.register(PostReport)
-admin.site.register(DirectConversation)
-admin.site.register(DirectMessage)
 admin.site.register(PhoneLoginCode)
 admin.site.register(PostSave)
 admin.site.register(BlockedUser)

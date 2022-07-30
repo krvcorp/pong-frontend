@@ -246,6 +246,12 @@ class Post(models.Model):
     def num_reports(self):
         return self.get_reports().count()
 
+    def get_num_upvotes(self):
+        return PostVote.objects.filter(post=self, vote=1).count()
+
+    def get_num_downvotes(self):
+        return PostVote.objects.filter(post=self, vote=-1).count()
+
     def __str__(self):
         return str(self.id)
 

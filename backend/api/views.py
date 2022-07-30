@@ -21,14 +21,11 @@ from .models import (
     CommentVote,
     PostVote,
     School,
-    DirectConversation,
-    DirectMessage,
     Token,
     PhoneLoginCode,
     BlockedUser,
 )
 from .serializers import (
-    DirectMessageSerializer,
     PollSerializer,
     PostCommentsSerializer,
     UserSerializer,

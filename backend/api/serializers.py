@@ -18,8 +18,6 @@ from .models import (
     PostReport,
     CommentVote,
     PostVote,
-    DirectConversation,
-    DirectMessage,
     Poll,
     PollOption,
     PollVote,
@@ -121,12 +119,20 @@ class PostSerializer(serializers.ModelSerializer):
     vote_status = serializers.SerializerMethodField()
     saved = serializers.SerializerMethodField()
     blocked = serializers.SerializerMethodField()
+    num_upvotes = serializers.SerializerMethodField()
+    num_downvotes = serializers.SerializerMethodField()
 
     def get_num_comments(self, obj):
         return obj.num_comments()
 
     def get_score(self, obj):
         return obj.score(user=self.context["request"].user)
+
+    def get_num_upvotes(self, obj):
+        return obj.num_upvotes()
+
+    def get_num_downvotes(self, obj):
+        return obj.num_downvotes()
 
     def get_comments(self, obj):
         comments = obj.get_comments()
@@ -164,6 +170,8 @@ class PostSerializer(serializers.ModelSerializer):
             "saved",
             "flagged",
             "blocked",
+            "num_upvotes",
+            "num_downvotes",
         )
 
 
@@ -262,19 +270,6 @@ class CommentVoteSerializer(serializers.ModelSerializer):
         if CommentVote.objects.filter(comment=comment, user=user).exists():
             raise ValidationError("You have already voted on this comment")
         return CommentVote.objects.create(comment=comment, user=user, vote=vote)
-
-
-class DirectMessageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = DirectMessage
-        fields = (
-            "id",
-            "sender",
-            "receiver",
-            "message",
-            "created_at",
-            "updated_at",
-        )
 
 
 class PollSerializer(serializers.ModelSerializer):
