@@ -226,10 +226,10 @@ class Post(models.Model):
             )
         ]
 
-    @property
-    def score(self):
+    def score(self, user):
         total = 0
-        for vote in PostVote.objects.all():
+        # get all the votes on the post that aren't from the user
+        for vote in PostVote.objects.all().exclude(user=user):
             if vote.post == self:
                 total += vote.vote
         return total

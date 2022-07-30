@@ -119,7 +119,7 @@ class PostSerializer(serializers.ModelSerializer):
         return obj.num_comments()
 
     def get_score(self, obj):
-        return obj.score
+        return obj.score(user=self.context["request"].user)
 
     def get_comments(self, obj):
         comments = obj.get_comments()
