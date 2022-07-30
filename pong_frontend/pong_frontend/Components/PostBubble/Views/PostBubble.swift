@@ -13,8 +13,9 @@ struct PostBubble: View {
     @StateObject private var loginVM = LoginViewModel()
     @ObservedObject var postSettingsVM : PostSettingsViewModel
     @ObservedObject var feedVM: FeedViewModel
-    // local logic for karma
+    // navigation tracker
     @State private var tapped = false
+    // local logic for karma
     @State private var showScore = false
     // share sheet
     @State var sheet = false

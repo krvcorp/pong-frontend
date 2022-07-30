@@ -10,7 +10,7 @@ import Foundation
 class PostViewModel: ObservableObject {
     @Published var comments: [Comment] = []
     
-    func postVote(id: String, direction: Int, currentDirection: Int, completion: @escaping (Result<String, AuthenticationError>) -> Void) {
+    func postVote(id: String, direction: Int, currentDirection: Int, completion: @escaping (Result<Int, AuthenticationError>) -> Void) {
         guard let token = DAKeychain.shared["token"] else { return } // Fetch
         
         print("DEBUG: postVote \(direction) \(id) \(token)")
@@ -24,7 +24,12 @@ class PostViewModel: ObservableObject {
         let body = PostVoteRequestBody(post_id: id, user: "9fcafc5b-1519-409c-982c-05189a7ea98b", vote: direction)
         
         var request = URLRequest(url: url)
-        request.httpMethod = "POST"
+        if (currentDirection == 1 || currentDirection == -1) && direction != currentDirection {
+            request.httpMethod = "PATCH"
+        } else {
+            request.httpMethod = "POST"
+        }
+
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("Token \(token)", forHTTPHeaderField: "Authorization")
         let encoder = JSONEncoder()
@@ -37,6 +42,16 @@ class PostViewModel: ObservableObject {
                 completion(.failure(.custom(errorMessage: "No data")))
                 return
             }
+            
+            // upvote on upvote or downvote on downvote
+            if currentDirection == direction {
+                completion(.success(0))
+            } else if direction == 1 {
+                completion(.success(1))
+            } else if direction == -1 {
+                completion(.success(-1))
+            }
+            
         }.resume()
     }
     
