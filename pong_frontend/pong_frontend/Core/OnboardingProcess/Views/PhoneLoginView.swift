@@ -11,7 +11,6 @@ import iPhoneNumberField
 
 
 struct PhoneLoginView: View {
-    @Binding var phone: String
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var loginVM : LoginViewModel
     @ObservedObject var phoneLoginVM : PhoneLoginViewModel

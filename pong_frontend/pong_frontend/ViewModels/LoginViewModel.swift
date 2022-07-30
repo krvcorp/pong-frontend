@@ -13,6 +13,7 @@ import Alamofire
 // main actor allows observable object to run in the main queue?
 @MainActor class LoginViewModel: ObservableObject {
     @Published var initialOnboard: Bool = false
+    @Published var emailVerified: Bool = false
     
     func signout() {
         DispatchQueue.main.async {
@@ -43,6 +44,8 @@ import Alamofire
                 DispatchQueue.main.async {
                     if let token = successResponse.token {
                         DAKeychain.shared["token"] = token
+                        // this forces loginVM to update and subsequently ContentView to update
+                        self.emailVerified = true
                     }
                     if let userId = successResponse.userId {
                         DAKeychain.shared["userId"] = userId
