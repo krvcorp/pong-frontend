@@ -18,7 +18,6 @@ struct PostView: View {
     @State private var showScore = false
     
     var body: some View {
-        
         ZStack(alignment: .bottom) {
             RefreshableScrollView {
                 mainPost
@@ -112,8 +111,8 @@ struct PostView: View {
                         Button {
                             print("DEBUG: DELETE POST")
                             DispatchQueue.main.async {
-                                postSettingsVM.showDeleteConfirmationView.toggle()
                                 postSettingsVM.post = post
+                                postSettingsVM.showDeleteConfirmationView.toggle()
                             }
                         } label: {
                             Image(systemName: "trash")

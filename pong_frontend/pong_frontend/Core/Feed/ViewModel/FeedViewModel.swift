@@ -8,13 +8,23 @@ import Foundation
 import SwiftUI
 
 class FeedViewModel: ObservableObject {
-    @Published var initalOpen : Bool = false
+    @Published var topPostsInitalOpen : Bool = false
+    @Published var hotPostsInitalOpen : Bool = false
+    @Published var recentPostsInitalOpen : Bool = false
     @Published var topPosts : [Post] = []
     @Published var hotPosts : [Post] = []
     @Published var recentPosts : [Post] = []
     
     func getPosts(selectedFilter: FeedFilterViewModel) {
-        initalOpen = true
+        // run only on first appear
+        if selectedFilter == .top {
+            topPostsInitalOpen = true
+        } else if selectedFilter == .hot {
+            hotPostsInitalOpen = true
+        } else if selectedFilter == .recent {
+            recentPostsInitalOpen = true
+        }
+
         print("DEBUG: feedVM getPosts")
 
         guard let token = DAKeychain.shared["token"] else { return } // Fetch
@@ -54,15 +64,12 @@ class FeedViewModel: ObservableObject {
                 let posts = try decoder.decode([Post].self, from: data)
                 DispatchQueue.main.async {
                     if selectedFilter == .hot {
-                        self?.hotPosts = posts
+                        self!.hotPosts = posts
                     } else if selectedFilter == .recent {
-                        print("DEBUG: \(posts)")
-                        self?.recentPosts = posts
-                        print("DEBUG: \(self!.recentPosts)")
+                        self!.recentPosts = posts
                     } else if selectedFilter == .top {
-                        self?.topPosts = posts
+                        self!.topPosts = posts
                     }
-
                 }
             } catch {
                 print("DEBUG: \(error)")
@@ -99,15 +106,17 @@ class FeedViewModel: ObservableObject {
                 completion(.failure(.custom(errorMessage: "Decode failure")))
                 return
             }
-            // replace the local post
-            if let index = self.hotPosts.firstIndex(of: post) {
-                self.hotPosts[index] = postResponse
-            }
-            if let index = self.recentPosts.firstIndex(of: post) {
-                self.recentPosts[index] = postResponse
-            }
-            if let index = self.topPosts.firstIndex(of: post) {
-                self.topPosts[index] = postResponse
+            DispatchQueue.main.async {
+                // replace the local post
+                if let index = self.hotPosts.firstIndex(of: post) {
+                    self.hotPosts[index] = postResponse
+                }
+                if let index = self.recentPosts.firstIndex(of: post) {
+                    self.recentPosts[index] = postResponse
+                }
+                if let index = self.topPosts.firstIndex(of: post) {
+                    self.topPosts[index] = postResponse
+                }
             }
             
             completion(.success(postResponse))

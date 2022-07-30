@@ -5,33 +5,27 @@
 //  Created by Khoi Nguyen on 6/3/22.
 //
 
-import UIKit
 import SwiftUI
 
-
 struct OnboardView: View {
-    @Binding var phone: String
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var loginVM : LoginViewModel
-    @ObservedObject var phoneLoginVM : PhoneLoginViewModel
-    
+    @StateObject private var phoneLoginVM = PhoneLoginViewModel()
     
     var body: some View {
         if phoneLoginVM.phoneIsVerified {
             EmailVerificationView(loginVM: loginVM, phoneLoginVM: phoneLoginVM)
         } else {
             NavigationView {
-                PhoneLoginView(phone: $phoneLoginVM.phone, loginVM: loginVM, phoneLoginVM: phoneLoginVM)
+                PhoneLoginView(loginVM: loginVM, phoneLoginVM: phoneLoginVM)
                     .navigationBarHidden(true)
             }
         }
     }
 }
 
-
-
 struct OnboardView_Previews: PreviewProvider {
     static var previews: some View {
-        OnboardView(phone: .constant(""), loginVM: LoginViewModel(), phoneLoginVM: PhoneLoginViewModel())
+        OnboardView(loginVM: LoginViewModel())
     }
 }

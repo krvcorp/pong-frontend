@@ -10,7 +10,7 @@ import ScalingHeaderScrollView
 
 struct FeedView: View {
     @Namespace var animation
-    @State var selectedFilter: FeedFilterViewModel
+    @State var selectedFilter: FeedFilterViewModel = .hot
     // observed objects
     @ObservedObject var feedVM: FeedViewModel
     @ObservedObject var postSettingsVM: PostSettingsViewModel
@@ -77,17 +77,14 @@ struct FeedView: View {
                                 if view == .top {
                                     ForEach(feedVM.recentPosts, id: \.self) { post in
                                         PostBubble(post: post, postSettingsVM: postSettingsVM, feedVM: feedVM)
-//                                        PostBubble(post: post, postSettingsVM: postSettingsVM)
                                     }
                                 }
-                                
                                 // hot
                                 else if view == .hot {
                                     ForEach(feedVM.recentPosts, id: \.self) { post in
                                         PostBubble(post: post, postSettingsVM: postSettingsVM, feedVM: feedVM)
                                     }
                                 }
-                                
                                 // recent
                                 else if view == .recent {
                                     ForEach(feedVM.recentPosts, id: \.self) { post in
@@ -108,11 +105,20 @@ struct FeedView: View {
                         }
                     }
                     .refreshable {
-                        do {
-                          // Sleep for 1 seconds
-                            try await Task.sleep(nanoseconds: 1 * 1_000_000_000)
-                        } catch {}
+//                        do {
+//                          // Sleep for 1 seconds
+//                            try await Task.sleep(nanoseconds: 1 * 1_000_000_000)
+//                        } catch {}
                         feedVM.getPosts(selectedFilter: selectedFilter)
+                    }
+                    .onAppear {
+                        if !feedVM.topPostsInitalOpen && selectedFilter == .top {
+                            feedVM.getPosts(selectedFilter: .top)
+                        } else if !feedVM.hotPostsInitalOpen && selectedFilter == .hot {
+                            feedVM.getPosts(selectedFilter: .hot)
+                        } else if !feedVM.recentPostsInitalOpen && selectedFilter == .recent {
+                            feedVM.getPosts(selectedFilter: .recent)
+                        }
                     }
                 }
             }
@@ -135,14 +141,6 @@ struct FeedView: View {
             .clipShape(Circle())
             .padding()
             .shadow(radius: 10)
-        }
-        // when home appears, call api and load
-        .onAppear {
-            if !feedVM.initalOpen {
-                feedVM.getPosts(selectedFilter: .hot)
-                feedVM.getPosts(selectedFilter: .recent)
-                feedVM.getPosts(selectedFilter: .top)
-            }
         }
     }
 }

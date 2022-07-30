@@ -100,6 +100,7 @@ struct PostBubble: View {
                 case .success(let postResult):
                     self.post = postResult
                     tapped.toggle()
+
                 case .failure(let errorMessage):
                     print("DEBUG: \(errorMessage)")
                 }

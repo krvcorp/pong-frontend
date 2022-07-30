@@ -23,7 +23,7 @@ class PostBubbleViewModel: ObservableObject {
         let body = PostVoteRequestBody(post_id: id, user: "9fcafc5b-1519-409c-982c-05189a7ea98b", vote: direction)
         
         var request = URLRequest(url: url)
-        if (currentDirection == 1 || currentDirection == -1) && direction != currentDirection {
+        if currentDirection != 0 {
             request.httpMethod = "PATCH"
         } else {
             request.httpMethod = "POST"
@@ -108,15 +108,17 @@ class PostBubbleViewModel: ObservableObject {
                 completion(.failure(.custom(errorMessage: "No data")))
                 return
             }
-            // clear locally the deleted post
-            if let index = feedVM.hotPosts.firstIndex(of: post) {
-                feedVM.hotPosts.remove(at: index)
-            }
-            if let index = feedVM.recentPosts.firstIndex(of: post) {
-                feedVM.recentPosts.remove(at: index)
-            }
-            if let index = feedVM.topPosts.firstIndex(of: post) {
-                feedVM.topPosts.remove(at: index)
+            DispatchQueue.main.async {
+                // clear locally the deleted post
+                if let index = feedVM.hotPosts.firstIndex(of: post) {
+                    feedVM.hotPosts.remove(at: index)
+                }
+                if let index = feedVM.recentPosts.firstIndex(of: post) {
+                    feedVM.recentPosts.remove(at: index)
+                }
+                if let index = feedVM.topPosts.firstIndex(of: post) {
+                    feedVM.topPosts.remove(at: index)
+                }
             }
         }.resume()
     }

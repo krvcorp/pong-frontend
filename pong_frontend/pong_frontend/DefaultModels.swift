@@ -7,28 +7,33 @@
 
 import Foundation
 
-var defaultPost = Post(id: "DefaultId",
-                       user: "DefaultUser",
-                       title: "DefulatTitle",
+var defaultPost = Post(id: "default",
+                       user: "default",
+                       title: "default",
+                       createdAt: "default",
+                       updatedAt: "default",
                        image: "",
-                       createdAt: "DefaultDate",
-                       updatedAt: "DefaultDate",
+                       numComments: 0,
+                       comments: [],
+                       score: 0,
+                       timeSincePosted: "default",
+                       voteStatus: 0,
                        saved: false,
                        flagged: false,
                        blocked: false,
-                       numComments: -1,
-                       comments: [],
-                       score: -1,
-                       timeSincePosted: "DefaultString",
-                       voteStatus: 0)
+                       numUpvotes: 0,
+                       numDownvotes: 0)
 
-var defaultComment = Comment(id: "DefaultID",
-                             post: "DefaultPostID",
-                             user: "DefaultUser",
-                             comment: "Default comment",
-                             createdAt: "Default Date",
-                             updatedAt: "Default Date",
-                             score: -1,
-                             timeSincePosted: "Default Time Since Posted")
+var defaultComment = Comment(id: "default",
+                             post: "default",
+                             user: "default",
+                             comment: "default",
+                             createdAt: "default",
+                             updatedAt: "default",
+                             score: 0,
+                             timeSincePosted: "default",
+                             parent:"default",
+                             children: [],
+                             numberOnPost: 1)
 
 var defaultTotalScore = TotalScore(score: 1, place:"1")

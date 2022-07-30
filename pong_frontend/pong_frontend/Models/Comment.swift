@@ -16,4 +16,7 @@ struct Comment: Hashable, Identifiable, Codable {
     var updatedAt: String
     var score: Int
     var timeSincePosted: String
+    var parent: String?
+    var children: [Comment]
+    var numberOnPost: Int
 }
