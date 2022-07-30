@@ -120,6 +120,8 @@ class FeedViewModel: ObservableObject {
             }
             
             completion(.success(postResponse))
+            
+
         }.resume()
     }
 }

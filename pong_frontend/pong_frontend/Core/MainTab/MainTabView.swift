@@ -109,6 +109,7 @@ struct MainTabView: View {
             }
             .navigationBarTitleDisplayMode(.inline)
         }
+        .navigationViewStyle(StackNavigationViewStyle())
         .onAppear {
             // correct the transparency bug for Tab bars
             let tabBarAppearance = UITabBarAppearance()
