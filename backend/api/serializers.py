@@ -3,6 +3,13 @@ from datetime import datetime, timezone
 from locale import normalize
 from attr import attr
 from rest_framework import serializers
+from .utils import (
+    name_file,
+    code_generate,
+    phone_validator,
+    clean_phone_number,
+    time_since_posted,
+)
 from .models import (
     BlockedUser,
     User,
@@ -138,39 +145,7 @@ class PostSerializer(serializers.ModelSerializer):
         return self.context["request"].user.check_if_blocked(obj.user)
 
     def get_time_since_posted(self, obj):
-        time = datetime.now(timezone.utc) - obj.created_at
-
-        seconds = time.total_seconds()
-        minutes = seconds // 60
-        hours = minutes // 60
-        days = hours // 24
-        weeks = days // 7
-        months = weeks // 4
-        years = months // 12
-
-        years = round(years)
-        months = round(months % 12)
-        weeks = round(weeks % 4)
-        days = round(days % 7)
-        hours = round(hours % 24)
-        minutes = round(minutes % 60)
-        seconds = round(seconds % 60)
-
-        if years > 0:
-            return str(years) + "y"
-        if months > 0:
-            return str(months) + "m"
-        if weeks > 0:
-            return str(weeks) + "w"
-        if days > 0:
-            return str(days) + "d"
-        if hours > 0:
-            return str(hours) + "h"
-        if minutes > 0:
-            return str(minutes) + "m"
-        if seconds > 0:
-            return str(seconds) + "s"
-        return "0s"
+        return time_since_posted(obj)
 
     class Meta:
         model = Post
@@ -200,39 +175,7 @@ class CommentSerializer(serializers.ModelSerializer):
         return obj.score
 
     def get_time_since_posted(self, obj):
-        time = datetime.now(timezone.utc) - obj.created_at
-
-        seconds = time.total_seconds()
-        minutes = seconds // 60
-        hours = minutes // 60
-        days = hours // 24
-        weeks = days // 7
-        months = weeks // 4
-        years = months // 12
-
-        years = round(years)
-        months = round(months % 12)
-        weeks = round(weeks % 4)
-        days = round(days % 7)
-        hours = round(hours % 24)
-        minutes = round(minutes % 60)
-        seconds = round(seconds % 60)
-
-        if years > 0:
-            return str(years) + "y"
-        if months > 0:
-            return str(months) + "m"
-        if weeks > 0:
-            return str(weeks) + "w"
-        if days > 0:
-            return str(days) + "d"
-        if hours > 0:
-            return str(hours) + "h"
-        if minutes > 0:
-            return str(minutes) + "m"
-        if seconds > 0:
-            return str(seconds) + "s"
-        return "0s"
+        return time_since_posted(obj)
 
     class Meta:
         model = Comment
@@ -246,6 +189,37 @@ class CommentSerializer(serializers.ModelSerializer):
             "score",
             "time_since_posted",
         )
+
+
+class PostCommentsSerializer(serializers.ModelSerializer):
+    score = serializers.SerializerMethodField()
+    time_since_posted = serializers.SerializerMethodField()
+
+    def get_score(self, obj):
+        return obj.score
+
+    def get_time_since_posted(self, obj):
+        return time_since_posted(obj)
+
+    class Meta:
+        model = Comment
+        fields = (
+            "id",
+            "post",
+            "user",
+            "comment",
+            "created_at",
+            "updated_at",
+            "score",
+            "time_since_posted",
+            "children",
+            "number_on_post",
+        )
+
+    def get_fields(self):
+        fields = super().get_fields()
+        fields["children"] = PostCommentsSerializer(many=True)
+        return fields
 
 
 class PostReportSerializer(serializers.ModelSerializer):
