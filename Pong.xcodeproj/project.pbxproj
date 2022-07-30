@@ -390,9 +390,9 @@
 				6A5DF106285134ED00F28A06 /* Models */,
 				6A3F3D89286A7ABB00EC43A3 /* ViewModels */,
 				6A5DF11F285134EE00F28A06 /* Components */,
-				6A5DF10E285134EE00F28A06 /* Core */,
-				6A68DC092889D0C900BF2775 /* Extensions */,
+				6A5DF10E285134EE00F28A06 /* Features */,
 				6A5DF10D285134EE00F28A06 /* Assets.xcassets */,
+				6A5DF146285134EE00F28A06 /* Extensions.swift */,
 				6A5DF145285134EE00F28A06 /* PongApp.swift */,
 				6A5DF147285134EE00F28A06 /* ContentView.swift */,
 				6A5DF17428526D5000F28A06 /* API.swift */,
@@ -439,7 +439,7 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		6A5DF10E285134EE00F28A06 /* Core */ = {
+		6A5DF10E285134EE00F28A06 /* Features */ = {
 			isa = PBXGroup;
 			children = (
 				6A5DF13B285134EE00F28A06 /* OnboardingProcess */,
@@ -455,7 +455,7 @@
 				6A5DF127285134EE00F28A06 /* Profile */,
 				6A5DF17C2856B74C00F28A06 /* SettingsSheet */,
 			);
-			path = Core;
+			path = Features;
 			sourceTree = "<group>";
 		};
 		6A5DF10F285134EE00F28A06 /* Messages */ = {
@@ -732,14 +732,6 @@
 				6A5C9CFC288EEF6B00B57587 /* SettingsSheetViewModel.swift */,
 			);
 			path = ViewModels;
-			sourceTree = "<group>";
-		};
-		6A68DC092889D0C900BF2775 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				6A5DF146285134EE00F28A06 /* Extensions.swift */,
-			);
-			path = Extensions;
 			sourceTree = "<group>";
 		};
 		6A68DC22288A1A5A00BF2775 /* Report */ = {
