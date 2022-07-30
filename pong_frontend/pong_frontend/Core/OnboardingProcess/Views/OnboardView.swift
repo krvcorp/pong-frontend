@@ -5,9 +5,7 @@
 //  Created by Khoi Nguyen on 6/3/22.
 //
 
-import UIKit
 import SwiftUI
-
 
 struct OnboardView: View {
     @Environment(\.presentationMode) var presentationMode

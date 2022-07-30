@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import GoogleSignIn
 
 struct ContentView: View {
     @StateObject private var loginVM = LoginViewModel()

@@ -45,24 +45,24 @@ struct EmailVerificationView: View {
                 .cornerRadius(8.0)
                 .shadow(radius: 4.0)
             }
-            
-            Button {
-                print("DEBUG: EmailVerificationView MicrosoftSignIn")
-            } label: {
-                HStack {
-                    Image("microsoftlogo")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 50, height: 50)
-                    
-                    Text("Sign in with Microsoft")
-                        .font(.title.bold())
-                }
-                .padding(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
-                .background(Color.white)
-                .cornerRadius(8.0)
-                .shadow(radius: 4.0)
-            }
+            // no more microsoft authentication
+//            Button {
+//                print("DEBUG: EmailVerificationView MicrosoftSignIn")
+//            } label: {
+//                HStack {
+//                    Image("microsoftlogo")
+//                        .resizable()
+//                        .aspectRatio(contentMode: .fit)
+//                        .frame(width: 50, height: 50)
+//
+//                    Text("Sign in with Microsoft")
+//                        .font(.title.bold())
+//                }
+//                .padding(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
+//                .background(Color.white)
+//                .cornerRadius(8.0)
+//                .shadow(radius: 4.0)
+//            }
         }
     }
 }
