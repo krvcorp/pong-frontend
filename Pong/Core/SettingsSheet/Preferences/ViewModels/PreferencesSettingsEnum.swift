@@ -8,20 +8,17 @@
 import Foundation
 
 enum PreferencesSettingsEnum: Int, CaseIterable {
-    case lightOrDarkAuto
-    case darkMode
+    case displayModeSetting
     
     var title: String {
         switch self {
-        case .lightOrDarkAuto: return "Automatic (follow iOS Setting)"
-        case .darkMode: return "Dark Mode"
+        case .displayModeSetting: return "Display Mode Setting"
         }
     }
     
     var imageName: String {
         switch self {
-        case .lightOrDarkAuto: return "gear"
-        case .darkMode: return "moon"
+        case .displayModeSetting: return "gear"
         }
     }
 }

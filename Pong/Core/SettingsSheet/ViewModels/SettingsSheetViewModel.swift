@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 @MainActor class SettingsSheetViewModel: ObservableObject {
     @Published var showSettingsSheetView = false

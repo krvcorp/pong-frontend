@@ -9,6 +9,7 @@ import SwiftUI
 
 @main
 struct Pong: App {
+    @StateObject private var settingsSheetVM = SettingsSheetViewModel()
     
     var body: some Scene {
         WindowGroup {

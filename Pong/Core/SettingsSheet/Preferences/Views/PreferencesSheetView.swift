@@ -40,7 +40,6 @@ struct PreferencesSheetView: View {
                 }
                 .background(Color(UIColor.secondarySystemBackground))
                 .padding(.horizontal, 20)
-
             }
         }
     }

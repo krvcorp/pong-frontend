@@ -9,18 +9,46 @@ import SwiftUI
 
 struct PreferencesOptionRowView: View {
     let preferencesSettingsEnum: PreferencesSettingsEnum
-    @State private var vibrateOnRing = false
-
+    
+    // DARK MODE STUFF
+    enum DisplayMode: Int {
+        case system, dark, light
+        
+        var colorScheme: ColorScheme? {
+            switch self {
+            case .system: return nil
+            case .dark: return ColorScheme.dark
+            case .light: return ColorScheme.light
+            }
+        }
+        
+        func setAppDisplayMode() {
+            var userInterfaceStyle: UIUserInterfaceStyle
+            switch self {
+            case .system: userInterfaceStyle = UITraitCollection.current.userInterfaceStyle
+            case .dark: userInterfaceStyle = .dark
+            case .light: userInterfaceStyle = .light
+            }
+            let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+            scene?.keyWindow?.overrideUserInterfaceStyle = userInterfaceStyle
+        }
+    }
+    
+    @AppStorage("displayMode") var displayMode = DisplayMode.system
+    
     var body: some View {
         VStack {
             HStack {
-                Toggle(isOn: $vibrateOnRing) {
-                    Image(systemName: preferencesSettingsEnum.imageName)
-                        .foregroundColor(.gray)
-                    
-                    Text(preferencesSettingsEnum.title)
-                        .font(.subheadline.bold())
-                        .foregroundColor(Color(UIColor.label))
+                Text("Display mode:")
+                Picker("Is Dark?", selection: $displayMode) {
+                    Text("System").tag(DisplayMode.system)
+                    Text("Dark").tag(DisplayMode.dark)
+                    Text("Light").tag(DisplayMode.light)
+                }
+                .pickerStyle(SegmentedPickerStyle())
+                .onChange(of: displayMode) { newValue in
+                    print(displayMode)
+                    displayMode.setAppDisplayMode()
                 }
                 Spacer()
             }
@@ -35,6 +63,6 @@ struct PreferencesOptionRowView: View {
 
 struct PreferencesOptionRowView_Previews: PreviewProvider {
     static var previews: some View {
-        PreferencesOptionRowView(preferencesSettingsEnum: .darkMode)
+        PreferencesOptionRowView(preferencesSettingsEnum: .displayModeSetting)
     }
 }
