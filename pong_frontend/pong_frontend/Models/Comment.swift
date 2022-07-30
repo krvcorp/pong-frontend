@@ -8,12 +8,15 @@
 import Foundation
 
 struct Comment: Hashable, Identifiable, Codable {
-    var id: String
-    var post: String
-    var user: String
-    var comment: String
-    var createdAt: String
-    var updatedAt: String
-    var score: Int
-    var timeSincePosted: String
+    let id: String
+    let post: String
+    let user: String
+    let comment: String
+    let createdAt: String
+    let updatedAt: String
+    let score: Int
+    let timeSincePosted: String
+    let parent: String?
+    let children: [Comment]
+    let numberOnPost: Int
 }

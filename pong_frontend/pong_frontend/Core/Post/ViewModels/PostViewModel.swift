@@ -83,7 +83,7 @@ class PostViewModel: ObservableObject {
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
             guard let commentResponse = try? decoder.decode(Comment.self, from: data) else {
-                completion(.failure(.invalidCredentials))
+                completion(.failure(.custom(errorMessage: "Decode failed")))
                 return
             }
             
