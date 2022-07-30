@@ -412,41 +412,6 @@ class CommentReport(models.Model):
         return str(self.id) + " " + str(self.user)
 
 
-class DirectConversation(models.Model):
-    # User1 is the initiator of the conversation
-    user1 = models.ForeignKey(
-        User, on_delete=models.SET_NULL, null=True, related_name="user1"
-    )
-    user2 = models.ForeignKey(
-        User, on_delete=models.SET_NULL, null=True, related_name="user2"
-    )
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def get_messages(self):
-        return DirectMessage.objects.filter(conversation=self).order_by("created_at")
-
-    def get_most_recent_message(self):
-        return self.get_messages().last()
-
-    def __str__(self):
-        return str(self.id)
-
-
-class DirectMessage(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    conversation = models.ForeignKey(
-        DirectConversation, on_delete=models.SET_NULL, null=True
-    )
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    message = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return str(self.message)
-
-
 class School(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=100)

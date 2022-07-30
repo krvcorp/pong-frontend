@@ -368,26 +368,13 @@ class ListCreateCommentVoteAPIView(ListCreateAPIView):
     permission_classes = (IsAuthenticated | IsAdminUser,)
 
 
-class ListCreateMessage(ListCreateAPIView):
-    """
-    List all messages or create a new message.
-    """
+class DeleteAccountAPIView(APIView):
+    permission_classes = (IsAuthenticated | IsAdminUser,)
 
-    def get_queryset(self):
-        return DirectMessage.objects.all()
-
-    def get_serializer_class(self):
-        return DirectMessageSerializer
-
-    def perform_create(self, serializer):
-        conversation = DirectConversation.objects.get(
-            id=self.request.data["conversation_id"]
-        )
-        serializer.save(
-            user=self.request.user,
-            conversation=conversation,
-            message=self.request.data["message"],
-        )
+    def delete(self, request, *args, **kwargs):
+        user = User.objects.get(id=self.request.data["user_id"])
+        user.delete()
+        return Response(status=status.HTTP_200_OK)
 
 
 class OTPStart(APIView):

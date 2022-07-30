@@ -50,4 +50,5 @@ urlpatterns = [
     path("otp-verify/", views.OTPVerify.as_view(), name="otp-verify"),
     path("verify-user/", views.VerifyUser.as_view(), name="verify-user"),
     path("leaderboard/", views.LeaderboardAPIView.as_view(), name="leaderboard"),
+    path("deleteaccount/", views.DeleteAccountAPIView.as_view(), name="deleteaccount"),
 ]
