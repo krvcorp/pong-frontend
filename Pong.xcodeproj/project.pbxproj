@@ -235,13 +235,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		68F492BF461B66BE830D9B2B /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
 		6A21845C2877676B00681C86 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -377,9 +370,8 @@
 			isa = PBXGroup;
 			children = (
 				6A5479C82895C08F00BC18CD /* Pong.entitlements */,
-				6A5DF0E52851321000F28A06 /* pong_frontend */,
+				6A5DF0E52851321000F28A06 /* Pong */,
 				6A5DF0E42851321000F28A06 /* Products */,
-				68F492BF461B66BE830D9B2B /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -391,7 +383,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		6A5DF0E52851321000F28A06 /* pong_frontend */ = {
+		6A5DF0E52851321000F28A06 /* Pong */ = {
 			isa = PBXGroup;
 			children = (
 				6A5479BB289462B100BC18CD /* Managers */,
@@ -408,7 +400,7 @@
 				6A5DF170285246F400F28A06 /* DefaultModels.swift */,
 				6A5DF10B285134ED00F28A06 /* Preview Content */,
 			);
-			path = pong_frontend;
+			path = Pong;
 			sourceTree = "<group>";
 		};
 		6A5DF106285134ED00F28A06 /* Models */ = {
@@ -916,11 +908,11 @@
 			);
 			mainGroup = 6A5DF0DA2851321000F28A06;
 			packageReferences = (
-				6A218467287A0C8200681C86 /* XCRemoteSwiftPackageReference "iPhoneNumberField.git" */,
-				6A68DC30288A225700BF2775 /* XCRemoteSwiftPackageReference "PopupView.git" */,
-				6A68DC44288B7A3100BF2775 /* XCRemoteSwiftPackageReference "ScalingHeaderScrollView.git" */,
-				6A5479C52895BB9800BC18CD /* XCRemoteSwiftPackageReference "microsoft-authentication-library-for-objc.git" */,
-				28E7C3202895E23B002C186A /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS.git" */,
+				6A218467287A0C8200681C86 /* XCRemoteSwiftPackageReference "iPhoneNumberField" */,
+				6A68DC30288A225700BF2775 /* XCRemoteSwiftPackageReference "PopupView" */,
+				6A68DC44288B7A3100BF2775 /* XCRemoteSwiftPackageReference "ScalingHeaderScrollView" */,
+				6A5479C52895BB9800BC18CD /* XCRemoteSwiftPackageReference "microsoft-authentication-library-for-objc" */,
+				28E7C3202895E23B002C186A /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				28E7C3282895E302002C186A /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			productRefGroup = 6A5DF0E42851321000F28A06 /* Products */;
@@ -1260,7 +1252,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		28E7C3202895E23B002C186A /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS.git" */ = {
+		28E7C3202895E23B002C186A /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/google/GoogleSignIn-iOS.git";
 			requirement = {
@@ -1276,7 +1268,7 @@
 				minimumVersion = 5.6.1;
 			};
 		};
-		6A218467287A0C8200681C86 /* XCRemoteSwiftPackageReference "iPhoneNumberField.git" */ = {
+		6A218467287A0C8200681C86 /* XCRemoteSwiftPackageReference "iPhoneNumberField" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/MojtabaHs/iPhoneNumberField.git";
 			requirement = {
@@ -1284,7 +1276,7 @@
 				kind = branch;
 			};
 		};
-		6A5479C52895BB9800BC18CD /* XCRemoteSwiftPackageReference "microsoft-authentication-library-for-objc.git" */ = {
+		6A5479C52895BB9800BC18CD /* XCRemoteSwiftPackageReference "microsoft-authentication-library-for-objc" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/AzureAD/microsoft-authentication-library-for-objc.git";
 			requirement = {
@@ -1292,7 +1284,7 @@
 				minimumVersion = 1.0.0;
 			};
 		};
-		6A68DC30288A225700BF2775 /* XCRemoteSwiftPackageReference "PopupView.git" */ = {
+		6A68DC30288A225700BF2775 /* XCRemoteSwiftPackageReference "PopupView" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/exyte/PopupView.git";
 			requirement = {
@@ -1300,7 +1292,7 @@
 				version = 1.1.5;
 			};
 		};
-		6A68DC44288B7A3100BF2775 /* XCRemoteSwiftPackageReference "ScalingHeaderScrollView.git" */ = {
+		6A68DC44288B7A3100BF2775 /* XCRemoteSwiftPackageReference "ScalingHeaderScrollView" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/exyte/ScalingHeaderScrollView.git";
 			requirement = {
@@ -1313,12 +1305,12 @@
 /* Begin XCSwiftPackageProductDependency section */
 		28E7C3212895E23B002C186A /* GoogleSignIn */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 28E7C3202895E23B002C186A /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS.git" */;
+			package = 28E7C3202895E23B002C186A /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
 			productName = GoogleSignIn;
 		};
 		28E7C3232895E23B002C186A /* GoogleSignInSwift */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 28E7C3202895E23B002C186A /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS.git" */;
+			package = 28E7C3202895E23B002C186A /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
 			productName = GoogleSignInSwift;
 		};
 		28E7C3292895E302002C186A /* Alamofire */ = {
@@ -1328,22 +1320,22 @@
 		};
 		6A218468287A0C8200681C86 /* iPhoneNumberField */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 6A218467287A0C8200681C86 /* XCRemoteSwiftPackageReference "iPhoneNumberField.git" */;
+			package = 6A218467287A0C8200681C86 /* XCRemoteSwiftPackageReference "iPhoneNumberField" */;
 			productName = iPhoneNumberField;
 		};
 		6A5479C62895BB9800BC18CD /* MSAL */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 6A5479C52895BB9800BC18CD /* XCRemoteSwiftPackageReference "microsoft-authentication-library-for-objc.git" */;
+			package = 6A5479C52895BB9800BC18CD /* XCRemoteSwiftPackageReference "microsoft-authentication-library-for-objc" */;
 			productName = MSAL;
 		};
 		6A68DC31288A225700BF2775 /* PopupView */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 6A68DC30288A225700BF2775 /* XCRemoteSwiftPackageReference "PopupView.git" */;
+			package = 6A68DC30288A225700BF2775 /* XCRemoteSwiftPackageReference "PopupView" */;
 			productName = PopupView;
 		};
 		6A68DC45288B7A3100BF2775 /* ScalingHeaderScrollView */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 6A68DC44288B7A3100BF2775 /* XCRemoteSwiftPackageReference "ScalingHeaderScrollView.git" */;
+			package = 6A68DC44288B7A3100BF2775 /* XCRemoteSwiftPackageReference "ScalingHeaderScrollView" */;
 			productName = ScalingHeaderScrollView;
 		};
 /* End XCSwiftPackageProductDependency section */
