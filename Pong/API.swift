@@ -20,6 +20,7 @@ enum NetworkError: Error {
 
 class API: ObservableObject {
     var root: String = "http://localhost:8005/api/"
+    var rootAuth: String = "http://localhost:8005/auth/"
     @Published var posts: [Post] = []
     
     func getPosts() {

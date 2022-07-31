@@ -32,7 +32,7 @@ struct EmailVerificationView: View {
                 loginVM.googleSignInButton(phoneLoginVM: phoneLoginVM)
             } label: {
                 HStack {
-                    Image("googlelogo")
+                    Image("googleLogo")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 50, height: 50)

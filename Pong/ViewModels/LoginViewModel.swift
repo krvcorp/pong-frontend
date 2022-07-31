@@ -36,7 +36,7 @@ import Alamofire
             "Content-Type": "application/json"
         ]
         
-        AF.request("\(API().root)verify-user/", method: method, parameters: parameters, encoder: parameterEncoder, headers: headers).responseDecodable(of: VerifyEmailResponseBody.self) { response in
+        AF.request("\(API().rootAuth)verify-user/", method: method, parameters: parameters, encoder: parameterEncoder, headers: headers).responseDecodable(of: VerifyEmailResponseBody.self) { response in
             print("DEBUG: loginVM verifyEmail response: \(response)")
             switch response.result {
             case .success(let successResponse):
