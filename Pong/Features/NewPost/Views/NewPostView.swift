@@ -12,11 +12,18 @@ struct NewPostView: View {
     @Environment(\.presentationMode) var presentationMode
     @StateObject var viewModel = NewPostViewModel()
     
+    // local logic shit
     @State private var text = ""
+    @State private var max_lim = 180
+    
+    // image uploader
     @State private var showSheet = false
     @State private var image = UIImage()
-    @State private var max_lim = 180
 
+    // new poll
+    @State private var showNewPoll = false
+    
+    // tracks scroll to top of recent posts
     @Binding var newPost: Bool
     
     func limitText(_ upper: Int) {
@@ -54,6 +61,10 @@ struct NewPostView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
                             .padding()
                         }
+                        if showNewPoll == true {
+                            NewPoll(showNewPoll: $showNewPoll)
+                        }
+                        
                     }
                     
                     Spacer()
@@ -76,7 +87,8 @@ struct NewPostView: View {
 
                                 
                                 Button {
-                                    print("DEBUG: Poll")
+                                    print("DEBUG: showNewPoll")
+                                    showNewPoll.toggle()
                                 } label: {
                                     Image(systemName: "chart.bar")
                                         .resizable()

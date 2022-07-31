@@ -21,7 +21,7 @@ class PostViewModel: ObservableObject {
             return
         }
         
-        let body = PostVoteRequestBody(post_id: id, user: "9fcafc5b-1519-409c-982c-05189a7ea98b", vote: direction)
+        let body = PostVoteRequestBody(postId: id, vote: direction)
         
         var request = URLRequest(url: url)
         if (currentDirection == 1 || currentDirection == -1) && direction != currentDirection {
@@ -38,7 +38,7 @@ class PostViewModel: ObservableObject {
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             
-            guard let data = data, error == nil else {
+            guard let _ = data, error == nil else {
                 completion(.failure(.custom(errorMessage: "No data")))
                 return
             }
@@ -141,7 +141,7 @@ class PostViewModel: ObservableObject {
         request.addValue("Token \(token)", forHTTPHeaderField: "Authorization")
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
-            print("DEBUG: postVM readPost data \(data)")
+            print("DEBUG: postVM readPost data \(data!)")
             guard let data = data, error == nil else {
                 completion(.failure(.custom(errorMessage: "No data")))
                 return
@@ -173,7 +173,7 @@ class PostViewModel: ObservableObject {
         request.addValue("Token \(token)", forHTTPHeaderField: "Authorization")
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
-            guard let data = data, error == nil else {
+            guard let _ = data, error == nil else {
                 completion(.failure(.custom(errorMessage: "No data")))
                 return
             }

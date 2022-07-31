@@ -14,14 +14,14 @@ struct ContentView: View {
     @ObservedObject var settingsSheetVM = SettingsSheetViewModel()
     
     var body: some View {
-//        if DAKeychain.shared["token"] != nil && !loginVM.initialOnboard {
-//            MainInterfaceView
-//        } else if DAKeychain.shared["token"] != nil {
-//            WelcomeView(loginVM: loginVM)
-//        } else {
-//            OnboardView(loginVM: loginVM)
-//        }
-        MainInterfaceView
+        if DAKeychain.shared["token"] != nil && !loginVM.initialOnboard {
+            MainInterfaceView
+        } else if DAKeychain.shared["token"] != nil {
+            WelcomeView(loginVM: loginVM)
+        } else {
+            OnboardView(loginVM: loginVM)
+        }
+//        MainInterfaceView
     }
 }
 
