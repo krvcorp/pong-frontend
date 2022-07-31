@@ -8,10 +8,11 @@
 import Foundation
 import SwiftUI
 
-@MainActor class SettingsSheetViewModel: ObservableObject {
+class SettingsSheetViewModel: ObservableObject {
     @Published var showSettingsSheetView = false
     @Published var showAccountSheetView = false
     @Published var showPreferencesSheetView = false
     @Published var showNotificationsSheetView = false
     @Published var showLegalSheetView = false
+    @Published var showDeleteAccountConfirmationView = false
 }

@@ -34,20 +34,12 @@ struct AccountsSheetView: View {
                 VStack(alignment: .leading, spacing: 32) {
                     ForEach(AccountsSheetEnum.allCases, id: \.rawValue) { accountSheetEnum in
                         switch accountSheetEnum {
-                        case .changeEmail:
-                            AccountsOptionRowView(accountsSheetEnum: accountSheetEnum)
-                                .onTapGesture {
-                                    print("DEBUG: AccountSheetView Button click change email")
-                                }
-                        case .changePhone:
-                            AccountsOptionRowView(accountsSheetEnum: accountSheetEnum)
-                                .onTapGesture {
-                                    print("DEBUG: AccountSheetView Button click change phone")
-                                }
                         case .deleteAccount:
                             AccountsOptionRowView(accountsSheetEnum: accountSheetEnum)
                                 .onTapGesture {
                                     print("DEBUG: AccountSheetView Button click delete account")
+                                    settingsSheetVM.showAccountSheetView.toggle()
+                                    settingsSheetVM.showDeleteAccountConfirmationView.toggle()
                                 }
                         }
                     }

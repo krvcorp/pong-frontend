@@ -14,14 +14,14 @@ struct ContentView: View {
     @ObservedObject var settingsSheetVM = SettingsSheetViewModel()
     
     var body: some View {
-        if DAKeychain.shared["token"] != nil && !loginVM.initialOnboard {
-            MainInterfaceView
-        } else if DAKeychain.shared["token"] != nil {
-            WelcomeView(loginVM: loginVM)
-        } else {
-            OnboardView(loginVM: loginVM)
-        }
-//        MainInterfaceView
+//        if DAKeychain.shared["token"] != nil && !loginVM.initialOnboard {
+//            MainInterfaceView
+//        } else if DAKeychain.shared["token"] != nil {
+//            WelcomeView(loginVM: loginVM)
+//        } else {
+//            OnboardView(loginVM: loginVM)
+//        }
+        MainInterfaceView
     }
 }
 
@@ -56,6 +56,10 @@ extension ContentView {
             // DeleteConfirmationView
             .popup(isPresented: $postSettingsVM.showDeleteConfirmationView, type: .`default`, closeOnTap: false, closeOnTapOutside: true, backgroundColor: .black.opacity(0.4)) {
                 DeleteConfirmationView(postSettingsVM: postSettingsVM, feedVM: feedVM)
+            }
+            // DeleteAccountConfirmationView
+            .popup(isPresented: $settingsSheetVM.showDeleteAccountConfirmationView, type: .`default`, closeOnTap: false, closeOnTapOutside: true, backgroundColor: .black.opacity(0.4)) {
+                DeleteAccountConfirmationView(settingsSheetVM: settingsSheetVM)
             }
         }
     }

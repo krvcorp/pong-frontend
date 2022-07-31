@@ -23,6 +23,7 @@
 		6A449BA6289640D70015826A /* NewPoll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BA5289640D70015826A /* NewPoll.swift */; };
 		6A449BA8289640E00015826A /* NewPollViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BA7289640E00015826A /* NewPollViewModel.swift */; };
 		6A449BAA28965FDD0015826A /* PostVoteResponseBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BA928965FDD0015826A /* PostVoteResponseBody.swift */; };
+		6A449BAC289663A70015826A /* DeleteAccountConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BAB289663A70015826A /* DeleteAccountConfirmationView.swift */; };
 		6A44F435286F951700E63423 /* ChooseLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A44F434286F951700E63423 /* ChooseLocationView.swift */; };
 		6A44F437286F952300E63423 /* ChooseLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A44F436286F952300E63423 /* ChooseLocationViewModel.swift */; };
 		6A44F439286FE3DC00E63423 /* ChooseLocationFilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A44F438286FE3DC00E63423 /* ChooseLocationFilterViewModel.swift */; };
@@ -132,6 +133,7 @@
 		6A449BA5289640D70015826A /* NewPoll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NewPoll.swift; path = ../../../../../../NewPoll.swift; sourceTree = "<group>"; };
 		6A449BA7289640E00015826A /* NewPollViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NewPollViewModel.swift; path = ../../../../../../NewPollViewModel.swift; sourceTree = "<group>"; };
 		6A449BA928965FDD0015826A /* PostVoteResponseBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PostVoteResponseBody.swift; path = ../../../../PostVoteResponseBody.swift; sourceTree = "<group>"; };
+		6A449BAB289663A70015826A /* DeleteAccountConfirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DeleteAccountConfirmationView.swift; path = ../../../../../../../DeleteAccountConfirmationView.swift; sourceTree = "<group>"; };
 		6A44F434286F951700E63423 /* ChooseLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseLocationView.swift; sourceTree = "<group>"; };
 		6A44F436286F952300E63423 /* ChooseLocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseLocationViewModel.swift; sourceTree = "<group>"; };
 		6A44F438286FE3DC00E63423 /* ChooseLocationFilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseLocationFilterViewModel.swift; sourceTree = "<group>"; };
@@ -403,8 +405,9 @@
 		6A5479B72890587E00BC18CD /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				6A5C9D00288EF6E700B57587 /* AccountsSheetView.swift */,
 				6A5C9D02288EF75000B57587 /* AccountOptionRowView.swift */,
+				6A5C9D00288EF6E700B57587 /* AccountsSheetView.swift */,
+				6A449BAB289663A70015826A /* DeleteAccountConfirmationView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1086,6 +1089,7 @@
 				6A5C9CFF288EF68900B57587 /* AccountsSheetEnum.swift in Sources */,
 				6A449B9F289616A60015826A /* Poll.swift in Sources */,
 				6A68DBFE2889CB3400BF2775 /* PostReport.swift in Sources */,
+				6A449BAC289663A70015826A /* DeleteAccountConfirmationView.swift in Sources */,
 				6A5DF167285134EE00F28A06 /* ContentView.swift in Sources */,
 				6A5DF152285134EE00F28A06 /* TextArea.swift in Sources */,
 				6A68DC5B288E574F00BF2775 /* PostSettingsViewModel.swift in Sources */,
