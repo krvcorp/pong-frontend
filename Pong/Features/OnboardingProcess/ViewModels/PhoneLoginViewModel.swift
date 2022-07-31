@@ -10,7 +10,7 @@ import Foundation
 class PhoneLoginViewModel: ObservableObject {
     @Published var phone: String = ""
     @Published var code: String = ""
-    @Published var phoneIsProvided: Bool = false // this needs to be set to false when app launches. true only to troubleshoot app
+    @Published var phoneIsProvided: Bool = false
     @Published var phoneIsVerified: Bool = false
     @Published var firstTimeOnboard: Bool = true
     
@@ -72,22 +72,21 @@ class PhoneLoginViewModel: ObservableObject {
             switch result {
                 case .success(let responseDataContent):
                     print("DEBUG: PhoneLoginVM responseDataContent \(responseDataContent)")
-                    debugPrint(responseDataContent)
-                    // if token then go to main view
-                    // if email_unverified is true then go to GoogleSignInView
-                    // if code_expire is true then banner activate that code_expired
-                    // if code_incorrect is true then banner active that code_incorrect
                     if let token = responseDataContent.token {
-                       // If key exist, this code will be executed
                         DispatchQueue.main.async {
-                            DAKeychain.shared["token"] = token // Store
+                            // resets phoneLoginVM
                             self.phone = ""
+                            self.code = ""
                             self.phoneIsProvided = false
                             self.phoneIsVerified = false
-                            self.code = ""
+                            
+                            DAKeychain.shared["token"] = token // Store
                             if let userId = responseDataContent.userId {
                                 DAKeychain.shared["userId"] = userId
                             }
+
+                            // used to force loginVM to update and subsequently the ContentView to update
+                            loginVM.forceUpdate.toggle()
                         }
                     } else if responseDataContent.emailUnverified != nil {
                       // If key does not exist, this code will be executed
