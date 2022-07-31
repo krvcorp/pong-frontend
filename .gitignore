@@ -109,3 +109,4 @@ iOSInjectionProject/
 
 **/.DS_Store
 Pong.xcodeproj/project.xcworkspace/xcuserdata/khoinguyen.xcuserdatad/UserInterfaceState.xcuserstate
+*.xcuserstate
