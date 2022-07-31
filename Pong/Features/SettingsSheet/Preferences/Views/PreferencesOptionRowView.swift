@@ -14,21 +14,14 @@ struct PreferencesOptionRowView: View {
     enum DisplayMode: Int {
         case system, dark, light
         
-        var colorScheme: ColorScheme? {
-            switch self {
-            case .system: return nil
-            case .dark: return ColorScheme.dark
-            case .light: return ColorScheme.light
-            }
-        }
-        
         func setAppDisplayMode() {
             var userInterfaceStyle: UIUserInterfaceStyle
             switch self {
-            case .system: userInterfaceStyle = UITraitCollection.current.userInterfaceStyle
-            case .dark: userInterfaceStyle = .dark
-            case .light: userInterfaceStyle = .light
+                case .system: userInterfaceStyle = .unspecified
+                case .dark: userInterfaceStyle = .dark
+                case .light: userInterfaceStyle = .light
             }
+            
             let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene
             scene?.keyWindow?.overrideUserInterfaceStyle = userInterfaceStyle
         }
@@ -39,7 +32,8 @@ struct PreferencesOptionRowView: View {
     var body: some View {
         VStack {
             HStack {
-                Text("Display mode:")
+                Text("Display mode")
+                    .font(.subheadline.bold())
                 Picker("Is Dark?", selection: $displayMode) {
                     Text("System").tag(DisplayMode.system)
                     Text("Dark").tag(DisplayMode.dark)
@@ -47,7 +41,6 @@ struct PreferencesOptionRowView: View {
                 }
                 .pickerStyle(SegmentedPickerStyle())
                 .onChange(of: displayMode) { newValue in
-                    print(displayMode)
                     displayMode.setAppDisplayMode()
                 }
                 Spacer()
