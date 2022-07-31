@@ -32,7 +32,7 @@ class PhoneLoginViewModel: ObservableObject {
         print("DEBUG: API otpStart \(phone)")
         
         // change URL to real login
-        guard let url = URL(string: "\(API().root)" + "otp-start/") else {
+        guard let url = URL(string: "\(API().root)" + "auth/otp-start/") else {
             completion(.failure(.custom(errorMessage: "URL is not correct")))
             return
         }
@@ -113,7 +113,7 @@ class PhoneLoginViewModel: ObservableObject {
     
     func otpVerifyAPI(phone: String, code: String, completion: @escaping (Result<OTPVerifyResponseBody, AuthenticationError>) -> Void) {
         // change URL to real login
-        guard let url = URL(string: "\(API().root)" + "otp-verify/") else {
+        guard let url = URL(string: "\(API().root)" + "auth/otp-verify/") else {
             completion(.failure(.custom(errorMessage: "URL is not correct")))
             return
         }

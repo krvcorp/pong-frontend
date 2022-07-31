@@ -17,6 +17,7 @@ struct FeedView: View {
     // variables
     @State private var isRefreshing = false
     @State private var offset = CGSize.zero
+    // tracks scroll to top on recentposts on new post
     @State private var newPost = false
     var school: String // will need to filter entire page by community
 

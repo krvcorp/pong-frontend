@@ -15,7 +15,7 @@ class ProfileCommentBubbleViewModel: ObservableObject {
 //        request.httpBody = try? encoder.encode(body)
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
-            guard let data = data, error == nil else { return }
+            guard let _ = data, error == nil else { return }
 //            TODO: Decode delete comment response and create potential error based on something like "Comment could not be deleted for X/Y/Z"
 //            let decoder = JSONDecoder()
 //            decoder.keyDecodingStrategy = .convertFromSnakeCase
@@ -45,7 +45,7 @@ class ProfileCommentBubbleViewModel: ObservableObject {
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             
-            guard let data = data, error == nil else {
+            guard let _ = data, error == nil else {
                 return
             }
             

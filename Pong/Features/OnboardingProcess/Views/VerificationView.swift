@@ -33,21 +33,22 @@ struct VerificationView: View {
                 Spacer()
                 
                 VStack {
-                    Button(action: {
-                        print("DEBUG: VerificationView Resend OTP")
-                        phoneLoginVM.otpStart()
-                    }) {
-                        Text("Resend OTP")
-                            .frame(minWidth: 0, maxWidth: .infinity)
-                            .font(.system(size: 18).bold())
-                            .padding()
-                            .foregroundColor(Color(UIColor.systemBackground))
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 5)
-                                    .stroke(Color(UIColor.systemBackground), lineWidth: 2))
-                            .background(Color(UIColor.label)) // If you have this
-                            .cornerRadius(20)         // You also need the cornerRadius here
+                    HStack {
+                        Text("Didn't get code?")
+                            .font(.subheadline.bold())
+                            .foregroundColor(.gray)
+                        
+                        Spacer()
+                        
+                        Button(action: {
+                            print("DEBUG: VerificationView Resend OTP")
+                            phoneLoginVM.otpStart()
+                        }) {
+                            Text("Resend OTP")
+                                .font(.subheadline.bold())
+                        }
                     }
+
                     if phoneLoginVM.code.count == 6 {
                         Button(action: {
                             print("DEBUG: VerificationView Continue to verify")

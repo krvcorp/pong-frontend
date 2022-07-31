@@ -8,7 +8,6 @@
 import Foundation
 
 struct PostVoteRequestBody: Encodable {
-    let post_id: String
-    let user: String
+    let postId: String
     let vote: Int
 }

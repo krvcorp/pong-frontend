@@ -20,14 +20,19 @@ class PostBubbleViewModel: ObservableObject {
             return
         }
         
-        let body = PostVoteRequestBody(post_id: id, user: "9fcafc5b-1519-409c-982c-05189a7ea98b", vote: direction)
+        var voteToSend = 0
+        
+        if direction == currentDirection {
+            voteToSend = 0
+        } else {
+            voteToSend = direction
+        }
+        
+        let body = PostVoteRequestBody(postId: id, vote: voteToSend)
         
         var request = URLRequest(url: url)
-        if currentDirection != 0 {
-            request.httpMethod = "PATCH"
-        } else {
-            request.httpMethod = "POST"
-        }
+        
+        request.httpMethod = "POST"
 
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("Token \(token)", forHTTPHeaderField: "Authorization")
@@ -42,14 +47,13 @@ class PostBubbleViewModel: ObservableObject {
                 return
             }
             
-            // upvote on upvote or downvote on downvote
-            if currentDirection == direction {
-                completion(.success(0))
-            } else if direction == 1 {
-                completion(.success(1))
-            } else if direction == -1 {
-                completion(.success(-1))
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            guard let postVoteResponse = try? decoder.decode(PostVoteResponseBody.self, from: data) else {
+                completion(.failure(.invalidCredentials))
+                return
             }
+            completion(.success(postVoteResponse.voteStatus))
             
         }.resume()
     }
@@ -104,7 +108,7 @@ class PostBubbleViewModel: ObservableObject {
         request.addValue("Token \(token)", forHTTPHeaderField: "Authorization")
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
-            guard let data = data, error == nil else {
+            guard let _ = data, error == nil else {
                 completion(.failure(.custom(errorMessage: "No data")))
                 return
             }
