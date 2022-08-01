@@ -9,12 +9,11 @@ import SwiftUI
 
 struct PostView: View {
     @Environment(\.presentationMode) var presentationMode
-    @ObservedObject var feedVM : FeedViewModel
-    @ObservedObject var postSettingsVM : PostSettingsViewModel
     @StateObject var postVM = PostViewModel()
-    @State private var message = ""
+    @Binding var post: Post // move to postVM
+    
+    @State private var comment = ""
     @State var sheet = false
-    @Binding var post: Post
     @State private var showScore = false
     
     var body: some View {
@@ -42,9 +41,9 @@ struct PostView: View {
             }
            
             HStack {
-                CustomTextField(placeholder: Text("Enter your message here"), text: $message)
+                CustomTextField(placeholder: Text("Enter your message here"), text: $comment)
                 Button {
-                    postVM.createComment(postid: post.id, comment: message) { result in
+                    postVM.createComment(postid: post.id, comment: comment) { result in
                         switch result {
                             case .success(let commentReturn):
                                 print("DEBUG: \(commentReturn)")
@@ -53,7 +52,7 @@ struct PostView: View {
                                 print("DEBUG: PostView createComment failure \(failure)")
                         }
                     }
-                    message = ""
+                    comment = ""
                 } label: {
                     Image(systemName: "paperplane.fill")
                         .foregroundColor(Color(UIColor.systemBackground))
@@ -292,6 +291,6 @@ struct PostView: View {
 
 struct PostView_Previews: PreviewProvider {
     static var previews: some View {
-        PostView(feedVM: FeedViewModel(), postSettingsVM: PostSettingsViewModel(), post: .constant(defaultPost))
+        PostView(post: .constant(defaultPost))
     }
 }

@@ -20,7 +20,7 @@ struct ProfileCommentBubble: View {
     
     var body: some View {
         // somehow this navigation link takes up space which makes the view as desired
-        NavigationLink("", destination: PostView(feedVM: feedVM, postSettingsVM: postSettingsVM, post: $profileCommentBubbleVM.post), isActive: $tapped)
+        NavigationLink("", destination: PostView(post: $profileCommentBubbleVM.post), isActive: $tapped)
         
         VStack {
             VStack {

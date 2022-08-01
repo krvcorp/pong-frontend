@@ -77,19 +77,25 @@ struct FeedView: View {
                                 // top
                                 if view == .top {
                                     ForEach(feedVM.recentPosts, id: \.self) { post in
-                                        PostBubble(post: post, postSettingsVM: postSettingsVM, feedVM: feedVM)
+                                        NavigationLink(destination: PostView(post: Binding.constant(post))) {
+                                            PostBubble(post: post, postSettingsVM: postSettingsVM, feedVM: feedVM)
+                                        }
                                     }
                                 }
                                 // hot
                                 else if view == .hot {
                                     ForEach(feedVM.recentPosts, id: \.self) { post in
-                                        PostBubble(post: post, postSettingsVM: postSettingsVM, feedVM: feedVM)
+                                        NavigationLink(destination: PostView(post: Binding.constant(post))) {
+                                            PostBubble(post: post, postSettingsVM: postSettingsVM, feedVM: feedVM)
+                                        }
                                     }
                                 }
                                 // recent
                                 else if view == .recent {
                                     ForEach(feedVM.recentPosts, id: \.self) { post in
-                                        PostBubble(post: post, postSettingsVM: postSettingsVM, feedVM: feedVM)
+                                        NavigationLink(destination: PostView(post: Binding.constant(post))) {
+                                            PostBubble(post: post, postSettingsVM: postSettingsVM, feedVM: feedVM)
+                                        }
                                     }
                                 }
                             }
