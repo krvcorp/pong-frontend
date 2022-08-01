@@ -48,6 +48,7 @@ struct PostView: View {
                         switch result {
                             case .success(let commentReturn):
                                 print("DEBUG: \(commentReturn)")
+                                post.numComments = post.numComments + 1
                             case .failure(let failure):
                                 print("DEBUG: PostView createComment failure \(failure)")
                         }

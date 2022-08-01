@@ -8,7 +8,8 @@
 import Foundation
 
 enum AuthenticationError: Error {
-    case invalidCredentials
+    case decodeError
+    case noData
     case custom(errorMessage: String)
 }
 

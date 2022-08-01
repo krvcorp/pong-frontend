@@ -38,7 +38,7 @@ class NewPostViewModel: ObservableObject {
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
             guard let loginResponse = try? decoder.decode(Post.self, from: data) else {
-                completion(.failure(.invalidCredentials))
+                completion(.failure(.decodeError))
                 return
             }
             

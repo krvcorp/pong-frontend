@@ -8,5 +8,6 @@
 import Foundation
 
 struct PostVoteResponseBody: Decodable {
-    let voteStatus: Int
+    let voteStatus: Int?
+    let error: String?
 }

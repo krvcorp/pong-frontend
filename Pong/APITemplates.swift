@@ -154,7 +154,7 @@ class SomeViewModel: ObservableObject {
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
             guard let someResponseBody = try? JSONDecoder().decode(SomeResponseBody.self, from: data) else {
-                completion(.failure(.invalidCredentials))
+                completion(.failure(.decodeError))
                 return
             }
             

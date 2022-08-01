@@ -52,12 +52,12 @@ class PhoneLoginViewModel: ObservableObject {
             }
             
             guard let otpStartResponse = try? JSONDecoder().decode(OTPStartResponseBody.self, from: data) else {
-                completion(.failure(.invalidCredentials))
+                completion(.failure(.decodeError))
                 return
             }
             
             guard let new_user = otpStartResponse.newUser else {
-                completion(.failure(.invalidCredentials))
+                completion(.failure(.decodeError))
                 return
             }
             
@@ -134,7 +134,7 @@ class PhoneLoginViewModel: ObservableObject {
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
             guard let otpVerifyResponse = try? decoder.decode(OTPVerifyResponseBody.self, from: data) else {
-                completion(.failure(.invalidCredentials))
+                completion(.failure(.decodeError))
                 return
             }
             

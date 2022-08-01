@@ -116,8 +116,12 @@ struct PostBubble: View {
                     Button {
                         postBubbleVM.postVote(id: post.id, direction: 1, currentDirection: post.voteStatus) { result in
                             switch result {
-                            case .success(let newVote):
-                                self.post.voteStatus = newVote
+                            case .success(let postResponseBody):
+                                if let voteStatus = postResponseBody.voteStatus {
+                                    self.post.voteStatus = voteStatus
+                                } else if let error = postResponseBody.error {
+                                    print("DEBUG: \(error)")
+                                }
                             case .failure(let error):
                                 print("DEBUG: postBubbleVM.postVote error: \(error)")
                             }
@@ -139,8 +143,12 @@ struct PostBubble: View {
                     Button {
                         postBubbleVM.postVote(id: post.id, direction: -1, currentDirection: post.voteStatus) { result in
                             switch result {
-                            case .success(let newVote):
-                                self.post.voteStatus = newVote
+                            case .success(let postResponseBody):
+                                if let voteStatus = postResponseBody.voteStatus {
+                                    self.post.voteStatus = voteStatus
+                                } else if let error = postResponseBody.error {
+                                    print("DEBUG: \(error)")
+                                }
                             case .failure(let error):
                                 print("DEBUG: postBubbleVM.postVote error: \(error)")
                             }
@@ -153,8 +161,12 @@ struct PostBubble: View {
                     Button {
                         postBubbleVM.postVote(id: post.id, direction: 1, currentDirection: post.voteStatus) { result in
                             switch result {
-                            case .success(let newVote):
-                                self.post.voteStatus = newVote
+                            case .success(let postResponseBody):
+                                if let voteStatus = postResponseBody.voteStatus {
+                                    self.post.voteStatus = voteStatus
+                                } else if let error = postResponseBody.error {
+                                    print("DEBUG: \(error)")
+                                }
                             case .failure(let error):
                                 print("DEBUG: postBubbleVM.postVote error: \(error)")
                             }
@@ -177,8 +189,12 @@ struct PostBubble: View {
                     Button {
                         postBubbleVM.postVote(id: post.id, direction: -1, currentDirection: post.voteStatus) { result in
                             switch result {
-                            case .success(let newVote):
-                                self.post.voteStatus = newVote
+                            case .success(let postResponseBody):
+                                if let voteStatus = postResponseBody.voteStatus {
+                                    self.post.voteStatus = voteStatus
+                                } else if let error = postResponseBody.error {
+                                    print("DEBUG: \(error)")
+                                }
                             case .failure(let error):
                                 print("DEBUG: postBubbleVM.postVote error: \(error)")
                             }
@@ -191,8 +207,12 @@ struct PostBubble: View {
                     Button {
                         postBubbleVM.postVote(id: post.id, direction: 1, currentDirection: post.voteStatus) { result in
                             switch result {
-                            case .success(let newVote):
-                                self.post.voteStatus = newVote
+                            case .success(let postResponseBody):
+                                if let voteStatus = postResponseBody.voteStatus {
+                                    self.post.voteStatus = voteStatus
+                                } else if let error = postResponseBody.error {
+                                    print("DEBUG: \(error)")
+                                }
                             case .failure(let error):
                                 print("DEBUG: postBubbleVM.postVote error: \(error)")
                             }
@@ -214,8 +234,12 @@ struct PostBubble: View {
                     Button {
                         postBubbleVM.postVote(id: post.id, direction: -1, currentDirection: post.voteStatus) { result in
                             switch result {
-                            case .success(let newVote):
-                                self.post.voteStatus = newVote
+                            case .success(let postResponseBody):
+                                if let voteStatus = postResponseBody.voteStatus {
+                                    self.post.voteStatus = voteStatus
+                                } else if let error = postResponseBody.error {
+                                    print("DEBUG: \(error)")
+                                }
                             case .failure(let error):
                                 print("DEBUG: postBubbleVM.postVote error: \(error)")
                             }
