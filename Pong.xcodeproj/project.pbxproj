@@ -115,6 +115,7 @@
 		6A449CC82896F4330015826A /* DefaultModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C602896F4320015826A /* DefaultModels.swift */; };
 		6A449CC92896F4330015826A /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C612896F4320015826A /* API.swift */; };
 		6A449CCA2896F4330015826A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C622896F4320015826A /* ContentView.swift */; };
+		6A449CCF2897A5BD0015826A /* CommentBubbleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449CCE2897A5BD0015826A /* CommentBubbleViewModel.swift */; };
 		6A5479C72895BB9800BC18CD /* MSAL in Frameworks */ = {isa = PBXBuildFile; productRef = 6A5479C62895BB9800BC18CD /* MSAL */; };
 		6A68DC32288A225700BF2775 /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = 6A68DC31288A225700BF2775 /* PopupView */; };
 		6A68DC46288B7A3100BF2775 /* ScalingHeaderScrollView in Frameworks */ = {isa = PBXBuildFile; productRef = 6A68DC45288B7A3100BF2775 /* ScalingHeaderScrollView */; };
@@ -225,6 +226,7 @@
 		6A449C602896F4320015826A /* DefaultModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultModels.swift; sourceTree = "<group>"; };
 		6A449C612896F4320015826A /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		6A449C622896F4320015826A /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		6A449CCE2897A5BD0015826A /* CommentBubbleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentBubbleViewModel.swift; sourceTree = "<group>"; };
 		6A5479C82895C08F00BC18CD /* Pong.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Pong.entitlements; sourceTree = "<group>"; };
 		6A5DF0E32851321000F28A06 /* Pong.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pong.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -706,14 +708,14 @@
 			isa = PBXGroup;
 			children = (
 				6A449C4D2896F4320015826A /* PostBubble */,
+				6A449CCB2897A5A20015826A /* CommentBubble */,
+				6A449C5A2896F4320015826A /* Poll */,
 				6A449C362896F4320015826A /* NewPoll */,
 				6A449C3B2896F4320015826A /* PostSettings */,
 				6A449C472896F4320015826A /* ProfileCommentBubble */,
 				6A449C532896F4320015826A /* Report */,
-				6A449C5A2896F4320015826A /* Poll */,
 				6A449C4C2896F4320015826A /* BackButton.swift */,
 				6A449C592896F4320015826A /* CustomInputField.swift */,
-				6A449C582896F4320015826A /* CommentBubble.swift */,
 				6A449C522896F4320015826A /* ActionSheets.swift */,
 				6A449C352896F4320015826A /* TextArea.swift */,
 				6A449C432896F4320015826A /* MessageField.swift */,
@@ -876,6 +878,31 @@
 				6A449C5E2896F4320015826A /* Poll.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		6A449CCB2897A5A20015826A /* CommentBubble */ = {
+			isa = PBXGroup;
+			children = (
+				6A449CCD2897A5B00015826A /* ViewModels */,
+				6A449CCC2897A5AD0015826A /* Views */,
+			);
+			path = CommentBubble;
+			sourceTree = "<group>";
+		};
+		6A449CCC2897A5AD0015826A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				6A449C582896F4320015826A /* CommentBubble.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		6A449CCD2897A5B00015826A /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				6A449CCE2897A5BD0015826A /* CommentBubbleViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		6A5DF0DA2851321000F28A06 = {
@@ -1078,6 +1105,7 @@
 				6A449CCA2896F4330015826A /* ContentView.swift in Sources */,
 				6A449C892896F4320015826A /* LeaderboardViewModel.swift in Sources */,
 				6A449C8B2896F4320015826A /* ProfileFilterViewModel.swift in Sources */,
+				6A449CCF2897A5BD0015826A /* CommentBubbleViewModel.swift in Sources */,
 				6A449C672896F4320015826A /* SettingsSheetViewModel.swift in Sources */,
 				6A449C852896F4320015826A /* ChatView.swift in Sources */,
 				6A449C772896F4320015826A /* NotificationOptionRowView.swift in Sources */,
