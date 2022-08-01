@@ -10,6 +10,42 @@ import Foundation
 class PostViewModel: ObservableObject {
     @Published var comments: [Comment] = []
     
+    func getComments(id: String) -> Void {
+        print("DEBUG: postVM getComments")
+
+        guard let token = DAKeychain.shared["token"] else { return } // Fetch
+        
+        guard let url = URL(string: "\(API().root)comment/?post_id=\(id)") else {
+            print("DEBUG: URL is not correct")
+            return
+        }
+        
+        // URL handler
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("Token \(token)", forHTTPHeaderField: "Authorization")
+        
+        // Task handler. [weak self] prevents memory leaks
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            guard let data = data, error == nil else {
+                print("DEBUG: error")
+                return
+            }
+            
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            guard let getCommentsResponse = try? decoder.decode([Comment].self, from: data) else {
+                print("DEBUG: decode error")
+                return
+            }
+            
+            DispatchQueue.main.async {
+                self.comments = getCommentsResponse
+            }
+        }.resume()
+    }
+    
     func postVote(id: String, direction: Int, currentDirection: Int, completion: @escaping (Result<Int, AuthenticationError>) -> Void) {
         guard let token = DAKeychain.shared["token"] else { return } // Fetch
         
@@ -86,7 +122,7 @@ class PostViewModel: ObservableObject {
                 completion(.failure(.custom(errorMessage: "Decode failed")))
                 return
             }
-            
+            self.comments.append(commentResponse)
             completion(.success(commentResponse))
         }.resume()
     }

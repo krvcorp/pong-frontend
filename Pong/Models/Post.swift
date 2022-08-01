@@ -9,13 +9,11 @@ import Foundation
 
 struct Post: Hashable, Codable, Identifiable {
     var id: String
-    var user: String
     var title: String
     var createdAt: String
     var updatedAt: String
     var image: String?
     var numComments: Int
-    var comments: [Comment]
     var score: Int
     var timeSincePosted: String
     var voteStatus: Int

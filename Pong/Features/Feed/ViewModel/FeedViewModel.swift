@@ -29,7 +29,6 @@ class FeedViewModel: ObservableObject {
 
         guard let token = DAKeychain.shared["token"] else { return } // Fetch
         
-        // GET params
         let url_to_use: String
         
         if selectedFilter == .recent {
@@ -75,12 +74,12 @@ class FeedViewModel: ObservableObject {
                 print("DEBUG: \(error)")
             }
         }
-        // activates api call
         task.resume()
     }
     
     // this logic should probably go into feedviewmodel where tapping on a post calls an API to get updated post information regarding a post
     func readPost(post: Post, completion: @escaping (Result<Post, AuthenticationError>) -> Void) {
+        
         print("DEBUG: PostBubbleVM readPost \(post.id)")
         
         guard let token = DAKeychain.shared["token"] else { return }
@@ -120,8 +119,6 @@ class FeedViewModel: ObservableObject {
             }
             
             completion(.success(postResponse))
-            
-
         }.resume()
     }
 }

@@ -106,10 +106,6 @@ struct FeedView: View {
                         }
                     }
                     .refreshable {
-//                        do {
-//                          // Sleep for 1 seconds
-//                            try await Task.sleep(nanoseconds: 1 * 1_000_000_000)
-//                        } catch {}
                         feedVM.getPosts(selectedFilter: selectedFilter)
                     }
                     .onAppear {

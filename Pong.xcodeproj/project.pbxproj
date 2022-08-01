@@ -668,10 +668,11 @@
 		6A449C1A2896F4320015826A /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				6A449C2B2896F4320015826A /* Post.swift */,
+				6A449C1E2896F4320015826A /* Comment.swift */,
 				6A449C1B2896F4320015826A /* PostRequestBody.swift */,
 				6A449C1C2896F4320015826A /* TotalScore.swift */,
 				6A449C1D2896F4320015826A /* Votes.swift */,
-				6A449C1E2896F4320015826A /* Comment.swift */,
 				6A449C1F2896F4320015826A /* VerifyEmailRequestBody.swift */,
 				6A449C202896F4320015826A /* DeleteCommentRequestBody.swift */,
 				6A449C212896F4320015826A /* PostReport.swift */,
@@ -684,7 +685,6 @@
 				6A449C282896F4320015826A /* ReadPostRequestBody.swift */,
 				6A449C292896F4320015826A /* CreatePostReportRequestBody.swift */,
 				6A449C2A2896F4320015826A /* OTPVerifyRequestBody.swift */,
-				6A449C2B2896F4320015826A /* Post.swift */,
 				6A449C2C2896F4320015826A /* CreateCommentRequestBody.swift */,
 				6A449C2D2896F4320015826A /* VerifyEmailResponseBody.swift */,
 				6A449C2E2896F4320015826A /* LoggedInInfoResponseBody.swift */,

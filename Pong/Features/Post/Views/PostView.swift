@@ -22,7 +22,7 @@ struct PostView: View {
             RefreshableScrollView {
                 mainPost
                 LazyVStack {
-                    ForEach(post.comments) { comment in
+                    ForEach(postVM.comments, id: \.self) { comment in
                         CommentBubble(comment: comment)
                     }
                 }
@@ -33,24 +33,21 @@ struct PostView: View {
                 postVM.readPost(postId: post.id) { result in
                     switch result {
                     case .success(let post):
-                        print("DEBUG: PostView Refreshable \(post)")
                         self.post = post
-                        print("DEBUG: PostView Refreshable \(self.post)")
                     case .failure(let error):
                         print("DEBUG: PostView readPost failure \(error)")
                     }
                 }
+                postVM.getComments(id: post.id)
             }
            
             HStack {
                 CustomTextField(placeholder: Text("Enter your message here"), text: $message)
-                
                 Button {
-                    // creates coments and returns completion of the new comment
                     postVM.createComment(postid: post.id, comment: message) { result in
                         switch result {
                             case .success(let commentReturn):
-                                self.post.comments.append(commentReturn)
+                                print("DEBUG: \(commentReturn)")
                             case .failure(let failure):
                                 print("DEBUG: PostView createComment failure \(failure)")
                         }
@@ -68,6 +65,9 @@ struct PostView: View {
             .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color(UIColor.systemBackground), lineWidth: 2))
             .background(Color(UIColor.systemBackground))
         }
+        .onAppear(perform: {
+            postVM.getComments(id: post.id)
+        })
         .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
@@ -107,17 +107,17 @@ struct PostView: View {
                     Spacer()
                     
                     // DELETE BUTTON
-                    if DAKeychain.shared["userId"] == post.user {
-                        Button {
-                            print("DEBUG: DELETE POST")
-                            DispatchQueue.main.async {
-                                postSettingsVM.post = post
-                                postSettingsVM.showDeleteConfirmationView.toggle()
-                            }
-                        } label: {
-                            Image(systemName: "trash")
-                        }
-                    }
+//                    if DAKeychain.shared["userId"] == post.user {
+//                        Button {
+//                            print("DEBUG: DELETE POST")
+//                            DispatchQueue.main.async {
+//                                postSettingsVM.post = post
+//                                postSettingsVM.showDeleteConfirmationView.toggle()
+//                            }
+//                        } label: {
+//                            Image(systemName: "trash")
+//                        }
+//                    }
                     
                     Button {
                         sheet.toggle()

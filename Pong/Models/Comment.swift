@@ -10,7 +10,6 @@ import Foundation
 struct Comment: Hashable, Identifiable, Codable {
     var id: String
     var post: String
-    var user: String
     var comment: String
     var createdAt: String
     var updatedAt: String

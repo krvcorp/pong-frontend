@@ -55,15 +55,15 @@ struct PostBubble: View {
                     Spacer()
                     
                     // delete button if post id matches user id stored in keychain
-                    if DAKeychain.shared["userId"] == post.user {
-                        Button {
-                            print("DEBUG: DELETE POST")
-                            postSettingsVM.post = post
-                            postSettingsVM.showDeleteConfirmationView.toggle()
-                        } label: {
-                            Image(systemName: "trash")
-                        }
-                    }
+//                    if DAKeychain.shared["userId"] == post.user {
+//                        Button {
+//                            print("DEBUG: DELETE POST")
+//                            postSettingsVM.post = post
+//                            postSettingsVM.showDeleteConfirmationView.toggle()
+//                        } label: {
+//                            Image(systemName: "trash")
+//                        }
+//                    }
                     
                     // SHARE SHEET OF TEXT
                     Button {

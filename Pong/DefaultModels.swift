@@ -8,13 +8,11 @@
 import Foundation
 
 var defaultPost = Post(id: "default",
-                       user: "default",
                        title: "default",
                        createdAt: "default",
                        updatedAt: "default",
                        image: "",
                        numComments: 0,
-                       comments: [],
                        score: 0,
                        timeSincePosted: "default",
                        voteStatus: 0,
@@ -26,14 +24,13 @@ var defaultPost = Post(id: "default",
 
 var defaultComment = Comment(id: "default",
                              post: "default",
-                             user: "default",
                              comment: "default",
                              createdAt: "default",
                              updatedAt: "default",
                              score: 0,
                              timeSincePosted: "default",
-                             parent:"default",
+                             parent: "",
                              children: [],
-                             numberOnPost: 1)
+                             numberOnPost: 0)
 
 var defaultTotalScore = TotalScore(score: 1, place:"1")
