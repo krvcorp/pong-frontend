@@ -604,7 +604,6 @@
 		6A449C092896F4320015826A /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				6A449C4F2896F4320015826A /* PostBubbleViewModel.swift */,
 				6A449C0A2896F4320015826A /* FeedFilterViewModel.swift */,
 				6A449C0B2896F4320015826A /* FeedViewModel.swift */,
 			);
@@ -614,7 +613,6 @@
 		6A449C0C2896F4320015826A /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				6A449C512896F4320015826A /* PostBubble.swift */,
 				6A449C0D2896F4320015826A /* FeedView.swift */,
 			);
 			path = Views;
@@ -709,7 +707,7 @@
 		6A449C342896F4320015826A /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				6A449C4D2896F4320015826A /* PostBubble */,
+				6A449CD0289886810015826A /* PostBubble */,
 				6A449CCB2897A5A20015826A /* CommentBubble */,
 				6A449C5A2896F4320015826A /* Poll */,
 				6A449C362896F4320015826A /* NewPoll */,
@@ -807,29 +805,6 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		6A449C4D2896F4320015826A /* PostBubble */ = {
-			isa = PBXGroup;
-			children = (
-				6A449C4E2896F4320015826A /* ViewModels */,
-				6A449C502896F4320015826A /* Views */,
-			);
-			path = PostBubble;
-			sourceTree = "<group>";
-		};
-		6A449C4E2896F4320015826A /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ViewModels;
-			sourceTree = "<group>";
-		};
-		6A449C502896F4320015826A /* Views */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
 		6A449C532896F4320015826A /* Report */ = {
 			isa = PBXGroup;
 			children = (
@@ -901,6 +876,31 @@
 			isa = PBXGroup;
 			children = (
 				6A449CCE2897A5BD0015826A /* CommentBubbleViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		6A449CD0289886810015826A /* PostBubble */ = {
+			isa = PBXGroup;
+			children = (
+				6A449CD22898868E0015826A /* ViewModels */,
+				6A449CD12898868A0015826A /* Views */,
+			);
+			path = PostBubble;
+			sourceTree = "<group>";
+		};
+		6A449CD12898868A0015826A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				6A449C512896F4320015826A /* PostBubble.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		6A449CD22898868E0015826A /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				6A449C4F2896F4320015826A /* PostBubbleViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
