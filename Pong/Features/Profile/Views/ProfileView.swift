@@ -9,14 +9,14 @@ import SwiftUI
 import PopupView
 
 struct ProfileView: View {
-    @State private var selectedFilter: ProfileFilterViewModel = .posts
-    @StateObject private var profileVM = ProfileViewModel()
+    // logic related to swipable TabView
     @Namespace var animation
-    @StateObject var api = API()
+    @State private var selectedFilter: ProfileFilterViewModel = .posts
+    // VMs
+    @StateObject private var profileVM = ProfileViewModel()
     @ObservedObject var settingsSheetVM : SettingsSheetViewModel
     
     var body: some View {
-        
         VStack(spacing: 0) {
             karmaInfo
                 .background(Color(UIColor.tertiarySystemBackground))
@@ -31,6 +31,7 @@ struct ProfileView: View {
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                 .ignoresSafeArea(.all, edges: .bottom)
         }
+        .onAppear(perform: profileVM.getLoggedInUserInfo)
         .background(Color(UIColor.tertiarySystemBackground))
     }
     
@@ -107,7 +108,7 @@ struct ProfileView: View {
                         }
                         else if view == .comments {
                             ForEach(profileVM.comments) { comment in
-                                ProfileCommentBubble(comment: comment)
+                                ProfileCommentBubble(comment: comment, postSettingsVM: PostSettingsViewModel(), feedVM: FeedViewModel())
                             }
                         }
                         else if view == .saved {

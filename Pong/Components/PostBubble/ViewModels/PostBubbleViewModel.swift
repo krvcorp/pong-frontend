@@ -40,7 +40,7 @@ class PostBubbleViewModel: ObservableObject {
         request.httpBody = try? encoder.encode(body)
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
-            guard let data = data, error == nil else {
+            guard let _ = data, error == nil else {
                 completion(.failure(.noData))
                 return
             }

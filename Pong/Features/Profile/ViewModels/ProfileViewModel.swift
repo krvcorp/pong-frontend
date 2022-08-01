@@ -64,7 +64,7 @@ class ProfileViewModel: ObservableObject {
 //    }
 
     func getLoggedInUserInfo() {
-        print("DEBUG: ProfileVM getLoggedInUserInfo")
+        print("DEBUG: profileVM.getLoggedInUserInfo")
         guard let token = DAKeychain.shared["token"] else { return }
         guard let userId = DAKeychain.shared["userId"] else { return }
 
@@ -88,9 +88,9 @@ class ProfileViewModel: ObservableObject {
                 return
             }
             print("DEBUG: ProfileVM \(loggedInUserInfoResponse)")
-            self.totalKarma = loggedInUserInfoResponse.totalKarma
-            self.commentKarma = loggedInUserInfoResponse.commentKarma
-            self.postKarma = loggedInUserInfoResponse.postKarma
+            self.totalKarma = loggedInUserInfoResponse.totalScore
+            self.commentKarma = loggedInUserInfoResponse.commentScore
+            self.postKarma = loggedInUserInfoResponse.postScore
             self.savedPosts = loggedInUserInfoResponse.savedPosts
             self.posts = loggedInUserInfoResponse.posts
             self.comments = loggedInUserInfoResponse.comments

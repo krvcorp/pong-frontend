@@ -95,7 +95,7 @@ struct PostBubble: View {
         .background(Color(UIColor.tertiarySystemBackground)) // If you have this
         .cornerRadius(10)         // You also need the cornerRadius here
         .onTapGesture {
-            feedVM.readPost(post: post) { result in
+            feedVM.readPost(postId: post.id) { result in
                 switch result {
                 case .success(let postResult):
                     self.post = postResult

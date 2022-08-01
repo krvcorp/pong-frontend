@@ -2,14 +2,14 @@
 import Foundation
 
 struct LoggedInUserInfoResponseBody: Decodable {
-    let id: String
-    let email: String?
-    let posts: [Post]
-    let comments: [Comment]
-    let inTimeout: Bool
-    let phone: String
-    let commentKarma: Int
-    let postKarma: Int
-    let totalKarma: Int
-    let savedPosts: [Post]
+    var id: String
+    var posts: [Post]
+    var comments: [Comment]
+    var inTimeout: Bool
+    var phone: String
+    var commentScore: Int
+    var postScore: Int
+    var totalScore: Int
+    var upvotedPosts: [Post]
+    var savedPosts: [Post]
 }

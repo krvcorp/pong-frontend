@@ -78,12 +78,12 @@ class FeedViewModel: ObservableObject {
     }
     
     // this logic should probably go into feedviewmodel where tapping on a post calls an API to get updated post information regarding a post
-    func readPost(post: Post, completion: @escaping (Result<Post, AuthenticationError>) -> Void) {
+    func readPost(postId: String, completion: @escaping (Result<Post, AuthenticationError>) -> Void) {
         
-        print("DEBUG: PostBubbleVM readPost \(post.id)")
+        print("DEBUG: PostBubbleVM readPost \(postId)")
         
         guard let token = DAKeychain.shared["token"] else { return }
-        guard let url = URL(string: "\(API().root)post/\(post.id)/") else {
+        guard let url = URL(string: "\(API().root)post/\(postId)/") else {
             completion(.failure(.custom(errorMessage: "URL is not correct")))
             return
         }
@@ -107,13 +107,13 @@ class FeedViewModel: ObservableObject {
             }
             DispatchQueue.main.async {
                 // replace the local post
-                if let index = self.hotPosts.firstIndex(of: post) {
+                if let index = self.hotPosts.firstIndex(where: {$0.id == postId}) {
                     self.hotPosts[index] = postResponse
                 }
-                if let index = self.recentPosts.firstIndex(of: post) {
+                if let index = self.recentPosts.firstIndex(where: {$0.id == postId}) {
                     self.recentPosts[index] = postResponse
                 }
-                if let index = self.topPosts.firstIndex(of: post) {
+                if let index = self.topPosts.firstIndex(where: {$0.id == postId}) {
                     self.topPosts[index] = postResponse
                 }
             }

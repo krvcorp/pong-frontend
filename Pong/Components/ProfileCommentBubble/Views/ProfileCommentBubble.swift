@@ -8,17 +8,19 @@
 import SwiftUI
 
 struct ProfileCommentBubble: View {
-    var comment: Comment
-    
+    @State var comment: Comment
     @StateObject var profileCommentBubbleVM = ProfileCommentBubbleViewModel()
+    @ObservedObject var postSettingsVM : PostSettingsViewModel
+    @ObservedObject var feedVM: FeedViewModel
+    // some local logic
     @State var sheet = false
     @State private var tapped = false
     @State private var showScore = false
-    
+    @State private var hasAppeared = false
     
     var body: some View {
         // somehow this navigation link takes up space which makes the view as desired
-//        NavigationLink("", destination: PostView(post: defaultPost), isActive: $tapped)
+        NavigationLink("", destination: PostView(feedVM: feedVM, postSettingsVM: postSettingsVM, post: $profileCommentBubbleVM.post), isActive: $tapped)
         
         VStack {
             VStack {
@@ -86,13 +88,11 @@ struct ProfileCommentBubble: View {
                 
                 // bottom row of contents
                 HStack {
-                    NavigationLink {
-//                        PostView(post: post)
-                    }  label: {
-                        Image(systemName: "bubble.left")
-                        Text("Re: ....xyz...")
-                            .font(.subheadline).bold()
-                    }
+
+                    Image(systemName: "bubble.left")
+                    Text("Re: \(profileCommentBubbleVM.post.title)")
+                        .font(.subheadline).bold()
+                    
 
                     Spacer()
                     
@@ -123,6 +123,13 @@ struct ProfileCommentBubble: View {
         .cornerRadius(10)         // You also need the cornerRadius here
         .onTapGesture {
             tapped.toggle()
+        }
+        .onAppear {
+            if !hasAppeared {
+                print("DEBUG: onAppear")
+                profileCommentBubbleVM.readPost(postId: comment.post)
+                hasAppeared.toggle()
+            }
         }
     }
 }

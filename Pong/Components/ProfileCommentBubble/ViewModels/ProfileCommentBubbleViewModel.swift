@@ -1,6 +1,8 @@
 import Foundation
 
 class ProfileCommentBubbleViewModel: ObservableObject {
+    @Published var post: Post = defaultPost
+    
     func deleteComment(comment_id: String) {
         guard let token = DAKeychain.shared["token"] else { return }
         guard let url = URL(string: "\(API().root)comment/" + comment_id + "/") else { return }
@@ -59,6 +61,38 @@ class ProfileCommentBubbleViewModel: ObservableObject {
 //
 //            completion(.success(loginResponse.title))
             
+        }.resume()
+    }
+    
+    // this logic should probably go into feedviewmodel where tapping on a post calls an API to get updated post information regarding a post
+    func readPost(postId: String) -> Void {
+        
+        print("DEBUG: PostBubbleVM readPost \(postId)")
+        
+        guard let token = DAKeychain.shared["token"] else { return }
+        guard let url = URL(string: "\(API().root)post/\(postId)/") else {
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("Token \(token)", forHTTPHeaderField: "Authorization")
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            guard let data = data, error == nil else {
+                return
+            }
+            
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            guard let postResponse = try? decoder.decode(Post.self, from: data) else {
+                return
+            }
+            DispatchQueue.main.async {
+                // replace the local post
+                self.post = postResponse
+            }
         }.resume()
     }
 }
