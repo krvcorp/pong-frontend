@@ -26,7 +26,7 @@ struct MainTabView: View {
             // add some logic here that checks if the user is scrolled to the top
             // if the user is not scrolled to the top, just scroll to the top
             // if the user is scrolled to the top, activate pull to refresh
-            if $0 == self.tabSelection {
+            if $0 == .feed {
                 print("Refresh Home!")
                 feedVM.getPosts(selectedFilter: .top)
                 feedVM.getPosts(selectedFilter: .hot)

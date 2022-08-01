@@ -668,6 +668,7 @@
 		6A449C1A2896F4320015826A /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				6A449C242896F4320015826A /* User.swift */,
 				6A449C2B2896F4320015826A /* Post.swift */,
 				6A449C1E2896F4320015826A /* Comment.swift */,
 				6A449C1B2896F4320015826A /* PostRequestBody.swift */,
@@ -680,7 +681,6 @@
 				6A449C222896F4320015826A /* Message.swift */,
 				6A449C302896F4320015826A /* OTPStartRequestBody.swift */,
 				6A449C232896F4320015826A /* OTPStartResponseBody.swift */,
-				6A449C242896F4320015826A /* User.swift */,
 				6A449C252896F4320015826A /* PostVoteRequestBody.swift */,
 				6A449C262896F4320015826A /* PostVoteResponseBody.swift */,
 				6A449C272896F4320015826A /* CommentVoteRequestBody.swift */,
