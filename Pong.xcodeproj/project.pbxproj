@@ -602,6 +602,7 @@
 		6A449C092896F4320015826A /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				6A449C4F2896F4320015826A /* PostBubbleViewModel.swift */,
 				6A449C0A2896F4320015826A /* FeedFilterViewModel.swift */,
 				6A449C0B2896F4320015826A /* FeedViewModel.swift */,
 			);
@@ -611,6 +612,7 @@
 		6A449C0C2896F4320015826A /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				6A449C512896F4320015826A /* PostBubble.swift */,
 				6A449C0D2896F4320015826A /* FeedView.swift */,
 			);
 			path = Views;
@@ -815,7 +817,6 @@
 		6A449C4E2896F4320015826A /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				6A449C4F2896F4320015826A /* PostBubbleViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -823,7 +824,6 @@
 		6A449C502896F4320015826A /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				6A449C512896F4320015826A /* PostBubble.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";

@@ -13,78 +13,54 @@ struct PostBubble: View {
     @StateObject private var loginVM = LoginViewModel()
     @ObservedObject var postSettingsVM : PostSettingsViewModel
     @ObservedObject var feedVM: FeedViewModel
-    // navigation tracker
     @State private var tapped = false
-    // local logic for karma
     @State private var showScore = false
-    // share sheet
     @State var sheet = false
     
     var body: some View {
-        // instead of navigationlink as a button, we use a container to toggle navigation link
-        NavigationLink("", destination: PostView(feedVM: feedVM,postSettingsVM: postSettingsVM, post: $post), isActive: $tapped)
-        
         VStack {
-            VStack {
-                HStack(alignment: .top){
-                    VStack(alignment: .leading){
-                        Text("\(post.timeSincePosted)")
-                            .font(.caption)
-                            .padding(.bottom, 4)
-          
-                        Text(post.title)
-                            .multilineTextAlignment(.leading)
-                    }
-                    
-                    Spacer()
-                    
-                    // VOTE COMPONENT OF THIS POST BUBBLE
-                    VoteComponent
+            HStack(alignment: .top){
+                VStack(alignment: .leading){
+                    Text("\(post.timeSincePosted)")
+                        .font(.caption)
+                        .padding(.bottom, 4)
+      
+                    Text(post.title)
+                        .multilineTextAlignment(.leading)
                 }
-                .padding(.bottom)
+                
+                Spacer()
+                VoteComponent
+            }
+            .padding(.bottom)
 
-                // BOTTOM ROW OF POST BUBBLE
-                Color.black.frame(height:CGFloat(1) / UIScreen.main.scale)
+            Color.black.frame(height:CGFloat(1) / UIScreen.main.scale)
 
-                HStack {
-                    // comments, share, mail, flag
-                    Image(systemName: "bubble.left")
-                    Text("\(post.numComments)")
-                        .font(.subheadline).bold()
+            HStack {
+                // comments, share, mail, flag
+                Image(systemName: "bubble.left")
+                Text("\(post.numComments)")
+                    .font(.subheadline).bold()
 
-                    Spacer()
-                    
-                    // delete button if post id matches user id stored in keychain
-//                    if DAKeychain.shared["userId"] == post.user {
-//                        Button {
-//                            print("DEBUG: DELETE POST")
-//                            postSettingsVM.post = post
-//                            postSettingsVM.showDeleteConfirmationView.toggle()
-//                        } label: {
-//                            Image(systemName: "trash")
-//                        }
-//                    }
-                    
-                    // SHARE SHEET OF TEXT
-                    Button {
-                        sheet.toggle()
-                    } label: {
-                        Image(systemName: "square.and.arrow.up")
-                    }
-                    .sheet(isPresented: $sheet) {
-                        ShareSheet(items: ["ponged: \(post.title)"])
-                    }
-                    
-                     Button {
-                         DispatchQueue.main.async {
-                             postSettingsVM.showPostSettingsView.toggle()
-                             postSettingsVM.post = self.post
-                         }
-                         
-                     } label: {
-                         Image(systemName: "ellipsis")
+                Spacer()
+                Button {
+                    sheet.toggle()
+                } label: {
+                    Image(systemName: "square.and.arrow.up")
+                }
+                .sheet(isPresented: $sheet) {
+                    ShareSheet(items: ["ponged: \(post.title)"])
+                }
+                
+                 Button {
+                     DispatchQueue.main.async {
+                         postSettingsVM.showPostSettingsView.toggle()
+                         postSettingsVM.post = self.post
                      }
-                }
+                     
+                 } label: {
+                     Image(systemName: "ellipsis")
+                 }
             }
         }
         .frame(minWidth: 0, maxWidth: UIScreen.main.bounds.size.width - 50)
@@ -94,18 +70,6 @@ struct PostBubble: View {
         .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color(UIColor.tertiarySystemBackground), lineWidth: 5))
         .background(Color(UIColor.tertiarySystemBackground)) // If you have this
         .cornerRadius(10)         // You also need the cornerRadius here
-        .onTapGesture {
-            feedVM.readPost(postId: post.id) { result in
-                switch result {
-                case .success(let postResult):
-                    self.post = postResult
-                    tapped.toggle()
-
-                case .failure(let errorMessage):
-                    print("DEBUG: \(errorMessage)")
-                }
-            }
-        }
     }
     
     var VoteComponent: some View {
