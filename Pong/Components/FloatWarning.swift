@@ -20,14 +20,14 @@ struct FloatWarning: View {
                 Text("\(message)")
                     .foregroundColor(.white)
                     .font(.subheadline)
-                    .opacity(0.8)
+                    .opacity(1)
             }
             
             Spacer()
             
             Image(systemName: "xmark.octagon.fill")
                 .aspectRatio(1.0, contentMode: .fit)
-                .foregroundColor(Color(UIColor.systemBackground))
+                .foregroundColor(.white)
         }
         .padding(16)
         .background(Color(.red).cornerRadius(12))

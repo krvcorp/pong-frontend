@@ -88,13 +88,14 @@ class ProfileViewModel: ObservableObject {
                 return
             }
             print("DEBUG: ProfileVM \(loggedInUserInfoResponse)")
-            self.totalKarma = loggedInUserInfoResponse.totalScore
-            self.commentKarma = loggedInUserInfoResponse.commentScore
-            self.postKarma = loggedInUserInfoResponse.postScore
-            self.savedPosts = loggedInUserInfoResponse.savedPosts
-            self.posts = loggedInUserInfoResponse.posts
-            self.comments = loggedInUserInfoResponse.comments
-
+            DispatchQueue.main.async {
+                self.totalKarma = loggedInUserInfoResponse.totalScore
+                self.commentKarma = loggedInUserInfoResponse.commentScore
+                self.postKarma = loggedInUserInfoResponse.postScore
+                self.savedPosts = loggedInUserInfoResponse.savedPosts
+                self.posts = loggedInUserInfoResponse.posts
+                self.comments = loggedInUserInfoResponse.comments
+            }
         }.resume()
     }
 }

@@ -109,27 +109,19 @@ struct ProfileView: View {
                                 }
                             }
                         }
-                        else if view == .comments {
-                            ForEach(profileVM.comments) { comment in
-                                NavigationLink(destination: PostView(post: defaultPost)) {
-                                    ProfileCommentBubble(comment: comment, postSettingsVM: PostSettingsViewModel())
-                                }
-                            }
-                        }
                         else if view == .saved {
                             ForEach(profileVM.savedPosts) { post in
                                 PostBubble(post: post, postSettingsVM: PostSettingsViewModel())
                             }
                         }
                     }
-                    .onAppear {
-                    }
                 }
                 .refreshable {
                     do {
-                      // Sleep for 2 seconds
-                      try await Task.sleep(nanoseconds: 2 * 1_000_000_000)
-                    } catch {}
+                        print("DEBUG: ProfileView pull to refresh")
+                    } catch {
+                        
+                    }
                 }
             }
             .background(Color(UIColor.systemGroupedBackground))
