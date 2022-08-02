@@ -8,24 +8,27 @@
 import SwiftUI
 
 struct PostBubble: View {
-    @State var post: Post
-    @StateObject var postBubbleVM = PostBubbleViewModel()
-    @StateObject private var loginVM = LoginViewModel()
+    @ObservedObject var postBubbleVM : PostBubbleViewModel
     @ObservedObject var postSettingsVM : PostSettingsViewModel
-    @ObservedObject var feedVM: FeedViewModel
+    
     @State private var tapped = false
     @State private var showScore = false
     @State var sheet = false
+    
+    init(post: Post, postSettingsVM: PostSettingsViewModel) {
+        self.postBubbleVM = PostBubbleViewModel(post: post)
+        self.postSettingsVM = postSettingsVM
+    }
     
     var body: some View {
         VStack {
             HStack(alignment: .top){
                 VStack(alignment: .leading){
-                    Text("\(post.timeSincePosted)")
+                    Text("\(postBubbleVM.post.timeSincePosted)")
                         .font(.caption)
                         .padding(.bottom, 4)
       
-                    Text(post.title)
+                    Text(postBubbleVM.post.title)
                         .multilineTextAlignment(.leading)
                 }
                 
@@ -39,7 +42,7 @@ struct PostBubble: View {
             HStack {
                 // comments, share, mail, flag
                 Image(systemName: "bubble.left")
-                Text("\(post.numComments)")
+                Text("\(postBubbleVM.post.numComments)")
                     .font(.subheadline).bold()
 
                 Spacer()
@@ -49,13 +52,13 @@ struct PostBubble: View {
                     Image(systemName: "square.and.arrow.up")
                 }
                 .sheet(isPresented: $sheet) {
-                    ShareSheet(items: ["ponged: \(post.title)"])
+                    ShareSheet(items: ["ponged: \(postBubbleVM.post.title)"])
                 }
                 
                  Button {
                      DispatchQueue.main.async {
                          postSettingsVM.showPostSettingsView.toggle()
-                         postSettingsVM.post = self.post
+                         postSettingsVM.post = postBubbleVM.post
                      }
                      
                  } label: {
@@ -70,19 +73,20 @@ struct PostBubble: View {
         .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color(UIColor.tertiarySystemBackground), lineWidth: 5))
         .background(Color(UIColor.tertiarySystemBackground)) // If you have this
         .cornerRadius(10)         // You also need the cornerRadius here
+        .padding(.top, 5) // this padding gives FeedView some spacing at the top
     }
     
     var VoteComponent: some View {
         VStack {
             if !showScore {
                 // if not upvoted or downvoted
-                if post.voteStatus == 0 {
+                if postBubbleVM.post.voteStatus == 0 {
                     Button {
-                        postBubbleVM.postVote(id: post.id, direction: 1, currentDirection: post.voteStatus) { result in
+                        postBubbleVM.postVote(direction: 1) { result in
                             switch result {
                             case .success(let postResponseBody):
                                 if let voteStatus = postResponseBody.voteStatus {
-                                    self.post.voteStatus = voteStatus
+                                    postBubbleVM.post.voteStatus = voteStatus
                                 } else if let error = postResponseBody.error {
                                     print("DEBUG: \(error)")
                                 }
@@ -101,15 +105,15 @@ struct PostBubble: View {
                         }
 
                     } label: {
-                        Text("\(post.score)")
+                        Text("\(postBubbleVM.post.score)")
                     }
                     
                     Button {
-                        postBubbleVM.postVote(id: post.id, direction: -1, currentDirection: post.voteStatus) { result in
+                        postBubbleVM.postVote(direction: -1) { result in
                             switch result {
                             case .success(let postResponseBody):
                                 if let voteStatus = postResponseBody.voteStatus {
-                                    self.post.voteStatus = voteStatus
+                                    postBubbleVM.post.voteStatus = voteStatus
                                 } else if let error = postResponseBody.error {
                                     print("DEBUG: \(error)")
                                 }
@@ -120,14 +124,14 @@ struct PostBubble: View {
                     } label: {
                         Image(systemName: "arrow.down")
                     }
-                } else if post.voteStatus == 1 {
+                } else if postBubbleVM.post.voteStatus == 1 {
                     // if upvoted
                     Button {
-                        postBubbleVM.postVote(id: post.id, direction: 1, currentDirection: post.voteStatus) { result in
+                        postBubbleVM.postVote(direction: 1) { result in
                             switch result {
                             case .success(let postResponseBody):
                                 if let voteStatus = postResponseBody.voteStatus {
-                                    self.post.voteStatus = voteStatus
+                                    postBubbleVM.post.voteStatus = voteStatus
                                 } else if let error = postResponseBody.error {
                                     print("DEBUG: \(error)")
                                 }
@@ -147,15 +151,15 @@ struct PostBubble: View {
                         }
 
                     } label: {
-                        Text("\(post.score + 1)")
+                        Text("\(postBubbleVM.post.score + 1)")
                     }
                     
                     Button {
-                        postBubbleVM.postVote(id: post.id, direction: -1, currentDirection: post.voteStatus) { result in
+                        postBubbleVM.postVote(direction: -1) { result in
                             switch result {
                             case .success(let postResponseBody):
                                 if let voteStatus = postResponseBody.voteStatus {
-                                    self.post.voteStatus = voteStatus
+                                    postBubbleVM.post.voteStatus = voteStatus
                                 } else if let error = postResponseBody.error {
                                     print("DEBUG: \(error)")
                                 }
@@ -166,14 +170,14 @@ struct PostBubble: View {
                     } label: {
                         Image(systemName: "arrow.down")
                     }
-                } else if post.voteStatus == -1 {
+                } else if postBubbleVM.post.voteStatus == -1 {
                     // if downvoted
                     Button {
-                        postBubbleVM.postVote(id: post.id, direction: 1, currentDirection: post.voteStatus) { result in
+                        postBubbleVM.postVote(direction: 1) { result in
                             switch result {
                             case .success(let postResponseBody):
                                 if let voteStatus = postResponseBody.voteStatus {
-                                    self.post.voteStatus = voteStatus
+                                    postBubbleVM.post.voteStatus = voteStatus
                                 } else if let error = postResponseBody.error {
                                     print("DEBUG: \(error)")
                                 }
@@ -192,15 +196,15 @@ struct PostBubble: View {
                         }
 
                     } label: {
-                        Text("\(post.score - 1)")
+                        Text("\(postBubbleVM.post.score - 1)")
                     }
                     
                     Button {
-                        postBubbleVM.postVote(id: post.id, direction: -1, currentDirection: post.voteStatus) { result in
+                        postBubbleVM.postVote(direction: -1) { result in
                             switch result {
                             case .success(let postResponseBody):
                                 if let voteStatus = postResponseBody.voteStatus {
-                                    self.post.voteStatus = voteStatus
+                                    postBubbleVM.post.voteStatus = voteStatus
                                 } else if let error = postResponseBody.error {
                                     print("DEBUG: \(error)")
                                 }
@@ -222,9 +226,9 @@ struct PostBubble: View {
 
                 } label: {
                     VStack {
-                        Text("\(post.score)")
+                        Text("\(postBubbleVM.post.score)")
                             .foregroundColor(.green)
-                        Text("\(post.score)")
+                        Text("\(postBubbleVM.post.score)")
                             .foregroundColor(.red)
                     }
                 }
@@ -238,6 +242,6 @@ struct PostBubble: View {
 
 struct PostBubbleView_Previews: PreviewProvider {
     static var previews: some View {
-        PostBubble(post: defaultPost, postSettingsVM: PostSettingsViewModel(), feedVM: FeedViewModel())
+        PostBubble(post: defaultPost, postSettingsVM: PostSettingsViewModel())
     }
 }

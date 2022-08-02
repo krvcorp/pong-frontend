@@ -15,6 +15,7 @@ struct ProfileView: View {
     // VMs
     @StateObject private var profileVM = ProfileViewModel()
     @ObservedObject var settingsSheetVM : SettingsSheetViewModel
+    @ObservedObject var postSettingsVM : PostSettingsViewModel
     
     var body: some View {
         VStack(spacing: 0) {
@@ -103,17 +104,21 @@ struct ProfileView: View {
                     LazyVStack {
                         if view == .posts {
                             ForEach(profileVM.posts) { post in
-                                PostBubble(post: post, postSettingsVM: PostSettingsViewModel(), feedVM: FeedViewModel())
+                                NavigationLink(destination: PostView(post: post)) {
+                                    PostBubble(post: post, postSettingsVM: postSettingsVM)
+                                }
                             }
                         }
                         else if view == .comments {
                             ForEach(profileVM.comments) { comment in
-                                ProfileCommentBubble(comment: comment, postSettingsVM: PostSettingsViewModel(), feedVM: FeedViewModel())
+                                NavigationLink(destination: PostView(post: defaultPost)) {
+                                    ProfileCommentBubble(comment: comment, postSettingsVM: PostSettingsViewModel())
+                                }
                             }
                         }
                         else if view == .saved {
                             ForEach(profileVM.savedPosts) { post in
-                                PostBubble(post: post, postSettingsVM: PostSettingsViewModel(), feedVM: FeedViewModel())
+                                PostBubble(post: post, postSettingsVM: PostSettingsViewModel())
                             }
                         }
                     }
@@ -135,6 +140,6 @@ struct ProfileView: View {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView(settingsSheetVM: SettingsSheetViewModel())
+        ProfileView(settingsSheetVM: SettingsSheetViewModel(), postSettingsVM: PostSettingsViewModel())
     }
 }

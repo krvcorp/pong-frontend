@@ -9,12 +9,15 @@ import SwiftUI
 
 struct PostView: View {
     @Environment(\.presentationMode) var presentationMode
-    @StateObject var postVM = PostViewModel()
-    @Binding var post: Post // move to postVM
+    @ObservedObject var postVM : PostViewModel
     
     @State private var comment = ""
     @State var sheet = false
     @State private var showScore = false
+    
+    init(post: Post) {
+        self.postVM = PostViewModel(post: post)
+    }
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -29,25 +32,25 @@ struct PostView: View {
             }
             .refreshable {
                 print("DEBUG: Pull to refresh")
-                postVM.readPost(postId: post.id) { result in
+                postVM.readPost() { result in
                     switch result {
                     case .success(let post):
-                        self.post = post
+                        postVM.post = post
                     case .failure(let error):
                         print("DEBUG: PostView readPost failure \(error)")
                     }
                 }
-                postVM.getComments(id: post.id)
+                postVM.getComments()
             }
            
             HStack {
                 CustomTextField(placeholder: Text("Enter your message here"), text: $comment)
                 Button {
-                    postVM.createComment(postid: post.id, comment: comment) { result in
+                    postVM.createComment(comment: comment) { result in
                         switch result {
                             case .success(let commentReturn):
                                 print("DEBUG: \(commentReturn)")
-                                post.numComments = post.numComments + 1
+                                postVM.post.numComments = postVM.post.numComments + 1
                             case .failure(let failure):
                                 print("DEBUG: PostView createComment failure \(failure)")
                         }
@@ -66,7 +69,15 @@ struct PostView: View {
             .background(Color(UIColor.systemBackground))
         }
         .onAppear(perform: {
-            postVM.getComments(id: post.id)
+            postVM.readPost { result in
+                switch result {
+                case .success(let post):
+                    postVM.post = post
+                case .failure(let error):
+                    print("DEBUG: postVM.readpost error \(error)")
+                }
+            }
+            postVM.getComments()
         })
         .navigationBarBackButtonHidden(true)
         .toolbar {
@@ -86,12 +97,12 @@ struct PostView: View {
                 HStack(alignment: .top){
                     VStack(alignment: .leading){
                         
-                        Text("\(post.timeSincePosted)")
+                        Text("\(postVM.post.timeSincePosted)")
                             .font(.caption)
                             .padding(.bottom, 4)
 
                                                
-                        Text(post.title)
+                        Text(postVM.post.title)
                             .multilineTextAlignment(.leading)
                         
                     }
@@ -125,13 +136,13 @@ struct PostView: View {
                         Image(systemName: "square.and.arrow.up")
                     }
                     .sheet(isPresented: $sheet) {
-                        ShareSheet(items: ["\(post.title)"])
+                        ShareSheet(items: ["\(postVM.post.title)"])
                     }
 
                     Button {
-                        postVM.reportPost(postId: post.id) { result in
-                            
-                        }
+//                        postVM.reportPost() { result in
+//
+//                        }
                     } label: {
                         Image(systemName: "flag")
                     }
@@ -145,7 +156,7 @@ struct PostView: View {
 
             ZStack {
                 Divider()
-                Text("\(post.numComments) Comments")
+                Text("\(postVM.post.numComments) Comments")
                     .font(.caption)
                     .background(Rectangle().fill(Color(UIColor.systemBackground)).frame(minWidth: 90))
             }
@@ -155,12 +166,16 @@ struct PostView: View {
         VStack {
             if !showScore {
                 // if not upvoted or downvoted
-                if post.voteStatus == 0 {
+                if postVM.post.voteStatus == 0 {
                     Button {
-                        postVM.postVote(id: post.id, direction: 1, currentDirection: post.voteStatus) { result in
+                        postVM.postVote(direction: 1) { result in
                             switch result {
-                            case .success(let newVote):
-                                self.post.voteStatus = newVote
+                            case .success(let postResponseBody):
+                                if let voteStatus = postResponseBody.voteStatus {
+                                    postVM.post.voteStatus = voteStatus
+                                } else if let error = postResponseBody.error {
+                                    print("DEBUG: \(error)")
+                                }
                             case .failure(let error):
                                 print("DEBUG: postBubbleVM.postVote error: \(error)")
                             }
@@ -176,14 +191,18 @@ struct PostView: View {
                         }
 
                     } label: {
-                        Text("\(post.score)")
+                        Text("\(postVM.post.score)")
                     }
                     
                     Button {
-                        postVM.postVote(id: post.id, direction: -1, currentDirection: post.voteStatus) { result in
+                        postVM.postVote(direction: -1) { result in
                             switch result {
-                            case .success(let newVote):
-                                self.post.voteStatus = newVote
+                            case .success(let postResponseBody):
+                                if let voteStatus = postResponseBody.voteStatus {
+                                    postVM.post.voteStatus = voteStatus
+                                } else if let error = postResponseBody.error {
+                                    print("DEBUG: \(error)")
+                                }
                             case .failure(let error):
                                 print("DEBUG: postBubbleVM.postVote error: \(error)")
                             }
@@ -191,13 +210,17 @@ struct PostView: View {
                     } label: {
                         Image(systemName: "arrow.down")
                     }
-                } else if post.voteStatus == 1 {
+                } else if postVM.post.voteStatus == 1 {
                     // if upvoted
                     Button {
-                        postVM.postVote(id: post.id, direction: 1, currentDirection: post.voteStatus) { result in
+                        postVM.postVote(direction: 1) { result in
                             switch result {
-                            case .success(let newVote):
-                                self.post.voteStatus = newVote
+                            case .success(let postResponseBody):
+                                if let voteStatus = postResponseBody.voteStatus {
+                                    postVM.post.voteStatus = voteStatus
+                                } else if let error = postResponseBody.error {
+                                    print("DEBUG: \(error)")
+                                }
                             case .failure(let error):
                                 print("DEBUG: postBubbleVM.postVote error: \(error)")
                             }
@@ -214,14 +237,18 @@ struct PostView: View {
                         }
 
                     } label: {
-                        Text("\(post.score + 1)")
+                        Text("\(postVM.post.score + 1)")
                     }
                     
                     Button {
-                        postVM.postVote(id: post.id, direction: -1, currentDirection: post.voteStatus) { result in
+                        postVM.postVote(direction: -1) { result in
                             switch result {
-                            case .success(let newVote):
-                                self.post.voteStatus = newVote
+                            case .success(let postResponseBody):
+                                if let voteStatus = postResponseBody.voteStatus {
+                                    postVM.post.voteStatus = voteStatus
+                                } else if let error = postResponseBody.error {
+                                    print("DEBUG: \(error)")
+                                }
                             case .failure(let error):
                                 print("DEBUG: postBubbleVM.postVote error: \(error)")
                             }
@@ -229,13 +256,17 @@ struct PostView: View {
                     } label: {
                         Image(systemName: "arrow.down")
                     }
-                } else if post.voteStatus == -1 {
+                } else if postVM.post.voteStatus == -1 {
                     // if downvoted
                     Button {
-                        postVM.postVote(id: post.id, direction: 1, currentDirection: post.voteStatus) { result in
+                        postVM.postVote(direction: 1) { result in
                             switch result {
-                            case .success(let newVote):
-                                self.post.voteStatus = newVote
+                            case .success(let postResponseBody):
+                                if let voteStatus = postResponseBody.voteStatus {
+                                    postVM.post.voteStatus = voteStatus
+                                } else if let error = postResponseBody.error {
+                                    print("DEBUG: \(error)")
+                                }
                             case .failure(let error):
                                 print("DEBUG: postBubbleVM.postVote error: \(error)")
                             }
@@ -251,14 +282,18 @@ struct PostView: View {
                         }
 
                     } label: {
-                        Text("\(post.score - 1)")
+                        Text("\(postVM.post.score - 1)")
                     }
                     
                     Button {
-                        postVM.postVote(id: post.id, direction: -1, currentDirection: post.voteStatus) { result in
+                        postVM.postVote(direction: -1) { result in
                             switch result {
-                            case .success(let newVote):
-                                self.post.voteStatus = newVote
+                            case .success(let postResponseBody):
+                                if let voteStatus = postResponseBody.voteStatus {
+                                    postVM.post.voteStatus = voteStatus
+                                } else if let error = postResponseBody.error {
+                                    print("DEBUG: \(error)")
+                                }
                             case .failure(let error):
                                 print("DEBUG: postBubbleVM.postVote error: \(error)")
                             }
@@ -277,9 +312,9 @@ struct PostView: View {
 
                 } label: {
                     VStack {
-                        Text("\(post.score)")
+                        Text("\(postVM.post.score)")
                             .foregroundColor(.green)
-                        Text("\(post.score)")
+                        Text("\(postVM.post.score)")
                             .foregroundColor(.red)
                     }
                 }
@@ -291,6 +326,6 @@ struct PostView: View {
 
 struct PostView_Previews: PreviewProvider {
     static var previews: some View {
-        PostView(post: .constant(defaultPost))
+        PostView(post: defaultPost)
     }
 }

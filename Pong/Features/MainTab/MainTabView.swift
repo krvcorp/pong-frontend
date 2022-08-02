@@ -47,7 +47,7 @@ struct MainTabView: View {
                 .tabItem{Image(systemName: "envelope")}
                 .tag(Tabs.messages)
 
-                ProfileView(settingsSheetVM: settingsSheetVM)
+                ProfileView(settingsSheetVM: settingsSheetVM, postSettingsVM: postSettingsVM)
                 .tabItem{Image(systemName: "person")}
                 .tag(Tabs.profile)
             }

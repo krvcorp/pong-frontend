@@ -11,7 +11,6 @@ struct ProfileCommentBubble: View {
     @State var comment: Comment
     @StateObject var profileCommentBubbleVM = ProfileCommentBubbleViewModel()
     @ObservedObject var postSettingsVM : PostSettingsViewModel
-    @ObservedObject var feedVM: FeedViewModel
     // some local logic
     @State var sheet = false
     @State private var tapped = false
@@ -20,7 +19,6 @@ struct ProfileCommentBubble: View {
     
     var body: some View {
         // somehow this navigation link takes up space which makes the view as desired
-        NavigationLink("", destination: PostView(post: $profileCommentBubbleVM.post), isActive: $tapped)
         
         VStack {
             VStack {
@@ -121,9 +119,6 @@ struct ProfileCommentBubble: View {
         .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color(UIColor.tertiarySystemBackground), lineWidth: 5))
         .background(Color(UIColor.tertiarySystemBackground)) // If you have this
         .cornerRadius(10)         // You also need the cornerRadius here
-        .onTapGesture {
-            tapped.toggle()
-        }
         .onAppear {
             if !hasAppeared {
                 print("DEBUG: onAppear")
@@ -131,6 +126,7 @@ struct ProfileCommentBubble: View {
                 hasAppeared.toggle()
             }
         }
+        .padding(.top, 5)
     }
 }
 

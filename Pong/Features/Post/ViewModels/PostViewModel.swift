@@ -8,14 +8,85 @@
 import Foundation
 
 class PostViewModel: ObservableObject {
+    @Published var post : Post = defaultPost
     @Published var comments: [Comment] = []
     
-    func getComments(id: String) -> Void {
+    init(post : Post) {
+        self.post = post
+    }
+    
+    func postVote(direction: Int, completion: @escaping (Result<PostVoteResponseBody, AuthenticationError>) -> Void) {
+        guard let token = DAKeychain.shared["token"] else { return } // Fetch
+        
+        print("DEBUG: postVote \(direction)")
+            
+        // change URL to real login
+        guard let url = URL(string: "\(API().root)postvote/") else {
+            completion(.failure(.custom(errorMessage: "URL is not correct")))
+            return
+        }
+        
+        var voteToSend = 0
+        
+        if direction == post.voteStatus {
+            voteToSend = 0
+        } else {
+            voteToSend = direction
+        }
+        
+        let body = PostVoteRequestBody(postId: post.id, vote: voteToSend)
+        
+        var request = URLRequest(url: url)
+        
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("Token \(token)", forHTTPHeaderField: "Authorization")
+        let encoder = JSONEncoder()
+        encoder.keyEncodingStrategy = .convertToSnakeCase
+        request.httpBody = try? encoder.encode(body)
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            guard let _ = data, error == nil else {
+                completion(.failure(.noData))
+                return
+            }
+            
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            
+            // THIS IS REAL CODE UNCOMMENT WHEN JSON RESPONSE IS FIXED
+//            guard let postVoteResponse = try? decoder.decode(PostVoteResponseBody.self, from: data) else {
+//                completion(.failure(.decodeError))
+//                return
+//            }
+//
+//            if let responseDataContent = postVoteResponse.voteStatus {
+//                print("DEBUG: postBubbleVM.postVote postVoteResponse.voteStatus is \(responseDataContent)")
+//                completion(.success(postVoteResponse))
+//                return
+//            }
+//
+//            if let responseDataContent = postVoteResponse.error {
+//                print("DEBUG: postBubbleVM.postVote postVoteResponse.error is \(responseDataContent)")
+//                completion(.success(postVoteResponse))
+//                return
+//            }
+  
+            // THIS IS DUMMY COMMENT WHEN JSON IS FIXED
+            print("DEBUG: DECODE FAILED DUMMY RETURN")
+            
+            completion(.success(PostVoteResponseBody(voteStatus: voteToSend, error: nil)))
+//            completion(.failure(.custom(errorMessage: "Nothing")))
+            
+        }.resume()
+    }
+    
+    func getComments() -> Void {
         print("DEBUG: postVM getComments")
 
         guard let token = DAKeychain.shared["token"] else { return } // Fetch
         
-        guard let url = URL(string: "\(API().root)comment/?post_id=\(id)") else {
+        guard let url = URL(string: "\(API().root)comment/?post_id=\(post.id)") else {
             print("DEBUG: URL is not correct")
             return
         }
@@ -46,52 +117,8 @@ class PostViewModel: ObservableObject {
         }.resume()
     }
     
-    func postVote(id: String, direction: Int, currentDirection: Int, completion: @escaping (Result<Int, AuthenticationError>) -> Void) {
-        guard let token = DAKeychain.shared["token"] else { return } // Fetch
-        
-        print("DEBUG: postVote \(direction) \(id) \(token)")
-            
-        // change URL to real login
-        guard let url = URL(string: "\(API().root)postvote/") else {
-            completion(.failure(.custom(errorMessage: "URL is not correct")))
-            return
-        }
-        
-        let body = PostVoteRequestBody(postId: id, vote: direction)
-        
-        var request = URLRequest(url: url)
-        if (currentDirection == 1 || currentDirection == -1) && direction != currentDirection {
-            request.httpMethod = "PATCH"
-        } else {
-            request.httpMethod = "POST"
-        }
-
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("Token \(token)", forHTTPHeaderField: "Authorization")
-        let encoder = JSONEncoder()
-        encoder.keyEncodingStrategy = .convertToSnakeCase
-        request.httpBody = try? encoder.encode(body)
-        
-        URLSession.shared.dataTask(with: request) { (data, response, error) in
-            
-            guard let _ = data, error == nil else {
-                completion(.failure(.custom(errorMessage: "No data")))
-                return
-            }
-            
-            // upvote on upvote or downvote on downvote
-            if currentDirection == direction {
-                completion(.success(0))
-            } else if direction == 1 {
-                completion(.success(1))
-            } else if direction == -1 {
-                completion(.success(-1))
-            }
-            
-        }.resume()
-    }
     
-    func createComment(postid: String, comment: String, completion: @escaping (Result<Comment, AuthenticationError>) -> Void) {
+    func createComment(comment: String, completion: @escaping (Result<Comment, AuthenticationError>) -> Void) {
         guard let token = DAKeychain.shared["token"] else { return } // Fetch
             
         // comment API
@@ -100,7 +127,7 @@ class PostViewModel: ObservableObject {
             return
         }
         
-        let body = CreateCommentRequestBody(post_id: postid, comment: comment)
+        let body = CreateCommentRequestBody(post_id: post.id, comment: comment)
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -162,11 +189,11 @@ class PostViewModel: ObservableObject {
         }.resume()
     }
     // this logic should probably go into feedviewmodel where tapping on a post calls an API to get updated post information regarding a post
-    func readPost(postId: String, completion: @escaping (Result<Post, AuthenticationError>) -> Void) {
-        print("DEBUG: postVM readPost \(postId)")
+    func readPost(completion: @escaping (Result<Post, AuthenticationError>) -> Void) {
+        print("DEBUG: postVM readPost \(post.id)")
         
         guard let token = DAKeychain.shared["token"] else { return }
-        guard let url = URL(string: "\(API().root)post/\(postId)/") else {
+        guard let url = URL(string: "\(API().root)post/\(post.id)/") else {
             completion(.failure(.custom(errorMessage: "URL is not correct")))
             return
         }

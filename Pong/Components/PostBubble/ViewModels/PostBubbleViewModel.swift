@@ -8,8 +8,13 @@
 import Foundation
 
 class PostBubbleViewModel: ObservableObject {
+    @Published var post : Post = defaultPost
     
-    func postVote(id: String, direction: Int, currentDirection: Int, completion: @escaping (Result<PostVoteResponseBody, AuthenticationError>) -> Void) {
+    init(post: Post) {
+        self.post = post
+    }
+    
+    func postVote(direction: Int, completion: @escaping (Result<PostVoteResponseBody, AuthenticationError>) -> Void) {
         guard let token = DAKeychain.shared["token"] else { return } // Fetch
         
         print("DEBUG: postVote \(direction)")
@@ -22,13 +27,13 @@ class PostBubbleViewModel: ObservableObject {
         
         var voteToSend = 0
         
-        if direction == currentDirection {
+        if direction == post.voteStatus {
             voteToSend = 0
         } else {
             voteToSend = direction
         }
         
-        let body = PostVoteRequestBody(postId: id, vote: voteToSend)
+        let body = PostVoteRequestBody(postId: post.id, vote: voteToSend)
         
         var request = URLRequest(url: url)
         

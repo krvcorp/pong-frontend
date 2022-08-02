@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DeleteConfirmationView: View {
-    @StateObject var postBubbleVM = PostBubbleViewModel()
+//    @StateObject var postBubbleVM = PostBubbleViewModel()
     @ObservedObject var postSettingsVM : PostSettingsViewModel
     @ObservedObject var feedVM : FeedViewModel
     
@@ -53,12 +53,12 @@ struct DeleteConfirmationView: View {
                 Spacer()
                 
                 Button {
-                    DispatchQueue.main.async {
-                        postBubbleVM.deletePost(post: postSettingsVM.post, feedVM: feedVM) { result in
-                            print("DEBUG: \(result)")
-                        }
-                        postSettingsVM.showDeleteConfirmationView = false
-                    }
+//                    DispatchQueue.main.async {
+//                        postBubbleVM.deletePost(post: postSettingsVM.post, feedVM: feedVM) { result in
+//                            print("DEBUG: \(result)")
+//                        }
+//                        postSettingsVM.showDeleteConfirmationView = false
+//                    }
                 } label: {
                     Text("Delete")
                         .frame(minWidth: 0, maxWidth: .infinity)

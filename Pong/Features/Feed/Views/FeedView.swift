@@ -76,25 +76,25 @@ struct FeedView: View {
                             LazyVStack {
                                 // top
                                 if view == .top {
-                                    ForEach(feedVM.recentPosts, id: \.self) { post in
-                                        NavigationLink(destination: PostView(post: Binding.constant(post))) {
-                                            PostBubble(post: post, postSettingsVM: postSettingsVM, feedVM: feedVM)
+                                    ForEach(feedVM.topPosts, id: \.self) { post in
+                                        NavigationLink(destination: PostView(post: post)) {
+                                            PostBubble(post: post, postSettingsVM: postSettingsVM)
                                         }
                                     }
                                 }
                                 // hot
                                 else if view == .hot {
-                                    ForEach(feedVM.recentPosts, id: \.self) { post in
-                                        NavigationLink(destination: PostView(post: Binding.constant(post))) {
-                                            PostBubble(post: post, postSettingsVM: postSettingsVM, feedVM: feedVM)
+                                    ForEach(feedVM.hotPosts, id: \.self) { post in
+                                        NavigationLink(destination: PostView(post: post)) {
+                                            PostBubble(post: post, postSettingsVM: postSettingsVM)
                                         }
                                     }
                                 }
                                 // recent
                                 else if view == .recent {
                                     ForEach(feedVM.recentPosts, id: \.self) { post in
-                                        NavigationLink(destination: PostView(post: Binding.constant(post))) {
-                                            PostBubble(post: post, postSettingsVM: postSettingsVM, feedVM: feedVM)
+                                        NavigationLink(destination: PostView(post: post)) {
+                                            PostBubble(post: post, postSettingsVM: postSettingsVM)
                                         }
                                     }
                                 }
@@ -115,11 +115,18 @@ struct FeedView: View {
                         feedVM.getPosts(selectedFilter: selectedFilter)
                     }
                     .onAppear {
-                        if !feedVM.topPostsInitalOpen && selectedFilter == .top {
+//                        if !feedVM.topPostsInitalOpen && selectedFilter == .top {
+//                            feedVM.getPosts(selectedFilter: .top)
+//                        } else if !feedVM.hotPostsInitalOpen && selectedFilter == .hot {
+//                            feedVM.getPosts(selectedFilter: .hot)
+//                        } else if !feedVM.recentPostsInitalOpen && selectedFilter == .recent {
+//                            feedVM.getPosts(selectedFilter: .recent)
+//                        }
+                        if selectedFilter == .top {
                             feedVM.getPosts(selectedFilter: .top)
-                        } else if !feedVM.hotPostsInitalOpen && selectedFilter == .hot {
+                        } else if selectedFilter == .hot {
                             feedVM.getPosts(selectedFilter: .hot)
-                        } else if !feedVM.recentPostsInitalOpen && selectedFilter == .recent {
+                        } else if selectedFilter == .recent {
                             feedVM.getPosts(selectedFilter: .recent)
                         }
                     }
@@ -138,12 +145,12 @@ struct FeedView: View {
                     .renderingMode(.template)
                     .frame(width: 50, height: 50)
                     .padding()
+                    .foregroundColor(Color(UIColor.tertiarySystemBackground))
+                    .background(Color(UIColor.label))
+                    .clipShape(Circle())
+                    .padding()
+                    .shadow(radius: 10)
             }
-            .foregroundColor(Color(UIColor.tertiarySystemBackground))
-            .background(Color(UIColor.label))
-            .clipShape(Circle())
-            .padding()
-            .shadow(radius: 10)
         }
     }
 }

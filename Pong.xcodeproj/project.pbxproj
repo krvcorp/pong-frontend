@@ -580,6 +580,7 @@
 			children = (
 				6A449C042896F4320015826A /* ProfileFilterViewModel.swift */,
 				6A449C052896F4320015826A /* ProfileViewModel.swift */,
+				6A449C492896F4320015826A /* ProfileCommentBubbleViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -587,6 +588,7 @@
 		6A449C062896F4320015826A /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				6A449C4B2896F4320015826A /* ProfileCommentBubble.swift */,
 				6A449C072896F4320015826A /* ProfileView.swift */,
 			);
 			path = Views;
@@ -712,7 +714,6 @@
 				6A449C5A2896F4320015826A /* Poll */,
 				6A449C362896F4320015826A /* NewPoll */,
 				6A449C3B2896F4320015826A /* PostSettings */,
-				6A449C472896F4320015826A /* ProfileCommentBubble */,
 				6A449C532896F4320015826A /* Report */,
 				6A449C4C2896F4320015826A /* BackButton.swift */,
 				6A449C592896F4320015826A /* CustomInputField.swift */,
@@ -776,31 +777,6 @@
 				6A449C402896F4320015826A /* DeleteConfirmationView.swift */,
 				6A449C412896F4320015826A /* PostSettingsRowView.swift */,
 				6A449C422896F4320015826A /* PostSettingsView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		6A449C472896F4320015826A /* ProfileCommentBubble */ = {
-			isa = PBXGroup;
-			children = (
-				6A449C482896F4320015826A /* ViewModels */,
-				6A449C4A2896F4320015826A /* Views */,
-			);
-			path = ProfileCommentBubble;
-			sourceTree = "<group>";
-		};
-		6A449C482896F4320015826A /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-				6A449C492896F4320015826A /* ProfileCommentBubbleViewModel.swift */,
-			);
-			path = ViewModels;
-			sourceTree = "<group>";
-		};
-		6A449C4A2896F4320015826A /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				6A449C4B2896F4320015826A /* ProfileCommentBubble.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
