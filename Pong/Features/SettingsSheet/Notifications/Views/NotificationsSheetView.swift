@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FirebaseMessaging
 
 struct NotificationsSheetView: View {
     @ObservedObject var settingsSheetVM: SettingsSheetViewModel
@@ -32,6 +33,24 @@ struct NotificationsSheetView: View {
                 }
                 // BODY
                 VStack(alignment: .leading, spacing: 32) {
+                    Button(action: {
+                        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+                        UNUserNotificationCenter.current().requestAuthorization(options: authOptions) { _, _ in }
+                        UIApplication.shared.registerForRemoteNotifications()
+                    }) {
+                        Text("Register for APNS")
+                    }
+                    Button(action: {
+                        Messaging.messaging().token { token, error in
+                          if let error = error {
+                              UIPasteboard.general.string = "Error Fetching FCM Registration Token: \(error)"
+                          } else if let token = token {
+                              UIPasteboard.general.string = token
+                          }
+                        }
+                    }) {
+                        Text("Copy FCM Token")
+                    }
                     ForEach(NotificationsSheetEnum.allCases, id: \.rawValue) { notificationsSheetEnum in
                         NotificationOptionRowView(notificationsSheetEnum: notificationsSheetEnum)
                     }

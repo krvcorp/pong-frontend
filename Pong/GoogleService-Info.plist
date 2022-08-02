@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>244967990890-q6i4jbi999io9imevj2vb7rh6l8vh106.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.244967990890-q6i4jbi999io9imevj2vb7rh6l8vh106</string>
+	<key>API_KEY</key>
+	<string>AIzaSyApt_LxDGj0mEYYzvD7_qk9rUecuM8KjcY</string>
+	<key>GCM_SENDER_ID</key>
+	<string>244967990890</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.khoinguyen.pong</string>
+	<key>PROJECT_ID</key>
+	<string>pong-social-app</string>
+	<key>STORAGE_BUCKET</key>
+	<string>pong-social-app.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:244967990890:ios:8fd836b2292ea1eb40cc13</string>
+</dict>
+</plist>

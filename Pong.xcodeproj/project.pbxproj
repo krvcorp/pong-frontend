@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		289CC86628999135009C1DCE /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 289CC86528999135009C1DCE /* FirebaseMessaging */; };
+		289CC86828999150009C1DCE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 289CC86728999150009C1DCE /* GoogleService-Info.plist */; };
+		289CC86A289993C9009C1DCE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289CC869289993C9009C1DCE /* AppDelegate.swift */; };
 		28E7C3222895E23B002C186A /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 28E7C3212895E23B002C186A /* GoogleSignIn */; };
 		28E7C3242895E23B002C186A /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 28E7C3232895E23B002C186A /* GoogleSignInSwift */; };
 		28E7C32A2895E302002C186A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 28E7C3292895E302002C186A /* Alamofire */; };
@@ -124,6 +127,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		289CC86728999150009C1DCE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		289CC869289993C9009C1DCE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6A449BBB2896F4320015826A /* LoginViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		6A449BBC2896F4320015826A /* APITemplates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APITemplates.swift; sourceTree = "<group>"; };
 		6A449BBE2896F4320015826A /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
@@ -240,6 +245,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				289CC86628999135009C1DCE /* FirebaseMessaging in Frameworks */,
 				6A68DC32288A225700BF2775 /* PopupView in Frameworks */,
 				28E7C32A2895E302002C186A /* Alamofire in Frameworks */,
 				28E7C3242895E23B002C186A /* GoogleSignInSwift in Frameworks */,
@@ -256,12 +262,14 @@
 		6A449BB92896F4320015826A /* Pong */ = {
 			isa = PBXGroup;
 			children = (
+				289CC86728999150009C1DCE /* GoogleService-Info.plist */,
 				6A449BBD2896F4320015826A /* Managers */,
 				6A449C1A2896F4320015826A /* Models */,
 				6A449BBA2896F4320015826A /* ViewModels */,
 				6A449C342896F4320015826A /* Components */,
 				6A449BC02896F4320015826A /* Features */,
 				6A449C192896F4320015826A /* PongApp.swift */,
+				289CC869289993C9009C1DCE /* AppDelegate.swift */,
 				6A449C622896F4320015826A /* ContentView.swift */,
 				6A449C332896F4320015826A /* Extensions.swift */,
 				6A449C612896F4320015826A /* API.swift */,
@@ -928,6 +936,7 @@
 				28E7C3212895E23B002C186A /* GoogleSignIn */,
 				28E7C3232895E23B002C186A /* GoogleSignInSwift */,
 				28E7C3292895E302002C186A /* Alamofire */,
+				289CC86528999135009C1DCE /* FirebaseMessaging */,
 			);
 			productName = pong;
 			productReference = 6A5DF0E32851321000F28A06 /* Pong.app */;
@@ -965,6 +974,7 @@
 				6A5479C52895BB9800BC18CD /* XCRemoteSwiftPackageReference "microsoft-authentication-library-for-objc" */,
 				28E7C3202895E23B002C186A /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				28E7C3282895E302002C186A /* XCRemoteSwiftPackageReference "Alamofire" */,
+				289CC86428999135009C1DCE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 6A5DF0E42851321000F28A06 /* Products */;
 			projectDirPath = "";
@@ -982,6 +992,7 @@
 			files = (
 				6A449CAD2896F4330015826A /* Preview Assets.xcassets in Resources */,
 				6A449C952896F4330015826A /* Assets.xcassets in Resources */,
+				289CC86828999150009C1DCE /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1044,6 +1055,7 @@
 				6A449CB62896F4330015826A /* PostSettingsView.swift in Sources */,
 				6A449CAB2896F4330015826A /* OTPVerifyResponseBody.swift in Sources */,
 				6A449CB02896F4330015826A /* NewPollViewModel.swift in Sources */,
+				289CC86A289993C9009C1DCE /* AppDelegate.swift in Sources */,
 				6A449CC22896F4330015826A /* ReportView.swift in Sources */,
 				6A449C702896F4320015826A /* AccountsSheetView.swift in Sources */,
 				6A449C7B2896F4320015826A /* VerificationViewModel.swift in Sources */,
@@ -1229,7 +1241,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Pong/Preview Content\"";
-				DEVELOPMENT_TEAM = 2N66Q3A64N;
+				DEVELOPMENT_TEAM = 32F8FK43RT;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Info.plist;
@@ -1264,7 +1276,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Pong/Preview Content\"";
-				DEVELOPMENT_TEAM = 2N66Q3A64N;
+				DEVELOPMENT_TEAM = 32F8FK43RT;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Info.plist;
@@ -1312,6 +1324,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		289CC86428999135009C1DCE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		28E7C3202895E23B002C186A /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/google/GoogleSignIn-iOS.git";
@@ -1363,6 +1383,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		289CC86528999135009C1DCE /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 289CC86428999135009C1DCE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
+		};
 		28E7C3212895E23B002C186A /* GoogleSignIn */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 28E7C3202895E23B002C186A /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
