@@ -55,15 +55,26 @@ struct PostBubble: View {
                     ShareSheet(items: ["ponged: \(postBubbleVM.post.title)"])
                 }
                 
-                 Button {
-                     DispatchQueue.main.async {
-                         postSettingsVM.showPostSettingsView.toggle()
-                         postSettingsVM.post = postBubbleVM.post
-                     }
-                     
-                 } label: {
-                     Image(systemName: "ellipsis")
-                 }
+                if postBubbleVM.post.userOwned {
+                    Button {
+                        DispatchQueue.main.async {
+                            postSettingsVM.post = postBubbleVM.post
+                            postSettingsVM.showDeleteConfirmationView.toggle()
+                        }
+                    } label: {
+                        Image(systemName: "trash")
+                    }
+                } else {
+                    Button {
+                        DispatchQueue.main.async {
+                            postSettingsVM.showPostSettingsView.toggle()
+                            postSettingsVM.post = postBubbleVM.post
+                        }
+                    } label: {
+                        Image(systemName: "ellipsis")
+                    }
+                }
+
             }
         }
         .frame(minWidth: 0, maxWidth: UIScreen.main.bounds.size.width - 50)

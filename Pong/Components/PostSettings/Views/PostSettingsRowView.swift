@@ -24,8 +24,8 @@ struct PostSettingsRowView: View {
     }
 }
 
-//struct SettingsOptionRowView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        SettingsOptionRowView(viewModel: .notifications)
-//    }
-//}
+struct PostSettingsRowView_Previews: PreviewProvider {
+    static var previews: some View {
+        PostSettingsRowView(viewModel: .save)
+    }
+}

@@ -55,7 +55,7 @@ extension ContentView {
             }
             // DeleteConfirmationView
             .popup(isPresented: $postSettingsVM.showDeleteConfirmationView, type: .`default`, closeOnTap: false, closeOnTapOutside: true, backgroundColor: .black.opacity(0.4)) {
-                DeleteConfirmationView(postSettingsVM: postSettingsVM, feedVM: feedVM)
+                DeleteConfirmationView(postSettingsVM: postSettingsVM)
             }
             // DeleteAccountConfirmationView
             .popup(isPresented: $settingsSheetVM.showDeleteAccountConfirmationView, type: .`default`, closeOnTap: false, closeOnTapOutside: true, backgroundColor: .black.opacity(0.4)) {

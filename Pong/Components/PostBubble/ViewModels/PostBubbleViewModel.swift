@@ -115,37 +115,5 @@ class PostBubbleViewModel: ObservableObject {
         }.resume()
     }
     
-    func deletePost(post: Post, feedVM: FeedViewModel, completion: @escaping (Result<String, AuthenticationError>) -> Void) {
-        print("DEBUG: PostBubbleVM deletePost \(post.id)")
-        
-        guard let token = DAKeychain.shared["token"] else { return }
-        guard let url = URL(string: "\(API().root)post/\(post.id)/") else {
-            completion(.failure(.custom(errorMessage: "URL is not correct")))
-            return
-        }
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "DELETE"
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("Token \(token)", forHTTPHeaderField: "Authorization")
-        
-        URLSession.shared.dataTask(with: request) { (data, response, error) in
-            guard let _ = data, error == nil else {
-                completion(.failure(.custom(errorMessage: "No data")))
-                return
-            }
-            DispatchQueue.main.async {
-                // clear locally the deleted post
-                if let index = feedVM.hotPosts.firstIndex(of: post) {
-                    feedVM.hotPosts.remove(at: index)
-                }
-                if let index = feedVM.recentPosts.firstIndex(of: post) {
-                    feedVM.recentPosts.remove(at: index)
-                }
-                if let index = feedVM.topPosts.firstIndex(of: post) {
-                    feedVM.topPosts.remove(at: index)
-                }
-            }
-        }.resume()
-    }
+
 }

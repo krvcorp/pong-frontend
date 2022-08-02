@@ -117,11 +117,7 @@ struct ProfileView: View {
                     }
                 }
                 .refreshable {
-                    do {
-                        print("DEBUG: ProfileView pull to refresh")
-                    } catch {
-                        
-                    }
+                    print("DEBUG: ProfileView pull to refresh")
                 }
             }
             .background(Color(UIColor.systemGroupedBackground))

@@ -15,61 +15,12 @@ class ProfileViewModel: ObservableObject {
     @Published var comments: [Comment] = []
     @Published var savedPosts: [Post] = []
 
-//    func getPosts() {
-//        guard let token = DAKeychain.shared["token"] else { return }
-//        guard let url = URL(string: "\(API().root)" + "post/") else { return }
-//
-//        var request = URLRequest(url: url)
-//        request.httpMethod = "GET"
-//        request.addValue("Token \(token)", forHTTPHeaderField: "Authorization")
-//
-//        let task = URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
-//            guard let data = data, error == nil else { return }
-//            do {
-//                let decoder = JSONDecoder()
-//                decoder.keyDecodingStrategy = .convertFromSnakeCase
-//                let posts = try decoder.decode([Post].self, from: data)
-//                DispatchQueue.main.async {
-//                    self?.posts = posts
-//                }
-//            } catch {
-//                print("DEBUG: \(error)")
-//            }
-//        }
-//        task.resume()
-//    }
-//
-//    func getComments() {
-//        guard let token = DAKeychain.shared["token"] else { return }
-//        guard let url = URL(string: "\(API().root)" + "comment/") else { return }
-//
-//        var request = URLRequest(url: url)
-//        request.httpMethod = "GET"
-//        request.addValue("Token \(token)", forHTTPHeaderField: "Authorization")
-//
-//        let task = URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
-//            guard let data = data, error == nil else { return }
-//            do {
-//                let decoder = JSONDecoder()
-//                decoder.keyDecodingStrategy = .convertFromSnakeCase
-//                let comments = try decoder.decode([Comment].self, from: data)
-//                DispatchQueue.main.async {
-//                    self?.comments = comments
-//                }
-//            } catch {
-//                print("DEBUG: \(error)")
-//            }
-//        }
-//        task.resume()
-//    }
-
     func getLoggedInUserInfo() {
         print("DEBUG: profileVM.getLoggedInUserInfo")
         guard let token = DAKeychain.shared["token"] else { return }
         guard let userId = DAKeychain.shared["userId"] else { return }
 
         guard let url = URL(string: "\(API().root)" + "user/" + userId + "/") else { return }
-        print("DEBUG: \(url)")
 
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
@@ -79,7 +30,6 @@ class ProfileViewModel: ObservableObject {
         URLSession.shared.dataTask(with: request) { data, response, error in
             
             guard let data = data, error == nil else { return }
-            print("DEBUG: ProfileVM getLoggedInUserInfo data: \(data)")
             
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
@@ -87,7 +37,7 @@ class ProfileViewModel: ObservableObject {
                 print("DEBUG: ProfileVM getLoggedInUserInfo decode error")
                 return
             }
-            print("DEBUG: ProfileVM \(loggedInUserInfoResponse)")
+//            print("DEBUG: ProfileVM \(loggedInUserInfoResponse)")
             DispatchQueue.main.async {
                 self.totalKarma = loggedInUserInfoResponse.totalScore
                 self.commentKarma = loggedInUserInfoResponse.commentScore

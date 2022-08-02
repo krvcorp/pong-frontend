@@ -583,8 +583,8 @@
 			isa = PBXGroup;
 			children = (
 				6A449C042896F4320015826A /* ProfileFilterViewModel.swift */,
-				6A449C052896F4320015826A /* ProfileViewModel.swift */,
 				6A449C492896F4320015826A /* ProfileCommentBubbleViewModel.swift */,
+				6A449C052896F4320015826A /* ProfileViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
