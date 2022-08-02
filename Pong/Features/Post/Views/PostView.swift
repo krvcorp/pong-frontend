@@ -25,7 +25,10 @@ struct PostView: View {
                 mainPost
                 LazyVStack {
                     ForEach(postVM.comments, id: \.self) { comment in
-                        CommentBubble(comment: comment)
+                        HStack {
+                            Spacer()
+                            CommentBubble(comment: comment)
+                        }
                     }
                 }
                 .padding(.bottom, 150)

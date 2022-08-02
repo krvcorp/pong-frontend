@@ -8,6 +8,7 @@
 import Foundation
 
 class NewPostViewModel: ObservableObject {
+    @Published var error = false
 
     func newPost(title: String, completion: @escaping (Result<String, AuthenticationError>) -> Void) {
         
@@ -37,12 +38,20 @@ class NewPostViewModel: ObservableObject {
             }
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
-            guard let loginResponse = try? decoder.decode(Post.self, from: data) else {
-                completion(.failure(.decodeError))
+            guard let createPostResponse = try? decoder.decode(Post.self, from: data) else {
+                guard let createPostResponse = try? decoder.decode(ErrorResponseBody.self, from: data) else {
+                    completion(.failure(.decodeError))
+                    return
+                }
+
+                DispatchQueue.main.async {
+                    self.error = true
+                }
+                completion(.success(createPostResponse.error))
                 return
             }
             
-            completion(.success(loginResponse.title))
+            completion(.success(createPostResponse.title))
             
         }.resume()
     }

@@ -22,12 +22,12 @@ struct FeedView: View {
     var school: String // will need to filter entire page by community
 
 // remove init function because unnecessary for now
-//    init(_ school: String, _ selectedFilter: FeedFilterViewModel, _ feedVM: FeedViewModel, _ postSettingsVM: PostSettingsViewModel) {
-//        self.school = school
-//        self.selectedFilter = selectedFilter
-//        self.feedVM = feedVM
-//        self.postSettingsVM = postSettingsVM
-//    }
+    init(school: String, selectedFilter: FeedFilterViewModel, feedVM: FeedViewModel, postSettingsVM: PostSettingsViewModel) {
+        self.school = school
+        self.selectedFilter = selectedFilter
+        self.feedVM = feedVM
+        self.postSettingsVM = postSettingsVM
+    }
     
     var body: some View {
         // ORIGINAL
@@ -157,6 +157,6 @@ struct FeedView: View {
 
 struct FeedView_Previews: PreviewProvider {
     static var previews: some View {
-        FeedView(selectedFilter: .hot, feedVM: FeedViewModel(), postSettingsVM: PostSettingsViewModel(), school: "Harvard")
+        FeedView(school: "Harvard", selectedFilter: .hot, feedVM: FeedViewModel(), postSettingsVM: PostSettingsViewModel())
     }
 }

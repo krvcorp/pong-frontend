@@ -32,20 +32,20 @@ class FeedViewModel: ObservableObject {
         let url_to_use: String
         
         if selectedFilter == .recent {
-            print("DEBUG: GETPOSTS Recent")
+//            print("DEBUG: GETPOSTS Recent")
             url_to_use = "\(API().root)post/?sort=new"
         } else if selectedFilter == .top {
-            print("DEBUG: GETPOSTS Top")
+//            print("DEBUG: GETPOSTS Top")
             url_to_use = "\(API().root)post/?sort=top"
         } else {
-            print("DEBUG: GETPOSTS Default Order")
+//            print("DEBUG: GETPOSTS Default Order")
             url_to_use = "\(API().root)post/?sort=old"
         }
         
         // URL handler
         
         guard let url = URL(string: url_to_use) else { return }
-        print("DEBUG: \(url)")
+//        print("DEBUG: \(url)")
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
@@ -71,7 +71,7 @@ class FeedViewModel: ObservableObject {
                     }
                 }
             } catch {
-                print("DEBUG: \(error)")
+                print("DEBUG: feedVM getPosts \(error)")
             }
         }
         task.resume()
@@ -80,7 +80,7 @@ class FeedViewModel: ObservableObject {
     // this logic should probably go into feedviewmodel where tapping on a post calls an API to get updated post information regarding a post
     func readPost(postId: String, completion: @escaping (Result<Post, AuthenticationError>) -> Void) {
         
-        print("DEBUG: PostBubbleVM readPost \(postId)")
+//        print("DEBUG: PostBubbleVM readPost \(postId)")
         
         guard let token = DAKeychain.shared["token"] else { return }
         guard let url = URL(string: "\(API().root)post/\(postId)/") else {

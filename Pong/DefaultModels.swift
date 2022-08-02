@@ -20,7 +20,8 @@ var defaultPost = Post(id: "default",
                        flagged: false,
                        blocked: false,
                        numUpvotes: 0,
-                       numDownvotes: 0)
+                       numDownvotes: 0,
+                       userOwned: true)
 
 var defaultComment = Comment(id: "default",
                              post: "default",
@@ -31,6 +32,7 @@ var defaultComment = Comment(id: "default",
                              timeSincePosted: "default",
                              parent: "",
                              children: [],
-                             numberOnPost: 0)
+                             numberOnPost: 0,
+                             userOwned: true)
 
 var defaultTotalScore = TotalScore(score: 1, place:"1")

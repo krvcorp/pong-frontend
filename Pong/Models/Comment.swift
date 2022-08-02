@@ -18,4 +18,5 @@ struct Comment: Hashable, Identifiable, Codable {
     var parent: String?
     var children: [Comment]
     var numberOnPost: Int
+    var userOwned: Bool
 }

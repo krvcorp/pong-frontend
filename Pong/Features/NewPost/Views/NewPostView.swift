@@ -7,10 +7,11 @@
 
 import SwiftUI
 import Combine
+import PopupView
 
 struct NewPostView: View {
     @Environment(\.presentationMode) var presentationMode
-    @StateObject var viewModel = NewPostViewModel()
+    @StateObject var newPostVM = NewPostViewModel()
     
     // local logic shit
     @State private var text = ""
@@ -105,12 +106,21 @@ struct NewPostView: View {
 
                             Button {
                                 print("DEBUG: New post")
-                                viewModel.newPost(title: text) { error in
-                                    print("DEBUG: \(error)")
+                                newPostVM.newPost(title: text) { result in
+                                    switch result {
+                                    case .success(let response):
+                                        print("DEBUG: \(response)")
+                                    case .failure(let error):
+                                        print("DEBUG: newPostVM.newPost completion error \(error)")
+                                    }
                                 }
-                                newPost.toggle()
-                                presentationMode.wrappedValue.dismiss()
-                                
+                                // accessing postVM too quickly here ? can't perform dismiss inside completion
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                                    if !newPostVM.error {
+                                        newPost = true
+                                        presentationMode.wrappedValue.dismiss()
+                                    }
+                                }
                             } label: {
                                 Text("Post")
                                     .frame(minWidth: 100, maxWidth: 150)
@@ -144,6 +154,9 @@ struct NewPostView: View {
                 }
             .navigationBarTitleDisplayMode(.inline)
             }
+        }
+        .popup(isPresented: $newPostVM.error, type: .floater(), position: .top, animation: .spring(), autohideIn: 3) {
+            FloatWarning(message: "Slow down!")
         }
     }
 }
