@@ -128,6 +128,7 @@ struct FeedView: View {
                         } else if selectedFilter == .recent {
                             feedVM.getPosts(selectedFilter: .recent)
                         }
+                        feedVM.getPostsAlamofire(selectedFilter: selectedFilter)
                     }
                 }
             }
