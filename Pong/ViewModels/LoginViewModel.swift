@@ -43,11 +43,12 @@ import Alamofire
                 print("DEBUG: loginVM verifyEmail successResponse: \(successResponse)")
                 DispatchQueue.main.async {
                     if let token = successResponse.token {
+                        print("DEBUG: token \(token)")
                         DAKeychain.shared["token"] = token
-                        // this forces loginVM to update and subsequently ContentView to update
                         self.forceUpdate = true
                     }
                     if let userId = successResponse.userId {
+                        print("DEBUG: userId \(userId)")
                         DAKeychain.shared["userId"] = userId
                     }
                     // resets phoneLoginVM and authenticates user

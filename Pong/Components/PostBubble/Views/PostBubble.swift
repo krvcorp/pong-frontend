@@ -11,7 +11,6 @@ struct PostBubble: View {
     @ObservedObject var postBubbleVM : PostBubbleViewModel
     @ObservedObject var postSettingsVM : PostSettingsViewModel
     
-    @State private var tapped = false
     @State private var showScore = false
     @State var sheet = false
     

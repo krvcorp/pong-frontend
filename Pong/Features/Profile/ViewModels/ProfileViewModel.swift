@@ -17,8 +17,15 @@ class ProfileViewModel: ObservableObject {
 
     func getLoggedInUserInfo() {
         print("DEBUG: profileVM.getLoggedInUserInfo")
-        guard let token = DAKeychain.shared["token"] else { return }
-        guard let userId = DAKeychain.shared["userId"] else { return }
+        guard let token = DAKeychain.shared["token"] else {
+            print("DEBUG: profileVM.getLoggedInUserInfo no token")
+            return
+        }
+        
+        guard let userId = DAKeychain.shared["userId"] else {
+            print("DEBUG: profileVM.getLoggedInUserInfo no token")
+            return
+        }
 
         guard let url = URL(string: "\(API().root)" + "user/" + userId + "/") else { return }
 
@@ -29,22 +36,31 @@ class ProfileViewModel: ObservableObject {
 
         URLSession.shared.dataTask(with: request) { data, response, error in
             
-            guard let data = data, error == nil else { return }
+            guard let data = data, error == nil else {
+                print("DEBUG: no data")
+                return
+            }
             
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
-            guard let loggedInUserInfoResponse = try? decoder.decode(LoggedInUserInfoResponseBody.self, from: data) else {
-                print("DEBUG: ProfileVM getLoggedInUserInfo decode error")
-                return
-            }
-//            print("DEBUG: ProfileVM \(loggedInUserInfoResponse)")
-            DispatchQueue.main.async {
-                self.totalKarma = loggedInUserInfoResponse.totalScore
-                self.commentKarma = loggedInUserInfoResponse.commentScore
-                self.postKarma = loggedInUserInfoResponse.postScore
-                self.savedPosts = loggedInUserInfoResponse.savedPosts
-                self.posts = loggedInUserInfoResponse.posts
-                self.comments = loggedInUserInfoResponse.comments
+//            guard let loggedInUserInfoResponse = try? decoder.decode(LoggedInUserInfoResponseBody.self, from: data) else {
+//                print("DEBUG: profileVM getLoggedInUserInfo decode error")
+//                return
+//            }
+            
+            do {
+                let loggedInUserInfoResponse = try decoder.decode(LoggedInUserInfoResponseBody.self, from: data)
+                print("DEBUG: ProfileVM \(loggedInUserInfoResponse)")
+                DispatchQueue.main.async {
+                    self.totalKarma = loggedInUserInfoResponse.totalScore
+                    self.commentKarma = loggedInUserInfoResponse.commentScore
+                    self.postKarma = loggedInUserInfoResponse.postScore
+                    self.savedPosts = loggedInUserInfoResponse.savedPosts
+                    self.posts = loggedInUserInfoResponse.posts
+                    self.comments = loggedInUserInfoResponse.comments
+                }
+            } catch {
+                print("DEBUG: decode error \(error)")
             }
         }.resume()
     }

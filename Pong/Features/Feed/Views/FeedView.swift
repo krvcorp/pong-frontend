@@ -21,7 +21,6 @@ struct FeedView: View {
     @State private var newPost = false
     var school: String // will need to filter entire page by community
 
-// remove init function because unnecessary for now
     init(school: String, selectedFilter: FeedFilterViewModel, feedVM: FeedViewModel, postSettingsVM: PostSettingsViewModel) {
         self.school = school
         self.selectedFilter = selectedFilter
