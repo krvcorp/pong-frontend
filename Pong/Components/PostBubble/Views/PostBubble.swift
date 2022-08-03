@@ -20,6 +20,7 @@ struct PostBubble: View {
         self.postSettingsVM = postSettingsVM
     }
     
+    @ViewBuilder
     var body: some View {
         VStack {
             HStack(alignment: .top){
@@ -30,6 +31,21 @@ struct PostBubble: View {
       
                     Text(postBubbleVM.post.title)
                         .multilineTextAlignment(.leading)
+                    
+                    if let imageUrl = postBubbleVM.post.image {
+                        AsyncImage(
+                            url: URL(string: imageUrl),
+                            content: { image in
+                                image.resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            },
+                            placeholder: {
+                                ProgressView()
+                            }
+                        )
+                    }
+                      
                 }
                 
                 Spacer()
