@@ -6,6 +6,7 @@
 //
 import Foundation
 import SwiftUI
+import Alamofire
 
 class FeedViewModel: ObservableObject {
     @Published var topPostsInitalOpen : Bool = false
@@ -16,7 +17,6 @@ class FeedViewModel: ObservableObject {
     @Published var recentPosts : [Post] = []
     
     func getPosts(selectedFilter: FeedFilterViewModel) {
-        // run only on first appear
         if selectedFilter == .top {
             topPostsInitalOpen = true
         } else if selectedFilter == .hot {
@@ -25,38 +25,25 @@ class FeedViewModel: ObservableObject {
             recentPostsInitalOpen = true
         }
 
-        print("DEBUG: feedVM getPosts")
+        guard let token = DAKeychain.shared["token"] else { return }
 
-        guard let token = DAKeychain.shared["token"] else { return } // Fetch
-        
         let url_to_use: String
-        
         if selectedFilter == .recent {
-//            print("DEBUG: GETPOSTS Recent")
             url_to_use = "\(API().root)post/?sort=new"
         } else if selectedFilter == .top {
-//            print("DEBUG: GETPOSTS Top")
             url_to_use = "\(API().root)post/?sort=top"
         } else {
-//            print("DEBUG: GETPOSTS Default Order")
             url_to_use = "\(API().root)post/?sort=old"
         }
         
-        // URL handler
         
         guard let url = URL(string: url_to_use) else { return }
-//        print("DEBUG: \(url)")
-        
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.addValue("Token \(token)", forHTTPHeaderField: "Authorization")
         
-        // Task handler. [weak self] prevents memory leaks
         let task = URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
-            
             guard let data = data, error == nil else { return }
-            
-            // Convert fetch data into SWIFT JSON and store into variables
             do {
                 let decoder = JSONDecoder()
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
@@ -75,6 +62,41 @@ class FeedViewModel: ObservableObject {
             }
         }
         task.resume()
+    }
+
+    func getPostsAlamofire(selectedFilter: FeedFilterViewModel) {
+        let url_to_use: String
+        if selectedFilter == .top {
+            topPostsInitalOpen = true
+            url_to_use = "\(API().root)post/?sort=top"
+        } else if selectedFilter == .hot {
+            hotPostsInitalOpen = true
+            url_to_use = "\(API().root)post/?sort=top"
+        } else if selectedFilter == .recent {
+            recentPostsInitalOpen = true
+            url_to_use = "\(API().root)post/?sort=new"
+        } else {
+            url_to_use = "\(API().root)post/?sort=old"
+        }
+
+        let method = HTTPMethod.get
+        let headers: HTTPHeaders = [
+            "Authorization": "Token \(DAKeychain.shared["token"]!)",
+            "Content-Type": "application/x-www-form-urlencoded"
+        ]
+
+        AF.request(url_to_use, method: method, headers: headers).responseDecodable(of: Post.self) { response in
+            debugPrint(response.value)
+            guard let posts = response.value else { return }
+//            if selectedFilter == .hot {
+//                self!.hotPosts = posts
+//            } else if selectedFilter == .recent {
+//                self!.recentPosts = posts
+//            } else if selectedFilter == .top {
+//                self!.topPosts = posts
+//            }
+            debugPrint(posts)
+        }
     }
     
     // this logic should probably go into feedviewmodel where tapping on a post calls an API to get updated post information regarding a post
