@@ -42,7 +42,7 @@ class FeedViewModel: ObservableObject {
         } else {
             url_to_use = "\(API().root)post/?sort=old"
         }
-        
+        print("DEBUG: feedVM.getPosts url \(url_to_use)")
         
         guard let url = URL(string: url_to_use) else { return }
         var request = URLRequest(url: url)
@@ -51,21 +51,26 @@ class FeedViewModel: ObservableObject {
         
         let task = URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
             guard let data = data, error == nil else { return }
+
             do {
                 let decoder = JSONDecoder()
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
                 let posts = try decoder.decode([Post].self, from: data)
+                
+                //
+                print("DEBUG: feedVM.getPosts posts \(posts)")
                 DispatchQueue.main.async {
                     if selectedFilter == .hot {
-                        self!.hotPosts = posts
+                        self?.hotPosts = posts
+                        print("DEBUG: \(String(describing: self?.hotPosts))")
                     } else if selectedFilter == .recent {
-                        self!.recentPosts = posts
+                        self?.recentPosts = posts
                     } else if selectedFilter == .top {
-                        self!.topPosts = posts
+                        self?.topPosts = posts
                     }
                 }
             } catch {
-                print("DEBUG: feedVM getPosts \(error)")
+                print("DEBUG: feedVM.getPosts \(error)")
             }
         }
         task.resume()

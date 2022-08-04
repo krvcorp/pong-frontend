@@ -18,6 +18,6 @@ class API: ObservableObject {
 //    var root: String = "https://raunakdaga-pong.herokuapp.com/api/"
 //    var rootAuth: String = "https://raunakdaga-pong.herokuapp.com/auth/"
     // local
-    var root: String = "http://localhost:8005/admin/api/"
+    var root: String = "http://localhost:8005/api/"
     var rootAuth: String = "http://localhost:8005/auth/"
 }
