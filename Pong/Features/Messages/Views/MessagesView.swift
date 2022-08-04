@@ -28,7 +28,7 @@ struct MessagesView: View {
             NavigationView {
                 List {
                     
-                    ForEach(chatmodels) { chatmodel in
+                    ForEach(chatmodels.filter { searchText.isEmpty || $0.title.localizedStandardContains(searchText)}) { chatmodel in
                         NavigationLink(destination: Text("messaging feed here")) {
                             HStack {
                                 LinearGradient(gradient: Gradient(colors: [chatmodel.color1, chatmodel.color2]), startPoint: .bottomLeading, endPoint: .topTrailing).clipShape(Circle()).frame(width: 40, height: 40, alignment: .center)
