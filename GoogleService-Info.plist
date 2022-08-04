@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>244967990890-q6i4jbi999io9imevj2vb7rh6l8vh106.apps.googleusercontent.com</string>
+	<string>244967990890-1krh7c3athp71iis3mbuspgv0516ba42.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.244967990890-q6i4jbi999io9imevj2vb7rh6l8vh106</string>
+	<string>com.googleusercontent.apps.244967990890-1krh7c3athp71iis3mbuspgv0516ba42</string>
 	<key>API_KEY</key>
 	<string>AIzaSyApt_LxDGj0mEYYzvD7_qk9rUecuM8KjcY</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.khoinguyen.pong</string>
+	<string>com.krvcorp.pong</string>
 	<key>PROJECT_ID</key>
 	<string>pong-social-app</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:244967990890:ios:8fd836b2292ea1eb40cc13</string>
+	<string>1:244967990890:ios:2eb4e126ebe2559d40cc13</string>
 </dict>
 </plist>

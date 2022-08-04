@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		289CC86628999135009C1DCE /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 289CC86528999135009C1DCE /* FirebaseMessaging */; };
-		289CC86828999150009C1DCE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 289CC86728999150009C1DCE /* GoogleService-Info.plist */; };
 		289CC86A289993C9009C1DCE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289CC869289993C9009C1DCE /* AppDelegate.swift */; };
+		289CC86C289B71B3009C1DCE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 289CC86B289B71B3009C1DCE /* GoogleService-Info.plist */; };
 		28E7C3222895E23B002C186A /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 28E7C3212895E23B002C186A /* GoogleSignIn */; };
 		28E7C3242895E23B002C186A /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 28E7C3232895E23B002C186A /* GoogleSignInSwift */; };
 		28E7C32A2895E302002C186A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 28E7C3292895E302002C186A /* Alamofire */; };
@@ -127,8 +127,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		289CC86728999150009C1DCE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		289CC869289993C9009C1DCE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		289CC86B289B71B3009C1DCE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6A449BBB2896F4320015826A /* LoginViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		6A449BBC2896F4320015826A /* APITemplates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APITemplates.swift; sourceTree = "<group>"; };
 		6A449BBE2896F4320015826A /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
@@ -262,7 +262,6 @@
 		6A449BB92896F4320015826A /* Pong */ = {
 			isa = PBXGroup;
 			children = (
-				289CC86728999150009C1DCE /* GoogleService-Info.plist */,
 				6A449BBD2896F4320015826A /* Managers */,
 				6A449C1A2896F4320015826A /* Models */,
 				6A449BBA2896F4320015826A /* ViewModels */,
@@ -898,6 +897,7 @@
 		6A5DF0DA2851321000F28A06 = {
 			isa = PBXGroup;
 			children = (
+				289CC86B289B71B3009C1DCE /* GoogleService-Info.plist */,
 				6A5479C82895C08F00BC18CD /* Pong.entitlements */,
 				6A449BB92896F4320015826A /* Pong */,
 				6A5DF0E42851321000F28A06 /* Products */,
@@ -992,7 +992,7 @@
 			files = (
 				6A449CAD2896F4330015826A /* Preview Assets.xcassets in Resources */,
 				6A449C952896F4330015826A /* Assets.xcassets in Resources */,
-				289CC86828999150009C1DCE /* GoogleService-Info.plist in Resources */,
+				289CC86C289B71B3009C1DCE /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1257,7 +1257,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.khoinguyen.pong;
+				PRODUCT_BUNDLE_IDENTIFIER = com.krvcorp.pong;
 				PRODUCT_NAME = Pong;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1292,7 +1292,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.khoinguyen.pong;
+				PRODUCT_BUNDLE_IDENTIFIER = com.krvcorp.pong;
 				PRODUCT_NAME = Pong;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
