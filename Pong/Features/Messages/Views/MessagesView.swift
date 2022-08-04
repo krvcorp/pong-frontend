@@ -9,52 +9,48 @@ import SwiftUI
 
 struct MessagesView: View {
     
-    func standardizedParagraph(title: String, text: String, imageName: String?) -> some View {
-        VStack(alignment: .leading, spacing: nil) {
-            Text(title)
-                .font(.headline)
-                .padding([.top], 6)
-                .fixedSize(horizontal: false, vertical: true)
-            Text(text)
-                .font(.subheadline)
-                .padding([.top], 6)
-                .fixedSize(horizontal: false, vertical: true)
-            if let imageName = imageName {
-                Image(imageName)
-                    .resizable()
-                    .cornerRadius(16)
-                    .aspectRatio(contentMode: .fill)
-                    .overlay(
-                                RoundedRectangle(cornerRadius: 14)
-                                    .stroke(Color.gray, lineWidth: 3)
-                            )
-                    .padding([.top])
-            }
-        }
-        .padding([.bottom])
+    @State private var searchText = ""
+    
+    struct ChatModel: Identifiable {
+        var id: String { title }
+        let title: String
+        let subtitle: String
+        let timestamp: String
+        let new: Bool
+        let color1: Color
+        let color2: Color
     }
+    
+    let chatmodels: [ChatModel] = [ChatModel(title: "Brattle street when jefes moves in", subtitle: "Why would you post that", timestamp: "6:09 PM", new: true, color1: Color.releaseNotesGradient1, color2: Color.releaseNotesGradient2), ChatModel(title: "I am getting housing at adams, but I'm also secretly", subtitle: "How much for the appt", timestamp: "4:20 PM", new: true, color1: Color.analyticsRevenueGradient1, color2: Color.analyticsRevenueGradient2), ChatModel(title: "Winthrop dining hall vibes are fire", subtitle: "No they're not", timestamp: "3:07 PM", new: false, color1: Color.webListItemGradient1, color2: Color.blue), ChatModel(title: "What if I 👉👈 got the HSA bigger bed", subtitle: "What if you didn't", timestamp: "2:59 PM", new: false, color1: Color.trackingLinksGradient1, color2: Color.trackingLinksGradient2), ChatModel(title: "is 1011a THAT hard...", subtitle: "Yes", timestamp: "1:06 PM", new: false, color1: Color.guestListGradient1, color2: Color.guestListGradient2)]
     
     var body: some View {
         LoadingView(isShowing: .constant(false)) {
             NavigationView {
                 List {
-                    NavigationLink(destination: Text("messaging feed here")) {
-                        HStack {
-                            LinearGradient(gradient: Gradient(colors: [Color.releaseNotesGradient1, Color.releaseNotesGradient2]), startPoint: .trailing, endPoint: .leading).clipShape(Circle()).frame(width: 40, height: 40, alignment: .center)
-                            VStack (alignment: .leading, spacing: 5) {
-                                Text("Brattle street when jefes moves in").bold().lineLimit(1)
-                                HStack {
-                                    Text("Why would you post that").lineLimit(1).foregroundColor(.gray)
-                                    Spacer()
-                                    ZStack {
-                                        LinearGradient(gradient: Gradient(colors: [Color.viewEventsGradient1, Color.viewEventsGradient2]), startPoint: .bottomLeading, endPoint: .topTrailing)
-                                        Text("4:34 PM").foregroundColor(.white).bold().lineLimit(1)
+                    
+                    ForEach(chatmodels) { chatmodel in
+                        NavigationLink(destination: Text("messaging feed here")) {
+                            HStack {
+                                LinearGradient(gradient: Gradient(colors: [chatmodel.color1, chatmodel.color2]), startPoint: .bottomLeading, endPoint: .topTrailing).clipShape(Circle()).frame(width: 40, height: 40, alignment: .center)
+                                VStack (alignment: .leading, spacing: 6) {
+                                    Text(chatmodel.title).bold().lineLimit(1)
+                                    HStack {
+                                        Text(chatmodel.subtitle).lineLimit(1).foregroundColor(.gray)
+                                        Spacer()
+                                        ZStack {
+                                            if chatmodel.new {
+                                                LinearGradient(gradient: Gradient(colors: [Color.viewEventsGradient1, Color.viewEventsGradient2]), startPoint: .bottomLeading, endPoint: .topTrailing)
+                                            } else {
+                                                Color.superLightGray
+                                            }
+                                            Text(chatmodel.timestamp).foregroundColor(chatmodel.new ? .white : .gray).bold().lineLimit(1)
+                                        }
+                                        .cornerRadius(6)
+                                        .frame(width: 75)
                                     }
-                                    .cornerRadius(6)
-                                    .frame(width: 75)
                                 }
-                            }
-                        }.padding(.vertical, 10)
+                            }.padding(.vertical, 10)
+                        }
                     }
                 }
                 .listStyle(PlainListStyle())
@@ -64,8 +60,10 @@ struct MessagesView: View {
                 }
                 .navigationTitle("Messages")
             }
+            .searchable(text: $searchText)
             .navigationViewStyle(StackNavigationViewStyle())
         }
+        .preferredColorScheme(.light)
     }
 }
 

@@ -240,4 +240,8 @@ extension Color {
     public static var reviewGradient2: Color {
         return Color(red: 251/255, green: 176/255, blue: 52/255)
     }
+    
+    public static var superLightGray: Color {
+        return Color(red: 240/255, green: 240/255, blue: 240/255)
+    }
 }
