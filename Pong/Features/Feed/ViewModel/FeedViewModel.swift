@@ -9,7 +9,7 @@ import SwiftUI
 import Alamofire
 
 class FeedViewModel: ObservableObject {
-    @Published var school : String = ""
+    @Published var school : Binding<String>
     @Published var newPost = false
     @Published var isShowingNewPostSheet = false
     @Published var topPostsInitalOpen : Bool = false
@@ -19,7 +19,7 @@ class FeedViewModel: ObservableObject {
     @Published var hotPosts : [Post] = []
     @Published var recentPosts : [Post] = []
     
-    init(school: String) {
+    init(school: Binding<String>) {
         self.school = school
     }
     
@@ -88,12 +88,11 @@ class FeedViewModel: ObservableObject {
 
         let method = HTTPMethod.get
         let headers: HTTPHeaders = [
-            "Authorization": "Token \(DAKeychain.shared["token"]!)",
+            "Authorization": "Token \(DAKeychain.shared["token"])",
             "Content-Type": "application/x-www-form-urlencoded"
         ]
 
         AF.request(url_to_use, method: method, headers: headers).responseDecodable(of: Post.self) { response in
-            debugPrint(response.value)
             guard let posts = response.value else { return }
 //            if selectedFilter == .hot {
 //                self!.hotPosts = posts

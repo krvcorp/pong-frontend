@@ -14,13 +14,10 @@ struct FeedView: View {
     // observed objects
     @ObservedObject var feedVM: FeedViewModel
     @ObservedObject var postSettingsVM: PostSettingsViewModel
-    
-    @Binding var school : String
 
     init(school: Binding<String>, selectedFilter: FeedFilterViewModel, postSettingsVM: PostSettingsViewModel) {
-        self._school = school
         self.selectedFilter = selectedFilter
-        self.feedVM = FeedViewModel(school: school.wrappedValue)
+        self.feedVM = FeedViewModel(school: school)
         self.postSettingsVM = postSettingsVM
     }
     
@@ -127,7 +124,7 @@ struct FeedView: View {
                         } else if selectedFilter == .recent {
                             feedVM.getPosts(selectedFilter: .recent)
                         }
-                        feedVM.getPostsAlamofire(selectedFilter: selectedFilter)
+//                        feedVM.getPostsAlamofire(selectedFilter: selectedFilter)
                     }
                 }
             }
