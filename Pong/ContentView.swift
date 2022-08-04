@@ -28,7 +28,7 @@ struct ContentView: View {
 extension ContentView {
     var MainInterfaceView: some View {
         ZStack(alignment: .topTrailing){
-            MainTabView(settingsSheetVM: settingsSheetVM, postSettingsVM: postSettingsVM, feedVM: feedVM)
+            MainTabView()
             // SettingsSheetView
             .popup(isPresented: $settingsSheetVM.showSettingsSheetView, type: .toast, position: .bottom, closeOnTap: false, closeOnTapOutside: true, backgroundColor: .black.opacity(0.4)) {
                 SettingsSheetView(loginVM: loginVM, settingsSheetVM: settingsSheetVM)
