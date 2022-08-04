@@ -16,9 +16,9 @@ enum Tabs: String {
 struct MainTabView: View {
     @ObservedObject var settingsSheetVM : SettingsSheetViewModel
     @ObservedObject var postSettingsVM : PostSettingsViewModel
-    @ObservedObject var feedVM : FeedViewModel
     // tab selection
     @State private var tabSelection : Tabs = .feed
+    @State var school : String = "Boston University"
     
     var handler: Binding<Tabs> { Binding(
         get: { self.tabSelection },
@@ -27,10 +27,7 @@ struct MainTabView: View {
             // if the user is not scrolled to the top, just scroll to the top
             // if the user is scrolled to the top, activate pull to refresh
             if $0 == .feed {
-                print("Refresh Home!")
-                feedVM.getPosts(selectedFilter: .top)
-                feedVM.getPosts(selectedFilter: .hot)
-                feedVM.getPosts(selectedFilter: .recent)
+                print("DEBUG: Refresh Home!")
             }
             self.tabSelection = $0
         }
@@ -39,7 +36,7 @@ struct MainTabView: View {
     var body: some View {
         NavigationView {
             TabView(selection: handler) {
-                FeedView(school: "Harvard", selectedFilter: .hot, feedVM: feedVM, postSettingsVM: postSettingsVM)
+                FeedView(school: $school, selectedFilter: .hot, postSettingsVM: postSettingsVM)
                 .tabItem{Image(systemName: "house")}
                 .tag(Tabs.feed)
 
@@ -59,7 +56,7 @@ struct MainTabView: View {
                         NavigationLink {
                             ChooseLocationView()
                         } label: {
-                            Text("Harvard")
+                            Text(school)
                                 .font(.title.bold())
                                 .foregroundColor(Color(UIColor.label))
                         }
@@ -132,6 +129,6 @@ struct MainTabView: View {
 
 struct MainTabView_Previews: PreviewProvider {
     static var previews: some View {
-        MainTabView(settingsSheetVM: SettingsSheetViewModel(), postSettingsVM: PostSettingsViewModel(), feedVM: FeedViewModel())
+        MainTabView(settingsSheetVM: SettingsSheetViewModel(), postSettingsVM: PostSettingsViewModel())
     }
 }

@@ -9,12 +9,19 @@ import SwiftUI
 import Alamofire
 
 class FeedViewModel: ObservableObject {
+    @Published var school : String = ""
+    @Published var newPost = false
+    @Published var isShowingNewPostSheet = false
     @Published var topPostsInitalOpen : Bool = false
     @Published var hotPostsInitalOpen : Bool = false
     @Published var recentPostsInitalOpen : Bool = false
     @Published var topPosts : [Post] = []
     @Published var hotPosts : [Post] = []
     @Published var recentPosts : [Post] = []
+    
+    init(school: String) {
+        self.school = school
+    }
     
     func getPosts(selectedFilter: FeedFilterViewModel) {
         if selectedFilter == .top {
