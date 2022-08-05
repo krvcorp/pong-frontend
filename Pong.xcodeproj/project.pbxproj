@@ -10,6 +10,11 @@
 		289CC86628999135009C1DCE /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 289CC86528999135009C1DCE /* FirebaseMessaging */; };
 		289CC86A289993C9009C1DCE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289CC869289993C9009C1DCE /* AppDelegate.swift */; };
 		289CC86C289B71B3009C1DCE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 289CC86B289B71B3009C1DCE /* GoogleService-Info.plist */; };
+		289CC86E289C6826009C1DCE /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289CC86D289C6826009C1DCE /* SettingsView.swift */; };
+		289CC870289C6846009C1DCE /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289CC86F289C6846009C1DCE /* SettingsViewModel.swift */; };
+		289CC872289C68D8009C1DCE /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289CC871289C68D8009C1DCE /* LoadingView.swift */; };
+		289CC874289C695F009C1DCE /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289CC873289C695F009C1DCE /* Colors.swift */; };
+		289CC876289C69D9009C1DCE /* ProminentHeaderModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289CC875289C69D9009C1DCE /* ProminentHeaderModifier.swift */; };
 		28E7C3222895E23B002C186A /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 28E7C3212895E23B002C186A /* GoogleSignIn */; };
 		28E7C3242895E23B002C186A /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 28E7C3232895E23B002C186A /* GoogleSignInSwift */; };
 		28E7C32A2895E302002C186A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 28E7C3292895E302002C186A /* Alamofire */; };
@@ -129,6 +134,11 @@
 /* Begin PBXFileReference section */
 		289CC869289993C9009C1DCE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		289CC86B289B71B3009C1DCE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		289CC86D289C6826009C1DCE /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		289CC86F289C6846009C1DCE /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		289CC871289C68D8009C1DCE /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		289CC873289C695F009C1DCE /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		289CC875289C69D9009C1DCE /* ProminentHeaderModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProminentHeaderModifier.swift; sourceTree = "<group>"; };
 		6A449BBB2896F4320015826A /* LoginViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		6A449BBC2896F4320015826A /* APITemplates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APITemplates.swift; sourceTree = "<group>"; };
 		6A449BBE2896F4320015826A /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
@@ -311,12 +321,12 @@
 				6A449BF02896F4320015826A /* Chat */,
 				6A449C152896F4320015826A /* NewChat */,
 				6A449C022896F4320015826A /* Profile */,
-				6A449BC12896F4320015826A /* SettingsSheet */,
+				6A449BC12896F4320015826A /* Settings */,
 			);
 			path = Features;
 			sourceTree = "<group>";
 		};
-		6A449BC12896F4320015826A /* SettingsSheet */ = {
+		6A449BC12896F4320015826A /* Settings */ = {
 			isa = PBXGroup;
 			children = (
 				6A449BC22896F4320015826A /* ViewModels */,
@@ -325,7 +335,7 @@
 				6A449BD42896F4320015826A /* Views */,
 				6A449BD82896F4320015826A /* Notifications */,
 			);
-			path = SettingsSheet;
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		6A449BC22896F4320015826A /* ViewModels */ = {
@@ -334,6 +344,7 @@
 				6A449BC32896F4320015826A /* SettingsSheetViewModel.swift */,
 				6A449BC42896F4320015826A /* SettingsSheetEnum.swift */,
 				6A449BC52896F4320015826A /* ProfileSettingsAbstractedEnums.swift */,
+				289CC86F289C6846009C1DCE /* SettingsViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -398,6 +409,10 @@
 				6A449BD52896F4320015826A /* SettingsOptionRowView.swift */,
 				6A449BD62896F4320015826A /* LegalSheetView.swift */,
 				6A449BD72896F4320015826A /* SettingsSheetView.swift */,
+				289CC86D289C6826009C1DCE /* SettingsView.swift */,
+				289CC875289C69D9009C1DCE /* ProminentHeaderModifier.swift */,
+				289CC871289C68D8009C1DCE /* LoadingView.swift */,
+				289CC873289C695F009C1DCE /* Colors.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1004,6 +1019,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A449C8A2896F4320015826A /* LeaderboardView.swift in Sources */,
+				289CC874289C695F009C1DCE /* Colors.swift in Sources */,
 				6A449C712896F4320015826A /* DeleteAccountConfirmationView.swift in Sources */,
 				6A449C812896F4320015826A /* EmailVerificationView.swift in Sources */,
 				6A449C6E2896F4320015826A /* AccountsSheetEnum.swift in Sources */,
@@ -1042,6 +1058,7 @@
 				6A449C7A2896F4320015826A /* PostView.swift in Sources */,
 				6A449CC92896F4330015826A /* API.swift in Sources */,
 				6A449C862896F4320015826A /* ChooseLocationFilterViewModel.swift in Sources */,
+				289CC872289C68D8009C1DCE /* LoadingView.swift in Sources */,
 				6A449C7C2896F4320015826A /* PhoneLoginViewModel.swift in Sources */,
 				6A449C9B2896F4330015826A /* VerifyEmailRequestBody.swift in Sources */,
 				6A449C752896F4320015826A /* NotificationsSheetEnum.swift in Sources */,
@@ -1087,6 +1104,7 @@
 				6A449C632896F4320015826A /* LoginViewModel.swift in Sources */,
 				6A449CA02896F4330015826A /* User.swift in Sources */,
 				6A449C822896F4320015826A /* ChatSideMenuViewModel.swift in Sources */,
+				289CC86E289C6826009C1DCE /* SettingsView.swift in Sources */,
 				6A449CA42896F4330015826A /* ReadPostRequestBody.swift in Sources */,
 				6A449CA72896F4330015826A /* Post.swift in Sources */,
 				6A449C8F2896F4320015826A /* FeedViewModel.swift in Sources */,
@@ -1100,6 +1118,7 @@
 				6A449CCA2896F4330015826A /* ContentView.swift in Sources */,
 				6A449C892896F4320015826A /* LeaderboardViewModel.swift in Sources */,
 				6A449C8B2896F4320015826A /* ProfileFilterViewModel.swift in Sources */,
+				289CC876289C69D9009C1DCE /* ProminentHeaderModifier.swift in Sources */,
 				6A449CCF2897A5BD0015826A /* CommentBubbleViewModel.swift in Sources */,
 				6A449C672896F4320015826A /* SettingsSheetViewModel.swift in Sources */,
 				6A449CD42898B1D00015826A /* ErrorResponseBody.swift in Sources */,
@@ -1109,6 +1128,7 @@
 				6A449CBA2896F4330015826A /* Keychain.swift in Sources */,
 				6A449C7E2896F4320015826A /* VerificationView.swift in Sources */,
 				6A449CB72896F4330015826A /* MessageField.swift in Sources */,
+				289CC870289C6846009C1DCE /* SettingsViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1239,7 +1259,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Pong.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"Pong/Preview Content\"";
 				DEVELOPMENT_TEAM = 32F8FK43RT;
 				ENABLE_PREVIEWS = YES;
@@ -1250,7 +1270,8 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1262,7 +1283,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1274,7 +1295,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Pong.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"Pong/Preview Content\"";
 				DEVELOPMENT_TEAM = 32F8FK43RT;
 				ENABLE_PREVIEWS = YES;
@@ -1285,7 +1306,8 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1296,7 +1318,7 @@
 				PRODUCT_NAME = Pong;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
