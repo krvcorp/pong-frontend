@@ -57,7 +57,7 @@ struct MessagesView: View {
                                         Circle()
                                             .fill(Color(UIColor.secondarySystemFill))
                                         Image(systemName: "hand.tap")
-                                            .font(.headline)
+                                            .font(Font.body.weight(.bold))
                                             .foregroundColor(.gray)
                                     }
                                     .frame(width: 40, height: 40)
