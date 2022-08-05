@@ -97,6 +97,7 @@ struct SettingsView: View {
             }
             .listStyle(InsetGroupedListStyle())
             .navigationTitle("Settings")
+            .navigationBarTitleDisplayMode(.large)
             .onAppear {
                 UITableView.appearance().showsVerticalScrollIndicator = false
             }
