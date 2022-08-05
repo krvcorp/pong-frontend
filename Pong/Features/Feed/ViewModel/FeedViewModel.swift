@@ -15,7 +15,7 @@ enum FeedFilter: String, CaseIterable, Identifiable {
 
 class FeedViewModel: ObservableObject {
     @Published var selectedFeedFilter : FeedFilter = .hot
-    @Published var school : Binding<String>
+    @Published var school = "Boston University"
     @Published var newPost = false
     @Published var isShowingNewPostSheet = false
     @Published var topPostsInitalOpen : Bool = true
@@ -25,19 +25,15 @@ class FeedViewModel: ObservableObject {
     @Published var hotPosts : [Post] = []
     @Published var recentPosts : [Post] = []
     
-    init(school: Binding<String>) {
-        self.school = school
-    }
-    
     func getPosts(selectedFeedFilter : FeedFilter) {
         if selectedFeedFilter == .top {
-            topPostsInitalOpen = false
+            self.topPostsInitalOpen = false
         } else if selectedFeedFilter == .hot {
-            hotPostsInitalOpen = false
+            self.hotPostsInitalOpen = false
         } else if selectedFeedFilter == .recent {
-            recentPostsInitalOpen = false
+            self.recentPostsInitalOpen = false
         }
-
+        
         guard let token = DAKeychain.shared["token"] else { return }
 
         let url_to_use: String

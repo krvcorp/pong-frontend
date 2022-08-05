@@ -15,7 +15,7 @@ struct MainTabView: View {
 
     var body: some View {
         TabView(selection: $mainTabVM.itemSelected) {
-            FeedView(school: $school, postSettingsVM: postSettingsVM)
+            FeedView(postSettingsVM: postSettingsVM)
                 .tabItem{
                     Label("Home", systemImage: "house")
                 }

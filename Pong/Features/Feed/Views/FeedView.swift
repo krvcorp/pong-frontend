@@ -11,11 +11,10 @@ import ScalingHeaderScrollView
 struct FeedView: View {
     @Namespace var animation
     // observed objects
-    @ObservedObject var feedVM: FeedViewModel
+    @StateObject var feedVM = FeedViewModel()
     @ObservedObject var postSettingsVM: PostSettingsViewModel
 
-    init(school: Binding<String>, postSettingsVM: PostSettingsViewModel) {
-        self.feedVM = FeedViewModel(school: school)
+    init(postSettingsVM: PostSettingsViewModel) {
         self.postSettingsVM = postSettingsVM
     }
     
@@ -55,44 +54,36 @@ struct FeedView: View {
             }
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             .onAppear {
-                if feedVM.topPostsInitalOpen && feedVM.selectedFeedFilter == .top {
+                if feedVM.hotPostsInitalOpen {
+                    print("DEBUG: feedVM.hotPostsInitialOpen \(feedVM.hotPostsInitalOpen)")
                     feedVM.getPosts(selectedFeedFilter: .top)
-                } else if feedVM.hotPostsInitalOpen && feedVM.selectedFeedFilter == .hot {
                     feedVM.getPosts(selectedFeedFilter: .hot)
-                } else if feedVM.recentPostsInitalOpen && feedVM.selectedFeedFilter == .recent {
                     feedVM.getPosts(selectedFeedFilter: .recent)
                 }
-//                if feedVM.selectedFeedFilter == .top {
-//                    feedVM.getPosts(selectedFeedFilter: .top)
-//                } else if feedVM.selectedFeedFilter == .hot {
-//                    feedVM.getPosts(selectedFeedFilter: .hot)
-//                } else if feedVM.selectedFeedFilter == .recent {
-//                    feedVM.getPosts(selectedFeedFilter: .recent)
-//                }
-            }
-            .safeAreaInset(edge: .top) {
-                HStack {
-                    Picker("Feed Filter", selection: $feedVM.selectedFeedFilter) {
-                        Text("Top").tag(FeedFilter.top)
-                        Text("Hot").tag(FeedFilter.hot)
-                        Text("Recent").tag(FeedFilter.recent)
-                    }
-                    .pickerStyle(.segmented)
-                    .fixedSize()
-                    .onChange(of: feedVM.selectedFeedFilter) { newValue in
-                        print("DEBUG: feedVM changed filter!")
-                        feedVM.getPosts(selectedFeedFilter: newValue)
-                    }
-                }
-                .background(Color(UIColor.systemBackground))
-                .padding()
             }
             .navigationTitle("Boston University")
             .toolbar {
-                NavigationLink {
-                    MessagesView()
-                } label: {
-                    Image(systemName: "message")
+                ToolbarItem(placement: .principal) {
+                    HStack {
+                        Picker("Feed Filter", selection: $feedVM.selectedFeedFilter) {
+                            Text("Top").tag(FeedFilter.top)
+                            Text("Hot").tag(FeedFilter.hot)
+                            Text("Recent").tag(FeedFilter.recent)
+                        }
+                        .pickerStyle(.segmented)
+                        .fixedSize()
+                        .onChange(of: feedVM.selectedFeedFilter) { newValue in
+                            print("DEBUG: feedVM changed filter!")
+                            feedVM.getPosts(selectedFeedFilter: newValue)
+                        }
+                    }
+                }
+                ToolbarItem {
+                    NavigationLink {
+                        MessagesView()
+                    } label: {
+                        Image(systemName: "message")
+                    }
                 }
             }
         }
@@ -227,6 +218,6 @@ struct FeedView: View {
 struct FeedView_Previews: PreviewProvider {
     static var previews: some View {
 //        FeedView(school: .constant("Boston University"), selectedFilter: .hot, postSettingsVM: PostSettingsViewModel())
-        FeedView(school: .constant("Boston University"), postSettingsVM: PostSettingsViewModel())
+        FeedView(postSettingsVM: PostSettingsViewModel())
     }
 }
