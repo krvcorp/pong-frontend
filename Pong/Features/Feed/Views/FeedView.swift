@@ -71,6 +71,9 @@ struct FeedView: View {
                     }
                 }
             }
+            .refreshable(action: {
+                feedVM.getPosts(selectedFeedFilter: feedVM.selectedFeedFilter)
+            })
             .background(Color(UIColor.systemGroupedBackground))
             .onAppear {
                 if feedVM.hotPostsInitalOpen {

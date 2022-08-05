@@ -12,7 +12,6 @@ struct PostBubble: View {
         self.postSettingsVM = postSettingsVM
     }
     
-    @ViewBuilder
     var body: some View {
         VStack {
             HStack(alignment: .top){
@@ -37,7 +36,6 @@ struct PostBubble: View {
                             }
                         )
                     }
-                      
                 }
                 
                 Spacer()
@@ -85,14 +83,7 @@ struct PostBubble: View {
 
             }
         }
-//        .frame(minWidth: 0, maxWidth: UIScreen.main.bounds.size.width - 50)
-//        .font(.system(size: 18).bold())
         .padding()
-//        .foregroundColor(Color(UIColor.label))
-//        .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color(UIColor.tertiarySystemBackground), lineWidth: 5))
-//        .background(Color(UIColor.tertiarySystemBackground)) // If you have this
-//        .cornerRadius(10)         // You also need the cornerRadius here
-//        .padding(.top, 5) // this padding gives FeedView some spacing at the top
     }
     
     var VoteComponent: some View {
@@ -105,7 +96,9 @@ struct PostBubble: View {
                             switch result {
                             case .success(let postResponseBody):
                                 if let voteStatus = postResponseBody.voteStatus {
-                                    postBubbleVM.post.voteStatus = voteStatus
+                                    DispatchQueue.main.async {
+                                        postBubbleVM.post.voteStatus = voteStatus
+                                    }
                                 } else if let error = postResponseBody.error {
                                     print("DEBUG: \(error)")
                                 }
@@ -132,7 +125,9 @@ struct PostBubble: View {
                             switch result {
                             case .success(let postResponseBody):
                                 if let voteStatus = postResponseBody.voteStatus {
-                                    postBubbleVM.post.voteStatus = voteStatus
+                                    DispatchQueue.main.async {
+                                        postBubbleVM.post.voteStatus = voteStatus
+                                    }
                                 } else if let error = postResponseBody.error {
                                     print("DEBUG: \(error)")
                                 }
@@ -150,7 +145,9 @@ struct PostBubble: View {
                             switch result {
                             case .success(let postResponseBody):
                                 if let voteStatus = postResponseBody.voteStatus {
-                                    postBubbleVM.post.voteStatus = voteStatus
+                                    DispatchQueue.main.async {
+                                        postBubbleVM.post.voteStatus = voteStatus
+                                    }
                                 } else if let error = postResponseBody.error {
                                     print("DEBUG: \(error)")
                                 }
@@ -178,7 +175,9 @@ struct PostBubble: View {
                             switch result {
                             case .success(let postResponseBody):
                                 if let voteStatus = postResponseBody.voteStatus {
-                                    postBubbleVM.post.voteStatus = voteStatus
+                                    DispatchQueue.main.async {
+                                        postBubbleVM.post.voteStatus = voteStatus
+                                    }
                                 } else if let error = postResponseBody.error {
                                     print("DEBUG: \(error)")
                                 }
@@ -189,14 +188,18 @@ struct PostBubble: View {
                     } label: {
                         Image(systemName: "arrow.down")
                     }
-                } else if postBubbleVM.post.voteStatus == -1 {
-                    // if downvoted
+                }
+                // IF POST BUBBLE IS DOWNVOTES
+                else if postBubbleVM.post.voteStatus == -1 {
+                    // upvote
                     Button {
                         postBubbleVM.postVote(direction: 1) { result in
                             switch result {
                             case .success(let postResponseBody):
                                 if let voteStatus = postResponseBody.voteStatus {
-                                    postBubbleVM.post.voteStatus = voteStatus
+                                    DispatchQueue.main.async {
+                                        postBubbleVM.post.voteStatus = voteStatus
+                                    }
                                 } else if let error = postResponseBody.error {
                                     print("DEBUG: \(error)")
                                 }
@@ -208,22 +211,26 @@ struct PostBubble: View {
                         Image(systemName: "arrow.up")
                     }
                     
+                    // score
                     Button {
                         print("DEBUG: Score check")
                         withAnimation {
                             showScore.toggle()
                         }
-
                     } label: {
                         Text("\(postBubbleVM.post.score - 1)")
+                        let _ = print("DEBUG: score is \(postBubbleVM.post.score - 1)")
                     }
                     
+                    // downvote
                     Button {
                         postBubbleVM.postVote(direction: -1) { result in
                             switch result {
                             case .success(let postResponseBody):
                                 if let voteStatus = postResponseBody.voteStatus {
-                                    postBubbleVM.post.voteStatus = voteStatus
+                                    DispatchQueue.main.async {
+                                        postBubbleVM.post.voteStatus = voteStatus
+                                    }
                                 } else if let error = postResponseBody.error {
                                     print("DEBUG: \(error)")
                                 }
@@ -253,7 +260,7 @@ struct PostBubble: View {
                 }
             }
         }
-        .frame(width: 15, height: 50)
+        .frame(width: 25, height: 50)
     }
 }
 
