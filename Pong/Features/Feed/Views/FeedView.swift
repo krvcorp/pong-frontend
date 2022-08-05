@@ -14,17 +14,10 @@ struct FeedView: View {
     // observed objects
     @ObservedObject var feedVM: FeedViewModel
     @ObservedObject var postSettingsVM: PostSettingsViewModel
-    // variables
-    @State private var isRefreshing = false
-    @State private var offset = CGSize.zero
-    // tracks scroll to top on recentposts on new post
-    @State private var newPost = false
-    var school: String // will need to filter entire page by community
 
-    init(school: String, selectedFilter: FeedFilterViewModel, feedVM: FeedViewModel, postSettingsVM: PostSettingsViewModel) {
-        self.school = school
+    init(school: Binding<String>, selectedFilter: FeedFilterViewModel, postSettingsVM: PostSettingsViewModel) {
         self.selectedFilter = selectedFilter
-        self.feedVM = feedVM
+        self.feedVM = FeedViewModel(school: school)
         self.postSettingsVM = postSettingsVM
     }
     
@@ -36,6 +29,9 @@ struct FeedView: View {
                 feedItself
             }
             .navigationTitle("Harvard")
+        }
+        .sheet(isPresented: $feedVM.isShowingNewPostSheet) {
+            NewPostView(newPost: $feedVM.newPost)
         }
     }
     
@@ -102,12 +98,12 @@ struct FeedView: View {
                                 }
                             }
                             .padding(.bottom, 150)
-                            .onChange(of: newPost, perform: { value in
+                            .onChange(of: feedVM.newPost, perform: { value in
                                 if value {
                                     print("DEBUG: Switch and Scroll to Top")
                                     selectedFilter = .recent
                                     scrollReader.scrollTo("top") // scrolls to component with id "top" which is a spacer piece in PullToRefresh view
-                                    newPost = false
+                                    feedVM.newPost = false
                                     feedVM.getPosts(selectedFilter: selectedFilter)
                                 }
                             })
@@ -131,7 +127,7 @@ struct FeedView: View {
                         } else if selectedFilter == .recent {
                             feedVM.getPosts(selectedFilter: .recent)
                         }
-                        feedVM.getPostsAlamofire(selectedFilter: selectedFilter)
+//                        feedVM.getPostsAlamofire(selectedFilter: selectedFilter)
                     }
                 }
             }
@@ -139,11 +135,11 @@ struct FeedView: View {
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             .ignoresSafeArea(.all, edges: .bottom)
             
-            // NewPost Overlay
-            NavigationLink {
-                NewPostView(newPost: $newPost)
+            // NewPost Sheet
+            Button {
+                feedVM.isShowingNewPostSheet.toggle()
             } label: {
-                Image(systemName: "arrowshape.bounce.forward.fill")
+                Image("BouncingBall")
                     .resizable()
                     .renderingMode(.template)
                     .frame(width: 50, height: 50)
@@ -160,6 +156,6 @@ struct FeedView: View {
 
 struct FeedView_Previews: PreviewProvider {
     static var previews: some View {
-        FeedView(school: "Harvard", selectedFilter: .hot, feedVM: FeedViewModel(), postSettingsVM: PostSettingsViewModel())
+        FeedView(school: .constant("Boston University"), selectedFilter: .hot, postSettingsVM: PostSettingsViewModel())
     }
 }
