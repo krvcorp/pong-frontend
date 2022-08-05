@@ -12,7 +12,6 @@ struct ProfileView: View {
     // logic related to swipable TabView
     @Namespace var animation
     @State private var selectedFilter: ProfileFilterViewModel = .posts
-    // VMs
     @StateObject private var profileVM = ProfileViewModel()
     @ObservedObject var settingsSheetVM : SettingsSheetViewModel
     @ObservedObject var postSettingsVM : PostSettingsViewModel
@@ -149,8 +148,7 @@ struct ProfileView: View {
     
     var profileFilteredItems: some View {
         TabView(selection: $selectedFilter) {
-            ForEach(ProfileFilterViewModel.allCases, id: \.self) { view in // This iterates through all of the enum cases.
-                // make something different happen in each case
+            ForEach(ProfileFilterViewModel.allCases, id: \.self) { view in
                 RefreshableScrollView {
                     LazyVStack {
                         if view == .posts {
@@ -177,8 +175,8 @@ struct ProfileView: View {
     }
 }
 
-struct ProfileView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProfileView(settingsSheetVM: SettingsSheetViewModel(), postSettingsVM: PostSettingsViewModel())
-    }
-}
+//struct ProfileView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ProfileView(settingsSheetVM: SettingsSheetViewModel(), postSettingsVM: PostSettingsViewModel(), feedVM: FeedViewModel())
+//    }
+//}

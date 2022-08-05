@@ -1,10 +1,3 @@
-//
-//  ContentView.swift
-//  SidechatMockup
-//
-//  Created by Khoi Nguyen on 6/3/22.
-//
-
 import SwiftUI
 
 struct ContentView: View {
@@ -20,7 +13,6 @@ struct ContentView: View {
         } else {
             OnboardView(loginVM: loginVM)
         }
-//        MainInterfaceView
     }
 }
 

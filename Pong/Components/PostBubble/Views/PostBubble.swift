@@ -1,10 +1,3 @@
-//
-//  Post.swift
-//  SidechatMockup
-//
-//  Created by Khoi Nguyen on 6/3/22.
-//
-
 import SwiftUI
 
 struct PostBubble: View {
@@ -55,7 +48,6 @@ struct PostBubble: View {
             Color.black.frame(height:CGFloat(1) / UIScreen.main.scale)
 
             HStack {
-                // comments, share, mail, flag
                 Image(systemName: "bubble.left")
                 Text("\(postBubbleVM.post.numComments)")
                     .font(.subheadline).bold()
@@ -266,8 +258,8 @@ struct PostBubble: View {
 
 
 
-struct PostBubbleView_Previews: PreviewProvider {
-    static var previews: some View {
-        PostBubble(post: defaultPost, postSettingsVM: PostSettingsViewModel())
-    }
-}
+//struct PostBubbleView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        PostBubble(post: defaultPost, postSettingsVM: PostSettingsViewModel(), feedVM: FeedViewModel())
+//    }
+//}

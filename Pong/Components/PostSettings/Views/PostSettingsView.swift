@@ -15,34 +15,43 @@ struct PostSettingsView: View {
         ActionSheetView(bgColor: Color(UIColor.secondarySystemBackground)) {
             ScrollView {
                 VStack(alignment: .leading, spacing: 32) {
-                    ForEach(PostSettingsOptionsViewModel.allCases, id: \.rawValue) { viewModel in
-                        if viewModel == .save {
-                            Button {
-                                postSettingsVM.savePostAlamofire()
-                            } label: {
-                                PostSettingsRowView(viewModel: viewModel)
-                            }
-                        } else if viewModel == .block {
-                            Button {
-                                postSettingsVM.blockUserAlamofire()
-                            } label: {
-                                PostSettingsRowView(viewModel: viewModel)
-                            }
-                        } else if viewModel == .report {
-                            Button {
-                                postSettingsVM.reportPostAlamofire()
-                            } label: {
-                                PostSettingsRowView(viewModel: viewModel)
-                            }
-                        } else {
-                            PostSettingsRowView(viewModel: viewModel)
+                    if postSettingsVM.post.saved == true {
+                        Button {
+                            postSettingsVM.savePostAlamofire()
+                        } label: {
+                            PostSettingsRowView(viewModel: PostSettingsOptionsViewModel.saved)
                         }
+                    }
+                    else {
+                        Button {
+                            postSettingsVM.savePostAlamofire()
+                        } label: {
+                            PostSettingsRowView(viewModel: PostSettingsOptionsViewModel.save)
+                        }
+                    }
+                    Button {
+                        DispatchQueue.main.async {
+                            postSettingsVM.showDeleteConfirmationView.toggle()
+                        }
+                    } label: {
+                        PostSettingsRowView(viewModel: PostSettingsOptionsViewModel.report)
+                    }
+                    Button {
+                        postSettingsVM.blockUserAlamofire()
+                    } label: {
+                        PostSettingsRowView(viewModel: PostSettingsOptionsViewModel.block)
                     }
                     Spacer()
                 }
                 .background(Color(UIColor.secondarySystemBackground))
                 .padding(.horizontal, 20)
             }
+        }
+    }
+    
+    func remove(at offsets: IndexSet) {
+        withAnimation {
+            
         }
     }
 }
