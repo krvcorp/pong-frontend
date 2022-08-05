@@ -141,7 +141,6 @@ struct NotificationsView: View {
                 .listStyle(GroupedListStyle())
                 .onAppear {
                     UITableView.appearance().showsVerticalScrollIndicator = false
-//                    UITableView.appearance().backgroundColor = UIColor(Color(white: 0.0, opacity: 0.0))
                 }
                 .navigationTitle("Notifications")
                 .toolbar {

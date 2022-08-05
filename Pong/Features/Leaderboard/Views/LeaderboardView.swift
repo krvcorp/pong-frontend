@@ -16,16 +16,39 @@ struct LeaderboardView: View {
         NavigationView {
             VStack {
                 VStack {
-                    karmaInfo
-                        .padding()
-                    
                     List {
+                        karmaInfo
+                            .padding()
+                        
                         Section(header: Text("Leaderboard")) {
                             ForEach(leaderboardVM.leaderboardList) { entry in
-                                HStack {
-                                    Text("\(entry.place).")
-                                    Text("\(entry.score)")
-                                    Spacer()
+                                if entry.place == "1" {
+                                    HStack {
+                                        Text("\(entry.place).")
+                                        Text("\(entry.score)")
+                                        Spacer()
+                                    }
+                                    .listRowBackground(Color.poshGold)
+                                } else if entry.place == "2" {
+                                    HStack {
+                                        Text("\(entry.place).")
+                                        Text("\(entry.score)")
+                                        Spacer()
+                                    }
+                                    .listRowBackground(Color.gray)
+                                } else if entry.place == "3" {
+                                    HStack {
+                                        Text("\(entry.place).")
+                                        Text("\(entry.score)")
+                                        Spacer()
+                                    }
+                                    .listRowBackground(Color.brown)
+                                } else {
+                                    HStack {
+                                        Text("\(entry.place).")
+                                        Text("\(entry.score)")
+                                        Spacer()
+                                    }
                                 }
                             }
                         }
@@ -67,7 +90,6 @@ struct LeaderboardView: View {
                 }
             }
         }
-        .background(Color(UIColor.systemBackground))
     }
 }
 

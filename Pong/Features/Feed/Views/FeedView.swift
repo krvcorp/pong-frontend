@@ -9,7 +9,6 @@ import SwiftUI
 import ScalingHeaderScrollView
 
 struct FeedView: View {
-    @Namespace var animation
     // observed objects
     @StateObject var feedVM = FeedViewModel()
     @ObservedObject var postSettingsVM: PostSettingsViewModel
@@ -19,40 +18,35 @@ struct FeedView: View {
     }
     
     var body: some View {
-        
-        // ORIGINAL
         NavigationView {
-            TabView(selection: $feedVM.selectedFeedFilter) {
-                ForEach(FeedFilter.allCases, id: \.self) { view in
-                    ScrollView {
-                        if feedVM.selectedFeedFilter == .top {
-                            ForEach(feedVM.topPosts, id: \.self) { post in
-                                NavigationLink(destination: PostView(post: post)) {
-                                    PostBubble(post: post, postSettingsVM: postSettingsVM)
-                                }
-                            }
-                        }
-                        // hot
-                        else if feedVM.selectedFeedFilter == .hot {
-                            ForEach(feedVM.hotPosts, id: \.self) { post in
-                                NavigationLink(destination: PostView(post: post)) {
-                                    PostBubble(post: post, postSettingsVM: postSettingsVM)
-                                }
-                            }
-                        }
-                        // recent
-                        else if feedVM.selectedFeedFilter == .recent {
-                            ForEach(feedVM.recentPosts, id: \.self) { post in
-                                NavigationLink(destination: PostView(post: post)) {
-                                    PostBubble(post: post, postSettingsVM: postSettingsVM)
-                                }
+            ScrollView {
+                LazyVStack {
+                    if feedVM.selectedFeedFilter == .top {
+                        ForEach(feedVM.topPosts, id: \.self) { post in
+                            NavigationLink(destination: PostView(post: post)) {
+                                PostBubble(post: post, postSettingsVM: postSettingsVM)
                             }
                         }
                     }
-                    .background(Color(UIColor.systemGroupedBackground))
+                    // hot
+                    else if feedVM.selectedFeedFilter == .hot {
+                        ForEach(feedVM.hotPosts, id: \.self) { post in
+                            NavigationLink(destination: PostView(post: post)) {
+                                PostBubble(post: post, postSettingsVM: postSettingsVM)
+                            }
+                        }
+                    }
+                    // recent
+                    else if feedVM.selectedFeedFilter == .recent {
+                        ForEach(feedVM.recentPosts, id: \.self) { post in
+                            NavigationLink(destination: PostView(post: post)) {
+                                PostBubble(post: post, postSettingsVM: postSettingsVM)
+                            }
+                        }
+                    }
                 }
             }
-            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+            .background(Color(UIColor.systemGroupedBackground))
             .onAppear {
                 if feedVM.hotPostsInitalOpen {
                     print("DEBUG: feedVM.hotPostsInitialOpen \(feedVM.hotPostsInitalOpen)")
@@ -73,8 +67,7 @@ struct FeedView: View {
                         .pickerStyle(.segmented)
                         .fixedSize()
                         .onChange(of: feedVM.selectedFeedFilter) { newValue in
-                            print("DEBUG: feedVM changed filter!")
-                            feedVM.getPosts(selectedFeedFilter: newValue)
+                            feedVM.getPosts(selectedFeedFilter: feedVM.selectedFeedFilter)
                         }
                     }
                 }
@@ -95,6 +88,7 @@ struct FeedView: View {
             DeleteConfirmationView(postSettingsVM: postSettingsVM)
         }
     }
+    
     // old content
 //    var feedFilterBar: some View {
 //        HStack {
@@ -217,7 +211,6 @@ struct FeedView: View {
 
 struct FeedView_Previews: PreviewProvider {
     static var previews: some View {
-//        FeedView(school: .constant("Boston University"), selectedFilter: .hot, postSettingsVM: PostSettingsViewModel())
         FeedView(postSettingsVM: PostSettingsViewModel())
     }
 }

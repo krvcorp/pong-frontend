@@ -101,7 +101,7 @@ struct SettingsView: View {
             .onAppear {
                 UITableView.appearance().showsVerticalScrollIndicator = false
             }
-            .navigationBarTitleDisplayMode(.inline)
+//            .navigationBarTitleDisplayMode(.inline)
             .background(Color(UIColor.systemGroupedBackground))
         }
     }
