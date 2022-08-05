@@ -60,7 +60,7 @@ struct MessagesView: View {
                 UITableView.appearance().showsVerticalScrollIndicator = false
             }
             .navigationTitle("Messages")
-            .navigationBarTitleDisplayMode(.inline)
+//            .navigationBarTitleDisplayMode(.inline)
             .searchable(text: $searchText)
         }
     }

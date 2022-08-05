@@ -85,6 +85,17 @@ struct PostView: View {
             postVM.getComments()
         })
         .navigationBarTitleDisplayMode(.inline)
+        .alert(isPresented: $postVM.showDeleteConfirmationView) {
+            Alert(
+                title: Text("Delete post"),
+                message: Text("Are you sure you want to delete this post?"),
+                primaryButton: .default(Text("Cancel")),
+                secondaryButton: .destructive(Text("Delete")) {
+                    postVM.deletePost()
+                    presentationMode.wrappedValue.dismiss()
+                }
+            )
+        }
     }
     
     var mainPost: some View {
@@ -113,19 +124,6 @@ struct PostView: View {
                     // comments, share, mail, flag
                     Spacer()
                     
-                    // DELETE BUTTON
-//                    if DAKeychain.shared["userId"] == post.user {
-//                        Button {
-//                            print("DEBUG: DELETE POST")
-//                            DispatchQueue.main.async {
-//                                postSettingsVM.post = post
-//                                postSettingsVM.showDeleteConfirmationView.toggle()
-//                            }
-//                        } label: {
-//                            Image(systemName: "trash")
-//                        }
-//                    }
-                    
                     Button {
                         sheet.toggle()
                     } label: {
@@ -134,13 +132,34 @@ struct PostView: View {
                     .sheet(isPresented: $sheet) {
                         ShareSheet(items: ["\(postVM.post.title)"])
                     }
-
-                    Button {
-//                        postVM.reportPost() { result in
-//
-//                        }
-                    } label: {
-                        Image(systemName: "flag")
+                    
+                    // DELETE BUTTON
+                    if postVM.post.userOwned {
+                        Button {
+                            DispatchQueue.main.async {
+                                postVM.showDeleteConfirmationView.toggle()
+                            }
+                        } label: {
+                            Image(systemName: "trash")
+                        }
+                    } else {
+                        Menu {
+                            Button(action: {}) {
+                                Label("Save", systemImage: "bookmark")
+                            }
+                            
+                            Button(action: {}) {
+                                Label("Block user", systemImage: "x.circle")
+                            }
+                            
+                            Button(action: {}) {
+                                Label("Report", systemImage: "flag")
+                            }
+                        }
+                        label: {
+                            Image(systemName: "ellipsis")
+                                .frame(width: 30, height: 30)
+                        }
                     }
                 }
             }
