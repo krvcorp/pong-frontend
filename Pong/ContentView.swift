@@ -3,7 +3,6 @@ import SwiftUI
 struct ContentView: View {
     @StateObject private var loginVM = LoginViewModel()
     @StateObject private var postSettingsVM = PostSettingsViewModel()
-    @StateObject private var feedVM = FeedViewModel()
     @ObservedObject var settingsSheetVM = SettingsSheetViewModel()
     
     var body: some View {
@@ -20,7 +19,7 @@ struct ContentView: View {
 extension ContentView {
     var MainInterfaceView: some View {
         ZStack(alignment: .topTrailing){
-            MainTabView(settingsSheetVM: settingsSheetVM, postSettingsVM: postSettingsVM, feedVM: feedVM)
+            MainTabView(settingsSheetVM: settingsSheetVM, postSettingsVM: postSettingsVM)
             // SettingsSheetView
             .popup(isPresented: $settingsSheetVM.showSettingsSheetView, type: .toast, position: .bottom, closeOnTap: false, closeOnTapOutside: true, backgroundColor: .black.opacity(0.4)) {
                 SettingsSheetView(loginVM: loginVM, settingsSheetVM: settingsSheetVM)

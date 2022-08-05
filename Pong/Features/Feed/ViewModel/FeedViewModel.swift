@@ -9,12 +9,19 @@ import SwiftUI
 import Alamofire
 
 class FeedViewModel: ObservableObject {
+    @Published var school : Binding<String>
+    @Published var newPost = false
+    @Published var isShowingNewPostSheet = false
     @Published var topPostsInitalOpen : Bool = false
     @Published var hotPostsInitalOpen : Bool = false
     @Published var recentPostsInitalOpen : Bool = false
     @Published var topPosts : [Post] = []
     @Published var hotPosts : [Post] = []
     @Published var recentPosts : [Post] = []
+    
+    init(school: Binding<String>) {
+        self.school = school
+    }
     
     func getPosts(selectedFilter: FeedFilterViewModel) {
         if selectedFilter == .top {
@@ -35,7 +42,7 @@ class FeedViewModel: ObservableObject {
         } else {
             url_to_use = "\(API().root)post/?sort=old"
         }
-        
+        print("DEBUG: feedVM.getPosts url \(url_to_use)")
         
         guard let url = URL(string: url_to_use) else { return }
         var request = URLRequest(url: url)
@@ -44,21 +51,26 @@ class FeedViewModel: ObservableObject {
         
         let task = URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
             guard let data = data, error == nil else { return }
+
             do {
                 let decoder = JSONDecoder()
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
                 let posts = try decoder.decode([Post].self, from: data)
+                
+                //
+                print("DEBUG: feedVM.getPosts posts \(posts)")
                 DispatchQueue.main.async {
                     if selectedFilter == .hot {
-                        self!.hotPosts = posts
+                        self?.hotPosts = posts
+                        print("DEBUG: \(String(describing: self?.hotPosts))")
                     } else if selectedFilter == .recent {
-                        self!.recentPosts = posts
+                        self?.recentPosts = posts
                     } else if selectedFilter == .top {
-                        self!.topPosts = posts
+                        self?.topPosts = posts
                     }
                 }
             } catch {
-                print("DEBUG: feedVM getPosts \(error)")
+                print("DEBUG: feedVM.getPosts \(error)")
             }
         }
         task.resume()
@@ -81,12 +93,11 @@ class FeedViewModel: ObservableObject {
 
         let method = HTTPMethod.get
         let headers: HTTPHeaders = [
-//            "Authorization": "Token \(DAKeychain.shared["token"]!)",
+            "Authorization": "Token \(DAKeychain.shared["token"])",
             "Content-Type": "application/x-www-form-urlencoded"
         ]
 
         AF.request(url_to_use, method: method, headers: headers).responseDecodable(of: Post.self) { response in
-//            debugPrint(response.value)
             guard let posts = response.value else { return }
 //            if selectedFilter == .hot {
 //                self!.hotPosts = posts

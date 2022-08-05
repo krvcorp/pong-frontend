@@ -3,15 +3,13 @@ import SwiftUI
 struct PostBubble: View {
     @ObservedObject var postBubbleVM : PostBubbleViewModel
     @ObservedObject var postSettingsVM : PostSettingsViewModel
-    @ObservedObject var feedVM : FeedViewModel
     
     @State private var showScore = false
     @State var sheet = false
     
-    init(post: Post, postSettingsVM: PostSettingsViewModel, feedVM: FeedViewModel) {
+    init(post: Post, postSettingsVM: PostSettingsViewModel) {
         self.postBubbleVM = PostBubbleViewModel(post: post)
         self.postSettingsVM = postSettingsVM
-        self.feedVM = feedVM
     }
     
     @ViewBuilder
@@ -260,8 +258,8 @@ struct PostBubble: View {
 
 
 
-struct PostBubbleView_Previews: PreviewProvider {
-    static var previews: some View {
-        PostBubble(post: defaultPost, postSettingsVM: PostSettingsViewModel(), feedVM: FeedViewModel())
-    }
-}
+//struct PostBubbleView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        PostBubble(post: defaultPost, postSettingsVM: PostSettingsViewModel(), feedVM: FeedViewModel())
+//    }
+//}

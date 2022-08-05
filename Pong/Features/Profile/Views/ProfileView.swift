@@ -15,7 +15,6 @@ struct ProfileView: View {
     @StateObject private var profileVM = ProfileViewModel()
     @ObservedObject var settingsSheetVM : SettingsSheetViewModel
     @ObservedObject var postSettingsVM : PostSettingsViewModel
-    @ObservedObject var feedVM : FeedViewModel
     
     var body: some View {
         VStack(spacing: 0) {
@@ -104,13 +103,13 @@ struct ProfileView: View {
                         if view == .posts {
                             ForEach(profileVM.posts) { post in
                                 NavigationLink(destination: PostView(post: post)) {
-                                    PostBubble(post: post, postSettingsVM: postSettingsVM, feedVM: feedVM)
+                                    PostBubble(post: post, postSettingsVM: postSettingsVM)
                                 }
                             }
                         }
                         else if view == .saved {
                             ForEach(profileVM.savedPosts) { post in
-                                PostBubble(post: post, postSettingsVM: PostSettingsViewModel(), feedVM: feedVM)
+                                PostBubble(post: post, postSettingsVM: PostSettingsViewModel())
                             }
                         }
                     }
@@ -125,8 +124,8 @@ struct ProfileView: View {
     }
 }
 
-struct ProfileView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProfileView(settingsSheetVM: SettingsSheetViewModel(), postSettingsVM: PostSettingsViewModel(), feedVM: FeedViewModel())
-    }
-}
+//struct ProfileView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ProfileView(settingsSheetVM: SettingsSheetViewModel(), postSettingsVM: PostSettingsViewModel(), feedVM: FeedViewModel())
+//    }
+//}
