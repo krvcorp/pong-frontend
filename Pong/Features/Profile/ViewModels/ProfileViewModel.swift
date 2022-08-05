@@ -51,7 +51,7 @@ class ProfileViewModel: ObservableObject {
             
             do {
                 let loggedInUserInfoResponse = try decoder.decode(LoggedInUserInfoResponseBody.self, from: data)
-                print("DEBUG: ProfileVM \(loggedInUserInfoResponse)")
+//                print("DEBUG: ProfileVM \(loggedInUserInfoResponse)")
                 DispatchQueue.main.async {
                     self.totalKarma = loggedInUserInfoResponse.totalScore
                     self.commentKarma = loggedInUserInfoResponse.commentScore

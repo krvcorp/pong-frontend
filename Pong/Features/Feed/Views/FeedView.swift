@@ -50,15 +50,16 @@ struct FeedView: View {
                             }
                         }
                     }
+                    .background(Color(UIColor.systemGroupedBackground))
                 }
             }
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             .onAppear {
-                if !feedVM.topPostsInitalOpen && feedVM.selectedFeedFilter == .top {
+                if feedVM.topPostsInitalOpen && feedVM.selectedFeedFilter == .top {
                     feedVM.getPosts(selectedFeedFilter: .top)
-                } else if !feedVM.hotPostsInitalOpen && feedVM.selectedFeedFilter == .hot {
+                } else if feedVM.hotPostsInitalOpen && feedVM.selectedFeedFilter == .hot {
                     feedVM.getPosts(selectedFeedFilter: .hot)
-                } else if !feedVM.recentPostsInitalOpen && feedVM.selectedFeedFilter == .recent {
+                } else if feedVM.recentPostsInitalOpen && feedVM.selectedFeedFilter == .recent {
                     feedVM.getPosts(selectedFeedFilter: .recent)
                 }
 //                if feedVM.selectedFeedFilter == .top {
@@ -81,7 +82,6 @@ struct FeedView: View {
                     .onChange(of: feedVM.selectedFeedFilter) { newValue in
                         print("DEBUG: feedVM changed filter!")
                         feedVM.getPosts(selectedFeedFilter: newValue)
-                        
                     }
                 }
                 .background(Color(UIColor.systemBackground))
@@ -96,6 +96,7 @@ struct FeedView: View {
                 }
             }
         }
+        .accentColor(Color(UIColor.label))
         .sheet(isPresented: $feedVM.isShowingNewPostSheet) {
             NewPostView()
         }

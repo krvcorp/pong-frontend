@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct NotificationsView: View {
-    
+    @StateObject private var notificationsVM = NotificationsViewModel()
     @State private var searchText = ""
     @State private var showAlert = false
     
@@ -80,57 +80,60 @@ struct NotificationsView: View {
                             }
                         }
                     }
-                    Section(header: Text("Messages")) {
-                        ForEach(chatmodels.filter { searchText.isEmpty || $0.title.localizedStandardContains(searchText)}) { chatmodel in
-                            NavigationLink(destination: Text("messaging feed here")) {
-                                HStack {
-                                    LinearGradient(gradient: Gradient(colors: [chatmodel.color1, chatmodel.color2]), startPoint: .bottomLeading, endPoint: .topTrailing).clipShape(Circle()).frame(width: 40, height: 40, alignment: .center)
-                                        .padding(.trailing, 4)
-                                    VStack (alignment: .leading, spacing: 6) {
-                                        Text(chatmodel.title).bold().lineLimit(1)
-                                        HStack {
-                                            Text(chatmodel.subtitle).lineLimit(1).foregroundColor(.gray)
-                                            Spacer()
-                                            ZStack {
-                                                if chatmodel.new {
-                                                    LinearGradient(gradient: Gradient(colors: [Color.viewEventsGradient1, Color.viewEventsGradient2]), startPoint: .bottomLeading, endPoint: .topTrailing)
-                                                } else {
-                                                    Color(UIColor.secondarySystemFill)
+                    if notificationsVM.selectedNotificationsFilter == .messages {
+                        Section(header: Text("Messages")) {
+                            ForEach(chatmodels.filter { searchText.isEmpty || $0.title.localizedStandardContains(searchText)}) { chatmodel in
+                                NavigationLink(destination: Text("messaging feed here")) {
+                                    HStack {
+                                        LinearGradient(gradient: Gradient(colors: [chatmodel.color1, chatmodel.color2]), startPoint: .bottomLeading, endPoint: .topTrailing).clipShape(Circle()).frame(width: 40, height: 40, alignment: .center)
+                                            .padding(.trailing, 4)
+                                        VStack (alignment: .leading, spacing: 6) {
+                                            Text(chatmodel.title).bold().lineLimit(1)
+                                            HStack {
+                                                Text(chatmodel.subtitle).lineLimit(1).foregroundColor(.gray)
+                                                Spacer()
+                                                ZStack {
+                                                    if chatmodel.new {
+                                                        LinearGradient(gradient: Gradient(colors: [Color.viewEventsGradient1, Color.viewEventsGradient2]), startPoint: .bottomLeading, endPoint: .topTrailing)
+                                                    } else {
+                                                        Color(UIColor.secondarySystemFill)
+                                                    }
+                                                    Text(chatmodel.timestamp).foregroundColor(chatmodel.new ? .white : .gray).bold().lineLimit(1)
                                                 }
-                                                Text(chatmodel.timestamp).foregroundColor(chatmodel.new ? .white : .gray).bold().lineLimit(1)
+                                                .cornerRadius(6)
+                                                .frame(width: 75)
                                             }
-                                            .cornerRadius(6)
-                                            .frame(width: 75)
                                         }
-                                    }
-                                }.padding(.vertical, 10)
+                                    }.padding(.vertical, 10)
+                                }
                             }
                         }
-                    }
-                    Section(header: Text("Posts and Comments")) {
-                        ForEach(chatmodels.filter { searchText.isEmpty || $0.title.localizedStandardContains(searchText)}) { chatmodel in
-                            NavigationLink(destination: Text("messaging feed here")) {
-                                HStack {
-                                    LinearGradient(gradient: Gradient(colors: [chatmodel.color1, chatmodel.color2]), startPoint: .bottomLeading, endPoint: .topTrailing).clipShape(Circle()).frame(width: 40, height: 40, alignment: .center)
-                                        .padding(.trailing, 4)
-                                    VStack (alignment: .leading, spacing: 6) {
-                                        Text(chatmodel.title).bold().lineLimit(1)
-                                        HStack {
-                                            Text(chatmodel.subtitle).lineLimit(1).foregroundColor(.gray)
-                                            Spacer()
-                                            ZStack {
-                                                if chatmodel.new {
-                                                    LinearGradient(gradient: Gradient(colors: [Color.viewEventsGradient1, Color.viewEventsGradient2]), startPoint: .bottomLeading, endPoint: .topTrailing)
-                                                } else {
-                                                    Color(UIColor.secondarySystemFill)
+                    } else if notificationsVM.selectedNotificationsFilter == .postsAndComments {
+                        Section(header: Text("Posts and Comments")) {
+                            ForEach(chatmodels.filter { searchText.isEmpty || $0.title.localizedStandardContains(searchText)}) { chatmodel in
+                                NavigationLink(destination: Text("messaging feed here")) {
+                                    HStack {
+                                        LinearGradient(gradient: Gradient(colors: [chatmodel.color1, chatmodel.color2]), startPoint: .bottomLeading, endPoint: .topTrailing).clipShape(Circle()).frame(width: 40, height: 40, alignment: .center)
+                                            .padding(.trailing, 4)
+                                        VStack (alignment: .leading, spacing: 6) {
+                                            Text(chatmodel.title).bold().lineLimit(1)
+                                            HStack {
+                                                Text(chatmodel.subtitle).lineLimit(1).foregroundColor(.gray)
+                                                Spacer()
+                                                ZStack {
+                                                    if chatmodel.new {
+                                                        LinearGradient(gradient: Gradient(colors: [Color.viewEventsGradient1, Color.viewEventsGradient2]), startPoint: .bottomLeading, endPoint: .topTrailing)
+                                                    } else {
+                                                        Color(UIColor.secondarySystemFill)
+                                                    }
+                                                    Text(chatmodel.timestamp).foregroundColor(chatmodel.new ? .white : .gray).bold().lineLimit(1)
                                                 }
-                                                Text(chatmodel.timestamp).foregroundColor(chatmodel.new ? .white : .gray).bold().lineLimit(1)
+                                                .cornerRadius(6)
+                                                .frame(width: 75)
                                             }
-                                            .cornerRadius(6)
-                                            .frame(width: 75)
                                         }
-                                    }
-                                }.padding(.vertical, 10)
+                                    }.padding(.vertical, 10)
+                                }
                             }
                         }
                     }
@@ -138,9 +141,24 @@ struct NotificationsView: View {
                 .listStyle(GroupedListStyle())
                 .onAppear {
                     UITableView.appearance().showsVerticalScrollIndicator = false
-                    UITableView.appearance().backgroundColor = UIColor(Color(white: 0.0, opacity: 0.0))
+//                    UITableView.appearance().backgroundColor = UIColor(Color(white: 0.0, opacity: 0.0))
                 }
                 .navigationTitle("Notifications")
+                .toolbar {
+                    ToolbarItem(placement: .principal) {
+                        HStack {
+                            Picker("Profile Filter", selection: $notificationsVM.selectedNotificationsFilter) {
+                                Text("Messages").tag(NotificationsFilter.messages)
+                                Text("Posts and Comments").tag(NotificationsFilter.postsAndComments)
+                            }
+                            .pickerStyle(.segmented)
+                            .fixedSize()
+                            .onChange(of: notificationsVM.selectedNotificationsFilter) { newValue in
+                                print("DEBUG: profileVM changed filter!")
+                            }
+                        }
+                    }
+                }
             }
             .searchable(text: $searchText)
             .navigationViewStyle(StackNavigationViewStyle())

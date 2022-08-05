@@ -75,23 +75,16 @@ struct PostView: View {
             postVM.readPost { result in
                 switch result {
                 case .success(let post):
-                    postVM.post = post
+                    DispatchQueue.main.async {
+                        postVM.post = post
+                    }
                 case .failure(let error):
                     print("DEBUG: postVM.readpost error \(error)")
                 }
             }
             postVM.getComments()
         })
-        .navigationBarBackButtonHidden(true)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button {
-                    presentationMode.wrappedValue.dismiss()
-                } label: {
-                    BackButton()
-                }
-            }
-        }
+        .navigationBarTitleDisplayMode(.inline)
     }
     
     var mainPost: some View {

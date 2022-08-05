@@ -18,45 +18,46 @@ struct ProfileView: View {
     
     var body: some View {
         NavigationView {
-            ScrollView {
-                LazyVStack {
-                    if profileVM.selectedProfileFilter == .posts {
-                        ForEach(profileVM.posts) { post in
-                            NavigationLink(destination: PostView(post: post)) {
-                                PostBubble(post: post, postSettingsVM: postSettingsVM)
+            ZStack(alignment: .top) {
+                ScrollView {
+                    LazyVStack {
+                        if profileVM.selectedProfileFilter == .posts {
+                            ForEach(profileVM.posts) { post in
+                                NavigationLink(destination: PostView(post: post)) {
+                                    PostBubble(post: post, postSettingsVM: postSettingsVM)
+                                }
+                            }
+                        }
+                        else if profileVM.selectedProfileFilter == .saved {
+                            ForEach(profileVM.savedPosts) { post in
+                                PostBubble(post: post, postSettingsVM: PostSettingsViewModel())
                             }
                         }
                     }
-                    else if profileVM.selectedProfileFilter == .saved {
-                        ForEach(profileVM.savedPosts) { post in
-                            PostBubble(post: post, postSettingsVM: PostSettingsViewModel())
-                        }
-                    }
                 }
+                .background(Color(UIColor.systemGroupedBackground))
             }
             .onAppear {
                 UITableView.appearance().showsVerticalScrollIndicator = false
-                UITableView.appearance().backgroundColor = UIColor(Color(white: 0.0, opacity: 0.0))
+//                UITableView.appearance().backgroundColor = UIColor(Color(white: 0.0, opacity: 0.0))
                 profileVM.getLoggedInUserInfo()
             }
             .navigationTitle("Your Profile")
-            .safeAreaInset(edge: .top) {
-                HStack {
-                    Picker("Profile Filter", selection: $profileVM.selectedProfileFilter) {
-                        Text("Posts").tag(ProfileFilter.posts)
-                        Text("Saved").tag(ProfileFilter.saved)
-                    }
-                    .pickerStyle(.segmented)
-                    .fixedSize()
-                    .onChange(of: profileVM.selectedProfileFilter) { newValue in
-                        print("DEBUG: profileVM changed filter!")
-                    }
-                }
-                .background(Color(UIColor.systemBackground))
-                .padding()
-            }
             .toolbar {
-                
+                ToolbarItem (placement: .principal) {
+                    HStack {
+                        Picker("Profile Filter", selection: $profileVM.selectedProfileFilter) {
+                            Text("Posts").tag(ProfileFilter.posts)
+                            Text("Saved").tag(ProfileFilter.saved)
+                        }
+                        .pickerStyle(.segmented)
+                        .fixedSize()
+                        .onChange(of: profileVM.selectedProfileFilter) { newValue in
+                            print("DEBUG: profileVM changed filter!")
+                        }
+                    }
+                    .padding()
+                }
                 ToolbarItem {
                     NavigationLink {
                         SettingsView()
@@ -66,6 +67,7 @@ struct ProfileView: View {
                 }
             }
         }
+        .accentColor(Color(UIColor.label))
         .navigationViewStyle(StackNavigationViewStyle())
 //        VStack(spacing: 0) {
 //            karmaInfo

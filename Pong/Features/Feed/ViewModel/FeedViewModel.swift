@@ -18,9 +18,9 @@ class FeedViewModel: ObservableObject {
     @Published var school : Binding<String>
     @Published var newPost = false
     @Published var isShowingNewPostSheet = false
-    @Published var topPostsInitalOpen : Bool = false
-    @Published var hotPostsInitalOpen : Bool = false
-    @Published var recentPostsInitalOpen : Bool = false
+    @Published var topPostsInitalOpen : Bool = true
+    @Published var hotPostsInitalOpen : Bool = true
+    @Published var recentPostsInitalOpen : Bool = true
     @Published var topPosts : [Post] = []
     @Published var hotPosts : [Post] = []
     @Published var recentPosts : [Post] = []
@@ -31,11 +31,11 @@ class FeedViewModel: ObservableObject {
     
     func getPosts(selectedFeedFilter : FeedFilter) {
         if selectedFeedFilter == .top {
-            topPostsInitalOpen = true
+            topPostsInitalOpen = false
         } else if selectedFeedFilter == .hot {
-            hotPostsInitalOpen = true
+            hotPostsInitalOpen = false
         } else if selectedFeedFilter == .recent {
-            recentPostsInitalOpen = true
+            recentPostsInitalOpen = false
         }
 
         guard let token = DAKeychain.shared["token"] else { return }
@@ -63,12 +63,10 @@ class FeedViewModel: ObservableObject {
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
                 let posts = try decoder.decode([Post].self, from: data)
                 
-                //
-                print("DEBUG: feedVM.getPosts posts \(posts)")
+//                print("DEBUG: feedVM.getPosts posts \(posts)")
                 DispatchQueue.main.async {
                     if selectedFeedFilter == .hot {
                         self?.hotPosts = posts
-                        print("DEBUG: \(String(describing: self?.hotPosts))")
                     } else if selectedFeedFilter == .recent {
                         self?.recentPosts = posts
                     } else if selectedFeedFilter == .top {

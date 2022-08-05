@@ -41,6 +41,7 @@ struct PostBubble: View {
                 }
                 
                 Spacer()
+                
                 VoteComponent
             }
             .padding(.bottom)

@@ -6,3 +6,12 @@
 //
 
 import Foundation
+
+enum NotificationsFilter: String, CaseIterable, Identifiable {
+    case messages, postsAndComments
+    var id: Self { self }
+}
+
+class NotificationsViewModel: ObservableObject {
+    @Published var selectedNotificationsFilter : NotificationsFilter = .messages
+}
