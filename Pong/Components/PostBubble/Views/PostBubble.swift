@@ -71,16 +71,24 @@ struct PostBubble: View {
                         Image(systemName: "trash")
                     }
                 } else {
-                    Button {
-                        DispatchQueue.main.async {
-                            postSettingsVM.showPostSettingsView.toggle()
-                            postSettingsVM.post = postBubbleVM.post
+                    Menu {
+                        Button(action: {}) {
+                            Label("Save", systemImage: "bookmark")
                         }
-                    } label: {
+                        
+                        Button(action: {}) {
+                            Label("Block user", systemImage: "x.circle")
+                        }
+                        
+                        Button(action: {}) {
+                            Label("Report", systemImage: "flag")
+                        }
+                    }
+                    label: {
                         Image(systemName: "ellipsis")
+                            .frame(width: 30, height: 30)
                     }
                 }
-
             }
         }
         .padding()
@@ -219,7 +227,6 @@ struct PostBubble: View {
                         }
                     } label: {
                         Text("\(postBubbleVM.post.score - 1)")
-                        let _ = print("DEBUG: score is \(postBubbleVM.post.score - 1)")
                     }
                     
                     // downvote

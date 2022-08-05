@@ -314,9 +314,9 @@
 		6A449BC02896F4320015826A /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				6A449C0E2896F4320015826A /* MainTab */,
 				6A78FA4B289CD2DA00B75CC6 /* Notifications */,
 				6A449BE62896F4320015826A /* OnboardingProcess */,
-				6A449C0E2896F4320015826A /* MainTab */,
 				6A449C082896F4320015826A /* Feed */,
 				6A449BE12896F4320015826A /* Post */,
 				6A449BF72896F4320015826A /* ChooseLocation */,

@@ -9,7 +9,7 @@
 import Foundation
 import Alamofire
 
-@MainActor class PostSettingsViewModel: ObservableObject {
+class PostSettingsViewModel: ObservableObject {
     @Published var post: Post = defaultPost
     @Published var showPostSettingsView : Bool = false
     @Published var showDeleteConfirmationView : Bool = false
@@ -78,7 +78,7 @@ import Alamofire
                 return
             }
             DispatchQueue.main.async {
-                self.showDeleteConfirmationView.toggle()
+                self.showDeleteConfirmationView = false
             }
         }.resume()
     }

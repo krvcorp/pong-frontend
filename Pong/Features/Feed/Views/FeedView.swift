@@ -110,7 +110,8 @@ struct FeedView: View {
         }
         .accentColor(Color(UIColor.label))
         .sheet(isPresented: $feedVM.isShowingNewPostSheet) {
-            NewPostView()
+//            NewPostView(toggleFullScreen: $mainTabVM.isCustomItemSelected)
+            EmptyView()
         }
         .sheet(isPresented: $postSettingsVM.showDeleteConfirmationView) {
             DeleteConfirmationView(postSettingsVM: postSettingsVM)
