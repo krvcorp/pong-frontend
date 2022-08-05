@@ -17,11 +17,11 @@ struct MainTabView: View {
     
     @ObservedObject var settingsSheetVM : SettingsSheetViewModel
     @ObservedObject var postSettingsVM : PostSettingsViewModel
-    @ObservedObject var feedVM : FeedViewModel
+    @State var school : String = "Boston University"
     
     var body: some View {
         TabView {
-            FeedView(school: "Harvard", selectedFilter: .hot, feedVM: feedVM, postSettingsVM: postSettingsVM)
+            FeedView(school: $school, selectedFilter: .hot, postSettingsVM: postSettingsVM)
                 .tabItem{
                     Label("Home", systemImage: "house")
                 }
