@@ -15,20 +15,26 @@ enum Tabs: String {
 
 struct MainTabView: View {
     
+    @ObservedObject var settingsSheetVM : SettingsSheetViewModel
+    @ObservedObject var postSettingsVM : PostSettingsViewModel
+    @ObservedObject var feedVM : FeedViewModel
+    
     var body: some View {
         TabView {
-//            FeedView()
-//            .tabItem{Image(systemName: "house")}
+            FeedView(school: "Harvard", selectedFilter: .hot, feedVM: feedVM, postSettingsVM: postSettingsVM)
+                .tabItem{
+                    Label("Home", systemImage: "house")
+                }
 
             MessagesView()
             .tabItem{
                 Label("Messages", systemImage: "message")
             }
 
-//            ProfileView()
-//            .tabItem{
-//                Label("Profile", systemImage: "person")
-//            }
+            ProfileView(settingsSheetVM: settingsSheetVM, postSettingsVM: postSettingsVM)
+            .tabItem{
+                Label("Profile", systemImage: "person")
+            }
             
             SettingsView()
             .tabItem {

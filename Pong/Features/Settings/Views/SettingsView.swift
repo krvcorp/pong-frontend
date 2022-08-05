@@ -46,24 +46,24 @@ struct SettingsView: View {
                     }.modifier(ProminentHeaderModifier())
                     Section(header: Text("Account").foregroundColor(.gray)) {
                         Button(action: {
-                            UIPasteboard.general.setValue(DAKeychain.shared["userId"]!,
+                            UIPasteboard.general.setValue(DAKeychain.shared["userId"] ?? "Invalid",
                                         forPasteboardType: UTType.plainText.identifier)
                         }) {
                             HStack {
                                 Text("User ID").foregroundColor(Color(uiColor: UIColor.label))
                                 Spacer()
-                                Text( DAKeychain.shared["userId"]!.prefix(16))
+                                Text( DAKeychain.shared["userId"]?.prefix(16) ?? "Invalid")
                                     .foregroundColor(.gray)
                             }
                         }
                         Button(action: {
-                            UIPasteboard.general.setValue(DAKeychain.shared["token"]!,
+                            UIPasteboard.general.setValue(DAKeychain.shared["token"] ?? "Invalid",
                                         forPasteboardType: UTType.plainText.identifier)
                         }) {
                             HStack {
                                 Text("Token").foregroundColor(Color(uiColor: UIColor.label))
                                 Spacer()
-                                Text( DAKeychain.shared["token"]!.prefix(16))
+                                Text( DAKeychain.shared["token"]?.prefix(16) ?? "Invalid")
                                     .foregroundColor(.gray)
                             }
                         }

@@ -30,9 +30,12 @@ struct FeedView: View {
     
     var body: some View {
         // ORIGINAL
-        VStack(spacing: 0) {
-            feedFilterBar
-            feedItself
+        NavigationView {
+            VStack(spacing: 0) {
+                feedFilterBar
+                feedItself
+            }
+            .navigationTitle("Harvard")
         }
     }
     
