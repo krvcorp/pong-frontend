@@ -81,12 +81,12 @@ class FeedViewModel: ObservableObject {
 
         let method = HTTPMethod.get
         let headers: HTTPHeaders = [
-            "Authorization": "Token \(DAKeychain.shared["token"]!)",
+//            "Authorization": "Token \(DAKeychain.shared["token"]!)",
             "Content-Type": "application/x-www-form-urlencoded"
         ]
 
         AF.request(url_to_use, method: method, headers: headers).responseDecodable(of: Post.self) { response in
-            debugPrint(response.value)
+//            debugPrint(response.value)
             guard let posts = response.value else { return }
 //            if selectedFilter == .hot {
 //                self!.hotPosts = posts
@@ -102,7 +102,6 @@ class FeedViewModel: ObservableObject {
     // this logic should probably go into feedviewmodel where tapping on a post calls an API to get updated post information regarding a post
     func readPost(postId: String, completion: @escaping (Result<Post, AuthenticationError>) -> Void) {
         
-//        print("DEBUG: PostBubbleVM readPost \(postId)")
         
         guard let token = DAKeychain.shared["token"] else { return }
         guard let url = URL(string: "\(API().root)post/\(postId)/") else {

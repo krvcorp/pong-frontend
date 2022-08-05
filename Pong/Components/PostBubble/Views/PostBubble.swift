@@ -1,22 +1,17 @@
-//
-//  Post.swift
-//  SidechatMockup
-//
-//  Created by Khoi Nguyen on 6/3/22.
-//
-
 import SwiftUI
 
 struct PostBubble: View {
     @ObservedObject var postBubbleVM : PostBubbleViewModel
     @ObservedObject var postSettingsVM : PostSettingsViewModel
+    @ObservedObject var feedVM : FeedViewModel
     
     @State private var showScore = false
     @State var sheet = false
     
-    init(post: Post, postSettingsVM: PostSettingsViewModel) {
+    init(post: Post, postSettingsVM: PostSettingsViewModel, feedVM: FeedViewModel) {
         self.postBubbleVM = PostBubbleViewModel(post: post)
         self.postSettingsVM = postSettingsVM
+        self.feedVM = feedVM
     }
     
     @ViewBuilder
@@ -55,7 +50,6 @@ struct PostBubble: View {
             Color.black.frame(height:CGFloat(1) / UIScreen.main.scale)
 
             HStack {
-                // comments, share, mail, flag
                 Image(systemName: "bubble.left")
                 Text("\(postBubbleVM.post.numComments)")
                     .font(.subheadline).bold()
@@ -268,6 +262,6 @@ struct PostBubble: View {
 
 struct PostBubbleView_Previews: PreviewProvider {
     static var previews: some View {
-        PostBubble(post: defaultPost, postSettingsVM: PostSettingsViewModel())
+        PostBubble(post: defaultPost, postSettingsVM: PostSettingsViewModel(), feedVM: FeedViewModel())
     }
 }

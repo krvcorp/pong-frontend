@@ -12,10 +12,10 @@ struct ProfileView: View {
     // logic related to swipable TabView
     @Namespace var animation
     @State private var selectedFilter: ProfileFilterViewModel = .posts
-    // VMs
     @StateObject private var profileVM = ProfileViewModel()
     @ObservedObject var settingsSheetVM : SettingsSheetViewModel
     @ObservedObject var postSettingsVM : PostSettingsViewModel
+    @ObservedObject var feedVM : FeedViewModel
     
     var body: some View {
         VStack(spacing: 0) {
@@ -98,20 +98,19 @@ struct ProfileView: View {
     
     var profileFilteredItems: some View {
         TabView(selection: $selectedFilter) {
-            ForEach(ProfileFilterViewModel.allCases, id: \.self) { view in // This iterates through all of the enum cases.
-                // make something different happen in each case
+            ForEach(ProfileFilterViewModel.allCases, id: \.self) { view in
                 RefreshableScrollView {
                     LazyVStack {
                         if view == .posts {
                             ForEach(profileVM.posts) { post in
                                 NavigationLink(destination: PostView(post: post)) {
-                                    PostBubble(post: post, postSettingsVM: postSettingsVM)
+                                    PostBubble(post: post, postSettingsVM: postSettingsVM, feedVM: feedVM)
                                 }
                             }
                         }
                         else if view == .saved {
                             ForEach(profileVM.savedPosts) { post in
-                                PostBubble(post: post, postSettingsVM: PostSettingsViewModel())
+                                PostBubble(post: post, postSettingsVM: PostSettingsViewModel(), feedVM: feedVM)
                             }
                         }
                     }
@@ -128,6 +127,6 @@ struct ProfileView: View {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView(settingsSheetVM: SettingsSheetViewModel(), postSettingsVM: PostSettingsViewModel())
+        ProfileView(settingsSheetVM: SettingsSheetViewModel(), postSettingsVM: PostSettingsViewModel(), feedVM: FeedViewModel())
     }
 }

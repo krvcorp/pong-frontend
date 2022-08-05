@@ -1,12 +1,19 @@
+//
+//  DeleteConfirmationView.swift
+//  Pong
+//
+//  Created by Khoi Nguyen on 7/29/22.
+//
+
 import SwiftUI
 
-struct DeleteConfirmationView: View {
+struct ReportConfirmationView: View {
     @ObservedObject var postSettingsVM : PostSettingsViewModel
     
     var body: some View {
         VStack(alignment: .center, spacing: 12) {
             
-            Text("Delete post?")
+            Text("Report post?")
                 .foregroundColor(Color(UIColor.label))
                 .font(.title.bold())
                 .padding(.top, 12)
@@ -25,7 +32,7 @@ struct DeleteConfirmationView: View {
             
             HStack {
                 Button {
-                    postSettingsVM.showDeleteConfirmationView = false
+                    postSettingsVM.showReportConfirmationView = false
                 } label: {
                     Text("Cancel")
                         .frame(minWidth: 0, maxWidth: .infinity)
@@ -36,17 +43,17 @@ struct DeleteConfirmationView: View {
                             RoundedRectangle(cornerRadius: 5)
                                 .stroke(Color(UIColor.lightGray), lineWidth: 2)
                         )
-                        .background(Color(UIColor.lightGray)) // If you have this
-                        .cornerRadius(20)         // You also need the cornerRadius here
+                        .background(Color(UIColor.lightGray))
+                        .cornerRadius(20)
                 }
                 
                 Spacer()
                 
                 Button {
-                    print("DEBUG: DELETE")
-                    postSettingsVM.deletePost()
+                    print("DEBUG: Report")
+                    postSettingsVM.reportPostAlamofire()
                 } label: {
-                    Text("Delete")
+                    Text("Report")
                         .frame(minWidth: 0, maxWidth: .infinity)
                         .font(.system(size: 18).bold())
                         .padding()
@@ -55,8 +62,8 @@ struct DeleteConfirmationView: View {
                             RoundedRectangle(cornerRadius: 5)
                                 .stroke(Color(UIColor.red), lineWidth: 2)
                         )
-                        .background(Color(UIColor.red)) // If you have this
-                        .cornerRadius(20)         // You also need the cornerRadius here
+                        .background(Color(UIColor.red))
+                        .cornerRadius(20)
                 }
             }
         }
@@ -66,8 +73,8 @@ struct DeleteConfirmationView: View {
     }
 }
 
-struct DeleteConfirmationView_Previews: PreviewProvider {
+struct ReportConfirmationView_Previews: PreviewProvider {
     static var previews: some View {
-        DeleteConfirmationView(postSettingsVM: PostSettingsViewModel())
+        ReportConfirmationView(postSettingsVM: PostSettingsViewModel())
     }
 }

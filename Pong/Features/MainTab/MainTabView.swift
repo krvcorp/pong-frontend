@@ -47,13 +47,11 @@ struct MainTabView: View {
                 .tabItem{Image(systemName: "envelope")}
                 .tag(Tabs.messages)
 
-                ProfileView(settingsSheetVM: settingsSheetVM, postSettingsVM: postSettingsVM)
+                ProfileView(settingsSheetVM: settingsSheetVM, postSettingsVM: postSettingsVM, feedVM: feedVM)
                 .tabItem{Image(systemName: "person")}
                 .tag(Tabs.profile)
             }
-            // this bad boy is the toolbar
             .toolbar {
-                // toolbar item in the left
                 ToolbarItem(placement: .navigationBarLeading) {
                     if self.tabSelection == .feed {
                         NavigationLink {
@@ -67,7 +65,6 @@ struct MainTabView: View {
                     }
                 }
                 
-                // toolbar item in the center
                 ToolbarItem(placement: .principal) {
                     if self.tabSelection == .profile {
                         Text("Me")
@@ -78,7 +75,6 @@ struct MainTabView: View {
                     }
                 }
                 
-                // toolbar item on the right
                 ToolbarItem(){
                     if self.tabSelection == .feed {
                         NavigationLink {

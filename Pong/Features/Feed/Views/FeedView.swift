@@ -11,10 +11,8 @@ import ScalingHeaderScrollView
 struct FeedView: View {
     @Namespace var animation
     @State var selectedFilter: FeedFilterViewModel = .hot
-    // observed objects
     @ObservedObject var feedVM: FeedViewModel
     @ObservedObject var postSettingsVM: PostSettingsViewModel
-    // variables
     @State private var isRefreshing = false
     @State private var offset = CGSize.zero
     // tracks scroll to top on recentposts on new post
@@ -29,7 +27,6 @@ struct FeedView: View {
     }
     
     var body: some View {
-        // ORIGINAL
         VStack(spacing: 0) {
             feedFilterBar
             feedItself
@@ -71,29 +68,25 @@ struct FeedView: View {
                 ForEach(FeedFilterViewModel.allCases, id: \.self) { view in
                     RefreshableScrollView {
                         ScrollViewReader { scrollReader in
-                            // actual stack of post bubbles
                             LazyVStack {
-                                // top
                                 if view == .top {
                                     ForEach(feedVM.topPosts, id: \.self) { post in
                                         NavigationLink(destination: PostView(post: post)) {
-                                            PostBubble(post: post, postSettingsVM: postSettingsVM)
+                                            PostBubble(post: post, postSettingsVM: postSettingsVM, feedVM: feedVM)
                                         }
                                     }
                                 }
-                                // hot
                                 else if view == .hot {
                                     ForEach(feedVM.hotPosts, id: \.self) { post in
                                         NavigationLink(destination: PostView(post: post)) {
-                                            PostBubble(post: post, postSettingsVM: postSettingsVM)
+                                            PostBubble(post: post, postSettingsVM: postSettingsVM, feedVM: feedVM)
                                         }
                                     }
                                 }
-                                // recent
                                 else if view == .recent {
                                     ForEach(feedVM.recentPosts, id: \.self) { post in
                                         NavigationLink(destination: PostView(post: post)) {
-                                            PostBubble(post: post, postSettingsVM: postSettingsVM)
+                                            PostBubble(post: post, postSettingsVM: postSettingsVM, feedVM: feedVM)
                                         }
                                     }
                                 }

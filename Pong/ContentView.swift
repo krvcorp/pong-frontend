@@ -1,10 +1,3 @@
-//
-//  ContentView.swift
-//  SidechatMockup
-//
-//  Created by Khoi Nguyen on 6/3/22.
-//
-
 import SwiftUI
 
 struct ContentView: View {
@@ -21,7 +14,6 @@ struct ContentView: View {
         } else {
             OnboardView(loginVM: loginVM)
         }
-//        MainInterfaceView
     }
 }
 
@@ -56,6 +48,9 @@ extension ContentView {
             // DeleteConfirmationView
             .popup(isPresented: $postSettingsVM.showDeleteConfirmationView, type: .`default`, closeOnTap: false, closeOnTapOutside: true, backgroundColor: .black.opacity(0.4)) {
                 DeleteConfirmationView(postSettingsVM: postSettingsVM)
+            }
+            .popup(isPresented: $postSettingsVM.showReportConfirmationView, type: .`default`, closeOnTap: false, closeOnTapOutside: true, backgroundColor: .black.opacity(0.4)) {
+                ReportConfirmationView(postSettingsVM: postSettingsVM)
             }
             // DeleteAccountConfirmationView
             .popup(isPresented: $settingsSheetVM.showDeleteAccountConfirmationView, type: .`default`, closeOnTap: false, closeOnTapOutside: true, backgroundColor: .black.opacity(0.4)) {

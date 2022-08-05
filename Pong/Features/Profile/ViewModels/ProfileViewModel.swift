@@ -16,7 +16,6 @@ class ProfileViewModel: ObservableObject {
     @Published var savedPosts: [Post] = []
 
     func getLoggedInUserInfo() {
-        print("DEBUG: profileVM.getLoggedInUserInfo")
         guard let token = DAKeychain.shared["token"] else {
             print("DEBUG: profileVM.getLoggedInUserInfo no token")
             return
@@ -43,10 +42,6 @@ class ProfileViewModel: ObservableObject {
             
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
-//            guard let loggedInUserInfoResponse = try? decoder.decode(LoggedInUserInfoResponseBody.self, from: data) else {
-//                print("DEBUG: profileVM getLoggedInUserInfo decode error")
-//                return
-//            }
             
             do {
                 let loggedInUserInfoResponse = try decoder.decode(LoggedInUserInfoResponseBody.self, from: data)

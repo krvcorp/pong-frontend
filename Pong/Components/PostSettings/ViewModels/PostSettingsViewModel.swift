@@ -13,6 +13,7 @@ import Alamofire
     @Published var post: Post = defaultPost
     @Published var showPostSettingsView : Bool = false
     @Published var showDeleteConfirmationView : Bool = false
+    @Published var showReportConfirmationView : Bool = false
     
     func reportPostAlamofire() {
         let parameters: [String: Any] = [
