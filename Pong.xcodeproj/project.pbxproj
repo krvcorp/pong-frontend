@@ -62,7 +62,6 @@
 		6A449C8B2896F4320015826A /* ProfileFilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C042896F4320015826A /* ProfileFilterViewModel.swift */; };
 		6A449C8C2896F4320015826A /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C052896F4320015826A /* ProfileViewModel.swift */; };
 		6A449C8D2896F4320015826A /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C072896F4320015826A /* ProfileView.swift */; };
-		6A449C8E2896F4320015826A /* FeedFilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C0A2896F4320015826A /* FeedFilterViewModel.swift */; };
 		6A449C8F2896F4320015826A /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C0B2896F4320015826A /* FeedViewModel.swift */; };
 		6A449C902896F4320015826A /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C0D2896F4320015826A /* FeedView.swift */; };
 		6A449C912896F4320015826A /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C0F2896F4320015826A /* MainTabView.swift */; };
@@ -129,6 +128,9 @@
 		6A5479C72895BB9800BC18CD /* MSAL in Frameworks */ = {isa = PBXBuildFile; productRef = 6A5479C62895BB9800BC18CD /* MSAL */; };
 		6A68DC32288A225700BF2775 /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = 6A68DC31288A225700BF2775 /* PopupView */; };
 		6A68DC46288B7A3100BF2775 /* ScalingHeaderScrollView in Frameworks */ = {isa = PBXBuildFile; productRef = 6A68DC45288B7A3100BF2775 /* ScalingHeaderScrollView */; };
+		6A78FA4F289CD31A00B75CC6 /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A78FA4E289CD31A00B75CC6 /* NotificationsView.swift */; };
+		6A78FA53289CDACF00B75CC6 /* MainTabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A78FA52289CDACF00B75CC6 /* MainTabViewModel.swift */; };
+		6A78FA55289CE38200B75CC6 /* NotificationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A78FA54289CE38200B75CC6 /* NotificationsViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -182,7 +184,6 @@
 		6A449C042896F4320015826A /* ProfileFilterViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileFilterViewModel.swift; sourceTree = "<group>"; };
 		6A449C052896F4320015826A /* ProfileViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		6A449C072896F4320015826A /* ProfileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
-		6A449C0A2896F4320015826A /* FeedFilterViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedFilterViewModel.swift; sourceTree = "<group>"; };
 		6A449C0B2896F4320015826A /* FeedViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
 		6A449C0D2896F4320015826A /* FeedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
 		6A449C0F2896F4320015826A /* MainTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
@@ -248,6 +249,9 @@
 		6A449CD52898E3BC0015826A /* FloatWarning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatWarning.swift; sourceTree = "<group>"; };
 		6A5479C82895C08F00BC18CD /* Pong.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Pong.entitlements; sourceTree = "<group>"; };
 		6A5DF0E32851321000F28A06 /* Pong.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pong.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6A78FA4E289CD31A00B75CC6 /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
+		6A78FA52289CDACF00B75CC6 /* MainTabViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabViewModel.swift; sourceTree = "<group>"; };
+		6A78FA54289CE38200B75CC6 /* NotificationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -310,6 +314,7 @@
 		6A449BC02896F4320015826A /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				6A78FA4B289CD2DA00B75CC6 /* Notifications */,
 				6A449BE62896F4320015826A /* OnboardingProcess */,
 				6A449C0E2896F4320015826A /* MainTab */,
 				6A449C082896F4320015826A /* Feed */,
@@ -632,7 +637,6 @@
 		6A449C092896F4320015826A /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				6A449C0A2896F4320015826A /* FeedFilterViewModel.swift */,
 				6A449C0B2896F4320015826A /* FeedViewModel.swift */,
 			);
 			path = ViewModel;
@@ -649,7 +653,8 @@
 		6A449C0E2896F4320015826A /* MainTab */ = {
 			isa = PBXGroup;
 			children = (
-				6A449C0F2896F4320015826A /* MainTabView.swift */,
+				6A78FA51289CDAC300B75CC6 /* ViewModels */,
+				6A78FA50289CDAC100B75CC6 /* Views */,
 			);
 			path = MainTab;
 			sourceTree = "<group>";
@@ -927,6 +932,47 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		6A78FA4B289CD2DA00B75CC6 /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				6A78FA4D289CD30200B75CC6 /* ViewModels */,
+				6A78FA4C289CD2FF00B75CC6 /* Views */,
+			);
+			path = Notifications;
+			sourceTree = "<group>";
+		};
+		6A78FA4C289CD2FF00B75CC6 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				6A78FA4E289CD31A00B75CC6 /* NotificationsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		6A78FA4D289CD30200B75CC6 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				6A78FA54289CE38200B75CC6 /* NotificationsViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		6A78FA50289CDAC100B75CC6 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				6A449C0F2896F4320015826A /* MainTabView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		6A78FA51289CDAC300B75CC6 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				6A78FA52289CDACF00B75CC6 /* MainTabViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1073,6 +1119,7 @@
 				6A449CAB2896F4330015826A /* OTPVerifyResponseBody.swift in Sources */,
 				6A449CB02896F4330015826A /* NewPollViewModel.swift in Sources */,
 				289CC86A289993C9009C1DCE /* AppDelegate.swift in Sources */,
+				6A78FA4F289CD31A00B75CC6 /* NotificationsView.swift in Sources */,
 				6A449CC22896F4330015826A /* ReportView.swift in Sources */,
 				6A449C702896F4320015826A /* AccountsSheetView.swift in Sources */,
 				6A449C7B2896F4320015826A /* VerificationViewModel.swift in Sources */,
@@ -1100,6 +1147,7 @@
 				6A449C782896F4320015826A /* MessagesView.swift in Sources */,
 				6A449C792896F4320015826A /* PostViewModel.swift in Sources */,
 				6A449CBB2896F4330015826A /* ProfileCommentBubbleViewModel.swift in Sources */,
+				6A78FA55289CE38200B75CC6 /* NotificationsViewModel.swift in Sources */,
 				6A449CA92896F4330015826A /* VerifyEmailResponseBody.swift in Sources */,
 				6A449C632896F4320015826A /* LoginViewModel.swift in Sources */,
 				6A449CA02896F4330015826A /* User.swift in Sources */,
@@ -1114,6 +1162,7 @@
 				6A449C9D2896F4330015826A /* PostReport.swift in Sources */,
 				6A449CB22896F4330015826A /* PostSettingsViewModel.swift in Sources */,
 				6A449CB92896F4330015826A /* MessageBlock.swift in Sources */,
+				6A78FA53289CDACF00B75CC6 /* MainTabViewModel.swift in Sources */,
 				6A449C842896F4320015826A /* ChatSideMenuView.swift in Sources */,
 				6A449CCA2896F4330015826A /* ContentView.swift in Sources */,
 				6A449C892896F4320015826A /* LeaderboardViewModel.swift in Sources */,
@@ -1124,7 +1173,6 @@
 				6A449CD42898B1D00015826A /* ErrorResponseBody.swift in Sources */,
 				6A449C852896F4320015826A /* ChatView.swift in Sources */,
 				6A449C772896F4320015826A /* NotificationOptionRowView.swift in Sources */,
-				6A449C8E2896F4320015826A /* FeedFilterViewModel.swift in Sources */,
 				6A449CBA2896F4330015826A /* Keychain.swift in Sources */,
 				6A449C7E2896F4320015826A /* VerificationView.swift in Sources */,
 				6A449CB72896F4330015826A /* MessageField.swift in Sources */,

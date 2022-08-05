@@ -60,7 +60,7 @@ struct LeaderboardView: View {
             }
             
             NavigationLink {
-                NewPostView(newPost: $newPost)
+                NewPostView()
             } label: {
                 Text("Try to catch up :)")
                     .frame(width: 100, height: 100)

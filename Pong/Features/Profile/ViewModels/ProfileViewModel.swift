@@ -7,7 +7,13 @@
 
 import Foundation
 
+enum ProfileFilter: String, CaseIterable, Identifiable {
+    case posts, saved
+    var id: Self { self }
+}
+
 class ProfileViewModel: ObservableObject {
+    @Published var selectedProfileFilter : ProfileFilter = .posts
     @Published var totalKarma: Int = 0
     @Published var commentKarma: Int = 0
     @Published var postKarma: Int = 0

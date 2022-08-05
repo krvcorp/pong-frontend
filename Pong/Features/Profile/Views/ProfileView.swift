@@ -18,22 +18,72 @@ struct ProfileView: View {
     @ObservedObject var postSettingsVM : PostSettingsViewModel
     
     var body: some View {
-        VStack(spacing: 0) {
-            karmaInfo
-                .background(Color(UIColor.tertiarySystemBackground))
-                .padding(.horizontal, 30)
-                .padding(.top, 20)
-
-            profileFilterBar
-                .background(Color(UIColor.tertiarySystemBackground))
-                .padding(.top)
-            
-            profileFilteredItems
-                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-                .ignoresSafeArea(.all, edges: .bottom)
+        NavigationView {
+            ScrollView {
+                LazyVStack {
+                    if profileVM.selectedProfileFilter == .posts {
+                        ForEach(profileVM.posts) { post in
+                            NavigationLink(destination: PostView(post: post)) {
+                                PostBubble(post: post, postSettingsVM: postSettingsVM)
+                            }
+                        }
+                    }
+                    else if profileVM.selectedProfileFilter == .saved {
+                        ForEach(profileVM.savedPosts) { post in
+                            PostBubble(post: post, postSettingsVM: PostSettingsViewModel())
+                        }
+                    }
+                }
+            }
+            .onAppear {
+                UITableView.appearance().showsVerticalScrollIndicator = false
+                UITableView.appearance().backgroundColor = UIColor(Color(white: 0.0, opacity: 0.0))
+                profileVM.getLoggedInUserInfo()
+            }
+            .navigationTitle("Your Profile")
+            .safeAreaInset(edge: .top) {
+                HStack {
+                    Picker("Profile Filter", selection: $profileVM.selectedProfileFilter) {
+                        Text("Posts").tag(ProfileFilter.posts)
+                        Text("Saved").tag(ProfileFilter.saved)
+                    }
+                    .pickerStyle(.segmented)
+                    .fixedSize()
+                    .onChange(of: profileVM.selectedProfileFilter) { newValue in
+                        print("DEBUG: profileVM changed filter!")
+                    }
+                }
+                .background(Color(UIColor.systemBackground))
+                .padding()
+            }
+            .toolbar {
+                
+                ToolbarItem {
+                    NavigationLink {
+                        SettingsView()
+                    } label: {
+                        Image(systemName: "gearshape")
+                    }
+                }
+            }
         }
-        .onAppear(perform: profileVM.getLoggedInUserInfo)
-        .background(Color(UIColor.tertiarySystemBackground))
+        .navigationViewStyle(StackNavigationViewStyle())
+//        VStack(spacing: 0) {
+//            karmaInfo
+//                .background(Color(UIColor.tertiarySystemBackground))
+//                .padding(.horizontal, 30)
+//                .padding(.top, 20)
+//
+//            profileFilterBar
+//                .background(Color(UIColor.tertiarySystemBackground))
+//                .padding(.top)
+//
+//            profileFilteredItems
+//                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+//                .ignoresSafeArea(.all, edges: .bottom)
+//        }
+//        .onAppear(perform: profileVM.getLoggedInUserInfo)
+//        .background(Color(UIColor.tertiarySystemBackground))
     }
     
     var profileFilterBar: some View {
@@ -78,7 +128,7 @@ struct ProfileView: View {
                 }
                 Spacer()
             }
-            
+
             VStack(alignment: .center) {
                 Text(String(profileVM.postKarma))
                 Text("Post Karma")
@@ -94,6 +144,7 @@ struct ProfileView: View {
                 }
             }
         }
+        .background(Color(UIColor.systemBackground))
     }
     
     var profileFilteredItems: some View {

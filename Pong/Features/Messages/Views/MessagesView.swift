@@ -26,97 +26,43 @@ struct MessagesView: View {
     
     var body: some View {
         LoadingView(isShowing: .constant(false)) {
-            NavigationView {
-                List {
-                    Section() {
-                        if searchText.isEmpty {
-                            Button(action: {
-                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                                showAlert = true
-                            }) {
-                                HStack {
-                                    ZStack {
-                                        LinearGradient(gradient: Gradient(colors: [Color.viewEventsGradient1, Color.viewEventsGradient2]), startPoint: .topTrailing, endPoint: .bottomLeading)
-                                        Image(systemName: "bell")
-                                            .imageScale(.small)
-                                            .foregroundColor(.white)
-                                            .font(.largeTitle)
-                                    }
-                                    .frame(width: 40, height: 40, alignment: .center)
-                                    .cornerRadius(10)
+            List {
+                Section(header: Text("Messages")) {
+                    ForEach(chatmodels.filter { searchText.isEmpty || $0.title.localizedStandardContains(searchText)}) { chatmodel in
+                        NavigationLink(destination: Text("messaging feed here")) {
+                            HStack {
+                                LinearGradient(gradient: Gradient(colors: [chatmodel.color1, chatmodel.color2]), startPoint: .bottomLeading, endPoint: .topTrailing).clipShape(Circle()).frame(width: 40, height: 40, alignment: .center)
                                     .padding(.trailing, 4)
-                                    VStack (alignment: .leading, spacing: 6) {
-                                        Text("Enable Notifications").foregroundColor(Color(uiColor: UIColor.label)).bold().lineLimit(1)
-                                        HStack {
-                                            Text("Never miss a message.").lineLimit(1).foregroundColor(.gray)
-                                            Spacer()
-                                        }
-                                    }
-                                    Spacer()
-                                    ZStack {
-                                        Circle()
-                                            .fill(Color(UIColor.secondarySystemFill))
-                                        Image(systemName: "hand.tap")
-                                            .font(Font.body.weight(.bold))
-                                            .foregroundColor(.gray)
-                                    }
-                                    .frame(width: 40, height: 40)
-
-                                }.padding(.vertical, 10)
-                                .alert(isPresented: $showAlert) {
-                                    Alert(
-                                        title: Text("Notifications Setup"),
-                                        message: Text("Enable push notifications? You can always change this later in settings."),
-                                        primaryButton: .destructive(
-                                            Text("Don't Enable"),
-                                            action: enableNotifs
-                                        ),
-                                        secondaryButton: .default(
-                                            Text("Enable"),
-                                            action: dontEnableNotifs
-                                        )
-                                    )
-                                }
-                            }
-                        }
-                    }
-                    Section(header: Text("Messages")) {
-                        ForEach(chatmodels.filter { searchText.isEmpty || $0.title.localizedStandardContains(searchText)}) { chatmodel in
-                            NavigationLink(destination: Text("messaging feed here")) {
-                                HStack {
-                                    LinearGradient(gradient: Gradient(colors: [chatmodel.color1, chatmodel.color2]), startPoint: .bottomLeading, endPoint: .topTrailing).clipShape(Circle()).frame(width: 40, height: 40, alignment: .center)
-                                        .padding(.trailing, 4)
-                                    VStack (alignment: .leading, spacing: 6) {
-                                        Text(chatmodel.title).bold().lineLimit(1)
-                                        HStack {
-                                            Text(chatmodel.subtitle).lineLimit(1).foregroundColor(.gray)
-                                            Spacer()
-                                            ZStack {
-                                                if chatmodel.new {
-                                                    LinearGradient(gradient: Gradient(colors: [Color.viewEventsGradient1, Color.viewEventsGradient2]), startPoint: .bottomLeading, endPoint: .topTrailing)
-                                                } else {
-                                                    Color(UIColor.secondarySystemFill)
-                                                }
-                                                Text(chatmodel.timestamp).foregroundColor(chatmodel.new ? .white : .gray).bold().lineLimit(1)
+                                VStack (alignment: .leading, spacing: 6) {
+                                    Text(chatmodel.title).bold().lineLimit(1)
+                                    HStack {
+                                        Text(chatmodel.subtitle).lineLimit(1).foregroundColor(.gray)
+                                        Spacer()
+                                        ZStack {
+                                            if chatmodel.new {
+                                                LinearGradient(gradient: Gradient(colors: [Color.viewEventsGradient1, Color.viewEventsGradient2]), startPoint: .bottomLeading, endPoint: .topTrailing)
+                                            } else {
+                                                Color(UIColor.secondarySystemFill)
                                             }
-                                            .cornerRadius(6)
-                                            .frame(width: 75)
+                                            Text(chatmodel.timestamp).foregroundColor(chatmodel.new ? .white : .gray).bold().lineLimit(1)
                                         }
+                                        .cornerRadius(6)
+                                        .frame(width: 75)
                                     }
-                                }.padding(.vertical, 10)
-                            }
+                                }
+                            }.padding(.vertical, 10)
                         }
                     }
                 }
-                .listStyle(GroupedListStyle())
-                .onAppear {
-                    UITableView.appearance().showsVerticalScrollIndicator = false
-                    UITableView.appearance().backgroundColor = UIColor(Color(white: 0.0, opacity: 0.0))
-                }
-                .navigationTitle("Messages")
             }
+            .listStyle(GroupedListStyle())
+            .onAppear {
+                UITableView.appearance().showsVerticalScrollIndicator = false
+                UITableView.appearance().backgroundColor = UIColor(Color(white: 0.0, opacity: 0.0))
+            }
+            .navigationTitle("Messages")
+            .navigationBarTitleDisplayMode(.inline)
             .searchable(text: $searchText)
-            .navigationViewStyle(StackNavigationViewStyle())
         }
     }
     

@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 
 class SettingsViewModel: ObservableObject {
+    @AppStorage("displayMode") var displayMode = DisplayMode.system
     
     @Published var enableStagingServer = false {
         didSet {
@@ -18,5 +19,23 @@ class SettingsViewModel: ObservableObject {
     
     func logout() {
         UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+    }
+}
+
+
+
+enum DisplayMode: Int {
+    case system, dark, light
+    
+    func setAppDisplayMode() {
+        var userInterfaceStyle: UIUserInterfaceStyle
+        switch self {
+            case .system: userInterfaceStyle = .unspecified
+            case .dark: userInterfaceStyle = .dark
+            case .light: userInterfaceStyle = .light
+        }
+        
+        let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+        scene?.keyWindow?.overrideUserInterfaceStyle = userInterfaceStyle
     }
 }

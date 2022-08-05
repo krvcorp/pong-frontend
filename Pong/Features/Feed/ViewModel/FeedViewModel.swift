@@ -8,7 +8,13 @@ import Foundation
 import SwiftUI
 import Alamofire
 
+enum FeedFilter: String, CaseIterable, Identifiable {
+    case top, hot, recent
+    var id: Self { self }
+}
+
 class FeedViewModel: ObservableObject {
+    @Published var selectedFeedFilter : FeedFilter = .hot
     @Published var school : Binding<String>
     @Published var newPost = false
     @Published var isShowingNewPostSheet = false
@@ -23,21 +29,21 @@ class FeedViewModel: ObservableObject {
         self.school = school
     }
     
-    func getPosts(selectedFilter: FeedFilterViewModel) {
-        if selectedFilter == .top {
+    func getPosts(selectedFeedFilter : FeedFilter) {
+        if selectedFeedFilter == .top {
             topPostsInitalOpen = true
-        } else if selectedFilter == .hot {
+        } else if selectedFeedFilter == .hot {
             hotPostsInitalOpen = true
-        } else if selectedFilter == .recent {
+        } else if selectedFeedFilter == .recent {
             recentPostsInitalOpen = true
         }
 
         guard let token = DAKeychain.shared["token"] else { return }
 
         let url_to_use: String
-        if selectedFilter == .recent {
+        if selectedFeedFilter == .recent {
             url_to_use = "\(API().root)post/?sort=new"
-        } else if selectedFilter == .top {
+        } else if selectedFeedFilter == .top {
             url_to_use = "\(API().root)post/?sort=top"
         } else {
             url_to_use = "\(API().root)post/?sort=old"
@@ -60,23 +66,23 @@ class FeedViewModel: ObservableObject {
                 //
                 print("DEBUG: feedVM.getPosts posts \(posts)")
                 DispatchQueue.main.async {
-                    if selectedFilter == .hot {
+                    if selectedFeedFilter == .hot {
                         self?.hotPosts = posts
                         print("DEBUG: \(String(describing: self?.hotPosts))")
-                    } else if selectedFilter == .recent {
+                    } else if selectedFeedFilter == .recent {
                         self?.recentPosts = posts
-                    } else if selectedFilter == .top {
+                    } else if selectedFeedFilter == .top {
                         self?.topPosts = posts
                     }
                 }
             } catch {
-                print("DEBUG: feedVM.getPosts \(error)")
+//                print("DEBUG: feedVM.getPosts \(error)")
             }
         }
         task.resume()
     }
 
-    func getPostsAlamofire(selectedFilter: FeedFilterViewModel) {
+    func getPostsAlamofire(selectedFilter: FeedFilter) {
         let url_to_use: String
         if selectedFilter == .top {
             topPostsInitalOpen = true
@@ -93,7 +99,7 @@ class FeedViewModel: ObservableObject {
 
         let method = HTTPMethod.get
         let headers: HTTPHeaders = [
-            "Authorization": "Token \(DAKeychain.shared["token"])",
+            "Authorization": "Token \(String(describing: DAKeychain.shared["token"]))",
             "Content-Type": "application/x-www-form-urlencoded"
         ]
 

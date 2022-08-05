@@ -25,7 +25,7 @@ struct NewPostView: View {
     @State private var showNewPoll = false
     
     // tracks scroll to top of recent posts
-    @Binding var newPost: Bool
+//    @Binding var newPost: Bool
     
     func limitText(_ upper: Int) {
         if text.count > upper {
@@ -117,7 +117,7 @@ struct NewPostView: View {
                                 // accessing postVM too quickly here ? can't perform dismiss inside completion
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
                                     if !newPostVM.error {
-                                        newPost = true
+//                                        newPost = true
                                         presentationMode.wrappedValue.dismiss()
                                     }
                                 }
