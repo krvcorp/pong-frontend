@@ -85,14 +85,14 @@ struct PostBubble: View {
 
             }
         }
-        .frame(minWidth: 0, maxWidth: UIScreen.main.bounds.size.width - 50)
-        .font(.system(size: 18).bold())
+//        .frame(minWidth: 0, maxWidth: UIScreen.main.bounds.size.width - 50)
+//        .font(.system(size: 18).bold())
         .padding()
-        .foregroundColor(Color(UIColor.label))
-        .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color(UIColor.tertiarySystemBackground), lineWidth: 5))
-        .background(Color(UIColor.tertiarySystemBackground)) // If you have this
-        .cornerRadius(10)         // You also need the cornerRadius here
-        .padding(.top, 5) // this padding gives FeedView some spacing at the top
+//        .foregroundColor(Color(UIColor.label))
+//        .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color(UIColor.tertiarySystemBackground), lineWidth: 5))
+//        .background(Color(UIColor.tertiarySystemBackground)) // If you have this
+//        .cornerRadius(10)         // You also need the cornerRadius here
+//        .padding(.top, 5) // this padding gives FeedView some spacing at the top
     }
     
     var VoteComponent: some View {

@@ -19,28 +19,53 @@ struct FeedView: View {
     
     var body: some View {
         NavigationView {
-            ScrollView {
-                LazyVStack {
-                    if feedVM.selectedFeedFilter == .top {
-                        ForEach(feedVM.topPosts, id: \.self) { post in
-                            NavigationLink(destination: PostView(post: post)) {
+            List {
+                if feedVM.selectedFeedFilter == .top {
+                    ForEach(feedVM.topPosts, id: \.self) { post in
+                        Section {
+                            HStack(spacing: 0) {
                                 PostBubble(post: post, postSettingsVM: postSettingsVM)
+                                    .buttonStyle(.borderless)
+                                
+                                NavigationLink(destination: PostView(post: post)) {
+                                    EmptyView()
+                                }
+                                .frame(width: 0)
+                                .opacity(0)
                             }
                         }
                     }
-                    // hot
-                    else if feedVM.selectedFeedFilter == .hot {
-                        ForEach(feedVM.hotPosts, id: \.self) { post in
-                            NavigationLink(destination: PostView(post: post)) {
+                }
+                // hot
+                else if feedVM.selectedFeedFilter == .hot {
+                    ForEach(feedVM.hotPosts, id: \.self) { post in
+                        Section {
+                            HStack(spacing: 0) {
                                 PostBubble(post: post, postSettingsVM: postSettingsVM)
+                                    .buttonStyle(.borderless)
+                                
+                                NavigationLink(destination: PostView(post: post)) {
+                                    EmptyView()
+                                }
+                                .frame(width: 0)
+                                .opacity(0)
                             }
                         }
                     }
-                    // recent
-                    else if feedVM.selectedFeedFilter == .recent {
-                        ForEach(feedVM.recentPosts, id: \.self) { post in
-                            NavigationLink(destination: PostView(post: post)) {
+                }
+                // recent
+                else if feedVM.selectedFeedFilter == .recent {
+                    ForEach(feedVM.recentPosts, id: \.self) { post in
+                        Section {
+                            HStack(spacing: 0) {
                                 PostBubble(post: post, postSettingsVM: postSettingsVM)
+                                    .buttonStyle(.borderless)
+                                
+                                NavigationLink(destination: PostView(post: post)) {
+                                    EmptyView()
+                                }
+                                .frame(width: 0)
+                                .opacity(0)
                             }
                         }
                     }

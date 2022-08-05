@@ -18,28 +18,63 @@ struct ProfileView: View {
     
     var body: some View {
         NavigationView {
-            ZStack(alignment: .top) {
-                ScrollView {
-                    LazyVStack {
-                        if profileVM.selectedProfileFilter == .posts {
-                            ForEach(profileVM.posts) { post in
+            List {
+                if profileVM.selectedProfileFilter == .posts {
+                    ForEach(profileVM.posts) { post in
+                        Section {
+                            HStack(spacing: 0) {
+                                PostBubble(post: post, postSettingsVM: postSettingsVM)
+                                    .buttonStyle(.borderless)
+                                
                                 NavigationLink(destination: PostView(post: post)) {
-                                    PostBubble(post: post, postSettingsVM: postSettingsVM)
+                                    EmptyView()
                                 }
+                                .frame(width: 0)
+                                .opacity(0)
                             }
                         }
-                        else if profileVM.selectedProfileFilter == .saved {
-                            ForEach(profileVM.savedPosts) { post in
-                                PostBubble(post: post, postSettingsVM: PostSettingsViewModel())
-                            }
-                        }
+
                     }
                 }
-                .background(Color(UIColor.systemGroupedBackground))
+                else if profileVM.selectedProfileFilter == .saved {
+                    ForEach(profileVM.savedPosts) { post in
+                        Section {
+                            HStack(spacing: 0) {
+                                PostBubble(post: post, postSettingsVM: postSettingsVM)
+                                    .buttonStyle(.borderless)
+                                
+                                NavigationLink(destination: PostView(post: post)) {
+                                    EmptyView()
+                                }
+                                .frame(width: 0)
+                                .opacity(0)
+                            }
+                        }
+
+                    }
+                }
             }
+//            ZStack(alignment: .top) {
+//                ScrollView {
+//                    LazyVStack {
+//                        if profileVM.selectedProfileFilter == .posts {
+//                            ForEach(profileVM.posts) { post in
+//                                NavigationLink(destination: PostView(post: post)) {
+//                                    PostBubble(post: post, postSettingsVM: postSettingsVM)
+//                                }
+//                            }
+//                        }
+//                        else if profileVM.selectedProfileFilter == .saved {
+//                            ForEach(profileVM.savedPosts) { post in
+//                                PostBubble(post: post, postSettingsVM: PostSettingsViewModel())
+//                            }
+//                        }
+//                    }
+//                }
+//                .background(Color(UIColor.systemGroupedBackground))
+//            }
             .onAppear {
                 UITableView.appearance().showsVerticalScrollIndicator = false
-//                UITableView.appearance().backgroundColor = UIColor(Color(white: 0.0, opacity: 0.0))
                 profileVM.getLoggedInUserInfo()
             }
             .navigationTitle("Your Profile")
