@@ -108,7 +108,6 @@
 		6A449CBA2896F4330015826A /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C462896F4320015826A /* Keychain.swift */; };
 		6A449CBB2896F4330015826A /* ProfileCommentBubbleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C492896F4320015826A /* ProfileCommentBubbleViewModel.swift */; };
 		6A449CBC2896F4330015826A /* ProfileCommentBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C4B2896F4320015826A /* ProfileCommentBubble.swift */; };
-		6A449CBD2896F4330015826A /* BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C4C2896F4320015826A /* BackButton.swift */; };
 		6A449CBE2896F4330015826A /* PostBubbleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C4F2896F4320015826A /* PostBubbleViewModel.swift */; };
 		6A449CBF2896F4330015826A /* PostBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C512896F4320015826A /* PostBubble.swift */; };
 		6A449CC02896F4330015826A /* ActionSheets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C522896F4320015826A /* ActionSheets.swift */; };
@@ -230,7 +229,6 @@
 		6A449C462896F4320015826A /* Keychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		6A449C492896F4320015826A /* ProfileCommentBubbleViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileCommentBubbleViewModel.swift; sourceTree = "<group>"; };
 		6A449C4B2896F4320015826A /* ProfileCommentBubble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileCommentBubble.swift; sourceTree = "<group>"; };
-		6A449C4C2896F4320015826A /* BackButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackButton.swift; sourceTree = "<group>"; };
 		6A449C4F2896F4320015826A /* PostBubbleViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostBubbleViewModel.swift; sourceTree = "<group>"; };
 		6A449C512896F4320015826A /* PostBubble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostBubble.swift; sourceTree = "<group>"; };
 		6A449C522896F4320015826A /* ActionSheets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionSheets.swift; sourceTree = "<group>"; };
@@ -314,19 +312,18 @@
 		6A449BC02896F4320015826A /* Features */ = {
 			isa = PBXGroup;
 			children = (
-				6A449C0E2896F4320015826A /* MainTab */,
-				6A78FA4B289CD2DA00B75CC6 /* Notifications */,
 				6A449BE62896F4320015826A /* OnboardingProcess */,
+				6A449C0E2896F4320015826A /* MainTab */,
 				6A449C082896F4320015826A /* Feed */,
-				6A449BE12896F4320015826A /* Post */,
-				6A449BF72896F4320015826A /* ChooseLocation */,
-				6A449BFD2896F4320015826A /* Leaderboard */,
 				6A449C102896F4320015826A /* NewPost */,
+				6A449BE12896F4320015826A /* Post */,
+				6A449BFD2896F4320015826A /* Leaderboard */,
 				6A449BDE2896F4320015826A /* Messages */,
 				6A449BF02896F4320015826A /* Chat */,
 				6A449C152896F4320015826A /* NewChat */,
 				6A449C022896F4320015826A /* Profile */,
 				6A449BC12896F4320015826A /* Settings */,
+				6A449BF72896F4320015826A /* ChooseLocation */,
 			);
 			path = Features;
 			sourceTree = "<group>";
@@ -687,6 +684,7 @@
 		6A449C152896F4320015826A /* NewChat */ = {
 			isa = PBXGroup;
 			children = (
+				6A78FA4B289CD2DA00B75CC6 /* Notifications */,
 				6A449C162896F4320015826A /* Views */,
 			);
 			path = NewChat;
@@ -745,9 +743,8 @@
 				6A449CCB2897A5A20015826A /* CommentBubble */,
 				6A449C5A2896F4320015826A /* Poll */,
 				6A449C362896F4320015826A /* NewPoll */,
-				6A449C3B2896F4320015826A /* PostSettings */,
 				6A449C532896F4320015826A /* Report */,
-				6A449C4C2896F4320015826A /* BackButton.swift */,
+				6A449C3B2896F4320015826A /* PostSettings */,
 				6A449C592896F4320015826A /* CustomInputField.swift */,
 				6A449C522896F4320015826A /* ActionSheets.swift */,
 				6A449C352896F4320015826A /* TextArea.swift */,
@@ -798,7 +795,6 @@
 		6A449C3C2896F4320015826A /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				6A449C3D2896F4320015826A /* PostSettingsViewModel.swift */,
 				6A449C3E2896F4320015826A /* PostSettingOptionsViewModel.swift */,
 			);
 			path = ViewModels;
@@ -910,6 +906,7 @@
 			isa = PBXGroup;
 			children = (
 				6A449C4F2896F4320015826A /* PostBubbleViewModel.swift */,
+				6A449C3D2896F4320015826A /* PostSettingsViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -1072,7 +1069,6 @@
 				6A449C652896F4320015826A /* NetworkManager.swift in Sources */,
 				6A449CA12896F4330015826A /* PostVoteRequestBody.swift in Sources */,
 				6A449C9C2896F4330015826A /* DeleteCommentRequestBody.swift in Sources */,
-				6A449CBD2896F4330015826A /* BackButton.swift in Sources */,
 				6A449CAF2896F4330015826A /* TextArea.swift in Sources */,
 				6A449C722896F4320015826A /* SettingsOptionRowView.swift in Sources */,
 				6A449CC32896F4330015826A /* CommentBubble.swift in Sources */,

@@ -15,77 +15,92 @@ struct FeedView: View {
 
     init(postSettingsVM: PostSettingsViewModel) {
         self.postSettingsVM = postSettingsVM
+        // this sets tableview globally for all lists
+        UITableView.appearance().sectionFooterHeight = 0
     }
+    
     
     var body: some View {
         NavigationView {
-            List {
-                if feedVM.selectedFeedFilter == .top {
-                    ForEach(feedVM.topPosts, id: \.self) { post in
-                        Section {
-                            HStack(spacing: 0) {
-                                PostBubble(post: post, postSettingsVM: postSettingsVM)
-                                    .buttonStyle(.borderless)
-                                
-                                NavigationLink(destination: PostView(post: post)) {
-                                    EmptyView()
+            ZStack(alignment: .top) {
+                TabView(selection: $feedVM.selectedFeedFilter) {
+                    ForEach(FeedFilter.allCases, id: \.self) { view in
+                        GeometryReader { geometry in
+                            List {
+//                                Text("Scroll offset : \(geometry.frame(in: .global).minY)")
+//                                    .frame(minWidth: 0, idealWidth: 0, maxWidth: .infinity, minHeight: 0, idealHeight: 0, maxHeight: .infinity, alignment: .center)
+
+                                if feedVM.selectedFeedFilter == .top {
+                                    ForEach(feedVM.topPosts, id: \.self) { post in
+                                        Section {
+                                            HStack(spacing: 0) {
+                                                PostBubble(post: post, postSettingsVM: postSettingsVM)
+                                                    .buttonStyle(.borderless)
+                                                
+                                                NavigationLink(destination: PostView(post: post)) {
+                                                    EmptyView()
+                                                }
+                                                .frame(width: 0)
+                                                .opacity(0)
+                                            }
+                                        }
+                                    }
                                 }
-                                .frame(width: 0)
-                                .opacity(0)
+                                // hot
+                                else if feedVM.selectedFeedFilter == .hot {
+                                    ForEach(feedVM.hotPosts, id: \.self) { post in
+                                        Section {
+                                            HStack(spacing: 0) {
+                                                PostBubble(post: post, postSettingsVM: postSettingsVM)
+                                                    .buttonStyle(.borderless)
+                                                
+                                                NavigationLink(destination: PostView(post: post)) {
+                                                    EmptyView()
+                                                }
+                                                .frame(width: 0)
+                                                .opacity(0)
+                                            }
+                                        }
+                                    }
+                                }
+                                // recent
+                                else if feedVM.selectedFeedFilter == .recent {
+                                    ForEach(feedVM.recentPosts, id: \.self) { post in
+                                        Section {
+                                            HStack(spacing: 0) {
+                                                PostBubble(post: post, postSettingsVM: postSettingsVM)
+                                                    .buttonStyle(.borderless)
+                                                
+                                                NavigationLink(destination: PostView(post: post)) {
+                                                    EmptyView()
+                                                }
+                                                .frame(width: 0)
+                                                .opacity(0)
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            .padding(.top)
+                            .refreshable(action: {
+                                feedVM.getPosts(selectedFeedFilter: feedVM.selectedFeedFilter)
+                            })
+                            .background(Color(UIColor.systemGroupedBackground))
+                            .onAppear {
+                                if feedVM.hotPostsInitalOpen {
+                                    print("DEBUG: feedVM.hotPostsInitialOpen \(feedVM.hotPostsInitalOpen)")
+                                    feedVM.getPosts(selectedFeedFilter: .top)
+                                    feedVM.getPosts(selectedFeedFilter: .hot)
+                                    feedVM.getPosts(selectedFeedFilter: .recent)
+                                }
                             }
                         }
                     }
                 }
-                // hot
-                else if feedVM.selectedFeedFilter == .hot {
-                    ForEach(feedVM.hotPosts, id: \.self) { post in
-                        Section {
-                            HStack(spacing: 0) {
-                                PostBubble(post: post, postSettingsVM: postSettingsVM)
-                                    .buttonStyle(.borderless)
-                                
-                                NavigationLink(destination: PostView(post: post)) {
-                                    EmptyView()
-                                }
-                                .frame(width: 0)
-                                .opacity(0)
-                            }
-                        }
-                    }
-                }
-                // recent
-                else if feedVM.selectedFeedFilter == .recent {
-                    ForEach(feedVM.recentPosts, id: \.self) { post in
-                        Section {
-                            HStack(spacing: 0) {
-                                PostBubble(post: post, postSettingsVM: postSettingsVM)
-                                    .buttonStyle(.borderless)
-                                
-                                NavigationLink(destination: PostView(post: post)) {
-                                    EmptyView()
-                                }
-                                .frame(width: 0)
-                                .opacity(0)
-                            }
-                        }
-                    }
-                }
-            }
-            .refreshable(action: {
-                feedVM.getPosts(selectedFeedFilter: feedVM.selectedFeedFilter)
-            })
-            .background(Color(UIColor.systemGroupedBackground))
-            .onAppear {
-                if feedVM.hotPostsInitalOpen {
-                    print("DEBUG: feedVM.hotPostsInitialOpen \(feedVM.hotPostsInitalOpen)")
-                    feedVM.getPosts(selectedFeedFilter: .top)
-                    feedVM.getPosts(selectedFeedFilter: .hot)
-                    feedVM.getPosts(selectedFeedFilter: .recent)
-                }
-            }
-            .navigationTitle("Boston University")
-            .toolbar {
-                ToolbarItem(placement: .principal) {
+                .background(Color(UIColor.systemGroupedBackground))
+                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+                
+                if !feedVM.isScrollingDown {
                     HStack {
                         Picker("Feed Filter", selection: $feedVM.selectedFeedFilter) {
                             Text("Top").tag(FeedFilter.top)
@@ -95,10 +110,20 @@ struct FeedView: View {
                         .pickerStyle(.segmented)
                         .fixedSize()
                         .onChange(of: feedVM.selectedFeedFilter) { newValue in
-                            feedVM.getPosts(selectedFeedFilter: feedVM.selectedFeedFilter)
+//                            feedVM.getPosts(selectedFeedFilter: feedVM.selectedFeedFilter)
                         }
                     }
+                    .padding(.top)
                 }
+            }
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    VStack {
+                        Text("Boston University").font(.title).bold()
+                    }
+                }
+                
                 ToolbarItem {
                     NavigationLink {
                         MessagesView()
@@ -107,12 +132,9 @@ struct FeedView: View {
                     }
                 }
             }
+
         }
         .accentColor(Color(UIColor.label))
-        .sheet(isPresented: $feedVM.isShowingNewPostSheet) {
-//            NewPostView(toggleFullScreen: $mainTabVM.isCustomItemSelected)
-            EmptyView()
-        }
         .sheet(isPresented: $postSettingsVM.showDeleteConfirmationView) {
             DeleteConfirmationView(postSettingsVM: postSettingsVM)
         }

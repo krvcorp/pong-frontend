@@ -86,12 +86,13 @@ struct PostBubble: View {
                     }
                     label: {
                         Image(systemName: "ellipsis")
-                            .frame(width: 30, height: 30)
+                            .frame(height: 30)
                     }
                 }
             }
         }
         .padding()
+
     }
     
     var VoteComponent: some View {

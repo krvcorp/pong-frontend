@@ -138,21 +138,6 @@ struct NewPostView: View {
                         }
                     }
                 }
-                .navigationBarBackButtonHidden(true)
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarLeading) {
-                        Button {
-                            presentationMode.wrappedValue.dismiss()
-                        } label: {
-                            BackButton()
-                        }
-                    }
-                    ToolbarItem(placement: .principal) {
-                        Text("New Post")
-                            .font(.title.bold())
-                    }
-                }
-            .navigationBarTitleDisplayMode(.inline)
             }
         }
         .popup(isPresented: $newPostVM.error, type: .floater(), position: .top, animation: .spring(), autohideIn: 3) {

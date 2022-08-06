@@ -21,7 +21,7 @@ struct PreferencesSheetView: View {
                             settingsSheetVM.showSettingsSheetView = true
                             settingsSheetVM.showPreferencesSheetView = false
                         } label: {
-                            BackButton()
+//                            BackButton()
                         }
                         Spacer()
                     }

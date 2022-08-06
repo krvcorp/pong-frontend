@@ -150,8 +150,10 @@ class PostViewModel: ObservableObject {
                 completion(.failure(.custom(errorMessage: "Decode failed")))
                 return
             }
-            self.comments.append(commentResponse)
-            completion(.success(commentResponse))
+            DispatchQueue.main.async {
+                self.comments.append(commentResponse)
+                completion(.success(commentResponse))
+            }
         }.resume()
     }
     
@@ -189,6 +191,7 @@ class PostViewModel: ObservableObject {
             
         }.resume()
     }
+    
     // this logic should probably go into feedviewmodel where tapping on a post calls an API to get updated post information regarding a post
     func readPost(completion: @escaping (Result<Post, AuthenticationError>) -> Void) {
         print("DEBUG: postVM readPost \(post.id)")

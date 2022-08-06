@@ -38,7 +38,9 @@ struct PostView: View {
                 postVM.readPost() { result in
                     switch result {
                     case .success(let post):
-                        postVM.post = post
+                        DispatchQueue.main.async {
+                            postVM.post = post
+                        }
                     case .failure(let error):
                         print("DEBUG: PostView readPost failure \(error)")
                     }

@@ -22,7 +22,7 @@ struct NotificationsSheetView: View {
                             settingsSheetVM.showSettingsSheetView = true
                             settingsSheetVM.showNotificationsSheetView = false
                         } label: {
-                            BackButton()
+//                            BackButton()
                         }
                         Spacer()
                     }

@@ -40,7 +40,7 @@ struct ChooseLocationView: View {
                 Button {
                     presentationMode.wrappedValue.dismiss()
                 } label: {
-                    BackButton()
+//                    BackButton()
                 }
             }
             ToolbarItem(placement: .principal) {

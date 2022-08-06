@@ -14,9 +14,9 @@ enum FeedFilter: String, CaseIterable, Identifiable {
 }
 
 class FeedViewModel: ObservableObject {
+    @Published var isScrollingDown : Bool = false
     @Published var selectedFeedFilter : FeedFilter = .hot
     @Published var school = "Boston University"
-    @Published var newPost = false
     @Published var isShowingNewPostSheet = false
     @Published var topPostsInitalOpen : Bool = true
     @Published var hotPostsInitalOpen : Bool = true
