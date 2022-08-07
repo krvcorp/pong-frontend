@@ -140,7 +140,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 }
 ```
 
-It is still unclear at this point how to access notification metadata (`data` as mentioned in delivery section). It is important that this is acessible in order for `AppDelegate` to be able to direct the user to the proper resource upon a notification tap.
+It is still unclear at this point how to access notification metadata (`data` as mentioned in delivery section). It is important that this is acessible in order for `AppDelegate` to be able to direct the user to the proper resource upon a notification tap. Note that `AppDelegate` will handle notifications differently based on the app state (foreground, background, stopped).
 
 ### Settings
 
