@@ -45,6 +45,8 @@ message = messaging.Message(
         body='$GOOG gained 11.80 points to close at 835.67, up 1.43% on the day.',
     ),
     data={
+        'id': '62505215624257b417055bc4',
+        'timestamp': '2022-04-08T15:17:41.900560',
         'type': 'like',
         'url': 'https://pong.college/posts/DKJWDO3820NKKDHW2920EN',
     },
@@ -61,11 +63,13 @@ Note that `registration_token` is equivalent to the FCM token obtained from the 
 
 ```json
 {
+  "id": "62505215624257b417055bc4",
+  "timestamp": "2022-04-08T15:17:41.900560",
   "type": "like",
   "url": "https://pong.college/posts/DKJWDO3820NKKDHW2920EN",
 }
 ```
-The `type` field identifies the type of the notification to the client. Their primary purpose is to identify to the app which graphics should be displayed alongside each notification. Valid notification types are as follows:
+The `type` field identifies the type of the notification to the client. The primary purpose of `type` is to identify to the app which graphics should be displayed alongside each notification. Valid notification types are as follows:
 
 | Type | Description |
 | ---- | ----------- |
@@ -90,16 +94,134 @@ The `url` field identifies the resource to which the notification refers. Note t
 | `/stats` | Notification refers to a development on the stats tab. |
 | null | Notification does not refer to any resource. |
 
+### Reception
+
+*Note: This section is still a work in progress.*
+
+Refer to [receive messages in an Apple app](https://firebase.google.com/docs/cloud-messaging/ios/receive) and [handling notifications and notification-related actions](https://developer.apple.com/documentation/usernotifications/handling_notifications_and_notification-related_actions). TLDR:
+
+```swift
+@available(iOS 10, *)
+extension AppDelegate: UNUserNotificationCenterDelegate {
+  // Receive displayed notifications for iOS 10 devices.
+  func userNotificationCenter(_ center: UNUserNotificationCenter,
+                              willPresent notification: UNNotification,
+                              withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions)
+                                -> Void) {
+    let userInfo = notification.request.content.userInfo
+
+    // With swizzling disabled you must let Messaging know about the message, for Analytics
+    // Messaging.messaging().appDidReceiveMessage(userInfo)
+
+    // ...
+
+    // Print full message.
+    print(userInfo)
+
+    // Change this to your preferred presentation option
+    completionHandler([[.alert, .sound]])
+  }
+
+  func userNotificationCenter(_ center: UNUserNotificationCenter,
+                              didReceive response: UNNotificationResponse,
+                              withCompletionHandler completionHandler: @escaping () -> Void) {
+    let userInfo = response.notification.request.content.userInfo
+
+    // ...
+
+    // With swizzling disabled you must let Messaging know about the message, for Analytics
+    // Messaging.messaging().appDidReceiveMessage(userInfo)
+
+    // Print full message.
+    print(userInfo)
+
+    completionHandler()
+  }
+}
+```
+
+It is still unclear at this point how to access notification metadata (`data` as mentioned in delivery section). It is important that this is acessible in order for `AppDelegate` to be able to direct the user to the proper resource upon a notification tap.
+
 ### Settings
 
 In the app's settings, the user is able to toggle their notifications preferences. As such, the iOS app will send a `PATCH` request to `/api/notifications/settings`, with the following body schema:
 
 ```json
 {
-  "enabled": "false"
+  "enabled": false
 }
 ```
+A response of HTTP `200 OK` means that the notifications preferences were succesfully updated and the app does not need to re-fetch.
 
-### Testing
+### History
 
-In order to facilitate the testing of our notification system, the 
+Inside the app, the user should be able to view notification history. The app iOS will do this by sending a `GET` request to `/api/notifications/history` with an empty body. The request should return the notification history pursuant to the following schema:
+
+```json
+{
+  "history": [
+    {
+      "notification": {
+        "title": "$GOOG up 1.43% on the day",
+        "body": "$GOOG gained 11.80 points to close at 835.67, up 1.43% on the day.",
+      }
+      "data": {
+        "id": "62505215624257b417055bc4",
+        "timestamp": "2022-04-08T15:17:41.900560",
+        "type": "like",
+        "url": "https://pong.college/posts/DKJWDO3820NKKDHW2920EN",
+      }
+    },
+    {
+      "notification": {
+        "title": "Pong is the best app",
+        "body": "Download now",
+      }
+      "data": {
+        "id": "6250523a74227b9f561e5bb8",
+        "timestamp": "2022-07-11T15:36:00.442669",
+        "type": "generic",
+        "url": null,
+      }
+    }
+  ]
+}
+```
+Note that the schema of each "notification" in the history list reflects the schema of `messaging.Message` from the delivery section.
+
+### Simulation
+
+In order to facilitate the testing of our notification system, the API should provide a testing utility. Its implementation should provide for the following flags:
+
+| Flag and Argument | Description |
+| ---- | ----------- |
+| `-u 62cc403b99efc110a9a73a55` | Send an arbitrary notification to user with ID `62cc403b99efc110a9a73a55`. |
+| `-t upvote` | Send an arbitrary notification of type `upvote`. |
+| `-r https://pong.college/posts/DTF42069` | Send an arbitrary notification referencing resource `/posts/DTF42069`. |
+| `-n "Hello World"` | Send an arbitrary notification with title/name `Hello World`. |
+| `-b "Goodbye World"` | Send an arbitrary notification with body `Goodbye World`. |
+
+For example, the following command should send a notification to user `62cc403b99efc110a9a73a55` of type `generic` with a resource reference to `https://pong.college/`:
+
+```bash
+python3 notifsim.py -u 62cc403b99efc110a9a73a55 -t generic -r https://pong.college/
+```
+
+
+### Summary
+
+The notifications system can be split into six parts: Registration, Delivery, Reception, Settings, History, and Simulation. The relevant API routes are:
+
+```
+POST /api/notifications/register
+```
+
+```
+PATCH /api/notifications/settings
+```
+
+```
+GET /api/notifications/history
+```
+
+Notification reception is still a work in progress. It is still unclear how to access notification metadata (`data`). It is expected that research on this topic will become much easier once the rest of the notifications system is built.
