@@ -164,7 +164,7 @@ Inside the app, the user should be able to view notification history. The app iO
       "notification": {
         "title": "$GOOG up 1.43% on the day",
         "body": "$GOOG gained 11.80 points to close at 835.67, up 1.43% on the day.",
-      }
+      },
       "data": {
         "id": "62505215624257b417055bc4",
         "timestamp": "2022-04-08T15:17:41.900560",
@@ -176,7 +176,7 @@ Inside the app, the user should be able to view notification history. The app iO
       "notification": {
         "title": "Pong is the best app",
         "body": "Download now",
-      }
+      },
       "data": {
         "id": "6250523a74227b9f561e5bb8",
         "timestamp": "2022-07-11T15:36:00.442669",
