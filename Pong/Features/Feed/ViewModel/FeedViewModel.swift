@@ -11,10 +11,24 @@ import Alamofire
 enum FeedFilter: String, CaseIterable, Identifiable {
     case top, hot, recent
     var id: Self { self }
+    
+    var title: String {
+        switch self {
+        case .top: return "Top"
+        case .hot: return "Hot"
+        case .recent: return "Recent"
+        }
+    }
+}
+
+// MARK: Swipe Direction
+enum SwipeDirection{
+    case up
+    case down
+    case none
 }
 
 class FeedViewModel: ObservableObject {
-    @Published var isScrollingDown : Bool = false
     @Published var selectedFeedFilter : FeedFilter = .hot
     @Published var school = "Boston University"
     @Published var isShowingNewPostSheet = false
@@ -25,6 +39,39 @@ class FeedViewModel: ObservableObject {
     @Published var hotPosts : [Post] = []
     @Published var recentPosts : [Post] = []
     
+    // MARK: SwipeHiddenHeader
+    // MARK: View Properties
+    @Published var headerHeight: CGFloat = 0
+    @Published var headerOffset: CGFloat = 0
+    @Published var lastHeaderOffset: CGFloat = 0
+    @Published var headerDirection: SwipeDirection = .none
+    // MARK: Shift Offset Means The Value From Where It Shifted From Up/Down
+    @Published var headerShiftOffset: CGFloat = 0
+    
+    // MARK: DynamicTabIndicator
+    // MARK: View Properties
+    @Published var tabviewOffset: CGFloat = 0
+    @Published var tabviewIsTapped: Bool = false
+    
+    // MARK: Tab Offset
+    func tabOffset(size: CGSize,padding: CGFloat)->CGFloat{
+        return (-tabviewOffset / size.width) * ((size.width - padding) / CGFloat(FeedFilter.allCases.count))
+    }
+    
+    // MARK: Tab Index
+    func indexOf(tab: FeedFilter)->Int{
+        if tab == .top {
+            return 0
+        } else if tab == .hot {
+            return 1
+        } else if tab == .recent {
+            return 2
+        } else {
+            return 1
+        }
+    }
+    
+    // MARK: API SHIT
     func getPosts(selectedFeedFilter : FeedFilter) {
         if selectedFeedFilter == .top {
             self.topPostsInitalOpen = false

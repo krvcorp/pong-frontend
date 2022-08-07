@@ -213,3 +213,116 @@ extension UIScreen{
    static let screenHeight = UIScreen.main.bounds.size.height
    static let screenSize = UIScreen.main.bounds.size
 }
+
+
+// MARK: Custom View Extensions
+// Offset Extensions
+extension View{
+    @ViewBuilder
+    func offsetX(completion: @escaping (CGFloat)->())->some View{
+        self
+            .overlay {
+                GeometryReader{proxy in
+                    let minX = proxy.frame(in: .global).minX
+                    Color.clear
+                        .preference(key: OffsetKey.self, value: minX)
+                        .onPreferenceChange(OffsetKey.self) { value in
+                            completion(value)
+                        }
+                }
+            }
+    }
+
+    // MARK: Previou,Current Offset To Find the Direction Of Swipe
+    @ViewBuilder
+    func offsetY(completion: @escaping (CGFloat,CGFloat)->())->some View{
+        self
+            .modifier(OffsetHelper(onChange: completion))
+    }
+    
+    // MARK: Safe Area
+    func safeArea()->UIEdgeInsets{
+        guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene else{return .zero}
+        guard let safeArea = scene.windows.first?.safeAreaInsets else{return .zero}
+        return safeArea
+    }
+}
+
+// MARK: Offset Helper
+struct OffsetHelper: ViewModifier{
+    var onChange: (CGFloat,CGFloat)->()
+    @State var currentOffset: CGFloat = 0
+    @State var previousOffset: CGFloat = 0
+    
+    func body(content: Content) -> some View {
+        content
+            .overlay {
+                GeometryReader{proxy in
+                    let minY = proxy.frame(in: .named("SCROLL")).minY
+                    Color.clear
+                        .preference(key: OffsetKey.self, value: minY)
+                        .onPreferenceChange(OffsetKey.self) { value in
+                            previousOffset = currentOffset
+                            currentOffset = value
+                            onChange(previousOffset,currentOffset)
+                        }
+                }
+            }
+    }
+}
+
+// MARK: Offset Key
+struct OffsetKey: PreferenceKey{
+    static var defaultValue: CGFloat = 0
+    
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = nextValue()
+    }
+}
+
+// MARK: Bounds Preference Key For Identiying Height of The Header View
+struct HeaderBoundsKey: PreferenceKey{
+    static var defaultValue: Anchor<CGRect>?
+    
+    static func reduce(value: inout Anchor<CGRect>?, nextValue: () -> Anchor<CGRect>?) {
+        value = nextValue()
+    }
+}
+
+// MARK: Universal Interaction Manager
+class InteractionManager: NSObject,ObservableObject,UIGestureRecognizerDelegate{
+    @Published var isInteracting: Bool = false
+    @Published var isGestureAdded: Bool = false
+    
+    func addGesture(){
+        if !isGestureAdded{
+            let gesture = UIPanGestureRecognizer(target: self, action: #selector(onChange(gesture: )))
+            gesture.name = "UNIVERSAL"
+            gesture.delegate = self
+            guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else{return}
+            guard let window = windowScene.windows.last?.rootViewController else{return}
+            window.view.addGestureRecognizer(gesture)
+            isGestureAdded = true
+        }
+    }
+    
+    // MARK: Removing Gesture
+    func removeGesture(){
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else{return}
+        guard let window = windowScene.windows.last?.rootViewController else{return}
+        
+        window.view.gestureRecognizers?.removeAll(where: { gesture in
+            return gesture.name == "UNIVERSAL"
+        })
+        isGestureAdded = false
+    }
+    
+    @objc
+    func onChange(gesture: UIPanGestureRecognizer){
+        isInteracting = (gesture.state == .changed)
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+}
