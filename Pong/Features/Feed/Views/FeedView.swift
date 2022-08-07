@@ -123,7 +123,7 @@ struct FeedView: View {
                         let offset = current < 0 ? (current - feedVM.headerShiftOffset) : 0
                         // MARK: Checking If It Does Not Goes Over Over Header Height
                         feedVM.headerOffset = (-offset < feedVM.headerHeight ? (offset < 0 ? offset : 0) : -feedVM.headerHeight)
-                    }else{
+                    } else {
                         // MARK: Down
                         if feedVM.headerDirection != .down{
                             feedVM.headerShiftOffset = current
@@ -144,6 +144,14 @@ struct FeedView: View {
                 // To Keep Track of Total Offset
                 // Here is a Trick, Simply Multiply Offset With (Width Of the Tab View * Current Index)
                 feedVM.tabviewOffset = value - (screenSize.width * CGFloat(feedVM.indexOf(tab: tab)))
+
+                // MARK: Switching tabs will bring down header view
+                withAnimation {
+                    feedVM.headerOffset = 0
+                    feedVM.headerShiftOffset = 0
+                    feedVM.lastHeaderOffset = 0
+                    feedVM.headerDirection = .none
+                }
             }
 
             if value == 0 && feedVM.tabviewIsTapped{
