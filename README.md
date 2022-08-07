@@ -197,14 +197,14 @@ In order to facilitate the testing of our notification system, the API should pr
 | ---- | ----------- |
 | `-u 62cc403b99efc110a9a73a55` | Send an arbitrary notification to user with ID `62cc403b99efc110a9a73a55`. |
 | `-t upvote` | Send an arbitrary notification of type `upvote`. |
-| `-r https://pong.college/posts/DTF` | Send an arbitrary notification referencing resource `/posts/DTF`. |
+| `-r /posts/DTF42069` | Send an arbitrary notification referencing resource `/posts/DTF42069`. |
 | `-n "Hello World"` | Send an arbitrary notification with title/name `Hello World`. |
 | `-b "Goodbye World"` | Send an arbitrary notification with body `Goodbye World`. |
 
 For example, the following command should send a notification to user `62cc403b99efc110a9a73a55` of type `generic` with a resource reference to `https://pong.college/`:
 
 ```bash
-python3 notifsim.py -u 62cc403b99efc110a9a73a55 -t generic -r https://pong.college/
+python3 notifsim.py -u 62cc403b99efc110a9a73a55 -t generic -r /
 ```
 
 
