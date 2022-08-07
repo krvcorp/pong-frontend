@@ -104,22 +104,6 @@ struct ProfileView: View {
         }
         .accentColor(Color(UIColor.label))
         .navigationViewStyle(StackNavigationViewStyle())
-//        VStack(spacing: 0) {
-//            karmaInfo
-//                .background(Color(UIColor.tertiarySystemBackground))
-//                .padding(.horizontal, 30)
-//                .padding(.top, 20)
-//
-//            profileFilterBar
-//                .background(Color(UIColor.tertiarySystemBackground))
-//                .padding(.top)
-//
-//            profileFilteredItems
-//                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-//                .ignoresSafeArea(.all, edges: .bottom)
-//        }
-//        .onAppear(perform: profileVM.getLoggedInUserInfo)
-//        .background(Color(UIColor.tertiarySystemBackground))
     }
     
     var profileFilterBar: some View {

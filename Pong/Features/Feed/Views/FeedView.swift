@@ -41,9 +41,9 @@ struct FeedView: View {
                     }
                 }
                 // MARK: Hide navbar
-                .navigationBarTitle("")
+                .navigationBarTitle("\(feedVM.school)")
                 .navigationBarHidden(true)
-                
+
                 // MARK: Building Custom Header With Dynamic Tabs
                 .background(Color(UIColor.systemGroupedBackground))
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
@@ -70,9 +70,8 @@ struct FeedView: View {
                 }
                 .ignoresSafeArea(.all, edges: .top)
             }
-
         }
-        
+        .accentColor(Color(UIColor.label))
         // MARK: Delete popup
         .sheet(isPresented: $postSettingsVM.showDeleteConfirmationView) {
             DeleteConfirmationView(postSettingsVM: postSettingsVM)
@@ -163,9 +162,11 @@ struct FeedView: View {
     @ViewBuilder
     func HeaderView(size: CGSize)->some View{
         VStack {
+            // MARK: Former Navbar Components 
             HStack {
                 VStack {
-                    Text("Boston University").font(.title).bold()
+                    Text("Boston University")
+                        .font(.title).bold()
                 }
                 
                 Spacer()
@@ -176,12 +177,12 @@ struct FeedView: View {
                     Image(systemName: "message")
                 }
             }
-            .padding(.horizontal)
+            .padding()
             
             // MARK: Picker Component
             DynamicTabHeader(size: size)
         }
-        .background()
+        .background(Color(UIColor.systemGroupedBackground))
         .padding(.top, safeArea().top)
         .padding(.bottom, 20)
     }
