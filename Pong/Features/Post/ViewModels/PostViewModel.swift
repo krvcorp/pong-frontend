@@ -56,28 +56,25 @@ class PostViewModel: ObservableObject {
             decoder.keyDecodingStrategy = .convertFromSnakeCase
             
             // THIS IS REAL CODE UNCOMMENT WHEN JSON RESPONSE IS FIXED
-//            guard let postVoteResponse = try? decoder.decode(PostVoteResponseBody.self, from: data) else {
-//                completion(.failure(.decodeError))
-//                return
-//            }
-//
-//            if let responseDataContent = postVoteResponse.voteStatus {
-//                print("DEBUG: postBubbleVM.postVote postVoteResponse.voteStatus is \(responseDataContent)")
-//                completion(.success(postVoteResponse))
-//                return
-//            }
-//
-//            if let responseDataContent = postVoteResponse.error {
-//                print("DEBUG: postBubbleVM.postVote postVoteResponse.error is \(responseDataContent)")
-//                completion(.success(postVoteResponse))
-//                return
-//            }
+            guard let postVoteResponse = try? decoder.decode(PostVoteResponseBody.self, from: data!) else {
+                completion(.failure(.decodeError))
+                return
+            }
+
+            if let responseDataContent = postVoteResponse.voteStatus {
+                print("DEBUG: postBubbleVM.postVote postVoteResponse.voteStatus is \(responseDataContent)")
+                completion(.success(postVoteResponse))
+                return
+            }
+
+            if let responseDataContent = postVoteResponse.error {
+                print("DEBUG: postBubbleVM.postVote postVoteResponse.error is \(responseDataContent)")
+                completion(.success(postVoteResponse))
+                return
+            }
   
             // THIS IS DUMMY COMMENT WHEN JSON IS FIXED
-            print("DEBUG: DECODE FAILED DUMMY RETURN")
-            
-            completion(.success(PostVoteResponseBody(voteStatus: voteToSend, error: nil)))
-//            completion(.failure(.custom(errorMessage: "Nothing")))
+            completion(.failure(.custom(errorMessage: "Nothing")))
             
         }.resume()
     }

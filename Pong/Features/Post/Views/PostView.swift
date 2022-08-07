@@ -74,16 +74,19 @@ struct PostView: View {
             .background(Color(UIColor.systemBackground))
         }
         .onAppear(perform: {
+            
             postVM.readPost { result in
                 switch result {
                 case .success(let post):
                     DispatchQueue.main.async {
                         postVM.post = post
+                        print("DEBUG: \(postVM.post.voteStatus)")
                     }
                 case .failure(let error):
                     print("DEBUG: postVM.readpost error \(error)")
                 }
             }
+            
             postVM.getComments()
         })
         .navigationBarTitleDisplayMode(.inline)
