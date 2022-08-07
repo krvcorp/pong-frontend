@@ -83,7 +83,7 @@ Note again that this is not an exhaustive list of possible notifications, but ra
 
 The `url` field identifies the resource to which the notification refers. Note that in the chart below, domains and protocols are omitted. However, the entire URL should be delivered to the client, as in the example above. Valid notification urls are as follows:
 
-| URL | Description |
+| URL Suffix | Description |
 | ---- | ----------- |
 | `/posts/{POST_ID}` | Notification refers to a post context. This could be a new upvote, comment, etc. |
 | `/messages/{THREAD_ID}` | Notification refers to a message thread with another user. |
