@@ -197,7 +197,7 @@ In order to facilitate the testing of our notification system, the API should pr
 | ---- | ----------- |
 | `-u 62cc403b99efc110a9a73a55` | Send an arbitrary notification to user with ID `62cc403b99efc110a9a73a55`. |
 | `-t upvote` | Send an arbitrary notification of type `upvote`. |
-| `-r https://pong.college/posts/DTF42069` | Send an arbitrary notification referencing resource `/posts/DTF42069`. |
+| `-r https://pong.college/posts/DTF69` | Send an arbitrary notification referencing resource `/posts/DTF69`. |
 | `-n "Hello World"` | Send an arbitrary notification with title/name `Hello World`. |
 | `-b "Goodbye World"` | Send an arbitrary notification with body `Goodbye World`. |
 
