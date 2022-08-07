@@ -140,17 +140,19 @@ struct FeedView: View {
         .ignoresSafeArea()
         .offsetX { value in
             // MARK: Calculating Offset With The Help Of Currently Active Tab
-            if feedVM.selectedFeedFilter == tab && !feedVM.tabviewIsTapped{
+            if feedVM.selectedFeedFilter == tab && !feedVM.tabviewIsTapped {
                 // To Keep Track of Total Offset
                 // Here is a Trick, Simply Multiply Offset With (Width Of the Tab View * Current Index)
                 feedVM.tabviewOffset = value - (screenSize.width * CGFloat(feedVM.indexOf(tab: tab)))
 
                 // MARK: Switching tabs will bring down header view
-                withAnimation {
-                    feedVM.headerOffset = 0
-                    feedVM.headerShiftOffset = 0
-                    feedVM.lastHeaderOffset = 0
-                    feedVM.headerDirection = .none
+                if gestureManager.isInteracting {
+                    withAnimation {
+                        feedVM.headerOffset = 0
+                        feedVM.headerShiftOffset = 0
+                        feedVM.lastHeaderOffset = 0
+                        feedVM.headerDirection = .none
+                    }
                 }
             }
 
