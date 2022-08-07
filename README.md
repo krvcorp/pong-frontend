@@ -195,7 +195,7 @@ In order to facilitate the testing of our notification system, the API should pr
 
 | Flag and Argument | Description |
 | ---- | ----------- |
-| `-u 62cc403b99efc110a9a73a55` | Send an arbitrary notification to user with ID `62cc403b99efc110a9a73a55`. |
+| `-u 62cc403b99ef` | Send an arbitrary notification to user with ID `62cc403b99ef`. |
 | `-t upvote` | Send an arbitrary notification of type `upvote`. |
 | `-r /posts/DTF42069` | Send an arbitrary notification referencing resource `/posts/DTF42069`. |
 | `-n "Hello World"` | Send an arbitrary notification with title/name `Hello World`. |
