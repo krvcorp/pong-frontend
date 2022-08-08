@@ -10,11 +10,7 @@ import Foundation
 class PostBubbleViewModel: ObservableObject {
     @Published var post : Post = defaultPost
     
-    init(post: Post) {
-        self.post = post
-    }
-    
-    func postVote(direction: Int, completion: @escaping (Result<PostVoteModel.Response, AuthenticationError>) -> Void) {
+    func postVote(direction: Int) -> Void {
         guard let token = DAKeychain.shared["token"] else { return }
         guard let url = URL(string: "\(API().root)postvote/") else { return }
         
@@ -37,7 +33,7 @@ class PostBubbleViewModel: ObservableObject {
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             guard let _ = data, error == nil else {
-                completion(.failure(.noData))
+                print("DEBUG: postBubbleVM.postVote no data")
                 return
             }
             
@@ -45,22 +41,22 @@ class PostBubbleViewModel: ObservableObject {
             decoder.keyDecodingStrategy = .convertFromSnakeCase
         
             guard let postVoteResponse = try? decoder.decode(PostVoteModel.Response.self, from: data!) else {
-                completion(.failure(.decodeError))
+                print("DEBUG: postBubble.postVote Decode Error")
                 return
             }
 
             if let responseDataContent = postVoteResponse.voteStatus {
                 print("DEBUG: postBubbleVM.postVote postVoteResponse.voteStatus is \(responseDataContent)")
-                completion(.success(postVoteResponse))
+                DispatchQueue.main.async {
+                    self.post.voteStatus = responseDataContent
+                }
                 return
             }
 
             if let responseDataContent = postVoteResponse.error {
                 print("DEBUG: postBubbleVM.postVote postVoteResponse.error is \(responseDataContent)")
-                completion(.success(postVoteResponse))
                 return
             }
-            completion(.failure(.custom(errorMessage: "Nothing")))
             
         }.resume()
     }

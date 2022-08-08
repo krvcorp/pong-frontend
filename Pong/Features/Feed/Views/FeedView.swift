@@ -15,11 +15,6 @@ struct FeedView: View {
     // MARK: ViewModels
     @StateObject var feedVM = FeedViewModel()
     @ObservedObject var postSettingsVM: PostSettingsViewModel
-
-    // MARK: init
-    init(postSettingsVM: PostSettingsViewModel) {
-        self.postSettingsVM = postSettingsVM
-    }
     
     var body: some View {
         NavigationView {
@@ -85,25 +80,25 @@ struct FeedView: View {
             ScrollView(showsIndicators: false) {
                 LazyVStack {
                     if tab == .top {
-                        ForEach(feedVM.topPosts, id: \.self) { post in
-                            NavigationLink(destination: PostView(post: post)) {
-                                PostBubble(post: post, postSettingsVM: postSettingsVM)
+                        ForEach($feedVM.topPosts, id: \.self) { $post in
+                            NavigationLink(destination: PostView(post: $post)) {
+                                PostBubble(post: $post, postSettingsVM: postSettingsVM)
                             }
                             .buttonStyle(PlainButtonStyle())
                         }
                     }
                     else if tab == .hot {
-                        ForEach(feedVM.hotPosts, id: \.self) { post in
-                            NavigationLink(destination: PostView(post: post)) {
-                                PostBubble(post: post, postSettingsVM: postSettingsVM)
+                        ForEach($feedVM.hotPosts, id: \.self) { $post in
+                            NavigationLink(destination: PostView(post: $post)) {
+                                PostBubble(post: $post, postSettingsVM: postSettingsVM)
                             }
                             .buttonStyle(PlainButtonStyle())
                         }
                     }
                     else if tab == .recent {
-                        ForEach(feedVM.recentPosts, id: \.self) { post in
-                            NavigationLink(destination: PostView(post: post)) {
-                                PostBubble(post: post, postSettingsVM: postSettingsVM)
+                        ForEach($feedVM.recentPosts, id: \.self) { $post in
+                            NavigationLink(destination: PostView(post: $post)) {
+                                PostBubble(post: $post, postSettingsVM: postSettingsVM)
                             }
                             .buttonStyle(PlainButtonStyle())
                         }

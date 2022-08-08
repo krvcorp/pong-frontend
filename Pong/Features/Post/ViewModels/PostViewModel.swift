@@ -12,10 +12,6 @@ class PostViewModel: ObservableObject {
     @Published var comments : [Comment] = []
     @Published var showDeleteConfirmationView : Bool = false
     
-    init(post : Post) {
-        self.post = post
-    }
-    
     func postVote(direction: Int, completion: @escaping (Result<PostVoteModel.Response, AuthenticationError>) -> Void) {
         guard let token = DAKeychain.shared["token"] else { return } // Fetch
         

@@ -1,16 +1,13 @@
 import SwiftUI
 
 struct PostBubble: View {
-    @ObservedObject var postBubbleVM : PostBubbleViewModel
+    @Binding var post : Post
+    @StateObject var postBubbleVM = PostBubbleViewModel()
     @ObservedObject var postSettingsVM : PostSettingsViewModel
     
+    // MARK: Some local view logic
     @State private var showScore = false
-    @State var sheet = false
-    
-    init(post: Post, postSettingsVM: PostSettingsViewModel) {
-        self.postBubbleVM = PostBubbleViewModel(post: post)
-        self.postSettingsVM = postSettingsVM
-    }
+    @State private var sheet = false
     
     var body: some View {
         VStack {
@@ -98,6 +95,12 @@ struct PostBubble: View {
         .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color(UIColor.tertiarySystemBackground), lineWidth: 5))
         .background(Color(UIColor.tertiarySystemBackground)) // If you have this
         .cornerRadius(10)         // You also need the cornerRadius here
+        .onAppear {
+            postBubbleVM.post = self.post
+        }
+        .onChange(of: postBubbleVM.post) {
+            self.post = $0
+        }
     }
     
     var VoteComponent: some View {
@@ -106,20 +109,7 @@ struct PostBubble: View {
                 // if not upvoted or downvoted
                 if postBubbleVM.post.voteStatus == 0 {
                     Button {
-                        postBubbleVM.postVote(direction: 1) { result in
-                            switch result {
-                            case .success(let postResponseBody):
-                                if let voteStatus = postResponseBody.voteStatus {
-                                    DispatchQueue.main.async {
-                                        postBubbleVM.post.voteStatus = voteStatus
-                                    }
-                                } else if let error = postResponseBody.error {
-                                    print("DEBUG: \(error)")
-                                }
-                            case .failure(let error):
-                                print("DEBUG: postBubbleVM.postVote error: \(error)")
-                            }
-                        }
+                        postBubbleVM.postVote(direction: 1)
                     } label: {
                         Image(systemName: "arrow.up")
                     }
@@ -135,40 +125,14 @@ struct PostBubble: View {
                     }
                     
                     Button {
-                        postBubbleVM.postVote(direction: -1) { result in
-                            switch result {
-                            case .success(let postResponseBody):
-                                if let voteStatus = postResponseBody.voteStatus {
-                                    DispatchQueue.main.async {
-                                        postBubbleVM.post.voteStatus = voteStatus
-                                    }
-                                } else if let error = postResponseBody.error {
-                                    print("DEBUG: \(error)")
-                                }
-                            case .failure(let error):
-                                print("DEBUG: postBubbleVM.postVote error: \(error)")
-                            }
-                        }
+                        postBubbleVM.postVote(direction: -1)
                     } label: {
                         Image(systemName: "arrow.down")
                     }
                 } else if postBubbleVM.post.voteStatus == 1 {
                     // if upvoted
                     Button {
-                        postBubbleVM.postVote(direction: 1) { result in
-                            switch result {
-                            case .success(let postResponseBody):
-                                if let voteStatus = postResponseBody.voteStatus {
-                                    DispatchQueue.main.async {
-                                        postBubbleVM.post.voteStatus = voteStatus
-                                    }
-                                } else if let error = postResponseBody.error {
-                                    print("DEBUG: \(error)")
-                                }
-                            case .failure(let error):
-                                print("DEBUG: postBubbleVM.postVote error: \(error)")
-                            }
-                        }
+                        postBubbleVM.postVote(direction: 1)
                     } label: {
                         Image(systemName: "arrow.up")
                             .foregroundColor(.yellow)
@@ -185,20 +149,7 @@ struct PostBubble: View {
                     }
                     
                     Button {
-                        postBubbleVM.postVote(direction: -1) { result in
-                            switch result {
-                            case .success(let postResponseBody):
-                                if let voteStatus = postResponseBody.voteStatus {
-                                    DispatchQueue.main.async {
-                                        postBubbleVM.post.voteStatus = voteStatus
-                                    }
-                                } else if let error = postResponseBody.error {
-                                    print("DEBUG: \(error)")
-                                }
-                            case .failure(let error):
-                                print("DEBUG: postBubbleVM.postVote error: \(error)")
-                            }
-                        }
+                        postBubbleVM.postVote(direction: -1)
                     } label: {
                         Image(systemName: "arrow.down")
                     }
@@ -207,20 +158,7 @@ struct PostBubble: View {
                 else if postBubbleVM.post.voteStatus == -1 {
                     // upvote
                     Button {
-                        postBubbleVM.postVote(direction: 1) { result in
-                            switch result {
-                            case .success(let postResponseBody):
-                                if let voteStatus = postResponseBody.voteStatus {
-                                    DispatchQueue.main.async {
-                                        postBubbleVM.post.voteStatus = voteStatus
-                                    }
-                                } else if let error = postResponseBody.error {
-                                    print("DEBUG: \(error)")
-                                }
-                            case .failure(let error):
-                                print("DEBUG: postBubbleVM.postVote error: \(error)")
-                            }
-                        }
+                        postBubbleVM.postVote(direction: 1)
                     } label: {
                         Image(systemName: "arrow.up")
                     }
@@ -237,20 +175,7 @@ struct PostBubble: View {
                     
                     // downvote
                     Button {
-                        postBubbleVM.postVote(direction: -1) { result in
-                            switch result {
-                            case .success(let postResponseBody):
-                                if let voteStatus = postResponseBody.voteStatus {
-                                    DispatchQueue.main.async {
-                                        postBubbleVM.post.voteStatus = voteStatus
-                                    }
-                                } else if let error = postResponseBody.error {
-                                    print("DEBUG: \(error)")
-                                }
-                            case .failure(let error):
-                                print("DEBUG: postBubbleVM.postVote error: \(error)")
-                            }
-                        }
+                        postBubbleVM.postVote(direction: -1)
                     } label: {
                         Image(systemName: "arrow.down")
                             .foregroundColor(.yellow)

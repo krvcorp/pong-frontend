@@ -9,15 +9,12 @@ import SwiftUI
 
 struct PostView: View {
     @Environment(\.presentationMode) var presentationMode
-    @ObservedObject var postVM : PostViewModel
+    @Binding var post : Post
+    @StateObject var postVM = PostViewModel()
     
     @State private var comment = ""
     @State var sheet = false
     @State private var showScore = false
-    
-    init(post: Post) {
-        self.postVM = PostViewModel(post: post)
-    }
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -73,22 +70,30 @@ struct PostView: View {
             .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color(UIColor.systemBackground), lineWidth: 2))
             .background(Color(UIColor.systemBackground))
         }
-        .onAppear(perform: {
+        .onAppear {
+            // take binding and insert into VM
+            postVM.post = self.post
             
+            // api call to refresh local data
             postVM.readPost { result in
                 switch result {
                 case .success(let post):
                     DispatchQueue.main.async {
                         postVM.post = post
-                        print("DEBUG: \(postVM.post.voteStatus)")
                     }
                 case .failure(let error):
                     print("DEBUG: postVM.readpost error \(error)")
                 }
             }
             
+            // api call to fetch comments to display
             postVM.getComments()
-        })
+        }
+        .onDisappear() {
+            // prevent feedview from rebuilding but to update data
+            print("DEBUG: PostView Disapear!")
+            self.post = postVM.post
+        }
         .navigationBarTitleDisplayMode(.inline)
         .alert(isPresented: $postVM.showDeleteConfirmationView) {
             Alert(
@@ -340,12 +345,12 @@ struct PostView: View {
                 }
             }
         }
-        .frame(width: 15, height: 50)
+        .frame(width: 25, height: 50)
     }
 }
 
 struct PostView_Previews: PreviewProvider {
     static var previews: some View {
-        PostView(post: defaultPost)
+        PostView(post: .constant(defaultPost))
     }
 }

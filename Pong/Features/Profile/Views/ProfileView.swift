@@ -17,13 +17,13 @@ struct ProfileView: View {
         NavigationView {
             List {
                 if profileVM.selectedProfileFilter == .posts {
-                    ForEach(profileVM.posts) { post in
+                    ForEach($profileVM.posts) { $post in
                         Section {
                             HStack(spacing: 0) {
-                                PostBubble(post: post, postSettingsVM: postSettingsVM)
+                                PostBubble(post: $post, postSettingsVM: postSettingsVM)
                                     .buttonStyle(.borderless)
                                 
-                                NavigationLink(destination: PostView(post: post)) {
+                                NavigationLink(destination: PostView(post: $post)) {
                                     EmptyView()
                                 }
                                 .frame(width: 0)
@@ -34,13 +34,13 @@ struct ProfileView: View {
                     }
                 }
                 else if profileVM.selectedProfileFilter == .saved {
-                    ForEach(profileVM.savedPosts) { post in
+                    ForEach($profileVM.savedPosts) { $post in
                         Section {
                             HStack(spacing: 0) {
-                                PostBubble(post: post, postSettingsVM: postSettingsVM)
+                                PostBubble(post: $post, postSettingsVM: postSettingsVM)
                                     .buttonStyle(.borderless)
                                 
-                                NavigationLink(destination: PostView(post: post)) {
+                                NavigationLink(destination: PostView(post: $post)) {
                                     EmptyView()
                                 }
                                 .frame(width: 0)
