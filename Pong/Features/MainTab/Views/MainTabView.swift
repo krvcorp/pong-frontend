@@ -45,6 +45,7 @@ struct MainTabView: View {
                 }
                 .tag(5)
         }
+        .statusBar(hidden: true)
         .alert(isPresented: $postSettingsVM.showDeleteConfirmationView) {
             Alert(
                 title: Text("Delete post"),
