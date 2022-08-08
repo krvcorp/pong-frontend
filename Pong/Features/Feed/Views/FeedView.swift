@@ -82,7 +82,7 @@ struct FeedView: View {
     @ViewBuilder
     func customFeedStack(filter: FeedFilter, screenSize : CGSize, tab : FeedFilter)-> some View {
         GeometryReader { proxy in
-            ScrollView {
+            ScrollView(showsIndicators: false) {
                 LazyVStack {
                     if tab == .top {
                         ForEach(feedVM.topPosts, id: \.self) { post in
