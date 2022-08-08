@@ -29,14 +29,14 @@ import Alamofire
         encoder.keyEncodingStrategy = .convertToSnakeCase
         let parameterEncoder = JSONParameterEncoder(encoder: encoder)
         
-        let parameters: VerifyEmailRequestBody = VerifyEmailRequestBody(idToken: idToken)
+        let parameters = VerifyEmailModel.Request(idToken: idToken)
         
         let method = HTTPMethod.post
         let headers: HTTPHeaders = [
             "Content-Type": "application/json"
         ]
         
-        AF.request("\(API().root)login/", method: method, parameters: parameters, encoder: parameterEncoder, headers: headers).responseDecodable(of: VerifyEmailResponseBody.self) { response in
+        AF.request("\(API().root)login/", method: method, parameters: parameters, encoder: parameterEncoder, headers: headers).responseDecodable(of: VerifyEmailModel.Response.self) { response in
             print("DEBUG: loginVM verifyEmail response: \(response)")
             switch response.result {
             case .success(let successResponse):
@@ -47,15 +47,10 @@ import Alamofire
                         DAKeychain.shared["token"] = token
                         self.forceUpdate = true
                     }
-                    if let userId = successResponse.userId {
-                        print("DEBUG: userId \(userId)")
-                        DAKeychain.shared["userId"] = userId
+                    if let user = successResponse.user {
+                        print("DEBUG: userId \(String(describing: user.id))")
+                        DAKeychain.shared["userId"] = user.id
                     }
-                    // resets phoneLoginVM and authenticates user
-//                    phoneLoginVM.phone = ""
-//                    phoneLoginVM.phoneIsProvided = false
-//                    phoneLoginVM.phoneIsVerified = false
-//                    phoneLoginVM.code = ""
                 }
             case .failure(let failureResponse):
                 print("DEBUG: loginVM verifyEmail failureResponse: \(failureResponse)")
@@ -92,6 +87,8 @@ import Alamofire
             }
         }
     }
+    
+    
     // MARK: old login function where phone existed
 //    func verifyEmail(idToken: String, phoneLoginVM: PhoneLoginViewModel) {
 //        let encoder = JSONEncoder()

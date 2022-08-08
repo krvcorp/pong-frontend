@@ -74,21 +74,17 @@
 		6A449C982896F4330015826A /* TotalScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C1C2896F4320015826A /* TotalScore.swift */; };
 		6A449C992896F4330015826A /* Votes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C1D2896F4320015826A /* Votes.swift */; };
 		6A449C9A2896F4330015826A /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C1E2896F4320015826A /* Comment.swift */; };
-		6A449C9B2896F4330015826A /* VerifyEmailRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C1F2896F4320015826A /* VerifyEmailRequestBody.swift */; };
 		6A449C9C2896F4330015826A /* DeleteCommentRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C202896F4320015826A /* DeleteCommentRequestBody.swift */; };
 		6A449C9D2896F4330015826A /* PostReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C212896F4320015826A /* PostReport.swift */; };
 		6A449C9E2896F4330015826A /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C222896F4320015826A /* Message.swift */; };
 		6A449C9F2896F4330015826A /* OTPStartResponseBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C232896F4320015826A /* OTPStartResponseBody.swift */; };
 		6A449CA02896F4330015826A /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C242896F4320015826A /* User.swift */; };
-		6A449CA12896F4330015826A /* PostVoteRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C252896F4320015826A /* PostVoteRequestBody.swift */; };
-		6A449CA22896F4330015826A /* PostVoteResponseBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C262896F4320015826A /* PostVoteResponseBody.swift */; };
 		6A449CA32896F4330015826A /* CommentVoteRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C272896F4320015826A /* CommentVoteRequestBody.swift */; };
 		6A449CA42896F4330015826A /* ReadPostRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C282896F4320015826A /* ReadPostRequestBody.swift */; };
 		6A449CA52896F4330015826A /* CreatePostReportRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C292896F4320015826A /* CreatePostReportRequestBody.swift */; };
 		6A449CA62896F4330015826A /* OTPVerifyRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C2A2896F4320015826A /* OTPVerifyRequestBody.swift */; };
 		6A449CA72896F4330015826A /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C2B2896F4320015826A /* Post.swift */; };
 		6A449CA82896F4330015826A /* CreateCommentRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C2C2896F4320015826A /* CreateCommentRequestBody.swift */; };
-		6A449CA92896F4330015826A /* VerifyEmailResponseBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C2D2896F4320015826A /* VerifyEmailResponseBody.swift */; };
 		6A449CAA2896F4330015826A /* LoggedInInfoResponseBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C2E2896F4320015826A /* LoggedInInfoResponseBody.swift */; };
 		6A449CAB2896F4330015826A /* OTPVerifyResponseBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C2F2896F4320015826A /* OTPVerifyResponseBody.swift */; };
 		6A449CAC2896F4330015826A /* OTPStartRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C302896F4320015826A /* OTPStartRequestBody.swift */; };
@@ -105,7 +101,6 @@
 		6A449CB72896F4330015826A /* MessageField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C432896F4320015826A /* MessageField.swift */; };
 		6A449CB82896F4330015826A /* MessageBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C442896F4320015826A /* MessageBubble.swift */; };
 		6A449CB92896F4330015826A /* MessageBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C452896F4320015826A /* MessageBlock.swift */; };
-		6A449CBA2896F4330015826A /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C462896F4320015826A /* Keychain.swift */; };
 		6A449CBB2896F4330015826A /* ProfileCommentBubbleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C492896F4320015826A /* ProfileCommentBubbleViewModel.swift */; };
 		6A449CBC2896F4330015826A /* ProfileCommentBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C4B2896F4320015826A /* ProfileCommentBubble.swift */; };
 		6A449CBE2896F4330015826A /* PostBubbleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C4F2896F4320015826A /* PostBubbleViewModel.swift */; };
@@ -130,6 +125,9 @@
 		6A78FA4F289CD31A00B75CC6 /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A78FA4E289CD31A00B75CC6 /* NotificationsView.swift */; };
 		6A78FA53289CDACF00B75CC6 /* MainTabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A78FA52289CDACF00B75CC6 /* MainTabViewModel.swift */; };
 		6A78FA55289CE38200B75CC6 /* NotificationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A78FA54289CE38200B75CC6 /* NotificationsViewModel.swift */; };
+		6A78FA5728A19A0D00B75CC6 /* VerifyEmailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A78FA5628A19A0D00B75CC6 /* VerifyEmailModel.swift */; };
+		6A78FA5928A1A65E00B75CC6 /* PostVoteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A78FA5828A1A65E00B75CC6 /* PostVoteModel.swift */; };
+		6A78FA5C28A1A82C00B75CC6 /* DAKeychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A78FA5B28A1A82C00B75CC6 /* DAKeychain.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -195,21 +193,17 @@
 		6A449C1C2896F4320015826A /* TotalScore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TotalScore.swift; sourceTree = "<group>"; };
 		6A449C1D2896F4320015826A /* Votes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Votes.swift; sourceTree = "<group>"; };
 		6A449C1E2896F4320015826A /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
-		6A449C1F2896F4320015826A /* VerifyEmailRequestBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifyEmailRequestBody.swift; sourceTree = "<group>"; };
 		6A449C202896F4320015826A /* DeleteCommentRequestBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeleteCommentRequestBody.swift; sourceTree = "<group>"; };
 		6A449C212896F4320015826A /* PostReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostReport.swift; sourceTree = "<group>"; };
 		6A449C222896F4320015826A /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		6A449C232896F4320015826A /* OTPStartResponseBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPStartResponseBody.swift; sourceTree = "<group>"; };
 		6A449C242896F4320015826A /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		6A449C252896F4320015826A /* PostVoteRequestBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostVoteRequestBody.swift; sourceTree = "<group>"; };
-		6A449C262896F4320015826A /* PostVoteResponseBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostVoteResponseBody.swift; sourceTree = "<group>"; };
 		6A449C272896F4320015826A /* CommentVoteRequestBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentVoteRequestBody.swift; sourceTree = "<group>"; };
 		6A449C282896F4320015826A /* ReadPostRequestBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadPostRequestBody.swift; sourceTree = "<group>"; };
 		6A449C292896F4320015826A /* CreatePostReportRequestBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreatePostReportRequestBody.swift; sourceTree = "<group>"; };
 		6A449C2A2896F4320015826A /* OTPVerifyRequestBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPVerifyRequestBody.swift; sourceTree = "<group>"; };
 		6A449C2B2896F4320015826A /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		6A449C2C2896F4320015826A /* CreateCommentRequestBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateCommentRequestBody.swift; sourceTree = "<group>"; };
-		6A449C2D2896F4320015826A /* VerifyEmailResponseBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifyEmailResponseBody.swift; sourceTree = "<group>"; };
 		6A449C2E2896F4320015826A /* LoggedInInfoResponseBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggedInInfoResponseBody.swift; sourceTree = "<group>"; };
 		6A449C2F2896F4320015826A /* OTPVerifyResponseBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPVerifyResponseBody.swift; sourceTree = "<group>"; };
 		6A449C302896F4320015826A /* OTPStartRequestBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPStartRequestBody.swift; sourceTree = "<group>"; };
@@ -226,7 +220,6 @@
 		6A449C432896F4320015826A /* MessageField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageField.swift; sourceTree = "<group>"; };
 		6A449C442896F4320015826A /* MessageBubble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageBubble.swift; sourceTree = "<group>"; };
 		6A449C452896F4320015826A /* MessageBlock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageBlock.swift; sourceTree = "<group>"; };
-		6A449C462896F4320015826A /* Keychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		6A449C492896F4320015826A /* ProfileCommentBubbleViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileCommentBubbleViewModel.swift; sourceTree = "<group>"; };
 		6A449C4B2896F4320015826A /* ProfileCommentBubble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileCommentBubble.swift; sourceTree = "<group>"; };
 		6A449C4F2896F4320015826A /* PostBubbleViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostBubbleViewModel.swift; sourceTree = "<group>"; };
@@ -250,6 +243,9 @@
 		6A78FA4E289CD31A00B75CC6 /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
 		6A78FA52289CDACF00B75CC6 /* MainTabViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabViewModel.swift; sourceTree = "<group>"; };
 		6A78FA54289CE38200B75CC6 /* NotificationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsViewModel.swift; sourceTree = "<group>"; };
+		6A78FA5628A19A0D00B75CC6 /* VerifyEmailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyEmailModel.swift; sourceTree = "<group>"; };
+		6A78FA5828A1A65E00B75CC6 /* PostVoteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostVoteModel.swift; sourceTree = "<group>"; };
+		6A78FA5B28A1A82C00B75CC6 /* DAKeychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DAKeychain.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -279,10 +275,10 @@
 				6A449BBA2896F4320015826A /* ViewModels */,
 				6A449C342896F4320015826A /* Components */,
 				6A449BC02896F4320015826A /* Features */,
+				6A78FA5A28A1A81200B75CC6 /* Extensions */,
 				6A449C192896F4320015826A /* PongApp.swift */,
 				289CC869289993C9009C1DCE /* AppDelegate.swift */,
 				6A449C622896F4320015826A /* ContentView.swift */,
-				6A449C332896F4320015826A /* Extensions.swift */,
 				6A449C612896F4320015826A /* API.swift */,
 				6A449BBC2896F4320015826A /* APITemplates.swift */,
 				6A449C602896F4320015826A /* DefaultModels.swift */,
@@ -414,7 +410,6 @@
 				289CC86D289C6826009C1DCE /* SettingsView.swift */,
 				289CC875289C69D9009C1DCE /* ProminentHeaderModifier.swift */,
 				289CC871289C68D8009C1DCE /* LoadingView.swift */,
-				289CC873289C695F009C1DCE /* Colors.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -704,18 +699,16 @@
 				6A449C242896F4320015826A /* User.swift */,
 				6A449C2B2896F4320015826A /* Post.swift */,
 				6A449C1E2896F4320015826A /* Comment.swift */,
+				6A78FA5628A19A0D00B75CC6 /* VerifyEmailModel.swift */,
+				6A78FA5828A1A65E00B75CC6 /* PostVoteModel.swift */,
 				6A449C1B2896F4320015826A /* PostRequestBody.swift */,
 				6A449C1C2896F4320015826A /* TotalScore.swift */,
 				6A449C1D2896F4320015826A /* Votes.swift */,
-				6A449C1F2896F4320015826A /* VerifyEmailRequestBody.swift */,
-				6A449C2D2896F4320015826A /* VerifyEmailResponseBody.swift */,
 				6A449C202896F4320015826A /* DeleteCommentRequestBody.swift */,
 				6A449C212896F4320015826A /* PostReport.swift */,
 				6A449C222896F4320015826A /* Message.swift */,
 				6A449C302896F4320015826A /* OTPStartRequestBody.swift */,
 				6A449C232896F4320015826A /* OTPStartResponseBody.swift */,
-				6A449C252896F4320015826A /* PostVoteRequestBody.swift */,
-				6A449C262896F4320015826A /* PostVoteResponseBody.swift */,
 				6A449C272896F4320015826A /* CommentVoteRequestBody.swift */,
 				6A449C282896F4320015826A /* ReadPostRequestBody.swift */,
 				6A449C292896F4320015826A /* CreatePostReportRequestBody.swift */,
@@ -752,7 +745,6 @@
 				6A449C442896F4320015826A /* MessageBubble.swift */,
 				6A449C452896F4320015826A /* MessageBlock.swift */,
 				6A449C5F2896F4320015826A /* ShareSheet.swift */,
-				6A449C462896F4320015826A /* Keychain.swift */,
 				6A449CD52898E3BC0015826A /* FloatWarning.swift */,
 			);
 			path = Components;
@@ -970,6 +962,16 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
+		6A78FA5A28A1A81200B75CC6 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				6A78FA5B28A1A82C00B75CC6 /* DAKeychain.swift */,
+				6A449C332896F4320015826A /* Extensions.swift */,
+				289CC873289C695F009C1DCE /* Colors.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1064,10 +1066,10 @@
 				6A449C8A2896F4320015826A /* LeaderboardView.swift in Sources */,
 				289CC874289C695F009C1DCE /* Colors.swift in Sources */,
 				6A449C712896F4320015826A /* DeleteAccountConfirmationView.swift in Sources */,
+				6A78FA5928A1A65E00B75CC6 /* PostVoteModel.swift in Sources */,
 				6A449C812896F4320015826A /* EmailVerificationView.swift in Sources */,
 				6A449C6E2896F4320015826A /* AccountsSheetEnum.swift in Sources */,
 				6A449C652896F4320015826A /* NetworkManager.swift in Sources */,
-				6A449CA12896F4330015826A /* PostVoteRequestBody.swift in Sources */,
 				6A449C9C2896F4330015826A /* DeleteCommentRequestBody.swift in Sources */,
 				6A449CAF2896F4330015826A /* TextArea.swift in Sources */,
 				6A449C722896F4320015826A /* SettingsOptionRowView.swift in Sources */,
@@ -1096,13 +1098,14 @@
 				6A449C6B2896F4320015826A /* PreferencesSettingsEnum.swift in Sources */,
 				6A449C882896F4320015826A /* ChooseLocationView.swift in Sources */,
 				6A449C7D2896F4320015826A /* OnboardView.swift in Sources */,
+				6A78FA5728A19A0D00B75CC6 /* VerifyEmailModel.swift in Sources */,
 				6A449CB82896F4330015826A /* MessageBubble.swift in Sources */,
 				6A449C7A2896F4320015826A /* PostView.swift in Sources */,
 				6A449CC92896F4330015826A /* API.swift in Sources */,
 				6A449C862896F4320015826A /* ChooseLocationFilterViewModel.swift in Sources */,
 				289CC872289C68D8009C1DCE /* LoadingView.swift in Sources */,
 				6A449C7C2896F4320015826A /* PhoneLoginViewModel.swift in Sources */,
-				6A449C9B2896F4330015826A /* VerifyEmailRequestBody.swift in Sources */,
+				6A78FA5C28A1A82C00B75CC6 /* DAKeychain.swift in Sources */,
 				6A449C752896F4320015826A /* NotificationsSheetEnum.swift in Sources */,
 				6A449CBF2896F4330015826A /* PostBubble.swift in Sources */,
 				6A449CBC2896F4330015826A /* ProfileCommentBubble.swift in Sources */,
@@ -1132,7 +1135,6 @@
 				6A449CB12896F4330015826A /* NewPoll.swift in Sources */,
 				6A449C922896F4320015826A /* NewPostViewModel.swift in Sources */,
 				6A449CB32896F4330015826A /* PostSettingOptionsViewModel.swift in Sources */,
-				6A449CA22896F4330015826A /* PostVoteResponseBody.swift in Sources */,
 				6A449CC42896F4330015826A /* CustomInputField.swift in Sources */,
 				6A449C6D2896F4320015826A /* PreferencesSheetView.swift in Sources */,
 				6A449C9E2896F4330015826A /* Message.swift in Sources */,
@@ -1144,7 +1146,6 @@
 				6A449C792896F4320015826A /* PostViewModel.swift in Sources */,
 				6A449CBB2896F4330015826A /* ProfileCommentBubbleViewModel.swift in Sources */,
 				6A78FA55289CE38200B75CC6 /* NotificationsViewModel.swift in Sources */,
-				6A449CA92896F4330015826A /* VerifyEmailResponseBody.swift in Sources */,
 				6A449C632896F4320015826A /* LoginViewModel.swift in Sources */,
 				6A449CA02896F4330015826A /* User.swift in Sources */,
 				6A449C822896F4320015826A /* ChatSideMenuViewModel.swift in Sources */,
@@ -1169,7 +1170,6 @@
 				6A449CD42898B1D00015826A /* ErrorResponseBody.swift in Sources */,
 				6A449C852896F4320015826A /* ChatView.swift in Sources */,
 				6A449C772896F4320015826A /* NotificationOptionRowView.swift in Sources */,
-				6A449CBA2896F4330015826A /* Keychain.swift in Sources */,
 				6A449C7E2896F4320015826A /* VerificationView.swift in Sources */,
 				6A449CB72896F4330015826A /* MessageField.swift in Sources */,
 				289CC870289C6846009C1DCE /* SettingsViewModel.swift in Sources */,

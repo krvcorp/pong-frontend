@@ -9,37 +9,40 @@ import SwiftUI
 
 struct MainTabView: View {
     @ObservedObject private var mainTabVM = MainTabViewModel(initialIndex: 1, customItemIndex: 3)
-    @ObservedObject var settingsSheetVM : SettingsSheetViewModel
-    @ObservedObject var postSettingsVM : PostSettingsViewModel
-    @State var school : String = "Boston University"
+    @StateObject private var postSettingsVM = PostSettingsViewModel()
 
     var body: some View {
         TabView(selection: $mainTabVM.itemSelected) {
+            // MARK: FeedView
             FeedView(postSettingsVM: postSettingsVM)
                 .tabItem{
                     Label("Home", systemImage: "house")
                 }
                 .tag(1)
             
+            // MARK: Stats and Leaderboard
             LeaderboardView()
                 .tabItem{
                     Label("Stats", systemImage: "chart.bar.xaxis")
                 }
                 .tag(2)
 
+            // MARK: NewPostView
             NewPostView()
                 .tabItem {
                     Image(systemName: "arrowshape.bounce.right.fill")
                 }
                 .tag(3)
             
+            // MARK: NotificationsView
             NotificationsView()
                 .tabItem {
                     Label("Notifications", systemImage: "bell")
                 }
                 .tag(4)
 
-            ProfileView(settingsSheetVM: settingsSheetVM, postSettingsVM: postSettingsVM)
+            // MARK: ProfileView
+            ProfileView(postSettingsVM: postSettingsVM)
                 .tabItem{
                     Label("Profile", systemImage: "person")
                 }

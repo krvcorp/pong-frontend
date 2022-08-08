@@ -9,7 +9,6 @@ import SwiftUI
 
 @main
 struct Pong: App {
-    @StateObject private var settingsSheetVM = SettingsSheetViewModel()
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
     var body: some Scene {

@@ -28,7 +28,7 @@ class ProfileViewModel: ObservableObject {
         }
         
         guard let userId = DAKeychain.shared["userId"] else {
-            print("DEBUG: profileVM.getLoggedInUserInfo no token")
+            print("DEBUG: profileVM.getLoggedInUserInfo no userid")
             return
         }
 
@@ -51,7 +51,6 @@ class ProfileViewModel: ObservableObject {
             
             do {
                 let loggedInUserInfoResponse = try decoder.decode(LoggedInUserInfoResponseBody.self, from: data)
-//                print("DEBUG: ProfileVM \(loggedInUserInfoResponse)")
                 DispatchQueue.main.async {
                     self.totalKarma = loggedInUserInfoResponse.totalScore
                     self.commentKarma = loggedInUserInfoResponse.commentScore

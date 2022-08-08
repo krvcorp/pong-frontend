@@ -1,13 +1,13 @@
 //
 //  DAKeychain.swift
-//  DAKeychain
+//  Pong
 //
-//  Created by Dejan on 28/02/2017.
-//  Copyright © 2017 Dejan. All rights reserved.
+//  Created by Khoi Nguyen on 8/8/22.
 //
 
 import Foundation
 
+// MARK: DAKeychain Abstracted keychain service
 open class DAKeychain {
     
     open var loggingEnabled = false

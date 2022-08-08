@@ -244,4 +244,12 @@ extension Color {
     public static var superLightGray: Color {
         return Color(red: 240/255, green: 240/255, blue: 240/255)
     }
+    
+    public static var silver: Color {
+        return Color(red: 192/255, green: 192/255, blue: 192/255)
+    }
+    
+    public static var bronze: Color {
+        return Color(red: 176/255, green: 141/255, blue: 87/255)
+    }
 }

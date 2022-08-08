@@ -14,7 +14,7 @@ class PostBubbleViewModel: ObservableObject {
         self.post = post
     }
     
-    func postVote(direction: Int, completion: @escaping (Result<PostVoteResponseBody, AuthenticationError>) -> Void) {
+    func postVote(direction: Int, completion: @escaping (Result<PostVoteModel.Response, AuthenticationError>) -> Void) {
         guard let token = DAKeychain.shared["token"] else { return }
         guard let url = URL(string: "\(API().root)postvote/") else { return }
         
@@ -25,7 +25,7 @@ class PostBubbleViewModel: ObservableObject {
             voteToSend = direction
         }
         
-        let body = PostVoteRequestBody(postId: post.id, vote: voteToSend)
+        let body = PostVoteModel.Request(postId: post.id, vote: voteToSend)
         var request = URLRequest(url: url)
         
         request.httpMethod = "POST"
@@ -44,7 +44,7 @@ class PostBubbleViewModel: ObservableObject {
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
         
-            guard let postVoteResponse = try? decoder.decode(PostVoteResponseBody.self, from: data!) else {
+            guard let postVoteResponse = try? decoder.decode(PostVoteModel.Response.self, from: data!) else {
                 completion(.failure(.decodeError))
                 return
             }

@@ -35,14 +35,14 @@ struct LeaderboardView: View {
                                         Text("\(entry.score)")
                                         Spacer()
                                     }
-                                    .listRowBackground(Color.gray)
+                                    .listRowBackground(Color.silver)
                                 } else if entry.place == "3" {
                                     HStack {
                                         Text("\(entry.place).")
                                         Text("\(entry.score)")
                                         Spacer()
                                     }
-                                    .listRowBackground(Color.brown)
+                                    .listRowBackground(Color.bronze)
                                 } else {
                                     HStack {
                                         Text("\(entry.place).")

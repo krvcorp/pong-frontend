@@ -18,14 +18,14 @@ class SettingsViewModel: ObservableObject {
         }
     }
     
-    func logout() {
+    func logout(loginVM: LoginViewModel) {
         DispatchQueue.main.async {
             print("DEBUG: logout")
             UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
-//            self.initialOnboard = true
             GIDSignIn.sharedInstance.disconnect()
             DAKeychain.shared["userId"] = nil
             DAKeychain.shared["token"] = nil
+            loginVM.forceUpdate.toggle()
         }
     }
 }
