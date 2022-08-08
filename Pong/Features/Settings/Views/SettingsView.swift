@@ -10,7 +10,7 @@ import Firebase
 import UniformTypeIdentifiers
 
 struct SettingsView: View {
-    @StateObject private var settingsViewModel = SettingsViewModel()
+    @StateObject private var settingsVM = SettingsViewModel()
     @State private var notifications = false
     
     var body: some View {
@@ -64,13 +64,13 @@ struct SettingsView: View {
                                 .foregroundColor(.gray)
                         }
                     }
-                    Button(action: settingsViewModel.logout) {
+                    Button(action: settingsVM.logout) {
                         HStack {
                             Text("Sign Out").foregroundColor(.red)
                             Spacer()
                             Image(systemName: "arrow.uturn.left").foregroundColor(.red)
                         }                        }
-                    Button(action: settingsViewModel.logout) {
+                    Button(action: settingsVM.logout) {
                         HStack {
                             Text("Delete Account").foregroundColor(.red).bold()
                             Spacer()
@@ -82,14 +82,14 @@ struct SettingsView: View {
                     HStack(spacing: 0) {
                         Text("Theme")
                         Spacer(minLength: 20)
-                        Picker("Display Mode", selection: $settingsViewModel.displayMode) {
+                        Picker("Display Mode", selection: $settingsVM.displayMode) {
                             Text("System").tag(DisplayMode.system)
                             Text("Dark").tag(DisplayMode.dark)
                             Text("Light").tag(DisplayMode.light)
                         }
                         .pickerStyle(.segmented)
-                        .onChange(of: settingsViewModel.displayMode) { newValue in
-                            settingsViewModel.displayMode.setAppDisplayMode()
+                        .onChange(of: settingsVM.displayMode) { newValue in
+                            settingsVM.displayMode.setAppDisplayMode()
                         }
                     }
                     Toggle("Notifications", isOn: $notifications)

@@ -10,17 +10,19 @@ import SwiftUI
 struct OnboardView: View {
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var loginVM : LoginViewModel
-    @StateObject private var phoneLoginVM = PhoneLoginViewModel()
+//    @StateObject private var phoneLoginVM = PhoneLoginViewModel()
     
     var body: some View {
-        if phoneLoginVM.phoneIsVerified {
-            EmailVerificationView(loginVM: loginVM, phoneLoginVM: phoneLoginVM)
-        } else {
-            NavigationView {
-                PhoneLoginView(loginVM: loginVM, phoneLoginVM: phoneLoginVM)
-                    .navigationBarHidden(true)
-            }
-        }
+        // MARK: Old onboarding with phone login
+//        if phoneLoginVM.phoneIsVerified {
+//            EmailVerificationView(loginVM: loginVM, phoneLoginVM: phoneLoginVM)
+//        } else {
+//            NavigationView {
+//                PhoneLoginView(loginVM: loginVM, phoneLoginVM: phoneLoginVM)
+//                    .navigationBarHidden(true)
+//            }
+//        }
+        EmailVerificationView(loginVM: loginVM)
     }
 }
 

@@ -9,17 +9,17 @@ import SwiftUI
 
 struct EmailVerificationView: View {
     @ObservedObject var loginVM : LoginViewModel
-    @ObservedObject var phoneLoginVM : PhoneLoginViewModel
+//    @ObservedObject var phoneLoginVM : PhoneLoginViewModel
     
     var body: some View {
         VStack() {
             VStack(alignment: .leading) {
-                Text("Your phone number is ")
-                    .font(.title).bold()
-                
-                Text(phoneLoginVM.phone)
-                    .font(.title).bold()
-                    .padding(.bottom)
+//                Text("Your phone number is ")
+//                    .font(.title).bold()
+//
+//                Text(phoneLoginVM.phone)
+//                    .font(.title).bold()
+//                    .padding(.bottom)
                 
                 Text("Please sign in with your college email")
                     .font(.title).bold()
@@ -29,7 +29,8 @@ struct EmailVerificationView: View {
             
             Button {
                 print("DEBUG: EmailVerificationView GoogleSignIn")
-                loginVM.googleSignInButton(phoneLoginVM: phoneLoginVM)
+//                loginVM.googleSignInButton(phoneLoginVM: phoneLoginVM)
+                loginVM.googleSignInButton()
             } label: {
                 HStack {
                     Image("GoogleLogo")
@@ -53,6 +54,6 @@ struct EmailVerificationView: View {
 
 struct EmailVerificationView_Previews: PreviewProvider {
     static var previews: some View {
-        EmailVerificationView(loginVM: LoginViewModel(), phoneLoginVM: PhoneLoginViewModel())
+        EmailVerificationView(loginVM: LoginViewModel())
     }
 }

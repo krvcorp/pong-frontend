@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import GoogleSignIn
 
 class SettingsViewModel: ObservableObject {
     @AppStorage("displayMode") var displayMode = DisplayMode.system
@@ -18,7 +19,14 @@ class SettingsViewModel: ObservableObject {
     }
     
     func logout() {
-        UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+        DispatchQueue.main.async {
+            print("DEBUG: logout")
+            UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+//            self.initialOnboard = true
+            GIDSignIn.sharedInstance.disconnect()
+            DAKeychain.shared["userId"] = nil
+            DAKeychain.shared["token"] = nil
+        }
     }
 }
 
