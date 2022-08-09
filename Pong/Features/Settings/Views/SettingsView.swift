@@ -104,6 +104,11 @@ struct SettingsView: View {
                 #if DEBUG
                 Section(header: Text("Debug").foregroundColor(.gray)) {
                     Button(action: {
+                        UIPasteboard.general.string = DAKeychain.shared["userId"]
+                    }) {
+                        Text("Copy User ID").foregroundColor(.pink)
+                    }
+                    Button(action: {
                         let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
                         UNUserNotificationCenter.current().requestAuthorization(options: authOptions) { _, _ in }
                         UIApplication.shared.registerForRemoteNotifications()
