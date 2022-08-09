@@ -19,4 +19,7 @@ struct Comment: Hashable, Identifiable, Codable {
     var children: [Comment]
     var numberOnPost: Int
     var userOwned: Bool
+    var voteStatus: Int
+    var numUpvotes: Int
+    var numDownvotes: Int
 }

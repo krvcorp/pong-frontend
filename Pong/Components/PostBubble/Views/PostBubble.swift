@@ -69,21 +69,20 @@ struct PostBubble: View {
                     }
                 } else {
                     Menu {
-                        Button(action: {}) {
+                        Button(action: {print("DEBUG: Save")}) {
                             Label("Save", systemImage: "bookmark")
                         }
                         
-                        Button(action: {}) {
+                        Button(action: {print("DEBUG: Block")}) {
                             Label("Block user", systemImage: "x.circle")
                         }
                         
-                        Button(action: {}) {
+                        Button(action: {print("DEBUG: Report")}) {
                             Label("Report", systemImage: "flag")
                         }
                     }
                     label: {
                         Image(systemName: "ellipsis")
-                            .frame(height: 30)
                     }
                 }
             }
@@ -115,7 +114,6 @@ struct PostBubble: View {
                     }
                     
                     Button {
-                        print("DEBUG: Score check")
                         withAnimation {
                             showScore.toggle()
                         }
@@ -139,7 +137,6 @@ struct PostBubble: View {
                     }
                     
                     Button {
-                        print("DEBUG: Score check")
                         withAnimation {
                             showScore.toggle()
                         }
@@ -165,7 +162,6 @@ struct PostBubble: View {
                     
                     // score
                     Button {
-                        print("DEBUG: Score check")
                         withAnimation {
                             showScore.toggle()
                         }
@@ -183,17 +179,30 @@ struct PostBubble: View {
                 }
             } else {
                 Button {
-                    print("DEBUG: Score check")
                     withAnimation {
                         showScore.toggle()
                     }
 
                 } label: {
                     VStack {
-                        Text("\(postBubbleVM.post.score)")
-                            .foregroundColor(.green)
-                        Text("\(postBubbleVM.post.score)")
-                            .foregroundColor(.red)
+                        if postBubbleVM.post.voteStatus == 1 {
+                            Text("\(postBubbleVM.post.numUpvotes + 1)")
+                                .foregroundColor(.green)
+                            Text("\(postBubbleVM.post.numDownvotes)")
+                                .foregroundColor(.red)
+                        }
+                        else if postBubbleVM.post.voteStatus == -1 {
+                            Text("\(postBubbleVM.post.numUpvotes)")
+                                .foregroundColor(.green)
+                            Text("\(postBubbleVM.post.numDownvotes + 1)")
+                                .foregroundColor(.red)
+                        }
+                        else if postBubbleVM.post.voteStatus == 0 {
+                            Text("\(postBubbleVM.post.numUpvotes)")
+                                .foregroundColor(.green)
+                            Text("\(postBubbleVM.post.numDownvotes)")
+                                .foregroundColor(.red)
+                        }
                     }
                 }
             }

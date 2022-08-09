@@ -11,8 +11,7 @@ struct PostView: View {
     @Environment(\.presentationMode) var presentationMode
     @Binding var post : Post
     @StateObject var postVM = PostViewModel()
-    
-    @State private var comment = ""
+    @State private var text = ""
     @State var sheet = false
     @State private var showScore = false
     
@@ -21,77 +20,73 @@ struct PostView: View {
             RefreshableScrollView {
                 mainPost
                 LazyVStack {
-                    ForEach(postVM.comments, id: \.self) { comment in
-                        HStack {
-                            Spacer()
-                            CommentBubble(comment: comment)
-                        }
+                    ForEach($postVM.comments, id: \.self) { $comment in
+                        CommentBubble(comment: $comment)
+                            .buttonStyle(PlainButtonStyle())
                     }
                 }
                 .padding(.bottom, 150)
             }
             .refreshable {
                 print("DEBUG: Pull to refresh")
-                postVM.readPost() { result in
-                    switch result {
-                    case .success(let post):
-                        DispatchQueue.main.async {
-                            postVM.post = post
-                        }
-                    case .failure(let error):
-                        print("DEBUG: PostView readPost failure \(error)")
-                    }
-                }
+                postVM.readPost()
                 postVM.getComments()
             }
-           
-            HStack {
-                CustomTextField(placeholder: Text("Enter your message here"), text: $comment)
-                Button {
-                    postVM.createComment(comment: comment) { result in
-                        switch result {
-                            case .success(let commentReturn):
-                                print("DEBUG: \(commentReturn)")
-                                postVM.post.numComments = postVM.post.numComments + 1
-                            case .failure(let failure):
-                                print("DEBUG: PostView createComment failure \(failure)")
+            VStack(spacing: 0) {
+                if postVM.replyToComment != defaultComment {
+                    HStack {
+                        Button {
+                            print("DEBUG: remove reply")
+                            postVM.replyToComment = defaultComment
+                            text = ""
+                        } label: {
+                            Image(systemName: "xmark")
                         }
+
+                        Text("Replying to: ").font(.subheadline) + Text("\(postVM.replyToComment.comment)").font(.subheadline.bold())
+                        
+                        Spacer()
                     }
-                    comment = ""
-                } label: {
-                    Image(systemName: "paperplane.fill")
-                        .foregroundColor(Color(UIColor.systemBackground))
-                        .padding(10)
-                        .background(.indigo)
-                        .cornerRadius(50)
+                    .padding(.horizontal)
+                    .background(Color(UIColor.systemBackground))
                 }
+                HStack {
+                    CustomTextField(placeholder: Text("Enter your message here"), text: $text)
+                    Button {
+                        if postVM.replyToComment == defaultComment {
+                            postVM.createComment(comment: text)
+                        } else {
+                            postVM.commentReply(comment: text)
+                            postVM.replyToComment = defaultComment
+                        }
+                        text = ""
+
+                    } label: {
+                        Image(systemName: "paperplane.fill")
+                            .foregroundColor(Color(UIColor.systemBackground))
+                            .padding(10)
+                            .background(.indigo)
+                            .cornerRadius(50)
+                    }
+                }
+                .padding()
+                .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color(UIColor.systemBackground), lineWidth: 2))
+                .background(Color(UIColor.systemBackground))
             }
-            .padding()
-            .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color(UIColor.systemBackground), lineWidth: 2))
-            .background(Color(UIColor.systemBackground))
         }
+        .environmentObject(postVM)
         .onAppear {
             // take binding and insert into VM
             postVM.post = self.post
             
             // api call to refresh local data
-            postVM.readPost { result in
-                switch result {
-                case .success(let post):
-                    DispatchQueue.main.async {
-                        postVM.post = post
-                    }
-                case .failure(let error):
-                    print("DEBUG: postVM.readpost error \(error)")
-                }
-            }
+            postVM.readPost()
             
             // api call to fetch comments to display
             postVM.getComments()
         }
         .onDisappear() {
             // prevent feedview from rebuilding but to update data
-            print("DEBUG: PostView Disapear!")
             self.post = postVM.post
         }
         .navigationBarTitleDisplayMode(.inline)
@@ -190,27 +185,15 @@ struct PostView: View {
     var VoteComponent: some View {
         VStack {
             if !showScore {
-                // if not upvoted or downvoted
+                // MARK: if not upvoted or downvoted
                 if postVM.post.voteStatus == 0 {
                     Button {
-                        postVM.postVote(direction: 1) { result in
-                            switch result {
-                            case .success(let postResponseBody):
-                                if let voteStatus = postResponseBody.voteStatus {
-                                    postVM.post.voteStatus = voteStatus
-                                } else if let error = postResponseBody.error {
-                                    print("DEBUG: \(error)")
-                                }
-                            case .failure(let error):
-                                print("DEBUG: postBubbleVM.postVote error: \(error)")
-                            }
-                        }
+                        postVM.postVote(direction: 1)
                     } label: {
                         Image(systemName: "arrow.up")
                     }
                     
                     Button {
-                        print("DEBUG: Score check")
                         withAnimation {
                             showScore.toggle()
                         }
@@ -220,43 +203,21 @@ struct PostView: View {
                     }
                     
                     Button {
-                        postVM.postVote(direction: -1) { result in
-                            switch result {
-                            case .success(let postResponseBody):
-                                if let voteStatus = postResponseBody.voteStatus {
-                                    postVM.post.voteStatus = voteStatus
-                                } else if let error = postResponseBody.error {
-                                    print("DEBUG: \(error)")
-                                }
-                            case .failure(let error):
-                                print("DEBUG: postBubbleVM.postVote error: \(error)")
-                            }
-                        }
+                        postVM.postVote(direction: -1)
                     } label: {
                         Image(systemName: "arrow.down")
                     }
-                } else if postVM.post.voteStatus == 1 {
-                    // if upvoted
+                }
+                // MARK: if upvoted
+                else if postVM.post.voteStatus == 1 {
                     Button {
-                        postVM.postVote(direction: 1) { result in
-                            switch result {
-                            case .success(let postResponseBody):
-                                if let voteStatus = postResponseBody.voteStatus {
-                                    postVM.post.voteStatus = voteStatus
-                                } else if let error = postResponseBody.error {
-                                    print("DEBUG: \(error)")
-                                }
-                            case .failure(let error):
-                                print("DEBUG: postBubbleVM.postVote error: \(error)")
-                            }
-                        }
+                        postVM.postVote(direction: 1)
                     } label: {
                         Image(systemName: "arrow.up")
                             .foregroundColor(.yellow)
                     }
                     
                     Button {
-                        print("DEBUG: Score check")
                         withAnimation {
                             showScore.toggle()
                         }
@@ -266,42 +227,20 @@ struct PostView: View {
                     }
                     
                     Button {
-                        postVM.postVote(direction: -1) { result in
-                            switch result {
-                            case .success(let postResponseBody):
-                                if let voteStatus = postResponseBody.voteStatus {
-                                    postVM.post.voteStatus = voteStatus
-                                } else if let error = postResponseBody.error {
-                                    print("DEBUG: \(error)")
-                                }
-                            case .failure(let error):
-                                print("DEBUG: postBubbleVM.postVote error: \(error)")
-                            }
-                        }
+                        postVM.postVote(direction: -1)
                     } label: {
                         Image(systemName: "arrow.down")
                     }
-                } else if postVM.post.voteStatus == -1 {
-                    // if downvoted
+                }
+                // MARK: if downvoted
+                else if postVM.post.voteStatus == -1 {
                     Button {
-                        postVM.postVote(direction: 1) { result in
-                            switch result {
-                            case .success(let postResponseBody):
-                                if let voteStatus = postResponseBody.voteStatus {
-                                    postVM.post.voteStatus = voteStatus
-                                } else if let error = postResponseBody.error {
-                                    print("DEBUG: \(error)")
-                                }
-                            case .failure(let error):
-                                print("DEBUG: postBubbleVM.postVote error: \(error)")
-                            }
-                        }
+                        postVM.postVote(direction: 1)
                     } label: {
                         Image(systemName: "arrow.up")
                     }
                     
                     Button {
-                        print("DEBUG: Score check")
                         withAnimation {
                             showScore.toggle()
                         }
@@ -311,36 +250,40 @@ struct PostView: View {
                     }
                     
                     Button {
-                        postVM.postVote(direction: -1) { result in
-                            switch result {
-                            case .success(let postResponseBody):
-                                if let voteStatus = postResponseBody.voteStatus {
-                                    postVM.post.voteStatus = voteStatus
-                                } else if let error = postResponseBody.error {
-                                    print("DEBUG: \(error)")
-                                }
-                            case .failure(let error):
-                                print("DEBUG: postBubbleVM.postVote error: \(error)")
-                            }
-                        }
+                        postVM.postVote(direction: -1)
                     } label: {
                         Image(systemName: "arrow.down")
                             .foregroundColor(.yellow)
                     }
                 }
-            } else {
+            }
+            // MARK: Show score
+            else {
                 Button {
-                    print("DEBUG: Score check")
                     withAnimation {
                         showScore.toggle()
                     }
 
                 } label: {
                     VStack {
-                        Text("\(postVM.post.score)")
-                            .foregroundColor(.green)
-                        Text("\(postVM.post.score)")
-                            .foregroundColor(.red)
+                        if postVM.post.voteStatus == 1 {
+                            Text("\(postVM.post.numUpvotes + 1)")
+                                .foregroundColor(.green)
+                            Text("\(postVM.post.numDownvotes)")
+                                .foregroundColor(.red)
+                        }
+                        else if postVM.post.voteStatus == -1 {
+                            Text("\(postVM.post.numUpvotes)")
+                                .foregroundColor(.green)
+                            Text("\(postVM.post.numDownvotes + 1)")
+                                .foregroundColor(.red)
+                        }
+                        else if postVM.post.voteStatus == 0 {
+                            Text("\(postVM.post.numUpvotes)")
+                                .foregroundColor(.green)
+                            Text("\(postVM.post.numDownvotes)")
+                                .foregroundColor(.red)
+                        }
                     }
                 }
             }
