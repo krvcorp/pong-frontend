@@ -25,10 +25,3 @@ struct Post: Hashable, Codable, Identifiable {
     var userOwned: Bool
 }
 
-// THIS FUCKING EXTENSION BROKE EVERYTHING????????? WTF
-//extension Post: Equatable {}
-//func ==(lhs: Post, rhs: Post) -> Bool {
-//    let areEqual = lhs.id == rhs.id
-//    return areEqual
-//}
-

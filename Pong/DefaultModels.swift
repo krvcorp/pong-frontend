@@ -33,6 +33,9 @@ var defaultComment = Comment(id: "default",
                              parent: "",
                              children: [],
                              numberOnPost: 0,
-                             userOwned: true)
+                             userOwned: true,
+                             voteStatus: 0,
+                             numUpvotes: 0,
+                             numDownvotes: 0)
 
 var defaultTotalScore = TotalScore(score: 1, place:"1")
