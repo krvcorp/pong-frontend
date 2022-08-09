@@ -20,26 +20,14 @@
 		28E7C32A2895E302002C186A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 28E7C3292895E302002C186A /* Alamofire */; };
 		6A218469287A0C8200681C86 /* iPhoneNumberField in Frameworks */ = {isa = PBXBuildFile; productRef = 6A218468287A0C8200681C86 /* iPhoneNumberField */; };
 		6A449C632896F4320015826A /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BBB2896F4320015826A /* LoginViewModel.swift */; };
-		6A449C642896F4320015826A /* APITemplates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BBC2896F4320015826A /* APITemplates.swift */; };
 		6A449C652896F4320015826A /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BBE2896F4320015826A /* NetworkManager.swift */; };
 		6A449C662896F4320015826A /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BBF2896F4320015826A /* AuthManager.swift */; };
 		6A449C672896F4320015826A /* SettingsSheetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BC32896F4320015826A /* SettingsSheetViewModel.swift */; };
 		6A449C682896F4320015826A /* SettingsSheetEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BC42896F4320015826A /* SettingsSheetEnum.swift */; };
 		6A449C692896F4320015826A /* ProfileSettingsAbstractedEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BC52896F4320015826A /* ProfileSettingsAbstractedEnums.swift */; };
-		6A449C6A2896F4320015826A /* PreferencesSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BC82896F4320015826A /* PreferencesSettingsViewModel.swift */; };
-		6A449C6B2896F4320015826A /* PreferencesSettingsEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BC92896F4320015826A /* PreferencesSettingsEnum.swift */; };
-		6A449C6C2896F4320015826A /* PreferencesOptionRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BCB2896F4320015826A /* PreferencesOptionRowView.swift */; };
-		6A449C6D2896F4320015826A /* PreferencesSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BCC2896F4320015826A /* PreferencesSheetView.swift */; };
-		6A449C6E2896F4320015826A /* AccountsSheetEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BCF2896F4320015826A /* AccountsSheetEnum.swift */; };
-		6A449C6F2896F4320015826A /* AccountOptionRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BD12896F4320015826A /* AccountOptionRowView.swift */; };
-		6A449C702896F4320015826A /* AccountsSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BD22896F4320015826A /* AccountsSheetView.swift */; };
-		6A449C712896F4320015826A /* DeleteAccountConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BD32896F4320015826A /* DeleteAccountConfirmationView.swift */; };
 		6A449C722896F4320015826A /* SettingsOptionRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BD52896F4320015826A /* SettingsOptionRowView.swift */; };
 		6A449C732896F4320015826A /* LegalSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BD62896F4320015826A /* LegalSheetView.swift */; };
 		6A449C742896F4320015826A /* SettingsSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BD72896F4320015826A /* SettingsSheetView.swift */; };
-		6A449C752896F4320015826A /* NotificationsSheetEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BDA2896F4320015826A /* NotificationsSheetEnum.swift */; };
-		6A449C762896F4320015826A /* NotificationsSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BDC2896F4320015826A /* NotificationsSheetView.swift */; };
-		6A449C772896F4320015826A /* NotificationOptionRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BDD2896F4320015826A /* NotificationOptionRowView.swift */; };
 		6A449C782896F4320015826A /* MessagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BE02896F4320015826A /* MessagesView.swift */; };
 		6A449C792896F4320015826A /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BE32896F4320015826A /* PostViewModel.swift */; };
 		6A449C7A2896F4320015826A /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BE52896F4320015826A /* PostView.swift */; };
@@ -50,10 +38,6 @@
 		6A449C7F2896F4320015826A /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BED2896F4320015826A /* WelcomeView.swift */; };
 		6A449C802896F4320015826A /* PhoneLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BEE2896F4320015826A /* PhoneLoginView.swift */; };
 		6A449C812896F4320015826A /* EmailVerificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BEF2896F4320015826A /* EmailVerificationView.swift */; };
-		6A449C822896F4320015826A /* ChatSideMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BF22896F4320015826A /* ChatSideMenuViewModel.swift */; };
-		6A449C832896F4320015826A /* ChatSideMenuRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BF42896F4320015826A /* ChatSideMenuRowView.swift */; };
-		6A449C842896F4320015826A /* ChatSideMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BF52896F4320015826A /* ChatSideMenuView.swift */; };
-		6A449C852896F4320015826A /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BF62896F4320015826A /* ChatView.swift */; };
 		6A449C862896F4320015826A /* ChooseLocationFilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BF92896F4320015826A /* ChooseLocationFilterViewModel.swift */; };
 		6A449C872896F4320015826A /* ChooseLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BFA2896F4320015826A /* ChooseLocationViewModel.swift */; };
 		6A449C882896F4320015826A /* ChooseLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BFC2896F4320015826A /* ChooseLocationView.swift */; };
@@ -67,7 +51,6 @@
 		6A449C912896F4320015826A /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C0F2896F4320015826A /* MainTabView.swift */; };
 		6A449C922896F4320015826A /* NewPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C122896F4320015826A /* NewPostViewModel.swift */; };
 		6A449C932896F4330015826A /* NewPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C142896F4320015826A /* NewPostView.swift */; };
-		6A449C942896F4330015826A /* NewChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C172896F4320015826A /* NewChatView.swift */; };
 		6A449C952896F4330015826A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A449C182896F4320015826A /* Assets.xcassets */; };
 		6A449C962896F4330015826A /* PongApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C192896F4320015826A /* PongApp.swift */; };
 		6A449C972896F4330015826A /* PostRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C1B2896F4320015826A /* PostRequestBody.swift */; };
@@ -99,8 +82,6 @@
 		6A449CB52896F4330015826A /* PostSettingsRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C412896F4320015826A /* PostSettingsRowView.swift */; };
 		6A449CB62896F4330015826A /* PostSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C422896F4320015826A /* PostSettingsView.swift */; };
 		6A449CB72896F4330015826A /* MessageField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C432896F4320015826A /* MessageField.swift */; };
-		6A449CB82896F4330015826A /* MessageBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C442896F4320015826A /* MessageBubble.swift */; };
-		6A449CB92896F4330015826A /* MessageBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C452896F4320015826A /* MessageBlock.swift */; };
 		6A449CBB2896F4330015826A /* ProfileCommentBubbleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C492896F4320015826A /* ProfileCommentBubbleViewModel.swift */; };
 		6A449CBC2896F4330015826A /* ProfileCommentBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C4B2896F4320015826A /* ProfileCommentBubble.swift */; };
 		6A449CBE2896F4330015826A /* PostBubbleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C4F2896F4320015826A /* PostBubbleViewModel.swift */; };
@@ -141,26 +122,14 @@
 		289CC875289C69D9009C1DCE /* ProminentHeaderModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProminentHeaderModifier.swift; sourceTree = "<group>"; };
 		28BB3C7228A217F00038AB4F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6A449BBB2896F4320015826A /* LoginViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
-		6A449BBC2896F4320015826A /* APITemplates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APITemplates.swift; sourceTree = "<group>"; };
 		6A449BBE2896F4320015826A /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		6A449BBF2896F4320015826A /* AuthManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		6A449BC32896F4320015826A /* SettingsSheetViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsSheetViewModel.swift; sourceTree = "<group>"; };
 		6A449BC42896F4320015826A /* SettingsSheetEnum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsSheetEnum.swift; sourceTree = "<group>"; };
 		6A449BC52896F4320015826A /* ProfileSettingsAbstractedEnums.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileSettingsAbstractedEnums.swift; sourceTree = "<group>"; };
-		6A449BC82896F4320015826A /* PreferencesSettingsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesSettingsViewModel.swift; sourceTree = "<group>"; };
-		6A449BC92896F4320015826A /* PreferencesSettingsEnum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesSettingsEnum.swift; sourceTree = "<group>"; };
-		6A449BCB2896F4320015826A /* PreferencesOptionRowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesOptionRowView.swift; sourceTree = "<group>"; };
-		6A449BCC2896F4320015826A /* PreferencesSheetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesSheetView.swift; sourceTree = "<group>"; };
-		6A449BCF2896F4320015826A /* AccountsSheetEnum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountsSheetEnum.swift; sourceTree = "<group>"; };
-		6A449BD12896F4320015826A /* AccountOptionRowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountOptionRowView.swift; sourceTree = "<group>"; };
-		6A449BD22896F4320015826A /* AccountsSheetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountsSheetView.swift; sourceTree = "<group>"; };
-		6A449BD32896F4320015826A /* DeleteAccountConfirmationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeleteAccountConfirmationView.swift; sourceTree = "<group>"; };
 		6A449BD52896F4320015826A /* SettingsOptionRowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsOptionRowView.swift; sourceTree = "<group>"; };
 		6A449BD62896F4320015826A /* LegalSheetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LegalSheetView.swift; sourceTree = "<group>"; };
 		6A449BD72896F4320015826A /* SettingsSheetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsSheetView.swift; sourceTree = "<group>"; };
-		6A449BDA2896F4320015826A /* NotificationsSheetEnum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsSheetEnum.swift; sourceTree = "<group>"; };
-		6A449BDC2896F4320015826A /* NotificationsSheetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsSheetView.swift; sourceTree = "<group>"; };
-		6A449BDD2896F4320015826A /* NotificationOptionRowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationOptionRowView.swift; sourceTree = "<group>"; };
 		6A449BE02896F4320015826A /* MessagesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesView.swift; sourceTree = "<group>"; };
 		6A449BE32896F4320015826A /* PostViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
 		6A449BE52896F4320015826A /* PostView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
@@ -171,10 +140,6 @@
 		6A449BED2896F4320015826A /* WelcomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		6A449BEE2896F4320015826A /* PhoneLoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneLoginView.swift; sourceTree = "<group>"; };
 		6A449BEF2896F4320015826A /* EmailVerificationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmailVerificationView.swift; sourceTree = "<group>"; };
-		6A449BF22896F4320015826A /* ChatSideMenuViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatSideMenuViewModel.swift; sourceTree = "<group>"; };
-		6A449BF42896F4320015826A /* ChatSideMenuRowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatSideMenuRowView.swift; sourceTree = "<group>"; };
-		6A449BF52896F4320015826A /* ChatSideMenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatSideMenuView.swift; sourceTree = "<group>"; };
-		6A449BF62896F4320015826A /* ChatView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		6A449BF92896F4320015826A /* ChooseLocationFilterViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseLocationFilterViewModel.swift; sourceTree = "<group>"; };
 		6A449BFA2896F4320015826A /* ChooseLocationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseLocationViewModel.swift; sourceTree = "<group>"; };
 		6A449BFC2896F4320015826A /* ChooseLocationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseLocationView.swift; sourceTree = "<group>"; };
@@ -188,7 +153,6 @@
 		6A449C0F2896F4320015826A /* MainTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		6A449C122896F4320015826A /* NewPostViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewPostViewModel.swift; sourceTree = "<group>"; };
 		6A449C142896F4320015826A /* NewPostView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewPostView.swift; sourceTree = "<group>"; };
-		6A449C172896F4320015826A /* NewChatView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewChatView.swift; sourceTree = "<group>"; };
 		6A449C182896F4320015826A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6A449C192896F4320015826A /* PongApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PongApp.swift; sourceTree = "<group>"; };
 		6A449C1B2896F4320015826A /* PostRequestBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostRequestBody.swift; sourceTree = "<group>"; };
@@ -220,8 +184,6 @@
 		6A449C412896F4320015826A /* PostSettingsRowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostSettingsRowView.swift; sourceTree = "<group>"; };
 		6A449C422896F4320015826A /* PostSettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostSettingsView.swift; sourceTree = "<group>"; };
 		6A449C432896F4320015826A /* MessageField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageField.swift; sourceTree = "<group>"; };
-		6A449C442896F4320015826A /* MessageBubble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageBubble.swift; sourceTree = "<group>"; };
-		6A449C452896F4320015826A /* MessageBlock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageBlock.swift; sourceTree = "<group>"; };
 		6A449C492896F4320015826A /* ProfileCommentBubbleViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileCommentBubbleViewModel.swift; sourceTree = "<group>"; };
 		6A449C4B2896F4320015826A /* ProfileCommentBubble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileCommentBubble.swift; sourceTree = "<group>"; };
 		6A449C4F2896F4320015826A /* PostBubbleViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostBubbleViewModel.swift; sourceTree = "<group>"; };
@@ -284,7 +246,6 @@
 				289CC869289993C9009C1DCE /* AppDelegate.swift */,
 				6A449C622896F4320015826A /* ContentView.swift */,
 				6A449C612896F4320015826A /* API.swift */,
-				6A449BBC2896F4320015826A /* APITemplates.swift */,
 				6A449C602896F4320015826A /* DefaultModels.swift */,
 				6A449C182896F4320015826A /* Assets.xcassets */,
 				6A449C312896F4320015826A /* Preview Content */,
@@ -315,13 +276,11 @@
 				6A449BE62896F4320015826A /* OnboardingProcess */,
 				6A449C0E2896F4320015826A /* MainTab */,
 				6A449C082896F4320015826A /* Feed */,
-				6A449C102896F4320015826A /* NewPost */,
 				6A449BE12896F4320015826A /* Post */,
+				6A449C102896F4320015826A /* NewPost */,
 				6A449BFD2896F4320015826A /* Leaderboard */,
 				6A78FA4B289CD2DA00B75CC6 /* Notifications */,
 				6A449BDE2896F4320015826A /* Messages */,
-				6A449BF02896F4320015826A /* Chat */,
-				6A449C152896F4320015826A /* NewChat */,
 				6A449C022896F4320015826A /* Profile */,
 				6A449BC12896F4320015826A /* Settings */,
 				6A449BF72896F4320015826A /* ChooseLocation */,
@@ -333,10 +292,7 @@
 			isa = PBXGroup;
 			children = (
 				6A449BC22896F4320015826A /* ViewModels */,
-				6A449BC62896F4320015826A /* Preferences */,
-				6A449BCD2896F4320015826A /* Accounts */,
 				6A449BD42896F4320015826A /* Views */,
-				6A449BD82896F4320015826A /* Notifications */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -352,60 +308,6 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
-		6A449BC62896F4320015826A /* Preferences */ = {
-			isa = PBXGroup;
-			children = (
-				6A449BC72896F4320015826A /* ViewModels */,
-				6A449BCA2896F4320015826A /* Views */,
-			);
-			path = Preferences;
-			sourceTree = "<group>";
-		};
-		6A449BC72896F4320015826A /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-				6A449BC82896F4320015826A /* PreferencesSettingsViewModel.swift */,
-				6A449BC92896F4320015826A /* PreferencesSettingsEnum.swift */,
-			);
-			path = ViewModels;
-			sourceTree = "<group>";
-		};
-		6A449BCA2896F4320015826A /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				6A449BCB2896F4320015826A /* PreferencesOptionRowView.swift */,
-				6A449BCC2896F4320015826A /* PreferencesSheetView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		6A449BCD2896F4320015826A /* Accounts */ = {
-			isa = PBXGroup;
-			children = (
-				6A449BCE2896F4320015826A /* ViewModels */,
-				6A449BD02896F4320015826A /* Views */,
-			);
-			path = Accounts;
-			sourceTree = "<group>";
-		};
-		6A449BCE2896F4320015826A /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-				6A449BCF2896F4320015826A /* AccountsSheetEnum.swift */,
-			);
-			path = ViewModels;
-			sourceTree = "<group>";
-		};
-		6A449BD02896F4320015826A /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				6A449BD12896F4320015826A /* AccountOptionRowView.swift */,
-				6A449BD22896F4320015826A /* AccountsSheetView.swift */,
-				6A449BD32896F4320015826A /* DeleteAccountConfirmationView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
 		6A449BD42896F4320015826A /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -419,35 +321,10 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		6A449BD82896F4320015826A /* Notifications */ = {
-			isa = PBXGroup;
-			children = (
-				6A449BD92896F4320015826A /* ViewModels */,
-				6A449BDB2896F4320015826A /* Views */,
-			);
-			path = Notifications;
-			sourceTree = "<group>";
-		};
-		6A449BD92896F4320015826A /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-				6A449BDA2896F4320015826A /* NotificationsSheetEnum.swift */,
-			);
-			path = ViewModels;
-			sourceTree = "<group>";
-		};
-		6A449BDB2896F4320015826A /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				6A449BDC2896F4320015826A /* NotificationsSheetView.swift */,
-				6A449BDD2896F4320015826A /* NotificationOptionRowView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
 		6A449BDE2896F4320015826A /* Messages */ = {
 			isa = PBXGroup;
 			children = (
+				6A78FA6128A304A500B75CC6 /* ViewModels */,
 				6A449BDF2896F4320015826A /* Views */,
 			);
 			path = Messages;
@@ -489,6 +366,7 @@
 		6A449BE62896F4320015826A /* OnboardingProcess */ = {
 			isa = PBXGroup;
 			children = (
+				6A78FA6228A3060E00B75CC6 /* Models */,
 				6A449BE72896F4320015826A /* ViewModels */,
 				6A449BEA2896F4320015826A /* Views */,
 			);
@@ -512,33 +390,6 @@
 				6A449BED2896F4320015826A /* WelcomeView.swift */,
 				6A449BEE2896F4320015826A /* PhoneLoginView.swift */,
 				6A449BEF2896F4320015826A /* EmailVerificationView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		6A449BF02896F4320015826A /* Chat */ = {
-			isa = PBXGroup;
-			children = (
-				6A449BF12896F4320015826A /* ViewModels */,
-				6A449BF32896F4320015826A /* Views */,
-			);
-			path = Chat;
-			sourceTree = "<group>";
-		};
-		6A449BF12896F4320015826A /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-				6A449BF22896F4320015826A /* ChatSideMenuViewModel.swift */,
-			);
-			path = ViewModels;
-			sourceTree = "<group>";
-		};
-		6A449BF32896F4320015826A /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				6A449BF42896F4320015826A /* ChatSideMenuRowView.swift */,
-				6A449BF52896F4320015826A /* ChatSideMenuView.swift */,
-				6A449BF62896F4320015826A /* ChatView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -681,22 +532,6 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		6A449C152896F4320015826A /* NewChat */ = {
-			isa = PBXGroup;
-			children = (
-				6A449C162896F4320015826A /* Views */,
-			);
-			path = NewChat;
-			sourceTree = "<group>";
-		};
-		6A449C162896F4320015826A /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				6A449C172896F4320015826A /* NewChatView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
 		6A449C1A2896F4320015826A /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -714,14 +549,9 @@
 				6A449C202896F4320015826A /* DeleteCommentRequestBody.swift */,
 				6A449C212896F4320015826A /* PostReport.swift */,
 				6A449C222896F4320015826A /* Message.swift */,
-				6A449C302896F4320015826A /* OTPStartRequestBody.swift */,
-				6A449C232896F4320015826A /* OTPStartResponseBody.swift */,
 				6A449C272896F4320015826A /* CommentVoteRequestBody.swift */,
 				6A449C282896F4320015826A /* ReadPostRequestBody.swift */,
 				6A449C292896F4320015826A /* CreatePostReportRequestBody.swift */,
-				6A449C2E2896F4320015826A /* LoggedInInfoResponseBody.swift */,
-				6A449C2A2896F4320015826A /* OTPVerifyRequestBody.swift */,
-				6A449C2F2896F4320015826A /* OTPVerifyResponseBody.swift */,
 				6A449CD32898B1D00015826A /* ErrorResponseBody.swift */,
 			);
 			path = Models;
@@ -745,12 +575,10 @@
 				6A449C532896F4320015826A /* Report */,
 				6A449C3B2896F4320015826A /* PostSettings */,
 				6A449C592896F4320015826A /* CustomInputField.swift */,
-				6A449C522896F4320015826A /* ActionSheets.swift */,
 				6A449C352896F4320015826A /* TextArea.swift */,
 				6A449C432896F4320015826A /* MessageField.swift */,
-				6A449C442896F4320015826A /* MessageBubble.swift */,
-				6A449C452896F4320015826A /* MessageBlock.swift */,
 				6A449C5F2896F4320015826A /* ShareSheet.swift */,
+				6A449C522896F4320015826A /* ActionSheets.swift */,
 				6A449CD52898E3BC0015826A /* FloatWarning.swift */,
 			);
 			path = Components;
@@ -978,6 +806,25 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		6A78FA6128A304A500B75CC6 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		6A78FA6228A3060E00B75CC6 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				6A449C302896F4320015826A /* OTPStartRequestBody.swift */,
+				6A449C232896F4320015826A /* OTPStartResponseBody.swift */,
+				6A449C2A2896F4320015826A /* OTPVerifyRequestBody.swift */,
+				6A449C2F2896F4320015826A /* OTPVerifyResponseBody.swift */,
+				6A449C2E2896F4320015826A /* LoggedInInfoResponseBody.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1071,10 +918,8 @@
 			files = (
 				6A449C8A2896F4320015826A /* LeaderboardView.swift in Sources */,
 				289CC874289C695F009C1DCE /* Colors.swift in Sources */,
-				6A449C712896F4320015826A /* DeleteAccountConfirmationView.swift in Sources */,
 				6A78FA5928A1A65E00B75CC6 /* PostVoteModel.swift in Sources */,
 				6A449C812896F4320015826A /* EmailVerificationView.swift in Sources */,
-				6A449C6E2896F4320015826A /* AccountsSheetEnum.swift in Sources */,
 				6A449C652896F4320015826A /* NetworkManager.swift in Sources */,
 				6A449C9C2896F4330015826A /* DeleteCommentRequestBody.swift in Sources */,
 				6A449CAF2896F4330015826A /* TextArea.swift in Sources */,
@@ -1082,15 +927,12 @@
 				6A449CC32896F4330015826A /* CommentBubble.swift in Sources */,
 				6A449CC82896F4330015826A /* DefaultModels.swift in Sources */,
 				6A449C8C2896F4320015826A /* ProfileViewModel.swift in Sources */,
-				6A449C6F2896F4320015826A /* AccountOptionRowView.swift in Sources */,
 				6A449C802896F4320015826A /* PhoneLoginView.swift in Sources */,
-				6A449C762896F4320015826A /* NotificationsSheetView.swift in Sources */,
 				6A78FA5E28A1F44F00B75CC6 /* CommentVoteModel.swift in Sources */,
 				6A449C932896F4330015826A /* NewPostView.swift in Sources */,
 				6A449CB42896F4330015826A /* DeleteConfirmationView.swift in Sources */,
 				6A449C742896F4320015826A /* SettingsSheetView.swift in Sources */,
 				6A449C682896F4320015826A /* SettingsSheetEnum.swift in Sources */,
-				6A449C942896F4330015826A /* NewChatView.swift in Sources */,
 				6A449CAC2896F4330015826A /* OTPStartRequestBody.swift in Sources */,
 				6A449C902896F4320015826A /* FeedView.swift in Sources */,
 				6A449CB52896F4330015826A /* PostSettingsRowView.swift in Sources */,
@@ -1102,19 +944,16 @@
 				6A449CC12896F4330015826A /* ReportViewModel.swift in Sources */,
 				6A449C8D2896F4320015826A /* ProfileView.swift in Sources */,
 				6A449C9A2896F4330015826A /* Comment.swift in Sources */,
-				6A449C6B2896F4320015826A /* PreferencesSettingsEnum.swift in Sources */,
 				6A78FA6028A214FF00B75CC6 /* CommentReplyModel.swift in Sources */,
 				6A449C882896F4320015826A /* ChooseLocationView.swift in Sources */,
 				6A449C7D2896F4320015826A /* OnboardView.swift in Sources */,
 				6A78FA5728A19A0D00B75CC6 /* VerifyEmailModel.swift in Sources */,
-				6A449CB82896F4330015826A /* MessageBubble.swift in Sources */,
 				6A449C7A2896F4320015826A /* PostView.swift in Sources */,
 				6A449CC92896F4330015826A /* API.swift in Sources */,
 				6A449C862896F4320015826A /* ChooseLocationFilterViewModel.swift in Sources */,
 				289CC872289C68D8009C1DCE /* LoadingView.swift in Sources */,
 				6A449C7C2896F4320015826A /* PhoneLoginViewModel.swift in Sources */,
 				6A78FA5C28A1A82C00B75CC6 /* DAKeychain.swift in Sources */,
-				6A449C752896F4320015826A /* NotificationsSheetEnum.swift in Sources */,
 				6A449CBF2896F4330015826A /* PostBubble.swift in Sources */,
 				6A449CBC2896F4330015826A /* ProfileCommentBubble.swift in Sources */,
 				6A449CA32896F4330015826A /* CommentVoteRequestBody.swift in Sources */,
@@ -1128,25 +967,19 @@
 				289CC86A289993C9009C1DCE /* AppDelegate.swift in Sources */,
 				6A78FA4F289CD31A00B75CC6 /* NotificationsView.swift in Sources */,
 				6A449CC22896F4330015826A /* ReportView.swift in Sources */,
-				6A449C702896F4320015826A /* AccountsSheetView.swift in Sources */,
 				6A449C7B2896F4320015826A /* VerificationViewModel.swift in Sources */,
 				6A449CC62896F4330015826A /* Poll.swift in Sources */,
-				6A449C832896F4320015826A /* ChatSideMenuRowView.swift in Sources */,
 				6A449CAA2896F4330015826A /* LoggedInInfoResponseBody.swift in Sources */,
 				6A449CC02896F4330015826A /* ActionSheets.swift in Sources */,
 				6A449CA82896F4330015826A /* CreateCommentRequestBody.swift in Sources */,
 				6A449CA62896F4330015826A /* OTPVerifyRequestBody.swift in Sources */,
 				6A449CC52896F4330015826A /* PollViewModel.swift in Sources */,
-				6A449C642896F4320015826A /* APITemplates.swift in Sources */,
 				6A449C962896F4330015826A /* PongApp.swift in Sources */,
-				6A449C6C2896F4320015826A /* PreferencesOptionRowView.swift in Sources */,
 				6A449CB12896F4330015826A /* NewPoll.swift in Sources */,
 				6A449C922896F4320015826A /* NewPostViewModel.swift in Sources */,
 				6A449CB32896F4330015826A /* PostSettingOptionsViewModel.swift in Sources */,
 				6A449CC42896F4330015826A /* CustomInputField.swift in Sources */,
-				6A449C6D2896F4320015826A /* PreferencesSheetView.swift in Sources */,
 				6A449C9E2896F4330015826A /* Message.swift in Sources */,
-				6A449C6A2896F4320015826A /* PreferencesSettingsViewModel.swift in Sources */,
 				6A449CAE2896F4330015826A /* Extensions.swift in Sources */,
 				6A449C732896F4320015826A /* LegalSheetView.swift in Sources */,
 				6A449C692896F4320015826A /* ProfileSettingsAbstractedEnums.swift in Sources */,
@@ -1156,7 +989,6 @@
 				6A78FA55289CE38200B75CC6 /* NotificationsViewModel.swift in Sources */,
 				6A449C632896F4320015826A /* LoginViewModel.swift in Sources */,
 				6A449CA02896F4330015826A /* User.swift in Sources */,
-				6A449C822896F4320015826A /* ChatSideMenuViewModel.swift in Sources */,
 				289CC86E289C6826009C1DCE /* SettingsView.swift in Sources */,
 				6A449CA42896F4330015826A /* ReadPostRequestBody.swift in Sources */,
 				6A449CA72896F4330015826A /* Post.swift in Sources */,
@@ -1166,9 +998,7 @@
 				6A449CD62898E3BC0015826A /* FloatWarning.swift in Sources */,
 				6A449C9D2896F4330015826A /* PostReport.swift in Sources */,
 				6A449CB22896F4330015826A /* PostSettingsViewModel.swift in Sources */,
-				6A449CB92896F4330015826A /* MessageBlock.swift in Sources */,
 				6A78FA53289CDACF00B75CC6 /* MainTabViewModel.swift in Sources */,
-				6A449C842896F4320015826A /* ChatSideMenuView.swift in Sources */,
 				6A449CCA2896F4330015826A /* ContentView.swift in Sources */,
 				6A449C892896F4320015826A /* LeaderboardViewModel.swift in Sources */,
 				6A449C8B2896F4320015826A /* ProfileFilterViewModel.swift in Sources */,
@@ -1176,8 +1006,6 @@
 				6A449CCF2897A5BD0015826A /* CommentBubbleViewModel.swift in Sources */,
 				6A449C672896F4320015826A /* SettingsSheetViewModel.swift in Sources */,
 				6A449CD42898B1D00015826A /* ErrorResponseBody.swift in Sources */,
-				6A449C852896F4320015826A /* ChatView.swift in Sources */,
-				6A449C772896F4320015826A /* NotificationOptionRowView.swift in Sources */,
 				6A449C7E2896F4320015826A /* VerificationView.swift in Sources */,
 				6A449CB72896F4330015826A /* MessageField.swift in Sources */,
 				289CC870289C6846009C1DCE /* SettingsViewModel.swift in Sources */,

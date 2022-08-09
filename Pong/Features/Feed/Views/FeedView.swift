@@ -37,19 +37,15 @@ struct FeedView: View {
                     
 
                 }
-
-
-                // MARK: Building Custom Header With Dynamic Tabs
                 .background(Color(UIColor.systemGroupedBackground))
+                // MARK: Building Custom Header With Dynamic Tabs
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                 .onAppear {
                     gestureManager.addGesture()
-                    UINavigationBarAppearance().configureWithOpaqueBackground()
                 }
                 .onDisappear {
                     gestureManager.removeGesture()
                 }
-
                 // MARK: SwipeHiddenHeader modifiers
                 .coordinateSpace(name: "SCROLL")
                 .overlay(alignment: .top) {
@@ -81,7 +77,6 @@ struct FeedView: View {
                         }
                     }
                 }
-//                .navigationBarHidden(true)
 //                .ignoresSafeArea(.all, edges: .top)
             }
         }
@@ -179,46 +174,27 @@ struct FeedView: View {
         }
     }
     
-    // MARK: Custom Header
+    // MARK: Custom Header which moves based on scroll
     @ViewBuilder
     func HeaderView(size: CGSize)->some View{
         VStack {
-            // MARK: Former Navbar Components 
-//            HStack {
-//                VStack {
-//                    Text("Boston University")
-//                        .font(.title).bold()
-//                }
-//
-//                Spacer()
-//
-//                NavigationLink {
-//                    MessagesView()
-//                } label: {
-//                    Image(systemName: "message")
-//                }
-//            }
-//            .padding()
-            
             // MARK: Picker Component
             DynamicTabHeader(size: size)
         }
         .background(Color(UIColor.systemGroupedBackground))
-//        .padding(.top, safeArea().top)
         .padding(.bottom, 20)
+        //        .padding(.top, safeArea().top)
     }
     
     // MARK: Custom tabbar
     @ViewBuilder
     func DynamicTabHeader(size: CGSize)->some View{
         VStack(alignment: .leading, spacing: 22) {
-            // MARK: I'm Going to Show Two Types of Dynamic Tabs
-            // MARK: Type 2:
+            // MARK: Dynamic Tab Type 1: Underline only
             HStack(spacing: 0){
                 ForEach(FeedFilter.allCases, id: \.self) { tab in
                     Text(tab.title)
                         .font(.headline.bold())
-//                        .fontWeight(.semibold)
                         .padding(.vertical,6)
                         .frame(maxWidth: .infinity)
                         .foregroundColor(Color(UIColor.label))
@@ -245,46 +221,9 @@ struct FeedView: View {
                     .offset(x: feedVM.tabOffset(size: size, padding: 30))
             }
             // MARK: Bubble overlay for tab selection
-//            .overlay(alignment: .leading) {
-//                Capsule()
-//                    .fill(Color(UIColor.label))
-//                    // MARK: Same Technique Followed on Type 1
-//                    // MARK: For Realistic Tab Change Animation
-//                    .overlay(alignment: .leading, content: {
-//                        GeometryReader{_ in
-//                            HStack(spacing: 0){
-//                                ForEach(FeedFilter.allCases, id: \.self) { tab in
-//                                    Text(tab.title)
-//                                        .fontWeight(.semibold)
-//                                        .padding(.vertical,6)
-//                                        .frame(maxWidth: .infinity)
-//                                        .foregroundColor(Color(UIColor.systemBackground))
-//                                        .contentShape(Capsule())
-//                                        .onTapGesture {
-//                                            // MARK: Disabling The TabScrollOffset Detection
-//                                            feedVM.tabviewIsTapped = true
-//                                            // MARK: Updating Tab
-//                                            withAnimation(.easeInOut){
-//                                                // MARK: It Won't Update
-//                                                // Because SwiftUI TabView Quickly Updates The Offset
-//                                                // So Manually Updating It
-//                                                feedVM.selectedFeedFilter = tab
-//                                                // MARK: Since TabView is Not Padded
-//                                                feedVM.tabviewOffset = -(size.width) * CGFloat(feedVM.indexOf(tab: tab))
-//                                            }
-//                                        }
-//                                }
-//                            }
-//                            // MARK: Simply Reverse The Offset
-//                            .offset(x: -feedVM.tabOffset(size: size, padding: 30))
-//                        }
-//                        .frame(width: size.width - 30)
-//                    })
-//                    .frame(width: (size.width - 30) / CGFloat(FeedFilter.allCases.count))
-//                    .mask({Capsule()})
-//                    .offset(x: feedVM.tabOffset(size: size, padding: 30))
-//            }
         }
+        // MARK: Remove Background for tracking purposes
+//        .background(.red)
         .frame(maxWidth: .infinity,alignment: .leading)
         .padding(.horizontal, 15)
         .padding(.bottom, 15)

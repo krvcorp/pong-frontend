@@ -15,6 +15,20 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         FirebaseConfiguration.shared.setLoggerLevel(.min)
         UNUserNotificationCenter.current().delegate = self
         Messaging.messaging().delegate = self
+        
+        // MARK: White non-transucent navigatio bar, supports dark appearance
+        if #available(iOS 15, *) {
+            UINavigationBar.appearance().scrollEdgeAppearance = UINavigationBarAppearance()
+        }
+        
+        // White non-transucent navigatio bar, supports dark appearance
+//        if #available(iOS 15, *) {
+//            let appearance = UINavigationBarAppearance()
+//            appearance.configureWithOpaqueBackground()
+//            UINavigationBar.appearance().standardAppearance = appearance
+//            UINavigationBar.appearance().scrollEdgeAppearance = appearance
+//        }
+        
         return true
     }
 }
