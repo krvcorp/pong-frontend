@@ -61,7 +61,8 @@ struct CommentBubble: View {
             ForEach($commentBubbleVM.comment.children, id: \.self) { $child in
                 HStack {
                     Rectangle()
-                        .frame(width: 10)
+                        .fill(Color(UIColor.systemBackground))
+                        .frame(width: 20)
                     Spacer()
                     CommentBubble(comment: $child)
                         .buttonStyle(PlainButtonStyle())

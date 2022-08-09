@@ -31,7 +31,7 @@ struct FloatWarning: View {
         }
         .padding(16)
         .background(Color(.red).cornerRadius(12))
-        .shadow(color: Color(UIColor.label).opacity(0.4), radius: 40, x: 0, y: 12)
+        .shadow(color: Color(.black).opacity(0.4), radius: 40, x: 0, y: 12)
         .padding(.horizontal, 16)
     }
 }

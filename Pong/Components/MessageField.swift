@@ -55,6 +55,7 @@ struct CustomTextField: View {
             }
             
             TextField("", text: $text, onEditingChanged: editingChanged, onCommit: commit)
+                .font(.subheadline)
         }
     }
 }

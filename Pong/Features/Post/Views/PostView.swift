@@ -14,10 +14,11 @@ struct PostView: View {
     @State private var text = ""
     @State var sheet = false
     @State private var showScore = false
+    @FocusState private var textIsFocused: Bool
     
     var body: some View {
         ZStack(alignment: .bottom) {
-            RefreshableScrollView {
+            ScrollView {
                 mainPost
                 LazyVStack {
                     ForEach($postVM.comments, id: \.self) { $comment in
@@ -27,52 +28,8 @@ struct PostView: View {
                 }
                 .padding(.bottom, 150)
             }
-            .refreshable {
-                print("DEBUG: Pull to refresh")
-                postVM.readPost()
-                postVM.getComments()
-            }
-            VStack(spacing: 0) {
-                if postVM.replyToComment != defaultComment {
-                    HStack {
-                        Button {
-                            print("DEBUG: remove reply")
-                            postVM.replyToComment = defaultComment
-                            text = ""
-                        } label: {
-                            Image(systemName: "xmark")
-                        }
-
-                        Text("Replying to: ").font(.subheadline) + Text("\(postVM.replyToComment.comment)").font(.subheadline.bold())
-                        
-                        Spacer()
-                    }
-                    .padding(.horizontal)
-                    .background(Color(UIColor.systemBackground))
-                }
-                HStack {
-                    CustomTextField(placeholder: Text("Enter your message here"), text: $text)
-                    Button {
-                        if postVM.replyToComment == defaultComment {
-                            postVM.createComment(comment: text)
-                        } else {
-                            postVM.commentReply(comment: text)
-                            postVM.replyToComment = defaultComment
-                        }
-                        text = ""
-
-                    } label: {
-                        Image(systemName: "paperplane.fill")
-                            .foregroundColor(Color(UIColor.systemBackground))
-                            .padding(10)
-                            .background(.indigo)
-                            .cornerRadius(50)
-                    }
-                }
-                .padding()
-                .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color(UIColor.systemBackground), lineWidth: 2))
-                .background(Color(UIColor.systemBackground))
-            }
+            
+            MessagingComponent
         }
         .environmentObject(postVM)
         .onAppear {
@@ -182,6 +139,7 @@ struct PostView: View {
             }
         }
     }
+    
     var VoteComponent: some View {
         VStack {
             if !showScore {
@@ -289,6 +247,85 @@ struct PostView: View {
             }
         }
         .frame(width: 25, height: 50)
+    }
+    
+    // MARK: Overlay component to create a comment or reply
+    var MessagingComponent: some View {
+        VStack(spacing: 0) {
+            // MARK: Keyboard Down Component
+            if textIsFocused {
+                HStack {
+                    Spacer()
+                    
+                    Button {
+                        textIsFocused = false
+                    } label: {
+                        Image(systemName: "keyboard.chevron.compact.down")
+                            .resizable()
+                            .scaledToFit()
+                    }
+                    .frame(width: 50, height: 50)
+                    .background(Color(UIColor.systemBackground).cornerRadius(5))
+                }
+                .padding()
+            }
+            
+            // MARK: Messaging Component
+            VStack {
+                // MARK: Reply to Component
+                if postVM.replyToComment != defaultComment {
+                    HStack {
+                        Button {
+                            postVM.replyToComment = defaultComment
+                            text = ""
+                        } label: {
+                            Image(systemName: "xmark")
+                        }
+
+                        Text("Replying to: ").font(.subheadline) + Text("\(postVM.replyToComment.comment)").font(.subheadline.bold())
+                        
+                        Spacer()
+                    }
+                    .padding(.horizontal)
+                    .padding(.top, 2)
+                }
+                // MARK: TextArea and Button Component
+                HStack {
+                    CustomTextField(placeholder: Text("Enter your message here"), text: $text)
+                        .focused($textIsFocused)
+                        
+                    Button {
+                        if postVM.replyToComment == defaultComment {
+                            postVM.createComment(comment: text)
+                        } else {
+                            postVM.commentReply(comment: text)
+                            postVM.replyToComment = defaultComment
+                        }
+                        text = ""
+                        withAnimation {
+                            textIsFocused = false
+                        }
+                    } label: {
+                        ZStack {
+                            LinearGradient(gradient: Gradient(colors: [Color.viewEventsGradient1, Color.viewEventsGradient2]), startPoint: .topTrailing, endPoint: .bottomLeading)
+                            Image(systemName: "paperplane.fill")
+                                .imageScale(.small)
+                                .foregroundColor(.white)
+                                .font(.largeTitle)
+                        }
+                        .frame(width: 40, height: 40, alignment: .center)
+                        .cornerRadius(10)
+                        .padding(.trailing, 4)
+                    }
+                }
+                .padding(5)
+                .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color(UIColor.systemBackground), lineWidth: 2))
+            }
+            .background(Color(UIColor.secondarySystemBackground))
+            .cornerRadius(20, corners: [.topLeft, .topRight])
+        }
+        .shadow(color: Color(.black).opacity(0.3), radius: 10, x: 0, y: 0)
+        .mask(Rectangle().padding(.top, -20))
     }
 }
 

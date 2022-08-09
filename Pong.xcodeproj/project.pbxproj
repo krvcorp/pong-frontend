@@ -318,6 +318,7 @@
 				6A449C102896F4320015826A /* NewPost */,
 				6A449BE12896F4320015826A /* Post */,
 				6A449BFD2896F4320015826A /* Leaderboard */,
+				6A78FA4B289CD2DA00B75CC6 /* Notifications */,
 				6A449BDE2896F4320015826A /* Messages */,
 				6A449BF02896F4320015826A /* Chat */,
 				6A449C152896F4320015826A /* NewChat */,
@@ -683,7 +684,6 @@
 		6A449C152896F4320015826A /* NewChat */ = {
 			isa = PBXGroup;
 			children = (
-				6A78FA4B289CD2DA00B75CC6 /* Notifications */,
 				6A449C162896F4320015826A /* Views */,
 			);
 			path = NewChat;
@@ -707,6 +707,7 @@
 				6A78FA5828A1A65E00B75CC6 /* PostVoteModel.swift */,
 				6A78FA5D28A1F44F00B75CC6 /* CommentVoteModel.swift */,
 				6A78FA5F28A214FF00B75CC6 /* CommentReplyModel.swift */,
+				6A449C2C2896F4320015826A /* CreateCommentRequestBody.swift */,
 				6A449C1B2896F4320015826A /* PostRequestBody.swift */,
 				6A449C1C2896F4320015826A /* TotalScore.swift */,
 				6A449C1D2896F4320015826A /* Votes.swift */,
@@ -718,7 +719,6 @@
 				6A449C272896F4320015826A /* CommentVoteRequestBody.swift */,
 				6A449C282896F4320015826A /* ReadPostRequestBody.swift */,
 				6A449C292896F4320015826A /* CreatePostReportRequestBody.swift */,
-				6A449C2C2896F4320015826A /* CreateCommentRequestBody.swift */,
 				6A449C2E2896F4320015826A /* LoggedInInfoResponseBody.swift */,
 				6A449C2A2896F4320015826A /* OTPVerifyRequestBody.swift */,
 				6A449C2F2896F4320015826A /* OTPVerifyResponseBody.swift */,

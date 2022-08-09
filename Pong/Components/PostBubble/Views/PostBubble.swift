@@ -84,6 +84,7 @@ struct PostBubble: View {
                     label: {
                         Image(systemName: "ellipsis")
                     }
+                    .frame(width: 25, height: 25)
                 }
             }
         }

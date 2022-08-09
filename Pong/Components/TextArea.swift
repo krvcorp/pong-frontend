@@ -21,7 +21,6 @@ struct TextArea: View {
     
     var body: some View {
         ZStack(alignment: .topLeading) {
-            
             if text.isEmpty {
                 Text(placeholder)
                     .foregroundColor(Color(.placeholderText))
