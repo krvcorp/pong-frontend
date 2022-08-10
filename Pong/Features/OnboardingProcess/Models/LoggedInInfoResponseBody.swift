@@ -6,7 +6,6 @@ struct LoggedInUserInfoResponseBody: Decodable {
     var posts: [Post]
     var comments: [Comment]
     var inTimeout: Bool
-    var phone: String
     var commentScore: Int
     var postScore: Int
     var totalScore: Int

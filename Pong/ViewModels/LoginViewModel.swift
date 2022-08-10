@@ -36,7 +36,13 @@ import Alamofire
             "Content-Type": "application/json"
         ]
         
-        AF.request("\(API().root)login/", method: method, parameters: parameters, encoder: parameterEncoder, headers: headers).responseDecodable(of: VerifyEmailModel.Response.self) { response in
+        let decoder: JSONDecoder = {
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            return decoder
+        }()
+        
+        AF.request("\(API().root)login/", method: method, parameters: parameters, encoder: parameterEncoder, headers: headers).responseDecodable(of: VerifyEmailModel.Response.self, decoder: decoder) { response in
             print("DEBUG: loginVM verifyEmail response: \(response)")
             switch response.result {
             case .success(let successResponse):
