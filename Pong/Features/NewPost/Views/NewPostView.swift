@@ -106,18 +106,10 @@ struct NewPostView: View {
 
                             Button {
                                 print("DEBUG: New post")
-                                newPostVM.newPost(title: text) { result in
-                                    switch result {
-                                    case .success(let response):
-                                        print("DEBUG: \(response)")
-                                    case .failure(let error):
-                                        print("DEBUG: newPostVM.newPost completion error \(error)")
-                                    }
-                                }
-                                // accessing postVM too quickly here ? can't perform dismiss inside completion
+                                newPostVM.newPost(title: text)
+                                
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
                                     if !newPostVM.error {
-//                                        newPost = true
                                         presentationMode.wrappedValue.dismiss()
                                     }
                                 }

@@ -73,131 +73,46 @@ class FeedViewModel: ObservableObject {
     
     // MARK: API SHIT
     func getPosts(selectedFeedFilter : FeedFilter) {
+        let url_to_use: String
+        
         if selectedFeedFilter == .top {
             self.topPostsInitalOpen = false
+            url_to_use = "post/?sort=top"
         } else if selectedFeedFilter == .hot {
             self.hotPostsInitalOpen = false
-        } else if selectedFeedFilter == .recent {
+            url_to_use = "post/?sort=hot"
+        } else {
             self.recentPostsInitalOpen = false
+            url_to_use = "post/?sort=new"
         }
         
-        guard let token = DAKeychain.shared["token"] else { return }
-
-        let url_to_use: String
-        if selectedFeedFilter == .recent {
-            url_to_use = "\(API().root)post/?sort=new"
-        } else if selectedFeedFilter == .top {
-            url_to_use = "\(API().root)post/?sort=top"
-        } else {
-            url_to_use = "\(API().root)post/?sort=old"
-        }
-        print("DEBUG: feedVM.getPosts url \(url_to_use)")
-        
-        guard let url = URL(string: url_to_use) else { return }
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.addValue("Token \(token)", forHTTPHeaderField: "Authorization")
-        
-        let task = URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
-            guard let data = data, error == nil else { return }
-
-            do {
-                let decoder = JSONDecoder()
-                decoder.keyDecodingStrategy = .convertFromSnakeCase
-                let posts = try decoder.decode([Post].self, from: data)
-                
-//                print("DEBUG: feedVM.getPosts posts \(posts)")
-                DispatchQueue.main.async {
-                    if selectedFeedFilter == .hot {
-                        self?.hotPosts = posts
-                    } else if selectedFeedFilter == .recent {
-                        self?.recentPosts = posts
-                    } else if selectedFeedFilter == .top {
-                        self?.topPosts = posts
-                    }
-                }
-            } catch {
-//                print("DEBUG: feedVM.getPosts \(error)")
+        NetworkManager.networkManager.request(route: url_to_use, method: .get, successType: [Post].self) { successResponse in
+            if selectedFeedFilter == .top {
+                self.topPosts = successResponse
+            } else if selectedFeedFilter == .hot {
+                self.hotPosts = successResponse
+            } else if selectedFeedFilter == .recent {
+                self.recentPosts = successResponse
             }
         }
-        task.resume()
     }
 
-    func getPostsAlamofire(selectedFilter: FeedFilter) {
-        let url_to_use: String
-        if selectedFilter == .top {
-            topPostsInitalOpen = true
-            url_to_use = "\(API().root)post/?sort=top"
-        } else if selectedFilter == .hot {
-            hotPostsInitalOpen = true
-            url_to_use = "\(API().root)post/?sort=top"
-        } else if selectedFilter == .recent {
-            recentPostsInitalOpen = true
-            url_to_use = "\(API().root)post/?sort=new"
-        } else {
-            url_to_use = "\(API().root)post/?sort=old"
-        }
-
-        let method = HTTPMethod.get
-        let headers: HTTPHeaders = [
-            "Authorization": "Token \(String(describing: DAKeychain.shared["token"]))",
-            "Content-Type": "application/x-www-form-urlencoded"
-        ]
-
-        AF.request(url_to_use, method: method, headers: headers).responseDecodable(of: Post.self) { response in
-            guard let posts = response.value else { return }
-//            if selectedFilter == .hot {
-//                self!.hotPosts = posts
-//            } else if selectedFilter == .recent {
-//                self!.recentPosts = posts
-//            } else if selectedFilter == .top {
-//                self!.topPosts = posts
-//            }
-            debugPrint(posts)
-        }
-    }
     
-    // this logic should probably go into feedviewmodel where tapping on a post calls an API to get updated post information regarding a post
+    // MARK: Read Post
     func readPost(postId: String, completion: @escaping (Result<Post, AuthenticationError>) -> Void) {
-        
-        
-        guard let token = DAKeychain.shared["token"] else { return }
-        guard let url = URL(string: "\(API().root)post/\(postId)/") else {
-            completion(.failure(.custom(errorMessage: "URL is not correct")))
-            return
-        }
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("Token \(token)", forHTTPHeaderField: "Authorization")
-        
-        URLSession.shared.dataTask(with: request) { (data, response, error) in
-            guard let data = data, error == nil else {
-                completion(.failure(.custom(errorMessage: "No data")))
-                return
-            }
-            
-            let decoder = JSONDecoder()
-            decoder.keyDecodingStrategy = .convertFromSnakeCase
-            guard let postResponse = try? decoder.decode(Post.self, from: data) else {
-                completion(.failure(.custom(errorMessage: "Decode failure")))
-                return
-            }
+        NetworkManager.networkManager.request(route: "post/\(postId)", method: .get, successType: Post.self) { successResponse in
             DispatchQueue.main.async {
                 // replace the local post
                 if let index = self.hotPosts.firstIndex(where: {$0.id == postId}) {
-                    self.hotPosts[index] = postResponse
+                    self.hotPosts[index] = successResponse
                 }
                 if let index = self.recentPosts.firstIndex(where: {$0.id == postId}) {
-                    self.recentPosts[index] = postResponse
+                    self.recentPosts[index] = successResponse
                 }
                 if let index = self.topPosts.firstIndex(where: {$0.id == postId}) {
-                    self.topPosts[index] = postResponse
+                    self.topPosts[index] = successResponse
                 }
             }
-            
-            completion(.success(postResponse))
-        }.resume()
+        }
     }
 }
