@@ -48,20 +48,19 @@ struct MainTabView: View {
                 }
                 .tag(5)
         }
-        .statusBar(hidden: true)
-        .alert(isPresented: $postSettingsVM.showDeleteConfirmationView) {
-            Alert(
-                title: Text("Delete post"),
-                message: Text("Are you sure you want to delete \(postSettingsVM.post.title)"),
-                primaryButton: .default(
-                    Text("Cancel")
-                ),
-                secondaryButton: .destructive(
-                    Text("Delete"),
-                    action: postSettingsVM.deletePost
-                )
-            )
-        }
+//        .alert(isPresented: $postSettingsVM.showDeleteConfirmationView) {
+//            Alert(
+//                title: Text("Delete post"),
+//                message: Text("Are you sure you want to delete \(postSettingsVM.post.title)"),
+//                primaryButton: .default(
+//                    Text("Cancel")
+//                ),
+//                secondaryButton: .destructive(
+//                    Text("Delete"),
+//                    action: postSettingsVM.deletePost
+//                )
+//            )
+//        }
         .sheet(isPresented: $mainTabVM.isCustomItemSelected) {
             NewPostView()
         }

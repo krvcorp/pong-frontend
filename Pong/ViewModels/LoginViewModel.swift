@@ -47,9 +47,9 @@ import Alamofire
                         DAKeychain.shared["token"] = token
                         self.forceUpdate = true
                     }
-                    if let user = successResponse.user {
-                        print("DEBUG: userId \(String(describing: user.id))")
-                        DAKeychain.shared["userId"] = user.id
+                    if let userId = successResponse.userId {
+                        print("DEBUG: userId \(String(describing: userId))")
+                        DAKeychain.shared["userId"] = userId
                     }
                 }
             case .failure(let failureResponse):

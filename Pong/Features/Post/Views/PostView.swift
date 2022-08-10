@@ -43,20 +43,22 @@ struct PostView: View {
             // api call to fetch comments to display
             postVM.getComments()
         }
-        .onDisappear() {
-            // prevent feedview from rebuilding but to update data
-            self.post = postVM.post
+        .onChange(of: postVM.post) {
+            self.post = $0
         }
         .navigationBarTitleDisplayMode(.inline)
+        // MARK: Delete Confirmation
         .alert(isPresented: $postVM.showDeleteConfirmationView) {
             Alert(
                 title: Text("Delete post"),
-                message: Text("Are you sure you want to delete this post?"),
-                primaryButton: .default(Text("Cancel")),
-                secondaryButton: .destructive(Text("Delete")) {
-                    postVM.deletePost()
-                    presentationMode.wrappedValue.dismiss()
-                }
+                message: Text("Are you sure you want to delete \(postVM.post.title)"),
+                primaryButton: .default(
+                    Text("Cancel")
+                ),
+                secondaryButton: .destructive(
+                    Text("Delete"),
+                    action: postVM.deletePost
+                )
             )
         }
     }

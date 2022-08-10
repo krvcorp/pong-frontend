@@ -81,10 +81,6 @@ struct FeedView: View {
             }
         }
         .accentColor(Color(UIColor.label))
-        // MARK: Delete popup
-        .sheet(isPresented: $postSettingsVM.showDeleteConfirmationView) {
-            DeleteConfirmationView(postSettingsVM: postSettingsVM)
-        }
     }
     
     // MARK: Custom Feed Stack
@@ -93,7 +89,7 @@ struct FeedView: View {
         ScrollView(showsIndicators: false) {
             LazyVStack {
                 if tab == .top {
-                    ForEach($feedVM.topPosts, id: \.self) { $post in
+                    ForEach($feedVM.topPosts, id: \.id) { $post in
                         NavigationLink(destination: PostView(post: $post)) {
                             PostBubble(post: $post, postSettingsVM: postSettingsVM)
                         }
@@ -101,7 +97,7 @@ struct FeedView: View {
                     }
                 }
                 else if tab == .hot {
-                    ForEach($feedVM.hotPosts, id: \.self) { $post in
+                    ForEach($feedVM.hotPosts, id: \.id) { $post in
                         NavigationLink(destination: PostView(post: $post)) {
                             PostBubble(post: $post, postSettingsVM: postSettingsVM)
                         }
@@ -109,7 +105,7 @@ struct FeedView: View {
                     }
                 }
                 else if tab == .recent {
-                    ForEach($feedVM.recentPosts, id: \.self) { $post in
+                    ForEach($feedVM.recentPosts, id: \.id) { $post in
                         NavigationLink(destination: PostView(post: $post)) {
                             PostBubble(post: $post, postSettingsVM: postSettingsVM)
                         }

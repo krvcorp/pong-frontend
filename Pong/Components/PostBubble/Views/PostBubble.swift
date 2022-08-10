@@ -108,6 +108,21 @@ struct PostBubble: View {
         .onChange(of: postBubbleVM.post) {
             self.post = $0
         }
+        
+        // MARK: Delete Confirmation
+        .alert(isPresented: $postSettingsVM.showDeleteConfirmationView) {
+            Alert(
+                title: Text("Delete post"),
+                message: Text("Are you sure you want to delete \(postSettingsVM.post.title)"),
+                primaryButton: .default(
+                    Text("Cancel")
+                ),
+                secondaryButton: .destructive(
+                    Text("Delete"),
+                    action: postSettingsVM.deletePost
+                )
+            )
+        }
     }
     
     var VoteComponent: some View {

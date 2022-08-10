@@ -61,7 +61,7 @@ class PostSettingsViewModel: ObservableObject {
     }
     
     func deletePost() {
-        print("DEBUG: PostSettingsVM.deletePost \(post.id)")
+        print("DEBUG: postSettingsVM.deletePost \(post.id)")
         
         guard let token = DAKeychain.shared["token"] else { return }
         guard let url = URL(string: "\(API().root)post/\(post.id)/") else {
