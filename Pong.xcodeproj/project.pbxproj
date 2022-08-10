@@ -242,8 +242,6 @@
 				6A449C342896F4320015826A /* Components */,
 				6A449BC02896F4320015826A /* Features */,
 				6A78FA5A28A1A81200B75CC6 /* Extensions */,
-				6A449C192896F4320015826A /* PongApp.swift */,
-				6A449C622896F4320015826A /* ContentView.swift */,
 				289CC869289993C9009C1DCE /* AppDelegate.swift */,
 				6A449C612896F4320015826A /* API.swift */,
 				6A449C602896F4320015826A /* DefaultModels.swift */,
@@ -264,8 +262,8 @@
 		6A449BBD2896F4320015826A /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				6A449BBE2896F4320015826A /* NetworkManager.swift */,
 				6A449BBF2896F4320015826A /* AuthManager.swift */,
+				6A449BBE2896F4320015826A /* NetworkManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -386,10 +384,10 @@
 			isa = PBXGroup;
 			children = (
 				6A449BEB2896F4320015826A /* OnboardView.swift */,
-				6A449BEC2896F4320015826A /* VerificationView.swift */,
-				6A449BED2896F4320015826A /* WelcomeView.swift */,
-				6A449BEE2896F4320015826A /* PhoneLoginView.swift */,
 				6A449BEF2896F4320015826A /* EmailVerificationView.swift */,
+				6A449BED2896F4320015826A /* WelcomeView.swift */,
+				6A449BEC2896F4320015826A /* VerificationView.swift */,
+				6A449BEE2896F4320015826A /* PhoneLoginView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -742,6 +740,8 @@
 			children = (
 				28BB3C7228A217F00038AB4F /* GoogleService-Info.plist */,
 				6A5479C82895C08F00BC18CD /* Pong.entitlements */,
+				6A449C192896F4320015826A /* PongApp.swift */,
+				6A449C622896F4320015826A /* ContentView.swift */,
 				6A449BB92896F4320015826A /* Pong */,
 				6A5DF0E42851321000F28A06 /* Products */,
 			);

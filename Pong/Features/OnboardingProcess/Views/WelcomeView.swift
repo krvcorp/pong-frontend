@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct WelcomeView: View {
-    @ObservedObject var loginVM : LoginViewModel
-    
     var body: some View {
         
         VStack{
@@ -32,9 +30,7 @@ struct WelcomeView: View {
             
             Button(action: {
                 print("DEBUG: Agree")
-                let _ = UserDefaults.standard.removeObject(forKey: "hasAgreed")
-                let _ = UserDefaults.standard.setValue(false, forKey: "initialOnboard")
-                loginVM.initialOnboard = false
+                AuthManager.authManager.initialOnboard = false
             }) {
                 Text("Agree")
                     .frame(minWidth: 0, maxWidth: 150)

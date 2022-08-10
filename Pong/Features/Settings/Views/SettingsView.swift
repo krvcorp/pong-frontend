@@ -66,7 +66,7 @@ struct SettingsView: View {
                         }
                     }
                     Button {
-                        settingsVM.logout(loginVM: loginVM)
+                        AuthManager.authManager.signout()
                     } label: {
                         HStack {
                             Text("Sign Out").foregroundColor(.red)
