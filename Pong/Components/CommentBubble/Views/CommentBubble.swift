@@ -23,9 +23,25 @@ struct CommentBubble: View {
                 VStack{
                     HStack(alignment: .top){
                         VStack(alignment: .leading){
-                            Text("\(comment.timeSincePosted)")
-                                .font(.caption)
-                                .padding(.bottom, 4)
+                            HStack {
+                                Text("\(comment.numberOnPost)")
+                                    .font(.headline.bold())
+                                    .padding(.bottom, 4)
+                                
+                                if let receiving = comment.numberReplyingTo {
+                                    Image(systemName: "arrow.right")
+                                        .scaledToFit()
+                                    
+                                    Text("\(receiving)")
+                                        .font(.headline.bold())
+                                        .padding(.bottom, 4)
+                                }
+                                
+                                Text("\(comment.timeSincePosted)")
+                                    .font(.caption)
+                                    .padding(.bottom, 4)
+                            }
+
                                                    
                             Text(comment.comment)
                                 .multilineTextAlignment(.leading)
@@ -46,22 +62,46 @@ struct CommentBubble: View {
 
                         Spacer()
                         
-                        Button {
-                            print("DEBUG: MORE")
-                        } label: {
-                            Image(systemName: "ellipsis")
+                        // DELETE BUTTON
+                        if commentBubbleVM.comment.userOwned {
+                            Button {
+                                DispatchQueue.main.async {
+                                    print("DEBUG: TRASH")
+                                }
+                            } label: {
+                                Image(systemName: "trash")
+                            }
+                        } else {
+                            Menu {
+                                Button(action: {}) {
+                                    Label("Save", systemImage: "bookmark")
+                                }
+                                
+                                Button(action: {}) {
+                                    Label("Block user", systemImage: "x.circle")
+                                }
+                                
+                                Button(action: {}) {
+                                    Label("Report", systemImage: "flag")
+                                }
+                            }
+                            label: {
+                                Image(systemName: "ellipsis")
+                                    .frame(width: 30, height: 30)
+                                    .highPriorityGesture(TapGesture())
+                            }
                         }
                     }
                 }
-                .frame(minWidth: 0, maxWidth: UIScreen.main.bounds.size.width - 50)
-                .font(.system(size: 18).bold())
                 .padding()
+                .frame(minWidth: 0, maxWidth: UIScreen.main.bounds.size.width)
+                .font(.system(size: 18).bold())
                 .foregroundColor(Color(UIColor.label))
             }
             ForEach($commentBubbleVM.comment.children, id: \.self) { $child in
                 HStack {
                     Rectangle()
-                        .fill(Color(UIColor.systemBackground))
+                        .fill(Color(UIColor.tertiarySystemBackground))
                         .frame(width: 20)
                     Spacer()
                     CommentBubble(comment: $child)
@@ -69,6 +109,7 @@ struct CommentBubble: View {
                 }
             }
         }
+        .background(Color(UIColor.tertiarySystemBackground))
         .onAppear {
             // take binding and insert into VM
             print("DEBUG: commentBubble rebuild")

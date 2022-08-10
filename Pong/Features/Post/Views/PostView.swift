@@ -26,6 +26,7 @@ struct PostView: View {
                             .buttonStyle(PlainButtonStyle())
                     }
                 }
+                .background(Color(UIColor.systemGroupedBackground))
                 .padding(.bottom, 150)
             }
             
@@ -265,7 +266,7 @@ struct PostView: View {
                             .scaledToFit()
                     }
                     .frame(width: 50, height: 50)
-                    .background(Color(UIColor.systemBackground).cornerRadius(5))
+                    .background(Color(UIColor.tertiarySystemBackground).cornerRadius(5))
                 }
                 .padding()
             }

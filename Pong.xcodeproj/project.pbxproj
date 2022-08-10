@@ -102,7 +102,6 @@
 		6A449CD62898E3BC0015826A /* FloatWarning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449CD52898E3BC0015826A /* FloatWarning.swift */; };
 		6A5479C72895BB9800BC18CD /* MSAL in Frameworks */ = {isa = PBXBuildFile; productRef = 6A5479C62895BB9800BC18CD /* MSAL */; };
 		6A68DC32288A225700BF2775 /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = 6A68DC31288A225700BF2775 /* PopupView */; };
-		6A68DC46288B7A3100BF2775 /* ScalingHeaderScrollView in Frameworks */ = {isa = PBXBuildFile; productRef = 6A68DC45288B7A3100BF2775 /* ScalingHeaderScrollView */; };
 		6A78FA4F289CD31A00B75CC6 /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A78FA4E289CD31A00B75CC6 /* NotificationsView.swift */; };
 		6A78FA53289CDACF00B75CC6 /* MainTabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A78FA52289CDACF00B75CC6 /* MainTabViewModel.swift */; };
 		6A78FA55289CE38200B75CC6 /* NotificationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A78FA54289CE38200B75CC6 /* NotificationsViewModel.swift */; };
@@ -225,7 +224,6 @@
 				28E7C3242895E23B002C186A /* GoogleSignInSwift in Frameworks */,
 				6A218469287A0C8200681C86 /* iPhoneNumberField in Frameworks */,
 				6A5479C72895BB9800BC18CD /* MSAL in Frameworks */,
-				6A68DC46288B7A3100BF2775 /* ScalingHeaderScrollView in Frameworks */,
 				28E7C3222895E23B002C186A /* GoogleSignIn in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -844,7 +842,6 @@
 			packageProductDependencies = (
 				6A218468287A0C8200681C86 /* iPhoneNumberField */,
 				6A68DC31288A225700BF2775 /* PopupView */,
-				6A68DC45288B7A3100BF2775 /* ScalingHeaderScrollView */,
 				6A5479C62895BB9800BC18CD /* MSAL */,
 				28E7C3212895E23B002C186A /* GoogleSignIn */,
 				28E7C3232895E23B002C186A /* GoogleSignInSwift */,
@@ -1319,11 +1316,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 6A68DC30288A225700BF2775 /* XCRemoteSwiftPackageReference "PopupView" */;
 			productName = PopupView;
-		};
-		6A68DC45288B7A3100BF2775 /* ScalingHeaderScrollView */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 6A68DC44288B7A3100BF2775 /* XCRemoteSwiftPackageReference "ScalingHeaderScrollView" */;
-			productName = ScalingHeaderScrollView;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
