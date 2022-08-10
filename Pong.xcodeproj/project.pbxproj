@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		287727EB28A38E5F00BC60D1 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = 287727EA28A38E5F00BC60D1 /* Introspect */; };
 		289CC86628999135009C1DCE /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 289CC86528999135009C1DCE /* FirebaseMessaging */; };
 		289CC86A289993C9009C1DCE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289CC869289993C9009C1DCE /* AppDelegate.swift */; };
 		289CC86E289C6826009C1DCE /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289CC86D289C6826009C1DCE /* SettingsView.swift */; };
@@ -223,6 +224,7 @@
 				28E7C32A2895E302002C186A /* Alamofire in Frameworks */,
 				28E7C3242895E23B002C186A /* GoogleSignInSwift in Frameworks */,
 				6A218469287A0C8200681C86 /* iPhoneNumberField in Frameworks */,
+				287727EB28A38E5F00BC60D1 /* Introspect in Frameworks */,
 				6A5479C72895BB9800BC18CD /* MSAL in Frameworks */,
 				28E7C3222895E23B002C186A /* GoogleSignIn in Frameworks */,
 			);
@@ -847,6 +849,7 @@
 				28E7C3232895E23B002C186A /* GoogleSignInSwift */,
 				28E7C3292895E302002C186A /* Alamofire */,
 				289CC86528999135009C1DCE /* FirebaseMessaging */,
+				287727EA28A38E5F00BC60D1 /* Introspect */,
 			);
 			productName = pong;
 			productReference = 6A5DF0E32851321000F28A06 /* Pong.app */;
@@ -885,6 +888,7 @@
 				28E7C3202895E23B002C186A /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				28E7C3282895E302002C186A /* XCRemoteSwiftPackageReference "Alamofire" */,
 				289CC86428999135009C1DCE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				287727E928A38E5F00BC60D1 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
 			);
 			productRefGroup = 6A5DF0E42851321000F28A06 /* Products */;
 			projectDirPath = "";
@@ -1223,6 +1227,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		287727E928A38E5F00BC60D1 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/siteline/SwiftUI-Introspect";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.4;
+			};
+		};
 		289CC86428999135009C1DCE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -1282,6 +1294,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		287727EA28A38E5F00BC60D1 /* Introspect */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 287727E928A38E5F00BC60D1 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;
+			productName = Introspect;
+		};
 		289CC86528999135009C1DCE /* FirebaseMessaging */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 289CC86428999135009C1DCE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;

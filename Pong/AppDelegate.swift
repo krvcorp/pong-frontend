@@ -16,11 +16,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         UNUserNotificationCenter.current().delegate = self
         Messaging.messaging().delegate = self
         
-        // MARK: White non-transucent navigatio bar, supports dark appearance
-        if #available(iOS 15, *) {
-            UINavigationBar.appearance().scrollEdgeAppearance = UINavigationBarAppearance()
-        }
-        
         // White non-transucent navigatio bar, supports dark appearance
 //        if #available(iOS 15, *) {
 //            let appearance = UINavigationBarAppearance()

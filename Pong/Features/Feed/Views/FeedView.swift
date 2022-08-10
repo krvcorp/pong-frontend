@@ -79,6 +79,14 @@ struct FeedView: View {
                 }
 //                .ignoresSafeArea(.all, edges: .top)
             }
+            .introspectNavigationController { navigationController in
+                let navigationBarAppearance = UINavigationBarAppearance()
+                navigationBarAppearance.configureWithOpaqueBackground()
+                
+                navigationController.navigationBar.standardAppearance = navigationBarAppearance
+                navigationController.navigationBar.compactAppearance = navigationBarAppearance
+                navigationController.navigationBar.scrollEdgeAppearance = navigationBarAppearance
+            }
         }
         .accentColor(Color(UIColor.label))
     }
