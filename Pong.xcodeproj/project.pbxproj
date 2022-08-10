@@ -20,15 +20,8 @@
 		28E7C3242895E23B002C186A /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 28E7C3232895E23B002C186A /* GoogleSignInSwift */; };
 		28E7C32A2895E302002C186A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 28E7C3292895E302002C186A /* Alamofire */; };
 		6A218469287A0C8200681C86 /* iPhoneNumberField in Frameworks */ = {isa = PBXBuildFile; productRef = 6A218468287A0C8200681C86 /* iPhoneNumberField */; };
-		6A449C632896F4320015826A /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BBB2896F4320015826A /* LoginViewModel.swift */; };
 		6A449C652896F4320015826A /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BBE2896F4320015826A /* NetworkManager.swift */; };
 		6A449C662896F4320015826A /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BBF2896F4320015826A /* AuthManager.swift */; };
-		6A449C672896F4320015826A /* SettingsSheetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BC32896F4320015826A /* SettingsSheetViewModel.swift */; };
-		6A449C682896F4320015826A /* SettingsSheetEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BC42896F4320015826A /* SettingsSheetEnum.swift */; };
-		6A449C692896F4320015826A /* ProfileSettingsAbstractedEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BC52896F4320015826A /* ProfileSettingsAbstractedEnums.swift */; };
-		6A449C722896F4320015826A /* SettingsOptionRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BD52896F4320015826A /* SettingsOptionRowView.swift */; };
-		6A449C732896F4320015826A /* LegalSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BD62896F4320015826A /* LegalSheetView.swift */; };
-		6A449C742896F4320015826A /* SettingsSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BD72896F4320015826A /* SettingsSheetView.swift */; };
 		6A449C782896F4320015826A /* MessagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BE02896F4320015826A /* MessagesView.swift */; };
 		6A449C792896F4320015826A /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BE32896F4320015826A /* PostViewModel.swift */; };
 		6A449C7A2896F4320015826A /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449BE52896F4320015826A /* PostView.swift */; };
@@ -78,10 +71,6 @@
 		6A449CB02896F4330015826A /* NewPollViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C382896F4320015826A /* NewPollViewModel.swift */; };
 		6A449CB12896F4330015826A /* NewPoll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C3A2896F4320015826A /* NewPoll.swift */; };
 		6A449CB22896F4330015826A /* PostSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C3D2896F4320015826A /* PostSettingsViewModel.swift */; };
-		6A449CB32896F4330015826A /* PostSettingOptionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C3E2896F4320015826A /* PostSettingOptionsViewModel.swift */; };
-		6A449CB42896F4330015826A /* DeleteConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C402896F4320015826A /* DeleteConfirmationView.swift */; };
-		6A449CB52896F4330015826A /* PostSettingsRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C412896F4320015826A /* PostSettingsRowView.swift */; };
-		6A449CB62896F4330015826A /* PostSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C422896F4320015826A /* PostSettingsView.swift */; };
 		6A449CB72896F4330015826A /* MessageField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C432896F4320015826A /* MessageField.swift */; };
 		6A449CBB2896F4330015826A /* ProfileCommentBubbleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C492896F4320015826A /* ProfileCommentBubbleViewModel.swift */; };
 		6A449CBC2896F4330015826A /* ProfileCommentBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C4B2896F4320015826A /* ProfileCommentBubble.swift */; };
@@ -96,7 +85,6 @@
 		6A449CC62896F4330015826A /* Poll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C5E2896F4320015826A /* Poll.swift */; };
 		6A449CC72896F4330015826A /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C5F2896F4320015826A /* ShareSheet.swift */; };
 		6A449CC82896F4330015826A /* DefaultModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C602896F4320015826A /* DefaultModels.swift */; };
-		6A449CC92896F4330015826A /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C612896F4320015826A /* API.swift */; };
 		6A449CCA2896F4330015826A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C622896F4320015826A /* ContentView.swift */; };
 		6A449CCF2897A5BD0015826A /* CommentBubbleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449CCE2897A5BD0015826A /* CommentBubbleViewModel.swift */; };
 		6A449CD42898B1D00015826A /* ErrorResponseBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449CD32898B1D00015826A /* ErrorResponseBody.swift */; };
@@ -121,15 +109,8 @@
 		289CC873289C695F009C1DCE /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		289CC875289C69D9009C1DCE /* ProminentHeaderModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProminentHeaderModifier.swift; sourceTree = "<group>"; };
 		28BB3C7228A217F00038AB4F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		6A449BBB2896F4320015826A /* LoginViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		6A449BBE2896F4320015826A /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		6A449BBF2896F4320015826A /* AuthManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
-		6A449BC32896F4320015826A /* SettingsSheetViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsSheetViewModel.swift; sourceTree = "<group>"; };
-		6A449BC42896F4320015826A /* SettingsSheetEnum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsSheetEnum.swift; sourceTree = "<group>"; };
-		6A449BC52896F4320015826A /* ProfileSettingsAbstractedEnums.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileSettingsAbstractedEnums.swift; sourceTree = "<group>"; };
-		6A449BD52896F4320015826A /* SettingsOptionRowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsOptionRowView.swift; sourceTree = "<group>"; };
-		6A449BD62896F4320015826A /* LegalSheetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LegalSheetView.swift; sourceTree = "<group>"; };
-		6A449BD72896F4320015826A /* SettingsSheetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsSheetView.swift; sourceTree = "<group>"; };
 		6A449BE02896F4320015826A /* MessagesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesView.swift; sourceTree = "<group>"; };
 		6A449BE32896F4320015826A /* PostViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
 		6A449BE52896F4320015826A /* PostView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
@@ -179,10 +160,6 @@
 		6A449C382896F4320015826A /* NewPollViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewPollViewModel.swift; sourceTree = "<group>"; };
 		6A449C3A2896F4320015826A /* NewPoll.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewPoll.swift; sourceTree = "<group>"; };
 		6A449C3D2896F4320015826A /* PostSettingsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostSettingsViewModel.swift; sourceTree = "<group>"; };
-		6A449C3E2896F4320015826A /* PostSettingOptionsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostSettingOptionsViewModel.swift; sourceTree = "<group>"; };
-		6A449C402896F4320015826A /* DeleteConfirmationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeleteConfirmationView.swift; sourceTree = "<group>"; };
-		6A449C412896F4320015826A /* PostSettingsRowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostSettingsRowView.swift; sourceTree = "<group>"; };
-		6A449C422896F4320015826A /* PostSettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostSettingsView.swift; sourceTree = "<group>"; };
 		6A449C432896F4320015826A /* MessageField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageField.swift; sourceTree = "<group>"; };
 		6A449C492896F4320015826A /* ProfileCommentBubbleViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileCommentBubbleViewModel.swift; sourceTree = "<group>"; };
 		6A449C4B2896F4320015826A /* ProfileCommentBubble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileCommentBubble.swift; sourceTree = "<group>"; };
@@ -197,7 +174,6 @@
 		6A449C5E2896F4320015826A /* Poll.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Poll.swift; sourceTree = "<group>"; };
 		6A449C5F2896F4320015826A /* ShareSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 		6A449C602896F4320015826A /* DefaultModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultModels.swift; sourceTree = "<group>"; };
-		6A449C612896F4320015826A /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		6A449C622896F4320015826A /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		6A449CCE2897A5BD0015826A /* CommentBubbleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentBubbleViewModel.swift; sourceTree = "<group>"; };
 		6A449CD32898B1D00015826A /* ErrorResponseBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponseBody.swift; sourceTree = "<group>"; };
@@ -243,7 +219,6 @@
 				6A449BC02896F4320015826A /* Features */,
 				6A78FA5A28A1A81200B75CC6 /* Extensions */,
 				289CC869289993C9009C1DCE /* AppDelegate.swift */,
-				6A449C612896F4320015826A /* API.swift */,
 				6A449C602896F4320015826A /* DefaultModels.swift */,
 				6A449C182896F4320015826A /* Assets.xcassets */,
 				6A449C312896F4320015826A /* Preview Content */,
@@ -254,7 +229,6 @@
 		6A449BBA2896F4320015826A /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				6A449BBB2896F4320015826A /* LoginViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -298,9 +272,6 @@
 		6A449BC22896F4320015826A /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				6A449BC32896F4320015826A /* SettingsSheetViewModel.swift */,
-				6A449BC42896F4320015826A /* SettingsSheetEnum.swift */,
-				6A449BC52896F4320015826A /* ProfileSettingsAbstractedEnums.swift */,
 				289CC86F289C6846009C1DCE /* SettingsViewModel.swift */,
 			);
 			path = ViewModels;
@@ -309,9 +280,6 @@
 		6A449BD42896F4320015826A /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				6A449BD52896F4320015826A /* SettingsOptionRowView.swift */,
-				6A449BD62896F4320015826A /* LegalSheetView.swift */,
-				6A449BD72896F4320015826A /* SettingsSheetView.swift */,
 				289CC86D289C6826009C1DCE /* SettingsView.swift */,
 				289CC875289C69D9009C1DCE /* ProminentHeaderModifier.swift */,
 				289CC871289C68D8009C1DCE /* LoadingView.swift */,
@@ -571,7 +539,6 @@
 				6A449C5A2896F4320015826A /* Poll */,
 				6A449C362896F4320015826A /* NewPoll */,
 				6A449C532896F4320015826A /* Report */,
-				6A449C3B2896F4320015826A /* PostSettings */,
 				6A449C592896F4320015826A /* CustomInputField.swift */,
 				6A449C352896F4320015826A /* TextArea.swift */,
 				6A449C432896F4320015826A /* MessageField.swift */,
@@ -603,33 +570,6 @@
 			isa = PBXGroup;
 			children = (
 				6A449C3A2896F4320015826A /* NewPoll.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		6A449C3B2896F4320015826A /* PostSettings */ = {
-			isa = PBXGroup;
-			children = (
-				6A449C3C2896F4320015826A /* ViewModels */,
-				6A449C3F2896F4320015826A /* Views */,
-			);
-			path = PostSettings;
-			sourceTree = "<group>";
-		};
-		6A449C3C2896F4320015826A /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-				6A449C3E2896F4320015826A /* PostSettingOptionsViewModel.swift */,
-			);
-			path = ViewModels;
-			sourceTree = "<group>";
-		};
-		6A449C3F2896F4320015826A /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				6A449C402896F4320015826A /* DeleteConfirmationView.swift */,
-				6A449C412896F4320015826A /* PostSettingsRowView.swift */,
-				6A449C422896F4320015826A /* PostSettingsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -924,19 +864,14 @@
 				6A449C652896F4320015826A /* NetworkManager.swift in Sources */,
 				6A449C9C2896F4330015826A /* DeleteCommentRequestBody.swift in Sources */,
 				6A449CAF2896F4330015826A /* TextArea.swift in Sources */,
-				6A449C722896F4320015826A /* SettingsOptionRowView.swift in Sources */,
 				6A449CC32896F4330015826A /* CommentBubble.swift in Sources */,
 				6A449CC82896F4330015826A /* DefaultModels.swift in Sources */,
 				6A449C8C2896F4320015826A /* ProfileViewModel.swift in Sources */,
 				6A449C802896F4320015826A /* PhoneLoginView.swift in Sources */,
 				6A78FA5E28A1F44F00B75CC6 /* CommentVoteModel.swift in Sources */,
 				6A449C932896F4330015826A /* NewPostView.swift in Sources */,
-				6A449CB42896F4330015826A /* DeleteConfirmationView.swift in Sources */,
-				6A449C742896F4320015826A /* SettingsSheetView.swift in Sources */,
-				6A449C682896F4320015826A /* SettingsSheetEnum.swift in Sources */,
 				6A449CAC2896F4330015826A /* OTPStartRequestBody.swift in Sources */,
 				6A449C902896F4320015826A /* FeedView.swift in Sources */,
-				6A449CB52896F4330015826A /* PostSettingsRowView.swift in Sources */,
 				6A449C662896F4320015826A /* AuthManager.swift in Sources */,
 				6A449C912896F4320015826A /* MainTabView.swift in Sources */,
 				6A449C982896F4330015826A /* TotalScore.swift in Sources */,
@@ -950,7 +885,6 @@
 				6A449C7D2896F4320015826A /* OnboardView.swift in Sources */,
 				6A78FA5728A19A0D00B75CC6 /* VerifyEmailModel.swift in Sources */,
 				6A449C7A2896F4320015826A /* PostView.swift in Sources */,
-				6A449CC92896F4330015826A /* API.swift in Sources */,
 				6A449C862896F4320015826A /* ChooseLocationFilterViewModel.swift in Sources */,
 				289CC872289C68D8009C1DCE /* LoadingView.swift in Sources */,
 				6A449C7C2896F4320015826A /* PhoneLoginViewModel.swift in Sources */,
@@ -962,7 +896,6 @@
 				6A449CBE2896F4330015826A /* PostBubbleViewModel.swift in Sources */,
 				6A449C7F2896F4320015826A /* WelcomeView.swift in Sources */,
 				6A449C9F2896F4330015826A /* OTPStartResponseBody.swift in Sources */,
-				6A449CB62896F4330015826A /* PostSettingsView.swift in Sources */,
 				6A449CAB2896F4330015826A /* OTPVerifyResponseBody.swift in Sources */,
 				6A449CB02896F4330015826A /* NewPollViewModel.swift in Sources */,
 				289CC86A289993C9009C1DCE /* AppDelegate.swift in Sources */,
@@ -978,17 +911,13 @@
 				6A449C962896F4330015826A /* PongApp.swift in Sources */,
 				6A449CB12896F4330015826A /* NewPoll.swift in Sources */,
 				6A449C922896F4320015826A /* NewPostViewModel.swift in Sources */,
-				6A449CB32896F4330015826A /* PostSettingOptionsViewModel.swift in Sources */,
 				6A449CC42896F4330015826A /* CustomInputField.swift in Sources */,
 				6A449C9E2896F4330015826A /* Message.swift in Sources */,
 				6A449CAE2896F4330015826A /* Extensions.swift in Sources */,
-				6A449C732896F4320015826A /* LegalSheetView.swift in Sources */,
-				6A449C692896F4320015826A /* ProfileSettingsAbstractedEnums.swift in Sources */,
 				6A449C782896F4320015826A /* MessagesView.swift in Sources */,
 				6A449C792896F4320015826A /* PostViewModel.swift in Sources */,
 				6A449CBB2896F4330015826A /* ProfileCommentBubbleViewModel.swift in Sources */,
 				6A78FA55289CE38200B75CC6 /* NotificationsViewModel.swift in Sources */,
-				6A449C632896F4320015826A /* LoginViewModel.swift in Sources */,
 				6A449CA02896F4330015826A /* User.swift in Sources */,
 				289CC86E289C6826009C1DCE /* SettingsView.swift in Sources */,
 				6A449CA42896F4330015826A /* ReadPostRequestBody.swift in Sources */,
@@ -1005,7 +934,6 @@
 				6A449C8B2896F4320015826A /* ProfileFilterViewModel.swift in Sources */,
 				289CC876289C69D9009C1DCE /* ProminentHeaderModifier.swift in Sources */,
 				6A449CCF2897A5BD0015826A /* CommentBubbleViewModel.swift in Sources */,
-				6A449C672896F4320015826A /* SettingsSheetViewModel.swift in Sources */,
 				6A449CD42898B1D00015826A /* ErrorResponseBody.swift in Sources */,
 				6A449C7E2896F4320015826A /* VerificationView.swift in Sources */,
 				6A449CB72896F4330015826A /* MessageField.swift in Sources */,

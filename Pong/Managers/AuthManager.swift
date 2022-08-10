@@ -15,10 +15,14 @@ class AuthManager: ObservableObject {
     
     @Published var isSignedIn: Bool = false
     @Published var initialOnboard: Bool = false
+    @Published var userId: String = ""
     
     // MARK: Current State is determined if the userId and the token is stored to the keychain
     func loadCurrentState() {
         isSignedIn = (DAKeychain.shared["userId"] != nil && DAKeychain.shared["token"] != nil)
+        if let userId = DAKeychain.shared["userId"] {
+            self.userId = userId
+        }
         print("DEBUG: \(isSignedIn)")
     }
     

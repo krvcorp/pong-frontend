@@ -22,46 +22,17 @@ class ProfileViewModel: ObservableObject {
     @Published var savedPosts: [Post] = []
 
     func getLoggedInUserInfo() {
-        guard let token = DAKeychain.shared["token"] else {
-            print("DEBUG: profileVM.getLoggedInUserInfo no token")
-            return
-        }
-        
-        guard let userId = DAKeychain.shared["userId"] else {
-            print("DEBUG: profileVM.getLoggedInUserInfo no userid")
-            return
-        }
-
-        guard let url = URL(string: "\(API().root)" + "user/" + userId + "/") else { return }
-
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("Token \(token)", forHTTPHeaderField: "Authorization")
-
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            
-            guard let data = data, error == nil else {
-                print("DEBUG: no data")
-                return
+        print("DEBUG: profileVM.getLoggedInUserInfo")
+        NetworkManager.networkManager.request(route: "user/\(AuthManager.authManager.userId)/", method: .get, successType: LoggedInUserInfoResponseBody.self) { successResponse in
+            DispatchQueue.main.async {
+                self.totalKarma = successResponse.totalScore
+                self.commentKarma = successResponse.commentScore
+                self.postKarma = successResponse.postScore
+                self.savedPosts = successResponse.savedPosts
+                self.posts = successResponse.posts
+                self.comments = successResponse.comments
+                print("DEBUG: profileVM.getLoggedInUserInfo total karma \(self.totalKarma)")
             }
-            
-            let decoder = JSONDecoder()
-            decoder.keyDecodingStrategy = .convertFromSnakeCase
-            
-            do {
-                let loggedInUserInfoResponse = try decoder.decode(LoggedInUserInfoResponseBody.self, from: data)
-                DispatchQueue.main.async {
-                    self.totalKarma = loggedInUserInfoResponse.totalScore
-                    self.commentKarma = loggedInUserInfoResponse.commentScore
-                    self.postKarma = loggedInUserInfoResponse.postScore
-                    self.savedPosts = loggedInUserInfoResponse.savedPosts
-                    self.posts = loggedInUserInfoResponse.posts
-                    self.comments = loggedInUserInfoResponse.comments
-                }
-            } catch {
-                print("DEBUG: decode error \(error)")
-            }
-        }.resume()
+        }
     }
 }

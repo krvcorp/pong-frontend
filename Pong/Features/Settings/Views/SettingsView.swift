@@ -11,7 +11,6 @@ import UniformTypeIdentifiers
 
 struct SettingsView: View {
     @StateObject private var settingsVM = SettingsViewModel()
-    @EnvironmentObject var loginVM : LoginViewModel
     @State private var notifications = false
     
     var body: some View {
@@ -76,7 +75,7 @@ struct SettingsView: View {
                     }
                     
                     Button {
-                        settingsVM.logout(loginVM: loginVM)
+                        print("DEBUG: Delete Account")
                     } label: {
                         HStack {
                             Text("Delete Account").foregroundColor(.red).bold()

@@ -11,44 +11,54 @@ struct PostBubble: View {
     
     var body: some View {
         VStack {
-            HStack(alignment: .top){
-                VStack(alignment: .leading){
-                    Text("\(postBubbleVM.post.timeSincePosted)")
-                        .font(.caption)
-                        .padding(.bottom, 4)
-      
-                    Text(postBubbleVM.post.title)
-                        .multilineTextAlignment(.leading)
-                    
-                    if let imageUrl = postBubbleVM.post.image {
-                        AsyncImage(
-                            url: URL(string: imageUrl),
-                            content: { image in
-                                image.resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                            },
-                            placeholder: {
-                                ProgressView()
-                            }
-                        )
+            NavigationLink(destination: PostView(post: $post)) {
+                HStack(alignment: .top) {
+                    VStack(alignment: .leading) {
+                        Text("\(postBubbleVM.post.timeSincePosted)")
+                            .font(.caption)
+                            .padding(.bottom, 4)
+          
+                        Text(postBubbleVM.post.title)
+                            .multilineTextAlignment(.leading)
+                        
+                        if let imageUrl = postBubbleVM.post.image {
+                            AsyncImage(
+                                url: URL(string: imageUrl),
+                                content: { image in
+                                    image.resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                },
+                                placeholder: {
+                                    ProgressView()
+                                }
+                            )
+                        }
                     }
+                    .padding(.bottom)
+                    
+                    Spacer()
+                    
+                    VoteComponent
                 }
-                
-                Spacer()
-                
-                VoteComponent
+                .background(Color(UIColor.tertiarySystemBackground))
+
             }
-            .padding(.bottom)
 
             Color.black.frame(height:CGFloat(1) / UIScreen.main.scale)
 
             HStack {
-                Image(systemName: "bubble.left")
-                Text("\(postBubbleVM.post.numComments)")
-                    .font(.subheadline).bold()
+                NavigationLink(destination: PostView(post: $post)) {
+                    HStack {
+                        Image(systemName: "bubble.left")
+                        Text("\(postBubbleVM.post.numComments)")
+                            .font(.subheadline).bold()
 
-                Spacer()
+                        Spacer()
+                    }
+                    .background(Color(UIColor.tertiarySystemBackground))
+                }
+                
                 Button {
                     sheet.toggle()
                 } label: {

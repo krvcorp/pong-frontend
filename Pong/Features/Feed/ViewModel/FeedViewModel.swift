@@ -32,9 +32,7 @@ class FeedViewModel: ObservableObject {
     @Published var selectedFeedFilter : FeedFilter = .hot
     @Published var school = "Boston University"
     @Published var isShowingNewPostSheet = false
-    @Published var topPostsInitalOpen : Bool = true
-    @Published var hotPostsInitalOpen : Bool = true
-    @Published var recentPostsInitalOpen : Bool = true
+    @Published var InitalOpen : Bool = true
     @Published var topPosts : [Post] = []
     @Published var hotPosts : [Post] = []
     @Published var recentPosts : [Post] = []
@@ -76,13 +74,10 @@ class FeedViewModel: ObservableObject {
         let url_to_use: String
         
         if selectedFeedFilter == .top {
-            self.topPostsInitalOpen = false
             url_to_use = "post/?sort=top"
         } else if selectedFeedFilter == .hot {
-            self.hotPostsInitalOpen = false
             url_to_use = "post/?sort=hot"
         } else {
-            self.recentPostsInitalOpen = false
             url_to_use = "post/?sort=new"
         }
         
@@ -95,6 +90,8 @@ class FeedViewModel: ObservableObject {
                 self.recentPosts = successResponse
             }
         }
+        
+        self.InitalOpen = false
     }
 
     

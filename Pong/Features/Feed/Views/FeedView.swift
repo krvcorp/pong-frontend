@@ -28,14 +28,16 @@ struct FeedView: View {
                 }
                 // MARK: OnAppear fetch all posts
                 .onAppear {
-                    if feedVM.hotPostsInitalOpen {
-                        print("DEBUG: feedVM.hotPostsInitialOpen \(feedVM.hotPostsInitalOpen)")
+                    if feedVM.InitalOpen {
+                        print("DEBUG: feedVM.hotPostsInitialOpen \(feedVM.InitalOpen)")
                         feedVM.getPosts(selectedFeedFilter: .top)
                         feedVM.getPosts(selectedFeedFilter: .hot)
                         feedVM.getPosts(selectedFeedFilter: .recent)
                     }
-                    
-
+                }
+                // MARK: Debug everytime a filter is changed the column is refetched
+                .onChange(of: feedVM.selectedFeedFilter) { newFilter in
+                    feedVM.getPosts(selectedFeedFilter: newFilter)
                 }
                 .background(Color(UIColor.systemGroupedBackground))
                 // MARK: Building Custom Header With Dynamic Tabs
@@ -98,26 +100,20 @@ struct FeedView: View {
             LazyVStack {
                 if tab == .top {
                     ForEach($feedVM.topPosts, id: \.id) { $post in
-                        NavigationLink(destination: PostView(post: $post)) {
-                            PostBubble(post: $post, postSettingsVM: postSettingsVM)
-                        }
-                        .buttonStyle(PlainButtonStyle())
+                        PostBubble(post: $post, postSettingsVM: postSettingsVM)
+                            .buttonStyle(PlainButtonStyle())
                     }
                 }
                 else if tab == .hot {
                     ForEach($feedVM.hotPosts, id: \.id) { $post in
-                        NavigationLink(destination: PostView(post: $post)) {
-                            PostBubble(post: $post, postSettingsVM: postSettingsVM)
-                        }
-                        .buttonStyle(PlainButtonStyle())
+                        PostBubble(post: $post, postSettingsVM: postSettingsVM)
+                            .buttonStyle(PlainButtonStyle())
                     }
                 }
                 else if tab == .recent {
                     ForEach($feedVM.recentPosts, id: \.id) { $post in
-                        NavigationLink(destination: PostView(post: $post)) {
-                            PostBubble(post: $post, postSettingsVM: postSettingsVM)
-                        }
-                        .buttonStyle(PlainButtonStyle())
+                        PostBubble(post: $post, postSettingsVM: postSettingsVM)
+                            .buttonStyle(PlainButtonStyle())
                     }
                 }
             }

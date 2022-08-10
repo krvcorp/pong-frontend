@@ -16,91 +16,24 @@ struct CommentBubble: View {
     
     var body: some View {
         VStack {
-            Button {
-                print("DEBUG: Reply to \(commentBubbleVM.comment.comment)")
-                postVM.replyToComment = commentBubbleVM.comment
-            } label: {
-                VStack{
-                    HStack(alignment: .top){
-                        VStack(alignment: .leading){
-                            HStack {
-                                Text("\(comment.numberOnPost)")
-                                    .font(.headline.bold())
-                                    .padding(.bottom, 4)
-                                
-                                if let receiving = comment.numberReplyingTo {
-                                    Image(systemName: "arrow.right")
-                                        .scaledToFit()
-                                    
-                                    Text("\(receiving)")
-                                        .font(.headline.bold())
-                                        .padding(.bottom, 4)
-                                }
-                                
-                                Text("\(comment.timeSincePosted)")
-                                    .font(.caption)
-                                    .padding(.bottom, 4)
-                            }
-
-                                                   
-                            Text(comment.comment)
-                                .multilineTextAlignment(.leading)
-                        }
-                        
-                        Spacer()
-                        
-                        VoteComponent
-                        
-                    }
-                    .padding(.bottom)
-
-                    // MARK: Bottom row
-                    HStack {
-                        Text("Reply")
-                            .font(.caption)
-
-                        Spacer()
-                        
-                        // MARK: Delete or More Button
-                        if commentBubbleVM.comment.userOwned {
-                            Button {
-                                DispatchQueue.main.async {
-                                    print("DEBUG: TRASH")
-                                }
-                            } label: {
-                                Image(systemName: "trash")
-                            }
-                        } else {
-                            Menu {
-                                Button {
-                                    print("DEBUG: Save")
-                                } label: {
-                                    Label("Save", systemImage: "bookmark")
-                                }
-                                
-                                Button {
-                                    print("DEBUG: Block")
-                                } label: {
-                                    Label("Block user", systemImage: "x.circle")
-                                }
-                                
-                                Button {
-                                    print("DEBUG: Report")
-                                } label: {
-                                    Label("Report", systemImage: "flag")
-                                }
-                            } label: {
-                                Image(systemName: "ellipsis")
-                                    .frame(width: 30, height: 30)
-                            }
-                        }
-                    }
+            VStack {
+                HStack(alignment: .top) {
+                    CommentBody
+                    
+                    Spacer()
+                    
+                    VoteComponent
                 }
-                .padding()
-                .frame(minWidth: 0, maxWidth: UIScreen.main.bounds.size.width)
-                .font(.system(size: 18).bold())
-                .foregroundColor(Color(UIColor.label))
+
+                // MARK: Bottom row
+                CommentBottomRow
             }
+            .padding()
+            .frame(minWidth: 0, maxWidth: UIScreen.main.bounds.size.width)
+            .font(.system(size: 18).bold())
+            .foregroundColor(Color(UIColor.label))
+            
+            // MARK: Recursive replies
             ForEach($commentBubbleVM.comment.children, id: \.self) { $child in
                 HStack {
                     Rectangle()
@@ -117,6 +50,38 @@ struct CommentBubble: View {
             // take binding and insert into VM
             print("DEBUG: commentBubble rebuild")
             commentBubbleVM.comment = self.comment
+        }
+    }
+    var CommentBody: some View {
+        Button  {
+            print("DEBUG: Reply to \(commentBubbleVM.comment.comment)")
+            postVM.replyToComment = commentBubbleVM.comment
+        } label: {
+            VStack(alignment: .leading) {
+                HStack {
+                    Text("\(comment.numberOnPost)")
+                        .font(.headline.bold())
+                        .padding(.bottom, 4)
+                    
+                    if let receiving = comment.numberReplyingTo {
+                        Image(systemName: "arrow.right")
+                            .scaledToFit()
+                        
+                        Text("\(receiving)")
+                            .font(.headline.bold())
+                            .padding(.bottom, 4)
+                    }
+                    
+                    Text("\(comment.timeSincePosted)")
+                        .font(.caption)
+                        .padding(.bottom, 4)
+                }
+                                       
+                Text(comment.comment)
+                    .multilineTextAlignment(.leading)
+            }
+            .padding(.bottom)
+            .background()
         }
     }
     
@@ -225,6 +190,58 @@ struct CommentBubble: View {
             }
         }
         .frame(width: 25, height: 50)
+    }
+    
+    var CommentBottomRow: some View {
+        HStack {
+            Button {
+                print("DEBUG: Reply to \(commentBubbleVM.comment.comment)")
+                postVM.replyToComment = commentBubbleVM.comment
+            } label: {
+                HStack {
+                    Text("Reply")
+                        .font(.caption)
+
+                    Spacer()
+                }
+                .background()
+            }
+
+            
+            // MARK: Delete or More Button
+            if commentBubbleVM.comment.userOwned {
+                Button {
+                    DispatchQueue.main.async {
+                        print("DEBUG: TRASH")
+                    }
+                } label: {
+                    Image(systemName: "trash")
+                }
+            } else {
+                Menu {
+                    Button {
+                        print("DEBUG: Save")
+                    } label: {
+                        Label("Save", systemImage: "bookmark")
+                    }
+                    
+                    Button {
+                        print("DEBUG: Block")
+                    } label: {
+                        Label("Block user", systemImage: "x.circle")
+                    }
+                    
+                    Button {
+                        print("DEBUG: Report")
+                    } label: {
+                        Label("Report", systemImage: "flag")
+                    }
+                } label: {
+                    Image(systemName: "ellipsis")
+                        .frame(width: 30, height: 30)
+                }
+            }
+        }
     }
 }
 

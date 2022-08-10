@@ -49,20 +49,20 @@ struct ActionSheetView<Content: View>: View {
     }
 }
 
-struct ActionSheets_Previews: PreviewProvider {
-    static var previews: some View {
-        ZStack {
-            Rectangle()
-                .ignoresSafeArea()
-            SettingsSheetView(loginVM: LoginViewModel(), settingsSheetVM: SettingsSheetViewModel())
-        }
-        
-        ZStack {
-            Rectangle()
-                .ignoresSafeArea()
-            LegalSheetView(settingsSheetVM: SettingsSheetViewModel())
-        }
-    }
-}
+//struct ActionSheets_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ZStack {
+//            Rectangle()
+//                .ignoresSafeArea()
+//            SettingsSheetView(loginVM: LoginViewModel(), settingsSheetVM: SettingsSheetViewModel())
+//        }
+//        
+//        ZStack {
+//            Rectangle()
+//                .ignoresSafeArea()
+//            LegalSheetView(settingsSheetVM: SettingsSheetViewModel())
+//        }
+//    }
+//}
 
 #endif

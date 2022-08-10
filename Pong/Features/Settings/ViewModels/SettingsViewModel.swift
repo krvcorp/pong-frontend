@@ -17,17 +17,6 @@ class SettingsViewModel: ObservableObject {
             NetworkManager.networkManager.baseURL = enableStagingServer ? "https://staging.posh.vip" : "https://posh.vip"
         }
     }
-    
-    func logout(loginVM: LoginViewModel) {
-        DispatchQueue.main.async {
-            print("DEBUG: logout")
-            UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
-            GIDSignIn.sharedInstance.disconnect()
-            DAKeychain.shared["userId"] = nil
-            DAKeychain.shared["token"] = nil
-            loginVM.forceUpdate.toggle()
-        }
-    }
 }
 
 
