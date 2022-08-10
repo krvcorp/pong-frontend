@@ -107,19 +107,24 @@ struct PostView: View {
                         }
                     } else {
                         Menu {
-                            Button(action: {}) {
+                            Button {
+                                print("DEBUG: Save")
+                            } label: {
                                 Label("Save", systemImage: "bookmark")
                             }
                             
-                            Button(action: {}) {
+                            Button {
+                                print("DEBUG: Block")
+                            } label: {
                                 Label("Block user", systemImage: "x.circle")
                             }
                             
-                            Button(action: {}) {
+                            Button {
+                                print("DEBUG: Report")
+                            } label: {
                                 Label("Report", systemImage: "flag")
                             }
-                        }
-                        label: {
+                        } label: {
                             Image(systemName: "ellipsis")
                                 .frame(width: 30, height: 30)
                         }

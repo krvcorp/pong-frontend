@@ -58,6 +58,7 @@ struct PostBubble: View {
                     ShareSheet(items: ["ponged: \(postBubbleVM.post.title)"])
                 }
                 
+                // MARK: Delete or More Button
                 if postBubbleVM.post.userOwned {
                     Button {
                         DispatchQueue.main.async {
@@ -69,20 +70,26 @@ struct PostBubble: View {
                     }
                 } else {
                     Menu {
-                        Button(action: {print("DEBUG: Save")}) {
+                        Button {
+                            print("DEBUG: Save")
+                        } label: {
                             Label("Save", systemImage: "bookmark")
                         }
                         
-                        Button(action: {print("DEBUG: Block")}) {
+                        Button {
+                            print("DEBUG: Block")
+                        } label: {
                             Label("Block user", systemImage: "x.circle")
                         }
                         
-                        Button(action: {print("DEBUG: Report")}) {
+                        Button {
+                            print("DEBUG: Report")
+                        } label: {
                             Label("Report", systemImage: "flag")
                         }
-                    }
-                    label: {
+                    } label: {
                         Image(systemName: "ellipsis")
+                            .frame(width: 30, height: 30)
                     }
                     .frame(width: 25, height: 25)
                 }

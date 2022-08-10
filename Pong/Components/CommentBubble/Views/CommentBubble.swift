@@ -54,15 +54,14 @@ struct CommentBubble: View {
                     }
                     .padding(.bottom)
 
-                    //
+                    // MARK: Bottom row
                     HStack {
-                        // comments, share, mail, flag
                         Text("Reply")
                             .font(.caption)
 
                         Spacer()
                         
-                        // DELETE BUTTON
+                        // MARK: Delete or More Button
                         if commentBubbleVM.comment.userOwned {
                             Button {
                                 DispatchQueue.main.async {
@@ -73,22 +72,26 @@ struct CommentBubble: View {
                             }
                         } else {
                             Menu {
-                                Button(action: {}) {
+                                Button {
+                                    print("DEBUG: Save")
+                                } label: {
                                     Label("Save", systemImage: "bookmark")
                                 }
                                 
-                                Button(action: {}) {
+                                Button {
+                                    print("DEBUG: Block")
+                                } label: {
                                     Label("Block user", systemImage: "x.circle")
                                 }
                                 
-                                Button(action: {}) {
+                                Button {
+                                    print("DEBUG: Report")
+                                } label: {
                                     Label("Report", systemImage: "flag")
                                 }
-                            }
-                            label: {
+                            } label: {
                                 Image(systemName: "ellipsis")
                                     .frame(width: 30, height: 30)
-                                    .highPriorityGesture(TapGesture())
                             }
                         }
                     }
@@ -199,7 +202,7 @@ struct CommentBubble: View {
                     }
                 } label: {
                     VStack {
-                        if commentBubbleVM.comment.score == 1 {
+                        if commentBubbleVM.comment.voteStatus == 1 {
                             Text("\(commentBubbleVM.comment.numUpvotes + 1)")
                                 .foregroundColor(.green)
                             Text("\(commentBubbleVM.comment.numDownvotes)")
