@@ -90,6 +90,7 @@ struct FeedView: View {
                 navigationController.navigationBar.scrollEdgeAppearance = navigationBarAppearance
             }
         }
+        .navigationViewStyle(StackNavigationViewStyle())
         .accentColor(Color(UIColor.label))
     }
     
