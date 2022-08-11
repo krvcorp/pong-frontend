@@ -98,7 +98,7 @@ struct FeedView: View {
     @ViewBuilder
     func customFeedStack(filter: FeedFilter, screenSize : CGSize, tab : FeedFilter)-> some View {
         ScrollView(showsIndicators: false) {
-            LazyVStack {
+            VStack {
                 if tab == .top {
                     ForEach($feedVM.topPosts, id: \.id) { $post in
                         PostBubble(post: $post, postSettingsVM: postSettingsVM)

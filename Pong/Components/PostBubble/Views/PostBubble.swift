@@ -22,13 +22,17 @@ struct PostBubble: View {
                             .multilineTextAlignment(.leading)
                         
                         if let imageUrl = postBubbleVM.post.image {
-                            let _ = print("DEBUG: \(imageUrl)")
                             AsyncImage(url: URL(string: imageUrl)) { image in
-                                image.resizable()
+                                VStack {
+                                    image.resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                }
                             } placeholder: {
-                                ProgressView()
+                                VStack {
+                                    ProgressView()
+                                }
                             }
-                            .frame(width: 50, height: 50)
                         }
                     }
                     .padding(.bottom)
