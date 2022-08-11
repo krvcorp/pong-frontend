@@ -20,7 +20,6 @@ struct NewPostView: View {
     
     // MARK: image uploader
     @State private var showSheet = false
-    @State private var image = UIImage()
 
     // MARK: new poll
     @State private var showNewPoll = false
@@ -45,21 +44,21 @@ struct NewPostView: View {
                         TextArea("What's on your mind?", text: $text)
                         .onReceive(Just(text)) { _ in limitText(max_lim) }
                         
-                        if image != UIImage() {
+                        if newPostVM.image != nil {
                             ZStack(alignment: .topLeading) {
 
-                                Image(uiImage: self.image)
+                                Image(uiImage: self.newPostVM.image!)
                                     .resizable()
                                     .scaledToFit()
                                     
                                 Button {
-                                    image = UIImage()
+                                    newPostVM.image = nil
                                 } label: {
                                     Image(systemName: "trash")
                                 }
                                 .frame(width: 35, height: 35)
-                                .foregroundColor(.primary)
-                                .background(Circle().fill(.secondary).opacity(0.6))
+                                .foregroundColor(.white)
+                                .background(Circle().fill(.black).opacity(0.6))
                                 .padding()
                             }
                             .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
@@ -77,6 +76,7 @@ struct NewPostView: View {
                     ZStack {
                         VStack {
                             HStack {
+                                // MARK: Image picker
                                 Button {
                                     showSheet = true
                                 } label: {
@@ -86,11 +86,11 @@ struct NewPostView: View {
                                         .foregroundColor(.secondary)
                                 }
                                 .sheet(isPresented: $showSheet) {
-                                    ImagePicker(sourceType: .photoLibrary, selectedImage: self.$image)
+                                    ImagePicker(sourceType: .photoLibrary, selectedImage: self.$newPostVM.image)
                                 }
                                 .padding(.trailing)
 
-                                
+                                // MARK: Poll generator
                                 Button {
                                     print("DEBUG: showNewPoll")
                                     showNewPoll.toggle()
@@ -111,12 +111,6 @@ struct NewPostView: View {
                             Button {
                                 print("DEBUG: New post")
                                 newPostVM.newPost(title: text)
-                                
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-                                    if !newPostVM.error {
-                                        presentationMode.wrappedValue.dismiss()
-                                    }
-                                }
                             } label: {
                                 Text("Post")
                                     .frame(minWidth: 100, maxWidth: 150)
@@ -136,8 +130,5 @@ struct NewPostView: View {
                 }
             }
         }
-//        .popup(isPresented: $newPostVM.error, type: .floater(), position: .top, animation: .spring(), autohideIn: 3) {
-//            FloatWarning(message: "Slow down!")
-//        }
     }
 }

@@ -21,19 +21,15 @@ struct PostBubble: View {
                         Text(postBubbleVM.post.title)
                             .multilineTextAlignment(.leading)
                         
-//                        if let imageUrl = postBubbleVM.post.image {
-//                            AsyncImage(
-//                                url: URL(string: imageUrl),
-//                                content: { image in
-//                                    image.resizable()
-//                                        .aspectRatio(contentMode: .fit)
-//                                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-//                                },
-//                                placeholder: {
-//                                    ProgressView()
-//                                }
-//                            )
-//                        }
+                        if let imageUrl = postBubbleVM.post.image {
+                            let _ = print("DEBUG: \(imageUrl)")
+                            AsyncImage(url: URL(string: imageUrl)) { image in
+                                image.resizable()
+                            } placeholder: {
+                                ProgressView()
+                            }
+                            .frame(width: 50, height: 50)
+                        }
                     }
                     .padding(.bottom)
                     
