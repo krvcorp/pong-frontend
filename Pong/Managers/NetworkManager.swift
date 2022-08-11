@@ -32,6 +32,7 @@ class NetworkManager: ObservableObject {
 
     
     public func request<Success: Decodable>(route: String, method: Alamofire.HTTPMethod, successType: Success.Type, completionHandler: @escaping (Success) -> Void) {
+        
         request(route: route, method: method, body: EmptyBody(), successType: successType, completionHandler: completionHandler)
     }
 

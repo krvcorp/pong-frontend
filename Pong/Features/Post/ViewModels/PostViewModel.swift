@@ -81,7 +81,7 @@ class PostViewModel: ObservableObject {
     
     // MARK: ReadPost
     func readPost() -> Void {
-        NetworkManager.networkManager.request(route: "post/\(post.id)", method: .get, successType: Post.self) { successResponse in
+        NetworkManager.networkManager.request(route: "post/\(post.id)/", method: .get, successType: Post.self) { successResponse in
             DispatchQueue.main.async {
                 // replace the local post
                 self.post = successResponse
