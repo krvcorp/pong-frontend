@@ -97,8 +97,7 @@ struct FeedView: View {
     // MARK: Custom Feed Stack
     @ViewBuilder
     func customFeedStack(filter: FeedFilter, screenSize : CGSize, tab : FeedFilter)-> some View {
-        ScrollView(showsIndicators: false) {
-            VStack {
+        List {
                 if tab == .top {
                     ForEach($feedVM.topPosts, id: \.id) { $post in
                         PostBubble(post: $post, postSettingsVM: postSettingsVM)
@@ -144,7 +143,6 @@ struct FeedView: View {
                     feedVM.headerOffset = (offset > 0 ? 0 : offset)
                 }
             }
-        }
 //        .ignoresSafeArea()
         .offsetX { value in
             // MARK: Calculating Offset With The Help Of Currently Active Tab
