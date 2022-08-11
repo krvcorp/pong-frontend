@@ -21,19 +21,19 @@ struct PostBubble: View {
                         Text(postBubbleVM.post.title)
                             .multilineTextAlignment(.leading)
                         
-                        if let imageUrl = postBubbleVM.post.image {
-                            AsyncImage(url: URL(string: imageUrl)) { image in
-                                VStack {
-                                    image.resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                }
-                            } placeholder: {
-                                VStack {
-                                    ProgressView()
-                                }
-                            }
-                        }
+//                        if let imageUrl = postBubbleVM.post.image {
+//                            AsyncImage(url: URL(string: "https://a11d-2600-4040-49e9-4700-18f-f080-a04a-f3ee.ngrok.io" + imageUrl)) { image in
+//                                VStack {
+//                                    image.resizable()
+//                                        .aspectRatio(contentMode: .fit)
+//                                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+//                                }
+//                            } placeholder: {
+//                                VStack {
+//                                    ProgressView()
+//                                }
+//                            }
+//                        }
                     }
                     .padding(.bottom)
                     

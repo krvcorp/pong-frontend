@@ -12,7 +12,7 @@ class NetworkManager: ObservableObject {
     
     static let networkManager = NetworkManager()
     
-    var baseURL = "https://12d7-2600-4040-49e9-4700-18f-f080-a04a-f3ee.ngrok.io"
+    var baseURL = "https://a11d-2600-4040-49e9-4700-18f-f080-a04a-f3ee.ngrok.io/api/"
     
     struct EmptyBody: Encodable {}
     
@@ -32,7 +32,6 @@ class NetworkManager: ObservableObject {
 
     
     public func request<Success: Decodable>(route: String, method: Alamofire.HTTPMethod, successType: Success.Type, completionHandler: @escaping (Success) -> Void) {
-        
         request(route: route, method: method, body: EmptyBody(), successType: successType, completionHandler: completionHandler)
     }
 
