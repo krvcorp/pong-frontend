@@ -48,19 +48,7 @@ struct MainTabView: View {
                 }
                 .tag(5)
         }
-//        .alert(isPresented: $postSettingsVM.showDeleteConfirmationView) {
-//            Alert(
-//                title: Text("Delete post"),
-//                message: Text("Are you sure you want to delete \(postSettingsVM.post.title)"),
-//                primaryButton: .default(
-//                    Text("Cancel")
-//                ),
-//                secondaryButton: .destructive(
-//                    Text("Delete"),
-//                    action: postSettingsVM.deletePost
-//                )
-//            )
-//        }
+        // MARK: New Post Sheet
         .sheet(isPresented: $mainTabVM.isCustomItemSelected) {
             NewPostView()
         }

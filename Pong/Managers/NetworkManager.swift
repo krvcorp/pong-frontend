@@ -71,7 +71,7 @@ class NetworkManager: ObservableObject {
                     }
                 }
         }
-        // MARK: OTHERS (Primarily POST)
+        // MARK: OTHERS (POST, DELETE, etc.)
         else {
             AF.request(self.baseURL+route, method: method, parameters: body, encoder: parameterEncoder, headers: httpHeaders)
                 .response() { (response) in
