@@ -7,8 +7,10 @@
 import Foundation
 import Combine
 
-final class MainTabViewModel: ObservableObject {
-
+class MainTabViewModel: ObservableObject {
+    /// This is true when the user has selected the Item with the custom action
+    @Published var isCustomItemSelected: Bool = false
+    
     /// This is the index of the item that fires a custom action
     let customActiontemindex: Int
 
@@ -32,8 +34,6 @@ final class MainTabViewModel: ObservableObject {
         objectWillChange.send(self)
     }
 
-    /// This is true when the user has selected the Item with the custom action
-    var isCustomItemSelected: Bool = false
 
     init(initialIndex: Int = 1, customItemIndex: Int) {
         self.customActiontemindex = customItemIndex

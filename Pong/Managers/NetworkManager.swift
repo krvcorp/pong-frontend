@@ -45,6 +45,8 @@ class NetworkManager: ObservableObject {
             ]
         }
         
+        print("DEBUG: \(httpHeaders)")
+        
         // MARK: GET
         if(method == .get) {
             AF.request(self.baseURL+route, method: method, headers: httpHeaders)

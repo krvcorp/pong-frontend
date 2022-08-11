@@ -12,20 +12,18 @@ import PopupView
 struct NewPostView: View {
     @Environment(\.presentationMode) var presentationMode
     @StateObject var newPostVM = NewPostViewModel()
+    @Binding var isCustomItemSelected : Bool
     
-    // local logic shit
+    // MARK: local logic shit
     @State private var text = ""
     @State private var max_lim = 180
     
-    // image uploader
+    // MARK: image uploader
     @State private var showSheet = false
     @State private var image = UIImage()
 
-    // new poll
+    // MARK: new poll
     @State private var showNewPoll = false
-    
-    // tracks scroll to top of recent posts
-//    @Binding var newPost: Bool
     
     func limitText(_ upper: Int) {
         if text.count > upper {
@@ -37,7 +35,12 @@ struct NewPostView: View {
         ZStack {
             ZStack (alignment: .bottom) {
                 VStack {
-                    
+                    Button {
+                        print("DEBUG: \(isCustomItemSelected)")
+                        isCustomItemSelected.toggle()
+                    } label: {
+                        Text("Dismiss")
+                    }
                     ScrollView {
                         TextArea("What's on your mind?", text: $text)
                         .onReceive(Just(text)) { _ in limitText(max_lim) }
@@ -62,6 +65,7 @@ struct NewPostView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
                             .padding()
                         }
+                        
                         if showNewPoll == true {
                             NewPoll(showNewPoll: $showNewPoll)
                         }
@@ -132,8 +136,8 @@ struct NewPostView: View {
                 }
             }
         }
-        .popup(isPresented: $newPostVM.error, type: .floater(), position: .top, animation: .spring(), autohideIn: 3) {
-            FloatWarning(message: "Slow down!")
-        }
+//        .popup(isPresented: $newPostVM.error, type: .floater(), position: .top, animation: .spring(), autohideIn: 3) {
+//            FloatWarning(message: "Slow down!")
+//        }
     }
 }

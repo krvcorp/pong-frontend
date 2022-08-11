@@ -28,7 +28,7 @@ struct MainTabView: View {
                 .tag(2)
 
             // MARK: NewPostView
-            NewPostView()
+            NewPostView(isCustomItemSelected: .constant(false))
                 .tabItem {
                     Image(systemName: "arrowshape.bounce.right.fill")
                 }
@@ -50,7 +50,8 @@ struct MainTabView: View {
         }
         // MARK: New Post Sheet
         .sheet(isPresented: $mainTabVM.isCustomItemSelected) {
-            NewPostView()
+            NewPostView(isCustomItemSelected: $mainTabVM.isCustomItemSelected)
+            let _ = print("DEBUG: \(mainTabVM.isCustomItemSelected)")
         }
     }
 }

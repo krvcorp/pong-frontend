@@ -79,7 +79,7 @@ class PostViewModel: ObservableObject {
         print("DEBUG: postVM.reportPost")
     }
     
-    // MARK: RedPost
+    // MARK: ReadPost
     func readPost() -> Void {
         NetworkManager.networkManager.request(route: "post/\(post.id)", method: .get, successType: Post.self) { successResponse in
             DispatchQueue.main.async {
