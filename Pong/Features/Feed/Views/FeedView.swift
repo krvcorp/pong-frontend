@@ -14,7 +14,6 @@ struct FeedView: View {
     
     // MARK: ViewModels
     @StateObject var feedVM = FeedViewModel()
-    @ObservedObject var postSettingsVM: PostSettingsViewModel
     
     var body: some View {
         NavigationView {
@@ -97,22 +96,23 @@ struct FeedView: View {
     // MARK: Custom Feed Stack
     @ViewBuilder
     func customFeedStack(filter: FeedFilter, screenSize : CGSize, tab : FeedFilter)-> some View {
-        List {
+        ScrollView(showsIndicators: false) {
+            LazyVStack {
                 if tab == .top {
                     ForEach($feedVM.topPosts, id: \.id) { $post in
-                        PostBubble(post: $post, postSettingsVM: postSettingsVM)
+                        PostBubble(post: $post)
                             .buttonStyle(PlainButtonStyle())
                     }
                 }
                 else if tab == .hot {
                     ForEach($feedVM.hotPosts, id: \.id) { $post in
-                        PostBubble(post: $post, postSettingsVM: postSettingsVM)
+                        PostBubble(post: $post)
                             .buttonStyle(PlainButtonStyle())
                     }
                 }
                 else if tab == .recent {
                     ForEach($feedVM.recentPosts, id: \.id) { $post in
-                        PostBubble(post: $post, postSettingsVM: postSettingsVM)
+                        PostBubble(post: $post)
                             .buttonStyle(PlainButtonStyle())
                     }
                 }
@@ -143,6 +143,7 @@ struct FeedView: View {
                     feedVM.headerOffset = (offset > 0 ? 0 : offset)
                 }
             }
+        }
 //        .ignoresSafeArea()
         .offsetX { value in
             // MARK: Calculating Offset With The Help Of Currently Active Tab
@@ -231,6 +232,6 @@ struct FeedView: View {
 
 struct FeedView_Previews: PreviewProvider {
     static var previews: some View {
-        FeedView(postSettingsVM: PostSettingsViewModel())
+        FeedView()
     }
 }

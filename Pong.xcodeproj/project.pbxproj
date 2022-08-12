@@ -61,7 +61,6 @@
 		6A449CA52896F4330015826A /* CreatePostReportRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C292896F4320015826A /* CreatePostReportRequestBody.swift */; };
 		6A449CA62896F4330015826A /* OTPVerifyRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C2A2896F4320015826A /* OTPVerifyRequestBody.swift */; };
 		6A449CA72896F4330015826A /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C2B2896F4320015826A /* Post.swift */; };
-		6A449CA82896F4330015826A /* CreateCommentRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C2C2896F4320015826A /* CreateCommentRequestBody.swift */; };
 		6A449CAA2896F4330015826A /* LoggedInInfoResponseBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C2E2896F4320015826A /* LoggedInInfoResponseBody.swift */; };
 		6A449CAB2896F4330015826A /* OTPVerifyResponseBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C2F2896F4320015826A /* OTPVerifyResponseBody.swift */; };
 		6A449CAC2896F4330015826A /* OTPStartRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C302896F4320015826A /* OTPStartRequestBody.swift */; };
@@ -70,7 +69,6 @@
 		6A449CAF2896F4330015826A /* TextArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C352896F4320015826A /* TextArea.swift */; };
 		6A449CB02896F4330015826A /* NewPollViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C382896F4320015826A /* NewPollViewModel.swift */; };
 		6A449CB12896F4330015826A /* NewPoll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C3A2896F4320015826A /* NewPoll.swift */; };
-		6A449CB22896F4330015826A /* PostSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C3D2896F4320015826A /* PostSettingsViewModel.swift */; };
 		6A449CB72896F4330015826A /* MessageField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C432896F4320015826A /* MessageField.swift */; };
 		6A449CBB2896F4330015826A /* ProfileCommentBubbleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C492896F4320015826A /* ProfileCommentBubbleViewModel.swift */; };
 		6A449CBC2896F4330015826A /* ProfileCommentBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C4B2896F4320015826A /* ProfileCommentBubble.swift */; };
@@ -99,6 +97,7 @@
 		6A78FA5C28A1A82C00B75CC6 /* DAKeychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A78FA5B28A1A82C00B75CC6 /* DAKeychain.swift */; };
 		6A78FA5E28A1F44F00B75CC6 /* CommentVoteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A78FA5D28A1F44F00B75CC6 /* CommentVoteModel.swift */; };
 		6A78FA6028A214FF00B75CC6 /* CommentReplyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A78FA5F28A214FF00B75CC6 /* CommentReplyModel.swift */; };
+		6A832ED628A6C29300F4EBEF /* CommentCreateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A832ED528A6C29300F4EBEF /* CommentCreateModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -150,7 +149,6 @@
 		6A449C292896F4320015826A /* CreatePostReportRequestBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreatePostReportRequestBody.swift; sourceTree = "<group>"; };
 		6A449C2A2896F4320015826A /* OTPVerifyRequestBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPVerifyRequestBody.swift; sourceTree = "<group>"; };
 		6A449C2B2896F4320015826A /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
-		6A449C2C2896F4320015826A /* CreateCommentRequestBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateCommentRequestBody.swift; sourceTree = "<group>"; };
 		6A449C2E2896F4320015826A /* LoggedInInfoResponseBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggedInInfoResponseBody.swift; sourceTree = "<group>"; };
 		6A449C2F2896F4320015826A /* OTPVerifyResponseBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPVerifyResponseBody.swift; sourceTree = "<group>"; };
 		6A449C302896F4320015826A /* OTPStartRequestBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPStartRequestBody.swift; sourceTree = "<group>"; };
@@ -159,7 +157,6 @@
 		6A449C352896F4320015826A /* TextArea.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextArea.swift; sourceTree = "<group>"; };
 		6A449C382896F4320015826A /* NewPollViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewPollViewModel.swift; sourceTree = "<group>"; };
 		6A449C3A2896F4320015826A /* NewPoll.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewPoll.swift; sourceTree = "<group>"; };
-		6A449C3D2896F4320015826A /* PostSettingsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostSettingsViewModel.swift; sourceTree = "<group>"; };
 		6A449C432896F4320015826A /* MessageField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageField.swift; sourceTree = "<group>"; };
 		6A449C492896F4320015826A /* ProfileCommentBubbleViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileCommentBubbleViewModel.swift; sourceTree = "<group>"; };
 		6A449C4B2896F4320015826A /* ProfileCommentBubble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileCommentBubble.swift; sourceTree = "<group>"; };
@@ -188,6 +185,7 @@
 		6A78FA5B28A1A82C00B75CC6 /* DAKeychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DAKeychain.swift; sourceTree = "<group>"; };
 		6A78FA5D28A1F44F00B75CC6 /* CommentVoteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentVoteModel.swift; sourceTree = "<group>"; };
 		6A78FA5F28A214FF00B75CC6 /* CommentReplyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentReplyModel.swift; sourceTree = "<group>"; };
+		6A832ED528A6C29300F4EBEF /* CommentCreateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCreateModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -214,7 +212,6 @@
 			children = (
 				6A449BBD2896F4320015826A /* Managers */,
 				6A449C1A2896F4320015826A /* Models */,
-				6A449BBA2896F4320015826A /* ViewModels */,
 				6A449C342896F4320015826A /* Components */,
 				6A449BC02896F4320015826A /* Features */,
 				6A78FA5A28A1A81200B75CC6 /* Extensions */,
@@ -224,13 +221,6 @@
 				6A449C312896F4320015826A /* Preview Content */,
 			);
 			path = Pong;
-			sourceTree = "<group>";
-		};
-		6A449BBA2896F4320015826A /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		6A449BBD2896F4320015826A /* Managers */ = {
@@ -307,26 +297,11 @@
 		6A449BE12896F4320015826A /* Post */ = {
 			isa = PBXGroup;
 			children = (
-				6A449BE22896F4320015826A /* ViewModels */,
-				6A449BE42896F4320015826A /* Views */,
+				6A832ED428A6C26E00F4EBEF /* Models */,
+				6A832ED828A6C30300F4EBEF /* ViewModels */,
+				6A832ED728A6C30000F4EBEF /* Views */,
 			);
 			path = Post;
-			sourceTree = "<group>";
-		};
-		6A449BE22896F4320015826A /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-				6A449BE32896F4320015826A /* PostViewModel.swift */,
-			);
-			path = ViewModels;
-			sourceTree = "<group>";
-		};
-		6A449BE42896F4320015826A /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				6A449BE52896F4320015826A /* PostView.swift */,
-			);
-			path = Views;
 			sourceTree = "<group>";
 		};
 		6A449BE62896F4320015826A /* OnboardingProcess */ = {
@@ -503,12 +478,8 @@
 			children = (
 				6A449C242896F4320015826A /* User.swift */,
 				6A449C2B2896F4320015826A /* Post.swift */,
-				6A449C1E2896F4320015826A /* Comment.swift */,
 				6A78FA5628A19A0D00B75CC6 /* VerifyEmailModel.swift */,
 				6A78FA5828A1A65E00B75CC6 /* PostVoteModel.swift */,
-				6A78FA5D28A1F44F00B75CC6 /* CommentVoteModel.swift */,
-				6A78FA5F28A214FF00B75CC6 /* CommentReplyModel.swift */,
-				6A449C2C2896F4320015826A /* CreateCommentRequestBody.swift */,
 				6A449C1C2896F4320015826A /* TotalScore.swift */,
 				6A449C1D2896F4320015826A /* Votes.swift */,
 				6A449C202896F4320015826A /* DeleteCommentRequestBody.swift */,
@@ -669,7 +640,6 @@
 			isa = PBXGroup;
 			children = (
 				6A449C4F2896F4320015826A /* PostBubbleViewModel.swift */,
-				6A449C3D2896F4320015826A /* PostSettingsViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -763,6 +733,33 @@
 				6A449C2E2896F4320015826A /* LoggedInInfoResponseBody.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		6A832ED428A6C26E00F4EBEF /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				6A449C1E2896F4320015826A /* Comment.swift */,
+				6A832ED528A6C29300F4EBEF /* CommentCreateModel.swift */,
+				6A78FA5D28A1F44F00B75CC6 /* CommentVoteModel.swift */,
+				6A78FA5F28A214FF00B75CC6 /* CommentReplyModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		6A832ED728A6C30000F4EBEF /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				6A449BE52896F4320015826A /* PostView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		6A832ED828A6C30300F4EBEF /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				6A449BE32896F4320015826A /* PostViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -905,7 +902,7 @@
 				6A449CC62896F4330015826A /* Poll.swift in Sources */,
 				6A449CAA2896F4330015826A /* LoggedInInfoResponseBody.swift in Sources */,
 				6A449CC02896F4330015826A /* ActionSheets.swift in Sources */,
-				6A449CA82896F4330015826A /* CreateCommentRequestBody.swift in Sources */,
+				6A832ED628A6C29300F4EBEF /* CommentCreateModel.swift in Sources */,
 				6A449CA62896F4330015826A /* OTPVerifyRequestBody.swift in Sources */,
 				6A449CC52896F4330015826A /* PollViewModel.swift in Sources */,
 				6A449C962896F4330015826A /* PongApp.swift in Sources */,
@@ -927,7 +924,6 @@
 				6A449C992896F4330015826A /* Votes.swift in Sources */,
 				6A449CD62898E3BC0015826A /* FloatWarning.swift in Sources */,
 				6A449C9D2896F4330015826A /* PostReport.swift in Sources */,
-				6A449CB22896F4330015826A /* PostSettingsViewModel.swift in Sources */,
 				6A78FA53289CDACF00B75CC6 /* MainTabViewModel.swift in Sources */,
 				6A449CCA2896F4330015826A /* ContentView.swift in Sources */,
 				6A449C892896F4320015826A /* LeaderboardViewModel.swift in Sources */,

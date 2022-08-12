@@ -10,7 +10,6 @@ import Foundation
 struct CommentVoteModel {
     
     struct Request: Encodable {
-        let commentId: String
         let vote: Int
     }
     

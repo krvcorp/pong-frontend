@@ -10,7 +10,6 @@ import UIKit
 import Alamofire
 
 struct NewPostModel: Codable {
-    
     struct Request : Encodable {
         let title: String
     }
@@ -36,16 +35,17 @@ class NewPostViewModel: ObservableObject {
             AF.upload(multipartFormData: { multipartFormData in
                 multipartFormData.append(title.data(using: String.Encoding.utf8)!, withName: "title")
                 multipartFormData.append(imgData, withName: "image",fileName: "file.jpg", mimeType: "image/jpg")
-            }, to: "\(NetworkManager.networkManager.baseURL)post/", method: .post, headers: httpHeaders)
+            }, to: "\(NetworkManager.networkManager.baseURL)posts/", method: .post, headers: httpHeaders)
                 .responseDecodable(of: Post.self) { successResponse in
                     print("DEBUG: newPostVM.newPost success \(successResponse)")
             }
         }
         // MARK: else use network manager
         else {
+            print("DEBUG: NewPost with NetworkManager")
             let parameters = NewPostModel.Request(title: title)
             
-            NetworkManager.networkManager.request(route: "post/", method: .post, body: parameters, successType: Post.self) { successResponse in
+            NetworkManager.networkManager.request(route: "posts/", method: .post, body: parameters, successType: Post.self) { successResponse in
                 // MARK: Success
                 DispatchQueue.main.async {
 

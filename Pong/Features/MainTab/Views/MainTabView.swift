@@ -9,12 +9,11 @@ import SwiftUI
 
 struct MainTabView: View {
     @ObservedObject private var mainTabVM = MainTabViewModel(initialIndex: 1, customItemIndex: 3)
-    @StateObject private var postSettingsVM = PostSettingsViewModel()
 
     var body: some View {
         TabView(selection: $mainTabVM.itemSelected) {
             // MARK: FeedView
-            FeedView(postSettingsVM: postSettingsVM)
+            FeedView()
                 .tabItem{
                     Label("Home", systemImage: "house")
                 }
@@ -42,7 +41,7 @@ struct MainTabView: View {
                 .tag(4)
 
             // MARK: ProfileView
-            ProfileView(postSettingsVM: postSettingsVM)
+            ProfileView()
                 .tabItem{
                     Label("Profile", systemImage: "person")
                 }
@@ -51,7 +50,6 @@ struct MainTabView: View {
         // MARK: New Post Sheet
         .sheet(isPresented: $mainTabVM.isCustomItemSelected) {
             NewPostView(isCustomItemSelected: $mainTabVM.isCustomItemSelected)
-            let _ = print("DEBUG: \(mainTabVM.isCustomItemSelected)")
         }
     }
 }

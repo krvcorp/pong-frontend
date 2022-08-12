@@ -110,19 +110,19 @@ struct PostView: View {
                     } else {
                         Menu {
                             Button {
-                                print("DEBUG: Save")
+                                postVM.savePost()
                             } label: {
                                 Label("Save", systemImage: "bookmark")
                             }
                             
                             Button {
-                                print("DEBUG: Block")
+                                postVM.blockPost()
                             } label: {
                                 Label("Block user", systemImage: "x.circle")
                             }
                             
                             Button {
-                                print("DEBUG: Report")
+                                postVM.reportPost()
                             } label: {
                                 Label("Report", systemImage: "flag")
                             }

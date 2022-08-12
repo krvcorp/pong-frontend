@@ -48,7 +48,7 @@ struct CommentBubble: View {
         .background(Color(UIColor.tertiarySystemBackground))
         .onAppear {
             // take binding and insert into VM
-            print("DEBUG: commentBubble rebuild")
+//            print("DEBUG: commentBubble rebuild")
             commentBubbleVM.comment = self.comment
         }
     }

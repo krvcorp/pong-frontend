@@ -11,7 +11,6 @@ import PopupView
 struct ProfileView: View {
     @State private var selectedFilter: ProfileFilterViewModel = .posts
     @StateObject private var profileVM = ProfileViewModel()
-    @ObservedObject var postSettingsVM : PostSettingsViewModel
     
     var body: some View {
         NavigationView {
@@ -20,7 +19,7 @@ struct ProfileView: View {
                     ForEach($profileVM.posts) { $post in
                         Section {
                             HStack(spacing: 0) {
-                                PostBubble(post: $post, postSettingsVM: postSettingsVM)
+                                PostBubble(post: $post)
                                     .buttonStyle(.borderless)
                                 
                                 NavigationLink(destination: PostView(post: $post)) {
@@ -37,7 +36,7 @@ struct ProfileView: View {
                     ForEach($profileVM.savedPosts) { $post in
                         Section {
                             HStack(spacing: 0) {
-                                PostBubble(post: $post, postSettingsVM: postSettingsVM)
+                                PostBubble(post: $post)
                                     .buttonStyle(.borderless)
                                 
                                 NavigationLink(destination: PostView(post: $post)) {

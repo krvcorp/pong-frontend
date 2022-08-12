@@ -74,11 +74,11 @@ class FeedViewModel: ObservableObject {
         let url_to_use: String
         
         if selectedFeedFilter == .top {
-            url_to_use = "post/?sort=top"
+            url_to_use = "posts/?sort=top"
         } else if selectedFeedFilter == .hot {
-            url_to_use = "post/?sort=hot"
+            url_to_use = "posts/?sort=hot"
         } else {
-            url_to_use = "post/?sort=new"
+            url_to_use = "posts/?sort=new"
         }
         
         NetworkManager.networkManager.request(route: url_to_use, method: .get, successType: [Post].self) { successResponse in

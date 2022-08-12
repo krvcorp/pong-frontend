@@ -22,9 +22,9 @@ class CommentBubbleViewModel: ObservableObject {
         
         print("DEBUG: commentBubbleVM.commentVote \(voteToSend)")
         
-        let parameters = CommentVoteModel.Request(commentId: comment.id, vote: voteToSend)
+        let parameters = CommentVoteModel.Request(vote: voteToSend)
         
-        NetworkManager.networkManager.request(route: "commentvote/", method: .post, body: parameters, successType: CommentVoteModel.Response.self) { successResponse in
+        NetworkManager.networkManager.request(route: "comments/\(comment.id)/vote/", method: .post, body: parameters, successType: CommentVoteModel.Response.self) { successResponse in
             // MARK: Success
             DispatchQueue.main.async {
                 if let responseDataContent = successResponse.voteStatus {

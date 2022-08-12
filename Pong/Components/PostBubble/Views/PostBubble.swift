@@ -3,7 +3,7 @@ import SwiftUI
 struct PostBubble: View {
     @Binding var post : Post
     @StateObject var postBubbleVM = PostBubbleViewModel()
-    @ObservedObject var postSettingsVM : PostSettingsViewModel
+//    @ObservedObject var postSettingsVM : PostSettingsViewModel
     
     // MARK: Some local view logic
     @State private var showScore = false
@@ -21,6 +21,7 @@ struct PostBubble: View {
                         Text(postBubbleVM.post.title)
                             .multilineTextAlignment(.leading)
                         
+                        // MARK: Image
 //                        if let imageUrl = postBubbleVM.post.image {
 //                            AsyncImage(url: URL(string: "https://a11d-2600-4040-49e9-4700-18f-f080-a04a-f3ee.ngrok.io" + imageUrl)) { image in
 //                                VStack {
@@ -72,8 +73,8 @@ struct PostBubble: View {
                 if postBubbleVM.post.userOwned {
                     Button {
                         DispatchQueue.main.async {
-                            postSettingsVM.post = postBubbleVM.post
-                            postSettingsVM.showDeleteConfirmationView.toggle()
+                            postBubbleVM.post = postBubbleVM.post
+                            postBubbleVM.showDeleteConfirmationView.toggle()
                         }
                     } label: {
                         Image(systemName: "trash")
@@ -81,19 +82,19 @@ struct PostBubble: View {
                 } else {
                     Menu {
                         Button {
-                            print("DEBUG: Save")
+                            postBubbleVM.savePost()
                         } label: {
                             Label("Save", systemImage: "bookmark")
                         }
                         
                         Button {
-                            print("DEBUG: Block")
+                            postBubbleVM.blockPost()
                         } label: {
                             Label("Block user", systemImage: "x.circle")
                         }
                         
                         Button {
-                            print("DEBUG: Report")
+                            postBubbleVM.reportPost()
                         } label: {
                             Label("Report", systemImage: "flag")
                         }
@@ -120,16 +121,16 @@ struct PostBubble: View {
         }
         
         // MARK: Delete Confirmation
-        .alert(isPresented: $postSettingsVM.showDeleteConfirmationView) {
+        .alert(isPresented: $postBubbleVM.showDeleteConfirmationView) {
             Alert(
                 title: Text("Delete post"),
-                message: Text("Are you sure you want to delete \(postSettingsVM.post.title)"),
+                message: Text("Are you sure you want to delete \(postBubbleVM.post.title)"),
                 primaryButton: .default(
                     Text("Cancel")
                 ),
                 secondaryButton: .destructive(
                     Text("Delete"),
-                    action: postSettingsVM.deletePost
+                    action: postBubbleVM.deletePost
                 )
             )
         }

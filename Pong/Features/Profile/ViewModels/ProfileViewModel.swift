@@ -23,7 +23,7 @@ class ProfileViewModel: ObservableObject {
 
     func getLoggedInUserInfo() {
         print("DEBUG: profileVM.getLoggedInUserInfo")
-        NetworkManager.networkManager.request(route: "user/\(AuthManager.authManager.userId)/", method: .get, successType: LoggedInUserInfoResponseBody.self) { successResponse in
+        NetworkManager.networkManager.request(route: "users/\(AuthManager.authManager.userId)/", method: .get, successType: LoggedInUserInfoResponseBody.self) { successResponse in
             DispatchQueue.main.async {
                 self.totalKarma = successResponse.totalScore
                 self.commentKarma = successResponse.commentScore
