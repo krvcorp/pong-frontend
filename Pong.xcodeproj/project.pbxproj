@@ -272,7 +272,6 @@
 			children = (
 				289CC86D289C6826009C1DCE /* SettingsView.swift */,
 				289CC875289C69D9009C1DCE /* ProminentHeaderModifier.swift */,
-				289CC871289C68D8009C1DCE /* LoadingView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -478,6 +477,7 @@
 			children = (
 				6A449C242896F4320015826A /* User.swift */,
 				6A449C2B2896F4320015826A /* Post.swift */,
+				6A449C1E2896F4320015826A /* Comment.swift */,
 				6A78FA5628A19A0D00B75CC6 /* VerifyEmailModel.swift */,
 				6A78FA5828A1A65E00B75CC6 /* PostVoteModel.swift */,
 				6A449C1C2896F4320015826A /* TotalScore.swift */,
@@ -708,6 +708,7 @@
 		6A78FA5A28A1A81200B75CC6 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				289CC871289C68D8009C1DCE /* LoadingView.swift */,
 				6A78FA5B28A1A82C00B75CC6 /* DAKeychain.swift */,
 				6A449C332896F4320015826A /* Extensions.swift */,
 				289CC873289C695F009C1DCE /* Colors.swift */,
@@ -738,7 +739,6 @@
 		6A832ED428A6C26E00F4EBEF /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				6A449C1E2896F4320015826A /* Comment.swift */,
 				6A832ED528A6C29300F4EBEF /* CommentCreateModel.swift */,
 				6A78FA5D28A1F44F00B75CC6 /* CommentVoteModel.swift */,
 				6A78FA5F28A214FF00B75CC6 /* CommentReplyModel.swift */,

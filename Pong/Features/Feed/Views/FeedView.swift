@@ -64,6 +64,7 @@ struct FeedView: View {
                             }
                         }
                         .offset(y: -feedVM.headerOffset < feedVM.headerHeight ? feedVM.headerOffset : (feedVM.headerOffset < 0 ? feedVM.headerOffset : 0))
+
                 }
                 
                 // MARK: Hide navbar
@@ -181,8 +182,9 @@ struct FeedView: View {
             // MARK: Picker Component
             DynamicTabHeader(size: size)
         }
-        .background(Color(UIColor.systemGroupedBackground))
+        .background(Color(UIColor.systemBackground))
         .padding(.bottom, 20)
+        .shadow(color: Color(.black).opacity(0.3), radius: 8, x: 0, y: 0)
         //        .padding(.top, safeArea().top)
     }
     

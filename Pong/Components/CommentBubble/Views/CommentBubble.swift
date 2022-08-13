@@ -47,8 +47,6 @@ struct CommentBubble: View {
         }
         .background(Color(UIColor.tertiarySystemBackground))
         .onAppear {
-            // take binding and insert into VM
-//            print("DEBUG: commentBubble rebuild")
             commentBubbleVM.comment = self.comment
         }
     }
@@ -81,7 +79,7 @@ struct CommentBubble: View {
                     .multilineTextAlignment(.leading)
             }
             .padding(.bottom)
-            .background()
+            .background(Color(UIColor.tertiarySystemBackground))
         }
     }
     
@@ -199,40 +197,42 @@ struct CommentBubble: View {
                 postVM.replyToComment = commentBubbleVM.comment
             } label: {
                 HStack {
-                    Text("Reply")
-                        .font(.caption)
+                    ZStack {
+                        LinearGradient(gradient: Gradient(colors: [Color.viewEventsGradient1, Color.viewEventsGradient2]), startPoint: .bottomLeading, endPoint: .topTrailing)
+                        Text("Reply").foregroundColor(Color(UIColor.systemBackground)).bold().lineLimit(1)
+                    }
+                    .cornerRadius(6)
+                    .frame(width: 70, height: 10)
 
                     Spacer()
                 }
-                .background()
+                .background(Color(UIColor.tertiarySystemBackground))
             }
 
             
             // MARK: Delete or More Button
             if commentBubbleVM.comment.userOwned {
                 Button {
-                    DispatchQueue.main.async {
-                        print("DEBUG: TRASH")
-                    }
+                    commentBubbleVM.deleteComment()
                 } label: {
                     Image(systemName: "trash")
                 }
             } else {
                 Menu {
                     Button {
-                        print("DEBUG: Save")
+                        commentBubbleVM.saveComment()
                     } label: {
                         Label("Save", systemImage: "bookmark")
                     }
                     
                     Button {
-                        print("DEBUG: Block")
+                        commentBubbleVM.blockComment()
                     } label: {
                         Label("Block user", systemImage: "x.circle")
                     }
                     
                     Button {
-                        print("DEBUG: Report")
+                        commentBubbleVM.reportComment()
                     } label: {
                         Label("Report", systemImage: "flag")
                     }

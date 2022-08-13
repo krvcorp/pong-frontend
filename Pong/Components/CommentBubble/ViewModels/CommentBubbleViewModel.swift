@@ -42,4 +42,37 @@ class CommentBubbleViewModel: ObservableObject {
             }
         }
     }
+    
+    func deleteComment() {
+        NetworkManager.networkManager.request(route: "comments/\(comment.id)/", method: .delete, successType: Post.self) { successResponse in
+            DispatchQueue.main.async {
+                print("DEBUG: ")
+            }
+        }
+    }
+    
+    func saveComment() {
+        NetworkManager.networkManager.request(route: "comments/\(comment.id)/save/", method: .post, successType: Post.self) { successResponse in
+            DispatchQueue.main.async {
+                print("DEBUG: ")
+            }
+        }
+    }
+    
+    func blockComment() {
+        NetworkManager.networkManager.request(route: "comments/\(comment.id)/block/", method: .post, successType: Post.self) { successResponse in
+            DispatchQueue.main.async {
+                print("DEBUG: ")
+            }
+        }
+    }
+    
+    func reportComment() {
+        NetworkManager.networkManager.request(route: "comments/\(comment.id)/report/", method: .post, successType: Post.self) { successResponse in
+            DispatchQueue.main.async {
+                print("DEBUG: ")
+            }
+        }
+    }
+    
 }

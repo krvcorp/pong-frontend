@@ -20,18 +20,19 @@ struct PostView: View {
         ZStack(alignment: .bottom) {
             ScrollView {
                 mainPost
+                
                 LazyVStack {
                     ForEach($postVM.comments, id: \.self) { $comment in
                         CommentBubble(comment: $comment)
                             .buttonStyle(PlainButtonStyle())
                     }
                 }
-                .background(Color(UIColor.systemGroupedBackground))
                 .padding(.bottom, 150)
             }
             
             MessagingComponent
         }
+        .background(Color(UIColor.systemGroupedBackground))
         .environmentObject(postVM)
         .onAppear {
             // take binding and insert into VM
@@ -135,17 +136,17 @@ struct PostView: View {
             }
             .font(.system(size: 18).bold())
             .padding()
-            .foregroundColor(Color(UIColor.label))
-            .background(Color(UIColor.systemBackground)) // If you have this
-            .cornerRadius(20)         // You also need the cornerRadius here
+            .background(Color(UIColor.tertiarySystemBackground))
 
             ZStack {
                 Divider()
                 Text("\(postVM.post.numComments) Comments")
                     .font(.caption)
-                    .background(Rectangle().fill(Color(UIColor.systemBackground)).frame(minWidth: 90))
+                    .background(Rectangle().fill(Color(UIColor.systemGroupedBackground)).frame(minWidth: 90))
             }
+            .background(Color(UIColor.systemGroupedBackground))
         }
+        .background(Color(UIColor.systemGroupedBackground))
     }
     
     var VoteComponent: some View {
@@ -300,6 +301,7 @@ struct PostView: View {
                 // MARK: TextArea and Button Component
                 HStack {
                     CustomTextField(placeholder: Text("Enter your message here"), text: $text)
+                        .font(.headline)
                         .focused($textIsFocused)
                         
                     Button {
@@ -323,11 +325,11 @@ struct PostView: View {
                         }
                         .frame(width: 40, height: 40, alignment: .center)
                         .cornerRadius(10)
-                        .padding(.trailing, 4)
                     }
                 }
-                .padding(5)
-                .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color(UIColor.systemBackground), lineWidth: 2))
+                .padding(.horizontal)
+                .padding(.vertical, 3)
+                .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color(UIColor.secondarySystemBackground), lineWidth: 2))
             }
             .background(Color(UIColor.secondarySystemBackground))
             .cornerRadius(20, corners: [.topLeft, .topRight])

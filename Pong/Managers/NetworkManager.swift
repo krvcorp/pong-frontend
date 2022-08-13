@@ -12,7 +12,7 @@ class NetworkManager: ObservableObject {
     
     static let networkManager = NetworkManager()
     
-    var baseURL = "https://a11d-2600-4040-49e9-4700-18f-f080-a04a-f3ee.ngrok.io/api/"
+    var baseURL = "http://localhost:8005/api/"
     
     struct EmptyBody: Encodable {}
     
@@ -44,8 +44,6 @@ class NetworkManager: ObservableObject {
                 "Authorization": "Token \(token)"
             ]
         }
-        
-        print("DEBUG: \(httpHeaders)")
         
         // MARK: GET
         if(method == .get) {

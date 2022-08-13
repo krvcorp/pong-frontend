@@ -69,6 +69,7 @@ class PostViewModel: ObservableObject {
         NetworkManager.networkManager.request(route: "comments/", method: .post, body: parameters, successType: Comment.self) { commentResponse in
             // MARK: Success
             DispatchQueue.main.async {
+                // Needs to be added to the children array of the highest parent comment
                 self.comments.append(commentResponse)
                 self.post.numComments = self.post.numComments + 1
             }
