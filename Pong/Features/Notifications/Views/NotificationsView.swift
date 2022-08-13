@@ -143,6 +143,7 @@ struct NotificationsView: View {
                     UITableView.appearance().showsVerticalScrollIndicator = false
                 }
                 .navigationTitle("Notifications")
+            }
             .searchable(text: $searchText)
             .navigationViewStyle(StackNavigationViewStyle())
         }
