@@ -143,22 +143,6 @@ struct NotificationsView: View {
                     UITableView.appearance().showsVerticalScrollIndicator = false
                 }
                 .navigationTitle("Notifications")
-                .toolbar {
-                    ToolbarItem(placement: .principal) {
-                        HStack {
-                            Picker("Profile Filter", selection: $notificationsVM.selectedNotificationsFilter) {
-                                Text("Messages").tag(NotificationsFilter.messages)
-                                Text("Posts and Comments").tag(NotificationsFilter.postsAndComments)
-                            }
-                            .pickerStyle(.segmented)
-                            .fixedSize()
-                            .onChange(of: notificationsVM.selectedNotificationsFilter) { newValue in
-                                print("DEBUG: profileVM changed filter!")
-                            }
-                        }
-                    }
-                }
-            }
             .searchable(text: $searchText)
             .navigationViewStyle(StackNavigationViewStyle())
         }

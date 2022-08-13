@@ -27,6 +27,58 @@ struct MessagesView: View {
     var body: some View {
         LoadingView(isShowing: .constant(false)) {
             List {
+                Section() {
+                    if searchText.isEmpty {
+                        Button(action: {
+                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                            showAlert = true
+                        }) {
+                            HStack {
+                                ZStack {
+                                    LinearGradient(gradient: Gradient(colors: [Color.viewEventsGradient1, Color.viewEventsGradient2]), startPoint: .topTrailing, endPoint: .bottomLeading)
+                                    Image(systemName: "bell")
+                                        .imageScale(.small)
+                                        .foregroundColor(.white)
+                                        .font(.largeTitle)
+                                }
+                                .frame(width: 40, height: 40, alignment: .center)
+                                .cornerRadius(10)
+                                .padding(.trailing, 4)
+                                VStack (alignment: .leading, spacing: 6) {
+                                    Text("Enable Notifications").foregroundColor(Color(uiColor: UIColor.label)).bold().lineLimit(1)
+                                    HStack {
+                                        Text("Never miss a message.").lineLimit(1).foregroundColor(.gray)
+                                        Spacer()
+                                    }
+                                }
+                                Spacer()
+                                ZStack {
+                                    Circle()
+                                        .fill(Color(UIColor.secondarySystemFill))
+                                    Image(systemName: "hand.tap")
+                                        .font(Font.body.weight(.bold))
+                                        .foregroundColor(.gray)
+                                }
+                                .frame(width: 40, height: 40)
+
+                            }.padding(.vertical, 10)
+                            .alert(isPresented: $showAlert) {
+                                Alert(
+                                    title: Text("Notifications Setup"),
+                                    message: Text("Enable push notifications? You can always change this later in settings."),
+                                    primaryButton: .destructive(
+                                        Text("Don't Enable"),
+                                        action: enableNotifs
+                                    ),
+                                    secondaryButton: .default(
+                                        Text("Enable"),
+                                        action: dontEnableNotifs
+                                    )
+                                )
+                            }
+                        }
+                    }
+                }
                 Section(header: Text("Messages")) {
                     ForEach(chatmodels.filter { searchText.isEmpty || $0.title.localizedStandardContains(searchText)}) { chatmodel in
                         NavigationLink(destination: Text("messaging feed here")) {
