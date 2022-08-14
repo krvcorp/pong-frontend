@@ -1187,7 +1187,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/MojtabaHs/iPhoneNumberField.git";
 			requirement = {
-				branch = master;
+				branch = main;
 				kind = branch;
 			};
 		};

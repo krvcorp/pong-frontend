@@ -6,7 +6,8 @@
 //
 
 import SwiftUI
-import ScalingHeaderScrollView
+//import ScalingHeaderScrollView
+import Introspect
 
 struct FeedView: View {
     // MARK: Gesture Manager
