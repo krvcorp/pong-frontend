@@ -66,9 +66,8 @@ struct NewPostView: View {
                         }
                         
                         if showNewPoll == true {
-                            NewPoll(showNewPoll: $showNewPoll)
+                            NewPoll(showNewPoll: $showNewPoll, newPollVM: newPostVM.newPollVM)
                         }
-                        
                     }
                     
                     Spacer()
@@ -92,8 +91,9 @@ struct NewPostView: View {
 
                                 // MARK: Poll generator
                                 Button {
-                                    print("DEBUG: showNewPoll")
+                                    print("DEBUG: toggle showNewPoll")
                                     showNewPoll.toggle()
+                                    newPostVM.newPollVM.reset()
                                 } label: {
                                     Image(systemName: "chart.bar")
                                         .resizable()
@@ -111,6 +111,7 @@ struct NewPostView: View {
                             Button {
                                 print("DEBUG: New post")
                                 newPostVM.newPost(title: text)
+                                newPostVM.newPollVM.reset()
                             } label: {
                                 Text("Post")
                                     .frame(minWidth: 100, maxWidth: 150)
@@ -124,7 +125,7 @@ struct NewPostView: View {
                             }
                             .background(Color(UIColor.label)) // If you have this
                             .cornerRadius(20)         // You also need the cornerRadius here
-                        .padding(.bottom)
+                            .padding(.bottom)
                         }
                     }
                 }

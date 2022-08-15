@@ -81,10 +81,18 @@ struct PostBubble: View {
                     }
                 } else {
                     Menu {
-                        Button {
-                            postBubbleVM.savePost()
-                        } label: {
-                            Label("Save", systemImage: "bookmark")
+                        if postBubbleVM.post.saved {
+                            Button {
+                                postBubbleVM.unsavePost()
+                            } label: {
+                                Label("Unsave", systemImage: "bookmark.fill")
+                            }
+                        } else if !postBubbleVM.post.saved {
+                            Button {
+                                postBubbleVM.savePost()
+                            } label: {
+                                Label("Save", systemImage: "bookmark")
+                            }
                         }
                         
                         Button {

@@ -53,7 +53,17 @@ class PostBubbleViewModel: ObservableObject {
     func savePost() {
         NetworkManager.networkManager.request(route: "posts/\(post.id)/save/", method: .post, successType: Post.self) { successResponse in
             DispatchQueue.main.async {
-                print("DEBUG: ")
+                print("DEBUG: postBubbleVM.savePost")
+                self.post.saved = true
+            }
+        }
+    }
+    
+    func unsavePost() {
+        NetworkManager.networkManager.request(route: "posts/\(post.id)/save/", method: .delete, successType: Post.self) { successResponse in
+            DispatchQueue.main.async {
+                print("DEBUG: postBubbleVM.unsavePost")
+                self.post.saved = false
             }
         }
     }

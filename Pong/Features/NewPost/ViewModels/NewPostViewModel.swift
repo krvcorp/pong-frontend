@@ -17,6 +17,7 @@ struct NewPostModel: Codable {
 
 class NewPostViewModel: ObservableObject {
     @Published var image : UIImage? = nil
+    @Published var newPollVM : NewPollViewModel = NewPollViewModel()
 
     // MARK: NewPost request
     func newPost(title: String) -> Void {

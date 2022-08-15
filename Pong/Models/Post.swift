@@ -23,6 +23,5 @@ struct Post: Hashable, Codable, Identifiable {
     var numUpvotes: Int
     var numDownvotes: Int
     var userOwned: Bool
-
 }
 

@@ -56,18 +56,17 @@ class NetworkManager: ObservableObject {
                     }
                 }
                 .responseDecodable(of: successType, decoder: decoder) { (response) in
-                    print("DEBUG: \(response)")
+                    print("DEBUG: NetworkManger.responseDecodable \(response)")
                     guard let success = response.value else { return }
                     completionHandler(success)
                 }
                 .responseData() { (response) in
                     switch response.result {
                     case .success:
-                        print("DEBUG: .success \(response)")
+                        print("DEBUG: NetworkManger.responseData.success \(response)")
                         break
                     case let .failure(error):
-                        print("DEBUG: .failure error \(error)")
-                        print("DEBUG: .failure response \(response)")
+                        print("DEBUG: NetworkManger.responseData.failure \(error)")
                     }
                 }
         }
@@ -81,18 +80,18 @@ class NetworkManager: ObservableObject {
                         }
                     }
                 }
-                .responseDecodable(of: successType, decoder: decoder) { (response) in
+                .responseDecodable(of: successType, decoder: decoder, emptyResponseCodes: [200, 204, 205]) { (response) in
+                    print("DEBUG: NetworkManger.responseDecodable \(response)")
                     guard let success = response.value else { return }
                     completionHandler(success)
                 }
                 .responseData() { (response) in
                     switch response.result {
                     case .success:
-                        print("DEBUG: .success \(response)")
+                        print("DEBUG: NetworkManger.responseData.success \(response)")
                         break
                     case let .failure(error):
-                        print("DEBUG: .failure error \(error)")
-                        print("DEBUG: .failure response \(response)")
+                        print("DEBUG: NetworkManger.responseData.failure \(error)")
                     }
                 }
         }
