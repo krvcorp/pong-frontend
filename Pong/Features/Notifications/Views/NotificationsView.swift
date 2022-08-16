@@ -11,6 +11,7 @@ struct NotificationsView: View {
     @StateObject private var notificationsVM = NotificationsViewModel()
     @State private var searchText = ""
     @State private var showAlert = false
+    @Environment(\.colorScheme) var colorScheme
     
     struct NotificationModel: Identifiable {
         
@@ -112,7 +113,7 @@ struct NotificationsView: View {
                                     .cornerRadius(6)
                                     .padding(.trailing, 4)
                                     VStack (alignment: .leading, spacing: 6) {
-                                        Text(notificationModel.title).foregroundColor(Color(uiColor: UIColor.gray)).lineLimit(2).font(Font.caption)
+                                        Text(notificationModel.title).foregroundColor(Color(uiColor: colorScheme == .dark ? .white : .darkGray)).lineLimit(2).font(Font.caption)
                                     }.padding(.vertical, 1)
                                 }
                             }
