@@ -98,6 +98,8 @@
 		6A78FA5E28A1F44F00B75CC6 /* CommentVoteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A78FA5D28A1F44F00B75CC6 /* CommentVoteModel.swift */; };
 		6A78FA6028A214FF00B75CC6 /* CommentReplyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A78FA5F28A214FF00B75CC6 /* CommentReplyModel.swift */; };
 		6A832ED628A6C29300F4EBEF /* CommentCreateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A832ED528A6C29300F4EBEF /* CommentCreateModel.swift */; };
+		82AEE06828AEDF2A00738EB5 /* LeaderboardAwardCoin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AEE06728AEDF2A00738EB5 /* LeaderboardAwardCoin.swift */; };
+		82AEE06B28AEE03400738EB5 /* LeaderboardTopThree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AEE06A28AEE03400738EB5 /* LeaderboardTopThree.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -186,6 +188,8 @@
 		6A78FA5D28A1F44F00B75CC6 /* CommentVoteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentVoteModel.swift; sourceTree = "<group>"; };
 		6A78FA5F28A214FF00B75CC6 /* CommentReplyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentReplyModel.swift; sourceTree = "<group>"; };
 		6A832ED528A6C29300F4EBEF /* CommentCreateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCreateModel.swift; sourceTree = "<group>"; };
+		82AEE06728AEDF2A00738EB5 /* LeaderboardAwardCoin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardAwardCoin.swift; sourceTree = "<group>"; };
+		82AEE06A28AEE03400738EB5 /* LeaderboardTopThree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardTopThree.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -380,7 +384,9 @@
 		6A449C002896F4320015826A /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				82AEE06728AEDF2A00738EB5 /* LeaderboardAwardCoin.swift */,
 				6A449C012896F4320015826A /* LeaderboardView.swift */,
+				82AEE06A28AEE03400738EB5 /* LeaderboardTopThree.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -890,6 +896,7 @@
 				6A449CBC2896F4330015826A /* ProfileCommentBubble.swift in Sources */,
 				6A449CA32896F4330015826A /* CommentVoteRequestBody.swift in Sources */,
 				6A449CC72896F4330015826A /* ShareSheet.swift in Sources */,
+				82AEE06B28AEE03400738EB5 /* LeaderboardTopThree.swift in Sources */,
 				6A449CBE2896F4330015826A /* PostBubbleViewModel.swift in Sources */,
 				6A449C7F2896F4320015826A /* WelcomeView.swift in Sources */,
 				6A449C9F2896F4330015826A /* OTPStartResponseBody.swift in Sources */,
@@ -919,6 +926,7 @@
 				289CC86E289C6826009C1DCE /* SettingsView.swift in Sources */,
 				6A449CA42896F4330015826A /* ReadPostRequestBody.swift in Sources */,
 				6A449CA72896F4330015826A /* Post.swift in Sources */,
+				82AEE06828AEDF2A00738EB5 /* LeaderboardAwardCoin.swift in Sources */,
 				6A449C8F2896F4320015826A /* FeedViewModel.swift in Sources */,
 				6A449C872896F4320015826A /* ChooseLocationViewModel.swift in Sources */,
 				6A449C992896F4330015826A /* Votes.swift in Sources */,
