@@ -6,7 +6,8 @@
 //
 
 import SwiftUI
-import ScalingHeaderScrollView
+//import ScalingHeaderScrollView
+import Introspect
 
 struct FeedView: View {
     @Environment(\.colorScheme) var colorScheme

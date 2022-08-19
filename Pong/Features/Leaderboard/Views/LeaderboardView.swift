@@ -13,41 +13,37 @@ struct LeaderboardView: View {
     @State private var newPost = false
     
     var body: some View {
+        let lblist = leaderboardVM.leaderboardList
         NavigationView {
             VStack {
                 VStack {
                     List {
                         karmaInfo
-                            .padding()
+                            .padding([.leading, .top, .trailing])
+                            .listRowSeparator(.hidden)
                         
-                        Section(header: Text("Leaderboard")) {
-                            ForEach(leaderboardVM.leaderboardList) { entry in
-                                if entry.place == "1" {
-                                    HStack {
-                                        Text("\(entry.place).")
-                                        Text("\(entry.score)")
-                                        Spacer()
-                                    }
-                                    .listRowBackground(Color.poshGold)
-                                } else if entry.place == "2" {
-                                    HStack {
-                                        Text("\(entry.place).")
-                                        Text("\(entry.score)")
-                                        Spacer()
-                                    }
-                                    .listRowBackground(Color.silver)
-                                } else if entry.place == "3" {
-                                    HStack {
-                                        Text("\(entry.place).")
-                                        Text("\(entry.score)")
-                                        Spacer()
-                                    }
-                                    .listRowBackground(Color.bronze)
-                                } else {
-                                    HStack {
-                                        Text("\(entry.place).")
-                                        Text("\(entry.score)")
-                                        Spacer()
+                        LeaderboardTopThree(
+                            hasTopThree: [
+                                lblist.count >= 1,
+                                lblist.count >= 2,
+                                lblist.count >= 3,
+                            ],
+                            topThreeScores: [
+                                lblist.count >= 1 ? lblist[0].score : 0,
+                                lblist.count >= 2 ? lblist[1].score : 0,
+                                lblist.count >= 3 ? lblist[2].score : 0,
+                            ]
+                        )
+                        
+                        if (lblist.count > 3) {
+                            Section(header: Text("Leaderboard")) {
+                                ForEach(lblist) { entry in
+                                    if !["1", "2", "3"].contains(entry.place) {
+                                        HStack {
+                                            Text("\(entry.place).")
+                                            Text("\(entry.score)")
+                                            Spacer()
+                                        }
                                     }
                                 }
                             }
@@ -96,6 +92,7 @@ struct LeaderboardView: View {
 struct LeaderboardView_Previews: PreviewProvider {
     static var previews: some View {
         LeaderboardView()
+            .previewInterfaceOrientation(.portrait)
     }
 }
 
