@@ -1,12 +1,12 @@
 //
 //  TextArea.swift
-//  TwitterSwiftUIYoutube
 //
 //  Created by Khoi Nguyen on 6/7/22.
 //
 
 import SwiftUI
 
+// MARK: TextArea is a custom text field that allows text wrapping via TextEditor
 struct TextArea: View {
     @Binding var text: String
     
@@ -31,7 +31,6 @@ struct TextArea: View {
             TextEditor(text: $text)
                 .padding(4)
         }
-        .font(.title)
     }
 }
 

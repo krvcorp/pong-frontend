@@ -19,13 +19,37 @@ enum FeedFilter: String, CaseIterable, Identifiable {
         case .recent: return "Recent"
         }
     }
+    
+    var imageName: String {
+        switch self {
+        case .top: return "chart.bar"
+        case .hot: return "flame"
+        case .recent: return "clock"
+        }
+    }
+    
+    var filledImageName: String {
+        switch self {
+        case .top: return "chart.bar.fill"
+        case .hot: return "flame.fill"
+        case .recent: return "clock.fill"
+        }
+    }
 }
 
-// MARK: Swipe Direction
-enum SwipeDirection{
-    case up
-    case down
-    case none
+enum TopFilter: String, CaseIterable, Identifiable {
+    case allTime, thisYear, thisMonth, thisWeek, today
+    var id: Self { self }
+    
+    var title: String {
+        switch self {
+        case .allTime: return "TOP POSTS ALL TIME"
+        case .thisYear: return "TOP POSTS THIS YEAR"
+        case .thisMonth: return "TOP POSTS THIS MONTH"
+        case .thisWeek: return "TOP POSTS THIS YEAR"
+        case .today: return "TOP POSTS TODAY"
+        }
+    }
 }
 
 class FeedViewModel: ObservableObject {
@@ -37,37 +61,7 @@ class FeedViewModel: ObservableObject {
     @Published var hotPosts : [Post] = []
     @Published var recentPosts : [Post] = []
     
-    // MARK: SwipeHiddenHeader
-    // MARK: View Properties
-    @Published var headerHeight: CGFloat = 0
-    @Published var headerOffset: CGFloat = 0
-    @Published var lastHeaderOffset: CGFloat = 0
-    @Published var headerDirection: SwipeDirection = .none
-    // MARK: Shift Offset Means The Value From Where It Shifted From Up/Down
-    @Published var headerShiftOffset: CGFloat = 0
-    
-    // MARK: DynamicTabIndicator
-    // MARK: View Properties
-    @Published var tabviewOffset: CGFloat = 0
-    @Published var tabviewIsTapped: Bool = false
-    
-    // MARK: Tab Offset
-    func tabOffset(size: CGSize,padding: CGFloat)->CGFloat{
-        return (-tabviewOffset / size.width) * ((size.width - padding) / CGFloat(FeedFilter.allCases.count))
-    }
-    
-    // MARK: Tab Index
-    func indexOf(tab: FeedFilter)->Int{
-        if tab == .top {
-            return 0
-        } else if tab == .hot {
-            return 1
-        } else if tab == .recent {
-            return 2
-        } else {
-            return 1
-        }
-    }
+    @Published var selectedTopFilter : TopFilter = .allTime
     
     // MARK: API SHIT
     func getPosts(selectedFeedFilter : FeedFilter) {

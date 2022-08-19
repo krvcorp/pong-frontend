@@ -252,4 +252,9 @@ extension Color {
     public static var bronze: Color {
         return Color(red: 176/255, green: 141/255, blue: 87/255)
     }
+    
+    public static var bone: Color {
+        return Color(red: 215/255, green: 210/255, blue: 203/255)
+    }
+    
 }

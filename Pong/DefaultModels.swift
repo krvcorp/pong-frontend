@@ -21,7 +21,8 @@ var defaultPost = Post(id: "default",
                        blocked: false,
                        numUpvotes: 0,
                        numDownvotes: 0,
-                       userOwned: true)
+                       userOwned: true,
+                       poll: nil)
 
 var defaultComment = Comment(id: "default",
                              post: "default",
@@ -39,3 +40,5 @@ var defaultComment = Comment(id: "default",
                              numDownvotes: 0)
 
 var defaultTotalScore = TotalScore(score: 1, place:"1")
+
+var defaultPoll = Poll(id: "default", userHasVoted: false, votedFor: "default", options: [])
