@@ -10,7 +10,8 @@ import Foundation
 class PollViewModel : ObservableObject {
     @Published var poll: Poll = defaultPoll
     
-    func sumVotes() -> Int {
+    func sumVotes(poll: Poll) -> Int {
+        
         var sum = 0
         
         for option in poll.options {

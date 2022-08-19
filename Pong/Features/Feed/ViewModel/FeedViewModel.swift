@@ -22,9 +22,17 @@ enum FeedFilter: String, CaseIterable, Identifiable {
     
     var imageName: String {
         switch self {
-        case .top: return "chart.bar.fill"
+        case .top: return "chart.bar"
         case .hot: return "flame"
         case .recent: return "clock"
+        }
+    }
+    
+    var filledImageName: String {
+        switch self {
+        case .top: return "chart.bar.fill"
+        case .hot: return "flame.fill"
+        case .recent: return "clock.fill"
         }
     }
 }

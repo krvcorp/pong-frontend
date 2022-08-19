@@ -9,9 +9,7 @@ import SwiftUI
 import ScalingHeaderScrollView
 
 struct FeedView: View {
-    // MARK: Gesture Manager
-    @StateObject var gestureManager: InteractionManager = .init()
-    
+    @Environment(\.colorScheme) var colorScheme
     // MARK: ViewModels
     @StateObject var feedVM = FeedViewModel()
     
@@ -34,11 +32,6 @@ struct FeedView: View {
                         feedVM.getPosts(selectedFeedFilter: .recent)
                     }
                 }
-                // MARK: Debug everytime a filter is changed the column is refetched
-                .onChange(of: feedVM.selectedFeedFilter) { newFilter in
-                    feedVM.getPosts(selectedFeedFilter: newFilter)
-                    feedVM.selectedFeedFilter = newFilter
-                }
                 .background(Color(UIColor.systemGroupedBackground))
                 // MARK: Building Custom Header With Dynamic Tabs
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
@@ -46,6 +39,7 @@ struct FeedView: View {
                 // MARK: Hide navbar
                 .navigationBarTitle("\(feedVM.school)")
                 .navigationBarTitleDisplayMode(.inline)
+                // MARK: Toolbar
                 .toolbar {
                     ToolbarItem {
                         NavigationLink {
@@ -54,7 +48,6 @@ struct FeedView: View {
                             Image(systemName: "message")
                         }
                     }
-                    
                     ToolbarItem(placement: .principal) {
                         HStack {
                             ForEach(FeedFilter.allCases, id: \.self) { filter in
@@ -63,19 +56,19 @@ struct FeedView: View {
                                 } label: {
                                     if feedVM.selectedFeedFilter == filter {
                                         HStack {
-                                            Image(systemName: filter.imageName)
+                                            Image(systemName: filter.filledImageName)
                                             Text(filter.title)
                                                 .bold()
                                         }
-                                        .shadow(color: Color.poshGold, radius: 10, x: 0, y: 0)
-                                        .foregroundColor(Color.poshGold)
+                                        .shadow(color: colorScheme == .dark ? Color.poshGold : Color.poshDarkPurple, radius: 10, x: 0, y: 0)
+                                        .foregroundColor(colorScheme == .dark ? Color.poshGold : Color.poshDarkPurple)
 
                                     } else {
                                         HStack{
                                             Image(systemName: filter.imageName)
                                             Text(filter.title)
                                         }
-                                        .foregroundColor(Color.poshLightGold)
+                                        .foregroundColor(colorScheme == .dark ? Color.poshGold : Color.poshBlue)
                                     }
                                 }
                             }
@@ -146,6 +139,7 @@ struct FeedView: View {
         }
         .refreshable{
             print("DEBUG: Refresh")
+            feedVM.getPosts(selectedFeedFilter: feedVM.selectedFeedFilter)
         }
     }
 }

@@ -13,10 +13,6 @@ struct PollView: View {
     
     var body: some View {
         PollOptionContainer
-            .onAppear {
-                // take binding and insert into VM
-                pollVM.poll = self.post.poll!
-            }
             .onChange(of: pollVM.poll) {
                 self.post.poll = $0
             }
@@ -24,9 +20,9 @@ struct PollView: View {
     
     var PollOptionContainer: some View {
         VStack {
-            ForEach(pollVM.poll.options, id: \.self) { option in
+            ForEach(post.poll!.options, id: \.self) { option in
                 // MARK: User has voted
-                if pollVM.poll.userHasVoted {
+                if post.poll!.userHasVoted {
                     HStack {
                         Text("\(option.title)")
                             .font(.headline)
@@ -37,7 +33,7 @@ struct PollView: View {
                     .padding(5)
                     .frame(minWidth: 0, maxWidth: .infinity)
                     .foregroundColor(.black)
-                    .background(pollVM.poll.votedFor == option.id ? Color.poshGold : Color.bone)
+                    .background(post.poll!.votedFor == option.id ? Color.poshGold : Color.bone)
                     .cornerRadius(5)         // You also need the cornerRadius here
                     .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color(UIColor.darkGray), lineWidth: 2))
                     .padding(.top, 5)
@@ -67,7 +63,7 @@ struct PollView: View {
             
             HStack {
                 Spacer()
-                Text("\(pollVM.sumVotes()) votes")
+                Text("\(pollVM.sumVotes(poll: post.poll!)) votes")
                     .font(.caption)
             }
         }

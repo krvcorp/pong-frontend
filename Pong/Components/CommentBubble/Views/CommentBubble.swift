@@ -199,7 +199,7 @@ struct CommentBubble: View {
                 HStack {
                     ZStack {
                         LinearGradient(gradient: Gradient(colors: [Color.viewEventsGradient1, Color.viewEventsGradient2]), startPoint: .bottomLeading, endPoint: .topTrailing)
-                        Text("Reply").foregroundColor(Color(UIColor.systemBackground)).bold().lineLimit(1)
+                        Text("Reply").foregroundColor(Color(UIColor.black)).bold().lineLimit(1)
                     }
                     .cornerRadius(6)
                     .frame(width: 70, height: 10)

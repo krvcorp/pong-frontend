@@ -19,11 +19,11 @@ struct PostBubble: View {
                 
                 HStack(alignment: .top) {
                     VStack(alignment: .leading) {
-                        Text("\(postBubbleVM.post.timeSincePosted)")
+                        Text("\(post.timeSincePosted)")
                             .font(.caption)
                             .padding(.bottom, 4)
           
-                        Text(postBubbleVM.post.title)
+                        Text(post.title)
                             .multilineTextAlignment(.leading)
                         
                         // MARK: Poll
@@ -52,7 +52,7 @@ struct PostBubble: View {
                     
                     HStack {
                         Image(systemName: "bubble.left")
-                        Text("\(postBubbleVM.post.numComments)")
+                        Text("\(post.numComments)")
                             .font(.subheadline).bold()
 
                         Spacer()
@@ -70,7 +70,7 @@ struct PostBubble: View {
                 }
                 
                 // MARK: Delete or More Button
-                if postBubbleVM.post.userOwned {
+                if post.userOwned {
                     Button {
                         DispatchQueue.main.async {
                             postBubbleVM.post = postBubbleVM.post
@@ -81,28 +81,28 @@ struct PostBubble: View {
                     }
                 } else {
                     Menu {
-                        if postBubbleVM.post.saved {
+                        if post.saved {
                             Button {
-                                postBubbleVM.unsavePost()
+                                postBubbleVM.unsavePost(post: post)
                             } label: {
                                 Label("Unsave", systemImage: "bookmark.fill")
                             }
-                        } else if !postBubbleVM.post.saved {
+                        } else if !post.saved {
                             Button {
-                                postBubbleVM.savePost()
+                                postBubbleVM.savePost(post: post)
                             } label: {
                                 Label("Save", systemImage: "bookmark")
                             }
                         }
                         
                         Button {
-                            postBubbleVM.blockPost()
+                            postBubbleVM.blockPost(post: post)
                         } label: {
                             Label("Block user", systemImage: "x.circle")
                         }
                         
                         Button {
-                            postBubbleVM.reportPost()
+                            postBubbleVM.reportPost(post: post)
                         } label: {
                             Label("Report", systemImage: "flag")
                         }
@@ -117,25 +117,19 @@ struct PostBubble: View {
         .font(.system(size: 18).bold())
         .padding(0)
         .padding(.top, 10)
-        .onAppear {
-            postBubbleVM.post = self.post
-        }
-        .onChange(of: postBubbleVM.post) {
-            self.post = $0
+        .onChange(of: postBubbleVM.post) { change in
+            self.post = postBubbleVM.post
         }
         
         // MARK: Delete Confirmation
         .alert(isPresented: $postBubbleVM.showDeleteConfirmationView) {
             Alert(
                 title: Text("Delete post"),
-                message: Text("Are you sure you want to delete \(postBubbleVM.post.title)"),
-                primaryButton: .default(
-                    Text("Cancel")
-                ),
-                secondaryButton: .destructive(
-                    Text("Delete"),
-                    action: postBubbleVM.deletePost
-                )
+                message: Text("Are you sure you want to delete \(post.title)"),
+                primaryButton: .destructive(Text("Delete")) {
+                    postBubbleVM.deletePost(post: post)
+                },
+                secondaryButton: .cancel()
             )
         }
     }
@@ -144,9 +138,9 @@ struct PostBubble: View {
         VStack {
             if !showScore {
                 // if not upvoted or downvoted
-                if postBubbleVM.post.voteStatus == 0 {
+                if post.voteStatus == 0 {
                     Button {
-                        postBubbleVM.postVote(direction: 1)
+                        postBubbleVM.postVote(direction: 1, post: post)
                     } label: {
                         Image(systemName: "arrow.up")
                     }
@@ -157,18 +151,18 @@ struct PostBubble: View {
                         }
 
                     } label: {
-                        Text("\(postBubbleVM.post.score)")
+                        Text("\(post.score)")
                     }
                     
                     Button {
-                        postBubbleVM.postVote(direction: -1)
+                        postBubbleVM.postVote(direction: -1, post: post)
                     } label: {
                         Image(systemName: "arrow.down")
                     }
-                } else if postBubbleVM.post.voteStatus == 1 {
+                } else if post.voteStatus == 1 {
                     // if upvoted
                     Button {
-                        postBubbleVM.postVote(direction: 1)
+                        postBubbleVM.postVote(direction: 1, post: post)
                     } label: {
                         Image(systemName: "arrow.up")
                             .foregroundColor(.yellow)
@@ -180,20 +174,20 @@ struct PostBubble: View {
                         }
 
                     } label: {
-                        Text("\(postBubbleVM.post.score + 1)")
+                        Text("\(post.score + 1)")
                     }
                     
                     Button {
-                        postBubbleVM.postVote(direction: -1)
+                        postBubbleVM.postVote(direction: -1, post: post)
                     } label: {
                         Image(systemName: "arrow.down")
                     }
                 }
                 // IF POST BUBBLE IS DOWNVOTES
-                else if postBubbleVM.post.voteStatus == -1 {
+                else if post.voteStatus == -1 {
                     // upvote
                     Button {
-                        postBubbleVM.postVote(direction: 1)
+                        postBubbleVM.postVote(direction: 1, post: post)
                     } label: {
                         Image(systemName: "arrow.up")
                     }
@@ -204,12 +198,12 @@ struct PostBubble: View {
                             showScore.toggle()
                         }
                     } label: {
-                        Text("\(postBubbleVM.post.score - 1)")
+                        Text("\(post.score - 1)")
                     }
                     
                     // downvote
                     Button {
-                        postBubbleVM.postVote(direction: -1)
+                        postBubbleVM.postVote(direction: -1, post: post)
                     } label: {
                         Image(systemName: "arrow.down")
                             .foregroundColor(.yellow)
@@ -223,22 +217,22 @@ struct PostBubble: View {
 
                 } label: {
                     VStack {
-                        if postBubbleVM.post.voteStatus == 1 {
-                            Text("\(postBubbleVM.post.numUpvotes + 1)")
+                        if post.voteStatus == 1 {
+                            Text("\(post.numUpvotes + 1)")
                                 .foregroundColor(.green)
-                            Text("\(postBubbleVM.post.numDownvotes)")
+                            Text("\(post.numDownvotes)")
                                 .foregroundColor(.red)
                         }
-                        else if postBubbleVM.post.voteStatus == -1 {
-                            Text("\(postBubbleVM.post.numUpvotes)")
+                        else if post.voteStatus == -1 {
+                            Text("\(post.numUpvotes)")
                                 .foregroundColor(.green)
-                            Text("\(postBubbleVM.post.numDownvotes + 1)")
+                            Text("\(post.numDownvotes + 1)")
                                 .foregroundColor(.red)
                         }
-                        else if postBubbleVM.post.voteStatus == 0 {
-                            Text("\(postBubbleVM.post.numUpvotes)")
+                        else if post.voteStatus == 0 {
+                            Text("\(post.numUpvotes)")
                                 .foregroundColor(.green)
-                            Text("\(postBubbleVM.post.numDownvotes)")
+                            Text("\(post.numDownvotes)")
                                 .foregroundColor(.red)
                         }
                     }

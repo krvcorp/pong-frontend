@@ -78,6 +78,11 @@ struct PostView: View {
                         Text(postVM.post.title)
                             .multilineTextAlignment(.leading)
                         
+                        // MARK: Poll
+                        if post.poll != nil {
+                            PollView(post: $post)
+                        }
+                        
                     }
                     
                     Spacer()
