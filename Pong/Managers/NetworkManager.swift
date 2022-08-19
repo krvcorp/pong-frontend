@@ -56,17 +56,17 @@ class NetworkManager: ObservableObject {
                     }
                 }
                 .responseDecodable(of: successType, decoder: decoder) { (response) in
-                    print("DEBUG: NetworkManger.responseDecodable \(response)")
+                    print("DEBUG: NetworkManager.responseDecodable \(response)")
                     guard let success = response.value else { return }
                     completionHandler(success)
                 }
                 .responseData() { (response) in
                     switch response.result {
                     case .success:
-                        print("DEBUG: NetworkManger.responseData.success \(response)")
+                        print("DEBUG: NetworkManager.responseData.success \(response)")
                         break
                     case let .failure(error):
-                        print("DEBUG: NetworkManger.responseData.failure \(error)")
+                        print("DEBUG: NetworkManager.responseData.failure \(error)")
                     }
                 }
         }
@@ -80,18 +80,18 @@ class NetworkManager: ObservableObject {
                         }
                     }
                 }
-                .responseDecodable(of: successType, decoder: decoder, emptyResponseCodes: [200, 204, 205]) { (response) in
-                    print("DEBUG: NetworkManger.responseDecodable \(response)")
+                .responseDecodable(of: successType, decoder: decoder, emptyResponseCodes: [204, 205]) { (response) in
+                    print("DEBUG: NetworkManager.responseDecodable \(response)")
                     guard let success = response.value else { return }
                     completionHandler(success)
                 }
                 .responseData() { (response) in
                     switch response.result {
                     case .success:
-                        print("DEBUG: NetworkManger.responseData.success \(response)")
+                        print("DEBUG: NetworkManager.responseData.success \(response)")
                         break
                     case let .failure(error):
-                        print("DEBUG: NetworkManger.responseData.failure \(error)")
+                        print("DEBUG: NetworkManager.responseData.failure \(error)")
                     }
                 }
         }

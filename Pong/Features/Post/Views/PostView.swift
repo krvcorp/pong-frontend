@@ -300,7 +300,7 @@ struct PostView: View {
                 }
                 // MARK: TextArea and Button Component
                 HStack {
-                    CustomTextField(placeholder: Text("Enter your message here"), text: $text)
+                    TextField("Enter your message here", text: $text)
                         .font(.headline)
                         .focused($textIsFocused)
                         

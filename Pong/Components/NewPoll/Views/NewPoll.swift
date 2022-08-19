@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 struct NewPoll: View {
     @Binding var showNewPoll : Bool
@@ -43,7 +44,15 @@ struct NewPoll: View {
             ForEach(0..<newPollVM.pollOptions.count, id: \.self) { i in
                 HStack {
                     TextField("Option \(i + 1)", text: $newPollVM.pollOptions[i])
+                        .onReceive(Just(newPollVM.pollOptions[i]), perform: { change in
+                            newPollVM.limit(index: i)
+                        })
+                        .font(.title3)
+                        .padding(5)
+                        .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color(UIColor.systemGray), lineWidth: 2))
+                    
                     Spacer()
+                    
                     if newPollVM.pollOptions.count > 2 {
                         Button {
                             print("DEBUG: Remove row")
@@ -54,6 +63,7 @@ struct NewPoll: View {
                         }
                     }
                 }
+                .padding(.top, 5)
             }
             
             if newPollVM.pollOptions.count < 6 {

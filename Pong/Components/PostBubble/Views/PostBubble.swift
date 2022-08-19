@@ -3,7 +3,6 @@ import SwiftUI
 struct PostBubble: View {
     @Binding var post : Post
     @StateObject var postBubbleVM = PostBubbleViewModel()
-//    @ObservedObject var postSettingsVM : PostSettingsViewModel
     
     // MARK: Some local view logic
     @State private var showScore = false
@@ -11,7 +10,13 @@ struct PostBubble: View {
     
     var body: some View {
         VStack {
-            NavigationLink(destination: PostView(post: $post)) {
+            ZStack {
+                NavigationLink(destination: PostView(post: $post)) {
+                    EmptyView()
+                }
+                .opacity(0.0)
+                .buttonStyle(PlainButtonStyle())
+                
                 HStack(alignment: .top) {
                     VStack(alignment: .leading) {
                         Text("\(postBubbleVM.post.timeSincePosted)")
@@ -21,20 +26,10 @@ struct PostBubble: View {
                         Text(postBubbleVM.post.title)
                             .multilineTextAlignment(.leading)
                         
-                        // MARK: Image
-//                        if let imageUrl = postBubbleVM.post.image {
-//                            AsyncImage(url: URL(string: "https://a11d-2600-4040-49e9-4700-18f-f080-a04a-f3ee.ngrok.io" + imageUrl)) { image in
-//                                VStack {
-//                                    image.resizable()
-//                                        .aspectRatio(contentMode: .fit)
-//                                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-//                                }
-//                            } placeholder: {
-//                                VStack {
-//                                    ProgressView()
-//                                }
-//                            }
-//                        }
+                        // MARK: Poll
+                        if post.poll != nil {
+                            PollView(post: $post)
+                        }
                     }
                     .padding(.bottom)
                     
@@ -42,14 +37,19 @@ struct PostBubble: View {
                     
                     VoteComponent
                 }
-                .background(Color(UIColor.tertiarySystemBackground))
-
             }
 
             Color.black.frame(height:CGFloat(1) / UIScreen.main.scale)
 
             HStack {
-                NavigationLink(destination: PostView(post: $post)) {
+                
+                ZStack {
+                    NavigationLink(destination: PostView(post: $post)) {
+                        EmptyView()
+                    }
+                    .opacity(0.0)
+                    .buttonStyle(PlainButtonStyle())
+                    
                     HStack {
                         Image(systemName: "bubble.left")
                         Text("\(postBubbleVM.post.numComments)")
@@ -57,8 +57,8 @@ struct PostBubble: View {
 
                         Spacer()
                     }
-                    .background(Color(UIColor.tertiarySystemBackground))
                 }
+
                 
                 Button {
                     sheet.toggle()
@@ -114,13 +114,9 @@ struct PostBubble: View {
                 }
             }
         }
-        .frame(minWidth: 0, maxWidth: UIScreen.main.bounds.size.width - 50)
         .font(.system(size: 18).bold())
-        .padding()
-        .foregroundColor(Color(UIColor.label))
-        .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color(UIColor.tertiarySystemBackground), lineWidth: 5))
-        .background(Color(UIColor.tertiarySystemBackground)) // If you have this
-        .cornerRadius(10)         // You also need the cornerRadius here
+        .padding(0)
+        .padding(.top, 10)
         .onAppear {
             postBubbleVM.post = self.post
         }
