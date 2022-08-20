@@ -36,6 +36,7 @@ struct NewPostView: View {
                                     .scaledToFit()
                                     
                                 Button {
+                                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                                     newPostVM.image = nil
                                 } label: {
                                     Image(systemName: "trash")
@@ -61,6 +62,7 @@ struct NewPostView: View {
                             HStack {
                                 // MARK: Image picker
                                 Button {
+                                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                                     showSheet = true
                                     showNewPoll = false
                                     newPostVM.newPollVM.reset()
@@ -77,6 +79,7 @@ struct NewPostView: View {
 
                                 // MARK: Poll generator
                                 Button {
+                                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                                     showNewPoll.toggle()
                                     newPostVM.image = nil
                                     newPostVM.newPollVM.reset()
@@ -98,6 +101,7 @@ struct NewPostView: View {
 
                             // MARK: On success of newPost, NewPostView needs to dismiss to reset data in NewPost
                             Button {
+                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                                 newPostVM.newPost(mainTabVM: mainTabVM)
                             } label: {
                                 Text("Post")

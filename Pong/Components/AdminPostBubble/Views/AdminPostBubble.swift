@@ -59,6 +59,7 @@ struct AdminPostBubble: View {
                 // MARK: Delete or More Button
                 Menu {
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         DispatchQueue.main.async {
                             adminPostBubbleVM.post = adminPostBubbleVM.post
                             self.alertIdentifier = AlertIdentifier(id: .timeoutDay)
@@ -69,6 +70,7 @@ struct AdminPostBubble: View {
                     }
                     
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         DispatchQueue.main.async {
                             adminPostBubbleVM.post = adminPostBubbleVM.post
                             self.alertIdentifier = AlertIdentifier(id: .timeoutWeek)
@@ -78,6 +80,7 @@ struct AdminPostBubble: View {
                     }
                     
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         DispatchQueue.main.async {
                             adminPostBubbleVM.post = adminPostBubbleVM.post
                             self.alertIdentifier = AlertIdentifier(id: .unflag)

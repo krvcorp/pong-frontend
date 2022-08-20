@@ -96,6 +96,7 @@ struct PostView: View {
                     Spacer()
                     
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         sheet.toggle()
                     } label: {
                         Image(systemName: "square.and.arrow.up")
@@ -107,6 +108,7 @@ struct PostView: View {
                     // DELETE BUTTON
                     if postVM.post.userOwned {
                         Button {
+                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                             DispatchQueue.main.async {
                                 postVM.showDeleteConfirmationView.toggle()
                             }
@@ -116,18 +118,21 @@ struct PostView: View {
                     } else {
                         Menu {
                             Button {
+                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                                 postVM.savePost()
                             } label: {
                                 Label("Save", systemImage: "bookmark")
                             }
                             
                             Button {
+                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                                 postVM.blockPost()
                             } label: {
                                 Label("Block user", systemImage: "x.circle")
                             }
                             
                             Button {
+                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                                 postVM.reportPost()
                             } label: {
                                 Label("Report", systemImage: "flag")
@@ -160,12 +165,14 @@ struct PostView: View {
                 // MARK: if not upvoted or downvoted
                 if postVM.post.voteStatus == 0 {
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         postVM.postVote(direction: 1)
                     } label: {
                         Image(systemName: "arrow.up")
                     }
                     
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         withAnimation {
                             showScore.toggle()
                         }
@@ -175,6 +182,7 @@ struct PostView: View {
                     }
                     
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         postVM.postVote(direction: -1)
                     } label: {
                         Image(systemName: "arrow.down")
@@ -183,6 +191,7 @@ struct PostView: View {
                 // MARK: if upvoted
                 else if postVM.post.voteStatus == 1 {
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         postVM.postVote(direction: 1)
                     } label: {
                         Image(systemName: "arrow.up")
@@ -190,6 +199,7 @@ struct PostView: View {
                     }
                     
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         withAnimation {
                             showScore.toggle()
                         }
@@ -199,6 +209,7 @@ struct PostView: View {
                     }
                     
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         postVM.postVote(direction: -1)
                     } label: {
                         Image(systemName: "arrow.down")
@@ -207,12 +218,14 @@ struct PostView: View {
                 // MARK: if downvoted
                 else if postVM.post.voteStatus == -1 {
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         postVM.postVote(direction: 1)
                     } label: {
                         Image(systemName: "arrow.up")
                     }
                     
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         withAnimation {
                             showScore.toggle()
                         }
@@ -222,6 +235,7 @@ struct PostView: View {
                     }
                     
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         postVM.postVote(direction: -1)
                     } label: {
                         Image(systemName: "arrow.down")
@@ -232,6 +246,7 @@ struct PostView: View {
             // MARK: Show score
             else {
                 Button {
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     withAnimation {
                         showScore.toggle()
                     }
@@ -272,6 +287,7 @@ struct PostView: View {
                     Spacer()
                     
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         textIsFocused = false
                     } label: {
                         Image(systemName: "keyboard.chevron.compact.down")
@@ -290,6 +306,7 @@ struct PostView: View {
                 if postVM.replyToComment != defaultComment {
                     HStack {
                         Button {
+                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                             postVM.replyToComment = defaultComment
                             text = ""
                         } label: {
@@ -310,6 +327,7 @@ struct PostView: View {
                         .focused($textIsFocused)
                         
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         if postVM.replyToComment == defaultComment {
                             postVM.createComment(comment: text)
                         } else {

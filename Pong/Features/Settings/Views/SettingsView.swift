@@ -69,6 +69,7 @@ struct SettingsView: View {
                     }
                     
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         AuthManager.authManager.signout()
                     } label: {
                         HStack {
@@ -79,6 +80,7 @@ struct SettingsView: View {
                     }
                     
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         print("DEBUG: Delete Account")
                     } label: {
                         HStack {
