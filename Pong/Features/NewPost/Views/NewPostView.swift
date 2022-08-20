@@ -24,9 +24,10 @@ struct NewPostView: View {
         ZStack {
             ZStack (alignment: .bottom) {
                 VStack {
-                    ScrollView {
+                    VStack {
                         TextArea("What's on your mind?", text: $newPostVM.title)
                             .font(.title)
+                            .frame(maxHeight: .infinity)
                         
                         if newPostVM.image != nil {
                             ZStack(alignment: .topLeading) {
