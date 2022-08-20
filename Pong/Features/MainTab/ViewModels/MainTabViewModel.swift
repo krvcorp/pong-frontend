@@ -10,11 +10,11 @@ import Combine
 class MainTabViewModel: ObservableObject {
     /// This is true when the user has selected the Item with the custom action
     @Published var isCustomItemSelected: Bool = false
+    @Published var newPostDetected: Bool = false
     
     /// This is the index of the item that fires a custom action
     let customActiontemindex: Int
 
-    let objectWillChange = PassthroughSubject<MainTabViewModel, Never>()
 
     var previousItem: Int
 
@@ -25,13 +25,11 @@ class MainTabViewModel: ObservableObject {
                 itemSelected = oldValue
                 isCustomItemSelected = true
             }
-            objectWillChange.send(self)
         }
     }
 
     func reset() {
         itemSelected = previousItem
-        objectWillChange.send(self)
     }
 
 

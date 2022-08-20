@@ -16,6 +16,7 @@ class AuthManager: ObservableObject {
     @Published var isSignedIn: Bool = false
     @Published var initialOnboard: Bool = false
     @Published var userId: String = ""
+    @Published var isAdmin: Bool = false
     
     // MARK: Current State is determined if the userId and the token is stored to the keychain
     func loadCurrentState() {
@@ -23,6 +24,10 @@ class AuthManager: ObservableObject {
         if let userId = DAKeychain.shared["userId"] {
             self.userId = userId
         }
+        if DAKeychain.shared["isAdmin"] != nil {
+            self.isAdmin = true
+        }
+        
         print("DEBUG: \(isSignedIn)")
     }
     
@@ -81,6 +86,9 @@ class AuthManager: ObservableObject {
                 if let userId = successResponse.userId {
                     print("DEBUG: userId \(String(describing: userId))")
                     DAKeychain.shared["userId"] = userId
+                }
+                if let isAdmin = successResponse.isAdmin {
+                    DAKeychain.shared["isAdmin"] = String(isAdmin)
                 }
                 self.initialOnboard = true
                 self.loadCurrentState()

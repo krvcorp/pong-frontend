@@ -1,10 +1,3 @@
-//
-//  SettingsViewModel.swift
-//  Pong
-//
-//  Created by Artemas on 8/4/22.
-//
-
 import Foundation
 import SwiftUI
 import GoogleSignIn

@@ -15,6 +15,7 @@ class NetworkManager: ObservableObject {
     var baseURL = "http://localhost:8005/api/"
     
     struct EmptyBody: Encodable {}
+    struct EmptyResponse: Codable {}
     
     // MARK: Encode/Decode to/from SnakeCase
     let parameterEncoder: JSONParameterEncoder = {
@@ -77,6 +78,8 @@ class NetworkManager: ObservableObject {
                     if let httpStatusCode = response.response?.statusCode {
                         if httpStatusCode == 401 {
                             print("DEBUG: 401 Error")
+                        } else if httpStatusCode == 204 {
+                            print("DEBUG: 204 Empty")
                         }
                     }
                 }

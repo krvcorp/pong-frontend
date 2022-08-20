@@ -12,7 +12,7 @@ import PopupView
 struct NewPostView: View {
     @Environment(\.presentationMode) var presentationMode
     @StateObject var newPostVM = NewPostViewModel()
-    @Binding var isCustomItemSelected : Bool
+    @ObservedObject var mainTabVM : MainTabViewModel
     
     // MARK: image uploader
     @State private var showSheet = false
@@ -24,12 +24,6 @@ struct NewPostView: View {
         ZStack {
             ZStack (alignment: .bottom) {
                 VStack {
-                    Button {
-                        print("DEBUG: \(isCustomItemSelected)")
-                        isCustomItemSelected.toggle()
-                    } label: {
-                        Text("Dismiss")
-                    }
                     ScrollView {
                         TextArea("What's on your mind?", text: $newPostVM.title)
                             .font(.title)
@@ -86,6 +80,7 @@ struct NewPostView: View {
                                     showNewPoll.toggle()
                                     newPostVM.image = nil
                                     newPostVM.newPollVM.reset()
+                                    newPostVM.newPollVM.instantiate()
                                 } label: {
                                     Image(systemName: "chart.bar")
                                         .resizable()
@@ -103,7 +98,7 @@ struct NewPostView: View {
 
                             // MARK: On success of newPost, NewPostView needs to dismiss to reset data in NewPost
                             Button {
-                                newPostVM.newPost()
+                                newPostVM.newPost(mainTabVM: mainTabVM)
                             } label: {
                                 Text("Post")
                                     .frame(minWidth: 100, maxWidth: 150)

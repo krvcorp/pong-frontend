@@ -1,10 +1,3 @@
-//
-//  PostBubbleViewModel.swift
-//  Pong
-//
-//  Created by Khoi Nguyen on 7/12/22.
-//
-
 import Foundation
 
 class PostBubbleViewModel: ObservableObject {
@@ -45,13 +38,14 @@ class PostBubbleViewModel: ObservableObject {
     func deletePost(post: Post) {
         NetworkManager.networkManager.request(route: "posts/\(post.id)/", method: .delete, successType: Post.self) { successResponse in
             DispatchQueue.main.async {
-                print("DEBUG: ")
+                print("DEBUG: postBubbleVM.deletePost")
+                
             }
         }
     }
     
     func savePost(post: Post) {
-        NetworkManager.networkManager.request(route: "posts/\(post.id)/save/", method: .post, successType: Post.self) { successResponse in
+        NetworkManager.networkManager.request(route: "posts/\(post.id)/save/", method: .post, successType: NetworkManager.EmptyResponse.self) { successResponse in
             DispatchQueue.main.async {
                 print("DEBUG: postBubbleVM.savePost")
                 self.post = post
@@ -61,7 +55,7 @@ class PostBubbleViewModel: ObservableObject {
     }
     
     func unsavePost(post: Post) {
-        NetworkManager.networkManager.request(route: "posts/\(post.id)/save/", method: .delete, successType: Post.self) { successResponse in
+        NetworkManager.networkManager.request(route: "posts/\(post.id)/save/", method: .delete, successType: NetworkManager.EmptyResponse.self) { successResponse in
             DispatchQueue.main.async {
                 print("DEBUG: postBubbleVM.unsavePost")
                 self.post = post

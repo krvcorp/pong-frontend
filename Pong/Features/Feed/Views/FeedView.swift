@@ -1,10 +1,3 @@
-//
-//  FeedView.swift
-//  SidechatMockup
-//
-//  Created by Khoi Nguyen on 6/3/22.
-//
-
 import SwiftUI
 //import ScalingHeaderScrollView
 import Introspect
@@ -13,6 +6,7 @@ struct FeedView: View {
     @Environment(\.colorScheme) var colorScheme
     // MARK: ViewModels
     @StateObject var feedVM = FeedViewModel()
+    @Binding var newPostDetected : Bool
     
     var body: some View {
         NavigationView {
@@ -86,6 +80,13 @@ struct FeedView: View {
                 navigationController.navigationBar.scrollEdgeAppearance = navigationBarAppearance
             }
         }
+        .onChange(of: newPostDetected, perform: { change in
+            DispatchQueue.main.async {
+                print("DEBUG: NEW POST DETECTED")
+                feedVM.selectedFeedFilter = .recent
+                feedVM.getPosts(selectedFeedFilter: .recent)
+            }
+        })
         .navigationViewStyle(StackNavigationViewStyle())
         .accentColor(Color(UIColor.label))
     }
@@ -137,6 +138,18 @@ struct FeedView: View {
                     }
                 }
             }
+            HStack {
+                Spacer()
+                VStack {
+                    Image(systemName: "arrow.clockwise")
+                    Text("Tap to try again")
+                }
+                Spacer()
+            }
+            .background(Color(UIColor.systemBackground))
+            .onAppear() {
+                print("DEBUG: Paginate!")
+            }
         }
         .refreshable{
             print("DEBUG: Refresh")
@@ -147,6 +160,6 @@ struct FeedView: View {
 
 struct FeedView_Previews: PreviewProvider {
     static var previews: some View {
-        FeedView()
+        FeedView(newPostDetected: .constant(false))
     }
 }

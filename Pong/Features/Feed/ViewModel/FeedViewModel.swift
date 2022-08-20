@@ -7,6 +7,7 @@
 import Foundation
 import SwiftUI
 import Alamofire
+import Combine
 
 enum FeedFilter: String, CaseIterable, Identifiable {
     case top, hot, recent
@@ -55,13 +56,43 @@ enum TopFilter: String, CaseIterable, Identifiable {
 class FeedViewModel: ObservableObject {
     @Published var selectedFeedFilter : FeedFilter = .hot
     @Published var school = "Boston University"
-    @Published var isShowingNewPostSheet = false
     @Published var InitalOpen : Bool = true
     @Published var topPosts : [Post] = []
     @Published var hotPosts : [Post] = []
     @Published var recentPosts : [Post] = []
-    
     @Published var selectedTopFilter : TopFilter = .allTime
+    
+    //MARK: Pagination
+    var topCurrentPage = 0
+    var topPerPage = 20
+    
+    var hotCurrentPage = 0
+    var hotPerPage = 0
+    
+    var recentCurrentPage = 0
+    var recentPerPage = 0
+    
+    func paginatePost(selectedFeedFilter : FeedFilter) {
+        let url_to_use: String
+        
+        if selectedFeedFilter == .top {
+            url_to_use = "posts/?sort=top&page=\(topCurrentPage+1)&perPage=\(topPerPage)"
+        } else if selectedFeedFilter == .hot {
+            url_to_use = "posts/?sort=top&page=\(hotCurrentPage+1)&perPage=\(hotPerPage)"
+        } else {
+            url_to_use = "posts/?sort=top&page=\(recentCurrentPage+1)&perPage=\(recentPerPage)"
+        }
+        
+        NetworkManager.networkManager.request(route: url_to_use, method: .get, successType: [Post].self) { successResponse in
+            if selectedFeedFilter == .top {
+                self.topPosts = successResponse
+            } else if selectedFeedFilter == .hot {
+                self.hotPosts = successResponse
+            } else if selectedFeedFilter == .recent {
+                self.recentPosts = successResponse
+            }
+        }
+    }
     
     // MARK: API SHIT
     func getPosts(selectedFeedFilter : FeedFilter) {
