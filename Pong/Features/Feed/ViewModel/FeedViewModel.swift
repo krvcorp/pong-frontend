@@ -83,13 +83,15 @@ class FeedViewModel: ObservableObject {
             url_to_use = "posts/?sort=top&page=\(recentCurrentPage+1)&perPage=\(recentPerPage)"
         }
         
-        NetworkManager.networkManager.request(route: url_to_use, method: .get, successType: [Post].self) { successResponse in
-            if selectedFeedFilter == .top {
-                self.topPosts = successResponse
-            } else if selectedFeedFilter == .hot {
-                self.hotPosts = successResponse
-            } else if selectedFeedFilter == .recent {
-                self.recentPosts = successResponse
+        NetworkManager.networkManager.request(route: url_to_use, method: .get, successType: [Post].self) { successResponse, errorResponse in
+            if let successResponse = successResponse {
+                if selectedFeedFilter == .top {
+                    self.topPosts = successResponse
+                } else if selectedFeedFilter == .hot {
+                    self.hotPosts = successResponse
+                } else if selectedFeedFilter == .recent {
+                    self.recentPosts = successResponse
+                }
             }
         }
     }
@@ -106,13 +108,15 @@ class FeedViewModel: ObservableObject {
             url_to_use = "posts/?sort=new"
         }
         
-        NetworkManager.networkManager.request(route: url_to_use, method: .get, successType: [Post].self) { successResponse in
-            if selectedFeedFilter == .top {
-                self.topPosts = successResponse
-            } else if selectedFeedFilter == .hot {
-                self.hotPosts = successResponse
-            } else if selectedFeedFilter == .recent {
-                self.recentPosts = successResponse
+        NetworkManager.networkManager.request(route: url_to_use, method: .get, successType: [Post].self) { successResponse, errorResponse in
+            if let successResponse = successResponse {
+                if selectedFeedFilter == .top {
+                    self.topPosts = successResponse
+                } else if selectedFeedFilter == .hot {
+                    self.hotPosts = successResponse
+                } else if selectedFeedFilter == .recent {
+                    self.recentPosts = successResponse
+                }
             }
         }
         
@@ -122,17 +126,19 @@ class FeedViewModel: ObservableObject {
     
     // MARK: Read Post
     func readPost(postId: String, completion: @escaping (Result<Post, AuthenticationError>) -> Void) {
-        NetworkManager.networkManager.request(route: "post/\(postId)", method: .get, successType: Post.self) { successResponse in
-            DispatchQueue.main.async {
-                // replace the local post
-                if let index = self.hotPosts.firstIndex(where: {$0.id == postId}) {
-                    self.hotPosts[index] = successResponse
-                }
-                if let index = self.recentPosts.firstIndex(where: {$0.id == postId}) {
-                    self.recentPosts[index] = successResponse
-                }
-                if let index = self.topPosts.firstIndex(where: {$0.id == postId}) {
-                    self.topPosts[index] = successResponse
+        NetworkManager.networkManager.request(route: "post/\(postId)", method: .get, successType: Post.self) { successResponse, errorResponse in
+            if let successResponse = successResponse {
+                DispatchQueue.main.async {
+                    // replace the local post
+                    if let index = self.hotPosts.firstIndex(where: {$0.id == postId}) {
+                        self.hotPosts[index] = successResponse
+                    }
+                    if let index = self.recentPosts.firstIndex(where: {$0.id == postId}) {
+                        self.recentPosts[index] = successResponse
+                    }
+                    if let index = self.topPosts.firstIndex(where: {$0.id == postId}) {
+                        self.topPosts[index] = successResponse
+                    }
                 }
             }
         }

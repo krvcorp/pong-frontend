@@ -56,12 +56,14 @@ class NewPostViewModel: ObservableObject {
 
             let parameters = NewPostModel.Request(title: self.title, pollOptions: newPollVM.pollOptions)
 
-            NetworkManager.networkManager.request(route: "posts/", method: .post, body: parameters, successType: Post.self) { successResponse in
+            NetworkManager.networkManager.request(route: "posts/", method: .post, body: parameters, successType: Post.self) { successResponse, errorResponse in
                 // MARK: Success
-                DispatchQueue.main.async {
-                    mainTabVM.isCustomItemSelected = false
-                    mainTabVM.itemSelected = 1
-                    mainTabVM.newPostDetected.toggle()
+                if successResponse != nil {
+                    DispatchQueue.main.async {
+                        mainTabVM.isCustomItemSelected = false
+                        mainTabVM.itemSelected = 1
+                        mainTabVM.newPostDetected.toggle()
+                    }
                 }
             }
         }

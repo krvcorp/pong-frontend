@@ -5,7 +5,7 @@ class AdminPostBubbleViewModel: ObservableObject {
     
     func applyTimeout(adminFeedVM: AdminFeedViewModel, time: Int) {
         let parameters = TimeoutModel.Request(time: time)
-        NetworkManager.networkManager.request(route: "posts/\(post.id)/timeout/", method: .post, body: parameters, successType: Post.self) { successResponse in
+        NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/timeout/", method: .post, body: parameters) { successResponse, errorResponse in
             DispatchQueue.main.async {
                 if let index = adminFeedVM.flaggedPosts.firstIndex(of: self.post) {
                     print("DEBUG: Removing post \(adminFeedVM.flaggedPosts)")
@@ -18,7 +18,7 @@ class AdminPostBubbleViewModel: ObservableObject {
     
     
     func unflagPost(adminFeedVM: AdminFeedViewModel) {
-        NetworkManager.networkManager.request(route: "posts/\(post.id)/approve/", method: .post, successType: Post.self) { successResponse in
+        NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/approve/", method: .post) { successResponse, errorResponse in
             DispatchQueue.main.async {
                 if let index = adminFeedVM.flaggedPosts.firstIndex(of: self.post) {
                     print("DEBUG: Removing post \(adminFeedVM.flaggedPosts)")

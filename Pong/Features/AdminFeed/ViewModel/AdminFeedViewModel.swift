@@ -7,8 +7,10 @@ class AdminFeedViewModel: ObservableObject {
 
     // MARK: API
     func getPosts() {
-        NetworkManager.networkManager.request(route: "posts/?sort=flagged", method: .get, successType: [Post].self) { successResponse in
-            self.flaggedPosts = successResponse
+        NetworkManager.networkManager.request(route: "posts/?sort=flagged", method: .get, successType: [Post].self) { successResponse, errorResponse in
+            if let successResponse = successResponse {
+                self.flaggedPosts = successResponse
+            }
         }
     }
 }

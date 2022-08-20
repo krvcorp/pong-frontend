@@ -18,17 +18,19 @@ class LeaderboardViewModel: ObservableObject {
     
     func getLeaderboard() {
         print("DEBUG: leaderboardVM.getLeaderboard")
-        NetworkManager.networkManager.request(route: "users/leaderboard/", method: .get, successType: [TotalScore].self) { successResponse in
-            DispatchQueue.main.async {
-                var leaderboardList = successResponse
-                
-                var count : Int = 1
-                for _ in leaderboardList {
-                    leaderboardList[count-1].place = String(count)
-                    count += 1
-                }
+        NetworkManager.networkManager.request(route: "users/leaderboard/", method: .get, successType: [TotalScore].self) { successResponse, errorResponse in
+            if let successResponse = successResponse {
                 DispatchQueue.main.async {
-                    self.leaderboardList = leaderboardList
+                    var leaderboardList = successResponse
+                    
+                    var count : Int = 1
+                    for _ in leaderboardList {
+                        leaderboardList[count-1].place = String(count)
+                        count += 1
+                    }
+                    DispatchQueue.main.async {
+                        self.leaderboardList = leaderboardList
+                    }
                 }
             }
         }
@@ -37,15 +39,17 @@ class LeaderboardViewModel: ObservableObject {
     func getLoggedInUserInfo() {
         print("DEBUG: leaderboardVM.getLoggedInUserInfo")
         
-        NetworkManager.networkManager.request(route: "users/", method: .get, successType: LoggedInUserInfoResponseBody.self) { successResponse in
-            DispatchQueue.main.async {
-                self.totalKarma = successResponse.totalScore
-                self.commentKarma = successResponse.commentScore
-                self.postKarma = successResponse.postScore
-                self.savedPosts = successResponse.savedPosts
-                self.posts = successResponse.posts
-                self.comments = successResponse.comments
-                print("DEBUG: leaderboardVM.getLoggedInUserInfo total karma \(self.totalKarma)")
+        NetworkManager.networkManager.request(route: "users/", method: .get, successType: LoggedInUserInfoResponseBody.self) { successResponse, errorResponse in
+            if let successResponse = successResponse {
+                DispatchQueue.main.async {
+                    self.totalKarma = successResponse.totalScore
+                    self.commentKarma = successResponse.commentScore
+                    self.postKarma = successResponse.postScore
+                    self.savedPosts = successResponse.savedPosts
+                    self.posts = successResponse.posts
+                    self.comments = successResponse.comments
+                    print("DEBUG: leaderboardVM.getLoggedInUserInfo total karma \(self.totalKarma)")
+                }
             }
         }
     }

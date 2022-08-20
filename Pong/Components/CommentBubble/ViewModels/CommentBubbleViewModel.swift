@@ -24,27 +24,21 @@ class CommentBubbleViewModel: ObservableObject {
         
         let parameters = CommentVoteModel.Request(vote: voteToSend)
         
-        NetworkManager.networkManager.request(route: "comments/\(comment.id)/vote/", method: .post, body: parameters, successType: CommentVoteModel.Response.self) { successResponse in
+        NetworkManager.networkManager.request(route: "comments/\(comment.id)/vote/", method: .post, body: parameters, successType: CommentVoteModel.Response.self) { successResponse, errorResponse in
             // MARK: Success
             DispatchQueue.main.async {
-                if let responseDataContent = successResponse.voteStatus {
-                    print("DEBUG: commentBubbleVM.commentVote commentVoteResponse.voteStatus is \(responseDataContent)")
-                    DispatchQueue.main.async {
-                        self.comment.voteStatus = responseDataContent
-                    }
-                    return
+                if let successResponse = successResponse {
+                    self.comment.voteStatus = successResponse.voteStatus
                 }
-
-                if let responseDataContent = successResponse.error {
-                    print("DEBUG: commentBubbleVM.commentVote commentVoteResponse.error is \(responseDataContent)")
-                    return
+                if let errorResponse = errorResponse {
+                    print("DEBUG: \(errorResponse)")
                 }
             }
         }
     }
     
     func deleteComment() {
-        NetworkManager.networkManager.request(route: "comments/\(comment.id)/", method: .delete, successType: Post.self) { successResponse in
+        NetworkManager.networkManager.request(route: "comments/\(comment.id)/", method: .delete, successType: Post.self) { successResponse, errorResponse in
             DispatchQueue.main.async {
                 print("DEBUG: ")
             }
@@ -52,7 +46,7 @@ class CommentBubbleViewModel: ObservableObject {
     }
     
     func saveComment() {
-        NetworkManager.networkManager.request(route: "comments/\(comment.id)/save/", method: .post, successType: Post.self) { successResponse in
+        NetworkManager.networkManager.emptyRequest(route: "comments/\(comment.id)/save/", method: .post) { successResponse, errorResponse in
             DispatchQueue.main.async {
                 print("DEBUG: ")
             }
@@ -60,7 +54,7 @@ class CommentBubbleViewModel: ObservableObject {
     }
     
     func blockComment() {
-        NetworkManager.networkManager.request(route: "comments/\(comment.id)/block/", method: .post, successType: Post.self) { successResponse in
+        NetworkManager.networkManager.emptyRequest(route: "comments/\(comment.id)/block/", method: .post) { successResponse, errorResponse in
             DispatchQueue.main.async {
                 print("DEBUG: ")
             }
@@ -68,7 +62,7 @@ class CommentBubbleViewModel: ObservableObject {
     }
     
     func reportComment() {
-        NetworkManager.networkManager.request(route: "comments/\(comment.id)/report/", method: .post, successType: Post.self) { successResponse in
+        NetworkManager.networkManager.emptyRequest(route: "comments/\(comment.id)/report/", method: .post) { successResponse, errorResponse in
             DispatchQueue.main.async {
                 print("DEBUG: ")
             }

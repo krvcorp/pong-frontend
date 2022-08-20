@@ -24,10 +24,12 @@ class PollViewModel : ObservableObject {
     func pollVote(id: String, postId: String) -> Void {
         let parameters = PollVoteModel.Request(pollOptionId: id)
 
-        NetworkManager.networkManager.request(route: "posts/\(postId)/pollvote/", method: .post, body: parameters, successType: Poll.self) { successResponse in
+        NetworkManager.networkManager.request(route: "posts/\(postId)/pollvote/", method: .post, body: parameters, successType: Poll.self) { successResponse, errorResponse in
             // MARK: Success
-            DispatchQueue.main.async {
-                self.poll = successResponse
+            if let successResponse = successResponse {
+                DispatchQueue.main.async {
+                    self.poll = successResponse
+                }
             }
         }
     }

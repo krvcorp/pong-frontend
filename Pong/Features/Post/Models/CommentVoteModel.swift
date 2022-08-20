@@ -14,7 +14,6 @@ struct CommentVoteModel {
     }
     
     struct Response: Decodable {
-        let voteStatus: Int?
-        let error: String?
+        let voteStatus: Int
     }
 }

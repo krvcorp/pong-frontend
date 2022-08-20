@@ -76,22 +76,27 @@ class AuthManager: ObservableObject {
         
         let parameters = VerifyEmailModel.Request(idToken: idToken)
         
-        NetworkManager.networkManager.request(route: "login/", method: .post, body: parameters, successType: VerifyEmailModel.Response.self) { successResponse in
+        NetworkManager.networkManager.request(route: "login/", method: .post, body: parameters, successType: VerifyEmailModel.Response.self) { successResponse, errorResponse in
             // MARK: User is signed in
             DispatchQueue.main.async {
-                if let token = successResponse.token {
-                    print("DEBUG: token \(token)")
-                    DAKeychain.shared["token"] = token
+                if let successResponse = successResponse {
+                    if let token = successResponse.token {
+                        print("DEBUG: token \(token)")
+                        DAKeychain.shared["token"] = token
+                    }
+                    if let userId = successResponse.userId {
+                        print("DEBUG: userId \(String(describing: userId))")
+                        DAKeychain.shared["userId"] = userId
+                    }
+                    if let isAdmin = successResponse.isAdmin {
+                        DAKeychain.shared["isAdmin"] = String(isAdmin)
+                    }
+                    self.initialOnboard = true
+                    self.loadCurrentState()
                 }
-                if let userId = successResponse.userId {
-                    print("DEBUG: userId \(String(describing: userId))")
-                    DAKeychain.shared["userId"] = userId
+                if let errorResponse = errorResponse {
+                    print("DEBUG: \(errorResponse)")
                 }
-                if let isAdmin = successResponse.isAdmin {
-                    DAKeychain.shared["isAdmin"] = String(isAdmin)
-                }
-                self.initialOnboard = true
-                self.loadCurrentState()
             }
         }
     }

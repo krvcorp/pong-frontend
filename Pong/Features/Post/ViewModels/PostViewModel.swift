@@ -24,29 +24,26 @@ class PostViewModel: ObservableObject {
         
         let parameters = PostVoteModel.Request(vote: voteToSend)
         
-        NetworkManager.networkManager.request(route: "posts/\(post.id)/vote/", method: .post, body: parameters, successType: PostVoteModel.Response.self) { successResponse in
+        NetworkManager.networkManager.request(route: "posts/\(post.id)/vote/", method: .post, body: parameters, successType: PostVoteModel.Response.self) { successResponse, errorResponse in
             // MARK: Success
             DispatchQueue.main.async {
-                if let responseDataContent = successResponse.voteStatus {
-                    print("DEBUG: postVM.postVote postVoteResponse.voteStatus is \(responseDataContent)")
-                    DispatchQueue.main.async {
-                        self.post.voteStatus = responseDataContent
-                    }
-                    return
+                if let successResponse = successResponse {
+                    self.post.voteStatus = successResponse.voteStatus
                 }
-
-                if let responseDataContent = successResponse.error {
-                    print("DEBUG: postVM.postVote postVoteResponse.error is \(responseDataContent)")
-                    return
+                
+                if let errorResponse = errorResponse {
+                    print("DEBUG: \(errorResponse)")
                 }
             }
         }
     }
     
     func getComments() -> Void {
-        NetworkManager.networkManager.request(route: "comments/?post_id=\(post.id)", method: .get, successType: [Comment].self) { successResponse in
-            DispatchQueue.main.async {
-                self.comments = successResponse
+        NetworkManager.networkManager.request(route: "comments/?post_id=\(post.id)", method: .get, successType: [Comment].self) { successResponse, errorResponse in
+            if let successResponse = successResponse {
+                DispatchQueue.main.async {
+                    self.comments = successResponse
+                }
             }
         }
     }
@@ -54,11 +51,13 @@ class PostViewModel: ObservableObject {
     func createComment(comment: String) -> Void {
         let parameters = CommentCreateModel.Request(comment: comment)
         
-        NetworkManager.networkManager.request(route: "comments/\(post.id)/", method: .post, body: parameters, successType: Comment.self) { commentResponse in
+        NetworkManager.networkManager.request(route: "comments/\(post.id)/", method: .post, body: parameters, successType: Comment.self) { successResponse, errorResponse in
             // MARK: Success
-            DispatchQueue.main.async {
-                self.comments.append(commentResponse)
-                self.post.numComments = self.post.numComments + 1
+            if let successResponse = successResponse {
+                DispatchQueue.main.async {
+                    self.comments.append(successResponse)
+                    self.post.numComments = self.post.numComments + 1
+                }
             }
         }
     }
@@ -66,32 +65,36 @@ class PostViewModel: ObservableObject {
     func commentReply(comment: String) -> Void {
         let parameters = CommentReplyModel.Request(postId: post.id, replyingId: replyToComment.id, comment: comment)
         
-        NetworkManager.networkManager.request(route: "comments/", method: .post, body: parameters, successType: Comment.self) { commentResponse in
+        NetworkManager.networkManager.request(route: "comments/", method: .post, body: parameters, successType: Comment.self) { successResponse, errorResponse in
             // MARK: Success
-            DispatchQueue.main.async {
-                for (index, comment) in self.comments.enumerated() {
-                    if commentResponse.parent == comment.id {
-                        print("DEBUG: postVM.commentReply append")
-                        self.comments[index].children.append(commentResponse)
+            if let successResponse = successResponse {
+                DispatchQueue.main.async {
+                    for (index, comment) in self.comments.enumerated() {
+                        if successResponse.parent == comment.id {
+                            print("DEBUG: postVM.commentReply append")
+                            self.comments[index].children.append(successResponse)
+                        }
                     }
+                    self.post.numComments = self.post.numComments + 1
                 }
-                self.post.numComments = self.post.numComments + 1
             }
         }
     }
     
     // MARK: ReadPost
     func readPost() -> Void {
-        NetworkManager.networkManager.request(route: "posts/\(post.id)/", method: .get, successType: Post.self) { successResponse in
-            DispatchQueue.main.async {
-                // replace the local post
-                self.post = successResponse
+        NetworkManager.networkManager.request(route: "posts/\(post.id)/", method: .get, successType: Post.self) { successResponse, errorResponse in
+            if let successResponse = successResponse {
+                DispatchQueue.main.async {
+                    // replace the local post
+                    self.post = successResponse
+                }
             }
         }
     }
     
     func deletePost() {
-        NetworkManager.networkManager.request(route: "posts/\(post.id)/", method: .delete, successType: Post.self) { successResponse in
+        NetworkManager.networkManager.request(route: "posts/\(post.id)/", method: .delete, successType: Post.self) { successResponse, errorResponse in
             DispatchQueue.main.async {
                 print("DEBUG: ")
             }
@@ -99,7 +102,7 @@ class PostViewModel: ObservableObject {
     }
     
     func savePost() {
-        NetworkManager.networkManager.request(route: "posts/\(post.id)/save/", method: .post, successType: Post.self) { successResponse in
+        NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/save/", method: .post) { successResponse, errorResponse in
             DispatchQueue.main.async {
                 print("DEBUG: ")
             }
@@ -107,7 +110,7 @@ class PostViewModel: ObservableObject {
     }
     
     func blockPost() {
-        NetworkManager.networkManager.request(route: "posts/\(post.id)/block/", method: .post, successType: Post.self) { successResponse in
+        NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/block/", method: .post) { successResponse, errorResponse in
             DispatchQueue.main.async {
                 print("DEBUG: ")
             }
@@ -115,7 +118,7 @@ class PostViewModel: ObservableObject {
     }
     
     func reportPost() {
-        NetworkManager.networkManager.request(route: "posts/\(post.id)/report/", method: .post, successType: Post.self) { successResponse in
+        NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/report/", method: .post) { successResponse, errorResponse in
             DispatchQueue.main.async {
                 print("DEBUG: ")
             }
