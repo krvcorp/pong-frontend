@@ -87,6 +87,7 @@
 		6A449CCF2897A5BD0015826A /* CommentBubbleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449CCE2897A5BD0015826A /* CommentBubbleViewModel.swift */; };
 		6A449CD42898B1D00015826A /* ErrorResponseBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449CD32898B1D00015826A /* ErrorResponseBody.swift */; };
 		6A449CD62898E3BC0015826A /* FloatWarning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449CD52898E3BC0015826A /* FloatWarning.swift */; };
+		6A4BD72728B1772C004EFE4A /* PaginatePostsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4BD72628B1772C004EFE4A /* PaginatePostsModel.swift */; };
 		6A5479C72895BB9800BC18CD /* MSAL in Frameworks */ = {isa = PBXBuildFile; productRef = 6A5479C62895BB9800BC18CD /* MSAL */; };
 		6A68DC32288A225700BF2775 /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = 6A68DC31288A225700BF2775 /* PopupView */; };
 		6A78FA4F289CD31A00B75CC6 /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A78FA4E289CD31A00B75CC6 /* NotificationsView.swift */; };
@@ -184,6 +185,7 @@
 		6A449CCE2897A5BD0015826A /* CommentBubbleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentBubbleViewModel.swift; sourceTree = "<group>"; };
 		6A449CD32898B1D00015826A /* ErrorResponseBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponseBody.swift; sourceTree = "<group>"; };
 		6A449CD52898E3BC0015826A /* FloatWarning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatWarning.swift; sourceTree = "<group>"; };
+		6A4BD72628B1772C004EFE4A /* PaginatePostsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaginatePostsModel.swift; sourceTree = "<group>"; };
 		6A5479C82895C08F00BC18CD /* Pong.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Pong.entitlements; sourceTree = "<group>"; };
 		6A5DF0E32851321000F28A06 /* Pong.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pong.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A78FA4E289CD31A00B75CC6 /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
@@ -501,6 +503,7 @@
 				6A449C2B2896F4320015826A /* Post.swift */,
 				6AEE15D328AC4AC600EEF1E6 /* Poll.swift */,
 				6A449C1E2896F4320015826A /* Comment.swift */,
+				6A4BD72628B1772C004EFE4A /* PaginatePostsModel.swift */,
 				6A78FA5628A19A0D00B75CC6 /* VerifyEmailModel.swift */,
 				6A78FA5828A1A65E00B75CC6 /* PostVoteModel.swift */,
 				6A7E109828AED83500CE3CFD /* PollVoteModel.swift */,
@@ -1015,6 +1018,7 @@
 				289CC876289C69D9009C1DCE /* ProminentHeaderModifier.swift in Sources */,
 				6A449CCF2897A5BD0015826A /* CommentBubbleViewModel.swift in Sources */,
 				6A449CD42898B1D00015826A /* ErrorResponseBody.swift in Sources */,
+				6A4BD72728B1772C004EFE4A /* PaginatePostsModel.swift in Sources */,
 				6A449C7E2896F4320015826A /* VerificationView.swift in Sources */,
 				6A449CB72896F4330015826A /* MessageField.swift in Sources */,
 				289CC870289C6846009C1DCE /* SettingsViewModel.swift in Sources */,

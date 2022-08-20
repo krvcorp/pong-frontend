@@ -62,67 +62,122 @@ class FeedViewModel: ObservableObject {
     @Published var recentPosts : [Post] = []
     @Published var selectedTopFilter : TopFilter = .allTime
     
+    @Published var finishedTop = false
+    @Published var finishedHot = false
+    @Published var finishedRecent = false
+    
     //MARK: Pagination
-    var topCurrentPage = 0
-    var topPerPage = 20
+    var topCurrentPage = "posts/?sort=top"
     
-    var hotCurrentPage = 0
-    var hotPerPage = 0
+    var hotCurrentPage = "posts/?sort=hot"
     
-    var recentCurrentPage = 0
-    var recentPerPage = 0
+    var recentCurrentPage = "posts/?sort=old"
     
-    func paginatePost(selectedFeedFilter : FeedFilter) {
-        let url_to_use: String
+    func paginatePosts(selectedFeedFilter: FeedFilter) {
+        var url_to_use = ""
         
         if selectedFeedFilter == .top {
-            url_to_use = "posts/?sort=top&page=\(topCurrentPage+1)&perPage=\(topPerPage)"
+            url_to_use = topCurrentPage
+            if finishedTop {
+                print("DEBUG: NO TOP LEFT")
+                return
+            }
         } else if selectedFeedFilter == .hot {
-            url_to_use = "posts/?sort=top&page=\(hotCurrentPage+1)&perPage=\(hotPerPage)"
-        } else {
-            url_to_use = "posts/?sort=top&page=\(recentCurrentPage+1)&perPage=\(recentPerPage)"
+            url_to_use = hotCurrentPage
+            if finishedHot {
+                print("DEBUG: NO HOT LEFT")
+                return
+            }
+        } else if selectedFeedFilter == .recent {
+            url_to_use = recentCurrentPage
+            if finishedRecent {
+                print("DEBUG: NO RECENT LEFT")
+                return
+            }
         }
         
-        NetworkManager.networkManager.request(route: url_to_use, method: .get, successType: [Post].self) { successResponse, errorResponse in
+        NetworkManager.networkManager.request(route: url_to_use, method: .get, successType: PaginatePostsModel.Response.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
-                if selectedFeedFilter == .top {
-                    self.topPosts = successResponse
-                } else if selectedFeedFilter == .hot {
-                    self.hotPosts = successResponse
-                } else if selectedFeedFilter == .recent {
-                    self.recentPosts = successResponse
+                DispatchQueue.main.async {
+                    if selectedFeedFilter == .top {
+                        self.topPosts.append(contentsOf: successResponse.results)
+                        if let nextLink = successResponse.next {
+                            self.topCurrentPage = nextLink
+                        } else {
+                            self.finishedTop = true
+                        }
+                    } else if selectedFeedFilter == .hot {
+                        self.hotPosts.append(contentsOf: successResponse.results)
+                        if let nextLink = successResponse.next {
+                            self.hotCurrentPage = nextLink
+                        } else {
+                            self.finishedHot = true
+                        }
+                    } else if selectedFeedFilter == .recent {
+                        self.recentPosts.append(contentsOf: successResponse.results)
+                        if let nextLink = successResponse.next {
+                            self.recentCurrentPage = nextLink
+                        } else {
+                            self.finishedRecent = true
+                        }
+                    }
+                    self.InitalOpen = false
                 }
+            }
+            
+            if let errorResponse = errorResponse {
+                print("DEBUG: \(errorResponse)")
             }
         }
     }
     
-    // MARK: API SHIT
-    func getPosts(selectedFeedFilter : FeedFilter) {
-        let url_to_use: String
+    func paginatePostsReset(selectedFeedFilter: FeedFilter) {
+        var url_to_use = ""
         
         if selectedFeedFilter == .top {
             url_to_use = "posts/?sort=top"
+            finishedTop = false
         } else if selectedFeedFilter == .hot {
             url_to_use = "posts/?sort=hot"
-        } else {
-            url_to_use = "posts/?sort=new"
+            finishedHot = false
+        } else if selectedFeedFilter == .recent {
+            url_to_use = "posts/?sort=recent"
+            finishedRecent = false
         }
         
-        NetworkManager.networkManager.request(route: url_to_use, method: .get, successType: [Post].self) { successResponse, errorResponse in
+        NetworkManager.networkManager.request(route: url_to_use, method: .get, successType: PaginatePostsModel.Response.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
-                if selectedFeedFilter == .top {
-                    self.topPosts = successResponse
-                } else if selectedFeedFilter == .hot {
-                    self.hotPosts = successResponse
-                } else if selectedFeedFilter == .recent {
-                    self.recentPosts = successResponse
+                DispatchQueue.main.async {
+                    if selectedFeedFilter == .top {
+                        self.topPosts = successResponse.results
+                        if let nextLink = successResponse.next {
+                            self.topCurrentPage = nextLink
+                        } else {
+                            self.finishedTop = true
+                        }
+                    } else if selectedFeedFilter == .hot {
+                        self.hotPosts = successResponse.results
+                        if let nextLink = successResponse.next {
+                            self.hotCurrentPage = nextLink
+                        } else {
+                            self.finishedHot = true
+                        }
+                    } else if selectedFeedFilter == .recent {
+                        self.topPosts = successResponse.results
+                        if let nextLink = successResponse.next {
+                            self.recentCurrentPage = nextLink
+                        } else {
+                            self.finishedRecent = true
+                        }
+                    }
                 }
             }
+            
+            if let errorResponse = errorResponse {
+                print("DEBUG: \(errorResponse)")
+            }
         }
-        
-        self.InitalOpen = false
     }
-
     
     // MARK: Read Post
     func readPost(postId: String, completion: @escaping (Result<Post, AuthenticationError>) -> Void) {

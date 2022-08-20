@@ -19,14 +19,14 @@ struct FeedView: View {
                     }
                 }
                 // MARK: OnAppear fetch all posts
-                .onAppear {
-                    if feedVM.InitalOpen {
-                        print("DEBUG: feedVM.hotPostsInitialOpen \(feedVM.InitalOpen)")
-                        feedVM.getPosts(selectedFeedFilter: .top)
-                        feedVM.getPosts(selectedFeedFilter: .hot)
-                        feedVM.getPosts(selectedFeedFilter: .recent)
-                    }
-                }
+//                .onAppear {
+//                    if feedVM.InitalOpen {
+//                        print("DEBUG: feedVM.hotPostsInitialOpen \(feedVM.InitalOpen)")
+//                        feedVM.paginatePosts(selectedFeedFilter: .top)
+//                        feedVM.paginatePosts(selectedFeedFilter: .hot)
+//                        feedVM.paginatePosts(selectedFeedFilter: .recent)
+//                    }
+//                }
                 .background(Color(UIColor.systemGroupedBackground))
                 // MARK: Building Custom Header With Dynamic Tabs
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
@@ -85,7 +85,7 @@ struct FeedView: View {
             DispatchQueue.main.async {
                 print("DEBUG: NEW POST DETECTED")
                 feedVM.selectedFeedFilter = .recent
-                feedVM.getPosts(selectedFeedFilter: .recent)
+                feedVM.paginatePostsReset(selectedFeedFilter: .recent)
             }
         })
         .navigationViewStyle(StackNavigationViewStyle())
@@ -151,11 +151,12 @@ struct FeedView: View {
             .background(Color(UIColor.systemBackground))
             .onAppear() {
                 print("DEBUG: Paginate!")
+                feedVM.paginatePosts(selectedFeedFilter: tab)
             }
         }
         .refreshable{
             print("DEBUG: Refresh")
-            feedVM.getPosts(selectedFeedFilter: feedVM.selectedFeedFilter)
+            feedVM.paginatePostsReset(selectedFeedFilter: feedVM.selectedFeedFilter)
         }
     }
 }

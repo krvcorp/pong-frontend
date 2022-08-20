@@ -55,12 +55,12 @@ class NetworkManager: ObservableObject {
                     }
                 }
                 .responseDecodable(of: successType, decoder: decoder) { (response) in
-                    print("NETWORK: NetworkManager.responseDecodable \(response)")
+                    print("NETWORK_SUCCESS: NetworkManager.responseDecodable \(response)")
                     guard let success = response.value else { return }
                     completionHandler(success, nil)
                 }
                 .responseDecodable(of: ErrorResponse.self, decoder: decoder) { (response) in
-                    print("NETWORK: NetworkManager.responseDecodable \(response)")
+                    print("NETWORK_ERROR: NetworkManager.responseDecodable \(response)")
                     guard let error = response.value else { return }
                     completionHandler(nil, error)
                 }
@@ -85,12 +85,12 @@ class NetworkManager: ObservableObject {
                     }
                 }
                 .responseDecodable(of: successType, decoder: decoder) { (response) in
-                    print("NETWORK: NetworkManager.responseDecodable \(response)")
+                    print("NETWORK_SUCCESS: NetworkManager.responseDecodable \(response)")
                     guard let success = response.value else { return }
                     completionHandler(success, nil)
                 }
                 .responseDecodable(of: ErrorResponse.self, decoder: decoder) { (response) in
-                    print("NETWORK: NetworkManager.responseDecodable \(response)")
+                    print("NETWORK_ERROR: NetworkManager.responseDecodable \(response)")
                     guard let error = response.value else { return }
                     completionHandler(nil, error)
                 }
