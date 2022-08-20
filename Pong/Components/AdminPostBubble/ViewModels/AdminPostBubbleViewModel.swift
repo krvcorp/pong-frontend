@@ -25,10 +25,14 @@ class AdminPostBubbleViewModel: ObservableObject {
     }
     
     
-    func unflagPost() {
+    func unflagPost(adminFeedVM: AdminFeedViewModel) {
         NetworkManager.networkManager.request(route: "posts/\(post.id)/approve/", method: .post, successType: Post.self) { successResponse in
             DispatchQueue.main.async {
-                print("DEBUG: ")
+                if let index = adminFeedVM.flaggedPosts.firstIndex(of: self.post) {
+                    print("DEBUG: Removing post \(adminFeedVM.flaggedPosts)")
+                    adminFeedVM.flaggedPosts.remove(at: index)
+                    print("DEBUG: Removed post \(adminFeedVM.flaggedPosts)")
+                }
             }
         }
     }

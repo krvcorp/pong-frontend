@@ -140,10 +140,10 @@ struct AdminPostBubble: View {
                     primaryButton: .default(
                         Text("Cancel")
                     ),
-                    secondaryButton: .destructive(
-                        Text("Unflag"),
-                        action: adminPostBubbleVM.unflagPost
-                    )
+                    secondaryButton: .destructive(Text("Unflag")){
+                        adminPostBubbleVM.unflagPost(adminFeedVM: adminFeedVM)
+    
+                    }
                 )
             }
         }
