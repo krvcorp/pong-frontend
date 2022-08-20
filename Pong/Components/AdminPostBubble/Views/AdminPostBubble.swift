@@ -106,47 +106,52 @@ struct AdminPostBubble: View {
         .onChange(of: adminPostBubbleVM.post) {
             self.post = $0
         }
+        
         // MARK: Timeout Confirmation
         .alert(item: $alertIdentifier) { alert in
             switch alert.id {
             case .timeoutDay:
-                return Alert(
-                    title: Text("Apply timeout"),
-                    message: Text("Are you sure you want to apply a 1 day timeout to \(adminPostBubbleVM.post.title)"),
-                    primaryButton: .default(
-                        Text("Cancel")
-                    ),
-                    secondaryButton: .destructive(
-                        Text("Apply"),
-                        action: adminPostBubbleVM.applyTimeoutDay
-                    )
+                return customAlert (
+                    title: "Apply timeout",
+                    message: "Are you sure you want to apply a 1 day timeout to \(adminPostBubbleVM.post.title)",
+                    secondaryButtonText: "Apply",
+                    secondaryButtonAction: {
+                        adminPostBubbleVM.applyTimeout(adminFeedVM: adminFeedVM, time: 60 * 24)
+                    }
                 )
             case .timeoutWeek:
-                return Alert(
-                    title: Text("Apply timeout"),
-                    message: Text("Are you sure you want to apply a 1 week timeout to \(adminPostBubbleVM.post.title)"),
-                    primaryButton: .default(
-                        Text("Cancel")
-                    ),
-                    secondaryButton: .destructive(
-                        Text("Apply"),
-                        action: adminPostBubbleVM.applyTimeoutWeek
-                    )
+                return customAlert (
+                    title: "Apply timeout",
+                    message: "Are you sure you want to apply a 1 week timeout to \(adminPostBubbleVM.post.title)",
+                    secondaryButtonText: "Apply",
+                    secondaryButtonAction: {
+                        adminPostBubbleVM.applyTimeout(adminFeedVM: adminFeedVM, time: 60 * 24 * 7)
+                    }
                 )
             case .unflag:
-                return Alert(
-                    title: Text("Unflag post"),
-                    message: Text("Are you sure you want to unflag \(adminPostBubbleVM.post.title)"),
-                    primaryButton: .default(
-                        Text("Cancel")
-                    ),
-                    secondaryButton: .destructive(Text("Unflag")){
+                return customAlert (
+                    title: "Unflag post",
+                    message: "Are you sure you want to unflag \(adminPostBubbleVM.post.title)",
+                    secondaryButtonText: "Unflag",
+                    secondaryButtonAction: {
                         adminPostBubbleVM.unflagPost(adminFeedVM: adminFeedVM)
-    
                     }
                 )
             }
         }
+    }
+    
+    func customAlert(title: String, message: String, secondaryButtonText: String, secondaryButtonAction: @escaping () -> Void) -> Alert {
+        return Alert(
+            title: Text(title),
+            message: Text(message),
+            primaryButton: .default(
+                Text("Cancel")
+            ),
+            secondaryButton: .destructive(Text(secondaryButtonText)) {
+                secondaryButtonAction()
+            }
+        )
     }
 }
 
