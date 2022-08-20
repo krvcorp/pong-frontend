@@ -12,11 +12,7 @@ import PopupView
 struct NewPostView: View {
     @Environment(\.presentationMode) var presentationMode
     @StateObject var newPostVM = NewPostViewModel()
-    @Binding var isCustomItemSelected : Bool
-    
-    // MARK: local logic shit
-    @State private var text = ""
-    @State private var max_lim = 180
+    @ObservedObject var mainTabVM : MainTabViewModel
     
     // MARK: image uploader
     @State private var showSheet = false
@@ -24,25 +20,13 @@ struct NewPostView: View {
     // MARK: new poll
     @State private var showNewPoll = false
     
-    func limitText(_ upper: Int) {
-        if text.count > upper {
-            text = String(text.prefix(upper))
-        }
-    }
-    
     var body: some View {
         ZStack {
             ZStack (alignment: .bottom) {
                 VStack {
-                    Button {
-                        print("DEBUG: \(isCustomItemSelected)")
-                        isCustomItemSelected.toggle()
-                    } label: {
-                        Text("Dismiss")
-                    }
                     ScrollView {
-                        TextArea("What's on your mind?", text: $text)
-                        .onReceive(Just(text)) { _ in limitText(max_lim) }
+                        TextArea("What's on your mind?", text: $newPostVM.title)
+                            .font(.title)
                         
                         if newPostVM.image != nil {
                             ZStack(alignment: .topLeading) {
@@ -66,9 +50,8 @@ struct NewPostView: View {
                         }
                         
                         if showNewPoll == true {
-                            NewPoll(showNewPoll: $showNewPoll)
+                            NewPoll(showNewPoll: $showNewPoll, newPollVM: newPostVM.newPollVM)
                         }
-                        
                     }
                     
                     Spacer()
@@ -79,6 +62,8 @@ struct NewPostView: View {
                                 // MARK: Image picker
                                 Button {
                                     showSheet = true
+                                    showNewPoll = false
+                                    newPostVM.newPollVM.reset()
                                 } label: {
                                     Image(systemName: "photo")
                                         .resizable()
@@ -92,8 +77,10 @@ struct NewPostView: View {
 
                                 // MARK: Poll generator
                                 Button {
-                                    print("DEBUG: showNewPoll")
                                     showNewPoll.toggle()
+                                    newPostVM.image = nil
+                                    newPostVM.newPollVM.reset()
+                                    newPostVM.newPollVM.instantiate()
                                 } label: {
                                     Image(systemName: "chart.bar")
                                         .resizable()
@@ -103,14 +90,15 @@ struct NewPostView: View {
 
                                 
                                 Spacer()
-                                Text("\(max_lim - text.count)")
+                                Text("\(newPostVM.characterLimit - newPostVM.title.count)")
+                                    .foregroundColor(newPostVM.characterLimit - newPostVM.title.count <= 30 ? .red : Color(UIColor.label))
                             }
                             .padding()
                             .frame(minHeight: 25, maxHeight: 60)
 
+                            // MARK: On success of newPost, NewPostView needs to dismiss to reset data in NewPost
                             Button {
-                                print("DEBUG: New post")
-                                newPostVM.newPost(title: text)
+                                newPostVM.newPost(mainTabVM: mainTabVM)
                             } label: {
                                 Text("Post")
                                     .frame(minWidth: 100, maxWidth: 150)
@@ -124,7 +112,7 @@ struct NewPostView: View {
                             }
                             .background(Color(UIColor.label)) // If you have this
                             .cornerRadius(20)         // You also need the cornerRadius here
-                        .padding(.bottom)
+                            .padding(.bottom)
                         }
                     }
                 }

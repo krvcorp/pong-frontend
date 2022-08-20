@@ -7,6 +7,7 @@
 import Foundation
 import SwiftUI
 import Alamofire
+import Combine
 
 enum FeedFilter: String, CaseIterable, Identifiable {
     case top, hot, recent
@@ -19,53 +20,77 @@ enum FeedFilter: String, CaseIterable, Identifiable {
         case .recent: return "Recent"
         }
     }
+    
+    var imageName: String {
+        switch self {
+        case .top: return "chart.bar"
+        case .hot: return "flame"
+        case .recent: return "clock"
+        }
+    }
+    
+    var filledImageName: String {
+        switch self {
+        case .top: return "chart.bar.fill"
+        case .hot: return "flame.fill"
+        case .recent: return "clock.fill"
+        }
+    }
 }
 
-// MARK: Swipe Direction
-enum SwipeDirection{
-    case up
-    case down
-    case none
+enum TopFilter: String, CaseIterable, Identifiable {
+    case allTime, thisYear, thisMonth, thisWeek, today
+    var id: Self { self }
+    
+    var title: String {
+        switch self {
+        case .allTime: return "TOP POSTS ALL TIME"
+        case .thisYear: return "TOP POSTS THIS YEAR"
+        case .thisMonth: return "TOP POSTS THIS MONTH"
+        case .thisWeek: return "TOP POSTS THIS YEAR"
+        case .today: return "TOP POSTS TODAY"
+        }
+    }
 }
 
 class FeedViewModel: ObservableObject {
     @Published var selectedFeedFilter : FeedFilter = .hot
     @Published var school = "Boston University"
-    @Published var isShowingNewPostSheet = false
     @Published var InitalOpen : Bool = true
     @Published var topPosts : [Post] = []
     @Published var hotPosts : [Post] = []
     @Published var recentPosts : [Post] = []
+    @Published var selectedTopFilter : TopFilter = .allTime
     
-    // MARK: SwipeHiddenHeader
-    // MARK: View Properties
-    @Published var headerHeight: CGFloat = 0
-    @Published var headerOffset: CGFloat = 0
-    @Published var lastHeaderOffset: CGFloat = 0
-    @Published var headerDirection: SwipeDirection = .none
-    // MARK: Shift Offset Means The Value From Where It Shifted From Up/Down
-    @Published var headerShiftOffset: CGFloat = 0
+    //MARK: Pagination
+    var topCurrentPage = 0
+    var topPerPage = 20
     
-    // MARK: DynamicTabIndicator
-    // MARK: View Properties
-    @Published var tabviewOffset: CGFloat = 0
-    @Published var tabviewIsTapped: Bool = false
+    var hotCurrentPage = 0
+    var hotPerPage = 0
     
-    // MARK: Tab Offset
-    func tabOffset(size: CGSize,padding: CGFloat)->CGFloat{
-        return (-tabviewOffset / size.width) * ((size.width - padding) / CGFloat(FeedFilter.allCases.count))
-    }
+    var recentCurrentPage = 0
+    var recentPerPage = 0
     
-    // MARK: Tab Index
-    func indexOf(tab: FeedFilter)->Int{
-        if tab == .top {
-            return 0
-        } else if tab == .hot {
-            return 1
-        } else if tab == .recent {
-            return 2
+    func paginatePost(selectedFeedFilter : FeedFilter) {
+        let url_to_use: String
+        
+        if selectedFeedFilter == .top {
+            url_to_use = "posts/?sort=top&page=\(topCurrentPage+1)&perPage=\(topPerPage)"
+        } else if selectedFeedFilter == .hot {
+            url_to_use = "posts/?sort=top&page=\(hotCurrentPage+1)&perPage=\(hotPerPage)"
         } else {
-            return 1
+            url_to_use = "posts/?sort=top&page=\(recentCurrentPage+1)&perPage=\(recentPerPage)"
+        }
+        
+        NetworkManager.networkManager.request(route: url_to_use, method: .get, successType: [Post].self) { successResponse in
+            if selectedFeedFilter == .top {
+                self.topPosts = successResponse
+            } else if selectedFeedFilter == .hot {
+                self.hotPosts = successResponse
+            } else if selectedFeedFilter == .recent {
+                self.recentPosts = successResponse
+            }
         }
     }
     

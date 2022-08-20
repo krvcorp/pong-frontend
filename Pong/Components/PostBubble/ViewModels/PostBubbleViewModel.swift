@@ -4,8 +4,7 @@ class PostBubbleViewModel: ObservableObject {
     @Published var post : Post = defaultPost
     @Published var showDeleteConfirmationView : Bool = false
     
-    
-    func postVote(direction: Int) -> Void {
+    func postVote(direction: Int, post: Post) -> Void {
         var voteToSend = 0
         
         if direction == post.voteStatus {
@@ -22,6 +21,7 @@ class PostBubbleViewModel: ObservableObject {
                 if let responseDataContent = successResponse.voteStatus {
                     print("DEBUG: postBubbleVM.postVote postVoteResponse.voteStatus is \(responseDataContent)")
                     DispatchQueue.main.async {
+                        self.post = post
                         self.post.voteStatus = responseDataContent
                     }
                     return
@@ -35,23 +35,36 @@ class PostBubbleViewModel: ObservableObject {
         }
     }
     
-    func deletePost() {
+    func deletePost(post: Post) {
         NetworkManager.networkManager.request(route: "posts/\(post.id)/", method: .delete, successType: Post.self) { successResponse in
             DispatchQueue.main.async {
-                print("DEBUG: ")
+                print("DEBUG: postBubbleVM.deletePost")
+                
             }
         }
     }
     
-    func savePost() {
-        NetworkManager.networkManager.request(route: "posts/\(post.id)/save/", method: .post, successType: Post.self) { successResponse in
+    func savePost(post: Post) {
+        NetworkManager.networkManager.request(route: "posts/\(post.id)/save/", method: .post, successType: NetworkManager.EmptyResponse.self) { successResponse in
             DispatchQueue.main.async {
-                print("DEBUG: ")
+                print("DEBUG: postBubbleVM.savePost")
+                self.post = post
+                self.post.saved = true
             }
         }
     }
     
-    func blockPost() {
+    func unsavePost(post: Post) {
+        NetworkManager.networkManager.request(route: "posts/\(post.id)/save/", method: .delete, successType: NetworkManager.EmptyResponse.self) { successResponse in
+            DispatchQueue.main.async {
+                print("DEBUG: postBubbleVM.unsavePost")
+                self.post = post
+                self.post.saved = false
+            }
+        }
+    }
+    
+    func blockPost(post: Post) {
         NetworkManager.networkManager.request(route: "posts/\(post.id)/block/", method: .post, successType: Post.self) { successResponse in
             DispatchQueue.main.async {
                 print("DEBUG: ")
@@ -59,7 +72,7 @@ class PostBubbleViewModel: ObservableObject {
         }
     }
     
-    func reportPost() {
+    func reportPost(post: Post) {
         NetworkManager.networkManager.request(route: "posts/\(post.id)/report/", method: .post, successType: Post.self) { successResponse in
             DispatchQueue.main.async {
                 print("DEBUG: ")

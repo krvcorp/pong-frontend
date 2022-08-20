@@ -13,7 +13,7 @@ struct MainTabView: View {
     var body: some View {
         TabView(selection: $mainTabVM.itemSelected) {
             // MARK: FeedView
-            FeedView()
+            FeedView(newPostDetected: $mainTabVM.newPostDetected)
                 .tabItem{
                     Label("Home", systemImage: "house")
                 }
@@ -27,7 +27,7 @@ struct MainTabView: View {
                 .tag(2)
 
             // MARK: NewPostView
-            NewPostView(isCustomItemSelected: .constant(false))
+            NewPostView(mainTabVM: MainTabViewModel(initialIndex: 1, customItemIndex: 1))
                 .tabItem {
                     Image(systemName: "arrowshape.bounce.right.fill")
                 }
@@ -49,7 +49,7 @@ struct MainTabView: View {
         }
         // MARK: New Post Sheet
         .sheet(isPresented: $mainTabVM.isCustomItemSelected) {
-            NewPostView(isCustomItemSelected: $mainTabVM.isCustomItemSelected)
+            NewPostView(mainTabVM: mainTabVM)
         }
     }
 }

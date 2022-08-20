@@ -78,6 +78,11 @@ struct PostView: View {
                         Text(postVM.post.title)
                             .multilineTextAlignment(.leading)
                         
+                        // MARK: Poll
+                        if post.poll != nil {
+                            PollView(post: $post)
+                        }
+                        
                     }
                     
                     Spacer()
@@ -300,7 +305,7 @@ struct PostView: View {
                 }
                 // MARK: TextArea and Button Component
                 HStack {
-                    CustomTextField(placeholder: Text("Enter your message here"), text: $text)
+                    TextField("Enter your message here", text: $text)
                         .font(.headline)
                         .focused($textIsFocused)
                         

@@ -6,3 +6,25 @@
 //
 
 import Foundation
+import SwiftUI
+
+class NewPollViewModel: ObservableObject {
+    let characterLimit = 25
+    @Published var allowSkipVoting : Bool = false
+    @Published var pollOptions : [String] = []
+    
+    func reset() {
+        self.allowSkipVoting = false
+        self.pollOptions = []
+    }
+    
+    func instantiate() {
+        self.pollOptions = ["", ""]
+    }
+    
+    func limit(index : Int) {
+        if pollOptions[index].count > characterLimit {
+            pollOptions[index] = String(pollOptions[index].prefix(characterLimit))
+        }
+    }
+}
