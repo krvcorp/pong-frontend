@@ -41,6 +41,7 @@ struct PollView: View {
                 // MARK: User has not voted, can still vote
                 else {
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         print("DEBUG: Tap to vote \(option.title)")
                         pollVM.pollVote(id: option.id, postId: post.id)
                     } label: {

@@ -21,6 +21,7 @@ struct EmailVerificationView: View {
             Spacer()
             
             Button {
+                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                 print("DEBUG: EmailVerificationView GoogleSignIn")
                 AuthManager.authManager.googleSignInButton()
             } label: {

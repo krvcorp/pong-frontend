@@ -38,6 +38,7 @@ struct ChooseLocationView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button {
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     presentationMode.wrappedValue.dismiss()
                 } label: {
 //                    BackButton()
@@ -100,6 +101,7 @@ struct ChooseLocationView: View {
                     LazyVGrid(columns: columns, spacing: 30) {
                         ForEach(ChooseLocationViewModel.allCases, id: \.rawValue) { viewModel in
                             Button {
+                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                                 print("DEBUG: Choose \(viewModel.title)")
                             } label: {
                                 VStack {

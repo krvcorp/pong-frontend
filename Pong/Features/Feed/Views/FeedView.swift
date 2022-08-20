@@ -47,6 +47,7 @@ struct FeedView: View {
                         HStack {
                             ForEach(FeedFilter.allCases, id: \.self) { filter in
                                 Button {
+                                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                                     feedVM.selectedFeedFilter = filter
                                 } label: {
                                     if feedVM.selectedFeedFilter == filter {
@@ -99,6 +100,7 @@ struct FeedView: View {
                 Menu {
                     ForEach(TopFilter.allCases, id: \.self) { filter in
                         Button {
+                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                             print("DEBUG: ")
                             feedVM.selectedTopFilter = filter
                         } label: {

@@ -15,6 +15,7 @@ struct MessageField: View {
             CustomTextField(placeholder: Text("Enter your message here"), text: $message)
             
             Button {
+                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                 print("DEBUG: Message sent")
                 message = ""
             } label: {

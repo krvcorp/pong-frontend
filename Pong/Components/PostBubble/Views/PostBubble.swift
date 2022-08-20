@@ -61,6 +61,7 @@ struct PostBubble: View {
 
                 
                 Button {
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     sheet.toggle()
                 } label: {
                     Image(systemName: "square.and.arrow.up")
@@ -72,6 +73,7 @@ struct PostBubble: View {
                 // MARK: Delete or More Button
                 if post.userOwned {
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         DispatchQueue.main.async {
                             postBubbleVM.post = postBubbleVM.post
                             postBubbleVM.showDeleteConfirmationView.toggle()
@@ -83,12 +85,14 @@ struct PostBubble: View {
                     Menu {
                         if post.saved {
                             Button {
+                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                                 postBubbleVM.unsavePost(post: post)
                             } label: {
                                 Label("Unsave", systemImage: "bookmark.fill")
                             }
                         } else if !post.saved {
                             Button {
+                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                                 postBubbleVM.savePost(post: post)
                             } label: {
                                 Label("Save", systemImage: "bookmark")
@@ -96,12 +100,14 @@ struct PostBubble: View {
                         }
                         
                         Button {
+                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                             postBubbleVM.blockPost(post: post)
                         } label: {
                             Label("Block user", systemImage: "x.circle")
                         }
                         
                         Button {
+                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                             postBubbleVM.reportPost(post: post)
                         } label: {
                             Label("Report", systemImage: "flag")
@@ -140,12 +146,14 @@ struct PostBubble: View {
                 // if not upvoted or downvoted
                 if post.voteStatus == 0 {
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         postBubbleVM.postVote(direction: 1, post: post)
                     } label: {
                         Image(systemName: "arrow.up")
                     }
                     
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         withAnimation {
                             showScore.toggle()
                         }
@@ -155,6 +163,7 @@ struct PostBubble: View {
                     }
                     
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         postBubbleVM.postVote(direction: -1, post: post)
                     } label: {
                         Image(systemName: "arrow.down")
@@ -162,6 +171,7 @@ struct PostBubble: View {
                 } else if post.voteStatus == 1 {
                     // if upvoted
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         postBubbleVM.postVote(direction: 1, post: post)
                     } label: {
                         Image(systemName: "arrow.up")
@@ -169,6 +179,7 @@ struct PostBubble: View {
                     }
                     
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         withAnimation {
                             showScore.toggle()
                         }
@@ -178,6 +189,7 @@ struct PostBubble: View {
                     }
                     
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         postBubbleVM.postVote(direction: -1, post: post)
                     } label: {
                         Image(systemName: "arrow.down")
@@ -187,6 +199,7 @@ struct PostBubble: View {
                 else if post.voteStatus == -1 {
                     // upvote
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         postBubbleVM.postVote(direction: 1, post: post)
                     } label: {
                         Image(systemName: "arrow.up")
@@ -194,6 +207,7 @@ struct PostBubble: View {
                     
                     // score
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         withAnimation {
                             showScore.toggle()
                         }
@@ -203,6 +217,7 @@ struct PostBubble: View {
                     
                     // downvote
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         postBubbleVM.postVote(direction: -1, post: post)
                     } label: {
                         Image(systemName: "arrow.down")
@@ -211,6 +226,7 @@ struct PostBubble: View {
                 }
             } else {
                 Button {
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     withAnimation {
                         showScore.toggle()
                     }
