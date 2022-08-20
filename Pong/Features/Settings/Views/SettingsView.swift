@@ -1,16 +1,10 @@
-//
-//  SettingsView.swift
-//  Pong
-//
-//  Created by Artemas on 8/4/22.
-//
-
 import SwiftUI
 import Firebase
 import UniformTypeIdentifiers
 
 struct SettingsView: View {
     @StateObject private var settingsVM = SettingsViewModel()
+    
     @State private var notifications = false
     
     var body: some View {
@@ -64,6 +58,16 @@ struct SettingsView: View {
                                 .foregroundColor(.gray)
                         }
                     }
+                    
+                    if (AuthManager.authManager.isAdmin) {
+                        NavigationLink(destination: AdminFeedView()){
+                            HStack {
+                                Text("Admin Feed View").foregroundColor(Color(uiColor: UIColor.label))
+                                Spacer()
+                            }
+                        }
+                    }
+                    
                     Button {
                         AuthManager.authManager.signout()
                     } label: {
