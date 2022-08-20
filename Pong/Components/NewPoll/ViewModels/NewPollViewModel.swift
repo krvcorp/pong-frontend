@@ -11,10 +11,14 @@ import SwiftUI
 class NewPollViewModel: ObservableObject {
     let characterLimit = 25
     @Published var allowSkipVoting : Bool = false
-    @Published var pollOptions : [String] = [""]
+    @Published var pollOptions : [String] = []
     
     func reset() {
         self.allowSkipVoting = false
+        self.pollOptions = []
+    }
+    
+    func instantiate() {
         self.pollOptions = ["", ""]
     }
     

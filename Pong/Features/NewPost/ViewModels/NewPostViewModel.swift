@@ -29,7 +29,7 @@ class NewPostViewModel: ObservableObject {
     @Published var newPollVM : NewPollViewModel = NewPollViewModel()
 
     // MARK: NewPost request
-    func newPost() -> Void {
+    func newPost(mainTabVM: MainTabViewModel) -> Void {
         // MARK: if image is not nil then use multipartFormData request
         if image != nil {
             let imgData = (image!).jpegData(compressionQuality: 0.2)!
@@ -59,7 +59,9 @@ class NewPostViewModel: ObservableObject {
             NetworkManager.networkManager.request(route: "posts/", method: .post, body: parameters, successType: Post.self) { successResponse in
                 // MARK: Success
                 DispatchQueue.main.async {
-
+                    mainTabVM.isCustomItemSelected = false
+                    mainTabVM.itemSelected = 1
+                    mainTabVM.newPostDetected.toggle()
                 }
             }
         }
