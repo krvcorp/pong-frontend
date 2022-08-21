@@ -28,7 +28,6 @@ class AuthManager: ObservableObject {
             self.isAdmin = true
         }
         
-        print("DEBUG: \(isSignedIn)")
     }
     
     // MARK: Signout sets keychain to nil
@@ -36,9 +35,10 @@ class AuthManager: ObservableObject {
         DispatchQueue.main.async {
             self.initialOnboard = true
             AuthManager.authManager.isSignedIn = false
-            GIDSignIn.sharedInstance.disconnect() // don't think this is necessary but idk?
+            GIDSignIn.sharedInstance.disconnect()
             DAKeychain.shared["userId"] = nil
             DAKeychain.shared["token"] = nil
+            DAKeychain.shared["isAdmin"] = nil
         }
     }
     
@@ -81,11 +81,9 @@ class AuthManager: ObservableObject {
             DispatchQueue.main.async {
                 if let successResponse = successResponse {
                     if let token = successResponse.token {
-                        print("DEBUG: token \(token)")
                         DAKeychain.shared["token"] = token
                     }
                     if let userId = successResponse.userId {
-                        print("DEBUG: userId \(String(describing: userId))")
                         DAKeychain.shared["userId"] = userId
                     }
                     if let isAdmin = successResponse.isAdmin {

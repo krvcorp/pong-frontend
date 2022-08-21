@@ -55,24 +55,27 @@ class NetworkManager: ObservableObject {
                     }
                 }
                 .responseDecodable(of: successType, decoder: decoder) { (response) in
-                    print("NETWORK_SUCCESS: NetworkManager.responseDecodable \(response)")
-                    guard let success = response.value else { return }
+                    guard let success = response.value else {
+                        return
+                    }
                     completionHandler(success, nil)
                 }
                 .responseDecodable(of: ErrorResponse.self, decoder: decoder) { (response) in
-                    print("NETWORK_ERROR: NetworkManager.responseDecodable \(response)")
-                    guard let error = response.value else { return }
+                    guard let error = response.value else {
+                        print("NETWORK_ERROR: NetworkManager.responseDecodable \(response)")
+                        return
+                    }
                     completionHandler(nil, error)
                 }
-                .responseData() { (response) in
-                    switch response.result {
-                    case .success:
-                        print("NETWORK: NetworkManager.responseData.success \(response)")
-                        break
-                    case let .failure(error):
-                        print("NETWORK: NetworkManager.responseData.failure \(error)")
-                    }
-                }
+//                .responseData() { (response) in
+//                    switch response.result {
+//                    case .success:
+//                        print("NETWORK: NetworkManager.responseData.success \(response)")
+//                        break
+//                    case let .failure(error):
+//                        print("NETWORK: NetworkManager.responseData.failure \(error)")
+//                    }
+//                }
         } else {
             AF.request(self.baseURL+route, method: method, parameters: body, encoder: parameterEncoder, headers: httpHeaders)
                 .response() { (response) in
@@ -94,15 +97,15 @@ class NetworkManager: ObservableObject {
                     guard let error = response.value else { return }
                     completionHandler(nil, error)
                 }
-                .responseData() { (response) in
-                    switch response.result {
-                    case .success:
-                        print("NETWORK: NetworkManager.responseData.success \(response)")
-                        break
-                    case let .failure(error):
-                        print("NETWORK: NetworkManager.responseData.failure \(error)")
-                    }
-                }
+//                .responseData() { (response) in
+//                    switch response.result {
+//                    case .success:
+//                        print("NETWORK: NetworkManager.responseData.success \(response)")
+//                        break
+//                    case let .failure(error):
+//                        print("NETWORK: NetworkManager.responseData.failure \(error)")
+//                    }
+//                }
         }
     }
     // MARK: Empty Response Network Handler

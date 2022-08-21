@@ -28,7 +28,6 @@ class ProfileViewModel: ObservableObject {
                     self.totalKarma = successResponse.totalScore
                     self.commentKarma = successResponse.commentScore
                     self.postKarma = successResponse.postScore
-                    self.comments = successResponse.comments
                 }
             }
         }

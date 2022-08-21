@@ -1,10 +1,3 @@
-//
-//  CommentBubble.swift
-//  SidechatMockup
-//
-//  Created by Khoi Nguyen on 6/7/22.
-//
-
 import SwiftUI
 
 struct CommentBubble: View {
@@ -53,7 +46,6 @@ struct CommentBubble: View {
     var CommentBody: some View {
         Button  {
             UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-            print("DEBUG: Reply to \(commentBubbleVM.comment.comment)")
             postVM.replyToComment = commentBubbleVM.comment
         } label: {
             VStack(alignment: .leading) {
@@ -205,7 +197,6 @@ struct CommentBubble: View {
         HStack {
             Button {
                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                print("DEBUG: Reply to \(commentBubbleVM.comment.comment)")
                 postVM.replyToComment = commentBubbleVM.comment
             } label: {
                 HStack {

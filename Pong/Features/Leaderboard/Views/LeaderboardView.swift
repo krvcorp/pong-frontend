@@ -1,10 +1,3 @@
-//
-//  LeaderboardView.swift
-//  SidechatMockup
-//
-//  Created by Khoi Nguyen on 6/6/22.
-//
-
 import SwiftUI
 
 struct LeaderboardView: View {

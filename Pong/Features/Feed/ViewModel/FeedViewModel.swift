@@ -74,7 +74,7 @@ class FeedViewModel: ObservableObject {
     
     var hotCurrentPage = "posts/?sort=hot"
     
-    var recentCurrentPage = "posts/?sort=old"
+    var recentCurrentPage = "posts/?sort=new"
     
     func paginatePosts(selectedFeedFilter: FeedFilter) {
         var url_to_use = ""
@@ -144,7 +144,7 @@ class FeedViewModel: ObservableObject {
             url_to_use = "posts/?sort=hot"
             finishedHot = false
         } else if selectedFeedFilter == .recent {
-            url_to_use = "posts/?sort=recent"
+            url_to_use = "posts/?sort=new"
             finishedRecent = false
         }
         

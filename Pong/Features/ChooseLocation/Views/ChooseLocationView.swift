@@ -84,8 +84,6 @@ struct ChooseLocationView: View {
                 }
                 .overlay(Divider().offset(x: 0, y: 16))
                 .onChange(of: selectedFilter, perform: { value in
-                    print("DEBUG: selectedFilter Changed")
-                    print("DEBUG: \(value)")
                     withAnimation{
                         scrollReader.scrollTo(value.rawValue, anchor: .center)
                     }
@@ -102,7 +100,6 @@ struct ChooseLocationView: View {
                         ForEach(ChooseLocationViewModel.allCases, id: \.rawValue) { viewModel in
                             Button {
                                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                                print("DEBUG: Choose \(viewModel.title)")
                             } label: {
                                 VStack {
                                     VStack {

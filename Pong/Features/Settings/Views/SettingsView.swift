@@ -81,7 +81,7 @@ struct SettingsView: View {
                     
                     Button {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        print("DEBUG: Delete Account")
+                        settingsVM.deleteAccount()
                     } label: {
                         HStack {
                             Text("Delete Account").foregroundColor(.red).bold()

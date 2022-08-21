@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct EmailVerificationView: View {
-//    @ObservedObject var loginVM : LoginViewModel
-//    @ObservedObject var phoneLoginVM : PhoneLoginViewModel
     
     var body: some View {
         VStack() {

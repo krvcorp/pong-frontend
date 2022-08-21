@@ -57,7 +57,6 @@ struct NewPoll: View {
                     if newPollVM.pollOptions.count > 2 {
                         Button {
                             UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                            print("DEBUG: Remove row")
                             newPollVM.pollOptions.remove(at: i)
                         } label: {
                             Image(systemName: "delete.left")
@@ -71,9 +70,7 @@ struct NewPoll: View {
             if newPollVM.pollOptions.count < 6 {
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    print("DEBUG: Add Option")
                     newPollVM.pollOptions.append("")
-                    print("DEBUG: \(newPollVM.pollOptions)")
                 } label: {
                     Text("Add")
                         .foregroundColor(.green)

@@ -1,10 +1,3 @@
-//
-//  MessageField.swift
-//  SidechatMockup
-//
-//  Created by Khoi Nguyen on 6/5/22.
-//
-
 import SwiftUI
 
 struct MessageField: View {
@@ -16,7 +9,6 @@ struct MessageField: View {
             
             Button {
                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                print("DEBUG: Message sent")
                 message = ""
             } label: {
                 Image(systemName: "paperplane.fill")

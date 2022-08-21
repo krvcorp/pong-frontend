@@ -1,10 +1,3 @@
-//
-//  PostView.swift
-//  SidechatMockup
-//
-//  Created by Khoi Nguyen on 6/4/22.
-//
-
 import SwiftUI
 import AlertToast
 
