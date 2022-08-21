@@ -103,22 +103,20 @@ class FeedViewModel: ObservableObject {
     func paginatePosts(selectedFeedFilter: FeedFilter) {
         var url_to_use = ""
         
+        // check if finished to prevent unnecessary network call
         if selectedFeedFilter == .top {
             url_to_use = topCurrentPage
             if finishedTop {
-                print("DEBUG: NO TOP LEFT")
                 return
             }
         } else if selectedFeedFilter == .hot {
             url_to_use = hotCurrentPage
             if finishedHot {
-                print("DEBUG: NO HOT LEFT")
                 return
             }
         } else if selectedFeedFilter == .recent {
             url_to_use = recentCurrentPage
             if finishedRecent {
-                print("DEBUG: NO RECENT LEFT")
                 return
             }
         }

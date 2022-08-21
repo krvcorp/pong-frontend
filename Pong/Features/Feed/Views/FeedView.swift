@@ -83,6 +83,21 @@ struct FeedView: View {
         }
     }
     
+    var reachedBottomComponent : some View {
+        HStack {
+            Spacer()
+            VStack {
+                Image(systemName: "arrow.clockwise")
+                Text("Tap to try again")
+            }
+            Spacer()
+        }
+    }
+    
+    var reachedBottomComponentAndFinished : some View {
+        Text("There's nothing left! Scroll to top and refresh!")
+    }
+    
     // MARK: Custom Feed Stack
     @ViewBuilder
     func customFeedStack(filter: FeedFilter, tab : FeedFilter) -> some View {
@@ -116,6 +131,20 @@ struct FeedView: View {
                             }
                     }
                 }
+                
+                if !feedVM.finishedTop {
+                    Button {
+                        feedVM.paginatePosts(selectedFeedFilter: tab)
+                    } label: {
+                        reachedBottomComponent
+                    }
+                    .background(Color(UIColor.systemBackground))
+                    .onAppear() {
+                        feedVM.paginatePosts(selectedFeedFilter: tab)
+                    }
+                } else {
+                    reachedBottomComponentAndFinished
+                }
             }
             else if tab == .hot {
                 ForEach($feedVM.hotPosts, id: \.id) { $post in
@@ -126,6 +155,19 @@ struct FeedView: View {
                                 feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab)
                             }
                     }
+                }
+                if !feedVM.finishedHot {
+                    Button {
+                        feedVM.paginatePosts(selectedFeedFilter: tab)
+                    } label: {
+                        reachedBottomComponent
+                    }
+                    .background(Color(UIColor.systemBackground))
+                    .onAppear() {
+                        feedVM.paginatePosts(selectedFeedFilter: tab)
+                    }
+                } else {
+                    reachedBottomComponentAndFinished
                 }
             }
             else if tab == .recent {
@@ -138,19 +180,19 @@ struct FeedView: View {
                             }
                     }
                 }
-            }
-            HStack {
-                Spacer()
-                VStack {
-                    Image(systemName: "arrow.clockwise")
-                    Text("Tap to try again")
+                if !feedVM.finishedRecent {
+                    Button {
+                        feedVM.paginatePosts(selectedFeedFilter: tab)
+                    } label: {
+                        reachedBottomComponent
+                    }
+                    .background(Color(UIColor.systemBackground))
+                    .onAppear() {
+                        feedVM.paginatePosts(selectedFeedFilter: tab)
+                    }
+                } else {
+                    reachedBottomComponentAndFinished
                 }
-                Spacer()
-            }
-            .background(Color(UIColor.systemBackground))
-            .onAppear() {
-                print("DEBUG: Paginate!")
-                feedVM.paginatePosts(selectedFeedFilter: tab)
             }
         }
         .refreshable{
