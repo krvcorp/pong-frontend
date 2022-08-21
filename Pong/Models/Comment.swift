@@ -23,4 +23,5 @@ struct Comment: Hashable, Identifiable, Codable {
     var numUpvotes: Int
     var numDownvotes: Int
     var numberReplyingTo: Int?
+    var image: String?
 }

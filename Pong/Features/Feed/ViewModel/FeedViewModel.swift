@@ -76,6 +76,30 @@ class FeedViewModel: ObservableObject {
     
     var recentCurrentPage = "posts/?sort=old"
     
+    func paginatePostsIfNeeded(post: Post, selectedFeedFilter: FeedFilter) {
+        let offsetBy = -15
+
+        if selectedFeedFilter == .top {
+            let thresholdIndex = topPosts.index(topPosts.endIndex, offsetBy: offsetBy)
+            if topPosts.firstIndex(where: { $0.id == post.id }) == thresholdIndex {
+                print("DEBUG: paginatePostsIfNeeded is needed")
+                paginatePosts(selectedFeedFilter: selectedFeedFilter)
+            }
+        } else if selectedFeedFilter == .hot {
+            let thresholdIndex = hotPosts.index(hotPosts.endIndex, offsetBy: offsetBy)
+            if hotPosts.firstIndex(where: { $0.id == post.id }) == thresholdIndex {
+                print("DEBUG: paginatePostsIfNeeded is needed")
+                paginatePosts(selectedFeedFilter: selectedFeedFilter)
+            }
+        } else if selectedFeedFilter == .recent {
+            let thresholdIndex = recentPosts.index(recentPosts.endIndex, offsetBy: offsetBy)
+            if recentPosts.firstIndex(where: { $0.id == post.id }) == thresholdIndex {
+                print("DEBUG: paginatePostsIfNeeded is needed")
+                paginatePosts(selectedFeedFilter: selectedFeedFilter)
+            }
+        }
+    }
+    
     func paginatePosts(selectedFeedFilter: FeedFilter) {
         var url_to_use = ""
         
@@ -230,18 +254,20 @@ class FeedViewModel: ObservableObject {
     // MARK: Helper function to delete posts in Feed
     func removePostLocally(post: Post) {
         DispatchQueue.main.async {
-            print("DEBUG: \(post)")
-            if let index = self.topPosts.firstIndex(of: post) {
-                self.topPosts.remove(at: index)
-                print("DEBUG: \(index)")
-            }
-            if let index = self.hotPosts.firstIndex(of: post) {
-                self.hotPosts.remove(at: index)
-                print("DEBUG: \(index)")
-            }
-            if let index = self.recentPosts.firstIndex(of: post) {
-                self.recentPosts.remove(at: index)
-                print("DEBUG: \(index)")
+            withAnimation {
+                print("DEBUG: \(post)")
+                if let index = self.topPosts.firstIndex(of: post) {
+                    self.topPosts.remove(at: index)
+                    print("DEBUG: \(index)")
+                }
+                if let index = self.hotPosts.firstIndex(of: post) {
+                    self.hotPosts.remove(at: index)
+                    print("DEBUG: \(index)")
+                }
+                if let index = self.recentPosts.firstIndex(of: post) {
+                    self.recentPosts.remove(at: index)
+                    print("DEBUG: \(index)")
+                }
             }
         }
     }

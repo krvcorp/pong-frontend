@@ -111,8 +111,10 @@ struct FeedView: View {
                     Section {
                         PostBubble(post: $post)
                             .buttonStyle(PlainButtonStyle())
+                            .onAppear {
+                                feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab)
+                            }
                     }
-
                 }
             }
             else if tab == .hot {
@@ -120,6 +122,9 @@ struct FeedView: View {
                     Section {
                         PostBubble(post: $post)
                             .buttonStyle(PlainButtonStyle())
+                            .onAppear {
+                                feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab)
+                            }
                     }
                 }
             }
@@ -128,6 +133,9 @@ struct FeedView: View {
                     Section {
                         PostBubble(post: $post)
                             .buttonStyle(PlainButtonStyle())
+                            .onAppear {
+                                feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab)
+                            }
                     }
                 }
             }
