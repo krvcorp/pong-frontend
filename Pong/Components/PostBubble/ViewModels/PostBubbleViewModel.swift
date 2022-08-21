@@ -3,6 +3,7 @@ import Foundation
 class PostBubbleViewModel: ObservableObject {
     @Published var post : Post = defaultPost
     @Published var showDeleteConfirmationView : Bool = false
+    @Published var savedPostConfirmation : Bool = false
     
     func postVote(direction: Int, post: Post) -> Void {
         var voteToSend = 0
@@ -29,22 +30,13 @@ class PostBubbleViewModel: ObservableObject {
         }
     }
     
-    func deletePost(post: Post) {
-        NetworkManager.networkManager.request(route: "posts/\(post.id)/", method: .delete, successType: Post.self) { successResponse, errorResponse in
-            DispatchQueue.main.async {
-                print("DEBUG: postBubbleVM.deletePost")
-                
-            }
-        }
-    }
-    
     func savePost(post: Post) {
         NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/save/", method: .post) { successResponse, errorResponse in
             if successResponse != nil {
                 DispatchQueue.main.async {
-                    print("DEBUG: postBubbleVM.savePost")
                     self.post = post
                     self.post.saved = true
+                    self.savedPostConfirmation = true
                 }
             }
         }
@@ -54,7 +46,6 @@ class PostBubbleViewModel: ObservableObject {
         NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/save/", method: .delete) { successResponse, errorResponse in
             if successResponse != nil {
                 DispatchQueue.main.async {
-                    print("DEBUG: postBubbleVM.unsavePost")
                     self.post = post
                     self.post.saved = false
                 }
@@ -62,18 +53,26 @@ class PostBubbleViewModel: ObservableObject {
         }
     }
     
-    func blockPost(post: Post) {
-        NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/block/", method: .post) { successResponse, errorResponse in
-            DispatchQueue.main.async {
-                print("DEBUG: ")
+    func deletePost(post: Post, feedVM: FeedViewModel) {
+        NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/", method: .delete) { successResponse, errorResponse in
+            if successResponse != nil {
+                feedVM.deletePost(post: post)
             }
         }
     }
     
-    func reportPost(post: Post) {
+    func blockPost(post: Post, feedVM: FeedViewModel) {
+        NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/block/", method: .post) { successResponse, errorResponse in
+            if successResponse != nil {
+                feedVM.blockPost(post: post)
+            }
+        }
+    }
+    
+    func reportPost(post: Post, feedVM: FeedViewModel) {
         NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/report/", method: .post) { successResponse, errorResponse in
-            DispatchQueue.main.async {
-                print("DEBUG: ")
+            if successResponse != nil {
+                feedVM.reportPost(post: post)
             }
         }
     }

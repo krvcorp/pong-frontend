@@ -88,6 +88,7 @@
 		6A449CD42898B1D00015826A /* ErrorResponseBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449CD32898B1D00015826A /* ErrorResponseBody.swift */; };
 		6A449CD62898E3BC0015826A /* FloatWarning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449CD52898E3BC0015826A /* FloatWarning.swift */; };
 		6A4BD72728B1772C004EFE4A /* PaginatePostsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4BD72628B1772C004EFE4A /* PaginatePostsModel.swift */; };
+		6A4BD72A28B18405004EFE4A /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = 6A4BD72928B18405004EFE4A /* AlertToast */; };
 		6A5479C72895BB9800BC18CD /* MSAL in Frameworks */ = {isa = PBXBuildFile; productRef = 6A5479C62895BB9800BC18CD /* MSAL */; };
 		6A68DC32288A225700BF2775 /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = 6A68DC31288A225700BF2775 /* PopupView */; };
 		6A78FA4F289CD31A00B75CC6 /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A78FA4E289CD31A00B75CC6 /* NotificationsView.swift */; };
@@ -216,6 +217,7 @@
 				289CC86628999135009C1DCE /* FirebaseMessaging in Frameworks */,
 				6A68DC32288A225700BF2775 /* PopupView in Frameworks */,
 				28E7C32A2895E302002C186A /* Alamofire in Frameworks */,
+				6A4BD72A28B18405004EFE4A /* AlertToast in Frameworks */,
 				28E7C3242895E23B002C186A /* GoogleSignInSwift in Frameworks */,
 				6A218469287A0C8200681C86 /* iPhoneNumberField in Frameworks */,
 				287727EB28A38E5F00BC60D1 /* Introspect in Frameworks */,
@@ -865,6 +867,7 @@
 				28E7C3292895E302002C186A /* Alamofire */,
 				289CC86528999135009C1DCE /* FirebaseMessaging */,
 				287727EA28A38E5F00BC60D1 /* Introspect */,
+				6A4BD72928B18405004EFE4A /* AlertToast */,
 			);
 			productName = pong;
 			productReference = 6A5DF0E32851321000F28A06 /* Pong.app */;
@@ -904,6 +907,7 @@
 				28E7C3282895E302002C186A /* XCRemoteSwiftPackageReference "Alamofire" */,
 				289CC86428999135009C1DCE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				287727E928A38E5F00BC60D1 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
+				6A4BD72828B18405004EFE4A /* XCRemoteSwiftPackageReference "AlertToast" */,
 			);
 			productRefGroup = 6A5DF0E42851321000F28A06 /* Products */;
 			projectDirPath = "";
@@ -1279,6 +1283,14 @@
 				kind = branch;
 			};
 		};
+		6A4BD72828B18405004EFE4A /* XCRemoteSwiftPackageReference "AlertToast" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/elai950/AlertToast.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		6A5479C52895BB9800BC18CD /* XCRemoteSwiftPackageReference "microsoft-authentication-library-for-objc" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/AzureAD/microsoft-authentication-library-for-objc.git";
@@ -1335,6 +1347,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 6A218467287A0C8200681C86 /* XCRemoteSwiftPackageReference "iPhoneNumberField" */;
 			productName = iPhoneNumberField;
+		};
+		6A4BD72928B18405004EFE4A /* AlertToast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6A4BD72828B18405004EFE4A /* XCRemoteSwiftPackageReference "AlertToast" */;
+			productName = AlertToast;
 		};
 		6A5479C62895BB9800BC18CD /* MSAL */ = {
 			isa = XCSwiftPackageProductDependency;

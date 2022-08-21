@@ -1,6 +1,6 @@
 import SwiftUI
-//import ScalingHeaderScrollView
 import Introspect
+import AlertToast
 
 struct FeedView: View {
     @Environment(\.colorScheme) var colorScheme
@@ -10,62 +10,49 @@ struct FeedView: View {
     
     var body: some View {
         NavigationView {
-            GeometryReader { proxy in
-                let screenSize = proxy.size
-                TabView(selection: $feedVM.selectedFeedFilter) {
-                    ForEach(FeedFilter.allCases, id: \.self) { tab in
-                        customFeedStack(filter: feedVM.selectedFeedFilter, screenSize: screenSize, tab: tab)
-                            .tag(tab)
+            TabView(selection: $feedVM.selectedFeedFilter) {
+                ForEach(FeedFilter.allCases, id: \.self) { tab in
+                    customFeedStack(filter: feedVM.selectedFeedFilter, tab: tab)
+                        .tag(tab)
+                }
+            }
+            .background(Color(UIColor.systemGroupedBackground))
+            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+            
+            // MARK: Hide navbar
+            .navigationBarTitle("\(feedVM.school)")
+            .navigationBarTitleDisplayMode(.inline)
+            // MARK: Toolbar
+            .toolbar {
+                ToolbarItem {
+                    NavigationLink {
+                        MessagesView()
+                    } label: {
+                        Image(systemName: "message")
                     }
                 }
-                // MARK: OnAppear fetch all posts
-//                .onAppear {
-//                    if feedVM.InitalOpen {
-//                        print("DEBUG: feedVM.hotPostsInitialOpen \(feedVM.InitalOpen)")
-//                        feedVM.paginatePosts(selectedFeedFilter: .top)
-//                        feedVM.paginatePosts(selectedFeedFilter: .hot)
-//                        feedVM.paginatePosts(selectedFeedFilter: .recent)
-//                    }
-//                }
-                .background(Color(UIColor.systemGroupedBackground))
-                // MARK: Building Custom Header With Dynamic Tabs
-                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-                
-                // MARK: Hide navbar
-                .navigationBarTitle("\(feedVM.school)")
-                .navigationBarTitleDisplayMode(.inline)
-                // MARK: Toolbar
-                .toolbar {
-                    ToolbarItem {
-                        NavigationLink {
-                            MessagesView()
-                        } label: {
-                            Image(systemName: "message")
-                        }
-                    }
-                    ToolbarItem(placement: .principal) {
-                        HStack {
-                            ForEach(FeedFilter.allCases, id: \.self) { filter in
-                                Button {
-                                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                                    feedVM.selectedFeedFilter = filter
-                                } label: {
-                                    if feedVM.selectedFeedFilter == filter {
-                                        HStack {
-                                            Image(systemName: filter.filledImageName)
-                                            Text(filter.title)
-                                                .bold()
-                                        }
-                                        .shadow(color: colorScheme == .dark ? Color.poshGold : Color.poshDarkPurple, radius: 10, x: 0, y: 0)
-                                        .foregroundColor(colorScheme == .dark ? Color.poshGold : Color.poshDarkPurple)
-
-                                    } else {
-                                        HStack{
-                                            Image(systemName: filter.imageName)
-                                            Text(filter.title)
-                                        }
-                                        .foregroundColor(colorScheme == .dark ? Color.poshGold : Color.poshBlue)
+                ToolbarItem(placement: .principal) {
+                    HStack {
+                        ForEach(FeedFilter.allCases, id: \.self) { filter in
+                            Button {
+                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                                feedVM.selectedFeedFilter = filter
+                            } label: {
+                                if feedVM.selectedFeedFilter == filter {
+                                    HStack {
+                                        Image(systemName: filter.filledImageName)
+                                        Text(filter.title)
+                                            .bold()
                                     }
+                                    .shadow(color: colorScheme == .dark ? Color.poshGold : Color.poshDarkPurple, radius: 10, x: 0, y: 0)
+                                    .foregroundColor(colorScheme == .dark ? Color.poshGold : Color.poshDarkPurple)
+
+                                } else {
+                                    HStack{
+                                        Image(systemName: filter.imageName)
+                                        Text(filter.title)
+                                    }
+                                    .foregroundColor(colorScheme == .dark ? Color.poshGold : Color.poshBlue)
                                 }
                             }
                         }
@@ -81,6 +68,7 @@ struct FeedView: View {
                 navigationController.navigationBar.scrollEdgeAppearance = navigationBarAppearance
             }
         }
+        .environmentObject(feedVM)
         .onChange(of: newPostDetected, perform: { change in
             DispatchQueue.main.async {
                 print("DEBUG: NEW POST DETECTED")
@@ -90,11 +78,14 @@ struct FeedView: View {
         })
         .navigationViewStyle(StackNavigationViewStyle())
         .accentColor(Color(UIColor.label))
+        .toast(isPresenting: $feedVM.removedPost){
+            AlertToast(displayMode: .hud, type: .regular, title: feedVM.removedPostType)
+        }
     }
     
     // MARK: Custom Feed Stack
     @ViewBuilder
-    func customFeedStack(filter: FeedFilter, screenSize : CGSize, tab : FeedFilter)-> some View {
+    func customFeedStack(filter: FeedFilter, tab : FeedFilter) -> some View {
         List {
             if tab == .top {
                 Menu {

@@ -27,6 +27,8 @@ class NewPostViewModel: ObservableObject {
     }
     @Published var image : UIImage? = nil
     @Published var newPollVM : NewPollViewModel = NewPollViewModel()
+    @Published var error = false
+    @Published var errorMessage = "Error"
 
     // MARK: NewPost request
     func newPost(mainTabVM: MainTabViewModel) -> Void {
@@ -64,6 +66,10 @@ class NewPostViewModel: ObservableObject {
                         mainTabVM.itemSelected = 1
                         mainTabVM.newPostDetected.toggle()
                     }
+                }
+                if let errorResponse = errorResponse {
+                    self.errorMessage = errorResponse.error
+                    self.error = true
                 }
             }
         }

@@ -1,7 +1,9 @@
 import SwiftUI
+import AlertToast
 
 struct PostBubble: View {
     @Binding var post : Post
+    @EnvironmentObject var feedVM : FeedViewModel
     @StateObject var postBubbleVM = PostBubbleViewModel()
     
     // MARK: Some local view logic
@@ -101,14 +103,14 @@ struct PostBubble: View {
                         
                         Button {
                             UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                            postBubbleVM.blockPost(post: post)
+                            postBubbleVM.blockPost(post: post, feedVM: feedVM)
                         } label: {
                             Label("Block user", systemImage: "x.circle")
                         }
                         
                         Button {
                             UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                            postBubbleVM.reportPost(post: post)
+                            postBubbleVM.reportPost(post: post, feedVM: feedVM)
                         } label: {
                             Label("Report", systemImage: "flag")
                         }
@@ -133,10 +135,13 @@ struct PostBubble: View {
                 title: Text("Delete post"),
                 message: Text("Are you sure you want to delete \(post.title)"),
                 primaryButton: .destructive(Text("Delete")) {
-                    postBubbleVM.deletePost(post: post)
+                    postBubbleVM.deletePost(post: post, feedVM: feedVM)
                 },
                 secondaryButton: .cancel()
             )
+        }
+        .toast(isPresenting: $postBubbleVM.savedPostConfirmation){
+            AlertToast(type: .regular, title: "Post saved!")
         }
     }
     
@@ -261,8 +266,8 @@ struct PostBubble: View {
 
 
 
-//struct PostBubbleView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        PostBubble(post: defaultPost, postSettingsVM: PostSettingsViewModel(), feedVM: FeedViewModel())
-//    }
-//}
+struct PostBubbleView_Previews: PreviewProvider {
+    static var previews: some View {
+        PostBubble(post: .constant(defaultPost))
+    }
+}

@@ -6,10 +6,12 @@
 //
 
 import SwiftUI
+import AlertToast
 
 struct PostView: View {
     @Environment(\.presentationMode) var presentationMode
     @Binding var post : Post
+    @EnvironmentObject var feedVM : FeedViewModel
     @StateObject var postVM = PostViewModel()
     @State private var text = ""
     @State var sheet = false
@@ -52,15 +54,15 @@ struct PostView: View {
         .alert(isPresented: $postVM.showDeleteConfirmationView) {
             Alert(
                 title: Text("Delete post"),
-                message: Text("Are you sure you want to delete \(postVM.post.title)"),
-                primaryButton: .default(
-                    Text("Cancel")
-                ),
-                secondaryButton: .destructive(
-                    Text("Delete"),
-                    action: postVM.deletePost
-                )
+                message: Text("Are you sure you want to delete \(post.title)"),
+                primaryButton: .destructive(Text("Delete")) {
+                    postVM.deletePost(post: post, feedVM: feedVM)
+                },
+                secondaryButton: .cancel()
             )
+        }
+        .toast(isPresenting: $postVM.savedPostConfirmation){
+            AlertToast(type: .regular, title: "Post saved!")
         }
     }
     
@@ -119,21 +121,21 @@ struct PostView: View {
                         Menu {
                             Button {
                                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                                postVM.savePost()
+                                postVM.savePost(post: post)
                             } label: {
                                 Label("Save", systemImage: "bookmark")
                             }
                             
                             Button {
                                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                                postVM.blockPost()
+                                postVM.blockPost(post: post, feedVM: feedVM)
                             } label: {
                                 Label("Block user", systemImage: "x.circle")
                             }
                             
                             Button {
                                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                                postVM.reportPost()
+                                postVM.reportPost(post: post, feedVM: feedVM)
                             } label: {
                                 Label("Report", systemImage: "flag")
                             }

@@ -7,7 +7,7 @@
 
 import SwiftUI
 import Combine
-import PopupView
+import AlertToast
 
 struct NewPostView: View {
     @Environment(\.presentationMode) var presentationMode
@@ -122,6 +122,9 @@ struct NewPostView: View {
                     }
                 }
             }
+        }
+        .toast(isPresenting: $newPostVM.error) {
+            AlertToast(type: .error(.red), title: newPostVM.errorMessage)
         }
     }
 }

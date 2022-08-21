@@ -66,6 +66,9 @@ class FeedViewModel: ObservableObject {
     @Published var finishedHot = false
     @Published var finishedRecent = false
     
+    @Published var removedPost = false
+    @Published var removedPostType = "default"
+    
     //MARK: Pagination
     var topCurrentPage = "posts/?sort=top"
     
@@ -195,6 +198,50 @@ class FeedViewModel: ObservableObject {
                         self.topPosts[index] = successResponse
                     }
                 }
+            }
+        }
+    }
+    
+    // MARK: Helper functions
+    func deletePost(post: Post) {
+        DispatchQueue.main.async {
+            self.removePostLocally(post: post)
+            self.removedPostType = "Post deleted!"
+            self.removedPost = true
+        }
+    }
+    
+    func blockPost(post: Post) {
+        DispatchQueue.main.async {
+            self.removePostLocally(post: post)
+            self.removedPostType = "User blocked!"
+            self.removedPost = true
+        }
+    }
+    
+    func reportPost(post: Post) {
+        DispatchQueue.main.async {
+            self.removePostLocally(post: post)
+            self.removedPostType = "Post reported!"
+            self.removedPost = true
+        }
+    }
+    
+    // MARK: Helper function to delete posts in Feed
+    func removePostLocally(post: Post) {
+        DispatchQueue.main.async {
+            print("DEBUG: \(post)")
+            if let index = self.topPosts.firstIndex(of: post) {
+                self.topPosts.remove(at: index)
+                print("DEBUG: \(index)")
+            }
+            if let index = self.hotPosts.firstIndex(of: post) {
+                self.hotPosts.remove(at: index)
+                print("DEBUG: \(index)")
+            }
+            if let index = self.recentPosts.firstIndex(of: post) {
+                self.recentPosts.remove(at: index)
+                print("DEBUG: \(index)")
             }
         }
     }

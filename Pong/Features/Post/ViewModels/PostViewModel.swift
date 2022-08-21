@@ -12,6 +12,7 @@ class PostViewModel: ObservableObject {
     @Published var comments : [Comment] = []
     @Published var showDeleteConfirmationView : Bool = false
     @Published var replyToComment : Comment = defaultComment
+    @Published var savedPostConfirmation : Bool = false
     
     func postVote(direction: Int) -> Void {
         var voteToSend = 0
@@ -93,34 +94,49 @@ class PostViewModel: ObservableObject {
         }
     }
     
-    func deletePost() {
-        NetworkManager.networkManager.request(route: "posts/\(post.id)/", method: .delete, successType: Post.self) { successResponse, errorResponse in
-            DispatchQueue.main.async {
-                print("DEBUG: ")
-            }
-        }
-    }
-    
-    func savePost() {
+    func savePost(post: Post) {
         NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/save/", method: .post) { successResponse, errorResponse in
-            DispatchQueue.main.async {
-                print("DEBUG: ")
+            if successResponse != nil {
+                DispatchQueue.main.async {
+                    self.post = post
+                    self.post.saved = true
+                    self.savedPostConfirmation = true
+                }
             }
         }
     }
     
-    func blockPost() {
+    func unsavePost(post: Post) {
+        NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/save/", method: .delete) { successResponse, errorResponse in
+            if successResponse != nil {
+                DispatchQueue.main.async {
+                    self.post = post
+                    self.post.saved = false
+                }
+            }
+        }
+    }
+    
+    func deletePost(post: Post, feedVM: FeedViewModel) {
+        NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/", method: .delete) { successResponse, errorResponse in
+            if successResponse != nil {
+                feedVM.deletePost(post: post)
+            }
+        }
+    }
+    
+    func blockPost(post: Post, feedVM: FeedViewModel) {
         NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/block/", method: .post) { successResponse, errorResponse in
-            DispatchQueue.main.async {
-                print("DEBUG: ")
+            if successResponse != nil {
+                feedVM.blockPost(post: post)
             }
         }
     }
     
-    func reportPost() {
+    func reportPost(post: Post, feedVM: FeedViewModel) {
         NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/report/", method: .post) { successResponse, errorResponse in
-            DispatchQueue.main.async {
-                print("DEBUG: ")
+            if successResponse != nil {
+                feedVM.reportPost(post: post)
             }
         }
     }
