@@ -74,7 +74,7 @@ class FeedViewModel: ObservableObject {
     
     var hotCurrentPage = "posts/?sort=hot"
     
-    var recentCurrentPage = "posts/?sort=old"
+    var recentCurrentPage = "posts/?sort=new"
     
     func paginatePostsIfNeeded(post: Post, selectedFeedFilter: FeedFilter) {
         let offsetBy = -15
@@ -82,19 +82,16 @@ class FeedViewModel: ObservableObject {
         if selectedFeedFilter == .top {
             let thresholdIndex = topPosts.index(topPosts.endIndex, offsetBy: offsetBy)
             if topPosts.firstIndex(where: { $0.id == post.id }) == thresholdIndex {
-                print("DEBUG: paginatePostsIfNeeded is needed")
                 paginatePosts(selectedFeedFilter: selectedFeedFilter)
             }
         } else if selectedFeedFilter == .hot {
             let thresholdIndex = hotPosts.index(hotPosts.endIndex, offsetBy: offsetBy)
             if hotPosts.firstIndex(where: { $0.id == post.id }) == thresholdIndex {
-                print("DEBUG: paginatePostsIfNeeded is needed")
                 paginatePosts(selectedFeedFilter: selectedFeedFilter)
             }
         } else if selectedFeedFilter == .recent {
             let thresholdIndex = recentPosts.index(recentPosts.endIndex, offsetBy: offsetBy)
             if recentPosts.firstIndex(where: { $0.id == post.id }) == thresholdIndex {
-                print("DEBUG: paginatePostsIfNeeded is needed")
                 paginatePosts(selectedFeedFilter: selectedFeedFilter)
             }
         }
@@ -166,7 +163,7 @@ class FeedViewModel: ObservableObject {
             url_to_use = "posts/?sort=hot"
             finishedHot = false
         } else if selectedFeedFilter == .recent {
-            url_to_use = "posts/?sort=recent"
+            url_to_use = "posts/?sort=new"
             finishedRecent = false
         }
         
