@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import ScalingHeaderScrollView
+import Introspect
 
 struct FeedView: View {
     // MARK: Gesture Manager
@@ -73,7 +73,7 @@ struct FeedView: View {
                 .toolbar {
                     ToolbarItem {
                         NavigationLink {
-                            MessagesView()
+                            MessageRosterView()
                         } label: {
                             Image(systemName: "message")
                         }
