@@ -4,7 +4,7 @@ import UniformTypeIdentifiers
 
 struct SettingsView: View {
     @StateObject private var settingsVM = SettingsViewModel()
-    
+    @State private var showAlert = false
     @State private var notifications = false
     
     var body: some View {
@@ -81,13 +81,25 @@ struct SettingsView: View {
                     
                     Button {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        settingsVM.deleteAccount()
+                        showAlert.toggle()
                     } label: {
                         HStack {
                             Text("Delete Account").foregroundColor(.red).bold()
                             Spacer()
                             Image(systemName: "trash").foregroundColor(.red).font(Font.body.weight(.bold))
                         }
+                    }
+                    .alert(isPresented: $showAlert) {
+                        Alert(
+                            title: Text("Delete Account"),
+                            message: Text("Are you sure you want to delete your account? This is an irreversible action."),
+                            primaryButton: .default(
+                                Text("Cancel")
+                            ),
+                            secondaryButton: .destructive(Text("Delete")){
+                                settingsVM.deleteAccount()
+                            }
+                        )
                     }
                 }.modifier(ProminentHeaderModifier())
                 Section(header: Text("Preferences").foregroundColor(.gray)) {
