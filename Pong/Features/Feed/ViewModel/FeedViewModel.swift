@@ -76,25 +76,44 @@ class FeedViewModel: ObservableObject {
     
     var recentCurrentPage = "posts/?sort=new"
     
+    func paginatePostsIfNeeded(post: Post, selectedFeedFilter: FeedFilter) {
+        let offsetBy = -15
+
+        if selectedFeedFilter == .top {
+            let thresholdIndex = topPosts.index(topPosts.endIndex, offsetBy: offsetBy)
+            if topPosts.firstIndex(where: { $0.id == post.id }) == thresholdIndex {
+                paginatePosts(selectedFeedFilter: selectedFeedFilter)
+            }
+        } else if selectedFeedFilter == .hot {
+            let thresholdIndex = hotPosts.index(hotPosts.endIndex, offsetBy: offsetBy)
+            if hotPosts.firstIndex(where: { $0.id == post.id }) == thresholdIndex {
+                paginatePosts(selectedFeedFilter: selectedFeedFilter)
+            }
+        } else if selectedFeedFilter == .recent {
+            let thresholdIndex = recentPosts.index(recentPosts.endIndex, offsetBy: offsetBy)
+            if recentPosts.firstIndex(where: { $0.id == post.id }) == thresholdIndex {
+                paginatePosts(selectedFeedFilter: selectedFeedFilter)
+            }
+        }
+    }
+    
     func paginatePosts(selectedFeedFilter: FeedFilter) {
         var url_to_use = ""
         
+        // check if finished to prevent unnecessary network call
         if selectedFeedFilter == .top {
             url_to_use = topCurrentPage
             if finishedTop {
-                print("DEBUG: NO TOP LEFT")
                 return
             }
         } else if selectedFeedFilter == .hot {
             url_to_use = hotCurrentPage
             if finishedHot {
-                print("DEBUG: NO HOT LEFT")
                 return
             }
         } else if selectedFeedFilter == .recent {
             url_to_use = recentCurrentPage
             if finishedRecent {
-                print("DEBUG: NO RECENT LEFT")
                 return
             }
         }
@@ -230,18 +249,20 @@ class FeedViewModel: ObservableObject {
     // MARK: Helper function to delete posts in Feed
     func removePostLocally(post: Post) {
         DispatchQueue.main.async {
-            print("DEBUG: \(post)")
-            if let index = self.topPosts.firstIndex(of: post) {
-                self.topPosts.remove(at: index)
-                print("DEBUG: \(index)")
-            }
-            if let index = self.hotPosts.firstIndex(of: post) {
-                self.hotPosts.remove(at: index)
-                print("DEBUG: \(index)")
-            }
-            if let index = self.recentPosts.firstIndex(of: post) {
-                self.recentPosts.remove(at: index)
-                print("DEBUG: \(index)")
+            withAnimation {
+                print("DEBUG: \(post)")
+                if let index = self.topPosts.firstIndex(of: post) {
+                    self.topPosts.remove(at: index)
+                    print("DEBUG: \(index)")
+                }
+                if let index = self.hotPosts.firstIndex(of: post) {
+                    self.hotPosts.remove(at: index)
+                    print("DEBUG: \(index)")
+                }
+                if let index = self.recentPosts.firstIndex(of: post) {
+                    self.recentPosts.remove(at: index)
+                    print("DEBUG: \(index)")
+                }
             }
         }
     }

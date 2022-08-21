@@ -28,6 +28,17 @@ struct PostBubble: View {
                         Text(post.title)
                             .multilineTextAlignment(.leading)
                         
+//                        if let imageUrl = postBubbleVM.post.image {
+//                            let _ = print("DEBUG: \(postBubbleVM.post.image)")
+//                            let _ = print("DEBUG: \(imageUrl)")
+//                            AsyncImage(url: URL(string: imageUrl)) { image in
+//                                image.resizable()
+//                            } placeholder: {
+//                                ProgressView()
+//                            }
+//                            .frame(width: 50, height: 50)
+//                        }
+                        
                         // MARK: Poll
                         if post.poll != nil {
                             PollView(post: $post)
