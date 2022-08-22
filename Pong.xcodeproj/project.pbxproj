@@ -953,11 +953,8 @@
 				6A449C7F2896F4320015826A /* WelcomeView.swift in Sources */,
 				82CCCBBA28B0F99E00085E2D /* AdminPostBubble.swift in Sources */,
 				82CCCBBC28B0F9C700085E2D /* TimeoutModel.swift in Sources */,
-<<<<<<< Updated upstream
-=======
 				6A4BD72C28B2A08D004EFE4A /* PostManager.swift in Sources */,
 				6A449CAB2896F4330015826A /* OTPVerifyResponseBody.swift in Sources */,
->>>>>>> Stashed changes
 				6A449CB02896F4330015826A /* NewPollViewModel.swift in Sources */,
 				289CC86A289993C9009C1DCE /* AppDelegate.swift in Sources */,
 				6A78FA4F289CD31A00B75CC6 /* NotificationsView.swift in Sources */,
