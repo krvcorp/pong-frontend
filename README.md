@@ -1,8 +1,5 @@
 # Pong iOS
 
-
-A fire app.
-
 ## Notifications
 ### Registration
 
