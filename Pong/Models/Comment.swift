@@ -1,10 +1,3 @@
-//
-//  Comment.swift
-//  SidechatMockup
-//
-//  Created by Khoi Nguyen on 6/5/22.
-//
-
 import Foundation
 
 struct Comment: Hashable, Identifiable, Codable {
@@ -23,4 +16,5 @@ struct Comment: Hashable, Identifiable, Codable {
     var numUpvotes: Int
     var numDownvotes: Int
     var numberReplyingTo: Int?
+    var image: String?
 }

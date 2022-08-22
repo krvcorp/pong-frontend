@@ -1,10 +1,3 @@
-//
-//  Post.swift
-//  SidechatMockup
-//
-//  Created by Khoi Nguyen on 6/5/22.
-//
-
 import Foundation
 
 struct Post: Hashable, Codable, Identifiable {
@@ -23,6 +16,6 @@ struct Post: Hashable, Codable, Identifiable {
     var numUpvotes: Int
     var numDownvotes: Int
     var userOwned: Bool
-
+    var poll: Poll?
 }
 

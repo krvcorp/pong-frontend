@@ -300,4 +300,7 @@ extension Color {
     public static var organicSearch2: Color {
         return Color(hex: "#FEAE96")
     }
+    public static var bone: Color {
+        return Color(red: 215/255, green: 210/255, blue: 203/255)
+    }
 }

@@ -15,5 +15,6 @@ struct VerifyEmailModel {
     struct Response : Codable {
         let token : String?
         let userId : String?
+        let isAdmin: Bool?
     }
 }

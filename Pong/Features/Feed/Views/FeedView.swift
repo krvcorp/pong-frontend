@@ -1,66 +1,58 @@
-//
-//  FeedView.swift
-//  SidechatMockup
-//
-//  Created by Khoi Nguyen on 6/3/22.
-//
-
 import SwiftUI
 import Introspect
+import AlertToast
 
 struct FeedView: View {
-    // MARK: Gesture Manager
-    @StateObject var gestureManager: InteractionManager = .init()
-    
+    @Environment(\.colorScheme) var colorScheme
     // MARK: ViewModels
     @StateObject var feedVM = FeedViewModel()
-    @ObservedObject var postSettingsVM: PostSettingsViewModel
+    @Binding var newPostDetected : Bool
     
     var body: some View {
         NavigationView {
-            GeometryReader { proxy in
-                let screenSize = proxy.size
-                TabView(selection: $feedVM.selectedFeedFilter) {
-                    ForEach(FeedFilter.allCases, id: \.self) { tab in
-                        customFeedStack(filter: feedVM.selectedFeedFilter, screenSize: screenSize, tab: tab)
-                            .tag(tab)
+            TabView(selection: $feedVM.selectedFeedFilter) {
+                ForEach(FeedFilter.allCases, id: \.self) { tab in
+                    customFeedStack(filter: feedVM.selectedFeedFilter, tab: tab)
+                        .tag(tab)
+                }
+            }
+            .background(Color(UIColor.systemGroupedBackground))
+            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+            
+            // MARK: Hide navbar
+            .navigationBarTitle("\(feedVM.school)")
+            .navigationBarTitleDisplayMode(.inline)
+            // MARK: Toolbar
+            .toolbar {
+                ToolbarItem {
+                    NavigationLink {
+                        MessagesView()
+                    } label: {
+                        Image(systemName: "message")
                     }
                 }
-                // MARK: OnAppear fetch all posts
-                .onAppear {
-                    if feedVM.InitalOpen {
-                        print("DEBUG: feedVM.hotPostsInitialOpen \(feedVM.InitalOpen)")
-                        feedVM.getPosts(selectedFeedFilter: .top)
-                        feedVM.getPosts(selectedFeedFilter: .hot)
-                        feedVM.getPosts(selectedFeedFilter: .recent)
-                    }
-                }
-                // MARK: Debug everytime a filter is changed the column is refetched
-                .onChange(of: feedVM.selectedFeedFilter) { newFilter in
-                    feedVM.getPosts(selectedFeedFilter: newFilter)
-                }
-                .background(Color(UIColor.systemGroupedBackground))
-                // MARK: Building Custom Header With Dynamic Tabs
-                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-                .onAppear {
-                    gestureManager.addGesture()
-                }
-                .onDisappear {
-                    gestureManager.removeGesture()
-                }
-                // MARK: SwipeHiddenHeader modifiers
-                .coordinateSpace(name: "SCROLL")
-                .overlay(alignment: .top) {
-                    HeaderView(size: screenSize)
-                        .anchorPreference(key: HeaderBoundsKey.self, value: .bounds){$0}
-                        .overlayPreferenceValue(HeaderBoundsKey.self) { value in
-                            GeometryReader { proxy in
-                                if let anchor = value {
-                                    Color.clear
-                                        .onAppear {
-                                            // MARK: Retreiving Rect Using Proxy
-                                            feedVM.headerHeight = proxy[anchor].height
-                                        }
+                ToolbarItem(placement: .principal) {
+                    HStack {
+                        ForEach(FeedFilter.allCases, id: \.self) { filter in
+                            Button {
+                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                                feedVM.selectedFeedFilter = filter
+                            } label: {
+                                if feedVM.selectedFeedFilter == filter {
+                                    HStack {
+                                        Image(systemName: filter.filledImageName)
+                                        Text(filter.title)
+                                            .bold()
+                                    }
+                                    .shadow(color: colorScheme == .dark ? Color.poshGold : Color.poshDarkPurple, radius: 10, x: 0, y: 0)
+                                    .foregroundColor(colorScheme == .dark ? Color.poshGold : Color.poshDarkPurple)
+
+                                } else {
+                                    HStack{
+                                        Image(systemName: filter.imageName)
+                                        Text(filter.title)
+                                    }
+                                    .foregroundColor(colorScheme == .dark ? Color.poshGold : Color.poshBlue)
                                 }
                             }
                         }
@@ -79,7 +71,6 @@ struct FeedView: View {
                         }
                     }
                 }
-//                .ignoresSafeArea(.all, edges: .top)
             }
             .introspectNavigationController { navigationController in
                 let navigationBarAppearance = UINavigationBarAppearance()
@@ -90,147 +81,142 @@ struct FeedView: View {
                 navigationController.navigationBar.scrollEdgeAppearance = navigationBarAppearance
             }
         }
+        .environmentObject(feedVM)
+        .onChange(of: newPostDetected, perform: { change in
+            DispatchQueue.main.async {
+                print("DEBUG: NEW POST DETECTED")
+                feedVM.selectedFeedFilter = .recent
+                feedVM.paginatePostsReset(selectedFeedFilter: .recent)
+            }
+        })
         .navigationViewStyle(StackNavigationViewStyle())
         .accentColor(Color(UIColor.label))
+        .toast(isPresenting: $feedVM.removedPost){
+            AlertToast(displayMode: .hud, type: .regular, title: feedVM.removedPostType)
+        }
+    }
+    
+    var reachedBottomComponent : some View {
+        HStack {
+            Spacer()
+            VStack {
+                Image(systemName: "arrow.clockwise")
+                Text("Tap to try again")
+            }
+            Spacer()
+        }
+    }
+    
+    var reachedBottomComponentAndFinished : some View {
+        Text("There's nothing left! Scroll to top and refresh!")
     }
     
     // MARK: Custom Feed Stack
     @ViewBuilder
-    func customFeedStack(filter: FeedFilter, screenSize : CGSize, tab : FeedFilter)-> some View {
+    func customFeedStack(filter: FeedFilter, tab : FeedFilter) -> some View {
         List {
-                if tab == .top {
-                    ForEach($feedVM.topPosts, id: \.id) { $post in
-                        PostBubble(post: $post, postSettingsVM: postSettingsVM)
-                            .buttonStyle(PlainButtonStyle())
-                    }
-                }
-                else if tab == .hot {
-                    ForEach($feedVM.hotPosts, id: \.id) { $post in
-                        PostBubble(post: $post, postSettingsVM: postSettingsVM)
-                            .buttonStyle(PlainButtonStyle())
-                    }
-                }
-                else if tab == .recent {
-                    ForEach($feedVM.recentPosts, id: \.id) { $post in
-                        PostBubble(post: $post, postSettingsVM: postSettingsVM)
-                            .buttonStyle(PlainButtonStyle())
-                    }
-                }
-            }
-            .padding(.top, feedVM.headerHeight - 15)
-            .offsetY { previous, current in
-                // MARK: Moving Header Based On Direction Scroll
-                if previous > current {
-                    // MARK: Up
-                    if feedVM.headerDirection != .up && current < 0{
-                        feedVM.headerShiftOffset = current - feedVM.headerOffset
-                        feedVM.headerDirection = .up
-                        feedVM.lastHeaderOffset = feedVM.headerOffset
-                    }
-
-                    let offset = current < 0 ? (current - feedVM.headerShiftOffset) : 0
-                    // MARK: Checking If It Does Not Goes Over Over Header Height
-                    feedVM.headerOffset = (-offset < feedVM.headerHeight ? (offset < 0 ? offset : 0) : -feedVM.headerHeight)
-                } else {
-                    // MARK: Down
-                    if feedVM.headerDirection != .down{
-                        feedVM.headerShiftOffset = current
-                        feedVM.headerDirection = .down
-                        feedVM.lastHeaderOffset = feedVM.headerOffset
-                    }
-
-                    let offset = feedVM.lastHeaderOffset + (current - feedVM.headerShiftOffset)
-                    feedVM.headerOffset = (offset > 0 ? 0 : offset)
-                }
-            }
-//        .ignoresSafeArea()
-        .offsetX { value in
-            // MARK: Calculating Offset With The Help Of Currently Active Tab
-            if feedVM.selectedFeedFilter == tab && !feedVM.tabviewIsTapped {
-                // To Keep Track of Total Offset
-                // Here is a Trick, Simply Multiply Offset With (Width Of the Tab View * Current Index)
-                feedVM.tabviewOffset = value - (screenSize.width * CGFloat(feedVM.indexOf(tab: tab)))
-            }
-
-            if value == 0 && feedVM.tabviewIsTapped{
-                feedVM.tabviewIsTapped = false
-            }
-
-            // What If User Scrolled Fastly When The Offset Don't Reach 0
-            // WorkAround: Detecting If User Touch The Screen, then Setting  isTapped to False
-            if feedVM.tabviewIsTapped && gestureManager.isInteracting{
-                feedVM.tabviewIsTapped = false
-            }
-            // MARK: Switching tabs will bring down header view
-            if gestureManager.isInteracting {
-                withAnimation {
-                    feedVM.headerOffset = 0
-                    feedVM.headerShiftOffset = 0
-                    feedVM.lastHeaderOffset = 0
-                    feedVM.headerDirection = .none
-                }
-            }
-        }
-    }
-    
-    // MARK: Custom Header which moves based on scroll
-    @ViewBuilder
-    func HeaderView(size: CGSize)->some View{
-        VStack {
-            // MARK: Picker Component
-            DynamicTabHeader(size: size)
-        }
-        .background(Color(UIColor.systemGroupedBackground))
-        .padding(.bottom, 20)
-        //        .padding(.top, safeArea().top)
-    }
-    
-    // MARK: Custom tabbar
-    @ViewBuilder
-    func DynamicTabHeader(size: CGSize)->some View{
-        VStack(alignment: .leading, spacing: 22) {
-            // MARK: Dynamic Tab Type 1: Underline only
-            HStack(spacing: 0){
-                ForEach(FeedFilter.allCases, id: \.self) { tab in
-                    Text(tab.title)
-                        .font(.headline.bold())
-                        .padding(.vertical,6)
-                        .frame(maxWidth: .infinity)
-                        .foregroundColor(Color(UIColor.label))
-                        .onTapGesture {
-                            // MARK: Disabling The TabScrollOffset Detection
-                            feedVM.tabviewIsTapped = true
-                            // MARK: Updating Tab
-                            withAnimation(.easeInOut){
-                                // MARK: It Won't Update
-                                // Because SwiftUI TabView Quickly Updates The Offset
-                                // So Manually Updating It
-                                feedVM.selectedFeedFilter = tab
-                                // MARK: Since TabView is Not Padded
-                                feedVM.tabviewOffset = -(size.width) * CGFloat(feedVM.indexOf(tab: tab))
-                            }
+            if tab == .top {
+                Menu {
+                    ForEach(TopFilter.allCases, id: \.self) { filter in
+                        Button {
+                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                            print("DEBUG: ")
+                            feedVM.selectedTopFilter = filter
+                        } label: {
+                            Text(filter.title)
                         }
+                    }
+                } label: {
+                    Spacer()
+                    
+                    Text("\(feedVM.selectedTopFilter.title)")
+                    Image(systemName: "chevron.down")
+                    
+                    Spacer()
+                }
+                
+                ForEach($feedVM.topPosts, id: \.id) { $post in
+                    Section {
+                        PostBubble(post: $post)
+                            .buttonStyle(PlainButtonStyle())
+                            .onAppear {
+                                feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab)
+                            }
+                    }
+                }
+                
+                if !feedVM.finishedTop {
+                    Button {
+                        feedVM.paginatePosts(selectedFeedFilter: tab)
+                    } label: {
+                        reachedBottomComponent
+                    }
+                    .background(Color(UIColor.systemBackground))
+                    .onAppear() {
+                        feedVM.paginatePosts(selectedFeedFilter: tab)
+                    }
+                } else {
+                    reachedBottomComponentAndFinished
                 }
             }
-            .background(alignment: .bottomLeading) {
-                Capsule()
-                    .fill(Color(UIColor.label))
-                    .frame(width: (size.width - 30) / CGFloat(FeedFilter.allCases.count), height: 4)
-                    .offset(y: 12)
-                    .offset(x: feedVM.tabOffset(size: size, padding: 30))
+            else if tab == .hot {
+                ForEach($feedVM.hotPosts, id: \.id) { $post in
+                    Section {
+                        PostBubble(post: $post)
+                            .buttonStyle(PlainButtonStyle())
+                            .onAppear {
+                                feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab)
+                            }
+                    }
+                }
+                if !feedVM.finishedHot {
+                    Button {
+                        feedVM.paginatePosts(selectedFeedFilter: tab)
+                    } label: {
+                        reachedBottomComponent
+                    }
+                    .background(Color(UIColor.systemBackground))
+                    .onAppear() {
+                        feedVM.paginatePosts(selectedFeedFilter: tab)
+                    }
+                } else {
+                    reachedBottomComponentAndFinished
+                }
             }
-            // MARK: Bubble overlay for tab selection
+            else if tab == .recent {
+                ForEach($feedVM.recentPosts, id: \.id) { $post in
+                    Section {
+                        PostBubble(post: $post)
+                            .buttonStyle(PlainButtonStyle())
+                            .onAppear {
+                                feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab)
+                            }
+                    }
+                }
+                if !feedVM.finishedRecent {
+                    Button {
+                        feedVM.paginatePosts(selectedFeedFilter: tab)
+                    } label: {
+                        reachedBottomComponent
+                    }
+                    .background(Color(UIColor.systemBackground))
+                    .onAppear() {
+                        feedVM.paginatePosts(selectedFeedFilter: tab)
+                    }
+                } else {
+                    reachedBottomComponentAndFinished
+                }
+            }
         }
-        // MARK: Remove Background for tracking purposes
-//        .background(.red)
-        .frame(maxWidth: .infinity,alignment: .leading)
-        .padding(.horizontal, 15)
-        .padding(.bottom, 15)
+        .refreshable{
+            print("DEBUG: Refresh")
+            feedVM.paginatePostsReset(selectedFeedFilter: feedVM.selectedFeedFilter)
+        }
     }
 }
 
 struct FeedView_Previews: PreviewProvider {
     static var previews: some View {
-        FeedView(postSettingsVM: PostSettingsViewModel())
+        FeedView(newPostDetected: .constant(false))
     }
 }

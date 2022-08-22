@@ -1,10 +1,3 @@
-//
-//  OnboardView.swift
-//  SidechatMockup
-//
-//  Created by Khoi Nguyen on 6/3/22.
-//
-
 import SwiftUI
 
 struct OnboardView: View {

@@ -10,12 +10,10 @@ import Foundation
 struct CommentVoteModel {
     
     struct Request: Encodable {
-        let commentId: String
         let vote: Int
     }
     
     struct Response: Decodable {
-        let voteStatus: Int?
-        let error: String?
+        let voteStatus: Int
     }
 }

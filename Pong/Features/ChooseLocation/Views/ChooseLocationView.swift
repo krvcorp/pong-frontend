@@ -38,6 +38,7 @@ struct ChooseLocationView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button {
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     presentationMode.wrappedValue.dismiss()
                 } label: {
 //                    BackButton()
@@ -83,8 +84,6 @@ struct ChooseLocationView: View {
                 }
                 .overlay(Divider().offset(x: 0, y: 16))
                 .onChange(of: selectedFilter, perform: { value in
-                    print("DEBUG: selectedFilter Changed")
-                    print("DEBUG: \(value)")
                     withAnimation{
                         scrollReader.scrollTo(value.rawValue, anchor: .center)
                     }
@@ -100,7 +99,7 @@ struct ChooseLocationView: View {
                     LazyVGrid(columns: columns, spacing: 30) {
                         ForEach(ChooseLocationViewModel.allCases, id: \.rawValue) { viewModel in
                             Button {
-                                print("DEBUG: Choose \(viewModel.title)")
+                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                             } label: {
                                 VStack {
                                     VStack {

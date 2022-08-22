@@ -1,15 +1,10 @@
-//
-//  PostView.swift
-//  SidechatMockup
-//
-//  Created by Khoi Nguyen on 6/4/22.
-//
-
 import SwiftUI
+import AlertToast
 
 struct PostView: View {
     @Environment(\.presentationMode) var presentationMode
     @Binding var post : Post
+    @EnvironmentObject var feedVM : FeedViewModel
     @StateObject var postVM = PostViewModel()
     @State private var text = ""
     @State var sheet = false
@@ -20,18 +15,19 @@ struct PostView: View {
         ZStack(alignment: .bottom) {
             ScrollView {
                 mainPost
+                
                 LazyVStack {
                     ForEach($postVM.comments, id: \.self) { $comment in
                         CommentBubble(comment: $comment)
                             .buttonStyle(PlainButtonStyle())
                     }
                 }
-                .background(Color(UIColor.systemGroupedBackground))
                 .padding(.bottom, 150)
             }
             
             MessagingComponent
         }
+        .background(Color(UIColor.systemGroupedBackground))
         .environmentObject(postVM)
         .onAppear {
             // take binding and insert into VM
@@ -51,15 +47,15 @@ struct PostView: View {
         .alert(isPresented: $postVM.showDeleteConfirmationView) {
             Alert(
                 title: Text("Delete post"),
-                message: Text("Are you sure you want to delete \(postVM.post.title)"),
-                primaryButton: .default(
-                    Text("Cancel")
-                ),
-                secondaryButton: .destructive(
-                    Text("Delete"),
-                    action: postVM.deletePost
-                )
+                message: Text("Are you sure you want to delete \(post.title)"),
+                primaryButton: .destructive(Text("Delete")) {
+                    postVM.deletePost(post: post, feedVM: feedVM)
+                },
+                secondaryButton: .cancel()
             )
+        }
+        .toast(isPresenting: $postVM.savedPostConfirmation){
+            AlertToast(type: .regular, title: "Post saved!")
         }
     }
     
@@ -77,6 +73,11 @@ struct PostView: View {
                         Text(postVM.post.title)
                             .multilineTextAlignment(.leading)
                         
+                        // MARK: Poll
+                        if post.poll != nil {
+                            PollView(post: $post)
+                        }
+                        
                     }
                     
                     Spacer()
@@ -90,6 +91,7 @@ struct PostView: View {
                     Spacer()
                     
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         sheet.toggle()
                     } label: {
                         Image(systemName: "square.and.arrow.up")
@@ -101,6 +103,7 @@ struct PostView: View {
                     // DELETE BUTTON
                     if postVM.post.userOwned {
                         Button {
+                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                             DispatchQueue.main.async {
                                 postVM.showDeleteConfirmationView.toggle()
                             }
@@ -110,19 +113,22 @@ struct PostView: View {
                     } else {
                         Menu {
                             Button {
-                                print("DEBUG: Save")
+                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                                postVM.savePost(post: post)
                             } label: {
                                 Label("Save", systemImage: "bookmark")
                             }
                             
                             Button {
-                                print("DEBUG: Block")
+                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                                postVM.blockPost(post: post, feedVM: feedVM)
                             } label: {
                                 Label("Block user", systemImage: "x.circle")
                             }
                             
                             Button {
-                                print("DEBUG: Report")
+                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                                postVM.reportPost(post: post, feedVM: feedVM)
                             } label: {
                                 Label("Report", systemImage: "flag")
                             }
@@ -135,17 +141,17 @@ struct PostView: View {
             }
             .font(.system(size: 18).bold())
             .padding()
-            .foregroundColor(Color(UIColor.label))
-            .background(Color(UIColor.systemBackground)) // If you have this
-            .cornerRadius(20)         // You also need the cornerRadius here
+            .background(Color(UIColor.tertiarySystemBackground))
 
             ZStack {
                 Divider()
                 Text("\(postVM.post.numComments) Comments")
                     .font(.caption)
-                    .background(Rectangle().fill(Color(UIColor.systemBackground)).frame(minWidth: 90))
+                    .background(Rectangle().fill(Color(UIColor.systemGroupedBackground)).frame(minWidth: 90))
             }
+            .background(Color(UIColor.systemGroupedBackground))
         }
+        .background(Color(UIColor.systemGroupedBackground))
     }
     
     var VoteComponent: some View {
@@ -154,12 +160,14 @@ struct PostView: View {
                 // MARK: if not upvoted or downvoted
                 if postVM.post.voteStatus == 0 {
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         postVM.postVote(direction: 1)
                     } label: {
                         Image(systemName: "arrow.up")
                     }
                     
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         withAnimation {
                             showScore.toggle()
                         }
@@ -169,6 +177,7 @@ struct PostView: View {
                     }
                     
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         postVM.postVote(direction: -1)
                     } label: {
                         Image(systemName: "arrow.down")
@@ -177,6 +186,7 @@ struct PostView: View {
                 // MARK: if upvoted
                 else if postVM.post.voteStatus == 1 {
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         postVM.postVote(direction: 1)
                     } label: {
                         Image(systemName: "arrow.up")
@@ -184,6 +194,7 @@ struct PostView: View {
                     }
                     
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         withAnimation {
                             showScore.toggle()
                         }
@@ -193,6 +204,7 @@ struct PostView: View {
                     }
                     
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         postVM.postVote(direction: -1)
                     } label: {
                         Image(systemName: "arrow.down")
@@ -201,12 +213,14 @@ struct PostView: View {
                 // MARK: if downvoted
                 else if postVM.post.voteStatus == -1 {
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         postVM.postVote(direction: 1)
                     } label: {
                         Image(systemName: "arrow.up")
                     }
                     
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         withAnimation {
                             showScore.toggle()
                         }
@@ -216,6 +230,7 @@ struct PostView: View {
                     }
                     
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         postVM.postVote(direction: -1)
                     } label: {
                         Image(systemName: "arrow.down")
@@ -226,6 +241,7 @@ struct PostView: View {
             // MARK: Show score
             else {
                 Button {
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     withAnimation {
                         showScore.toggle()
                     }
@@ -266,6 +282,7 @@ struct PostView: View {
                     Spacer()
                     
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         textIsFocused = false
                     } label: {
                         Image(systemName: "keyboard.chevron.compact.down")
@@ -284,6 +301,7 @@ struct PostView: View {
                 if postVM.replyToComment != defaultComment {
                     HStack {
                         Button {
+                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                             postVM.replyToComment = defaultComment
                             text = ""
                         } label: {
@@ -299,10 +317,12 @@ struct PostView: View {
                 }
                 // MARK: TextArea and Button Component
                 HStack {
-                    CustomTextField(placeholder: Text("Enter your message here"), text: $text)
+                    TextField("Enter your message here", text: $text)
+                        .font(.headline)
                         .focused($textIsFocused)
                         
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         if postVM.replyToComment == defaultComment {
                             postVM.createComment(comment: text)
                         } else {
@@ -323,11 +343,11 @@ struct PostView: View {
                         }
                         .frame(width: 40, height: 40, alignment: .center)
                         .cornerRadius(10)
-                        .padding(.trailing, 4)
                     }
                 }
-                .padding(5)
-                .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color(UIColor.systemBackground), lineWidth: 2))
+                .padding(.horizontal)
+                .padding(.vertical, 3)
+                .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color(UIColor.secondarySystemBackground), lineWidth: 2))
             }
             .background(Color(UIColor.secondarySystemBackground))
             .cornerRadius(20, corners: [.topLeft, .topRight])

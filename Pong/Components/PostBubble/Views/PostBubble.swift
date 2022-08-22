@@ -1,9 +1,10 @@
 import SwiftUI
+import AlertToast
 
 struct PostBubble: View {
     @Binding var post : Post
+    @EnvironmentObject var feedVM : FeedViewModel
     @StateObject var postBubbleVM = PostBubbleViewModel()
-    @ObservedObject var postSettingsVM : PostSettingsViewModel
     
     // MARK: Some local view logic
     @State private var showScore = false
@@ -11,29 +12,37 @@ struct PostBubble: View {
     
     var body: some View {
         VStack {
-            NavigationLink(destination: PostView(post: $post)) {
+            ZStack {
+                NavigationLink(destination: PostView(post: $post)) {
+                    EmptyView()
+                }
+                .opacity(0.0)
+                .buttonStyle(PlainButtonStyle())
+                
                 HStack(alignment: .top) {
                     VStack(alignment: .leading) {
-                        Text("\(postBubbleVM.post.timeSincePosted)")
+                        Text("\(post.timeSincePosted)")
                             .font(.caption)
                             .padding(.bottom, 4)
           
-                        Text(postBubbleVM.post.title)
+                        Text(post.title)
                             .multilineTextAlignment(.leading)
                         
 //                        if let imageUrl = postBubbleVM.post.image {
-//                            AsyncImage(url: URL(string: "https://a11d-2600-4040-49e9-4700-18f-f080-a04a-f3ee.ngrok.io" + imageUrl)) { image in
-//                                VStack {
-//                                    image.resizable()
-//                                        .aspectRatio(contentMode: .fit)
-//                                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-//                                }
+//                            let _ = print("DEBUG: \(postBubbleVM.post.image)")
+//                            let _ = print("DEBUG: \(imageUrl)")
+//                            AsyncImage(url: URL(string: imageUrl)) { image in
+//                                image.resizable()
 //                            } placeholder: {
-//                                VStack {
-//                                    ProgressView()
-//                                }
+//                                ProgressView()
 //                            }
+//                            .frame(width: 50, height: 50)
 //                        }
+                        
+                        // MARK: Poll
+                        if post.poll != nil {
+                            PollView(post: $post)
+                        }
                     }
                     .padding(.bottom)
                     
@@ -41,25 +50,31 @@ struct PostBubble: View {
                     
                     VoteComponent
                 }
-                .background(Color(UIColor.tertiarySystemBackground))
-
             }
 
             Color.black.frame(height:CGFloat(1) / UIScreen.main.scale)
 
             HStack {
-                NavigationLink(destination: PostView(post: $post)) {
+                
+                ZStack {
+                    NavigationLink(destination: PostView(post: $post)) {
+                        EmptyView()
+                    }
+                    .opacity(0.0)
+                    .buttonStyle(PlainButtonStyle())
+                    
                     HStack {
                         Image(systemName: "bubble.left")
-                        Text("\(postBubbleVM.post.numComments)")
+                        Text("\(post.numComments)")
                             .font(.subheadline).bold()
 
                         Spacer()
                     }
-                    .background(Color(UIColor.tertiarySystemBackground))
                 }
+
                 
                 Button {
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     sheet.toggle()
                 } label: {
                     Image(systemName: "square.and.arrow.up")
@@ -69,31 +84,44 @@ struct PostBubble: View {
                 }
                 
                 // MARK: Delete or More Button
-                if postBubbleVM.post.userOwned {
+                if post.userOwned {
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         DispatchQueue.main.async {
-                            postSettingsVM.post = postBubbleVM.post
-                            postSettingsVM.showDeleteConfirmationView.toggle()
+                            postBubbleVM.post = postBubbleVM.post
+                            postBubbleVM.showDeleteConfirmationView.toggle()
                         }
                     } label: {
                         Image(systemName: "trash")
                     }
                 } else {
                     Menu {
-                        Button {
-                            print("DEBUG: Save")
-                        } label: {
-                            Label("Save", systemImage: "bookmark")
+                        if post.saved {
+                            Button {
+                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                                postBubbleVM.unsavePost(post: post)
+                            } label: {
+                                Label("Unsave", systemImage: "bookmark.fill")
+                            }
+                        } else if !post.saved {
+                            Button {
+                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                                postBubbleVM.savePost(post: post)
+                            } label: {
+                                Label("Save", systemImage: "bookmark")
+                            }
                         }
                         
                         Button {
-                            print("DEBUG: Block")
+                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                            postBubbleVM.blockPost(post: post, feedVM: feedVM)
                         } label: {
                             Label("Block user", systemImage: "x.circle")
                         }
                         
                         Button {
-                            print("DEBUG: Report")
+                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                            postBubbleVM.reportPost(post: post, feedVM: feedVM)
                         } label: {
                             Label("Report", systemImage: "flag")
                         }
@@ -105,33 +133,26 @@ struct PostBubble: View {
                 }
             }
         }
-        .frame(minWidth: 0, maxWidth: UIScreen.main.bounds.size.width - 50)
         .font(.system(size: 18).bold())
-        .padding()
-        .foregroundColor(Color(UIColor.label))
-        .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color(UIColor.tertiarySystemBackground), lineWidth: 5))
-        .background(Color(UIColor.tertiarySystemBackground)) // If you have this
-        .cornerRadius(10)         // You also need the cornerRadius here
-        .onAppear {
-            postBubbleVM.post = self.post
-        }
-        .onChange(of: postBubbleVM.post) {
-            self.post = $0
+        .padding(0)
+        .padding(.top, 10)
+        .onChange(of: postBubbleVM.post) { change in
+            self.post = postBubbleVM.post
         }
         
         // MARK: Delete Confirmation
-        .alert(isPresented: $postSettingsVM.showDeleteConfirmationView) {
+        .alert(isPresented: $postBubbleVM.showDeleteConfirmationView) {
             Alert(
                 title: Text("Delete post"),
-                message: Text("Are you sure you want to delete \(postSettingsVM.post.title)"),
-                primaryButton: .default(
-                    Text("Cancel")
-                ),
-                secondaryButton: .destructive(
-                    Text("Delete"),
-                    action: postSettingsVM.deletePost
-                )
+                message: Text("Are you sure you want to delete \(post.title)"),
+                primaryButton: .destructive(Text("Delete")) {
+                    postBubbleVM.deletePost(post: post, feedVM: feedVM)
+                },
+                secondaryButton: .cancel()
             )
+        }
+        .toast(isPresenting: $postBubbleVM.savedPostConfirmation){
+            AlertToast(type: .regular, title: "Post saved!")
         }
     }
     
@@ -139,72 +160,81 @@ struct PostBubble: View {
         VStack {
             if !showScore {
                 // if not upvoted or downvoted
-                if postBubbleVM.post.voteStatus == 0 {
+                if post.voteStatus == 0 {
                     Button {
-                        postBubbleVM.postVote(direction: 1)
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        postBubbleVM.postVote(direction: 1, post: post)
                     } label: {
                         Image(systemName: "arrow.up")
                     }
                     
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         withAnimation {
                             showScore.toggle()
                         }
 
                     } label: {
-                        Text("\(postBubbleVM.post.score)")
+                        Text("\(post.score)")
                     }
                     
                     Button {
-                        postBubbleVM.postVote(direction: -1)
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        postBubbleVM.postVote(direction: -1, post: post)
                     } label: {
                         Image(systemName: "arrow.down")
                     }
-                } else if postBubbleVM.post.voteStatus == 1 {
+                } else if post.voteStatus == 1 {
                     // if upvoted
                     Button {
-                        postBubbleVM.postVote(direction: 1)
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        postBubbleVM.postVote(direction: 1, post: post)
                     } label: {
                         Image(systemName: "arrow.up")
                             .foregroundColor(.yellow)
                     }
                     
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         withAnimation {
                             showScore.toggle()
                         }
 
                     } label: {
-                        Text("\(postBubbleVM.post.score + 1)")
+                        Text("\(post.score + 1)")
                     }
                     
                     Button {
-                        postBubbleVM.postVote(direction: -1)
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        postBubbleVM.postVote(direction: -1, post: post)
                     } label: {
                         Image(systemName: "arrow.down")
                     }
                 }
                 // IF POST BUBBLE IS DOWNVOTES
-                else if postBubbleVM.post.voteStatus == -1 {
+                else if post.voteStatus == -1 {
                     // upvote
                     Button {
-                        postBubbleVM.postVote(direction: 1)
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        postBubbleVM.postVote(direction: 1, post: post)
                     } label: {
                         Image(systemName: "arrow.up")
                     }
                     
                     // score
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         withAnimation {
                             showScore.toggle()
                         }
                     } label: {
-                        Text("\(postBubbleVM.post.score - 1)")
+                        Text("\(post.score - 1)")
                     }
                     
                     // downvote
                     Button {
-                        postBubbleVM.postVote(direction: -1)
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        postBubbleVM.postVote(direction: -1, post: post)
                     } label: {
                         Image(systemName: "arrow.down")
                             .foregroundColor(.yellow)
@@ -212,28 +242,29 @@ struct PostBubble: View {
                 }
             } else {
                 Button {
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     withAnimation {
                         showScore.toggle()
                     }
 
                 } label: {
                     VStack {
-                        if postBubbleVM.post.voteStatus == 1 {
-                            Text("\(postBubbleVM.post.numUpvotes + 1)")
+                        if post.voteStatus == 1 {
+                            Text("\(post.numUpvotes + 1)")
                                 .foregroundColor(.green)
-                            Text("\(postBubbleVM.post.numDownvotes)")
+                            Text("\(post.numDownvotes)")
                                 .foregroundColor(.red)
                         }
-                        else if postBubbleVM.post.voteStatus == -1 {
-                            Text("\(postBubbleVM.post.numUpvotes)")
+                        else if post.voteStatus == -1 {
+                            Text("\(post.numUpvotes)")
                                 .foregroundColor(.green)
-                            Text("\(postBubbleVM.post.numDownvotes + 1)")
+                            Text("\(post.numDownvotes + 1)")
                                 .foregroundColor(.red)
                         }
-                        else if postBubbleVM.post.voteStatus == 0 {
-                            Text("\(postBubbleVM.post.numUpvotes)")
+                        else if post.voteStatus == 0 {
+                            Text("\(post.numUpvotes)")
                                 .foregroundColor(.green)
-                            Text("\(postBubbleVM.post.numDownvotes)")
+                            Text("\(post.numDownvotes)")
                                 .foregroundColor(.red)
                         }
                     }
@@ -246,8 +277,8 @@ struct PostBubble: View {
 
 
 
-//struct PostBubbleView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        PostBubble(post: defaultPost, postSettingsVM: PostSettingsViewModel(), feedVM: FeedViewModel())
-//    }
-//}
+struct PostBubbleView_Previews: PreviewProvider {
+    static var previews: some View {
+        PostBubble(post: .constant(defaultPost))
+    }
+}

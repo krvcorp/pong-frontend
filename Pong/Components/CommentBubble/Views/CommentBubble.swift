@@ -1,10 +1,3 @@
-//
-//  CommentBubble.swift
-//  SidechatMockup
-//
-//  Created by Khoi Nguyen on 6/7/22.
-//
-
 import SwiftUI
 
 struct CommentBubble: View {
@@ -47,14 +40,12 @@ struct CommentBubble: View {
         }
         .background(Color(UIColor.tertiarySystemBackground))
         .onAppear {
-            // take binding and insert into VM
-            print("DEBUG: commentBubble rebuild")
             commentBubbleVM.comment = self.comment
         }
     }
     var CommentBody: some View {
         Button  {
-            print("DEBUG: Reply to \(commentBubbleVM.comment.comment)")
+            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
             postVM.replyToComment = commentBubbleVM.comment
         } label: {
             VStack(alignment: .leading) {
@@ -81,7 +72,7 @@ struct CommentBubble: View {
                     .multilineTextAlignment(.leading)
             }
             .padding(.bottom)
-            .background()
+            .background(Color(UIColor.tertiarySystemBackground))
         }
     }
     
@@ -91,12 +82,14 @@ struct CommentBubble: View {
                 // MARK: if not upvoted or downvoted
                 if commentBubbleVM.comment.voteStatus == 0 {
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         commentBubbleVM.commentVote(direction: 1)
                     } label: {
                         Image(systemName: "arrow.up")
                     }
                     
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         withAnimation {
                             showScore.toggle()
                         }
@@ -105,6 +98,7 @@ struct CommentBubble: View {
                     }
                     
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         commentBubbleVM.commentVote(direction: -1)
                     } label: {
                         Image(systemName: "arrow.down")
@@ -113,6 +107,7 @@ struct CommentBubble: View {
                 // MARK: if upvoted
                 else if commentBubbleVM.comment.voteStatus == 1 {
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         commentBubbleVM.commentVote(direction: 1)
                     } label: {
                         Image(systemName: "arrow.up")
@@ -120,6 +115,7 @@ struct CommentBubble: View {
                     }
                     
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         withAnimation {
                             showScore.toggle()
                         }
@@ -129,6 +125,7 @@ struct CommentBubble: View {
                     }
                     
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         commentBubbleVM.commentVote(direction: -1)
                     } label: {
                         Image(systemName: "arrow.down")
@@ -137,12 +134,14 @@ struct CommentBubble: View {
                 // MARK: if downvoted
                 else if commentBubbleVM.comment.voteStatus == -1 {
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         commentBubbleVM.commentVote(direction: 1)
                     } label: {
                         Image(systemName: "arrow.up")
                     }
                     
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         withAnimation {
                             showScore.toggle()
                         }
@@ -152,6 +151,7 @@ struct CommentBubble: View {
                     }
                     
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         commentBubbleVM.commentVote(direction: -1)
                     } label: {
                         Image(systemName: "arrow.down")
@@ -162,6 +162,7 @@ struct CommentBubble: View {
             // MARK: Show score
             else {
                 Button {
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     withAnimation {
                         showScore.toggle()
                     }
@@ -195,44 +196,50 @@ struct CommentBubble: View {
     var CommentBottomRow: some View {
         HStack {
             Button {
-                print("DEBUG: Reply to \(commentBubbleVM.comment.comment)")
+                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                 postVM.replyToComment = commentBubbleVM.comment
             } label: {
                 HStack {
-                    Text("Reply")
-                        .font(.caption)
+                    ZStack {
+                        LinearGradient(gradient: Gradient(colors: [Color.viewEventsGradient1, Color.viewEventsGradient2]), startPoint: .bottomLeading, endPoint: .topTrailing)
+                        Text("Reply").foregroundColor(Color(UIColor.black)).bold().lineLimit(1)
+                    }
+                    .cornerRadius(6)
+                    .frame(width: 70, height: 10)
 
                     Spacer()
                 }
-                .background()
+                .background(Color(UIColor.tertiarySystemBackground))
             }
 
             
             // MARK: Delete or More Button
             if commentBubbleVM.comment.userOwned {
                 Button {
-                    DispatchQueue.main.async {
-                        print("DEBUG: TRASH")
-                    }
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                    commentBubbleVM.deleteComment()
                 } label: {
                     Image(systemName: "trash")
                 }
             } else {
                 Menu {
                     Button {
-                        print("DEBUG: Save")
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        commentBubbleVM.saveComment()
                     } label: {
                         Label("Save", systemImage: "bookmark")
                     }
                     
                     Button {
-                        print("DEBUG: Block")
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        commentBubbleVM.blockComment()
                     } label: {
                         Label("Block user", systemImage: "x.circle")
                     }
                     
                     Button {
-                        print("DEBUG: Report")
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        commentBubbleVM.reportComment()
                     } label: {
                         Label("Report", systemImage: "flag")
                     }

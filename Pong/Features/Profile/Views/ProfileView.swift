@@ -1,53 +1,27 @@
-//
-//  ProfileView.swift
-//  SidechatMockup
-//
-//  Created by Khoi Nguyen on 6/3/22.
-//
-
 import SwiftUI
 import PopupView
 
 struct ProfileView: View {
     @State private var selectedFilter: ProfileFilterViewModel = .posts
     @StateObject private var profileVM = ProfileViewModel()
-    @ObservedObject var postSettingsVM : PostSettingsViewModel
     
     var body: some View {
         NavigationView {
             List {
                 if profileVM.selectedProfileFilter == .posts {
-                    ForEach($profileVM.posts) { $post in
+                    ForEach($profileVM.posts, id: \.id) { $post in
                         Section {
-                            HStack(spacing: 0) {
-                                PostBubble(post: $post, postSettingsVM: postSettingsVM)
-                                    .buttonStyle(.borderless)
-                                
-                                NavigationLink(destination: PostView(post: $post)) {
-                                    EmptyView()
-                                }
-                                .frame(width: 0)
-                                .opacity(0)
-                            }
+                            PostBubble(post: $post)
+                                .buttonStyle(PlainButtonStyle())
                         }
-
                     }
                 }
                 else if profileVM.selectedProfileFilter == .saved {
-                    ForEach($profileVM.savedPosts) { $post in
+                    ForEach($profileVM.savedPosts, id: \.id) { $post in
                         Section {
-                            HStack(spacing: 0) {
-                                PostBubble(post: $post, postSettingsVM: postSettingsVM)
-                                    .buttonStyle(.borderless)
-                                
-                                NavigationLink(destination: PostView(post: $post)) {
-                                    EmptyView()
-                                }
-                                .frame(width: 0)
-                                .opacity(0)
-                            }
+                            PostBubble(post: $post)
+                                .buttonStyle(PlainButtonStyle())
                         }
-
                     }
                 }
             }

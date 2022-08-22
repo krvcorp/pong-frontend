@@ -9,12 +9,10 @@ import Foundation
 
 struct PostVoteModel {
     struct Request: Encodable {
-        let postId: String
         let vote: Int
     }
     
     struct Response: Decodable {
-        let voteStatus: Int?
-        let error: String?
+        let voteStatus: Int
     }
 }

@@ -16,6 +16,7 @@ class AuthManager: ObservableObject {
     @Published var isSignedIn: Bool = false
     @Published var initialOnboard: Bool = false
     @Published var userId: String = ""
+    @Published var isAdmin: Bool = false
     
     // MARK: Current State is determined if the userId and the token is stored to the keychain
     func loadCurrentState() {
@@ -23,7 +24,10 @@ class AuthManager: ObservableObject {
         if let userId = DAKeychain.shared["userId"] {
             self.userId = userId
         }
-        print("DEBUG: \(isSignedIn)")
+        if DAKeychain.shared["isAdmin"] != nil {
+            self.isAdmin = true
+        }
+        
     }
     
     // MARK: Signout sets keychain to nil
@@ -31,9 +35,10 @@ class AuthManager: ObservableObject {
         DispatchQueue.main.async {
             self.initialOnboard = true
             AuthManager.authManager.isSignedIn = false
-            GIDSignIn.sharedInstance.disconnect() // don't think this is necessary but idk?
+            GIDSignIn.sharedInstance.disconnect()
             DAKeychain.shared["userId"] = nil
             DAKeychain.shared["token"] = nil
+            DAKeychain.shared["isAdmin"] = nil
         }
     }
     
@@ -71,19 +76,25 @@ class AuthManager: ObservableObject {
         
         let parameters = VerifyEmailModel.Request(idToken: idToken)
         
-        NetworkManager.networkManager.request(route: "login/", method: .post, body: parameters, successType: VerifyEmailModel.Response.self) { successResponse in
+        NetworkManager.networkManager.request(route: "login/", method: .post, body: parameters, successType: VerifyEmailModel.Response.self) { successResponse, errorResponse in
             // MARK: User is signed in
             DispatchQueue.main.async {
-                if let token = successResponse.token {
-                    print("DEBUG: token \(token)")
-                    DAKeychain.shared["token"] = token
+                if let successResponse = successResponse {
+                    if let token = successResponse.token {
+                        DAKeychain.shared["token"] = token
+                    }
+                    if let userId = successResponse.userId {
+                        DAKeychain.shared["userId"] = userId
+                    }
+                    if let isAdmin = successResponse.isAdmin {
+                        DAKeychain.shared["isAdmin"] = String(isAdmin)
+                    }
+                    self.initialOnboard = true
+                    self.loadCurrentState()
                 }
-                if let userId = successResponse.userId {
-                    print("DEBUG: userId \(String(describing: userId))")
-                    DAKeychain.shared["userId"] = userId
+                if let errorResponse = errorResponse {
+                    print("DEBUG: \(errorResponse)")
                 }
-                self.initialOnboard = true
-                self.loadCurrentState()
             }
         }
     }

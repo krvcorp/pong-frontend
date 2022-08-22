@@ -1,10 +1,3 @@
-//
-//  MessageField.swift
-//  SidechatMockup
-//
-//  Created by Khoi Nguyen on 6/5/22.
-//
-
 import SwiftUI
 
 struct MessageField: View {
@@ -15,7 +8,7 @@ struct MessageField: View {
             CustomTextField(placeholder: Text("Enter your message here"), text: $message)
             
             Button {
-                print("DEBUG: Message sent")
+                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                 message = ""
             } label: {
                 Image(systemName: "paperplane.fill")
@@ -55,7 +48,7 @@ struct CustomTextField: View {
             }
             
             TextField("", text: $text, onEditingChanged: editingChanged, onCommit: commit)
-                .font(.subheadline)
+                .font(.headline)
         }
     }
 }

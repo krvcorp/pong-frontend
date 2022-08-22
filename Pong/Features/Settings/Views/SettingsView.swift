@@ -1,16 +1,10 @@
-//
-//  SettingsView.swift
-//  Pong
-//
-//  Created by Artemas on 8/4/22.
-//
-
 import SwiftUI
 import Firebase
 import UniformTypeIdentifiers
 
 struct SettingsView: View {
     @StateObject private var settingsVM = SettingsViewModel()
+    @State private var showAlert = false
     @State private var notifications = false
     
     var body: some View {
@@ -64,7 +58,18 @@ struct SettingsView: View {
                                 .foregroundColor(.gray)
                         }
                     }
+                    
+                    if (AuthManager.authManager.isAdmin) {
+                        NavigationLink(destination: AdminFeedView()){
+                            HStack {
+                                Text("Admin Feed View").foregroundColor(Color(uiColor: UIColor.label))
+                                Spacer()
+                            }
+                        }
+                    }
+                    
                     Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         AuthManager.authManager.signout()
                     } label: {
                         HStack {
@@ -75,13 +80,26 @@ struct SettingsView: View {
                     }
                     
                     Button {
-                        print("DEBUG: Delete Account")
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        showAlert.toggle()
                     } label: {
                         HStack {
                             Text("Delete Account").foregroundColor(.red).bold()
                             Spacer()
                             Image(systemName: "trash").foregroundColor(.red).font(Font.body.weight(.bold))
                         }
+                    }
+                    .alert(isPresented: $showAlert) {
+                        Alert(
+                            title: Text("Delete Account"),
+                            message: Text("Are you sure you want to delete your account? This is an irreversible action."),
+                            primaryButton: .default(
+                                Text("Cancel")
+                            ),
+                            secondaryButton: .destructive(Text("Delete")){
+                                settingsVM.deleteAccount()
+                            }
+                        )
                     }
                 }.modifier(ProminentHeaderModifier())
                 Section(header: Text("Preferences").foregroundColor(.gray)) {
