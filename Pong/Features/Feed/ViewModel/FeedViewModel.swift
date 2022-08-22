@@ -185,7 +185,7 @@ class FeedViewModel: ObservableObject {
                             self.finishedHot = true
                         }
                     } else if selectedFeedFilter == .recent {
-                        self.topPosts = successResponse.results
+                        self.recentPosts = successResponse.results
                         if let nextLink = successResponse.next {
                             self.recentCurrentPage = nextLink
                         } else {
@@ -207,14 +207,15 @@ class FeedViewModel: ObservableObject {
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
                     // replace the local post
+                    if let index = self.topPosts.firstIndex(where: {$0.id == postId}) {
+                        self.topPosts[index] = successResponse
+                    }
+
                     if let index = self.hotPosts.firstIndex(where: {$0.id == postId}) {
                         self.hotPosts[index] = successResponse
                     }
                     if let index = self.recentPosts.firstIndex(where: {$0.id == postId}) {
                         self.recentPosts[index] = successResponse
-                    }
-                    if let index = self.topPosts.firstIndex(where: {$0.id == postId}) {
-                        self.topPosts[index] = successResponse
                     }
                 }
             }

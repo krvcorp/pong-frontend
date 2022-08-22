@@ -27,7 +27,7 @@ struct CommentBubble: View {
             .foregroundColor(Color(UIColor.label))
             
             // MARK: Recursive replies
-            ForEach($commentBubbleVM.comment.children, id: \.self) { $child in
+            ForEach($comment.children, id: \.self) { $child in
                 HStack {
                     Rectangle()
                         .fill(Color(UIColor.tertiarySystemBackground))
@@ -39,14 +39,21 @@ struct CommentBubble: View {
             }
         }
         .background(Color(UIColor.tertiarySystemBackground))
-        .onAppear {
-            commentBubbleVM.comment = self.comment
+        .onChange(of: commentBubbleVM.comment) { change in
+            self.comment = commentBubbleVM.comment
         }
+
     }
+    
     var CommentBody: some View {
         Button  {
             UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+<<<<<<< Updated upstream
             postVM.replyToComment = commentBubbleVM.comment
+=======
+            print("DEBUG: Reply to \(comment.comment)")
+            postVM.replyToComment = comment
+>>>>>>> Stashed changes
         } label: {
             VStack(alignment: .leading) {
                 HStack {
@@ -80,7 +87,7 @@ struct CommentBubble: View {
         VStack {
             if !showScore {
                 // MARK: if not upvoted or downvoted
-                if commentBubbleVM.comment.voteStatus == 0 {
+                if comment.voteStatus == 0 {
                     Button {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         commentBubbleVM.commentVote(direction: 1)
@@ -94,7 +101,7 @@ struct CommentBubble: View {
                             showScore.toggle()
                         }
                     } label: {
-                        Text("\(commentBubbleVM.comment.score)")
+                        Text("\(comment.score)")
                     }
                     
                     Button {
@@ -105,7 +112,7 @@ struct CommentBubble: View {
                     }
                 }
                 // MARK: if upvoted
-                else if commentBubbleVM.comment.voteStatus == 1 {
+                else if comment.voteStatus == 1 {
                     Button {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         commentBubbleVM.commentVote(direction: 1)
@@ -121,7 +128,7 @@ struct CommentBubble: View {
                         }
 
                     } label: {
-                        Text("\(commentBubbleVM.comment.score + 1)")
+                        Text("\(comment.score + 1)")
                     }
                     
                     Button {
@@ -132,7 +139,7 @@ struct CommentBubble: View {
                     }
                 }
                 // MARK: if downvoted
-                else if commentBubbleVM.comment.voteStatus == -1 {
+                else if comment.voteStatus == -1 {
                     Button {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         commentBubbleVM.commentVote(direction: 1)
@@ -147,7 +154,7 @@ struct CommentBubble: View {
                         }
 
                     } label: {
-                        Text("\(commentBubbleVM.comment.score - 1)")
+                        Text("\(comment.score - 1)")
                     }
                     
                     Button {
@@ -168,22 +175,22 @@ struct CommentBubble: View {
                     }
                 } label: {
                     VStack {
-                        if commentBubbleVM.comment.voteStatus == 1 {
-                            Text("\(commentBubbleVM.comment.numUpvotes + 1)")
+                        if comment.voteStatus == 1 {
+                            Text("\(comment.numUpvotes + 1)")
                                 .foregroundColor(.green)
-                            Text("\(commentBubbleVM.comment.numDownvotes)")
+                            Text("\(comment.numDownvotes)")
                                 .foregroundColor(.red)
                         }
-                        else if commentBubbleVM.comment.voteStatus == -1 {
-                            Text("\(commentBubbleVM.comment.numUpvotes)")
+                        else if comment.voteStatus == -1 {
+                            Text("\(comment.numUpvotes)")
                                 .foregroundColor(.green)
-                            Text("\(commentBubbleVM.comment.numDownvotes + 1)")
+                            Text("\(comment.numDownvotes + 1)")
                                 .foregroundColor(.red)
                         }
-                        else if commentBubbleVM.comment.voteStatus == 0 {
-                            Text("\(commentBubbleVM.comment.numUpvotes)")
+                        else if comment.voteStatus == 0 {
+                            Text("\(comment.numUpvotes)")
                                 .foregroundColor(.green)
-                            Text("\(commentBubbleVM.comment.numDownvotes)")
+                            Text("\(comment.numDownvotes)")
                                 .foregroundColor(.red)
                         }
                     }
@@ -197,7 +204,12 @@ struct CommentBubble: View {
         HStack {
             Button {
                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+<<<<<<< Updated upstream
                 postVM.replyToComment = commentBubbleVM.comment
+=======
+                print("DEBUG: Reply to \(comment.comment)")
+                postVM.replyToComment = comment
+>>>>>>> Stashed changes
             } label: {
                 HStack {
                     ZStack {
@@ -216,8 +228,11 @@ struct CommentBubble: View {
             // MARK: Delete or More Button
             if commentBubbleVM.comment.userOwned {
                 Button {
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    commentBubbleVM.deleteComment()
+                    DispatchQueue.main.async {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        postVM.deleteComment(comment: comment)
+                    }
+
                 } label: {
                     Image(systemName: "trash")
                 }

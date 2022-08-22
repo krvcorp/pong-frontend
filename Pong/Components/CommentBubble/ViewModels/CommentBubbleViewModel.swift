@@ -9,6 +9,7 @@ import Foundation
 
 class CommentBubbleViewModel: ObservableObject {
     @Published var comment : Comment = defaultComment
+    @Published var showDeleteConfirmationView : Bool = false
     
     // MARK: CommentVote
     func commentVote(direction: Int) -> Void {
@@ -37,7 +38,7 @@ class CommentBubbleViewModel: ObservableObject {
         }
     }
     
-    func deleteComment() {
+    func deleteComment(comment: Comment, postVM: PostViewModel) {
         NetworkManager.networkManager.request(route: "comments/\(comment.id)/", method: .delete, successType: Post.self) { successResponse, errorResponse in
             DispatchQueue.main.async {
                 print("DEBUG: ")

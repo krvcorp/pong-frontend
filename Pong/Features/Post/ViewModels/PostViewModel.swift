@@ -6,13 +6,19 @@
 //
 
 import Foundation
+import SwiftUI
 
 class PostViewModel: ObservableObject {
     @Published var post : Post = defaultPost
     @Published var comments : [Comment] = []
-    @Published var showDeleteConfirmationView : Bool = false
+    @Published var showDeletePostConfirmationView : Bool = false
+    @Published var showDeleteCommentConfirmationView : Bool = false
+    @Published var commentToDelete : Comment = defaultComment
     @Published var replyToComment : Comment = defaultComment
     @Published var savedPostConfirmation : Bool = false
+    
+    @Published var readPostPreventDupes = true
+    @Published var getCommentsPreventDupes = true
     
     func postVote(direction: Int) -> Void {
         var voteToSend = 0
@@ -26,7 +32,6 @@ class PostViewModel: ObservableObject {
         let parameters = PostVoteModel.Request(vote: voteToSend)
         
         NetworkManager.networkManager.request(route: "posts/\(post.id)/vote/", method: .post, body: parameters, successType: PostVoteModel.Response.self) { successResponse, errorResponse in
-            // MARK: Success
             DispatchQueue.main.async {
                 if let successResponse = successResponse {
                     self.post.voteStatus = successResponse.voteStatus
@@ -40,24 +45,31 @@ class PostViewModel: ObservableObject {
     }
     
     func getComments() -> Void {
-        NetworkManager.networkManager.request(route: "comments/?post_id=\(post.id)", method: .get, successType: [Comment].self) { successResponse, errorResponse in
-            if let successResponse = successResponse {
-                DispatchQueue.main.async {
-                    self.comments = successResponse
+        if getCommentsPreventDupes {
+            self.getCommentsPreventDupes = false
+            NetworkManager.networkManager.request(route: "comments/?post_id=\(post.id)", method: .get, successType: [Comment].self) { successResponse, errorResponse in
+                if let successResponse = successResponse {
+                    DispatchQueue.main.async {
+                        self.comments = successResponse
+                    }
                 }
+                self.getCommentsPreventDupes = true
             }
+        } else {
+            print("DEBUG: Duplicate network request detected and killed")
         }
     }
     
     func createComment(comment: String) -> Void {
-        let parameters = CommentCreateModel.Request(comment: comment)
+        let parameters = CommentCreateModel.Request(postId: self.post.id, comment: comment)
         
-        NetworkManager.networkManager.request(route: "comments/\(post.id)/", method: .post, body: parameters, successType: Comment.self) { successResponse, errorResponse in
-            // MARK: Success
+        NetworkManager.networkManager.request(route: "comments/", method: .post, body: parameters, successType: Comment.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
-                    self.comments.append(successResponse)
-                    self.post.numComments = self.post.numComments + 1
+                    withAnimation {
+                        self.comments.append(successResponse)
+                        self.post.numComments = self.post.numComments + 1
+                    }
                 }
             }
         }
@@ -72,8 +84,9 @@ class PostViewModel: ObservableObject {
                 DispatchQueue.main.async {
                     for (index, comment) in self.comments.enumerated() {
                         if successResponse.parent == comment.id {
-                            print("DEBUG: postVM.commentReply append")
-                            self.comments[index].children.append(successResponse)
+                            withAnimation {
+                                self.comments[index].children.append(successResponse)
+                            }
                         }
                     }
                     self.post.numComments = self.post.numComments + 1
@@ -84,16 +97,21 @@ class PostViewModel: ObservableObject {
     
     // MARK: ReadPost
     func readPost() -> Void {
-        NetworkManager.networkManager.request(route: "posts/\(post.id)/", method: .get, successType: Post.self) { successResponse, errorResponse in
-            if let successResponse = successResponse {
-                DispatchQueue.main.async {
-                    // replace the local post
-                    self.post = successResponse
+        if readPostPreventDupes {
+            self.readPostPreventDupes = false
+            NetworkManager.networkManager.request(route: "posts/\(post.id)/", method: .get, successType: Post.self) { successResponse, errorResponse in
+                if let successResponse = successResponse {
+                    DispatchQueue.main.async {
+                        // replace the local post
+                        self.post = successResponse
+                    }
                 }
+                self.readPostPreventDupes = true
             }
         }
     }
     
+    // MARK: Save Post
     func savePost(post: Post) {
         NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/save/", method: .post) { successResponse, errorResponse in
             if successResponse != nil {
@@ -121,6 +139,28 @@ class PostViewModel: ObservableObject {
         NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/", method: .delete) { successResponse, errorResponse in
             if successResponse != nil {
                 feedVM.deletePost(post: post)
+            }
+        }
+    }
+    
+    // MARK: Comments Related Stuff
+    func deleteComment(comment: Comment) {
+        DispatchQueue.main.async {
+            self.commentToDelete = comment
+            self.showDeleteCommentConfirmationView = true
+        }
+    }
+    
+    func deleteCommentConfirm() {
+        NetworkManager.networkManager.emptyRequest(route: "comments/\(self.commentToDelete.id)/", method: .delete) { successResponse, errorResponse in
+            if successResponse != nil {
+                DispatchQueue.main.async {
+                    withAnimation {
+                        if let index = self.comments.firstIndex(of: self.commentToDelete) {
+                            self.comments.remove(at: index)
+                        }
+                    }
+                }
             }
         }
     }

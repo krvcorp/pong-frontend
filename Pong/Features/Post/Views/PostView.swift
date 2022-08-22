@@ -10,6 +10,7 @@ struct PostView: View {
     @State var sheet = false
     @State private var showScore = false
     @FocusState private var textIsFocused: Bool
+    @State private var hasAppeared : Bool = false
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -30,26 +31,39 @@ struct PostView: View {
         .background(Color(UIColor.systemGroupedBackground))
         .environmentObject(postVM)
         .onAppear {
-            // take binding and insert into VM
-            postVM.post = self.post
-            
-            // api call to refresh local data
-            postVM.readPost()
-            
-            // api call to fetch comments to display
-            postVM.getComments()
+            if !hasAppeared {
+                // take binding and insert into VM
+                postVM.post = self.post
+                
+                // api call to refresh local data
+                postVM.readPost()
+                
+                // api call to fetch comments to display
+                postVM.getComments()
+            }
         }
         .onChange(of: postVM.post) {
             self.post = $0
+            hasAppeared = true
         }
         .navigationBarTitleDisplayMode(.inline)
         // MARK: Delete Confirmation
-        .alert(isPresented: $postVM.showDeleteConfirmationView) {
+        .alert(isPresented: $postVM.showDeletePostConfirmationView) {
             Alert(
                 title: Text("Delete post"),
                 message: Text("Are you sure you want to delete \(post.title)"),
                 primaryButton: .destructive(Text("Delete")) {
                     postVM.deletePost(post: post, feedVM: feedVM)
+                },
+                secondaryButton: .cancel()
+            )
+        }
+        .alert(isPresented: $postVM.showDeleteCommentConfirmationView) {
+            Alert(
+                title: Text("Delete comment"),
+                message: Text("Are you sure you want to delete \(postVM.commentToDelete.comment)"),
+                primaryButton: .destructive(Text("Delete")) {
+                    postVM.deleteCommentConfirm()
                 },
                 secondaryButton: .cancel()
             )
@@ -105,7 +119,7 @@ struct PostView: View {
                         Button {
                             UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                             DispatchQueue.main.async {
-                                postVM.showDeleteConfirmationView.toggle()
+                                postVM.showDeletePostConfirmationView.toggle()
                             }
                         } label: {
                             Image(systemName: "trash")

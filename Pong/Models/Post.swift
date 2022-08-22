@@ -1,6 +1,6 @@
 import Foundation
 
-struct Post: Hashable, Codable, Identifiable {
+struct Post: Hashable, Codable, Identifiable, Equatable {
     var id: String
     var title: String
     var createdAt: String

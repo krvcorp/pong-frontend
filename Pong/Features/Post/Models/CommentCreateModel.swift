@@ -9,6 +9,7 @@ import Foundation
 
 struct CommentCreateModel {
     struct Request: Encodable {
+        let postId: String
         let comment: String
     }
 }

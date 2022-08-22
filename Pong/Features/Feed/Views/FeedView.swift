@@ -4,7 +4,6 @@ import AlertToast
 
 struct FeedView: View {
     @Environment(\.colorScheme) var colorScheme
-    // MARK: ViewModels
     @StateObject var feedVM = FeedViewModel()
     @Binding var newPostDetected : Bool
     
@@ -19,10 +18,10 @@ struct FeedView: View {
             .background(Color(UIColor.systemGroupedBackground))
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             
-            // MARK: Hide navbar
+            // Hide navbar
             .navigationBarTitle("\(feedVM.school)")
             .navigationBarTitleDisplayMode(.inline)
-            // MARK: Toolbar
+            // Toolbar
             .toolbar {
                 ToolbarItem {
                     NavigationLink {
@@ -83,6 +82,7 @@ struct FeedView: View {
         }
     }
     
+    // Component at the bottom of the list
     var reachedBottomComponent : some View {
         HStack {
             Spacer()
@@ -94,6 +94,7 @@ struct FeedView: View {
         }
     }
     
+    // Component at the bottom of the list that shows when all posts have been fetched
     var reachedBottomComponentAndFinished : some View {
         Text("There's nothing left! Scroll to top and refresh!")
     }
@@ -138,7 +139,6 @@ struct FeedView: View {
                     } label: {
                         reachedBottomComponent
                     }
-                    .background(Color(UIColor.systemBackground))
                     .onAppear() {
                         feedVM.paginatePosts(selectedFeedFilter: tab)
                     }
@@ -162,7 +162,6 @@ struct FeedView: View {
                     } label: {
                         reachedBottomComponent
                     }
-                    .background(Color(UIColor.systemBackground))
                     .onAppear() {
                         feedVM.paginatePosts(selectedFeedFilter: tab)
                     }
@@ -186,7 +185,6 @@ struct FeedView: View {
                     } label: {
                         reachedBottomComponent
                     }
-                    .background(Color(UIColor.systemBackground))
                     .onAppear() {
                         feedVM.paginatePosts(selectedFeedFilter: tab)
                     }
