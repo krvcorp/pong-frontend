@@ -56,6 +56,19 @@ struct FeedView: View {
                                 }
                             }
                         }
+                        .offset(y: -feedVM.headerOffset < feedVM.headerHeight ? feedVM.headerOffset : (feedVM.headerOffset < 0 ? feedVM.headerOffset : 0))
+                }
+                
+                // MARK: Hide navbar
+                .navigationBarTitle("\(feedVM.school)")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem {
+                        NavigationLink {
+                            MessageRosterView()
+                        } label: {
+                            Image(systemName: "message")
+                        }
                     }
                 }
             }
