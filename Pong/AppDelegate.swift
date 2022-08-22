@@ -15,7 +15,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         FirebaseConfiguration.shared.setLoggerLevel(.min)
         UNUserNotificationCenter.current().delegate = self
         Messaging.messaging().delegate = self
-        UserDefaults.standard.set(true, forKey: "Text Messages")
         
         // White non-transucent navigatio bar, supports dark appearance
 //        if #available(iOS 15, *) {
