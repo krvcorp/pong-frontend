@@ -35,6 +35,32 @@ extension Color {
         )
     }
     
+    public struct richIndigoRedTint {
+        static let fadedIndigo = Color(hex: "422680")
+        static let midIndigo = Color(hex: "341671")
+        static let deepIndigo = Color(hex: "280659")
+        static let deepPurple = Color(hex: "660F56")
+        static let midPink = Color(hex: "AE2D68")
+        static let lightCoral = Color(hex: "F54952")
+        static let indigoRedArray = [
+            Color(hex: "130329"),
+            Color(hex: "1d0441"),
+            Color(hex: "280659"),
+            Color(hex: "390c58"),
+            Color(hex: "4a1158"),
+            Color(hex: "5b1757"),
+            Color(hex: "6c1c57"),
+            Color(hex: "7d2256"),
+            Color(hex: "8e2855"),
+            Color(hex: "a02d55"),
+            Color(hex: "b13354"),
+            Color(hex: "c23854"),
+            Color(hex: "d33e53"),
+            Color(hex: "e44353"),
+            Color(hex: "f54952")
+        ]
+    }
+    
     public static var poshGold: Color {
         return Color(red: 255/255, green: 204/255, blue: 0/255)
     }

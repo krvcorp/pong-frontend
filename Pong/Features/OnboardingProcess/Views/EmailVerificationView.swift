@@ -10,16 +10,50 @@ import SwiftUI
 struct EmailVerificationView: View {
 //    @ObservedObject var loginVM : LoginViewModel
 //    @ObservedObject var phoneLoginVM : PhoneLoginViewModel
-    
+    private let logoDim: CGFloat = 128
     var body: some View {
-        VStack() {
-            VStack(alignment: .leading) {
-                Text("Please sign in with your college email")
-                    .font(.title).bold()
-            }
-            
-            Spacer()
-            
+//        VStack() {
+//            VStack(alignment: .leading) {
+//                Text("Please sign in with your college email")
+//                    .font(.title).bold()
+//            }
+//
+//            Spacer()
+//
+//            Button {
+//                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+//                print("DEBUG: EmailVerificationView GoogleSignIn")
+//                AuthManager.authManager.googleSignInButton()
+//            } label: {
+//                HStack {
+//                    Image("GoogleLogo")
+//                        .resizable()
+//                        .aspectRatio(contentMode: .fit)
+//                        .frame(width: 50, height: 50)
+//
+//                    Text("Sign in with Google")
+//                        .font(.title.bold())
+//                }
+//                .padding(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
+//                .background(Color.white)
+//                .cornerRadius(8.0)
+//                .shadow(radius: 4.0)
+//            }
+//        }
+        VStack {
+            Image("pong_transparent_logo")
+                .resizable()
+                .frame(width: logoDim, height: logoDim)
+                .shadow(color: Color(white: 0.05, opacity: 0.7), radius: 12, x: 0, y: 6)
+                .padding(.top, 32)
+            Text("Pong")
+                .font(.system(size: 44, weight: .bold))
+                .foregroundColor(.white)
+                .padding(.top, -4)
+            Text("Bounce your ideas")
+                .font(.system(size: 20, weight: .medium))
+                .foregroundColor(Color(white: 0.7, opacity: 1))
+            Spacer(minLength: 36)
             Button {
                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                 print("DEBUG: EmailVerificationView GoogleSignIn")
@@ -29,17 +63,31 @@ struct EmailVerificationView: View {
                     Image("GoogleLogo")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: 50, height: 50)
-                    
-                    Text("Sign in with Google")
-                        .font(.title.bold())
+                        .frame(width: 32, height: 32)
+                        .padding(8)
+                    Text("Continue with Google")
+                        .fontWeight(.semibold)
+                        .foregroundColor(.poshDarkPurple)
+                        .padding([.leading], -6)
+                    Spacer()
                 }
-                .padding(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
-                .background(Color.white)
-                .cornerRadius(8.0)
-                .shadow(radius: 4.0)
+                .background(.white)
+                .cornerRadius(12)
+                .frame(maxWidth: .infinity, minHeight: 44)
+                .padding([.leading, .trailing], 44)
+                .shadow(color: Color(white: 0.1, opacity: 0.3), radius: 12, x: 0, y: 6)
             }
+            .padding(.bottom, 32)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+        .background(
+            LinearGradient(stops: [
+                .init(color: .richIndigoRedTint.indigoRedArray[1], location: 0),
+                .init(color: .richIndigoRedTint.indigoRedArray[2], location: 0.2),
+                .init(color: .richIndigoRedTint.indigoRedArray[6], location: 0.75),
+                .init(color: .richIndigoRedTint.indigoRedArray[10], location: 1)
+            ], startPoint: .topLeading, endPoint: .bottomTrailing)
+        )
     }
 }
 
