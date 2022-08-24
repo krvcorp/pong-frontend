@@ -46,14 +46,10 @@ struct CommentBubble: View {
     }
     
     var CommentBody: some View {
-        Button  {
+        Button {
             UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-<<<<<<< Updated upstream
-            postVM.replyToComment = commentBubbleVM.comment
-=======
             print("DEBUG: Reply to \(comment.comment)")
             postVM.replyToComment = comment
->>>>>>> Stashed changes
         } label: {
             VStack(alignment: .leading) {
                 HStack {
@@ -204,12 +200,8 @@ struct CommentBubble: View {
         HStack {
             Button {
                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-<<<<<<< Updated upstream
-                postVM.replyToComment = commentBubbleVM.comment
-=======
                 print("DEBUG: Reply to \(comment.comment)")
                 postVM.replyToComment = comment
->>>>>>> Stashed changes
             } label: {
                 HStack {
                     ZStack {
