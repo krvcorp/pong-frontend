@@ -31,31 +31,7 @@ struct FeedView: View {
                     }
                 }
                 ToolbarItem(placement: .principal) {
-                    HStack {
-                        ForEach(FeedFilter.allCases, id: \.self) { filter in
-                            Button {
-                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                                feedVM.selectedFeedFilter = filter
-                            } label: {
-                                if feedVM.selectedFeedFilter == filter {
-                                    HStack {
-                                        Image(systemName: filter.filledImageName)
-                                        Text(filter.title)
-                                            .bold()
-                                    }
-                                    .shadow(color: colorScheme == .dark ? Color.poshGold : Color.poshDarkPurple, radius: 10, x: 0, y: 0)
-                                    .foregroundColor(colorScheme == .dark ? Color.poshGold : Color.poshDarkPurple)
-
-                                } else {
-                                    HStack{
-                                        Image(systemName: filter.imageName)
-                                        Text(filter.title)
-                                    }
-                                    .foregroundColor(colorScheme == .dark ? Color.poshGold : Color.poshBlue)
-                                }
-                            }
-                        }
-                    }
+                    toolbarPickerComponent
                 }
             }
             .introspectNavigationController { navigationController in
@@ -79,6 +55,35 @@ struct FeedView: View {
         .accentColor(Color(UIColor.label))
         .toast(isPresenting: $feedVM.removedPost){
             AlertToast(displayMode: .hud, type: .regular, title: feedVM.removedPostType)
+        }
+    }
+    
+    // component for toolbar picker
+    var toolbarPickerComponent : some View {
+        HStack {
+            ForEach(FeedFilter.allCases, id: \.self) { filter in
+                Button {
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                    feedVM.selectedFeedFilter = filter
+                } label: {
+                    if feedVM.selectedFeedFilter == filter {
+                        HStack {
+                            Image(systemName: filter.filledImageName)
+                            Text(filter.title)
+                                .bold()
+                        }
+                        .shadow(color: colorScheme == .dark ? Color.poshGold : Color.poshDarkPurple, radius: 10, x: 0, y: 0)
+                        .foregroundColor(colorScheme == .dark ? Color.poshGold : Color.poshDarkPurple)
+
+                    } else {
+                        HStack{
+                            Image(systemName: filter.imageName)
+                            Text(filter.title)
+                        }
+                        .foregroundColor(colorScheme == .dark ? Color.poshGold : Color.poshBlue)
+                    }
+                }
+            }
         }
     }
     

@@ -123,6 +123,9 @@ class FeedViewModel: ObservableObject {
                 DispatchQueue.main.async {
                     if selectedFeedFilter == .top {
                         self.topPosts.append(contentsOf: successResponse.results)
+                        // MARK: race condition issue? uniqued() works in ProfileViewModel on line 83/84 regarding pagination in the posts there
+                        let uniqued = self.topPosts.removingDuplicates()
+                        self.topPosts = uniqued
                         if let nextLink = successResponse.next {
                             self.topCurrentPage = nextLink
                         } else {
@@ -130,6 +133,8 @@ class FeedViewModel: ObservableObject {
                         }
                     } else if selectedFeedFilter == .hot {
                         self.hotPosts.append(contentsOf: successResponse.results)
+                        let uniqued = self.hotPosts.removingDuplicates()
+                        self.hotPosts = uniqued
                         if let nextLink = successResponse.next {
                             self.hotCurrentPage = nextLink
                         } else {
@@ -137,6 +142,8 @@ class FeedViewModel: ObservableObject {
                         }
                     } else if selectedFeedFilter == .recent {
                         self.recentPosts.append(contentsOf: successResponse.results)
+                        let uniqued = self.recentPosts.removingDuplicates()
+                        self.recentPosts = uniqued
                         if let nextLink = successResponse.next {
                             self.recentCurrentPage = nextLink
                         } else {

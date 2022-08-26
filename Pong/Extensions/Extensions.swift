@@ -47,8 +47,12 @@ extension UIScreen{
    static let screenSize = UIScreen.main.bounds.size
 }
 
-extension Sequence where Element: Hashable {
-    func unique() -> [Element] {
-        NSOrderedSet(array: self as! [Any]).array as! [Element]
+extension Array where Element: Equatable {
+    func removingDuplicates() -> Array {
+        return reduce(into: []) { result, element in
+            if !result.contains(element) {
+                result.append(element)
+            }
+        }
     }
 }

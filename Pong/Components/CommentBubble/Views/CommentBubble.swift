@@ -88,7 +88,7 @@ struct CommentBubble: View {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         commentBubbleVM.commentVote(direction: 1)
                     } label: {
-                        Image(systemName: "arrow.up")
+                        Image(systemName: "chevron.up")
                     }
                     
                     Button {
@@ -104,7 +104,7 @@ struct CommentBubble: View {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         commentBubbleVM.commentVote(direction: -1)
                     } label: {
-                        Image(systemName: "arrow.down")
+                        Image(systemName: "chevron.down")
                     }
                 }
                 // MARK: if upvoted
@@ -113,7 +113,7 @@ struct CommentBubble: View {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         commentBubbleVM.commentVote(direction: 1)
                     } label: {
-                        Image(systemName: "arrow.up")
+                        Image(systemName: "chevron.up")
                             .foregroundColor(.yellow)
                     }
                     
@@ -131,7 +131,7 @@ struct CommentBubble: View {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         commentBubbleVM.commentVote(direction: -1)
                     } label: {
-                        Image(systemName: "arrow.down")
+                        Image(systemName: "chevron.down")
                     }
                 }
                 // MARK: if downvoted
@@ -140,7 +140,7 @@ struct CommentBubble: View {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         commentBubbleVM.commentVote(direction: 1)
                     } label: {
-                        Image(systemName: "arrow.up")
+                        Image(systemName: "chevron.up")
                     }
                     
                     Button {
@@ -157,7 +157,7 @@ struct CommentBubble: View {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         commentBubbleVM.commentVote(direction: -1)
                     } label: {
-                        Image(systemName: "arrow.down")
+                        Image(systemName: "chevron.down")
                             .foregroundColor(.yellow)
                     }
                 }

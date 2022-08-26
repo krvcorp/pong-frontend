@@ -25,9 +25,11 @@ struct EmailVerificationView: View {
                 .font(.system(size: 20, weight: .medium))
                 .foregroundColor(Color(white: 0.7, opacity: 1))
             Spacer(minLength: 36)
+            Text("Sign In with your College Email")
+                .font(.system(size: 20, weight: .medium))
+                .foregroundColor(Color(white: 0.7, opacity: 1))
             Button {
                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                print("DEBUG: EmailVerificationView GoogleSignIn")
                 AuthManager.authManager.googleSignInButton()
             } label: {
                 HStack {
