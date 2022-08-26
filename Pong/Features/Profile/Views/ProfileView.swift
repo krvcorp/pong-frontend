@@ -114,7 +114,10 @@ struct ProfileView: View {
             }
             else if tab == .comments {
                 ForEach($profileVM.comments, id: \.id) { $comment in
-                    
+                    Section {
+                        ProfileCommentBubble(comment: $comment)
+                            .buttonStyle(PlainButtonStyle())
+                    }
                 }
             }
             else if tab == .awards {

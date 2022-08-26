@@ -1,13 +1,10 @@
 import SwiftUI
 
-struct ProfileCommentBubble: View {
-    @State var comment: Comment
+struct ProfileCommentBubble: View { 
+    @Binding var comment: ProfileComment
     @StateObject var profileCommentBubbleVM = ProfileCommentBubbleViewModel()
     // some local logic
     @State var sheet = false
-    @State private var tapped = false
-    @State private var showScore = false
-    @State private var hasAppeared = false
     
     var body: some View {
         VStack {
@@ -78,21 +75,12 @@ struct ProfileCommentBubble: View {
                 HStack {
 
                     Image(systemName: "bubble.left")
-                    Text("Re: \(profileCommentBubbleVM.post.title)")
+                    Text("Re: \(comment.post.title)")
                         .font(.subheadline).bold()
                     
 
                     Spacer()
                     
-//                    Button {
-//                        sheet.toggle()
-//
-//                    } label: {
-//                        Image(systemName: "square.and.arrow.up")
-//                    }
-//                    .sheet(isPresented: $sheet) {
-//                        ShareSheet(items: ["\(post.title)"])
-//                    }
                     
                     Button {
                         profileCommentBubbleVM.deleteComment(comment_id: comment.id)
@@ -107,8 +95,8 @@ struct ProfileCommentBubble: View {
         .padding()
         .foregroundColor(Color(UIColor.label))
         .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color(UIColor.tertiarySystemBackground), lineWidth: 5))
-        .background(Color(UIColor.tertiarySystemBackground)) // If you have this
-        .cornerRadius(10)         // You also need the cornerRadius here
+        .background(Color(UIColor.tertiarySystemBackground))
+        .cornerRadius(10)
         .onAppear {
             if !hasAppeared {
                 print("DEBUG: onAppear")
