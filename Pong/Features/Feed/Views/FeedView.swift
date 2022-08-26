@@ -26,7 +26,7 @@ struct FeedView: View {
             .toolbar {
                 ToolbarItem {
                     NavigationLink {
-                        MessagesView()
+                        MessageRosterView()
                     } label: {
                         Image(systemName: "message")
                     }

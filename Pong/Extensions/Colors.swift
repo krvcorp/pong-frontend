@@ -282,8 +282,54 @@ extension Color {
         return Color(red: 176/255, green: 141/255, blue: 87/255)
     }
     
+    public static var lennonsPlaylist1: Color {
+        return Color(hex: "#9795EF")
+    }
+    
+    public static var lennonsPlaylist2: Color {
+        return Color(hex: "#F9C5D1")
+    }
+    
+    public static var codeLecture1: Color {
+        return Color(hex: "#FB8085")
+    }
+    
+    public static var codeLecture2: Color {
+        return Color(hex: "#F9C1B1")
+    }
+    
+    public static var earlyPeriod1: Color {
+        return Color(hex: "#FF748B")
+    }
+    
+    public static var earlyPeriod2: Color {
+        return Color(hex: "#FE7BB0")
+    }
+    
+    public static var sunburn1: Color {
+        return Color(hex: "#F08EFC")
+    }
+    
+    public static var sunburn2: Color {
+        return Color(hex: "#EE5166")
+    }
+    
+    public static var scientificLie1: Color {
+        return Color(hex: "#E975A8")
+    }
+    
+    public static var scientificLie2: Color {
+        return Color(hex: "#726CF8")
+    }
+    
+    public static var organicSearch1: Color {
+        return Color(hex: "#FE0944")
+    }
+    
+    public static var organicSearch2: Color {
+        return Color(hex: "#FEAE96")
+    }
     public static var bone: Color {
         return Color(red: 215/255, green: 210/255, blue: 203/255)
     }
-    
 }

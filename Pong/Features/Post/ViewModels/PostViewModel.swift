@@ -156,8 +156,17 @@ class PostViewModel: ObservableObject {
             if successResponse != nil {
                 DispatchQueue.main.async {
                     withAnimation {
-                        if let index = self.comments.firstIndex(of: self.commentToDelete) {
-                            self.comments.remove(at: index)
+                        if (self.commentToDelete.parent != nil){
+                            if let index = self.comments.firstIndex(where: {$0.id == self.commentToDelete.parent!}) {
+                                if let toDeleteIndex = self.comments[index].children.firstIndex(where: {$0.id == self.commentToDelete.id}) {
+                                    self.comments[index].children.remove(at: toDeleteIndex)
+                                }
+                            }
+                        }
+                        else {
+                            if let index = self.comments.firstIndex(of: self.commentToDelete) {
+                                self.comments.remove(at: index)
+                            }
                         }
                     }
                 }
