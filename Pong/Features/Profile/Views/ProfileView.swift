@@ -118,6 +118,7 @@ struct ProfileView: View {
                         ProfileCommentBubble(comment: $comment)
                             .buttonStyle(PlainButtonStyle())
                             .environmentObject(profileVM)
+
                     }
                 }
             }

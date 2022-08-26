@@ -15,7 +15,10 @@ class PostViewModel: ObservableObject {
     @Published var showDeleteCommentConfirmationView : Bool = false
     @Published var commentToDelete : Comment = defaultComment
     @Published var replyToComment : Comment = defaultComment
+    
     @Published var savedPostConfirmation : Bool = false
+    @Published var removedComment : Bool = false
+    @Published var removedCommentType : String = "Removed comment!"
     
     @Published var readPostPreventDupes = true
     @Published var getCommentsPreventDupes = true
@@ -169,6 +172,9 @@ class PostViewModel: ObservableObject {
                             }
                         }
                     }
+                    self.removedComment = true
+                    self.removedCommentType = "Deleted comment!"
+                    self.post.numComments -= 1
                 }
             }
         }
@@ -178,6 +184,8 @@ class PostViewModel: ObservableObject {
         NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/block/", method: .post) { successResponse, errorResponse in
             if successResponse != nil {
                 feedVM.blockPost(post: post)
+                self.removedComment = true
+                self.removedCommentType = "Blocked comment!"
             }
         }
     }
@@ -186,6 +194,8 @@ class PostViewModel: ObservableObject {
         NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/report/", method: .post) { successResponse, errorResponse in
             if successResponse != nil {
                 feedVM.reportPost(post: post)
+                self.removedComment = true
+                self.removedCommentType = "Reported comment!"
             }
         }
     }

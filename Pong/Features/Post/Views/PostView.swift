@@ -71,6 +71,9 @@ struct PostView: View {
         .toast(isPresenting: $postVM.savedPostConfirmation){
             AlertToast(type: .regular, title: "Post saved!")
         }
+        .toast(isPresenting: $postVM.removedComment){
+            AlertToast(displayMode: .banner(.slide), type: .regular, title: "Comment deleted!")
+        }
     }
     
     var mainPost: some View {
