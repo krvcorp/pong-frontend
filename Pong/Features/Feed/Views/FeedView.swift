@@ -4,6 +4,7 @@ import AlertToast
 
 struct FeedView: View {
     @Environment(\.colorScheme) var colorScheme
+    @EnvironmentObject var scrollToTopHelper : ScrollToTopHelper
     @StateObject var feedVM = FeedViewModel()
     @Binding var newPostDetected : Bool
     
@@ -25,7 +26,7 @@ struct FeedView: View {
             .toolbar {
                 ToolbarItem {
                     NavigationLink {
-                        MessagesView()
+                        MessageRosterView()
                     } label: {
                         Image(systemName: "message")
                     }
@@ -107,100 +108,113 @@ struct FeedView: View {
     // MARK: Custom Feed Stack
     @ViewBuilder
     func customFeedStack(filter: FeedFilter, tab : FeedFilter) -> some View {
-        List {
-            if tab == .top {
-                Menu {
-                    ForEach(TopFilter.allCases, id: \.self) { filter in
-                        Button {
-                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                            print("DEBUG: ")
-                            feedVM.selectedTopFilter = filter
-                        } label: {
-                            Text(filter.title)
+        ScrollViewReader { proxy in
+            List {
+                if tab == .top {
+                    Menu {
+                        ForEach(TopFilter.allCases, id: \.self) { filter in
+                            Button {
+                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                                print("DEBUG: ")
+                                feedVM.selectedTopFilter = filter
+                            } label: {
+                                Text(filter.title)
+                            }
+                        }
+                    } label: {
+                        Spacer()
+                        
+                        Text("\(feedVM.selectedTopFilter.title)")
+                        Image(systemName: "chevron.down")
+                        
+                        Spacer()
+                    }
+                    
+                    ForEach($feedVM.topPosts, id: \.id) { $post in
+                        Section {
+                            PostBubble(post: $post)
+                                .buttonStyle(PlainButtonStyle())
+                                .onAppear {
+                                    feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab)
+                                }
                         }
                     }
-                } label: {
-                    Spacer()
                     
-                    Text("\(feedVM.selectedTopFilter.title)")
-                    Image(systemName: "chevron.down")
-                    
-                    Spacer()
-                }
-                
-                ForEach($feedVM.topPosts, id: \.id) { $post in
-                    Section {
-                        PostBubble(post: $post)
-                            .buttonStyle(PlainButtonStyle())
-                            .onAppear {
-                                feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab)
-                            }
+                    if !feedVM.finishedTop {
+                        Button {
+                            feedVM.paginatePosts(selectedFeedFilter: tab)
+                        } label: {
+                            reachedBottomComponent
+                        }
+                        .onAppear() {
+                            feedVM.paginatePosts(selectedFeedFilter: tab)
+                        }
+                    } else {
+                        reachedBottomComponentAndFinished
                     }
                 }
-                
-                if !feedVM.finishedTop {
-                    Button {
-                        feedVM.paginatePosts(selectedFeedFilter: tab)
-                    } label: {
-                        reachedBottomComponent
+                else if tab == .hot {
+                    ForEach($feedVM.hotPosts, id: \.id) { $post in
+                        Section {
+                            PostBubble(post: $post)
+                                .buttonStyle(PlainButtonStyle())
+                                .onAppear {
+                                    feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab)
+                                }
+                        }
                     }
-                    .onAppear() {
-                        feedVM.paginatePosts(selectedFeedFilter: tab)
-                    }
-                } else {
-                    reachedBottomComponentAndFinished
-                }
-            }
-            else if tab == .hot {
-                ForEach($feedVM.hotPosts, id: \.id) { $post in
-                    Section {
-                        PostBubble(post: $post)
-                            .buttonStyle(PlainButtonStyle())
-                            .onAppear {
-                                feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab)
-                            }
-                    }
-                }
-                if !feedVM.finishedHot {
-                    Button {
-                        feedVM.paginatePosts(selectedFeedFilter: tab)
-                    } label: {
-                        reachedBottomComponent
-                    }
-                    .onAppear() {
-                        feedVM.paginatePosts(selectedFeedFilter: tab)
-                    }
-                } else {
-                    reachedBottomComponentAndFinished
-                }
-            }
-            else if tab == .recent {
-                ForEach($feedVM.recentPosts, id: \.id) { $post in
-                    Section {
-                        PostBubble(post: $post)
-                            .buttonStyle(PlainButtonStyle())
-                            .onAppear {
-                                feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab)
-                            }
+                    if !feedVM.finishedHot {
+                        Button {
+                            feedVM.paginatePosts(selectedFeedFilter: tab)
+                        } label: {
+                            reachedBottomComponent
+                        }
+                        .onAppear() {
+                            feedVM.paginatePosts(selectedFeedFilter: tab)
+                        }
+                    } else {
+                        reachedBottomComponentAndFinished
                     }
                 }
-                if !feedVM.finishedRecent {
-                    Button {
-                        feedVM.paginatePosts(selectedFeedFilter: tab)
-                    } label: {
-                        reachedBottomComponent
+                else if tab == .recent {
+                    ForEach($feedVM.recentPosts, id: \.id) { $post in
+                        Section {
+                            PostBubble(post: $post)
+                                .buttonStyle(PlainButtonStyle())
+                                .onAppear {
+                                    feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab)
+                                }
+                        }
                     }
-                    .onAppear() {
-                        feedVM.paginatePosts(selectedFeedFilter: tab)
+                    if !feedVM.finishedRecent {
+                        Button {
+                            feedVM.paginatePosts(selectedFeedFilter: tab)
+                        } label: {
+                            reachedBottomComponent
+                        }
+                        .onAppear() {
+                            feedVM.paginatePosts(selectedFeedFilter: tab)
+                        }
+                    } else {
+                        reachedBottomComponentAndFinished
                     }
-                } else {
-                    reachedBottomComponentAndFinished
                 }
             }
-        }
-        .refreshable{
-            print("DEBUG: Refresh")
-            feedVM.paginatePostsReset(selectedFeedFilter: feedVM.selectedFeedFilter)
+            .onChange(of: scrollToTopHelper.trigger, perform: { newValue in
+                withAnimation {
+                    if tab == .top {
+                        proxy.scrollTo(feedVM.topPosts[0].id, anchor: .bottom)
+                    } else if tab == .hot {
+                        proxy.scrollTo(feedVM.hotPosts[0].id, anchor: .bottom)
+                    } else if tab == .recent {
+                        proxy.scrollTo(feedVM.recentPosts[0].id, anchor: .bottom)
+                    }
+                }
+            })
+            .refreshable{
+                print("DEBUG: Refresh")
+                feedVM.paginatePostsReset(selectedFeedFilter: feedVM.selectedFeedFilter)
+            }
         }
     }
 }

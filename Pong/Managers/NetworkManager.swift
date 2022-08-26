@@ -128,7 +128,7 @@ class NetworkManager: ObservableObject {
                     case .success:
 //                        print("NETWORK: NetworkManager.responseData.success \(response)")
                         break
-                    case let .failure(error):
+                    case .failure(_):
 //                        print("NETWORK: NetworkManager.responseData.failure \(error)")
                         break
                     }
@@ -155,7 +155,7 @@ class NetworkManager: ObservableObject {
                     case .success:
 //                        print("NETWORK: NetworkManager.responseData.success \(response)")
                         break
-                    case let .failure(error):
+                    case .failure(_):
 //                        print("NETWORK: NetworkManager.responseData.failure \(error)")
                         break
                     }

@@ -2,15 +2,36 @@ import SwiftUI
 
 struct MainTabView: View {
     @ObservedObject private var mainTabVM = MainTabViewModel(initialIndex: 1, customItemIndex: 3)
+    @StateObject private var scrollToTopHelper = ScrollToTopHelper()
+    
+    var handler: Binding<Int> { Binding(
+        get: {
+            self.mainTabVM.itemSelected
+        },
+        set: {
+            // add logic to trigger scroll to top
+            if $0 == self.mainTabVM.itemSelected {
+                if self.mainTabVM.itemSelected == 1 {
+                    self.scrollToTopHelper.trigger.toggle()
+                } else {
+                    print("DEBUG: not feed")
+                }
 
+                
+            }
+            self.mainTabVM.itemSelected = $0
+        }
+    )}
+    
     var body: some View {
-        TabView(selection: $mainTabVM.itemSelected) {
+        TabView(selection: handler) {
             // MARK: FeedView
             FeedView(newPostDetected: $mainTabVM.newPostDetected)
                 .tabItem{
                     Label("Home", systemImage: "house")
                 }
                 .tag(1)
+                .environmentObject(scrollToTopHelper)
             
             // MARK: Stats and Leaderboard
             LeaderboardView()
