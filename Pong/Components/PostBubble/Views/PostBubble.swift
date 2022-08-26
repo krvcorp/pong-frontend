@@ -9,40 +9,15 @@ struct PostBubble: View {
     // MARK: Some local view logic
     @State private var showScore = false
     @State private var sheet = false
+    @State private var image = UIImage()
     
     var body: some View {
         VStack {
-            ZStack {
-                NavigationLink(destination: PostView(post: $post)) {
-                    EmptyView()
-                }
-                .opacity(0.0)
-                .buttonStyle(PlainButtonStyle())
-                
-                HStack(alignment: .top) {
-                    VStack(alignment: .leading) {
-                        Text("\(post.timeSincePosted)")
-                            .font(.caption)
-                            .padding(.bottom, 4)
-          
-                        Text(post.title)
-                            .multilineTextAlignment(.leading)
-                        
-                        // MARK: Poll
-                        if post.poll != nil {
-                            PollView(post: $post)
-                        }
-                    }
-                    .padding(.bottom)
-                    
-                    Spacer()
-                    
-                    VoteComponent
-                }
-            }
+            postBubbleMain
 
             Color.black.frame(height:CGFloat(1) / UIScreen.main.scale)
-
+            
+//            bottom row
             HStack {
                 
                 ZStack {
@@ -65,11 +40,12 @@ struct PostBubble: View {
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     sheet.toggle()
+                    self.image = handleShare()
                 } label: {
                     Image(systemName: "square.and.arrow.up")
                 }
                 .sheet(isPresented: $sheet) {
-                    ShareSheet(items: ["ponged: \(postBubbleVM.post.title)"])
+                    ShareSheet(items: ["Posted on Pong \(postBubbleVM.post.timeSincePosted) ago: \(postBubbleVM.post.title)", self.image])
                 }
                 
                 // MARK: Delete or More Button
@@ -142,6 +118,37 @@ struct PostBubble: View {
         }
         .toast(isPresenting: $postBubbleVM.savedPostConfirmation){
             AlertToast(type: .regular, title: "Post saved!")
+        }
+    }
+    
+    var postBubbleMain: some View {
+        ZStack {
+            NavigationLink(destination: PostView(post: $post)) {
+                EmptyView()
+            }
+            .opacity(0.0)
+            .buttonStyle(PlainButtonStyle())
+            
+            HStack(alignment: .top) {
+                VStack(alignment: .leading) {
+                    Text("\(post.timeSincePosted)")
+                        .font(.caption)
+                        .padding(.bottom, 4)
+      
+                    Text(post.title)
+                        .multilineTextAlignment(.leading)
+                    
+                    // MARK: Poll
+                    if post.poll != nil {
+                        PollView(post: $post)
+                    }
+                }
+                .padding(.bottom)
+                
+                Spacer()
+                
+                VoteComponent
+            }
         }
     }
     
@@ -262,8 +269,33 @@ struct PostBubble: View {
         }
         .frame(width: 25, height: 50)
     }
+    
+    func handleShare() -> UIImage {
+        print("sharing image")
+        let imageSize: CGSize = CGSize(width: 200, height: 1000)
+        let highresImage = postBubbleMain.asImage(size: imageSize)
+        return highresImage
+    }
 }
 
+extension UIView {
+    func asImage() -> UIImage {
+        let format = UIGraphicsImageRendererFormat()
+        format.scale = 1
+        return UIGraphicsImageRenderer(size: self.layer.frame.size, format: format).image { context in
+            self.drawHierarchy(in: self.layer.bounds, afterScreenUpdates: true)
+        }
+    }
+}
+
+extension View {
+    func asImage(size: CGSize) -> UIImage {
+        let controller = UIHostingController(rootView: self)
+        controller.view.bounds = CGRect(origin: .zero, size: size)
+        let image = controller.view.asImage()
+        return image
+    }
+}
 
 
 struct PostBubbleView_Previews: PreviewProvider {
