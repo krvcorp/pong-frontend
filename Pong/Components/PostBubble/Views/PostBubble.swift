@@ -39,13 +39,13 @@ struct PostBubble: View {
                 
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    sheet.toggle()
                     self.image = handleShare()
+                    sheet.toggle()
                 } label: {
                     Image(systemName: "square.and.arrow.up")
                 }
                 .sheet(isPresented: $sheet) {
-                    ShareSheet(items: ["Posted on Pong \(postBubbleVM.post.timeSincePosted) ago: \(postBubbleVM.post.title)", self.image])
+                    ShareSheet(items: [self.image])
                 }
                 
                 // MARK: Delete or More Button
@@ -271,8 +271,7 @@ struct PostBubble: View {
     }
     
     func handleShare() -> UIImage {
-        print("sharing image")
-        let imageSize: CGSize = CGSize(width: 200, height: 1000)
+        let imageSize: CGSize = CGSize(width: 500, height: 800)
         let highresImage = postBubbleMain.asImage(size: imageSize)
         return highresImage
     }
