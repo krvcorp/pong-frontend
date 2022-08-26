@@ -33,7 +33,7 @@ struct PollView: View {
                     .padding(5)
                     .frame(minWidth: 0, maxWidth: .infinity)
                     .foregroundColor(.black)
-                    .background(post.poll!.votedFor == option.id ? Color.poshGold : Color.bone)
+                    .background(post.poll!.votedFor == option.id ? Color(UIColor(named: "PongPrimary")!) : Color.bone)
                     .cornerRadius(5)         // You also need the cornerRadius here
                     .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color(UIColor.darkGray), lineWidth: 2))
                     .padding(.top, 5)

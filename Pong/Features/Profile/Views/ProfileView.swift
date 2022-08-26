@@ -85,15 +85,15 @@ struct ProfileView: View {
                             Text(filter.title)
                                 .bold()
                         }
-                        .shadow(color: colorScheme == .dark ? Color.poshGold : Color.poshDarkPurple, radius: 10, x: 0, y: 0)
-                        .foregroundColor(colorScheme == .dark ? Color.poshGold : Color.poshDarkPurple)
+                        .shadow(color: Color(UIColor(named: "PongPrimarySelected")!), radius: 10, x: 0, y: 0)
+                        .foregroundColor(Color(UIColor(named: "PongPrimarySelected")!))
 
                     } else {
                         HStack{
                             Image(systemName: filter.imageName)
                             Text(filter.title)
                         }
-                        .foregroundColor(colorScheme == .dark ? Color.poshGold : Color.poshBlue)
+                        .foregroundColor(Color(UIColor(named: "PongPrimary")!))
                     }
                 }
             }

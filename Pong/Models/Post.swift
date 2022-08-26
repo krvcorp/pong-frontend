@@ -17,9 +17,5 @@ struct Post: Hashable, Codable, Identifiable, Equatable {
     var numDownvotes: Int
     var userOwned: Bool
     var poll: Poll?
-    
-    static func ==(lhs: Post, rhs: Post) -> Bool {
-        return lhs.id == rhs.id && lhs.id == rhs.id
-    }
 }
 

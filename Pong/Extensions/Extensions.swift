@@ -47,10 +47,11 @@ extension UIScreen{
    static let screenSize = UIScreen.main.bounds.size
 }
 
-extension Array where Element: Equatable {
+// remove duplicate function for posts
+extension Array where Element == Post {
     func removingDuplicates() -> Array {
         return reduce(into: []) { result, element in
-            if !result.contains(element) {
+            if !result.contains(where: { $0.id == element.id }) {
                 result.append(element)
             }
         }

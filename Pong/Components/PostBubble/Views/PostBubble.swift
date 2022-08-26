@@ -125,7 +125,10 @@ struct PostBubble: View {
         .font(.system(size: 18).bold())
         .padding(0)
         .padding(.top, 10)
+        
+        // MARK: Binds the values of postVM.post and the binding Post passed down from Feed
         .onChange(of: postBubbleVM.post) { change in
+            print("CHANGED")
             self.post = postBubbleVM.post
         }
         
@@ -180,7 +183,7 @@ struct PostBubble: View {
                         postBubbleVM.postVote(direction: 1, post: post)
                     } label: {
                         Image(systemName: "arrow.up")
-                            .foregroundColor(.yellow)
+                            .foregroundColor(Color(UIColor(named: "PongPrimary")!))
                     }
                     
                     Button {
@@ -226,7 +229,7 @@ struct PostBubble: View {
                         postBubbleVM.postVote(direction: -1, post: post)
                     } label: {
                         Image(systemName: "arrow.down")
-                            .foregroundColor(.yellow)
+                            .foregroundColor(Color(UIColor(named: "PongPrimary")!))
                     }
                 }
             } else {
