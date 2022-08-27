@@ -59,6 +59,7 @@ struct MainTabView: View {
                 }
                 .tag(5)
         }
+        .accentColor(Color(UIColor(named: "PongPrimary")!))
         // MARK: New Post Sheet
         .sheet(isPresented: $mainTabVM.isCustomItemSelected) {
             NewPostView(mainTabVM: mainTabVM)

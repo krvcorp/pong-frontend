@@ -3,7 +3,6 @@ import PopupView
 
 struct ProfileView: View {
     @Environment(\.colorScheme) var colorScheme
-//    @State private var selectedFilter: ProfileFilter = .posts
     @StateObject private var profileVM = ProfileViewModel()
     
     var body: some View {
@@ -118,7 +117,6 @@ struct ProfileView: View {
                         ProfileCommentBubble(comment: $comment)
                             .buttonStyle(PlainButtonStyle())
                             .environmentObject(profileVM)
-
                     }
                 }
             }
