@@ -47,7 +47,7 @@ class ProfileViewModel: ObservableObject {
     @Published var postKarma: Int = 0
     
     @Published var posts: [Post] = []
-    @Published var comments: [Comment] = []
+    @Published var comments: [ProfileComment] = []
     @Published var awards: [Post] = []
     @Published var saved: [Post] = []
     
@@ -87,7 +87,7 @@ class ProfileViewModel: ObservableObject {
     }
     
     func getComments() {
-        NetworkManager.networkManager.request(route: "comments/?sort=profile", method: .get, successType: [Comment].self) { successResponse, errorResponse in
+        NetworkManager.networkManager.request(route: "comments/?sort=profile", method: .get, successType: [ProfileComment].self) { successResponse, errorResponse in
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
                     print("DEBUG: getComments success")

@@ -39,6 +39,16 @@ var defaultComment = Comment(id: "default",
                              numUpvotes: 0,
                              numDownvotes: 0)
 
+var defaultProfileComment = ProfileComment(id: "default",
+                                           re: "default",
+                                           rePostId: "default",
+                                           comment: "default",
+                                           score: 0,
+                                           timeSincePosted: "default",
+                                           voteStatus: 0,
+                                           numUpvotes: 0,
+                                           numDownvotes: 0)
+
 var defaultTotalScore = TotalScore(score: 1, place:"1")
 
 var defaultPoll = Poll(id: "default", userHasVoted: false, votedFor: "default", options: [])
