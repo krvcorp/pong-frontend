@@ -4,7 +4,7 @@ import AlertToast
 
 struct FeedView: View {
     @Environment(\.colorScheme) var colorScheme
-    @EnvironmentObject var scrollToTopHelper : ScrollToTopHelper
+    @EnvironmentObject var setTabHelper : SetTabHelper
     @StateObject var feedVM = FeedViewModel()
     @Binding var newPostDetected : Bool
     
@@ -200,7 +200,7 @@ struct FeedView: View {
                     }
                 }
             }
-            .onChange(of: scrollToTopHelper.trigger, perform: { newValue in
+            .onChange(of: setTabHelper.trigger, perform: { newValue in
                 withAnimation {
                     if tab == .top {
                         proxy.scrollTo(feedVM.topPosts[0].id, anchor: .bottom)

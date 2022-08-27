@@ -20,8 +20,7 @@ class PostViewModel: ObservableObject {
     @Published var removedComment : Bool = false
     @Published var removedCommentType : String = "Removed comment!"
     
-    @Published var readPostPreventDupes = true
-    @Published var getCommentsPreventDupes = true
+    @Published var commentsLoaded = false
     
     func postVote(direction: Int) -> Void {
         var voteToSend = 0
@@ -48,18 +47,13 @@ class PostViewModel: ObservableObject {
     }
     
     func getComments() -> Void {
-        if getCommentsPreventDupes {
-            self.getCommentsPreventDupes = false
-            NetworkManager.networkManager.request(route: "comments/?post_id=\(post.id)", method: .get, successType: [Comment].self) { successResponse, errorResponse in
-                if let successResponse = successResponse {
-                    DispatchQueue.main.async {
-                        self.comments = successResponse
-                    }
+        NetworkManager.networkManager.request(route: "comments/?post_id=\(post.id)", method: .get, successType: [Comment].self) { successResponse, errorResponse in
+            if let successResponse = successResponse {
+                DispatchQueue.main.async {
+                    self.comments = successResponse
+                    self.commentsLoaded = true
                 }
-                self.getCommentsPreventDupes = true
             }
-        } else {
-            print("DEBUG: Duplicate network request detected and killed")
         }
     }
     
@@ -100,16 +94,12 @@ class PostViewModel: ObservableObject {
     
     // MARK: ReadPost
     func readPost() -> Void {
-        if readPostPreventDupes {
-            self.readPostPreventDupes = false
-            NetworkManager.networkManager.request(route: "posts/\(post.id)/", method: .get, successType: Post.self) { successResponse, errorResponse in
-                if let successResponse = successResponse {
-                    DispatchQueue.main.async {
-                        // replace the local post
-                        self.post = successResponse
-                    }
+        NetworkManager.networkManager.request(route: "posts/\(post.id)/", method: .get, successType: Post.self) { successResponse, errorResponse in
+            if let successResponse = successResponse {
+                DispatchQueue.main.async {
+                    // replace the local post
+                    self.post = successResponse
                 }
-                self.readPostPreventDupes = true
             }
         }
     }
