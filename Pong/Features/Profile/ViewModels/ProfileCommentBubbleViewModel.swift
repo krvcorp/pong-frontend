@@ -15,7 +15,7 @@ class ProfileCommentBubbleViewModel: ObservableObject {
         }
     }
     
-    func getParentPost() {
+    func getParentPost(comment: ProfileComment) {
         NetworkManager.networkManager.request(route: "posts/\(comment.rePostId)/", method: .get, successType: Post.self) { successResponse, errorResponse in
             if successResponse != nil {
                 self.parentPost = successResponse!

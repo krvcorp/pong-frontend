@@ -76,7 +76,7 @@ struct ProfileCommentBubble: View {
             )
         }
         .onAppear {
-            profileCommentBubbleVM.getParentPost()
+            profileCommentBubbleVM.getParentPost(comment: comment)
         }
     }
     
