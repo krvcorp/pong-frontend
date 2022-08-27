@@ -161,6 +161,9 @@ struct FeedView: View {
                                 .onAppear {
                                     feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab)
                                 }
+                            Text("Hellodfjshsdfhajkhjsafklkjhafsdkhjdsafkhjadsflkh")
+                                .background(Color(UIColor.secondarySystemBackground))
+                                .frame(maxWidth: .infinity)
                         }
                     }
                     if !feedVM.finishedHot {
@@ -215,6 +218,8 @@ struct FeedView: View {
                 print("DEBUG: Refresh")
                 feedVM.paginatePostsReset(selectedFeedFilter: feedVM.selectedFeedFilter)
             }
+            .listStyle(PlainListStyle())
+            .listRowSeparator(.hidden)
         }
     }
 }
