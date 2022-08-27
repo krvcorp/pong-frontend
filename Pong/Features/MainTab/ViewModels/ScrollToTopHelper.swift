@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ScrollToTopHelper : ObservableObject {
+class SetTabHelper : ObservableObject {
     @Published var trigger : Bool = false
     
     

@@ -19,7 +19,9 @@ struct SwiftUIExampleView: View {
   var body: some View {
     MessagesView(messages: $messages).onAppear {
       self.connectToMessageSocket()
-    }.onDisappear {
+    }
+    .ignoresSafeArea(edges: .bottom)
+    .onDisappear {
       self.cleanupSocket()
     }
     .navigationBarTitle("SwiftUI Example", displayMode: .inline)

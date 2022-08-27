@@ -3,6 +3,8 @@ import AlertToast
 
 struct PostView: View {
     @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var setTabHelper : SetTabHelper
+    
     @Binding var post : Post
     @EnvironmentObject var feedVM : FeedViewModel
     @StateObject var postVM = PostViewModel()
@@ -10,7 +12,6 @@ struct PostView: View {
     @State var sheet = false
     @State private var showScore = false
     @FocusState private var textIsFocused: Bool
-    @State private var hasAppeared : Bool = false
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -31,23 +32,23 @@ struct PostView: View {
         .background(Color(UIColor.systemGroupedBackground))
         .environmentObject(postVM)
         .onAppear {
-            if !hasAppeared {
-                // take binding and insert into VM
-                postVM.post = self.post
-                
-                // api call to refresh local data
-                postVM.readPost()
-                
-                // api call to fetch comments to display
-                postVM.getComments()
-            }
+            // take binding and insert into VM
+            postVM.post = self.post
+            
+            // api call to refresh local data
+            postVM.readPost()
+            
+            // api call to fetch comments to display
+            postVM.getComments()
         }
         .onChange(of: postVM.post) {
             self.post = $0
-            hasAppeared = true
         }
+        .onChange(of: setTabHelper.trigger, perform: { newValue in
+            self.presentationMode.wrappedValue.dismiss()
+        })
         .navigationBarTitleDisplayMode(.inline)
-        // MARK: Delete Confirmation
+        // MARK: Alerts and Toasts
         .alert(isPresented: $postVM.showDeletePostConfirmationView) {
             Alert(
                 title: Text("Delete post"),

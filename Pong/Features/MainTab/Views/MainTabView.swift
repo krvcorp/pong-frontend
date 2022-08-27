@@ -2,7 +2,7 @@ import SwiftUI
 
 struct MainTabView: View {
     @ObservedObject private var mainTabVM = MainTabViewModel(initialIndex: 1, customItemIndex: 3)
-    @StateObject private var scrollToTopHelper = ScrollToTopHelper()
+    @StateObject private var setTabHelper = SetTabHelper()
     
     var handler: Binding<Int> { Binding(
         get: {
@@ -12,12 +12,10 @@ struct MainTabView: View {
             // add logic to trigger scroll to top
             if $0 == self.mainTabVM.itemSelected {
                 if self.mainTabVM.itemSelected == 1 {
-                    self.scrollToTopHelper.trigger.toggle()
+                    self.setTabHelper.trigger.toggle()
                 } else {
                     print("DEBUG: not feed")
                 }
-
-                
             }
             self.mainTabVM.itemSelected = $0
         }
@@ -31,7 +29,7 @@ struct MainTabView: View {
                     Label("Home", systemImage: "house")
                 }
                 .tag(1)
-                .environmentObject(scrollToTopHelper)
+                .environmentObject(setTabHelper)
             
             // MARK: Stats and Leaderboard
             LeaderboardView()
