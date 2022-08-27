@@ -18,6 +18,20 @@ struct NewPostView: View {
             ZStack (alignment: .bottom) {
                 VStack {
                     VStack {
+                        HStack {
+                            Button {
+                                self.presentationMode.wrappedValue.dismiss()
+                            } label: {
+                                Image(systemName: "xmark")
+                                    .foregroundColor(Color(UIColor.label))
+                            }
+                            .padding(.top)
+                            .padding(.horizontal)
+
+                            Spacer()
+                        }
+
+                        
                         TextArea("What's on your mind?", text: $newPostVM.title)
                             .font(.title)
                             .frame(maxHeight: .infinity)

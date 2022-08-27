@@ -131,16 +131,20 @@ struct FeedView: View {
                     }
                     
                     ForEach($feedVM.topPosts, id: \.id) { $post in
-                        Section {
-                            PostBubble(post: $post)
-                                .buttonStyle(PlainButtonStyle())
-                                .onAppear {
-                                    feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab)
-                                }
-                        }
+                        // custom divider
+                        CustomListDivider()
+                        
+                        PostBubble(post: $post)
+                            .buttonStyle(PlainButtonStyle())
+                            .onAppear {
+                                feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab)
+                            }
+                            .listRowSeparator(.hidden)
                     }
                     
                     if !feedVM.finishedTop {
+                        CustomListDivider()
+                        
                         Button {
                             feedVM.paginatePosts(selectedFeedFilter: tab)
                         } label: {
@@ -150,23 +154,26 @@ struct FeedView: View {
                             feedVM.paginatePosts(selectedFeedFilter: tab)
                         }
                     } else {
+                        CustomListDivider()
+                        
                         reachedBottomComponentAndFinished
                     }
                 }
                 else if tab == .hot {
                     ForEach($feedVM.hotPosts, id: \.id) { $post in
-                        Section {
-                            PostBubble(post: $post)
-                                .buttonStyle(PlainButtonStyle())
-                                .onAppear {
-                                    feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab)
-                                }
-                            Text("Hellodfjshsdfhajkhjsafklkjhafsdkhjdsafkhjadsflkh")
-                                .background(Color(UIColor.secondarySystemBackground))
-                                .frame(maxWidth: .infinity)
-                        }
+                        CustomListDivider()
+                        
+                        PostBubble(post: $post)
+                            .buttonStyle(PlainButtonStyle())
+                            .onAppear {
+                                feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab)
+                            }
+                            .listRowSeparator(.hidden)
+                        
                     }
                     if !feedVM.finishedHot {
+                        CustomListDivider()
+                        
                         Button {
                             feedVM.paginatePosts(selectedFeedFilter: tab)
                         } label: {
@@ -176,20 +183,23 @@ struct FeedView: View {
                             feedVM.paginatePosts(selectedFeedFilter: tab)
                         }
                     } else {
+                        CustomListDivider()
                         reachedBottomComponentAndFinished
                     }
                 }
                 else if tab == .recent {
                     ForEach($feedVM.recentPosts, id: \.id) { $post in
-                        Section {
-                            PostBubble(post: $post)
-                                .buttonStyle(PlainButtonStyle())
-                                .onAppear {
-                                    feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab)
-                                }
-                        }
+                        CustomListDivider()
+                        
+                        PostBubble(post: $post)
+                            .buttonStyle(PlainButtonStyle())
+                            .onAppear {
+                                feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab)
+                            }
+                            .listRowSeparator(.hidden)
                     }
                     if !feedVM.finishedRecent {
+                        CustomListDivider()
                         Button {
                             feedVM.paginatePosts(selectedFeedFilter: tab)
                         } label: {
@@ -199,10 +209,12 @@ struct FeedView: View {
                             feedVM.paginatePosts(selectedFeedFilter: tab)
                         }
                     } else {
+                        CustomListDivider()
                         reachedBottomComponentAndFinished
                     }
                 }
             }
+            .environment(\.defaultMinListRowHeight, 0)
             .onChange(of: setTabHelper.trigger, perform: { newValue in
                 withAnimation {
                     if tab == .top {
@@ -219,7 +231,6 @@ struct FeedView: View {
                 feedVM.paginatePostsReset(selectedFeedFilter: feedVM.selectedFeedFilter)
             }
             .listStyle(PlainListStyle())
-            .listRowSeparator(.hidden)
         }
     }
 }
