@@ -105,35 +105,43 @@ struct ProfileView: View {
         List {
             if tab == .posts {
                 ForEach($profileVM.posts, id: \.id) { $post in
-                    Section {
-                        PostBubble(post: $post)
-                            .buttonStyle(PlainButtonStyle())
-                    }
+                    CustomListDivider()
+                    
+                    PostBubble(post: $post)
+                        .buttonStyle(PlainButtonStyle())
+                        .listRowSeparator(.hidden)
                 }
             }
             else if tab == .comments {
                 ForEach($profileVM.comments, id: \.id) { $comment in
-                    Section {
-                        ProfileCommentBubble(comment: $comment)
-                            .buttonStyle(PlainButtonStyle())
-                            .environmentObject(profileVM)
-                    }
+                    CustomListDivider()
+                    
+                    ProfileCommentBubble(comment: $comment)
+                        .buttonStyle(PlainButtonStyle())
+                        .environmentObject(profileVM)
+                        .listRowSeparator(.hidden)
                 }
             }
             else if tab == .awards {
                 ForEach($profileVM.awards, id: \.id) { $award in
+                    CustomListDivider()
                     
                 }
             }
             else if tab == .saved {
                 ForEach($profileVM.saved, id: \.id) { $post in
                     Section {
+                        CustomListDivider()
+                        
                         PostBubble(post: $post)
                             .buttonStyle(PlainButtonStyle())
+                            .listRowSeparator(.hidden)
                     }
                 }
             }
         }
+        .environment(\.defaultMinListRowHeight, 0)
+        .listStyle(PlainListStyle())
         .refreshable{
             print("DEBUG: Refresh")
         }

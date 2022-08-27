@@ -58,6 +58,7 @@ struct MainTabView: View {
                     Label("Profile", systemImage: "person")
                 }
                 .tag(5)
+                .environmentObject(setTabHelper)
         }
         .accentColor(Color(UIColor(named: "PongPrimary")!))
         // MARK: New Post Sheet
