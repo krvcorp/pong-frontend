@@ -39,9 +39,6 @@ struct ProfileView: View {
         }
         .accentColor(Color(UIColor.label))
         .navigationViewStyle(StackNavigationViewStyle())
-        .onAppear() {
-            profileVM.getProfile(dataManager: dataManager)
-        }
     }
     
     var karmaComponent : some View {

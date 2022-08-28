@@ -11,7 +11,6 @@ import SwiftUI
 
 class DataManager : ObservableObject {
     // feed
-//    @Published var user : User = defaultUser
     @Published var topPosts : [Post] = []
     @Published var hotPosts : [Post] = []
     @Published var recentPosts : [Post] = []
@@ -21,10 +20,15 @@ class DataManager : ObservableObject {
     var recentCurrentPage = "posts/?sort=new"
     
     // profile
+    //    @Published var user : User = defaultUser
     @Published var profilePosts : [Post] = []
     @Published var profileComments : [ProfileComment] = []
     @Published var awards : [String] = []
     @Published var profileSavedPosts : [Post] = []
+    
+    var profilePostsCurrentPage = "posts/?sort=profile"
+    var profileCommentsCurrentPage = "comments/?sort=profile"
+    var profileSavedCurrentPage = "posts/?sort=new"
     
     // leaderboard
     @Published var leaderboardList : [TotalScore] = []
@@ -86,7 +90,6 @@ class DataManager : ObservableObject {
                         self.topPosts = successResponse.results
                         if let nextLink = successResponse.next {
                             self.topCurrentPage = nextLink
-                            
                         }
                     } else if selectedFeedFilter == .hot {
                         self.hotPosts = successResponse.results
@@ -115,16 +118,26 @@ class DataManager : ObservableObject {
                     self.profilePosts.append(contentsOf: successResponse.results)
                     let uniqued = self.profilePosts.removingDuplicates()
                     self.profilePosts = uniqued
+                    if let nextLink = successResponse.next {
+                        self.profilePostsCurrentPage = nextLink
+                    }
                 }
             }
         }
     }
     
     func initProfileComments() {
-        NetworkManager.networkManager.request(route: "comments/?sort=profile", method: .get, successType: [ProfileComment].self) { successResponse, errorResponse in
+        NetworkManager.networkManager.request(route: "comments/?sort=profile", method: .get, successType: PaginateCommentsModel.Response.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
+                print("DEBUG: in here")
                 DispatchQueue.main.async {
-                    self.profileComments = successResponse
+                    self.profileComments.append(contentsOf: successResponse.results)
+                    let uniqued = self.profileComments.removingDuplicates()
+                    self.profileComments = uniqued
+                    if let nextLink = successResponse.next {
+                        self.profileCommentsCurrentPage = nextLink
+                    }
+                    print("DEBUG: \(self.profileComments)")
                 }
             }
         }
@@ -140,6 +153,9 @@ class DataManager : ObservableObject {
                 DispatchQueue.main.async {
                     print("DEBUG: getSaved success")
                     self.profileSavedPosts.append(contentsOf: successResponse.results)
+                    if let nextLink = successResponse.next {
+                        self.profileSavedCurrentPage = nextLink
+                    }
                 }
             }
         }
@@ -161,23 +177,44 @@ class DataManager : ObservableObject {
     func removePostLocally(post: Post, message: String) {
         DispatchQueue.main.async {
             withAnimation {
-                if let index = self.topPosts.firstIndex(of: post) {
+                if let index = self.topPosts.firstIndex(where: {$0.id == post.id}) {
                     self.topPosts.remove(at: index)
                 }
-                if let index = self.hotPosts.firstIndex(of: post) {
+                if let index = self.hotPosts.firstIndex(where: {$0.id == post.id}) {
                     self.hotPosts.remove(at: index)
                 }
-                if let index = self.recentPosts.firstIndex(of: post) {
+                if let index = self.recentPosts.firstIndex(where: {$0.id == post.id}) {
                     self.recentPosts.remove(at: index)
                 }
-                if let index = self.profilePosts.firstIndex(of: post) {
+                if let index = self.profilePosts.firstIndex(where: {$0.id == post.id}) {
                     self.profilePosts.remove(at: index)
                 }
-                if let index = self.profileSavedPosts.firstIndex(of: post) {
+                if let index = self.profileSavedPosts.firstIndex(where: {$0.id == post.id}) {
                     self.profileSavedPosts.remove(at: index)
                 }
                 self.removedPostMessage = message
                 self.removedPost = true
+            }
+        }
+    }
+    
+    // MARK: Update post locally
+    func updatePostLocally(post: Post) {
+        DispatchQueue.main.async {
+            if let index = self.topPosts.firstIndex(where: {$0.id == post.id}) {
+                self.topPosts[index] = post
+            }
+            if let index = self.hotPosts.firstIndex(where: {$0.id == post.id}) {
+                self.hotPosts[index] = post
+            }
+            if let index = self.recentPosts.firstIndex(where: {$0.id == post.id}) {
+                self.recentPosts[index] = post
+            }
+            if let index = self.profilePosts.firstIndex(where: {$0.id == post.id}) {
+                self.profilePosts[index] = post
+            }
+            if let index = self.profileSavedPosts.firstIndex(where: {$0.id == post.id}) {
+                self.profileSavedPosts[index] = post
             }
         }
     }

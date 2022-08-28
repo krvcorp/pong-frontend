@@ -17,7 +17,6 @@ struct PostBubble: View {
 
             Color.black.frame(height:CGFloat(1) / UIScreen.main.scale)
             
-//            bottom row
             HStack {
                 
                 ZStack {
@@ -39,14 +38,16 @@ struct PostBubble: View {
                 if post.saved {
                     Button {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        postBubbleVM.unsavePost(post: post)
+                        postBubbleVM.post = post
+                        postBubbleVM.unsavePost(post: post, dataManager: dataManager)
                     } label: {
                         Image(systemName: "bookmark.fill")
                     }
                 } else if !post.saved {
                     Button {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        postBubbleVM.savePost(post: post)
+                        postBubbleVM.post = post
+                        postBubbleVM.savePost(post: post, dataManager: dataManager)
                     } label: {
                         Image(systemName: "bookmark")
                     }
@@ -68,7 +69,7 @@ struct PostBubble: View {
                     Button {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         DispatchQueue.main.async {
-                            postBubbleVM.post = postBubbleVM.post
+                            postBubbleVM.post = post
                             postBubbleVM.showDeleteConfirmationView.toggle()
                         }
                     } label: {
@@ -76,7 +77,6 @@ struct PostBubble: View {
                     }
                 } else {
                     Menu {
-                        
                         Button {
                             UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                             postBubbleVM.blockPost(post: post, dataManager: dataManager)
@@ -103,9 +103,10 @@ struct PostBubble: View {
         .padding(.top, 10)
         
         // MARK: Binds the values of postVM.post and the binding Post passed down from Feed
-        .onChange(of: postBubbleVM.post) { change in
-            print("CHANGED")
-            self.post = postBubbleVM.post
+        .onChange(of: postBubbleVM.updateTrigger) { newValue in
+            DispatchQueue.main.async {
+                self.post = postBubbleVM.post
+            }
         }
         
         // MARK: Delete Confirmation
@@ -131,26 +132,29 @@ struct PostBubble: View {
             }
             .opacity(0.0)
             .buttonStyle(PlainButtonStyle())
-            
-            HStack(alignment: .top) {
-                VStack(alignment: .leading) {
-                    Text("\(post.timeSincePosted)")
-                        .font(.caption)
-                        .padding(.bottom, 4)
-      
-                    Text(post.title)
-                        .multilineTextAlignment(.leading)
-                    
-                    // MARK: Poll
-                    if post.poll != nil {
-                        PollView(post: $post)
+            VStack {
+                HStack(alignment: .top) {
+                    VStack(alignment: .leading) {
+                        Text("\(post.timeSincePosted)")
+                            .font(.caption)
+                            .padding(.bottom, 4)
+          
+                        Text(post.title)
+                            .multilineTextAlignment(.leading)
+                        
+
                     }
+                    .padding(.bottom)
+                    
+                    Spacer()
+                    
+                    VoteComponent
                 }
-                .padding(.bottom)
                 
-                Spacer()
-                
-                VoteComponent
+                // MARK: Poll
+                if post.poll != nil {
+                    PollView(post: $post)
+                }
             }
         }
     }

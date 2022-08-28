@@ -7,8 +7,8 @@ struct PostView: View {
     @EnvironmentObject var dataManager: DataManager
     
     @Binding var post : Post
-    @EnvironmentObject var feedVM : FeedViewModel
     @StateObject var postVM = PostViewModel()
+    
     @State private var text = ""
     @State var sheet = false
     @State private var showScore = false
@@ -33,20 +33,27 @@ struct PostView: View {
         .background(Color(UIColor.systemGroupedBackground))
         .environmentObject(postVM)
         .onAppear {
-            // take binding and insert into VM
-            postVM.post = self.post
-            
-            // api call to refresh local data
-            postVM.readPost()
-            
-            // api call to fetch comments to display
-            postVM.getComments()
+            DispatchQueue.main.async {
+                // take binding and insert into VM
+                postVM.post = self.post
+                
+                // api call to refresh local data
+                postVM.readPost()
+                
+                // api call to fetch comments to display
+                postVM.getComments()
+            }
         }
-        .onChange(of: postVM.post) {
-            self.post = $0
+        .onChange(of: postVM.updateTrigger) { newValue in
+            DispatchQueue.main.async {
+                self.post = postVM.post
+            }
+            dataManager.updatePostLocally(post: postVM.post)
         }
         .onChange(of: setTabHelper.trigger, perform: { newValue in
-            self.presentationMode.wrappedValue.dismiss()
+            DispatchQueue.main.async {
+                self.presentationMode.wrappedValue.dismiss()
+            }
         })
         .navigationBarTitleDisplayMode(.inline)
         // MARK: Alerts and Toasts
@@ -83,7 +90,6 @@ struct PostView: View {
             VStack {
                 HStack(alignment: .top){
                     VStack(alignment: .leading){
-                        
                         Text("\(postVM.post.timeSincePosted)")
                             .font(.caption)
                             .padding(.bottom, 4)
@@ -91,12 +97,6 @@ struct PostView: View {
                                                
                         Text(postVM.post.title)
                             .multilineTextAlignment(.leading)
-                        
-                        // MARK: Poll
-                        if post.poll != nil {
-                            PollView(post: $post)
-                        }
-                        
                     }
                     
                     Spacer()
@@ -104,59 +104,13 @@ struct PostView: View {
                     VoteComponent
                 }
                 .padding(.bottom)
-
-                HStack {
-                    // comments, share, mail, flag
-                    Spacer()
-                    
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        sheet.toggle()
-                    } label: {
-                        Image(systemName: "square.and.arrow.up")
-                    }
-                    .sheet(isPresented: $sheet) {
-                        ShareSheet(items: ["\(postVM.post.title)"])
-                    }
-                    
-                    // DELETE BUTTON
-                    if postVM.post.userOwned {
-                        Button {
-                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                            DispatchQueue.main.async {
-                                postVM.showDeletePostConfirmationView.toggle()
-                            }
-                        } label: {
-                            Image(systemName: "trash")
-                        }
-                    } else {
-                        Menu {
-                            Button {
-                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                                postVM.savePost(post: post)
-                            } label: {
-                                Label("Save", systemImage: "bookmark")
-                            }
-                            
-                            Button {
-                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                                postVM.blockPost(post: post, feedVM: feedVM, dataManager: dataManager)
-                            } label: {
-                                Label("Block user", systemImage: "x.circle")
-                            }
-                            
-                            Button {
-                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                                postVM.reportPost(post: post, feedVM: feedVM, dataManager: dataManager)
-                            } label: {
-                                Label("Report", systemImage: "flag")
-                            }
-                        } label: {
-                            Image(systemName: "ellipsis")
-                                .frame(width: 30, height: 30)
-                        }
-                    }
+                
+                // MARK: Poll
+                if post.poll != nil {
+                    PollView(post: $post)
                 }
+                
+                bottomRow
             }
             .font(.system(size: 18).bold())
             .padding()
@@ -171,6 +125,70 @@ struct PostView: View {
             .background(Color(UIColor.systemGroupedBackground))
         }
         .background(Color(UIColor.systemGroupedBackground))
+    }
+    
+    var bottomRow: some View {
+        HStack {
+            Spacer()
+            
+            if post.saved {
+                Button {
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                    postVM.unsavePost(post: post)
+                } label: {
+                    Image(systemName: "bookmark.fill")
+                }
+            } else if !post.saved {
+                Button {
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                    postVM.savePost(post: post)
+                } label: {
+                    Image(systemName: "bookmark")
+                }
+            }
+            
+            Button {
+                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                sheet.toggle()
+            } label: {
+                Image(systemName: "square.and.arrow.up")
+            }
+            .sheet(isPresented: $sheet) {
+                ShareSheet(items: ["\(postVM.post.title)"])
+            }
+            
+            // DELETE BUTTON
+            if postVM.post.userOwned {
+                Button {
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                    DispatchQueue.main.async {
+                        postVM.showDeletePostConfirmationView.toggle()
+                    }
+                } label: {
+                    Image(systemName: "trash")
+                }
+            } else {
+                Menu {
+                    
+                    Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        postVM.blockPost(post: post, dataManager: dataManager)
+                    } label: {
+                        Label("Block user", systemImage: "x.circle")
+                    }
+                    
+                    Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        postVM.reportPost(post: post, dataManager: dataManager)
+                    } label: {
+                        Label("Report", systemImage: "flag")
+                    }
+                } label: {
+                    Image(systemName: "ellipsis")
+                        .frame(width: 30, height: 30)
+                }
+            }
+        }
     }
     
     var VoteComponent: some View {

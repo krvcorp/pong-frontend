@@ -38,17 +38,16 @@ enum FeedFilter: String, CaseIterable, Identifiable {
     }
 }
 
-enum TopFilter: String, CaseIterable, Identifiable {
-    case allTime, thisYear, thisMonth, thisWeek, today
+enum TopFilter: String, CaseIterable, Identifiable, Equatable {
+    case all, month, week, day
     var id: Self { self }
     
     var title: String {
         switch self {
-        case .allTime: return "TOP POSTS ALL TIME"
-        case .thisYear: return "TOP POSTS THIS YEAR"
-        case .thisMonth: return "TOP POSTS THIS MONTH"
-        case .thisWeek: return "TOP POSTS THIS YEAR"
-        case .today: return "TOP POSTS TODAY"
+        case .all: return "ALL TIME"
+        case .month: return "MONTH"
+        case .week: return "WEEK"
+        case .day: return "DAY"
         }
     }
 }
@@ -57,14 +56,14 @@ class FeedViewModel: ObservableObject {
     @Published var selectedFeedFilter : FeedFilter = .hot
     @Published var school = "Boston University"
     @Published var InitalOpen : Bool = true
-    @Published var selectedTopFilter : TopFilter = .allTime
+    @Published var selectedTopFilter : TopFilter = .all
     
     @Published var finishedTop = false
     @Published var finishedHot = false
     @Published var finishedRecent = false
     
     //MARK: Pagination
-    var topCurrentPage = "posts/?sort=top"
+    var topCurrentPage = "posts/?sort=top&range=all"
     
     var hotCurrentPage = "posts/?sort=hot"
     
@@ -92,26 +91,26 @@ class FeedViewModel: ObservableObject {
     }
     
     func paginatePosts(selectedFeedFilter: FeedFilter, dataManager: DataManager) {
-        var url_to_use = ""
+        var urlToUse = ""
         
         if selectedFeedFilter == .top {
-            url_to_use = topCurrentPage
+            urlToUse = topCurrentPage
             if finishedTop {
                 return
             }
         } else if selectedFeedFilter == .hot {
-            url_to_use = hotCurrentPage
+            urlToUse = hotCurrentPage
             if finishedHot {
                 return
             }
         } else if selectedFeedFilter == .recent {
-            url_to_use = recentCurrentPage
+            urlToUse = recentCurrentPage
             if finishedRecent {
                 return
             }
         }
         
-        NetworkManager.networkManager.request(route: url_to_use, method: .get, successType: PaginatePostsModel.Response.self) { successResponse, errorResponse in
+        NetworkManager.networkManager.request(route: urlToUse, method: .get, successType: PaginatePostsModel.Response.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
                     if selectedFeedFilter == .top {
@@ -156,7 +155,7 @@ class FeedViewModel: ObservableObject {
         var url_to_use = ""
         
         if selectedFeedFilter == .top {
-            url_to_use = "posts/?sort=top"
+            url_to_use = "posts/?sort=top" + checkTopFilter(filter: selectedTopFilter)
             finishedTop = false
         } else if selectedFeedFilter == .hot {
             url_to_use = "posts/?sort=hot"
@@ -197,6 +196,20 @@ class FeedViewModel: ObservableObject {
             if let errorResponse = errorResponse {
                 print("DEBUG: \(errorResponse)")
             }
+        }
+    }
+    
+    func checkTopFilter(filter : TopFilter) -> String {
+        if filter == .all {
+            return "&range=all"
+        } else if filter == .month {
+            return "&range=month"
+        } else if filter == .week {
+            return "&range=week"
+        } else if filter == .day {
+            return "&range=day"
+        } else {
+            return "neverHit"
         }
     }
 }

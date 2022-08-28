@@ -22,6 +22,8 @@ class PostViewModel: ObservableObject {
     
     @Published var commentsLoaded = false
     
+    @Published var updateTrigger = false
+    
     func postVote(direction: Int) -> Void {
         var voteToSend = 0
         
@@ -37,6 +39,7 @@ class PostViewModel: ObservableObject {
             DispatchQueue.main.async {
                 if let successResponse = successResponse {
                     self.post.voteStatus = successResponse.voteStatus
+                    self.updateTrigger.toggle()
                 }
                 
                 if let errorResponse = errorResponse {
@@ -52,6 +55,7 @@ class PostViewModel: ObservableObject {
                 DispatchQueue.main.async {
                     self.comments = successResponse
                     self.commentsLoaded = true
+                    self.updateTrigger.toggle()
                 }
             }
         }
@@ -66,6 +70,7 @@ class PostViewModel: ObservableObject {
                     withAnimation {
                         self.comments.append(successResponse)
                         self.post.numComments = self.post.numComments + 1
+                        self.updateTrigger.toggle()
                     }
                 }
             }
@@ -99,6 +104,7 @@ class PostViewModel: ObservableObject {
                 DispatchQueue.main.async {
                     // replace the local post
                     self.post = successResponse
+                    self.updateTrigger.toggle()
                 }
             }
         }
@@ -112,6 +118,7 @@ class PostViewModel: ObservableObject {
                     self.post = post
                     self.post.saved = true
                     self.savedPostConfirmation = true
+                    self.updateTrigger.toggle()
                 }
             }
         }
@@ -123,6 +130,7 @@ class PostViewModel: ObservableObject {
                 DispatchQueue.main.async {
                     self.post = post
                     self.post.saved = false
+                    self.updateTrigger.toggle()
                 }
             }
         }
@@ -132,6 +140,7 @@ class PostViewModel: ObservableObject {
         NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/", method: .delete) { successResponse, errorResponse in
             if successResponse != nil {
                 dataManager.removePostLocally(post: post, message: "Deleted post!")
+                self.updateTrigger.toggle()
             }
         }
     }
@@ -165,23 +174,26 @@ class PostViewModel: ObservableObject {
                     self.removedComment = true
                     self.removedCommentType = "Deleted comment!"
                     self.post.numComments -= 1
+                    self.updateTrigger.toggle()
                 }
             }
         }
     }
     
-    func blockPost(post: Post, feedVM: FeedViewModel, dataManager: DataManager) {
+    func blockPost(post: Post, dataManager: DataManager) {
         NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/block/", method: .post) { successResponse, errorResponse in
             if successResponse != nil {
                 dataManager.removePostLocally(post: post, message: "Blocked user!")
+                self.updateTrigger.toggle()
             }
         }
     }
     
-    func reportPost(post: Post, feedVM: FeedViewModel, dataManager: DataManager) {
+    func reportPost(post: Post, dataManager: DataManager) {
         NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/report/", method: .post) { successResponse, errorResponse in
             if successResponse != nil {
                 dataManager.removePostLocally(post: post, message: "Reported post!")
+                self.updateTrigger.toggle()
             }
         }
     }

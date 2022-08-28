@@ -5,8 +5,8 @@ import AlertToast
 struct FeedView: View {
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var setTabHelper : SetTabHelper
-    @StateObject var feedVM = FeedViewModel()
     @EnvironmentObject var dataManager : DataManager
+    @StateObject var feedVM = FeedViewModel()
     @Binding var newPostDetected : Bool
     
     var body: some View {
@@ -58,11 +58,6 @@ struct FeedView: View {
         .toast(isPresenting: $dataManager.removedPost){
             AlertToast(displayMode: .hud, type: .regular, title: dataManager.removedPostMessage)
         }
-//        .onAppear() {
-//            feedVM.topCurrentPage = dataManager.topCurrentPage
-//            feedVM.hotCurrentPage = dataManager.hotCurrentPage
-//            feedVM.recentCurrentPage = dataManager.recentCurrentPage
-//        }
     }
     
     // component for toolbar picker
@@ -116,7 +111,9 @@ struct FeedView: View {
     func customFeedStack(filter: FeedFilter, tab : FeedFilter) -> some View {
         ScrollViewReader { proxy in
             List {
+                // MARK: Top
                 if tab == .top {
+                    // top filter
                     Menu {
                         ForEach(TopFilter.allCases, id: \.self) { filter in
                             Button {
@@ -127,12 +124,19 @@ struct FeedView: View {
                             }
                         }
                     } label: {
-                        Spacer()
+                        HStack {
+                            Text("\(feedVM.selectedTopFilter.title)")
+                                .font(.caption.bold())
+                            Image(systemName: "chevron.down")
+                        }
+                        .padding(.top)
                         
-                        Text("\(feedVM.selectedTopFilter.title)")
-                        Image(systemName: "chevron.down")
-                        
                         Spacer()
+                    }
+                    .listRowBackground(Color(UIColor.secondarySystemBackground))
+                    .listRowSeparator(.hidden)
+                    .onChange(of: feedVM.selectedTopFilter) { newValue in
+                        feedVM.paginatePostsReset(selectedFeedFilter: .top, dataManager: dataManager)
                     }
                     
                     ForEach($dataManager.topPosts, id: \.id) { $post in
@@ -164,6 +168,7 @@ struct FeedView: View {
                         reachedBottomComponentAndFinished
                     }
                 }
+                // MARK: HOT
                 else if tab == .hot {
                     ForEach($dataManager.hotPosts, id: \.id) { $post in
                         CustomListDivider()
@@ -192,6 +197,7 @@ struct FeedView: View {
                         reachedBottomComponentAndFinished
                     }
                 }
+                // MARK: RECENT
                 else if tab == .recent {
                     ForEach($dataManager.recentPosts, id: \.id) { $post in
                         CustomListDivider()
