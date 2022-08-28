@@ -3,10 +3,11 @@ import SwiftUI
 struct LeaderboardView: View {
     @Environment(\.presentationMode) var presentationMode
     @StateObject private var leaderboardVM = LeaderboardViewModel()
+    @EnvironmentObject var dataManager : DataManager
     @State private var newPost = false
     
     var body: some View {
-        let lblist = leaderboardVM.leaderboardList
+        let lblist = dataManager.leaderboardList
         NavigationView {
             VStack {
                 VStack {
@@ -45,8 +46,8 @@ struct LeaderboardView: View {
                     .listStyle(InsetGroupedListStyle())
                 }
                 .onAppear {
-                    leaderboardVM.getLeaderboard()
-                    leaderboardVM.getLoggedInUserInfo()
+                    leaderboardVM.getLeaderboard(dataManager: dataManager)
+                    leaderboardVM.getLoggedInUserInfo(dataManager: dataManager)
                 }
             }
             .navigationTitle("Stats")
@@ -57,7 +58,7 @@ struct LeaderboardView: View {
         ZStack {
             HStack {
                 VStack(alignment: .center) {
-                    Text(String(leaderboardVM.totalKarma))
+                    Text(String(dataManager.totalKarma))
                     Text("Total Karma")
                         .font(.system(size: 10.0))
                 }
@@ -65,7 +66,7 @@ struct LeaderboardView: View {
             }
 
             VStack(alignment: .center) {
-                Text(String(leaderboardVM.postKarma))
+                Text(String(dataManager.postKarma))
                 Text("Post Karma")
                     .font(.system(size: 10.0))
             }
@@ -73,7 +74,7 @@ struct LeaderboardView: View {
             HStack {
                 Spacer()
                 VStack(alignment: .center) {
-                    Text(String(leaderboardVM.commentKarma))
+                    Text(String(dataManager.commentKarma))
                     Text("Comment Karma")
                         .font(.system(size: 10.0))
                 }

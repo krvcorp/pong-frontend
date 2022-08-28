@@ -53,15 +53,15 @@ class ProfileViewModel: ObservableObject {
     
     @Published var savedPosts: [Post] = []
 
-    func getProfile() {
-        getPosts()
-        getUser()
-        getSaved()
-        getAwards()
-        getComments()
+    func getProfile(dataManager: DataManager) {
+        getPosts(dataManager: dataManager)
+        getUser(dataManager: dataManager)
+        getSaved(dataManager: dataManager)
+        getAwards(dataManager: dataManager)
+        getComments(dataManager: dataManager)
     }
     
-    func getUser() {
+    func getUser(dataManager : DataManager) {
         NetworkManager.networkManager.request(route: "users/\(AuthManager.authManager.userId)/", method: .get, successType: LoggedInUserInfoResponseBody.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
@@ -74,41 +74,53 @@ class ProfileViewModel: ObservableObject {
         }
     }
     
-    func getPosts () {
+    func getPosts(dataManager : DataManager) {
         NetworkManager.networkManager.request(route: "posts/?sort=profile", method: .get, successType: PaginatePostsModel.Response.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
-                    self.posts.append(contentsOf: successResponse.results)
-                    let uniqued = self.posts.removingDuplicates()
-                    self.posts = uniqued
+                    dataManager.profilePosts.append(contentsOf: successResponse.results)
+                    let uniqued = dataManager.profilePosts.removingDuplicates()
+                    dataManager.profilePosts = uniqued
                 }
             }
         }
     }
     
-    func getComments() {
+    func getComments(dataManager : DataManager) {
         NetworkManager.networkManager.request(route: "comments/?sort=profile", method: .get, successType: [ProfileComment].self) { successResponse, errorResponse in
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
                     print("DEBUG: getComments success")
-                    self.comments = successResponse
+                    dataManager.profileComments = successResponse
                 }
             }
         }
     }
     
-    func getAwards() {
+    func getAwards(dataManager : DataManager) {
         print("DEBUG: Get Awards")
     }
     
-    func getSaved() {
+    func getSaved(dataManager : DataManager) {
         NetworkManager.networkManager.request(route: "posts/?sort=saved", method: .get, successType: PaginatePostsModel.Response.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
                     print("DEBUG: getSaved success")
-                    self.savedPosts.append(contentsOf: successResponse.results)
+                    dataManager.profileSavedPosts.append(contentsOf: successResponse.results)
                 }
             }
+        }
+    }
+    
+    func triggerRefresh(tab: ProfileFilter, dataManager: DataManager) {
+        if tab == .posts {
+            getPosts(dataManager: dataManager)
+        } else if tab == .comments {
+            getPosts(dataManager: dataManager)
+        } else if tab == .awards {
+            getPosts(dataManager: dataManager)
+        } else if tab == .saved {
+            getPosts(dataManager: dataManager)
         }
     }
 }

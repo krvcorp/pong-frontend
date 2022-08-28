@@ -4,6 +4,7 @@ import AlertToast
 struct PostView: View {
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var setTabHelper : SetTabHelper
+    @EnvironmentObject var dataManager: DataManager
     
     @Binding var post : Post
     @EnvironmentObject var feedVM : FeedViewModel
@@ -54,7 +55,7 @@ struct PostView: View {
                 title: Text("Delete post"),
                 message: Text("Are you sure you want to delete \(post.title)"),
                 primaryButton: .destructive(Text("Delete")) {
-                    postVM.deletePost(post: post, feedVM: feedVM)
+                    postVM.deletePost(post: post, dataManager: dataManager)
                 },
                 secondaryButton: .cancel()
             )
@@ -139,14 +140,14 @@ struct PostView: View {
                             
                             Button {
                                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                                postVM.blockPost(post: post, feedVM: feedVM)
+                                postVM.blockPost(post: post, feedVM: feedVM, dataManager: dataManager)
                             } label: {
                                 Label("Block user", systemImage: "x.circle")
                             }
                             
                             Button {
                                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                                postVM.reportPost(post: post, feedVM: feedVM)
+                                postVM.reportPost(post: post, feedVM: feedVM, dataManager: dataManager)
                             } label: {
                                 Label("Report", systemImage: "flag")
                             }

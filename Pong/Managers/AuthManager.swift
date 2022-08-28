@@ -27,7 +27,6 @@ class AuthManager: ObservableObject {
         if DAKeychain.shared["isAdmin"] != nil {
             self.isAdmin = true
         }
-        
     }
     
     // MARK: Signout sets keychain to nil

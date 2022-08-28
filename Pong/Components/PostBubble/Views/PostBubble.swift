@@ -3,7 +3,7 @@ import AlertToast
 
 struct PostBubble: View {
     @Binding var post : Post
-    @EnvironmentObject var feedVM : FeedViewModel
+    @EnvironmentObject var dataManager: DataManager
     @StateObject var postBubbleVM = PostBubbleViewModel()
     
     // MARK: Some local view logic
@@ -36,6 +36,21 @@ struct PostBubble: View {
                     }
                 }
 
+                if post.saved {
+                    Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        postBubbleVM.unsavePost(post: post)
+                    } label: {
+                        Image(systemName: "bookmark.fill")
+                    }
+                } else if !post.saved {
+                    Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        postBubbleVM.savePost(post: post)
+                    } label: {
+                        Image(systemName: "bookmark")
+                    }
+                }
                 
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
@@ -61,32 +76,17 @@ struct PostBubble: View {
                     }
                 } else {
                     Menu {
-                        if post.saved {
-                            Button {
-                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                                postBubbleVM.unsavePost(post: post)
-                            } label: {
-                                Label("Unsave", systemImage: "bookmark.fill")
-                            }
-                        } else if !post.saved {
-                            Button {
-                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                                postBubbleVM.savePost(post: post)
-                            } label: {
-                                Label("Save", systemImage: "bookmark")
-                            }
-                        }
                         
                         Button {
                             UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                            postBubbleVM.blockPost(post: post, feedVM: feedVM)
+                            postBubbleVM.blockPost(post: post, dataManager: dataManager)
                         } label: {
                             Label("Block user", systemImage: "x.circle")
                         }
                         
                         Button {
                             UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                            postBubbleVM.reportPost(post: post, feedVM: feedVM)
+                            postBubbleVM.reportPost(post: post, dataManager: dataManager)
                         } label: {
                             Label("Report", systemImage: "flag")
                         }
@@ -114,7 +114,7 @@ struct PostBubble: View {
                 title: Text("Delete post"),
                 message: Text("Are you sure you want to delete \(post.title)"),
                 primaryButton: .destructive(Text("Delete")) {
-                    postBubbleVM.deletePost(post: post, feedVM: feedVM)
+                    postBubbleVM.deletePost(post: post, dataManager: dataManager)
                 },
                 secondaryButton: .cancel()
             )
@@ -277,25 +277,6 @@ struct PostBubble: View {
         let imageSize: CGSize = CGSize(width: 500, height: 800)
         let highresImage = postBubbleMain.asImage(size: imageSize)
         return highresImage
-    }
-}
-
-extension UIView {
-    func asImage() -> UIImage {
-        let format = UIGraphicsImageRendererFormat()
-        format.scale = 1
-        return UIGraphicsImageRenderer(size: self.layer.frame.size, format: format).image { context in
-            self.drawHierarchy(in: self.layer.bounds, afterScreenUpdates: true)
-        }
-    }
-}
-
-extension View {
-    func asImage(size: CGSize) -> UIImage {
-        let controller = UIHostingController(rootView: self)
-        controller.view.bounds = CGRect(origin: .zero, size: size)
-        let image = controller.view.asImage()
-        return image
     }
 }
 

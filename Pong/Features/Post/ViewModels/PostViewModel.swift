@@ -128,10 +128,10 @@ class PostViewModel: ObservableObject {
         }
     }
     
-    func deletePost(post: Post, feedVM: FeedViewModel) {
+    func deletePost(post: Post, dataManager: DataManager) {
         NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/", method: .delete) { successResponse, errorResponse in
             if successResponse != nil {
-                feedVM.deletePost(post: post)
+                dataManager.removePostLocally(post: post, message: "Deleted post!")
             }
         }
     }
@@ -170,22 +170,18 @@ class PostViewModel: ObservableObject {
         }
     }
     
-    func blockPost(post: Post, feedVM: FeedViewModel) {
+    func blockPost(post: Post, feedVM: FeedViewModel, dataManager: DataManager) {
         NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/block/", method: .post) { successResponse, errorResponse in
             if successResponse != nil {
-                feedVM.blockPost(post: post)
-                self.removedComment = true
-                self.removedCommentType = "Blocked comment!"
+                dataManager.removePostLocally(post: post, message: "Blocked user!")
             }
         }
     }
     
-    func reportPost(post: Post, feedVM: FeedViewModel) {
+    func reportPost(post: Post, feedVM: FeedViewModel, dataManager: DataManager) {
         NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/report/", method: .post) { successResponse, errorResponse in
             if successResponse != nil {
-                feedVM.reportPost(post: post)
-                self.removedComment = true
-                self.removedCommentType = "Reported comment!"
+                dataManager.removePostLocally(post: post, message: "Reported post!")
             }
         }
     }
