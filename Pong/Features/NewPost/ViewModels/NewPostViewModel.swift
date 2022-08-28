@@ -17,7 +17,7 @@ struct NewPostModel: Codable {
 }
 
 class NewPostViewModel: ObservableObject {
-    let characterLimit = 180
+    let characterLimit = 280
     @Published var title : String = "" {
         didSet {
             if title.count > characterLimit && oldValue.count <= characterLimit {
