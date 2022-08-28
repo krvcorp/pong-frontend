@@ -14,9 +14,11 @@ class AuthManager: ObservableObject {
     static let authManager: AuthManager = AuthManager()
     
     @Published var isSignedIn: Bool = false
-    @Published var initialOnboard: Bool = false
+    @Published var onboarded: Bool = false
     @Published var userId: String = ""
     @Published var isAdmin: Bool = false
+    @Published var dateJoined: String = ""
+    @Published var referralCode: String = ""
     
     // MARK: Current State is determined if the userId and the token is stored to the keychain
     func loadCurrentState() {
@@ -27,17 +29,27 @@ class AuthManager: ObservableObject {
         if DAKeychain.shared["isAdmin"] != nil {
             self.isAdmin = true
         }
+        if let dateJoined = DAKeychain.shared["dateJoined"] {
+            self.dateJoined = dateJoined
+        }
+        if DAKeychain.shared["onboarded"] != nil {
+            self.onboarded = true
+        }
+        if let referralCode = DAKeychain.shared["referralCode"] {
+            self.referralCode = referralCode
+        }
     }
     
     // MARK: Signout sets keychain to nil
     func signout() {
         DispatchQueue.main.async {
-            self.initialOnboard = true
             AuthManager.authManager.isSignedIn = false
             GIDSignIn.sharedInstance.disconnect()
             DAKeychain.shared["userId"] = nil
             DAKeychain.shared["token"] = nil
             DAKeychain.shared["isAdmin"] = nil
+            DAKeychain.shared["dateJoined"] = nil
+            DAKeychain.shared["referralCode"] = nil
         }
     }
     
@@ -72,7 +84,6 @@ class AuthManager: ObservableObject {
     
     // MARK: POST to verifyEmail and authenticate session
     private func verifyEmail(idToken: String) {
-        
         let parameters = VerifyEmailModel.Request(idToken: idToken)
         
         NetworkManager.networkManager.request(route: "login/", method: .post, body: parameters, successType: VerifyEmailModel.Response.self) { successResponse, errorResponse in
@@ -88,7 +99,15 @@ class AuthManager: ObservableObject {
                     if let isAdmin = successResponse.isAdmin {
                         DAKeychain.shared["isAdmin"] = String(isAdmin)
                     }
-                    self.initialOnboard = true
+                    if let dateJoined = successResponse.dateJoined {
+                        DAKeychain.shared["dateJoined"] = String(dateJoined)
+                    }
+                    if let onboarded = successResponse.onboarded {
+                        DAKeychain.shared["onboarded"] = String(onboarded)
+                    }
+                    if let referralCode = successResponse.referralCode {
+                        DAKeychain.shared["referralCode"] = String(referralCode)
+                    }
                     self.loadCurrentState()
                 }
                 if let errorResponse = errorResponse {

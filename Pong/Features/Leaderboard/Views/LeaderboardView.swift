@@ -6,6 +6,10 @@ struct LeaderboardView: View {
     @EnvironmentObject var dataManager : DataManager
     @State private var newPost = false
     
+    @State var timeRemaining = 10
+    @State var timer = Timer.publish(every: 1, on: .current, in: .common).autoconnect()
+
+    
     var body: some View {
         let lblist = dataManager.leaderboardList
         NavigationView {
@@ -51,8 +55,29 @@ struct LeaderboardView: View {
                 }
             }
             .navigationTitle("Stats")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                Text("\(timeRemaining)")
+                    .onReceive(timer) { _ in
+                        if timeRemaining > 0 {
+                            timeRemaining -= 1
+                        }
+                        else {
+                            leaderboardVM.getLeaderboard()
+                            leaderboardVM.getLoggedInUserInfo()
+                            timeRemaining = 10
+                        }
+                    }
+            }
+        }
+        .onAppear{
+            self.timer = Timer.publish (every: 1, on: .current, in: .common).autoconnect()
+        }
+        .onDisappear{
+            self.timer.upstream.connect().cancel()
         }
     }
+        
     
     var karmaInfo: some View {
         ZStack {

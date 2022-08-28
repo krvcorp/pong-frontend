@@ -61,8 +61,8 @@ class ProfileViewModel: ObservableObject {
         getComments(dataManager: dataManager)
     }
     
-    func getUser(dataManager : DataManager) {
-        NetworkManager.networkManager.request(route: "users/\(AuthManager.authManager.userId)/", method: .get, successType: LoggedInUserInfoResponseBody.self) { successResponse, errorResponse in
+    func getUser() {
+        NetworkManager.networkManager.request(route: "users/\(AuthManager.authManager.userId)/", method: .get, successType: User.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
                     print("DEBUG: getUser success")

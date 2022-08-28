@@ -1,10 +1,3 @@
-//
-//  EmailVerificationView.swift
-//  Pong
-//
-//  Created by Khoi Nguyen on 7/8/22.
-//
-
 import SwiftUI
 
 struct EmailVerificationView: View {
@@ -64,8 +57,6 @@ struct EmailVerificationView: View {
         .statusBar(hidden: true)
     }
 }
-
-
 
 struct EmailVerificationView_Previews: PreviewProvider {
     static var previews: some View {
