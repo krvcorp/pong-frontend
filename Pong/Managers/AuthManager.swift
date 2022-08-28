@@ -18,6 +18,7 @@ class AuthManager: ObservableObject {
     @Published var userId: String = ""
     @Published var isAdmin: Bool = false
     @Published var dateJoined: String = ""
+    @Published var referralCode: String = ""
     
     // MARK: Current State is determined if the userId and the token is stored to the keychain
     func loadCurrentState() {
@@ -31,6 +32,12 @@ class AuthManager: ObservableObject {
         if let dateJoined = DAKeychain.shared["dateJoined"] {
             self.dateJoined = dateJoined
         }
+        if DAKeychain.shared["onboarded"] != nil {
+            self.onboarded = true
+        }
+        if let referralCode = DAKeychain.shared["referralCode"] {
+            self.referralCode = referralCode
+        }
         
     }
     
@@ -43,6 +50,7 @@ class AuthManager: ObservableObject {
             DAKeychain.shared["token"] = nil
             DAKeychain.shared["isAdmin"] = nil
             DAKeychain.shared["dateJoined"] = nil
+            DAKeychain.shared["referralCode"] = nil
         }
     }
     
@@ -96,7 +104,10 @@ class AuthManager: ObservableObject {
                         DAKeychain.shared["dateJoined"] = String(dateJoined)
                     }
                     if let onboarded = successResponse.onboarded {
-                        self.onboarded = onboarded
+                        DAKeychain.shared["onboarded"] = String(onboarded)
+                    }
+                    if let referralCode = successResponse.referralCode {
+                        DAKeychain.shared["referralCode"] = String(referralCode)
                     }
                     self.loadCurrentState()
                 }

@@ -37,7 +37,7 @@ class LeaderboardViewModel: ObservableObject {
     }
     
     func getLoggedInUserInfo() {
-        NetworkManager.networkManager.request(route: "users/\(AuthManager.authManager.userId)/", method: .get, successType: LoggedInUserInfoResponseBody.self) { successResponse, errorResponse in
+        NetworkManager.networkManager.request(route: "users/\(AuthManager.authManager.userId)/", method: .get, successType: User.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
                     self.totalKarma = successResponse.totalScore
