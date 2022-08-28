@@ -63,8 +63,8 @@ struct LeaderboardView: View {
                             timeRemaining -= 1
                         }
                         else {
-                            leaderboardVM.getLeaderboard()
-                            leaderboardVM.getLoggedInUserInfo()
+                            leaderboardVM.getLeaderboard(dataManager: dataManager)
+                            leaderboardVM.getLoggedInUserInfo(dataManager: dataManager)
                             timeRemaining = 10
                         }
                     }
