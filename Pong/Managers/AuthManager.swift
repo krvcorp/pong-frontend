@@ -14,7 +14,7 @@ class AuthManager: ObservableObject {
     static let authManager: AuthManager = AuthManager()
     
     @Published var isSignedIn: Bool = false
-    @Published var initialOnboard: Bool = false
+    @Published var onboarded: Bool = false
     @Published var userId: String = ""
     @Published var isAdmin: Bool = false
     @Published var dateJoined: String = ""
@@ -37,7 +37,6 @@ class AuthManager: ObservableObject {
     // MARK: Signout sets keychain to nil
     func signout() {
         DispatchQueue.main.async {
-            self.initialOnboard = true
             AuthManager.authManager.isSignedIn = false
             GIDSignIn.sharedInstance.disconnect()
             DAKeychain.shared["userId"] = nil
@@ -96,7 +95,9 @@ class AuthManager: ObservableObject {
                     if let dateJoined = successResponse.dateJoined {
                         DAKeychain.shared["dateJoined"] = String(dateJoined)
                     }
-                    self.initialOnboard = true
+                    if let onboarded = successResponse.onboarded {
+                        self.onboarded = onboarded
+                    }
                     self.loadCurrentState()
                 }
                 if let errorResponse = errorResponse {

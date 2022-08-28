@@ -9,8 +9,8 @@ struct ContentView: View {
     
     var body: some View {
         if (!AuthManager.authManager.isSignedIn) {
-            OnboardView()
-        } else if (AuthManager.authManager.isSignedIn) && (AuthManager.authManager.initialOnboard){
+            EmailVerificationView()
+        } else if (AuthManager.authManager.isSignedIn) && (!AuthManager.authManager.onboarded){
             WelcomeView()
         } else {
             MainInterfaceView

@@ -23,7 +23,7 @@ struct WelcomeView: View {
             
             Button(action: {
                 print("DEBUG: Agree")
-                AuthManager.authManager.initialOnboard = false
+                AuthManager.authManager.onboarded = true
             }) {
                 Text("Agree")
                     .frame(minWidth: 0, maxWidth: 150)
