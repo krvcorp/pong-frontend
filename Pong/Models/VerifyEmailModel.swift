@@ -16,5 +16,6 @@ struct VerifyEmailModel {
         let token : String?
         let userId : String?
         let isAdmin: Bool?
+        let dateJoined: String?
     }
 }

@@ -18,6 +18,19 @@ class SettingsViewModel: ObservableObject {
             }
         }
     }
+    
+    func changeNotifications(setTo: Bool) {
+        if (setTo) {
+            NetworkManager.networkManager.emptyRequest(route: "notifications/enable/", method: .post) { successResponse, errorResponse in
+                debugPrint(successResponse)
+            }
+        }
+        else {
+            NetworkManager.networkManager.emptyRequest(route: "notifications/disable", method: .post) { successResponse, errorResponse in
+                debugPrint(successResponse)
+            }
+        }
+    }
 }
 
 

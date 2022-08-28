@@ -17,6 +17,7 @@ class AuthManager: ObservableObject {
     @Published var initialOnboard: Bool = false
     @Published var userId: String = ""
     @Published var isAdmin: Bool = false
+    @Published var dateJoined: String = ""
     
     // MARK: Current State is determined if the userId and the token is stored to the keychain
     func loadCurrentState() {
@@ -26,6 +27,9 @@ class AuthManager: ObservableObject {
         }
         if DAKeychain.shared["isAdmin"] != nil {
             self.isAdmin = true
+        }
+        if let dateJoined = DAKeychain.shared["dateJoined"] {
+            self.dateJoined = dateJoined
         }
         
     }
@@ -39,6 +43,7 @@ class AuthManager: ObservableObject {
             DAKeychain.shared["userId"] = nil
             DAKeychain.shared["token"] = nil
             DAKeychain.shared["isAdmin"] = nil
+            DAKeychain.shared["dateJoined"] = nil
         }
     }
     
@@ -73,7 +78,6 @@ class AuthManager: ObservableObject {
     
     // MARK: POST to verifyEmail and authenticate session
     private func verifyEmail(idToken: String) {
-        
         let parameters = VerifyEmailModel.Request(idToken: idToken)
         
         NetworkManager.networkManager.request(route: "login/", method: .post, body: parameters, successType: VerifyEmailModel.Response.self) { successResponse, errorResponse in
@@ -88,6 +92,9 @@ class AuthManager: ObservableObject {
                     }
                     if let isAdmin = successResponse.isAdmin {
                         DAKeychain.shared["isAdmin"] = String(isAdmin)
+                    }
+                    if let dateJoined = successResponse.dateJoined {
+                        DAKeychain.shared["dateJoined"] = String(dateJoined)
                     }
                     self.initialOnboard = true
                     self.loadCurrentState()
