@@ -63,10 +63,21 @@ struct PollView: View {
             }
             
             HStack {
+                if !post.poll!.userHasVoted {
+                    Button {
+                        print("DEBUG: Skip voting")
+                    } label: {
+                        Text("Skip voting")
+                            .font(.caption.bold())
+                    }
+                }
+
                 Spacer()
+                
                 Text("\(pollVM.sumVotes(poll: post.poll!)) votes")
                     .font(.caption)
             }
+            .padding(.top)
         }
     }
 }

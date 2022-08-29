@@ -54,23 +54,28 @@ class NewPostViewModel: ObservableObject {
         }
         // MARK: else use network manager
         else {
-            print("DEBUG: NewPost with NetworkManager")
-
             let parameters = NewPostModel.Request(title: self.title, pollOptions: newPollVM.pollOptions)
-
-            NetworkManager.networkManager.request(route: "posts/", method: .post, body: parameters, successType: Post.self) { successResponse, errorResponse in
-                // MARK: Success
-                if successResponse != nil {
-                    DispatchQueue.main.async {
-                        mainTabVM.isCustomItemSelected = false
-                        mainTabVM.itemSelected = 1
-                        mainTabVM.newPostDetected.toggle()
+            
+            // validate newPoll doesn't have invalid entries
+            if newPollVM.validate() {
+                NetworkManager.networkManager.request(route: "posts/", method: .post, body: parameters, successType: Post.self) { successResponse, errorResponse in
+                    // MARK: Success
+                    print("DEBUG: NewPost success!")
+                    if successResponse != nil {
+                        DispatchQueue.main.async {
+                            mainTabVM.isCustomItemSelected = false
+                            mainTabVM.itemSelected = 1
+                            mainTabVM.newPostDetected.toggle()
+                        }
+                    }
+                    if let errorResponse = errorResponse {
+                        self.errorMessage = errorResponse.error
+                        self.error = true
                     }
                 }
-                if let errorResponse = errorResponse {
-                    self.errorMessage = errorResponse.error
-                    self.error = true
-                }
+            } else {
+                self.errorMessage = "Invalid empty entries!"
+                self.error = true
             }
         }
     }

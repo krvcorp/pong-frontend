@@ -91,7 +91,9 @@ struct NewPostView: View {
                                     showNewPoll.toggle()
                                     newPostVM.image = nil
                                     newPostVM.newPollVM.reset()
-                                    newPostVM.newPollVM.instantiate()
+                                    if showNewPoll {
+                                        newPostVM.newPollVM.instantiate()
+                                    }
                                 } label: {
                                     Image(systemName: "chart.bar")
                                         .resizable()

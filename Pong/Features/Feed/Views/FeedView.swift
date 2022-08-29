@@ -114,23 +114,24 @@ struct FeedView: View {
                 // MARK: Top
                 if tab == .top {
                     // top filter
-                    Menu {
-                        ForEach(TopFilter.allCases, id: \.self) { filter in
-                            Button {
-                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                                feedVM.selectedTopFilter = filter
-                            } label: {
-                                Text(filter.title)
+                    HStack {
+                        Menu {
+                            ForEach(TopFilter.allCases, id: \.self) { filter in
+                                Button {
+                                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                                    feedVM.selectedTopFilter = filter
+                                } label: {
+                                    Text(filter.title)
+                                }
                             }
+                        } label: {
+                            HStack {
+                                Text("\(feedVM.selectedTopFilter.title)")
+                                    .font(.caption.bold())
+                                Image(systemName: "chevron.down")
+                            }
+                            .padding(.top)
                         }
-                    } label: {
-                        HStack {
-                            Text("\(feedVM.selectedTopFilter.title)")
-                                .font(.caption.bold())
-                            Image(systemName: "chevron.down")
-                        }
-                        .padding(.top)
-                        
                         Spacer()
                     }
                     .listRowBackground(Color(UIColor.secondarySystemBackground))
