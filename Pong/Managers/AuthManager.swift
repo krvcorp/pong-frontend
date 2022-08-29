@@ -23,9 +23,6 @@ class AuthManager: ObservableObject {
         if DAKeychain.shared["onboarded"] != nil {
             self.onboarded = true
         }
-        if let referralCode = DAKeychain.shared["referralCode"] {
-            self.referralCode = referralCode
-        }
     }
     
     // MARK: signout: set keychain nil
