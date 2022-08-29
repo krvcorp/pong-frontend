@@ -6,7 +6,7 @@ class NetworkManager: ObservableObject {
     static let networkManager = NetworkManager()
     
     // MARK: BaseURL
-    var baseURL = "http://localhost:8005/api/"
+    var baseURL = "https://cd0c-65-112-8-20.ngrok.io/api/"
     
     struct EmptyBody: Encodable {}
     struct EmptyResponse: Codable {
@@ -109,7 +109,7 @@ class NetworkManager: ObservableObject {
                     if let httpStatusCode = response.response?.statusCode {
                         if httpStatusCode == 401 {
                             print("NETWORK: 401 Error")
-                        } else if httpStatusCode == 204 {
+                        } else if httpStatusCode == 204 || httpStatusCode == 200 {
                             print("NETWORK: 204 Empty")
                             completionHandler(EmptyResponse(success: "204"), nil)
                         }
@@ -122,8 +122,10 @@ class NetworkManager: ObservableObject {
                 .responseData() { (response) in
                     switch response.result {
                     case .success:
+                        print("NETWORK: \(response.result)")
                         break
                     case .failure(_):
+                        print("NETWORK: \(response.result)")
                         break
                     }
                 }
@@ -133,9 +135,12 @@ class NetworkManager: ObservableObject {
                     if let httpStatusCode = response.response?.statusCode {
                         if httpStatusCode == 401 {
                             print("NETWORK: 401 Error")
-                        } else if httpStatusCode == 204 {
+                        } else if httpStatusCode == 204 || httpStatusCode == 200 {
                             print("NETWORK: 204 Empty")
+                            print("NETWORK: \(response)")
                             completionHandler(EmptyResponse(success: "204"), nil)
+                        } else {
+                            print("NETWORK: OTHER NETWORK \(httpStatusCode)")
                         }
                     }
                 }
@@ -146,8 +151,10 @@ class NetworkManager: ObservableObject {
                 .responseData() { (response) in
                     switch response.result {
                     case .success:
+                        print("NETWORK: \(response.result)")
                         break
                     case .failure(_):
+                        print("NETWORK: \(response.result)")
                         break
                     }
                 }

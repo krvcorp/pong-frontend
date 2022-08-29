@@ -34,7 +34,7 @@ struct PostBubble: View {
                         Spacer()
                     }
                 }
-
+                
                 if post.saved {
                     Button {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
