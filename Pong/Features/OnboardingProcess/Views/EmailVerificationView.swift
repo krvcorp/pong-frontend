@@ -55,6 +55,7 @@ struct EmailVerificationView: View {
                 .init(color: .richIndigoRedTint.indigoRedArray[10], location: 1)
             ], startPoint: .topLeading, endPoint: .bottomTrailing)
         )
+        .statusBar(hidden: true)
     }
 }
 

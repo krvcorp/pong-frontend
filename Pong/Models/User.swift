@@ -8,4 +8,3 @@ struct User: Identifiable, Codable {
     var totalScore: Int
     var isSuperuser: Bool
 }
-

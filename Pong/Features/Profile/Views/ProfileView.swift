@@ -3,6 +3,7 @@ import PopupView
 
 struct ProfileView: View {
     @Environment(\.colorScheme) var colorScheme
+    @EnvironmentObject var dataManager : DataManager
     @StateObject private var profileVM = ProfileViewModel()
     
     var body: some View {
@@ -17,6 +18,7 @@ struct ProfileView: View {
                         customProfileStack(filter: profileVM.selectedProfileFilter, tab: tab)
                             .tag(tab)
                     }
+                    .background(Color(UIColor.secondarySystemBackground))
                 }
                 .background(Color(UIColor.systemGroupedBackground))
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
@@ -37,30 +39,27 @@ struct ProfileView: View {
         }
         .accentColor(Color(UIColor.label))
         .navigationViewStyle(StackNavigationViewStyle())
-        .onAppear() {
-            profileVM.getProfile()
-        }
     }
     
     var karmaComponent : some View {
         HStack {
             VStack {
                 Text("Total")
-                Text("\(profileVM.totalKarma)")
+                Text("\(dataManager.totalKarma)")
                     .bold()
             }
             .padding()
             
             VStack {
                 Text("Post")
-                Text("\(profileVM.postKarma)")
+                Text("\(dataManager.postKarma)")
                     .bold()
             }
             .padding()
             
             VStack {
                 Text("Comment")
-                Text("\(profileVM.commentKarma)")
+                Text("\(dataManager.commentKarma)")
                     .bold()
             }
             .padding()
@@ -104,7 +103,7 @@ struct ProfileView: View {
     func customProfileStack(filter: ProfileFilter, tab : ProfileFilter) -> some View {
         List {
             if tab == .posts {
-                ForEach($profileVM.posts, id: \.id) { $post in
+                ForEach($dataManager.profilePosts, id: \.id) { $post in
                     CustomListDivider()
                     
                     PostBubble(post: $post)
@@ -113,7 +112,7 @@ struct ProfileView: View {
                 }
             }
             else if tab == .comments {
-                ForEach($profileVM.comments, id: \.id) { $comment in
+                ForEach($dataManager.profileComments, id: \.id) { $comment in
                     CustomListDivider()
                     
                     ProfileCommentBubble(comment: $comment)
@@ -123,13 +122,13 @@ struct ProfileView: View {
                 }
             }
             else if tab == .awards {
-                ForEach($profileVM.awards, id: \.id) { $award in
+                ForEach($dataManager.awards, id: \.self) { $award in
                     CustomListDivider()
                     
                 }
             }
             else if tab == .saved {
-                ForEach($profileVM.saved, id: \.id) { $post in
+                ForEach($dataManager.profileSavedPosts, id: \.id) { $post in
                     Section {
                         CustomListDivider()
                         
@@ -144,6 +143,7 @@ struct ProfileView: View {
         .listStyle(PlainListStyle())
         .refreshable{
             print("DEBUG: Refresh")
+            profileVM.triggerRefresh(tab: tab, dataManager: dataManager)
         }
     }
 }

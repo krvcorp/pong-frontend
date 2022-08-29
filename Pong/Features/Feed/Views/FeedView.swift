@@ -5,6 +5,7 @@ import AlertToast
 struct FeedView: View {
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var setTabHelper : SetTabHelper
+    @EnvironmentObject var dataManager : DataManager
     @StateObject var feedVM = FeedViewModel()
     @Binding var newPostDetected : Bool
     
@@ -15,8 +16,8 @@ struct FeedView: View {
                     customFeedStack(filter: feedVM.selectedFeedFilter, tab: tab)
                         .tag(tab)
                 }
+                .background(Color(UIColor.secondarySystemBackground))
             }
-            .background(Color(UIColor.systemGroupedBackground))
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             
             // Hide navbar
@@ -49,13 +50,13 @@ struct FeedView: View {
             DispatchQueue.main.async {
                 print("DEBUG: NEW POST DETECTED")
                 feedVM.selectedFeedFilter = .recent
-                feedVM.paginatePostsReset(selectedFeedFilter: .recent)
+                feedVM.paginatePostsReset(selectedFeedFilter: .recent, dataManager: dataManager)
             }
         })
         .navigationViewStyle(StackNavigationViewStyle())
         .accentColor(Color(UIColor.label))
-        .toast(isPresenting: $feedVM.removedPost){
-            AlertToast(displayMode: .hud, type: .regular, title: feedVM.removedPostType)
+        .toast(isPresenting: $dataManager.removedPost){
+            AlertToast(displayMode: .hud, type: .regular, title: dataManager.removedPostMessage)
         }
     }
     
@@ -110,34 +111,43 @@ struct FeedView: View {
     func customFeedStack(filter: FeedFilter, tab : FeedFilter) -> some View {
         ScrollViewReader { proxy in
             List {
+                // MARK: Top
                 if tab == .top {
-                    Menu {
-                        ForEach(TopFilter.allCases, id: \.self) { filter in
-                            Button {
-                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                                print("DEBUG: ")
-                                feedVM.selectedTopFilter = filter
-                            } label: {
-                                Text(filter.title)
+                    // top filter
+                    HStack {
+                        Menu {
+                            ForEach(TopFilter.allCases, id: \.self) { filter in
+                                Button {
+                                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                                    feedVM.selectedTopFilter = filter
+                                } label: {
+                                    Text(filter.title)
+                                }
                             }
+                        } label: {
+                            HStack {
+                                Text("\(feedVM.selectedTopFilter.title)")
+                                    .font(.caption.bold())
+                                Image(systemName: "chevron.down")
+                            }
+                            .padding(.top)
                         }
-                    } label: {
-                        Spacer()
-                        
-                        Text("\(feedVM.selectedTopFilter.title)")
-                        Image(systemName: "chevron.down")
-                        
                         Spacer()
                     }
+                    .listRowBackground(Color(UIColor.secondarySystemBackground))
+                    .listRowSeparator(.hidden)
+                    .onChange(of: feedVM.selectedTopFilter) { newValue in
+                        feedVM.paginatePostsReset(selectedFeedFilter: .top, dataManager: dataManager)
+                    }
                     
-                    ForEach($feedVM.topPosts, id: \.id) { $post in
+                    ForEach($dataManager.topPosts, id: \.id) { $post in
                         // custom divider
                         CustomListDivider()
                         
                         PostBubble(post: $post)
                             .buttonStyle(PlainButtonStyle())
                             .onAppear {
-                                feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab)
+                                feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab, dataManager: dataManager)
                             }
                             .listRowSeparator(.hidden)
                     }
@@ -146,12 +156,12 @@ struct FeedView: View {
                         CustomListDivider()
                         
                         Button {
-                            feedVM.paginatePosts(selectedFeedFilter: tab)
+                            feedVM.paginatePosts(selectedFeedFilter: tab, dataManager: dataManager)
                         } label: {
                             reachedBottomComponent
                         }
                         .onAppear() {
-                            feedVM.paginatePosts(selectedFeedFilter: tab)
+                            feedVM.paginatePosts(selectedFeedFilter: tab, dataManager: dataManager)
                         }
                     } else {
                         CustomListDivider()
@@ -159,14 +169,15 @@ struct FeedView: View {
                         reachedBottomComponentAndFinished
                     }
                 }
+                // MARK: HOT
                 else if tab == .hot {
-                    ForEach($feedVM.hotPosts, id: \.id) { $post in
+                    ForEach($dataManager.hotPosts, id: \.id) { $post in
                         CustomListDivider()
                         
                         PostBubble(post: $post)
                             .buttonStyle(PlainButtonStyle())
                             .onAppear {
-                                feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab)
+                                feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab, dataManager: dataManager)
                             }
                             .listRowSeparator(.hidden)
                         
@@ -175,38 +186,39 @@ struct FeedView: View {
                         CustomListDivider()
                         
                         Button {
-                            feedVM.paginatePosts(selectedFeedFilter: tab)
+                            feedVM.paginatePosts(selectedFeedFilter: tab, dataManager: dataManager)
                         } label: {
                             reachedBottomComponent
                         }
                         .onAppear() {
-                            feedVM.paginatePosts(selectedFeedFilter: tab)
+                            feedVM.paginatePosts(selectedFeedFilter: tab, dataManager: dataManager)
                         }
                     } else {
                         CustomListDivider()
                         reachedBottomComponentAndFinished
                     }
                 }
+                // MARK: RECENT
                 else if tab == .recent {
-                    ForEach($feedVM.recentPosts, id: \.id) { $post in
+                    ForEach($dataManager.recentPosts, id: \.id) { $post in
                         CustomListDivider()
                         
                         PostBubble(post: $post)
                             .buttonStyle(PlainButtonStyle())
                             .onAppear {
-                                feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab)
+                                feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab, dataManager: dataManager)
                             }
                             .listRowSeparator(.hidden)
                     }
                     if !feedVM.finishedRecent {
                         CustomListDivider()
                         Button {
-                            feedVM.paginatePosts(selectedFeedFilter: tab)
+                            feedVM.paginatePosts(selectedFeedFilter: tab, dataManager: dataManager)
                         } label: {
                             reachedBottomComponent
                         }
                         .onAppear() {
-                            feedVM.paginatePosts(selectedFeedFilter: tab)
+                            feedVM.paginatePosts(selectedFeedFilter: tab, dataManager: dataManager)
                         }
                     } else {
                         CustomListDivider()
@@ -218,17 +230,17 @@ struct FeedView: View {
             .onChange(of: setTabHelper.trigger, perform: { newValue in
                 withAnimation {
                     if tab == .top {
-                        proxy.scrollTo(feedVM.topPosts[0].id, anchor: .bottom)
+                        proxy.scrollTo(dataManager.topPosts[0].id, anchor: .bottom)
                     } else if tab == .hot {
-                        proxy.scrollTo(feedVM.hotPosts[0].id, anchor: .bottom)
+                        proxy.scrollTo(dataManager.hotPosts[0].id, anchor: .bottom)
                     } else if tab == .recent {
-                        proxy.scrollTo(feedVM.recentPosts[0].id, anchor: .bottom)
+                        proxy.scrollTo(dataManager.recentPosts[0].id, anchor: .bottom)
                     }
                 }
             })
             .refreshable{
                 print("DEBUG: Refresh")
-                feedVM.paginatePostsReset(selectedFeedFilter: feedVM.selectedFeedFilter)
+                feedVM.paginatePostsReset(selectedFeedFilter: feedVM.selectedFeedFilter, dataManager: dataManager)
             }
             .listStyle(PlainListStyle())
         }

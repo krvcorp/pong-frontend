@@ -27,4 +27,12 @@ class NewPollViewModel: ObservableObject {
             pollOptions[index] = String(pollOptions[index].prefix(characterLimit))
         }
     }
+    
+    func validate() -> Bool {
+        if pollOptions.contains(where: {$0 == ""}) {
+            return false
+        } else {
+            return true
+        }
+    }
 }

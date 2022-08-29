@@ -53,19 +53,18 @@ class ProfileViewModel: ObservableObject {
     
     @Published var savedPosts: [Post] = []
 
-    func getProfile() {
-        getPosts()
-        getUser()
-        getSaved()
-        getAwards()
-        getComments()
+    func getProfile(dataManager: DataManager) {
+        paginatePosts(dataManager: dataManager)
+        getUser(dataManager: dataManager)
+        paginateSaved(dataManager: dataManager)
+        getAwards(dataManager: dataManager)
+        paginateComments(dataManager: dataManager)
     }
     
-    func getUser() {
+    func getUser(dataManager: DataManager) {
         NetworkManager.networkManager.request(route: "users/\(AuthManager.authManager.userId)/", method: .get, successType: User.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
-                    print("DEBUG: getUser success")
                     self.totalKarma = successResponse.totalScore
                     self.commentKarma = successResponse.commentScore
                     self.postKarma = successResponse.postScore
@@ -74,41 +73,89 @@ class ProfileViewModel: ObservableObject {
         }
     }
     
-    func getPosts () {
-        NetworkManager.networkManager.request(route: "posts/?sort=profile", method: .get, successType: PaginatePostsModel.Response.self) { successResponse, errorResponse in
+    func paginatePostsIfNeeded(post: Post, selectedProfileFilter: ProfileFilter, dataManager: DataManager) {
+        let offsetBy = -15
+
+        if selectedProfileFilter == .posts {
+            let thresholdIndex = dataManager.profilePosts.index(dataManager.profilePosts.endIndex, offsetBy: offsetBy)
+            if dataManager.profilePosts.firstIndex(where: { $0.id == post.id }) == thresholdIndex {
+                paginatePosts(dataManager: dataManager)
+            }
+        } else if selectedProfileFilter == .saved {
+            let thresholdIndex = dataManager.profileSavedPosts.index(dataManager.profileSavedPosts.endIndex, offsetBy: offsetBy)
+            if dataManager.profileSavedPosts.firstIndex(where: { $0.id == post.id }) == thresholdIndex {
+                paginateSaved(dataManager: dataManager)
+            }
+        }
+    }
+    
+    func paginateCommentsIfNeeded(comment: ProfileComment, dataManager: DataManager) {
+        let offsetBy = -15
+        
+        let thresholdIndex = dataManager.profileComments.index(dataManager.profileComments.endIndex, offsetBy: offsetBy)
+        if dataManager.profileComments.firstIndex(where: { $0.id == comment.id }) == thresholdIndex {
+            paginateComments(dataManager: dataManager)
+        }
+    }
+    
+    func paginatePosts(dataManager : DataManager) {
+        NetworkManager.networkManager.request(route: dataManager.profilePostsCurrentPage, method: .get, successType: PaginatePostsModel.Response.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
-                    self.posts.append(contentsOf: successResponse.results)
-                    let uniqued = self.posts.removingDuplicates()
-                    self.posts = uniqued
+                    dataManager.profilePosts.append(contentsOf: successResponse.results)
+                    let uniqued = dataManager.profilePosts.removingDuplicates()
+                    dataManager.profilePosts = uniqued
+                    if let nextLink = successResponse.next {
+                        dataManager.profilePostsCurrentPage = nextLink
+                    }
                 }
             }
         }
     }
     
-    func getComments() {
-        NetworkManager.networkManager.request(route: "comments/?sort=profile", method: .get, successType: [ProfileComment].self) { successResponse, errorResponse in
+    func paginateComments(dataManager : DataManager) {
+        NetworkManager.networkManager.request(route: dataManager.profileCommentsCurrentPage, method: .get, successType: PaginateCommentsModel.Response.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
-                    print("DEBUG: getComments success")
-                    self.comments = successResponse
+                    dataManager.profileComments.append(contentsOf: successResponse.results)
+                    let uniqued = dataManager.profileComments.removingDuplicates()
+                    dataManager.profileComments = uniqued
+                    if let nextLink = successResponse.next {
+                        dataManager.profileCommentsCurrentPage = nextLink
+                    }
                 }
             }
         }
     }
     
-    func getAwards() {
+    func getAwards(dataManager : DataManager) {
         print("DEBUG: Get Awards")
     }
     
-    func getSaved() {
-        NetworkManager.networkManager.request(route: "posts/?sort=saved", method: .get, successType: PaginatePostsModel.Response.self) { successResponse, errorResponse in
+    func paginateSaved(dataManager : DataManager) {
+        NetworkManager.networkManager.request(route: dataManager.profileSavedCurrentPage, method: .get, successType: PaginatePostsModel.Response.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
-                    print("DEBUG: getSaved success")
-                    self.savedPosts.append(contentsOf: successResponse.results)
+                    dataManager.profileSavedPosts.append(contentsOf: successResponse.results)
+                    let uniqued = dataManager.profileSavedPosts.removingDuplicates()
+                    dataManager.profileSavedPosts = uniqued
+                    if let nextLink = successResponse.next {
+                        dataManager.profileSavedCurrentPage = nextLink
+                    }
                 }
             }
+        }
+    }
+    
+    func triggerRefresh(tab: ProfileFilter, dataManager: DataManager) {
+        if tab == .posts {
+            paginatePosts(dataManager: dataManager)
+        } else if tab == .comments {
+            paginateComments(dataManager: dataManager)
+        } else if tab == .awards {
+            getAwards(dataManager: dataManager)
+        } else if tab == .saved {
+            paginateSaved(dataManager: dataManager)
         }
     }
 }

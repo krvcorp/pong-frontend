@@ -49,7 +49,7 @@ struct SettingsView: View {
                     }
                     .sheet(isPresented: $shareSheet) {
                         let url = URL(string: "https://www.pong.college/")
-                        ShareSheet(items: [url!])
+                        ShareSheet(items: [url ?? []])
                     }
                 }
                 

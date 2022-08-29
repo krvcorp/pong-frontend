@@ -3,6 +3,7 @@ import SwiftUI
 struct MainTabView: View {
     @ObservedObject private var mainTabVM = MainTabViewModel(initialIndex: 1, customItemIndex: 3)
     @StateObject private var setTabHelper = SetTabHelper()
+    @StateObject private var dataManager = DataManager()
     
     var handler: Binding<Int> { Binding(
         get: {
@@ -64,6 +65,10 @@ struct MainTabView: View {
         // MARK: New Post Sheet
         .sheet(isPresented: $mainTabVM.isCustomItemSelected) {
             NewPostView(mainTabVM: mainTabVM)
+        }
+        .environmentObject(dataManager)
+        .onAppear() {
+            dataManager.loadStartupState()
         }
     }
 }

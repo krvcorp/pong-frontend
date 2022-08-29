@@ -57,3 +57,13 @@ extension Array where Element == Post {
         }
     }
 }
+
+extension Array where Element == ProfileComment {
+    func removingDuplicates() -> Array {
+        return reduce(into: []) { result, element in
+            if !result.contains(where: { $0.id == element.id }) {
+                result.append(element)
+            }
+        }
+    }
+}

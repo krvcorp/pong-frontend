@@ -38,17 +38,16 @@ enum FeedFilter: String, CaseIterable, Identifiable {
     }
 }
 
-enum TopFilter: String, CaseIterable, Identifiable {
-    case allTime, thisYear, thisMonth, thisWeek, today
+enum TopFilter: String, CaseIterable, Identifiable, Equatable {
+    case all, month, week, day
     var id: Self { self }
     
     var title: String {
         switch self {
-        case .allTime: return "TOP POSTS ALL TIME"
-        case .thisYear: return "TOP POSTS THIS YEAR"
-        case .thisMonth: return "TOP POSTS THIS MONTH"
-        case .thisWeek: return "TOP POSTS THIS YEAR"
-        case .today: return "TOP POSTS TODAY"
+        case .all: return "ALL TIME"
+        case .month: return "MONTH"
+        case .week: return "WEEK"
+        case .day: return "DAY"
         }
     }
 }
@@ -57,93 +56,85 @@ class FeedViewModel: ObservableObject {
     @Published var selectedFeedFilter : FeedFilter = .hot
     @Published var school = "Boston University"
     @Published var InitalOpen : Bool = true
-    @Published var topPosts : [Post] = []
-    @Published var hotPosts : [Post] = []
-    @Published var recentPosts : [Post] = []
-    @Published var selectedTopFilter : TopFilter = .allTime
+    @Published var selectedTopFilter : TopFilter = .all
     
     @Published var finishedTop = false
     @Published var finishedHot = false
     @Published var finishedRecent = false
     
-    @Published var removedPost = false
-    @Published var removedPostType = "default"
-    
     //MARK: Pagination
-    var topCurrentPage = "posts/?sort=top"
+    var topCurrentPage = "posts/?sort=top&range=all"
     
     var hotCurrentPage = "posts/?sort=hot"
     
     var recentCurrentPage = "posts/?sort=new"
     
-    func paginatePostsIfNeeded(post: Post, selectedFeedFilter: FeedFilter) {
+    func paginatePostsIfNeeded(post: Post, selectedFeedFilter: FeedFilter, dataManager: DataManager) {
         let offsetBy = -15
 
         if selectedFeedFilter == .top {
-            let thresholdIndex = topPosts.index(topPosts.endIndex, offsetBy: offsetBy)
-            if topPosts.firstIndex(where: { $0.id == post.id }) == thresholdIndex {
-                paginatePosts(selectedFeedFilter: selectedFeedFilter)
+            let thresholdIndex = dataManager.topPosts.index(dataManager.topPosts.endIndex, offsetBy: offsetBy)
+            if dataManager.topPosts.firstIndex(where: { $0.id == post.id }) == thresholdIndex {
+                paginatePosts(selectedFeedFilter: selectedFeedFilter, dataManager: dataManager)
             }
         } else if selectedFeedFilter == .hot {
-            let thresholdIndex = hotPosts.index(hotPosts.endIndex, offsetBy: offsetBy)
-            if hotPosts.firstIndex(where: { $0.id == post.id }) == thresholdIndex {
-                paginatePosts(selectedFeedFilter: selectedFeedFilter)
+            let thresholdIndex = dataManager.hotPosts.index(dataManager.hotPosts.endIndex, offsetBy: offsetBy)
+            if dataManager.hotPosts.firstIndex(where: { $0.id == post.id }) == thresholdIndex {
+                paginatePosts(selectedFeedFilter: selectedFeedFilter, dataManager: dataManager)
             }
         } else if selectedFeedFilter == .recent {
-            let thresholdIndex = recentPosts.index(recentPosts.endIndex, offsetBy: offsetBy)
-            if recentPosts.firstIndex(where: { $0.id == post.id }) == thresholdIndex {
-                paginatePosts(selectedFeedFilter: selectedFeedFilter)
+            let thresholdIndex = dataManager.recentPosts.index(dataManager.recentPosts.endIndex, offsetBy: offsetBy)
+            if dataManager.recentPosts.firstIndex(where: { $0.id == post.id }) == thresholdIndex {
+                paginatePosts(selectedFeedFilter: selectedFeedFilter, dataManager: dataManager)
             }
         }
     }
     
-    func paginatePosts(selectedFeedFilter: FeedFilter) {
-        var url_to_use = ""
+    func paginatePosts(selectedFeedFilter: FeedFilter, dataManager: DataManager) {
+        var urlToUse = ""
         
-        // check if finished to prevent unnecessary network call
         if selectedFeedFilter == .top {
-            url_to_use = topCurrentPage
+            urlToUse = topCurrentPage
             if finishedTop {
                 return
             }
         } else if selectedFeedFilter == .hot {
-            url_to_use = hotCurrentPage
+            urlToUse = hotCurrentPage
             if finishedHot {
                 return
             }
         } else if selectedFeedFilter == .recent {
-            url_to_use = recentCurrentPage
+            urlToUse = recentCurrentPage
             if finishedRecent {
                 return
             }
         }
         
-        NetworkManager.networkManager.request(route: url_to_use, method: .get, successType: PaginatePostsModel.Response.self) { successResponse, errorResponse in
+        NetworkManager.networkManager.request(route: urlToUse, method: .get, successType: PaginatePostsModel.Response.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
                     if selectedFeedFilter == .top {
-                        self.topPosts.append(contentsOf: successResponse.results)
-                        // MARK: race condition issue? uniqued() works in ProfileViewModel on line 83/84 regarding pagination in the posts there
-                        let uniqued = self.topPosts.removingDuplicates()
-                        self.topPosts = uniqued
+                        dataManager.topPosts.append(contentsOf: successResponse.results)
+                        let uniqued = dataManager.topPosts.removingDuplicates()
+                        dataManager.topPosts = uniqued
                         if let nextLink = successResponse.next {
                             self.topCurrentPage = nextLink
                         } else {
                             self.finishedTop = true
                         }
                     } else if selectedFeedFilter == .hot {
-                        self.hotPosts.append(contentsOf: successResponse.results)
-                        let uniqued = self.hotPosts.removingDuplicates()
-                        self.hotPosts = uniqued
+                        dataManager.hotPosts.append(contentsOf: successResponse.results)
+                        let uniqued = dataManager.hotPosts.removingDuplicates()
+                        dataManager.hotPosts = uniqued
                         if let nextLink = successResponse.next {
                             self.hotCurrentPage = nextLink
                         } else {
                             self.finishedHot = true
                         }
                     } else if selectedFeedFilter == .recent {
-                        self.recentPosts.append(contentsOf: successResponse.results)
-                        let uniqued = self.recentPosts.removingDuplicates()
-                        self.recentPosts = uniqued
+                        dataManager.recentPosts.append(contentsOf: successResponse.results)
+                        let uniqued = dataManager.recentPosts.removingDuplicates()
+                        dataManager.recentPosts = uniqued
                         if let nextLink = successResponse.next {
                             self.recentCurrentPage = nextLink
                         } else {
@@ -160,11 +151,11 @@ class FeedViewModel: ObservableObject {
         }
     }
     
-    func paginatePostsReset(selectedFeedFilter: FeedFilter) {
+    func paginatePostsReset(selectedFeedFilter: FeedFilter, dataManager: DataManager) {
         var url_to_use = ""
         
         if selectedFeedFilter == .top {
-            url_to_use = "posts/?sort=top"
+            url_to_use = "posts/?sort=top" + checkTopFilter(filter: selectedTopFilter)
             finishedTop = false
         } else if selectedFeedFilter == .hot {
             url_to_use = "posts/?sort=hot"
@@ -178,21 +169,21 @@ class FeedViewModel: ObservableObject {
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
                     if selectedFeedFilter == .top {
-                        self.topPosts = successResponse.results
+                        dataManager.topPosts = successResponse.results
                         if let nextLink = successResponse.next {
                             self.topCurrentPage = nextLink
                         } else {
                             self.finishedTop = true
                         }
                     } else if selectedFeedFilter == .hot {
-                        self.hotPosts = successResponse.results
+                        dataManager.hotPosts = successResponse.results
                         if let nextLink = successResponse.next {
                             self.hotCurrentPage = nextLink
                         } else {
                             self.finishedHot = true
                         }
                     } else if selectedFeedFilter == .recent {
-                        self.recentPosts = successResponse.results
+                        dataManager.recentPosts = successResponse.results
                         if let nextLink = successResponse.next {
                             self.recentCurrentPage = nextLink
                         } else {
@@ -208,70 +199,17 @@ class FeedViewModel: ObservableObject {
         }
     }
     
-    // MARK: Read Post
-    func readPost(postId: String, completion: @escaping (Result<Post, AuthenticationError>) -> Void) {
-        NetworkManager.networkManager.request(route: "post/\(postId)", method: .get, successType: Post.self) { successResponse, errorResponse in
-            if let successResponse = successResponse {
-                DispatchQueue.main.async {
-                    // replace the local post
-                    if let index = self.topPosts.firstIndex(where: {$0.id == postId}) {
-                        self.topPosts[index] = successResponse
-                    }
-
-                    if let index = self.hotPosts.firstIndex(where: {$0.id == postId}) {
-                        self.hotPosts[index] = successResponse
-                    }
-                    if let index = self.recentPosts.firstIndex(where: {$0.id == postId}) {
-                        self.recentPosts[index] = successResponse
-                    }
-                }
-            }
-        }
-    }
-    
-    // MARK: Helper functions
-    func deletePost(post: Post) {
-        DispatchQueue.main.async {
-            self.removePostLocally(post: post)
-            self.removedPostType = "Post deleted!"
-            self.removedPost = true
-        }
-    }
-    
-    func blockPost(post: Post) {
-        DispatchQueue.main.async {
-            self.removePostLocally(post: post)
-            self.removedPostType = "User blocked!"
-            self.removedPost = true
-        }
-    }
-    
-    func reportPost(post: Post) {
-        DispatchQueue.main.async {
-            self.removePostLocally(post: post)
-            self.removedPostType = "Post reported!"
-            self.removedPost = true
-        }
-    }
-    
-    // MARK: Helper function to delete posts in Feed
-    func removePostLocally(post: Post) {
-        DispatchQueue.main.async {
-            withAnimation {
-                print("DEBUG: \(post)")
-                if let index = self.topPosts.firstIndex(of: post) {
-                    self.topPosts.remove(at: index)
-                    print("DEBUG: \(index)")
-                }
-                if let index = self.hotPosts.firstIndex(of: post) {
-                    self.hotPosts.remove(at: index)
-                    print("DEBUG: \(index)")
-                }
-                if let index = self.recentPosts.firstIndex(of: post) {
-                    self.recentPosts.remove(at: index)
-                    print("DEBUG: \(index)")
-                }
-            }
+    func checkTopFilter(filter : TopFilter) -> String {
+        if filter == .all {
+            return "&range=all"
+        } else if filter == .month {
+            return "&range=month"
+        } else if filter == .week {
+            return "&range=week"
+        } else if filter == .day {
+            return "&range=day"
+        } else {
+            return "neverHit"
         }
     }
 }
