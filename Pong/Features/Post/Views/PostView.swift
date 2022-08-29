@@ -1,5 +1,6 @@
 import SwiftUI
 import AlertToast
+import MapKit
 
 struct PostView: View {
     @Environment(\.presentationMode) var presentationMode
@@ -38,7 +39,12 @@ struct PostView: View {
                 postVM.post = self.post
                 
                 // api call to refresh local data
-                postVM.readPost()
+                postVM.readPost() { result in
+                    if !result {
+                        self.presentationMode.wrappedValue.dismiss()
+                        dataManager.removePostLocally(post: post, message: "Post doesn't exist!")
+                    }
+                }
                 
                 // api call to fetch comments to display
                 postVM.getComments()

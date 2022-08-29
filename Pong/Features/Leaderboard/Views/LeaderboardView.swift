@@ -35,13 +35,64 @@ struct LeaderboardView: View {
                         
                         if (lblist.count > 3) {
                             Section(header: Text("Leaderboard")) {
+                                HStack(alignment: .center) {
+                                    HStack() {
+                                        Spacer()
+                                        Text("Rank")
+                                            .font(.headline)
+                                            .bold()
+                                        Spacer()
+                                    }
+                                    .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
+                                    
+                                
+                                    HStack() {
+                                        Spacer()
+                                        Text("Name")
+                                            .font(.headline)
+                                            .bold()
+                                        Spacer()
+                                    }
+                                    .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
+                                
+                                
+                                    HStack() {
+                                        Spacer()
+                                        Text("Karma")
+                                            .font(.headline)
+                                            .bold()
+                                        Spacer()
+                                    }
+                                    .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
+                                }
+                                .listRowSeparator(.visible)
+                                
                                 ForEach(lblist) { entry in
                                     if !["1", "2", "3"].contains(entry.place) {
-                                        HStack {
-                                            Text("\(entry.place).")
-                                            Text("\(entry.score)")
-                                            Spacer()
+                                        HStack(alignment: .center) {
+                                            
+                                            HStack() {
+                                                Spacer()
+                                                Text(entry.place)
+                                                Spacer()
+                                            }
+                                            .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
+                                        
+                                            HStack() {
+                                                Spacer()
+                                                Text(" --- ")
+                                                Spacer()
+                                            }
+                                            .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
+                                        
+                                            HStack() {
+                                                Spacer()
+                                                Text("\(entry.score)")
+                                                Spacer()
+                                            }
+                                            .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
                                         }
+                                        .listRowSeparator(.hidden)
                                     }
                                 }
                             }

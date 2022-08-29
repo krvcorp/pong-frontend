@@ -48,12 +48,11 @@ class DataManager : ObservableObject {
         self.initHotPosts()
         self.initRecentPosts()
         
+        // leaderboard
+        self.initLeaderboard()
+        
         // profile
-        self.initProfilePosts()
-        self.initProfileComments()
-        self.initAwards()
-        self.initProfileSavedPosts()
-        self.initUserInformation()
+        self.initProfile()
     }
     
     func initTopPosts() {
@@ -111,11 +110,38 @@ class DataManager : ObservableObject {
         }
     }
     
+    func initLeaderboard() {
+        NetworkManager.networkManager.request(route: "users/leaderboard/", method: .get, successType: [TotalScore].self) { successResponse, errorResponse in
+            if let successResponse = successResponse {
+                DispatchQueue.main.async {
+                    var leaderboardList = successResponse
+                    
+                    var count : Int = 1
+                    for _ in leaderboardList {
+                        leaderboardList[count-1].place = String(count)
+                        count += 1
+                    }
+                    DispatchQueue.main.async {
+                        self.leaderboardList = leaderboardList
+                    }
+                }
+            }
+        }
+    }
+    
+    func initProfile(){
+        self.initProfilePosts()
+        self.initProfileComments()
+        self.initAwards()
+        self.initProfileSavedPosts()
+        self.initUserInformation()
+    }
+    
     func initProfilePosts() {
         NetworkManager.networkManager.request(route: "posts/?sort=profile", method: .get, successType: PaginatePostsModel.Response.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
-                    self.profilePosts.append(contentsOf: successResponse.results)
+                    self.profilePosts = successResponse.results
                     let uniqued = self.profilePosts.removingDuplicates()
                     self.profilePosts = uniqued
                     if let nextLink = successResponse.next {
@@ -131,7 +157,7 @@ class DataManager : ObservableObject {
             if let successResponse = successResponse {
                 print("DEBUG: in here")
                 DispatchQueue.main.async {
-                    self.profileComments.append(contentsOf: successResponse.results)
+                    self.profileComments = successResponse.results
                     let uniqued = self.profileComments.removingDuplicates()
                     self.profileComments = uniqued
                     if let nextLink = successResponse.next {
@@ -152,7 +178,7 @@ class DataManager : ObservableObject {
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
                     print("DEBUG: getSaved success")
-                    self.profileSavedPosts.append(contentsOf: successResponse.results)
+                    self.profileSavedPosts = successResponse.results
                     if let nextLink = successResponse.next {
                         self.profileSavedCurrentPage = nextLink
                     }

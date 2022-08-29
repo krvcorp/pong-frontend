@@ -31,7 +31,7 @@ class NewPostViewModel: ObservableObject {
     @Published var errorMessage = "Error"
 
     // MARK: NewPost request
-    func newPost(mainTabVM: MainTabViewModel) -> Void {
+    func newPost(mainTabVM: MainTabViewModel, dataManager: DataManager) -> Void {
         // MARK: if image is not nil then use multipartFormData request
         if image != nil {
             let imgData = (image!).jpegData(compressionQuality: 0.2)!
@@ -66,6 +66,7 @@ class NewPostViewModel: ObservableObject {
                             mainTabVM.isCustomItemSelected = false
                             mainTabVM.itemSelected = 1
                             mainTabVM.newPostDetected.toggle()
+                            dataManager.initProfile()
                         }
                     }
                     if let errorResponse = errorResponse {

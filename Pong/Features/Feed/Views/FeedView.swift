@@ -8,6 +8,7 @@ struct FeedView: View {
     @EnvironmentObject var dataManager : DataManager
     @StateObject var feedVM = FeedViewModel()
     @Binding var newPostDetected : Bool
+    @Binding var showMenu : Bool
     
     var body: some View {
         NavigationView {
@@ -25,6 +26,18 @@ struct FeedView: View {
             .navigationBarTitleDisplayMode(.inline)
             // Toolbar
             .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        print("DEBUG: Show Menu")
+                        withAnimation {
+                            showMenu.toggle()
+                        }
+                    } label: {
+                        Image(systemName: "line.horizontal.3")
+                            .imageScale(.large)
+                    }
+                }
+                
                 ToolbarItem {
                     NavigationLink {
                         MessageRosterView()
@@ -249,6 +262,6 @@ struct FeedView: View {
 
 struct FeedView_Previews: PreviewProvider {
     static var previews: some View {
-        FeedView(newPostDetected: .constant(false))
+        FeedView(newPostDetected: .constant(false), showMenu: .constant(false))
     }
 }

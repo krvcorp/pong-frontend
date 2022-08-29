@@ -4,6 +4,7 @@ import AlertToast
 
 struct NewPostView: View {
     @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var dataManager : DataManager
     @StateObject var newPostVM = NewPostViewModel()
     @ObservedObject var mainTabVM : MainTabViewModel
     
@@ -112,7 +113,7 @@ struct NewPostView: View {
                             // MARK: On success of newPost, NewPostView needs to dismiss to reset data in NewPost
                             Button {
                                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                                newPostVM.newPost(mainTabVM: mainTabVM)
+                                newPostVM.newPost(mainTabVM: mainTabVM, dataManager: dataManager)
                             } label: {
                                 Text("Post")
                                     .frame(minWidth: 100, maxWidth: 150)

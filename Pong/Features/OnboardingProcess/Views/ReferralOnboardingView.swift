@@ -12,6 +12,7 @@ struct ReferralOnboardingView: View {
                         onboardingVM.onboard() { result in
                             AuthManager.authManager.onboarded = true
                         }
+                        AuthManager.authManager.onboarded = true
                     } label: {
                         Image(systemName: "xmark")
                     }

@@ -34,7 +34,7 @@ struct ReferralsView: View {
                 )
             }
             .sheet(isPresented: $sheet) {
-                let url = URL(string: "https://www.pong.college/\(DAKeychain.shared["referralCode"])")
+                let url = URL(string: "https://www.pong.college/\(String(describing: DAKeychain.shared["referralCode"]))")
                 ShareSheet(items: [url!])
             }
             .background(Color(UIColor.label)) // If you have this

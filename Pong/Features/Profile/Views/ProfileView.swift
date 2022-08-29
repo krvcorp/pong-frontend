@@ -10,6 +10,7 @@ struct ProfileView: View {
         NavigationView {
             VStack {
                 karmaComponent
+                    .frame(maxWidth: .infinity)
                 
                 toolbarPickerComponent
                 
@@ -43,26 +44,41 @@ struct ProfileView: View {
     
     var karmaComponent : some View {
         HStack {
-            VStack {
-                Text("Total")
-                Text("\(dataManager.totalKarma)")
-                    .bold()
+            HStack {
+                Spacer()
+                
+                VStack(alignment: .center) {
+                    Text("Karma")
+                        .font(.title.bold())
+                    Text("\(dataManager.totalKarma)")
+                        .font(.title.bold())
+                        .foregroundColor(Color(UIColor(named: "PongPrimary")!))
+                }
+                
+                Spacer()
+                
+                VStack(alignment: .center) {
+                    Text("Views")
+                        .font(.title.bold())
+                    Text("\(dataManager.postKarma)")
+                        .font(.title.bold())
+                        .foregroundColor(Color(UIColor(named: "PongPrimary")!))
+                }
+                
+                Spacer()
+//
+//                Spacer()
+//
+//                VStack {
+//                    Text("Comment")
+//                        .font(.title3.bold())
+//                    Text("\(dataManager.commentKarma)")
+//                        .font(.title3.bold())
+//                        .foregroundColor(Color(UIColor(named: "PongPrimary")!))
+//                }
             }
             .padding()
-            
-            VStack {
-                Text("Post")
-                Text("\(dataManager.postKarma)")
-                    .bold()
-            }
-            .padding()
-            
-            VStack {
-                Text("Comment")
-                Text("\(dataManager.commentKarma)")
-                    .bold()
-            }
-            .padding()
+
         }
         .background(Color(UIColor.secondarySystemBackground))
         .cornerRadius(15)
@@ -103,22 +119,84 @@ struct ProfileView: View {
     func customProfileStack(filter: ProfileFilter, tab : ProfileFilter) -> some View {
         List {
             if tab == .posts {
-                ForEach($dataManager.profilePosts, id: \.id) { $post in
-                    CustomListDivider()
-                    
-                    PostBubble(post: $post)
-                        .buttonStyle(PlainButtonStyle())
-                        .listRowSeparator(.hidden)
+                if dataManager.profilePosts != [] {
+                    ForEach($dataManager.profilePosts, id: \.id) { $post in
+                        CustomListDivider()
+                        
+                        PostBubble(post: $post)
+                            .buttonStyle(PlainButtonStyle())
+                            .listRowSeparator(.hidden)
+                    }
+                } else {
+                    VStack(alignment: .center, spacing: 15) {
+                        HStack(alignment: .center) {
+                            Spacer()
+                            
+                            Image("pong_transparent_logo")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(maxWidth: UIScreen.screenWidth / 3)
+                            
+                            Spacer()
+                        }
+                        
+                        HStack(alignment: .center) {
+                            Spacer()
+                            Text("No posts yet!")
+                                .font(.title.bold())
+                            Spacer()
+                        }
+                        
+                        HStack(alignment: .center) {
+                            Spacer()
+                            Text("Go make a post!")
+                                .font(.caption)
+                            Spacer()
+                        }
+                    }
+                    .listRowBackground(Color(UIColor.secondarySystemBackground))
+                    .listRowSeparator(.hidden)
                 }
             }
             else if tab == .comments {
-                ForEach($dataManager.profileComments, id: \.id) { $comment in
-                    CustomListDivider()
-                    
-                    ProfileCommentBubble(comment: $comment)
-                        .buttonStyle(PlainButtonStyle())
-                        .environmentObject(profileVM)
-                        .listRowSeparator(.hidden)
+                if dataManager.profileComments != [] {
+                    ForEach($dataManager.profileComments, id: \.id) { $comment in
+                        CustomListDivider()
+                        
+                        ProfileCommentBubble(comment: $comment)
+                            .buttonStyle(PlainButtonStyle())
+                            .environmentObject(profileVM)
+                            .listRowSeparator(.hidden)
+                    }
+                } else {
+                    VStack(alignment: .center, spacing: 15) {
+                        HStack(alignment: .center) {
+                            Spacer()
+                            
+                            Image("pong_transparent_logo")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(maxWidth: UIScreen.screenWidth / 3)
+                            
+                            Spacer()
+                        }
+                        
+                        HStack(alignment: .center) {
+                            Spacer()
+                            Text("No comments yet!")
+                                .font(.title.bold())
+                            Spacer()
+                        }
+                        
+                        HStack(alignment: .center) {
+                            Spacer()
+                            Text("Go make a comment!")
+                                .font(.caption)
+                            Spacer()
+                        }
+                    }
+                    .listRowBackground(Color(UIColor.secondarySystemBackground))
+                    .listRowSeparator(.hidden)
                 }
             }
             else if tab == .awards {
@@ -128,21 +206,51 @@ struct ProfileView: View {
                 }
             }
             else if tab == .saved {
-                ForEach($dataManager.profileSavedPosts, id: \.id) { $post in
-                    Section {
-                        CustomListDivider()
-                        
-                        PostBubble(post: $post)
-                            .buttonStyle(PlainButtonStyle())
-                            .listRowSeparator(.hidden)
+                if dataManager.profileSavedPosts != [] {
+                    ForEach($dataManager.profileSavedPosts, id: \.id) { $post in
+                        Section {
+                            CustomListDivider()
+                            
+                            PostBubble(post: $post)
+                                .buttonStyle(PlainButtonStyle())
+                                .listRowSeparator(.hidden)
+                        }
                     }
+                } else {
+                    VStack(alignment: .center, spacing: 15) {
+                        HStack(alignment: .center) {
+                            Spacer()
+                            
+                            Image("pong_transparent_logo")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(maxWidth: UIScreen.screenWidth / 3)
+                            
+                            Spacer()
+                        }
+                        
+                        HStack(alignment: .center) {
+                            Spacer()
+                            Text("No saved posts yet!")
+                                .font(.title.bold())
+                            Spacer()
+                        }
+                        
+                        HStack(alignment: .center) {
+                            Spacer()
+                            Text("Go bookmark something!")
+                                .font(.caption)
+                            Spacer()
+                        }
+                    }
+                    .listRowBackground(Color(UIColor.secondarySystemBackground))
+                    .listRowSeparator(.hidden)
                 }
             }
         }
         .environment(\.defaultMinListRowHeight, 0)
         .listStyle(PlainListStyle())
         .refreshable{
-            print("DEBUG: Refresh")
             profileVM.triggerRefresh(tab: tab, dataManager: dataManager)
         }
     }

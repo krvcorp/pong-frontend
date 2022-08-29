@@ -14,6 +14,7 @@ class AuthManager: ObservableObject {
     // MARK: LOAD CURRENT STATE
     func loadCurrentState() {
         self.isSignedIn = (DAKeychain.shared["userId"] != nil && DAKeychain.shared["token"] != nil)
+        
         if let userId = DAKeychain.shared["userId"] {
             self.userId = userId
         }

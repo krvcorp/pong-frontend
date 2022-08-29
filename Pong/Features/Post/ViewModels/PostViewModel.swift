@@ -50,10 +50,10 @@ class PostViewModel: ObservableObject {
     }
     
     func getComments() -> Void {
-        NetworkManager.networkManager.request(route: "comments/?post_id=\(post.id)", method: .get, successType: [Comment].self) { successResponse, errorResponse in
+        NetworkManager.networkManager.request(route: "comments/?post_id=\(post.id)", method: .get, successType: CommentListModel.Response.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
-                    self.comments = successResponse
+                    self.comments = successResponse.results
                     self.commentsLoaded = true
                     self.updateTrigger.toggle()
                 }
@@ -98,13 +98,20 @@ class PostViewModel: ObservableObject {
     }
     
     // MARK: ReadPost
-    func readPost() -> Void {
+    func readPost(completion: @escaping (Bool) -> Void) {
         NetworkManager.networkManager.request(route: "posts/\(post.id)/", method: .get, successType: Post.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
                     // replace the local post
                     self.post = successResponse
                     self.updateTrigger.toggle()
+                }
+            }
+            
+            if let errorResponse = errorResponse {
+                DispatchQueue.main.async {
+                    print("DEBUG: \(errorResponse)")
+                    completion(false)
                 }
             }
         }

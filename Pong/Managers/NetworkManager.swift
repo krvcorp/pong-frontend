@@ -6,7 +6,7 @@ class NetworkManager: ObservableObject {
     static let networkManager = NetworkManager()
     
     // MARK: BaseURL
-    var baseURL = "https://cd0c-65-112-8-20.ngrok.io/api/"
+    var baseURL = "http:/localhost:8005/api/"
     
     struct EmptyBody: Encodable {}
     struct EmptyResponse: Codable {

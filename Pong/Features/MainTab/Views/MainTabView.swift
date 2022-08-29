@@ -5,6 +5,8 @@ struct MainTabView: View {
     @StateObject private var setTabHelper = SetTabHelper()
     @StateObject private var dataManager = DataManager()
     
+    @Binding var showMenu : Bool
+    
     var handler: Binding<Int> { Binding(
         get: {
             self.mainTabVM.itemSelected
@@ -25,7 +27,7 @@ struct MainTabView: View {
     var body: some View {
         TabView(selection: handler) {
             // MARK: FeedView
-            FeedView(newPostDetected: $mainTabVM.newPostDetected)
+            FeedView(newPostDetected: $mainTabVM.newPostDetected, showMenu: $showMenu)
                 .tabItem{
                     Label("Home", systemImage: "house")
                 }

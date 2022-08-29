@@ -149,13 +149,13 @@ class ProfileViewModel: ObservableObject {
     
     func triggerRefresh(tab: ProfileFilter, dataManager: DataManager) {
         if tab == .posts {
-            paginatePosts(dataManager: dataManager)
+            dataManager.initProfilePosts()
         } else if tab == .comments {
-            paginateComments(dataManager: dataManager)
+            dataManager.initProfileComments()
         } else if tab == .awards {
             getAwards(dataManager: dataManager)
         } else if tab == .saved {
-            paginateSaved(dataManager: dataManager)
+            dataManager.initProfileSavedPosts()
         }
     }
 }
