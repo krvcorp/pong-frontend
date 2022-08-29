@@ -10,18 +10,12 @@ struct ContentView: View {
     var body: some View {
         if (!AuthManager.authManager.isSignedIn) {
             EmailVerificationView()
-        } else if (AuthManager.authManager.isSignedIn) && (!AuthManager.authManager.onboarded){
-            WelcomeView()
+        } else if (!AuthManager.authManager.onboarded) {
+            OnboardingView()
         } else {
-            MainInterfaceView
-        }
-    }
-}
-
-extension ContentView {
-    var MainInterfaceView: some View {
-        ZStack(alignment: .topTrailing){
-            MainTabView()
+            ZStack(alignment: .topTrailing) {
+                MainTabView()
+            }
         }
     }
 }

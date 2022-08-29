@@ -1,5 +1,4 @@
 import SwiftUI
-//import ScalingHeaderScrollView
 
 struct AdminFeedView: View {
     // MARK: ViewModels
@@ -17,15 +16,12 @@ struct AdminFeedView: View {
             .padding(.top)
         }
         
-        // MARK: OnAppear fetch all posts
         .onAppear {
             adminFeedVM.getPosts()
         }
         .navigationBarTitle("Admin View")
         .navigationBarTitleDisplayMode(.inline)
-        
     }
-    
 }
 
 struct AdminFeedView_Previews: PreviewProvider {

@@ -1,10 +1,3 @@
-//
-//  AuthManager.swift
-//  Pong
-//
-//  Created by Khoi Nguyen on 7/29/22.
-//
-
 import Foundation
 import GoogleSignIn
 import Alamofire
@@ -17,46 +10,40 @@ class AuthManager: ObservableObject {
     @Published var onboarded: Bool = false
     @Published var userId: String = ""
     @Published var isAdmin: Bool = false
-    @Published var dateJoined: String = ""
-    @Published var referralCode: String = ""
     
-    // MARK: Current State is determined if the userId and the token is stored to the keychain
+    // MARK: LOAD CURRENT STATE
     func loadCurrentState() {
-        isSignedIn = (DAKeychain.shared["userId"] != nil && DAKeychain.shared["token"] != nil)
+        self.isSignedIn = (DAKeychain.shared["userId"] != nil && DAKeychain.shared["token"] != nil)
         if let userId = DAKeychain.shared["userId"] {
             self.userId = userId
         }
         if DAKeychain.shared["isAdmin"] != nil {
             self.isAdmin = true
-        }
-        if let dateJoined = DAKeychain.shared["dateJoined"] {
-            self.dateJoined = dateJoined
-        }
+        }   
         if DAKeychain.shared["onboarded"] != nil {
             self.onboarded = true
         }
-        if let referralCode = DAKeychain.shared["referralCode"] {
-            self.referralCode = referralCode
-        }
     }
     
-    // MARK: Signout sets keychain to nil
+    // MARK: signout: set keychain nil
     func signout() {
         DispatchQueue.main.async {
             AuthManager.authManager.isSignedIn = false
+            AuthManager.authManager.onboarded = false
             GIDSignIn.sharedInstance.disconnect()
             DAKeychain.shared["userId"] = nil
             DAKeychain.shared["token"] = nil
             DAKeychain.shared["isAdmin"] = nil
             DAKeychain.shared["dateJoined"] = nil
             DAKeychain.shared["referralCode"] = nil
+            DAKeychain.shared["onboarded"] = nil
         }
     }
     
     // MARK: Google OAuth2.0
     let signInConfig = GIDConfiguration(clientID: "983201170682-kttqq1l89i4fpgk15fud1u1hf192fq1q.apps.googleusercontent.com")
 
-    func googleSignInButton() {
+    func signinWithGoogle() {
         let scenes = UIApplication.shared.connectedScenes
         let windowScene = scenes.first as? UIWindowScene
         let window = windowScene?.windows.first
@@ -66,7 +53,6 @@ class AuthManager: ObservableObject {
             return
         }
 
-        // MARK: Send token returned from Google via POST verifyEmail
         GIDSignIn.sharedInstance.signIn(with: signInConfig, presenting: presentingViewController) { user, error in
             guard error == nil else { return }
             guard let user = user else { return }
@@ -76,37 +62,44 @@ class AuthManager: ObservableObject {
                 guard let authentication = authentication else { return }
 
                 let idToken = authentication.idToken
-                // Send ID token to backend (example below).
                 self.verifyEmail(idToken: idToken!)
             }
         }
     }
     
-    // MARK: POST to verifyEmail and authenticate session
+    // MARK: VerifyEmail, set keychain
     private func verifyEmail(idToken: String) {
         let parameters = VerifyEmailModel.Request(idToken: idToken)
         
         NetworkManager.networkManager.request(route: "login/", method: .post, body: parameters, successType: VerifyEmailModel.Response.self) { successResponse, errorResponse in
-            // MARK: User is signed in
             DispatchQueue.main.async {
                 if let successResponse = successResponse {
                     if let token = successResponse.token {
                         DAKeychain.shared["token"] = token
+//                        debugPrint(token)
                     }
                     if let userId = successResponse.userId {
                         DAKeychain.shared["userId"] = userId
+//                        debugPrint(userId)
                     }
                     if let isAdmin = successResponse.isAdmin {
-                        DAKeychain.shared["isAdmin"] = String(isAdmin)
+//                        debugPrint(isAdmin)
+                        if isAdmin {
+                            DAKeychain.shared["isAdmin"] = String(isAdmin)
+                        }
                     }
                     if let dateJoined = successResponse.dateJoined {
+//                        debugPrint(dateJoined)
                         DAKeychain.shared["dateJoined"] = String(dateJoined)
                     }
-                    if let onboarded = successResponse.onboarded {
-                        DAKeychain.shared["onboarded"] = String(onboarded)
-                    }
                     if let referralCode = successResponse.referralCode {
+//                        debugPrint(referralCode)
                         DAKeychain.shared["referralCode"] = String(referralCode)
+                    }
+                    if let onboarded = successResponse.onboarded {
+                        if onboarded {
+                            DAKeychain.shared["onboarded"] = "true"
+                        }
                     }
                     self.loadCurrentState()
                 }

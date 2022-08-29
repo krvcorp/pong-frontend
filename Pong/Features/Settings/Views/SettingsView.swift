@@ -54,7 +54,7 @@ struct SettingsView: View {
                 }
                 
                 // MARK: Referrals View
-                NavigationLink(destination: AdminFeedView()){
+                NavigationLink(destination: ReferralsView()){
                     HStack {
                         Text("Referrals")
                         Spacer()
@@ -215,7 +215,7 @@ struct SettingsView: View {
 //                Text("Copyright © 2022 KRV Corp.")
 //                    .font(.system(Font.TextStyle.caption2, design: .rounded))
 //                    .frame(maxWidth: .infinity, alignment: .center)
-                Text("Joined \(AuthManager.authManager.dateJoined)")
+                Text("Joined \(DAKeychain.shared["dateJoined"] ?? "")")
                     .font(.system(Font.TextStyle.caption2, design: .rounded))
                     .frame(maxWidth: .infinity, alignment: .center)
                     .foregroundColor(Color.gray)
