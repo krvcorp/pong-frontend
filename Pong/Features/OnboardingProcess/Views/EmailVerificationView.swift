@@ -2,6 +2,7 @@ import SwiftUI
 
 struct EmailVerificationView: View {
     private let logoDim: CGFloat = 128
+    @EnvironmentObject var onboardingVM : OnboardingViewModel
     
     var body: some View {
         VStack {
@@ -23,7 +24,7 @@ struct EmailVerificationView: View {
                 .foregroundColor(Color(white: 0.7, opacity: 1))
             Button {
                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                AuthManager.authManager.googleSignInButton()
+                AuthManager.authManager.signinWithGoogle()
             } label: {
                 HStack {
                     Image("GoogleLogo")

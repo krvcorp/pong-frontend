@@ -118,11 +118,16 @@
 		82CCCBB928B0F99E00085E2D /* AdminPostBubbleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CCCBB628B0F99E00085E2D /* AdminPostBubbleViewModel.swift */; };
 		82CCCBBA28B0F99E00085E2D /* AdminPostBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CCCBB828B0F99E00085E2D /* AdminPostBubble.swift */; };
 		82CCCBBC28B0F9C700085E2D /* TimeoutModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CCCBBB28B0F9C700085E2D /* TimeoutModel.swift */; };
+		D339621828BC1A41003AC841 /* Onboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D339621728BC1A41003AC841 /* Onboard.swift */; };
 		D389D88728B94B0B00A41329 /* ProfileComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D389D88628B94B0B00A41329 /* ProfileComment.swift */; };
 		D389D88928BAA0AF00A41329 /* EmailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D389D88828BAA0AF00A41329 /* EmailController.swift */; };
 		D389D88C28BB0C7700A41329 /* ReferralResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D389D88B28BB0C7700A41329 /* ReferralResponse.swift */; };
 		D389D89328BB11CB00A41329 /* ReferralsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D389D89228BB11CB00A41329 /* ReferralsView.swift */; };
 		D389D89528BB11DC00A41329 /* ReferralsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D389D89428BB11DC00A41329 /* ReferralsViewModel.swift */; };
+		D389D89728BBF3F900A41329 /* ReferralOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D389D89628BBF3F900A41329 /* ReferralOnboardingView.swift */; };
+		D389D89928BBFAB800A41329 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D389D89828BBFAB800A41329 /* OnboardingView.swift */; };
+		D389D89D28BC099100A41329 /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D389D89C28BC099100A41329 /* OnboardingViewModel.swift */; };
+		D389D89F28BC0A3000A41329 /* SetReferrer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D389D89E28BC0A3000A41329 /* SetReferrer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -228,11 +233,16 @@
 		82CCCBB628B0F99E00085E2D /* AdminPostBubbleViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdminPostBubbleViewModel.swift; sourceTree = "<group>"; };
 		82CCCBB828B0F99E00085E2D /* AdminPostBubble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdminPostBubble.swift; sourceTree = "<group>"; };
 		82CCCBBB28B0F9C700085E2D /* TimeoutModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeoutModel.swift; sourceTree = "<group>"; };
+		D339621728BC1A41003AC841 /* Onboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Onboard.swift; sourceTree = "<group>"; };
 		D389D88628B94B0B00A41329 /* ProfileComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileComment.swift; sourceTree = "<group>"; };
 		D389D88828BAA0AF00A41329 /* EmailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailController.swift; sourceTree = "<group>"; };
 		D389D88B28BB0C7700A41329 /* ReferralResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralResponse.swift; sourceTree = "<group>"; };
 		D389D89228BB11CB00A41329 /* ReferralsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralsView.swift; sourceTree = "<group>"; };
 		D389D89428BB11DC00A41329 /* ReferralsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralsViewModel.swift; sourceTree = "<group>"; };
+		D389D89628BBF3F900A41329 /* ReferralOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralOnboardingView.swift; sourceTree = "<group>"; };
+		D389D89828BBFAB800A41329 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		D389D89C28BC099100A41329 /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
+		D389D89E28BC0A3000A41329 /* SetReferrer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetReferrer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -404,6 +414,7 @@
 		6A449BE62896F4320015826A /* OnboardingProcess */ = {
 			isa = PBXGroup;
 			children = (
+				D389D89A28BC087F00A41329 /* ViewModels */,
 				6A78FA6228A3060E00B75CC6 /* Models */,
 				6A449BEA2896F4320015826A /* Views */,
 			);
@@ -415,6 +426,8 @@
 			children = (
 				6A449BEF2896F4320015826A /* EmailVerificationView.swift */,
 				6A449BED2896F4320015826A /* WelcomeView.swift */,
+				D389D89628BBF3F900A41329 /* ReferralOnboardingView.swift */,
+				D389D89828BBFAB800A41329 /* OnboardingView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -567,7 +580,6 @@
 				6AEE15D328AC4AC600EEF1E6 /* Poll.swift */,
 				6A449C1E2896F4320015826A /* Comment.swift */,
 				6A4BD72628B1772C004EFE4A /* PaginatePostsModel.swift */,
-				6A78FA5628A19A0D00B75CC6 /* VerifyEmailModel.swift */,
 				6A78FA5828A1A65E00B75CC6 /* PostVoteModel.swift */,
 				6A7E109828AED83500CE3CFD /* PollVoteModel.swift */,
 				6A449C1C2896F4320015826A /* TotalScore.swift */,
@@ -873,6 +885,9 @@
 		6A78FA6228A3060E00B75CC6 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				6A78FA5628A19A0D00B75CC6 /* VerifyEmailModel.swift */,
+				D389D89E28BC0A3000A41329 /* SetReferrer.swift */,
+				D339621728BC1A41003AC841 /* Onboard.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -986,6 +1001,14 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		D389D89A28BC087F00A41329 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				D389D89C28BC099100A41329 /* OnboardingViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1088,10 +1111,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A449C8A2896F4320015826A /* LeaderboardView.swift in Sources */,
+				D389D89F28BC0A3000A41329 /* SetReferrer.swift in Sources */,
 				289CC874289C695F009C1DCE /* Colors.swift in Sources */,
 				D389D88928BAA0AF00A41329 /* EmailController.swift in Sources */,
 				D389D89528BB11DC00A41329 /* ReferralsViewModel.swift in Sources */,
 				6A78FA5928A1A65E00B75CC6 /* PostVoteModel.swift in Sources */,
+				D389D89928BBFAB800A41329 /* OnboardingView.swift in Sources */,
 				6A449C812896F4320015826A /* EmailVerificationView.swift in Sources */,
 				28B286F828B2EF150088B857 /* MockSocket.swift in Sources */,
 				82CCCBB928B0F99E00085E2D /* AdminPostBubbleViewModel.swift in Sources */,
@@ -1106,6 +1131,7 @@
 				6A449C932896F4330015826A /* NewPostView.swift in Sources */,
 				6A6F2D4328BA909E0091CFE4 /* CustomListDivider.swift in Sources */,
 				6A449C902896F4320015826A /* FeedView.swift in Sources */,
+				D339621828BC1A41003AC841 /* Onboard.swift in Sources */,
 				6A449C662896F4320015826A /* AuthManager.swift in Sources */,
 				28B286F528B2EF150088B857 /* CustomTextLayoutSizeCalculator.swift in Sources */,
 				6A449C912896F4320015826A /* MainTabView.swift in Sources */,
@@ -1129,8 +1155,10 @@
 				6A449CBF2896F4330015826A /* PostBubble.swift in Sources */,
 				6A449CBC2896F4330015826A /* ProfileCommentBubble.swift in Sources */,
 				6A449CA32896F4330015826A /* CommentVoteRequestBody.swift in Sources */,
+				D389D89D28BC099100A41329 /* OnboardingViewModel.swift in Sources */,
 				6A449CC72896F4330015826A /* ShareSheet.swift in Sources */,
 				28B286F428B2EF150088B857 /* MockMessage.swift in Sources */,
+				D389D89728BBF3F900A41329 /* ReferralOnboardingView.swift in Sources */,
 				82AEE06B28AEE03400738EB5 /* LeaderboardTopThree.swift in Sources */,
 				6A449CBE2896F4330015826A /* PostBubbleViewModel.swift in Sources */,
 				82CCCBB328B0F95600085E2D /* AdminFeedView.swift in Sources */,
