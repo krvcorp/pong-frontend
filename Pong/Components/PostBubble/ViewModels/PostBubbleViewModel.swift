@@ -71,7 +71,6 @@ class PostBubbleViewModel: ObservableObject {
         NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/block/", method: .post) { successResponse, errorResponse in
             if successResponse != nil {
                 dataManager.removePostLocally(post: post, message: "User blocked!")
-                self.updateTrigger.toggle()
             }
         }
     }
@@ -80,7 +79,6 @@ class PostBubbleViewModel: ObservableObject {
         NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/report/", method: .post) { successResponse, errorResponse in
             if successResponse != nil {
                 dataManager.removePostLocally(post: post, message: "Reported post!")
-                self.updateTrigger.toggle()
             }
         }
     }

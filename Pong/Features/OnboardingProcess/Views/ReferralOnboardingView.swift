@@ -9,31 +9,31 @@ struct ReferralOnboardingView: View {
             VStack(alignment: .leading, spacing: 20) {
                 HStack () {
                     Button {
-                        onboardingVM.onboard() { result in
-                            AuthManager.authManager.onboarded = true
-                        }
-                        AuthManager.authManager.onboarded = true
+                        onboardingVM.onboard()
                     } label: {
                         Image(systemName: "xmark")
+                            .foregroundColor(Color(UIColor.label))
                     }
-                    
-                    Text("One last question.")
-                        .font(.title).bold()
                 }
                 
-                Text("Were you referred by a friend? If so, enter their unique referral code below. If not, don't worry, just click the X in the top left.")
+                Text("One last question.")
+                    .font(.title).bold()
+                
+                Text("Were you referred by a friend?")
                     .font(.title2).bold()
                 
-                TextField("Code goes here", text: $referralCode)
+                Text("If so, enter their unique referral code below. If not, don't worry, just click the X in the top left and proceed to the app!")
+                    .font(.title2)
+                
+                TextField("Enter Code", text: $referralCode)
+                    .font(.title.bold())
             }
             .padding(10)
         
             Spacer()
         
             Button(action: {
-                onboardingVM.setReferrer(referralCode: referralCode) { result in
-                    AuthManager.authManager.onboarded = true
-                }
+                onboardingVM.setReferrer(referralCode: referralCode)
             }) {
                 Text("Take me to Pong")
                     .frame(minWidth: 0, maxWidth: 150)

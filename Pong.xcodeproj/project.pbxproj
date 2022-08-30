@@ -419,8 +419,8 @@
 		6A449BE62896F4320015826A /* OnboardingProcess */ = {
 			isa = PBXGroup;
 			children = (
-				D389D89A28BC087F00A41329 /* ViewModels */,
 				6A78FA6228A3060E00B75CC6 /* Models */,
+				D389D89A28BC087F00A41329 /* ViewModels */,
 				6A449BEA2896F4320015826A /* Views */,
 			);
 			path = OnboardingProcess;

@@ -41,6 +41,9 @@ class DataManager : ObservableObject {
     @Published var removedPost = false
     @Published var removedPostMessage = "Removed post!"
     
+    @Published var removedComment = false
+    @Published var removedCommentMessage = "Removed comment!"
+    
     func loadStartupState() {
         print("DEBUG: loadStartupState")
         // feed
@@ -155,7 +158,6 @@ class DataManager : ObservableObject {
     func initProfileComments() {
         NetworkManager.networkManager.request(route: "comments/?sort=profile", method: .get, successType: PaginateCommentsModel.Response.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
-                print("DEBUG: in here")
                 DispatchQueue.main.async {
                     self.profileComments = successResponse.results
                     let uniqued = self.profileComments.removingDuplicates()
@@ -163,7 +165,6 @@ class DataManager : ObservableObject {
                     if let nextLink = successResponse.next {
                         self.profileCommentsCurrentPage = nextLink
                     }
-                    print("DEBUG: \(self.profileComments)")
                 }
             }
         }
@@ -224,6 +225,18 @@ class DataManager : ObservableObject {
         }
     }
     
+    func removeCommentLocally(commentId: String, message: String) {
+        DispatchQueue.main.async {
+            withAnimation {
+                if let index = self.profileComments.firstIndex(where: {$0.id == commentId}) {
+                    self.profileComments.remove(at: index)
+                    self.removedCommentMessage = message
+                    self.removedComment = true
+                }
+            }
+        }
+    }
+    
     // MARK: Update post locally
     func updatePostLocally(post: Post) {
         DispatchQueue.main.async {
@@ -241,6 +254,16 @@ class DataManager : ObservableObject {
             }
             if let index = self.profileSavedPosts.firstIndex(where: {$0.id == post.id}) {
                 self.profileSavedPosts[index] = post
+            }
+        }
+    }
+    
+    func updateCommentLocally(comment: Comment) {
+        DispatchQueue.main.async {
+            if let index = self.profileComments.firstIndex(where: {$0.id == comment.id}) {
+                self.profileComments[index].score = comment.score
+                self.profileComments[index].numUpvotes = comment.numUpvotes
+                self.profileComments[index].numDownvotes = comment.numDownvotes
             }
         }
     }

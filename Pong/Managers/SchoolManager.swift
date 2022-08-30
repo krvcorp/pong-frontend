@@ -20,4 +20,7 @@ class SchoolManager: ObservableObject {
         }
         return Color(UIColor.label)
     }
+    
+    
+    
 }

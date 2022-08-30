@@ -4,7 +4,7 @@ import AlertToast
 struct ProfileCommentBubble: View {
     @Binding var comment : ProfileComment
     @StateObject var profileCommentBubbleVM = ProfileCommentBubbleViewModel()
-    @EnvironmentObject var profileVM : ProfileViewModel
+    @EnvironmentObject var dataManager : DataManager
     
     // MARK: Some local view logic
     @State private var showScore = false
@@ -70,7 +70,7 @@ struct ProfileCommentBubble: View {
                 title: Text("Delete comment"),
                 message: Text("Are you sure you want to delete \(comment.comment)"),
                 primaryButton: .destructive(Text("Delete")) {
-                    profileCommentBubbleVM.deleteComment(comment: self.comment, profileVM: profileVM)
+                    profileCommentBubbleVM.deleteComment(comment: self.comment, dataManager: dataManager)
                 },
                 secondaryButton: .cancel()
             )

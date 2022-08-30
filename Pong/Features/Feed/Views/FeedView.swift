@@ -87,7 +87,7 @@ struct FeedView: View {
                             Text(filter.title)
                                 .bold()
                         }
-                        .shadow(color: SchoolManager.shared.schoolPrimaryColor(), radius: 10, x: 0, y: 0)
+                        .shadow(color: SchoolManager.shared.schoolPrimaryColor(), radius: 7.5, x: 0, y: 0)
                         .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
 
                     } else {
@@ -144,6 +144,7 @@ struct FeedView: View {
                                 Image(systemName: "chevron.down")
                             }
                             .padding(.top)
+                            .padding(.bottom)
                         }
                         Spacer()
                     }
@@ -180,9 +181,8 @@ struct FeedView: View {
                             feedVM.paginatePosts(selectedFeedFilter: tab, dataManager: dataManager)
                         }
                     } else {
-                        CustomListDivider()
-                        
                         reachedBottomComponentAndFinished
+                        CustomListDivider()
                     }
                 }
                 // MARK: HOT
@@ -212,8 +212,8 @@ struct FeedView: View {
                             feedVM.paginatePosts(selectedFeedFilter: tab, dataManager: dataManager)
                         }
                     } else {
-                        CustomListDivider()
                         reachedBottomComponentAndFinished
+                        CustomListDivider()
                     }
                 }
                 // MARK: RECENT
@@ -241,8 +241,8 @@ struct FeedView: View {
                             feedVM.paginatePosts(selectedFeedFilter: tab, dataManager: dataManager)
                         }
                     } else {
-                        CustomListDivider()
                         reachedBottomComponentAndFinished
+                        CustomListDivider()
                     }
                 }
             }

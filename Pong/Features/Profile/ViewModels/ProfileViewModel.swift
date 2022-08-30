@@ -15,7 +15,6 @@ enum ProfileFilter: String, CaseIterable, Identifiable {
         switch self {
         case .posts: return "Posts"
         case .comments: return "Comments"
-//        case .awards: return "Awards"
         case .saved: return "Saved"
         }
     }
@@ -24,7 +23,6 @@ enum ProfileFilter: String, CaseIterable, Identifiable {
         switch self {
         case .posts: return "square.grid.2x2"
         case .comments: return "arrowshape.turn.up.left.2"
-//        case .awards: return "seal"
         case .saved: return "bookmark"
         }
     }
@@ -33,7 +31,6 @@ enum ProfileFilter: String, CaseIterable, Identifiable {
         switch self {
         case .posts: return "square.grid.2x2.fill"
         case .comments: return "arrowshape.turn.up.left.2.fill"
-//        case .awards: return "seal.fill"
         case .saved: return "bookmark.fill"
         }
     }
@@ -41,36 +38,12 @@ enum ProfileFilter: String, CaseIterable, Identifiable {
 
 class ProfileViewModel: ObservableObject {
     @Published var selectedProfileFilter : ProfileFilter = .posts
-    
-    @Published var totalKarma: Int = 0
-    @Published var commentKarma: Int = 0
-    @Published var postKarma: Int = 0
-    
-    @Published var posts: [Post] = []
-    @Published var comments: [ProfileComment] = []
-    @Published var awards: [Post] = []
-    @Published var saved: [Post] = []
-    
-    @Published var savedPosts: [Post] = []
 
     func getProfile(dataManager: DataManager) {
         paginatePosts(dataManager: dataManager)
-        getUser(dataManager: dataManager)
         paginateSaved(dataManager: dataManager)
         getAwards(dataManager: dataManager)
         paginateComments(dataManager: dataManager)
-    }
-    
-    func getUser(dataManager: DataManager) {
-        NetworkManager.networkManager.request(route: "users/\(AuthManager.authManager.userId)/", method: .get, successType: User.self) { successResponse, errorResponse in
-            if let successResponse = successResponse {
-                DispatchQueue.main.async {
-                    self.totalKarma = successResponse.totalScore
-                    self.commentKarma = successResponse.commentScore
-                    self.postKarma = successResponse.postScore
-                }
-            }
-        }
     }
     
     func paginatePostsIfNeeded(post: Post, selectedProfileFilter: ProfileFilter, dataManager: DataManager) {
