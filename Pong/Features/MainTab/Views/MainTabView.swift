@@ -29,7 +29,7 @@ struct MainTabView: View {
             // MARK: FeedView
             FeedView(newPostDetected: $mainTabVM.newPostDetected, showMenu: $showMenu)
                 .tabItem{
-                    Label("Home", systemImage: "house")
+                    Image(systemName: "house")
                 }
                 .tag(1)
                 .environmentObject(setTabHelper)
@@ -37,7 +37,7 @@ struct MainTabView: View {
             // MARK: Stats and Leaderboard
             LeaderboardView()
                 .tabItem{
-                    Label("Stats", systemImage: "chart.bar.xaxis")
+                    Image(systemName: "chart.bar.xaxis")
                 }
                 .tag(2)
 
@@ -51,14 +51,14 @@ struct MainTabView: View {
             // MARK: NotificationsView
             NotificationsView()
                 .tabItem {
-                    Label("Notifications", systemImage: "bell")
+                    Image(systemName: "bell")
                 }
                 .tag(4)
 
             // MARK: ProfileView
             ProfileView()
                 .tabItem{
-                    Label("Profile", systemImage: "person")
+                    Image(systemName: "person")
                 }
                 .tag(5)
                 .environmentObject(setTabHelper)

@@ -1,8 +1,9 @@
 import SwiftUI
+import AlertToast
 
 struct EmailVerificationView: View {
     private let logoDim: CGFloat = 128
-    @EnvironmentObject var onboardingVM : OnboardingViewModel
+    @StateObject var emailVerificationVM = EmailVerificationViewModel()
     
     var body: some View {
         VStack {
@@ -24,7 +25,7 @@ struct EmailVerificationView: View {
                 .foregroundColor(Color(white: 0.7, opacity: 1))
             Button {
                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                AuthManager.authManager.signinWithGoogle()
+                emailVerificationVM.signinWithGoogle()
             } label: {
                 HStack {
                     Image("GoogleLogo")
@@ -56,6 +57,9 @@ struct EmailVerificationView: View {
             ], startPoint: .topLeading, endPoint: .bottomTrailing)
         )
         .statusBar(hidden: true)
+        .toast(isPresenting: $emailVerificationVM.loginError) {
+            AlertToast(type: .error(.red), title: emailVerificationVM.loginErrorMessage)
+        }
     }
 }
 
