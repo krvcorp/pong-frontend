@@ -5,6 +5,7 @@ import UniformTypeIdentifiers
 struct SettingsView: View {
     @StateObject private var settingsVM = SettingsViewModel()
     @State private var showAlert = false
+    @State private var showUnblockAlert = false
     @State private var notifications = false
     @State private var shareSheet = false
     
@@ -61,6 +62,31 @@ struct SettingsView: View {
                         Image(systemName: "figure.stand.line.dotted.figure.stand")
                     }
                 }
+                
+                // MARK: Unblock All
+                Button {
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                    showUnblockAlert.toggle()
+                } label: {
+                    HStack {
+                        Text("Unblock All Users").foregroundColor(.red).bold()
+                        Spacer()
+                        Image(systemName: "eye.slash.fill").foregroundColor(.red).font(Font.body.weight(.bold))
+                    }
+                }
+                .alert(isPresented: $showUnblockAlert) {
+                    Alert(
+                        title: Text("Unblock All"),
+                        message: Text("Are you sure you want to unblock everyone you've blocked so far? You can't reverse this action."),
+                        primaryButton: .default(
+                            Text("Cancel")
+                        ),
+                        secondaryButton: .destructive(Text("Unblock")){
+                            settingsVM.unblockAll()
+                        }
+                    )
+                }
+                
                 
             }.modifier(ProminentHeaderModifier())
             
@@ -125,7 +151,7 @@ struct SettingsView: View {
             }.modifier(ProminentHeaderModifier())
             
             // MARK: Legal
-            Section(header: Text("The Boring Stuff").foregroundColor(.gray)) {
+            Section(header: Text("The Boring Stuff")) {
                 // MARK: Privacy Policy
                 HStack() {
                     Link("Privacy Policy", destination: URL(string: "https://www.pong.college/legal")!)

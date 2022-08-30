@@ -45,9 +45,8 @@ class SettingsViewModel: ObservableObject {
         }
     }
     
-    func updateNickname(nickname: String) {
-        let parameters = Nickname.self(nickname: nickname)
-        NetworkManager.networkManager.emptyRequest(route: "users/\(AuthManager.authManager.userId)/nickname/", method: .post, body: parameters) { successResponse, errorResponse in
+    func unblockAll() {
+        NetworkManager.networkManager.emptyRequest(route: "users/\(AuthManager.authManager.userId)/unblockall/", method: .delete) { successResponse, errorResponse in
             if let successResponse = successResponse {
                 debugPrint(successResponse)
             }
