@@ -44,6 +44,16 @@ class SettingsViewModel: ObservableObject {
             }
         }
     }
+    
+    func updateNickname(nickname: String) {
+        let parameters = Nickname.self(nickname: nickname)
+        NetworkManager.networkManager.emptyRequest(route: "users/\(AuthManager.authManager.userId)/nickname/", method: .post, body: parameters) { successResponse, errorResponse in
+            if let successResponse = successResponse {
+                debugPrint(successResponse)
+            }
+        }
+    }
+    
 }
 
 

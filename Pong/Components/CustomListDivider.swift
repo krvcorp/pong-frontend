@@ -11,7 +11,7 @@ struct CustomListDivider: View {
     var body: some View {
         Rectangle()
             .fill(Color(UIColor.secondarySystemBackground))
-            .frame(maxHeight: 0)
+            .frame(height: 1)
             .listRowBackground(Color(UIColor.secondarySystemBackground).edgesIgnoringSafeArea([.leading, .trailing]))
             .listRowSeparator(.hidden)
     }

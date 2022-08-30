@@ -8,6 +8,9 @@ struct LeaderboardView: View {
     
     @State var timeRemaining = 10
     @State var timer = Timer.publish(every: 1, on: .current, in: .common).autoconnect()
+    
+    @State private var nickname: String = ""
+    
 
     
     var body: some View {
@@ -33,6 +36,18 @@ struct LeaderboardView: View {
                             ]
                         )
                         
+                        HStack {
+                            TextField("Nickname", text: $nickname)
+                            Button(action: {
+                                leaderboardVM.updateNickname(nickname: nickname)
+                            }) {
+                                Label("Save", systemImage: "pencil")
+                            }
+                        }
+                        
+                        
+                        
+                        
                         if (lblist.count > 3) {
                             Section(header: Text("Leaderboard")) {
                                 HStack(alignment: .center) {
@@ -48,7 +63,7 @@ struct LeaderboardView: View {
                                 
                                     HStack() {
                                         Spacer()
-                                        Text("Name")
+                                        Text("Nickname")
                                             .font(.headline)
                                             .bold()
                                         Spacer()
@@ -80,7 +95,7 @@ struct LeaderboardView: View {
                                         
                                             HStack() {
                                                 Spacer()
-                                                Text(" --- ")
+                                                Text(entry.nickname != "" ? entry.nickname : "---")
                                                 Spacer()
                                             }
                                             .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
@@ -121,10 +136,11 @@ struct LeaderboardView: View {
                     }
             }
         }
-        .onAppear{
+        .onAppear {
             self.timer = Timer.publish (every: 1, on: .current, in: .common).autoconnect()
+            self.nickname = leaderboardVM.nickname
         }
-        .onDisappear{
+        .onDisappear {
             self.timer.upstream.connect().cancel()
         }
     }

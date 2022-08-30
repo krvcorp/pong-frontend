@@ -8,16 +8,11 @@
 import Foundation
 
 class LeaderboardViewModel: ObservableObject {
-//    @Published var leaderboardList : [TotalScore] = []
-//    @Published var totalKarma: Int = 0
-//    @Published var commentKarma: Int = 0
-//    @Published var postKarma: Int = 0
-    @Published var posts: [Post] = []
-    @Published var comments: [Comment] = []
-    @Published var savedPosts: [Post] = []
+    
+    @Published var nickname : String = ""
     
     func getLeaderboard(dataManager: DataManager) {
-        NetworkManager.networkManager.request(route: "users/leaderboard/", method: .get, successType: [TotalScore].self) { successResponse, errorResponse in
+        NetworkManager.networkManager.request(route: "users/leaderboard/", method: .get, successType: [LeaderboardUser].self) { successResponse, errorResponse in
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
                     var leaderboardList = successResponse
@@ -35,6 +30,15 @@ class LeaderboardViewModel: ObservableObject {
         }
     }
     
+    func updateNickname(nickname: String) {
+        let parameters = Nickname.self(nickname: nickname)
+        NetworkManager.networkManager.emptyRequest(route: "users/\(AuthManager.authManager.userId)/nickname/", method: .post, body: parameters) { successResponse, errorResponse in
+            if let successResponse = successResponse {
+                debugPrint(successResponse)
+            }
+        }
+    }
+    
     func getLoggedInUserInfo(dataManager: DataManager) {
         NetworkManager.networkManager.request(route: "users/\(AuthManager.authManager.userId)/", method: .get, successType: User.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
@@ -42,6 +46,7 @@ class LeaderboardViewModel: ObservableObject {
                     dataManager.totalKarma = successResponse.totalScore
                     dataManager.commentKarma = successResponse.commentScore
                     dataManager.postKarma = successResponse.postScore
+                    self.nickname = successResponse.nickname
                 }
             }
         }

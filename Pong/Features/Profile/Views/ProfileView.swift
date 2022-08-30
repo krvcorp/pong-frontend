@@ -66,16 +66,6 @@ struct ProfileView: View {
                 }
                 
                 Spacer()
-//
-//                Spacer()
-//
-//                VStack {
-//                    Text("Comment")
-//                        .font(.title3.bold())
-//                    Text("\(dataManager.commentKarma)")
-//                        .font(.title3.bold())
-//                        .foregroundColor(Color(UIColor(named: "PongPrimary")!))
-//                }
             }
             .padding()
 
