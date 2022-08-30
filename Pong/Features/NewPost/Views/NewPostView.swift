@@ -32,8 +32,8 @@ struct NewPostView: View {
                             Spacer()
                         }
 
-                        
-                        TextArea("What's on your mind?", text: $newPostVM.title)
+                        let prompts = ["What's on your mind?", "What's upsetting you right now?", "Who do you hate?", "Seen anything interesting lately?", "How's your day going?"]
+                        TextArea(prompts.randomElement()!, text: $newPostVM.title)
                             .font(.title)
                             .frame(maxHeight: .infinity)
                         
