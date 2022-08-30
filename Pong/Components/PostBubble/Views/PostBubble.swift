@@ -70,7 +70,8 @@ struct PostBubble: View {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         DispatchQueue.main.async {
                             postBubbleVM.post = post
-                            postBubbleVM.showDeleteConfirmationView.toggle()
+                            postBubbleVM.activeAlert = .delete
+                            postBubbleVM.showConfirmation = true
                         }
                     } label: {
                         Image(systemName: "trash")
@@ -79,14 +80,18 @@ struct PostBubble: View {
                     Menu {
                         Button {
                             UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                            postBubbleVM.blockPost(post: post, dataManager: dataManager)
+                            postBubbleVM.post = post
+                            postBubbleVM.activeAlert = .block
+                            postBubbleVM.showConfirmation = true
                         } label: {
                             Label("Block user", systemImage: "x.circle")
                         }
                         
                         Button {
                             UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                            postBubbleVM.reportPost(post: post, dataManager: dataManager)
+                            postBubbleVM.post = post
+                            postBubbleVM.activeAlert = .report
+                            postBubbleVM.showConfirmation = true
                         } label: {
                             Label("Report", systemImage: "flag")
                         }
@@ -108,20 +113,42 @@ struct PostBubble: View {
                 self.post = postBubbleVM.post
             }
         }
-        
-        // MARK: Delete Confirmation
-        .alert(isPresented: $postBubbleVM.showDeleteConfirmationView) {
-            Alert(
-                title: Text("Delete post"),
-                message: Text("Are you sure you want to delete \(post.title)"),
-                primaryButton: .destructive(Text("Delete")) {
-                    postBubbleVM.deletePost(post: post, dataManager: dataManager)
-                },
-                secondaryButton: .cancel()
-            )
-        }
         .toast(isPresenting: $postBubbleVM.savedPostConfirmation){
             AlertToast(type: .regular, title: "Post saved!")
+        }
+        // MARK: Delete/Block/Report Confirmation
+        .alert(isPresented: $postBubbleVM.showConfirmation) {
+            switch postBubbleVM.activeAlert {
+            case .delete:
+                return Alert(
+                    title: Text("Delete post"),
+                    message: Text("Are you sure you want to delete \(post.title)"),
+                    primaryButton: .destructive(Text("Delete")) {
+                        postBubbleVM.deletePost(post: post, dataManager: dataManager)
+                    },
+                    secondaryButton: .cancel()
+                )
+
+            case .report:
+                return Alert(
+                    title: Text("Report post"),
+                    message: Text("Are you sure you want to report \(post.title)"),
+                    primaryButton: .destructive(Text("Report")) {
+                        postBubbleVM.reportPost(post: post, dataManager: dataManager)
+                    },
+                    secondaryButton: .cancel()
+                )
+
+            case .block:
+                return Alert(
+                    title: Text("Block post and user"),
+                    message: Text("Are you sure you want to block posts from this user?"),
+                    primaryButton: .destructive(Text("Block")) {
+                        postBubbleVM.blockPost(post: post, dataManager: dataManager)
+                    },
+                    secondaryButton: .cancel()
+                )
+            }
         }
     }
     

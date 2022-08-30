@@ -1,8 +1,15 @@
 import Foundation
 
+enum ActiveAlert {
+    case delete, report, block
+}
+
 class PostBubbleViewModel: ObservableObject {
     @Published var post : Post = defaultPost
-    @Published var showDeleteConfirmationView : Bool = false
+    
+    @Published var showConfirmation : Bool = false
+    @Published var activeAlert: ActiveAlert = .delete
+    
     @Published var savedPostConfirmation : Bool = false
     @Published var updateTrigger : Bool = false
     

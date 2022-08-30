@@ -8,11 +8,17 @@
 import Foundation
 import SwiftUI
 
+enum PostViewActiveAlert {
+    case postDelete, postReport, postBlock, commentDelete, commentReport, commentBlock
+}
+
 class PostViewModel: ObservableObject {
     @Published var post : Post = defaultPost
     @Published var comments : [Comment] = []
-    @Published var showDeletePostConfirmationView : Bool = false
-    @Published var showDeleteCommentConfirmationView : Bool = false
+    
+    @Published var showConfirmation : Bool = false
+    @Published var activeAlert : PostViewActiveAlert = .postDelete
+    
     @Published var commentToDelete : Comment = defaultComment
     @Published var replyToComment : Comment = defaultComment
     
@@ -156,7 +162,8 @@ class PostViewModel: ObservableObject {
     func deleteComment(comment: Comment) {
         DispatchQueue.main.async {
             self.commentToDelete = comment
-            self.showDeleteCommentConfirmationView = true
+            self.activeAlert = .commentDelete
+            self.showConfirmation = true
         }
     }
     

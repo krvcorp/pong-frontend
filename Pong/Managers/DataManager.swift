@@ -178,7 +178,6 @@ class DataManager : ObservableObject {
         NetworkManager.networkManager.request(route: "posts/?sort=saved", method: .get, successType: PaginatePostsModel.Response.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
-                    print("DEBUG: getSaved success")
                     self.profileSavedPosts = successResponse.results
                     if let nextLink = successResponse.next {
                         self.profileSavedCurrentPage = nextLink

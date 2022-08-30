@@ -72,25 +72,67 @@ struct PostView: View {
         })
         .navigationBarTitleDisplayMode(.inline)
         // MARK: Alerts and Toasts
-        .alert(isPresented: $postVM.showDeletePostConfirmationView) {
-            Alert(
-                title: Text("Delete post"),
-                message: Text("Are you sure you want to delete \(post.title)"),
-                primaryButton: .destructive(Text("Delete")) {
-                    postVM.deletePost(post: post, dataManager: dataManager)
-                },
-                secondaryButton: .cancel()
-            )
-        }
-        .alert(isPresented: $postVM.showDeleteCommentConfirmationView) {
-            Alert(
-                title: Text("Delete comment"),
-                message: Text("Are you sure you want to delete \(postVM.commentToDelete.comment)"),
-                primaryButton: .destructive(Text("Delete")) {
-                    postVM.deleteCommentConfirm(dataManager: dataManager)
-                },
-                secondaryButton: .cancel()
-            )
+        .alert(isPresented: $postVM.showConfirmation) {
+            switch postVM.activeAlert {
+            case .postDelete:
+                return Alert(
+                    title: Text("Delete post"),
+                    message: Text("Are you sure you want to delete \(post.title)"),
+                    primaryButton: .destructive(Text("Delete")) {
+                        postVM.deletePost(post: post, dataManager: dataManager)
+                    },
+                    secondaryButton: .cancel()
+                )
+
+            case .postReport:
+                return Alert(
+                    title: Text("Report post"),
+                    message: Text("Are you sure you want to report \(post.title)"),
+                    primaryButton: .destructive(Text("Report")) {
+                        postVM.reportPost(post: post, dataManager: dataManager)
+                    },
+                    secondaryButton: .cancel()
+                )
+
+            case .postBlock:
+                return Alert(
+                    title: Text("Block post and user"),
+                    message: Text("Are you sure you want to block posts from this user?"),
+                    primaryButton: .destructive(Text("Block")) {
+                        postVM.blockPost(post: post, dataManager: dataManager)
+                    },
+                    secondaryButton: .cancel()
+                )
+            case .commentDelete:
+                return Alert(
+                    title: Text("Delete comment"),
+                    message: Text("Are you sure you want to delete \(postVM.commentToDelete.comment)"),
+                    primaryButton: .destructive(Text("Delete")) {
+                        postVM.deleteCommentConfirm(dataManager: dataManager)
+                    },
+                    secondaryButton: .cancel()
+                )
+            case .commentReport:
+                return Alert(
+                    title: Text("Report comment"),
+                    message: Text("Are you sure you want to report \(postVM.commentToDelete.comment)"),
+                    primaryButton: .destructive(Text("Delete")) {
+                        postVM.deleteCommentConfirm(dataManager: dataManager)
+                    },
+                    secondaryButton: .cancel()
+                )
+            case .commentBlock:
+                return Alert(
+                    title: Text("Block comment"),
+                    message: Text("Are you sure you want to block \(postVM.commentToDelete.comment)"),
+                    primaryButton: .destructive(Text("Delete")) {
+                        postVM.deleteCommentConfirm(dataManager: dataManager)
+                    },
+                    secondaryButton: .cancel()
+                )
+            }
+
+            
         }
         .toast(isPresenting: $dataManager.removedComment) {
             AlertToast(displayMode: .hud, type: .regular, title: dataManager.removedCommentMessage)
@@ -174,24 +216,26 @@ struct PostView: View {
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     DispatchQueue.main.async {
-                        postVM.showDeletePostConfirmationView.toggle()
+                        postVM.activeAlert = .postDelete
+                        postVM.showConfirmation = true
                     }
                 } label: {
                     Image(systemName: "trash")
                 }
             } else {
                 Menu {
-                    
                     Button {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        postVM.blockPost(post: post, dataManager: dataManager)
+                        postVM.activeAlert = .postBlock
+                        postVM.showConfirmation = true
                     } label: {
                         Label("Block user", systemImage: "x.circle")
                     }
                     
                     Button {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        postVM.reportPost(post: post, dataManager: dataManager)
+                        postVM.activeAlert = .postReport
+                        postVM.showConfirmation = true
                     } label: {
                         Label("Report", systemImage: "flag")
                     }
