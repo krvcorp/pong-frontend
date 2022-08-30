@@ -1,5 +1,6 @@
 import SwiftUI
 import PopupView
+import AlertToast
 
 struct ProfileView: View {
     @Environment(\.colorScheme) var colorScheme
@@ -24,6 +25,7 @@ struct ProfileView: View {
                 .background(Color(UIColor.systemGroupedBackground))
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
 
+
             }
             // Navigation bar
             .navigationTitle("Your Profile")
@@ -40,6 +42,12 @@ struct ProfileView: View {
         }
         .accentColor(Color(UIColor.label))
         .navigationViewStyle(StackNavigationViewStyle())
+        .toast(isPresenting: $dataManager.removedPost) {
+            AlertToast(displayMode: .hud, type: .regular, title: dataManager.removedPostMessage)
+        }
+        .toast(isPresenting: $dataManager.removedComment) {
+            AlertToast(displayMode: .hud, type: .regular, title: dataManager.removedCommentMessage)
+        }
     }
     
     var karmaComponent : some View {
@@ -156,7 +164,7 @@ struct ProfileView: View {
                         
                         ProfileCommentBubble(comment: $comment)
                             .buttonStyle(PlainButtonStyle())
-                            .environmentObject(profileVM)
+                            .environmentObject(dataManager)
                             .listRowSeparator(.hidden)
                             .listRowBackground(Color(UIColor.systemBackground))
                     }

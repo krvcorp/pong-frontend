@@ -19,6 +19,9 @@ struct PostView: View {
         ZStack(alignment: .bottom) {
             ScrollView {
                 mainPost
+                    .toast(isPresenting: $postVM.savedPostConfirmation) {
+                        AlertToast(type: .regular, title: "Post saved!")
+                    }
                 
                 LazyVStack {
                     ForEach($postVM.comments, id: \.self) { $comment in
@@ -50,7 +53,13 @@ struct PostView: View {
                 postVM.getComments()
             }
         }
-        .onChange(of: postVM.updateTrigger) { newValue in
+        .onChange(of: postVM.postUpdateTrigger) { newValue in
+            DispatchQueue.main.async {
+                self.post = postVM.post
+            }
+            dataManager.updatePostLocally(post: postVM.post)
+        }
+        .onChange(of: postVM.commentUpdateTrigger) { newValue in
             DispatchQueue.main.async {
                 self.post = postVM.post
             }
@@ -78,16 +87,13 @@ struct PostView: View {
                 title: Text("Delete comment"),
                 message: Text("Are you sure you want to delete \(postVM.commentToDelete.comment)"),
                 primaryButton: .destructive(Text("Delete")) {
-                    postVM.deleteCommentConfirm()
+                    postVM.deleteCommentConfirm(dataManager: dataManager)
                 },
                 secondaryButton: .cancel()
             )
         }
-        .toast(isPresenting: $postVM.savedPostConfirmation){
-            AlertToast(type: .regular, title: "Post saved!")
-        }
-        .toast(isPresenting: $postVM.removedComment){
-            AlertToast(displayMode: .banner(.slide), type: .regular, title: "Comment deleted!")
+        .toast(isPresenting: $dataManager.removedComment) {
+            AlertToast(displayMode: .hud, type: .regular, title: dataManager.removedCommentMessage)
         }
     }
     
@@ -367,7 +373,7 @@ struct PostView: View {
                     Button {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         if postVM.replyToComment == defaultComment {
-                            postVM.createComment(comment: text)
+                            postVM.createComment(comment: text, dataManager: dataManager)
                         } else {
                             postVM.commentReply(comment: text)
                             postVM.replyToComment = defaultComment

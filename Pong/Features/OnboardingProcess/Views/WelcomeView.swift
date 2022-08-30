@@ -26,8 +26,10 @@ struct WelcomeView: View {
                 onboardingVM.welcomed = true
             } label: {
                 Label("Agree", systemImage: "checkmark.seal")
+                    .font(.title)
+                    .foregroundColor(Color(UIColor.label))
             }
-            .cornerRadius(20)
+            .padding(.bottom)
         }
     }
 }

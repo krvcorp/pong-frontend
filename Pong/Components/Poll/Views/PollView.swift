@@ -37,8 +37,8 @@ struct PollView: View {
                         .padding(5)
                         .padding(.horizontal, 10)
                         .frame(minWidth: 0, maxWidth: .infinity)
-                        .foregroundColor(.black)
-                        .background(post.poll!.votedFor == option.id ? SchoolManager.shared.schoolPrimaryColor() : Color.bone)
+                        .foregroundColor(Color(UIColor.label))
+                        .background(post.poll!.votedFor == option.id ? SchoolManager.shared.schoolPrimaryColor() : Color(UIColor.secondarySystemBackground))
                         .cornerRadius(20)         // You also need the cornerRadius here
                         .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color(UIColor.darkGray), lineWidth: 1))
                         .padding(.top, 5)
@@ -60,8 +60,8 @@ struct PollView: View {
                             }
                             .padding(5)
                             .frame(minWidth: 0, maxWidth: .infinity)
-                            .foregroundColor(.black)
-                            .background(Color.bone)
+                            .foregroundColor(Color(UIColor.label))
+                            .background(Color(UIColor.secondarySystemBackground))
                             .cornerRadius(20)         // You also need the cornerRadius here
                         }
                         .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color(UIColor.darkGray), lineWidth: 1))

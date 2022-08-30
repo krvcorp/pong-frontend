@@ -5,12 +5,10 @@ class ProfileCommentBubbleViewModel: ObservableObject {
     @Published var showDeleteConfirmationView : Bool = false
     @Published var parentPost : Post = defaultPost
     
-    func deleteComment(comment: ProfileComment, profileVM: ProfileViewModel) {
+    func deleteComment(comment: ProfileComment, dataManager: DataManager) {
         NetworkManager.networkManager.emptyRequest(route: "comments/\(comment.id)/", method: .delete) { successResponse, errorResponse in
             if successResponse != nil {
-                if let index = profileVM.comments.firstIndex(of: comment) {
-                    profileVM.comments.remove(at: index)
-                }
+                dataManager.removeCommentLocally(commentId: comment.id, message: "Comment deleted!")
             }
         }
     }
