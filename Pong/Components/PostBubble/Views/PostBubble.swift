@@ -182,6 +182,11 @@ struct PostBubble: View {
                     VoteComponent
                 }
                 
+                // MARK: Image
+                AsyncImage(url: URL(string: post.image!)!,
+                           placeholder: {ProgressView()},
+                           image: { Image(uiImage: $0).resizable() })
+                
                 // MARK: Poll
                 if post.poll != nil {
                     PollView(post: $post)

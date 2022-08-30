@@ -28,19 +28,11 @@ struct AdminPostBubble: View {
                             .multilineTextAlignment(.leading)
                         
                         // MARK: Image
-                        if let imageUrl = adminPostBubbleVM.post.image {
-                            AsyncImage(url: URL(string: imageUrl)) { image in
-                                VStack {
-                                    image.resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                }
-                            } placeholder: {
-                                VStack {
-                                    ProgressView()
-                                }
-                            }
-                        }
+                        
+                        AsyncImage(url: URL(string: post.image!)!,
+                                   placeholder: {ProgressView()},
+                                   image: { Image(uiImage: $0).resizable() })
+                        
                     }
                     .padding(.bottom)
                     Spacer()
