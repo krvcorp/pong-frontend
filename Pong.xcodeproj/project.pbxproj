@@ -52,7 +52,7 @@
 		6A449C922896F4320015826A /* NewPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C122896F4320015826A /* NewPostViewModel.swift */; };
 		6A449C932896F4330015826A /* NewPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C142896F4320015826A /* NewPostView.swift */; };
 		6A449C962896F4330015826A /* PongApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C192896F4320015826A /* PongApp.swift */; };
-		6A449C982896F4330015826A /* TotalScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C1C2896F4320015826A /* TotalScore.swift */; };
+		6A449C982896F4330015826A /* LeaderboardUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C1C2896F4320015826A /* LeaderboardUser.swift */; };
 		6A449C992896F4330015826A /* Votes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C1D2896F4320015826A /* Votes.swift */; };
 		6A449C9A2896F4330015826A /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C1E2896F4320015826A /* Comment.swift */; };
 		6A449C9C2896F4330015826A /* DeleteCommentRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C202896F4320015826A /* DeleteCommentRequestBody.swift */; };
@@ -124,6 +124,7 @@
 		D389D89D28BC099100A41329 /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D389D89C28BC099100A41329 /* OnboardingViewModel.swift */; };
 		D389D89F28BC0A3000A41329 /* SetReferrer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D389D89E28BC0A3000A41329 /* SetReferrer.swift */; };
 		D3D7EA4028BE4217002E75F0 /* EmailVerificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D7EA3F28BE4217002E75F0 /* EmailVerificationViewModel.swift */; };
+		D3D7EA4328BE6731002E75F0 /* Nickname.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D7EA4228BE6731002E75F0 /* Nickname.swift */; };
 		D3FF841328BC6B96003C8B06 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3FF841228BC6B96003C8B06 /* DataManager.swift */; };
 		D3FF841628BC6BCA003C8B06 /* PaginateCommentsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3FF841528BC6BCA003C8B06 /* PaginateCommentsModel.swift */; };
 		D3FF841828BC6C4B003C8B06 /* ImageShare.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3FF841728BC6C4B003C8B06 /* ImageShare.swift */; };
@@ -168,7 +169,7 @@
 		6A449C122896F4320015826A /* NewPostViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewPostViewModel.swift; sourceTree = "<group>"; };
 		6A449C142896F4320015826A /* NewPostView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewPostView.swift; sourceTree = "<group>"; };
 		6A449C192896F4320015826A /* PongApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PongApp.swift; sourceTree = "<group>"; };
-		6A449C1C2896F4320015826A /* TotalScore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TotalScore.swift; sourceTree = "<group>"; };
+		6A449C1C2896F4320015826A /* LeaderboardUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeaderboardUser.swift; sourceTree = "<group>"; };
 		6A449C1D2896F4320015826A /* Votes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Votes.swift; sourceTree = "<group>"; };
 		6A449C1E2896F4320015826A /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		6A449C202896F4320015826A /* DeleteCommentRequestBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeleteCommentRequestBody.swift; sourceTree = "<group>"; };
@@ -238,6 +239,7 @@
 		D389D89C28BC099100A41329 /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
 		D389D89E28BC0A3000A41329 /* SetReferrer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetReferrer.swift; sourceTree = "<group>"; };
 		D3D7EA3F28BE4217002E75F0 /* EmailVerificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailVerificationViewModel.swift; sourceTree = "<group>"; };
+		D3D7EA4228BE6731002E75F0 /* Nickname.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nickname.swift; sourceTree = "<group>"; };
 		D3FF841228BC6B96003C8B06 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		D3FF841528BC6BCA003C8B06 /* PaginateCommentsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginateCommentsModel.swift; sourceTree = "<group>"; };
 		D3FF841728BC6C4B003C8B06 /* ImageShare.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageShare.swift; sourceTree = "<group>"; };
@@ -433,6 +435,7 @@
 		6A449BFD2896F4320015826A /* Leaderboard */ = {
 			isa = PBXGroup;
 			children = (
+				D3D7EA4128BE651A002E75F0 /* Models */,
 				6A449BFE2896F4320015826A /* ViewModels */,
 				6A449C002896F4320015826A /* Views */,
 			);
@@ -555,7 +558,6 @@
 				6A4BD72628B1772C004EFE4A /* PaginatePostsModel.swift */,
 				6A78FA5828A1A65E00B75CC6 /* PostVoteModel.swift */,
 				6A7E109828AED83500CE3CFD /* PollVoteModel.swift */,
-				6A449C1C2896F4320015826A /* TotalScore.swift */,
 				6A449C1D2896F4320015826A /* Votes.swift */,
 				6A449C202896F4320015826A /* DeleteCommentRequestBody.swift */,
 				6A449C212896F4320015826A /* PostReport.swift */,
@@ -944,6 +946,7 @@
 			isa = PBXGroup;
 			children = (
 				D389D88B28BB0C7700A41329 /* ReferralResponse.swift */,
+				D3D7EA4228BE6731002E75F0 /* Nickname.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -980,6 +983,14 @@
 				D3D7EA3F28BE4217002E75F0 /* EmailVerificationViewModel.swift */,
 			);
 			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		D3D7EA4128BE651A002E75F0 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				6A449C1C2896F4320015826A /* LeaderboardUser.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		D3FF841428BC6BCA003C8B06 /* Models */ = {
@@ -1118,7 +1129,7 @@
 				28B286F528B2EF150088B857 /* CustomTextLayoutSizeCalculator.swift in Sources */,
 				6A449C912896F4320015826A /* MainTabView.swift in Sources */,
 				6A09D64728A59E9A005E5C23 /* ImagePicker.swift in Sources */,
-				6A449C982896F4330015826A /* TotalScore.swift in Sources */,
+				6A449C982896F4330015826A /* LeaderboardUser.swift in Sources */,
 				6A449CA52896F4330015826A /* CreatePostReportRequestBody.swift in Sources */,
 				6A449CC12896F4330015826A /* ReportViewModel.swift in Sources */,
 				6A449C8D2896F4320015826A /* ProfileView.swift in Sources */,
@@ -1138,6 +1149,7 @@
 				6A449CA32896F4330015826A /* CommentVoteRequestBody.swift in Sources */,
 				D389D89D28BC099100A41329 /* OnboardingViewModel.swift in Sources */,
 				6A449CC72896F4330015826A /* ShareSheet.swift in Sources */,
+				D3D7EA4328BE6731002E75F0 /* Nickname.swift in Sources */,
 				28B286F428B2EF150088B857 /* MockMessage.swift in Sources */,
 				D389D89728BBF3F900A41329 /* ReferralOnboardingView.swift in Sources */,
 				82AEE06B28AEE03400738EB5 /* LeaderboardTopThree.swift in Sources */,

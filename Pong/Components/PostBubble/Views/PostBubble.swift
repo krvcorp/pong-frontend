@@ -135,10 +135,14 @@ struct PostBubble: View {
             VStack {
                 HStack(alignment: .top) {
                     VStack(alignment: .leading) {
-                        Text("\(post.timeSincePosted)")
-                            .font(.caption)
-                            .padding(.bottom, 4)
-          
+                        HStack {
+                            Image(systemName: "person.fill")
+                                .font(.caption)
+                                .padding(.bottom, 4)
+                            Text("\(post.timeSincePosted)")
+                                .font(.caption)
+                                .padding(.bottom, 4)
+                        }
                         Text(post.title)
                             .multilineTextAlignment(.leading)
                         

@@ -155,7 +155,6 @@ struct FeedView: View {
                     
                     ForEach($dataManager.topPosts, id: \.id) { $post in
                         // custom divider
-                        CustomListDivider()
                         
                         PostBubble(post: $post)
                             .buttonStyle(PlainButtonStyle())
@@ -163,6 +162,7 @@ struct FeedView: View {
                                 feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab, dataManager: dataManager)
                             }
                             .listRowSeparator(.hidden)
+                        CustomListDivider()
                     }
                     
                     if !feedVM.finishedTop {
@@ -185,7 +185,6 @@ struct FeedView: View {
                 // MARK: HOT
                 else if tab == .hot {
                     ForEach($dataManager.hotPosts, id: \.id) { $post in
-                        CustomListDivider()
                         
                         PostBubble(post: $post)
                             .buttonStyle(PlainButtonStyle())
@@ -193,6 +192,7 @@ struct FeedView: View {
                                 feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab, dataManager: dataManager)
                             }
                             .listRowSeparator(.hidden)
+                        CustomListDivider()
                         
                     }
                     if !feedVM.finishedHot {
@@ -214,7 +214,6 @@ struct FeedView: View {
                 // MARK: RECENT
                 else if tab == .recent {
                     ForEach($dataManager.recentPosts, id: \.id) { $post in
-                        CustomListDivider()
                         
                         PostBubble(post: $post)
                             .buttonStyle(PlainButtonStyle())
@@ -222,6 +221,7 @@ struct FeedView: View {
                                 feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab, dataManager: dataManager)
                             }
                             .listRowSeparator(.hidden)
+                        CustomListDivider()
                     }
                     if !feedVM.finishedRecent {
                         CustomListDivider()

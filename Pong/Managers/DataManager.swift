@@ -31,7 +31,7 @@ class DataManager : ObservableObject {
     var profileSavedCurrentPage = "posts/?sort=new"
     
     // leaderboard
-    @Published var leaderboardList : [TotalScore] = []
+    @Published var leaderboardList : [LeaderboardUser] = []
     
     // user stats
     @Published var totalKarma: Int = 0
@@ -111,7 +111,7 @@ class DataManager : ObservableObject {
     }
     
     func initLeaderboard() {
-        NetworkManager.networkManager.request(route: "users/leaderboard/", method: .get, successType: [TotalScore].self) { successResponse, errorResponse in
+        NetworkManager.networkManager.request(route: "users/leaderboard/", method: .get, successType: [LeaderboardUser].self) { successResponse, errorResponse in
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
                     var leaderboardList = successResponse

@@ -7,4 +7,5 @@ struct User: Identifiable, Codable {
     var postScore: Int
     var totalScore: Int
     var isSuperuser: Bool
+    var nickname: String
 }
