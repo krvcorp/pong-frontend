@@ -52,7 +52,7 @@ struct ProfileView: View {
                         .font(.title.bold())
                     Text("\(dataManager.totalKarma)")
                         .font(.title.bold())
-                        .foregroundColor(Color(UIColor(named: "PongPrimary")!))
+                        .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
                 }
                 
                 Spacer()
@@ -62,7 +62,7 @@ struct ProfileView: View {
                         .font(.title.bold())
                     Text("\(dataManager.postKarma)")
                         .font(.title.bold())
-                        .foregroundColor(Color(UIColor(named: "PongPrimary")!))
+                        .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
                 }
                 
                 Spacer()
@@ -87,7 +87,7 @@ struct ProfileView: View {
     
     // component for toolbar picker
     var toolbarPickerComponent : some View {
-        HStack {
+        HStack(spacing: 30) {
             ForEach(ProfileFilter.allCases, id: \.self) { filter in
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
@@ -99,15 +99,15 @@ struct ProfileView: View {
                             Text(filter.title)
                                 .bold()
                         }
-                        .shadow(color: Color(UIColor(named: "PongPrimarySelected")!), radius: 10, x: 0, y: 0)
-                        .foregroundColor(Color(UIColor(named: "PongPrimarySelected")!))
+                        .shadow(color: SchoolManager.shared.schoolPrimaryColor(), radius: 10, x: 0, y: 0)
+                        .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
 
                     } else {
                         HStack{
                             Image(systemName: filter.imageName)
                             Text(filter.title)
                         }
-                        .foregroundColor(Color(UIColor(named: "PongPrimary")!))
+                        .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
                     }
                 }
             }
@@ -126,6 +126,7 @@ struct ProfileView: View {
                         PostBubble(post: $post)
                             .buttonStyle(PlainButtonStyle())
                             .listRowSeparator(.hidden)
+                            .listRowBackground(Color(UIColor.systemBackground))
                     }
                 } else {
                     VStack(alignment: .center, spacing: 15) {
@@ -167,6 +168,7 @@ struct ProfileView: View {
                             .buttonStyle(PlainButtonStyle())
                             .environmentObject(profileVM)
                             .listRowSeparator(.hidden)
+                            .listRowBackground(Color(UIColor.systemBackground))
                     }
                 } else {
                     VStack(alignment: .center, spacing: 15) {
@@ -199,12 +201,6 @@ struct ProfileView: View {
                     .listRowSeparator(.hidden)
                 }
             }
-            else if tab == .awards {
-                ForEach($dataManager.awards, id: \.self) { $award in
-                    CustomListDivider()
-                    
-                }
-            }
             else if tab == .saved {
                 if dataManager.profileSavedPosts != [] {
                     ForEach($dataManager.profileSavedPosts, id: \.id) { $post in
@@ -214,6 +210,7 @@ struct ProfileView: View {
                             PostBubble(post: $post)
                                 .buttonStyle(PlainButtonStyle())
                                 .listRowSeparator(.hidden)
+                                .listRowBackground(Color(UIColor.systemBackground))
                         }
                     }
                 } else {

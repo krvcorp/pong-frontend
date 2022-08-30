@@ -233,7 +233,7 @@ struct PostView: View {
                         postVM.postVote(direction: 1)
                     } label: {
                         Image(systemName: "arrow.up")
-                            .foregroundColor(Color(UIColor(named: "PongPrimary")!))
+                            .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
                     }
                     
                     Button {
@@ -277,7 +277,7 @@ struct PostView: View {
                         postVM.postVote(direction: -1)
                     } label: {
                         Image(systemName: "arrow.down")
-                            .foregroundColor(Color(UIColor(named: "PongPrimary")!))
+                            .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
                     }
                 }
             }

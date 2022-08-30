@@ -131,30 +131,48 @@ struct LeaderboardView: View {
         
     
     var karmaInfo: some View {
-        ZStack {
-            HStack {
+        HStack(alignment: .center) {
+            HStack() {
+                Spacer()
                 VStack(alignment: .center) {
+                    Text("Total")
+                        .font(.subheadline.bold())
                     Text(String(dataManager.totalKarma))
-                    Text("Total Karma")
-                        .font(.system(size: 10.0))
+                        .font(.title2)
+                        .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
                 }
                 Spacer()
             }
-
-            VStack(alignment: .center) {
-                Text(String(dataManager.postKarma))
-                Text("Post Karma")
-                    .font(.system(size: 10.0))
-            }
+            .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
             
-            HStack {
+        
+            HStack() {
                 Spacer()
                 VStack(alignment: .center) {
-                    Text(String(dataManager.commentKarma))
-                    Text("Comment Karma")
-                        .font(.system(size: 10.0))
+                    Text("Post")
+                        .font(.subheadline.bold())
+                    Text(String(dataManager.postKarma))
+                        .font(.title2)
+                        .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
                 }
+                Spacer()
             }
+            .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
+        
+        
+            HStack() {
+                Spacer()
+                VStack(alignment: .center) {
+                    Text("Comment")
+                        .font(.subheadline.bold())
+                    Text(String(dataManager.commentKarma))
+                        .font(.title2)
+                        .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
+                }
+
+                Spacer()
+            }
+            .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
         }
     }
 }

@@ -87,15 +87,15 @@ struct FeedView: View {
                             Text(filter.title)
                                 .bold()
                         }
-                        .shadow(color: Color(UIColor(named: "PongPrimarySelected")!), radius: 10, x: 0, y: 0)
-                        .foregroundColor(Color(UIColor(named: "PongPrimarySelected")!))
+                        .shadow(color: SchoolManager.shared.schoolPrimaryColor(), radius: 10, x: 0, y: 0)
+                        .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
 
                     } else {
                         HStack{
                             Image(systemName: filter.imageName)
                             Text(filter.title)
                         }
-                        .foregroundColor(Color(UIColor(named: "PongPrimary")!))
+                        .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
                     }
                 }
             }
@@ -163,6 +163,7 @@ struct FeedView: View {
                                 feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab, dataManager: dataManager)
                             }
                             .listRowSeparator(.hidden)
+                            .listRowBackground(Color(UIColor.systemBackground))
                     }
                     
                     if !feedVM.finishedTop {
@@ -193,6 +194,7 @@ struct FeedView: View {
                                 feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab, dataManager: dataManager)
                             }
                             .listRowSeparator(.hidden)
+                            .listRowBackground(Color(UIColor.systemBackground))
                         
                     }
                     if !feedVM.finishedHot {
@@ -222,6 +224,7 @@ struct FeedView: View {
                                 feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab, dataManager: dataManager)
                             }
                             .listRowSeparator(.hidden)
+                            .listRowBackground(Color(UIColor.systemBackground))
                     }
                     if !feedVM.finishedRecent {
                         CustomListDivider()
@@ -251,8 +254,10 @@ struct FeedView: View {
                     }
                 }
             })
+            .onChange(of: newPostDetected, perform: { newValue in
+                proxy.scrollTo(dataManager.recentPosts[0].id, anchor: .bottom)
+            })
             .refreshable{
-                print("DEBUG: Refresh")
                 feedVM.paginatePostsReset(selectedFeedFilter: feedVM.selectedFeedFilter, dataManager: dataManager)
             }
             .listStyle(PlainListStyle())

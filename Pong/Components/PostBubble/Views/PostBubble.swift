@@ -194,7 +194,7 @@ struct PostBubble: View {
                         postBubbleVM.postVote(direction: 1, post: post)
                     } label: {
                         Image(systemName: "arrow.up")
-                            .foregroundColor(Color(UIColor(named: "PongPrimary")!))
+                            .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
                     }
                     
                     Button {
@@ -240,7 +240,7 @@ struct PostBubble: View {
                         postBubbleVM.postVote(direction: -1, post: post)
                     } label: {
                         Image(systemName: "arrow.down")
-                            .foregroundColor(Color(UIColor(named: "PongPrimary")!))
+                            .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
                     }
                 }
             } else {

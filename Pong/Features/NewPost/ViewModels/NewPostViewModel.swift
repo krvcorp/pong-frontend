@@ -54,7 +54,13 @@ class NewPostViewModel: ObservableObject {
         }
         // MARK: else use network manager
         else {
-            let parameters = NewPostModel.Request(title: self.title, pollOptions: newPollVM.pollOptions)
+            var pollOptions = newPollVM.pollOptions
+            
+            if newPollVM.allowSkipVoting {
+                pollOptions.append("skipkhoicunt")
+            }
+            
+            let parameters = NewPostModel.Request(title: self.title, pollOptions: pollOptions)
             
             // validate newPoll doesn't have invalid entries
             if newPollVM.validate() {

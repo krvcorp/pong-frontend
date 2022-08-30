@@ -114,7 +114,7 @@ struct CommentBubble: View {
                         commentBubbleVM.commentVote(direction: 1)
                     } label: {
                         Image(systemName: "chevron.up")
-                            .foregroundColor(Color(UIColor(named: "PongPrimary")!))
+                            .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
                     }
                     
                     Button {
@@ -158,7 +158,7 @@ struct CommentBubble: View {
                         commentBubbleVM.commentVote(direction: -1)
                     } label: {
                         Image(systemName: "chevron.down")
-                            .foregroundColor(Color(UIColor(named: "PongPrimary")!))
+                            .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
                     }
                 }
             }

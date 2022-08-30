@@ -8,14 +8,14 @@
 import Foundation
 
 enum ProfileFilter: String, CaseIterable, Identifiable {
-    case posts, comments, awards, saved
+    case posts, comments, saved
     var id: Self { self }
     
     var title: String {
         switch self {
         case .posts: return "Posts"
         case .comments: return "Comments"
-        case .awards: return "Awards"
+//        case .awards: return "Awards"
         case .saved: return "Saved"
         }
     }
@@ -24,7 +24,7 @@ enum ProfileFilter: String, CaseIterable, Identifiable {
         switch self {
         case .posts: return "square.grid.2x2"
         case .comments: return "arrowshape.turn.up.left.2"
-        case .awards: return "seal"
+//        case .awards: return "seal"
         case .saved: return "bookmark"
         }
     }
@@ -33,7 +33,7 @@ enum ProfileFilter: String, CaseIterable, Identifiable {
         switch self {
         case .posts: return "square.grid.2x2.fill"
         case .comments: return "arrowshape.turn.up.left.2.fill"
-        case .awards: return "seal.fill"
+//        case .awards: return "seal.fill"
         case .saved: return "bookmark.fill"
         }
     }
@@ -152,8 +152,6 @@ class ProfileViewModel: ObservableObject {
             dataManager.initProfilePosts()
         } else if tab == .comments {
             dataManager.initProfileComments()
-        } else if tab == .awards {
-            getAwards(dataManager: dataManager)
         } else if tab == .saved {
             dataManager.initProfileSavedPosts()
         }
