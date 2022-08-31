@@ -50,6 +50,12 @@ class NewPostViewModel: ObservableObject {
             }, to: "\(NetworkManager.networkManager.baseURL)posts/", method: .post, headers: httpHeaders)
                 .responseDecodable(of: Post.self) { successResponse in
                     print("DEBUG: newPostVM.newPost success \(successResponse)")
+                    DispatchQueue.main.async {
+                        mainTabVM.isCustomItemSelected = false
+                        mainTabVM.itemSelected = 1
+                        mainTabVM.newPostDetected.toggle()
+                        dataManager.initProfile()
+                    }
             }
         }
         // MARK: else use network manager

@@ -51,6 +51,7 @@ class NetworkManager: ObservableObject {
                     if let httpStatusCode = response.response?.statusCode {
                         if httpStatusCode == 401 {
                             print("NETWORK: 401 Error")
+                            AuthManager.authManager.signout()
                         }
                     }
                 }
@@ -72,6 +73,7 @@ class NetworkManager: ObservableObject {
                     if let httpStatusCode = response.response?.statusCode {
                         if httpStatusCode == 401 {
                             print("NETWORK: 401 Error")
+                            AuthManager.authManager.signout()
                         } else if httpStatusCode == 204 {
                             print("NETWORK: 204 Empty")
                         }
@@ -109,6 +111,7 @@ class NetworkManager: ObservableObject {
                     if let httpStatusCode = response.response?.statusCode {
                         if httpStatusCode == 401 {
                             print("NETWORK: 401 Error")
+                            AuthManager.authManager.signout()
                         } else if httpStatusCode == 204 || httpStatusCode == 200 {
                             print("NETWORK: 204 Empty")
                             completionHandler(EmptyResponse(success: "204"), nil)
@@ -135,6 +138,7 @@ class NetworkManager: ObservableObject {
                     if let httpStatusCode = response.response?.statusCode {
                         if httpStatusCode == 401 {
                             print("NETWORK: 401 Error")
+                            AuthManager.authManager.signout()
                         } else if httpStatusCode == 204 || httpStatusCode == 200 {
                             print("NETWORK: 204 Empty")
                             print("NETWORK: \(response)")

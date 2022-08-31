@@ -17,5 +17,7 @@ struct Post: Hashable, Codable, Identifiable, Equatable {
     var numDownvotes: Int
     var userOwned: Bool
     var poll: Poll?
+    var imageHeight: Int?
+    var imageWidth: Int?
 }
 

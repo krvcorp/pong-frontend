@@ -43,6 +43,7 @@ struct NewPostView: View {
                                 Image(uiImage: self.newPostVM.image!)
                                     .resizable()
                                     .scaledToFit()
+                                    .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
                                     
                                 Button {
                                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
@@ -55,6 +56,7 @@ struct NewPostView: View {
                                 .background(Circle().fill(.black).opacity(0.6))
                                 .padding()
                             }
+                            .frame(maxWidth: UIScreen.screenWidth / 1.25)
                             .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
                             .padding()
                         }

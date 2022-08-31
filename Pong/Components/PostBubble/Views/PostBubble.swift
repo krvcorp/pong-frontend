@@ -1,5 +1,6 @@
 import SwiftUI
 import AlertToast
+import Kingfisher
 
 struct PostBubble: View {
     @Binding var post : Post
@@ -183,9 +184,14 @@ struct PostBubble: View {
                 }
                 
                 // MARK: Image
-                AsyncImage(url: URL(string: post.image!)!,
-                           placeholder: {ProgressView()},
-                           image: { Image(uiImage: $0).resizable() })
+                if let imageUrl = post.image {
+                    KFImage(URL(string: "\(imageUrl)")!)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(idealWidth: UIScreen.screenWidth / 1.1, idealHeight: CGFloat(post.imageHeight!) * (UIScreen.screenWidth / 1.1) / CGFloat(post.imageWidth!), maxHeight: CGFloat(150))
+                        .cornerRadius(15)
+                }
+
                 
                 // MARK: Poll
                 if post.poll != nil {

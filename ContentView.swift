@@ -49,6 +49,7 @@ struct ContentView: View {
                                     self.showMenu = false
                                 }
                             }
+                            .edgesIgnoringSafeArea(.all)
                     }
                 }
                 .offset(x: self.showMenu ? 0 : -UIScreen.screenWidth/1.5)
