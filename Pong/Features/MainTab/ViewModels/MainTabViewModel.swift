@@ -11,6 +11,7 @@ class MainTabViewModel: ObservableObject {
     /// This is true when the user has selected the Item with the custom action
     @Published var isCustomItemSelected: Bool = false
     @Published var newPostDetected: Bool = false
+    @Published var scrollToTop : Bool = false
     
     /// This is the index of the item that fires a custom action
     let customActiontemindex: Int

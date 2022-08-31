@@ -2,7 +2,6 @@ import SwiftUI
 
 struct MainTabView: View {
     @ObservedObject private var mainTabVM = MainTabViewModel(initialIndex: 1, customItemIndex: 3)
-    @StateObject private var setTabHelper = SetTabHelper()
     @StateObject private var dataManager = DataManager()
     
     @Binding var showMenu : Bool
@@ -15,7 +14,7 @@ struct MainTabView: View {
             // add logic to trigger scroll to top
             if $0 == self.mainTabVM.itemSelected {
                 if self.mainTabVM.itemSelected == 1 {
-                    self.setTabHelper.trigger.toggle()
+                    self.mainTabVM.scrollToTop.toggle()
                 } else {
                     print("DEBUG: not feed")
                 }
@@ -32,7 +31,7 @@ struct MainTabView: View {
                     Image(systemName: "house")
                 }
                 .tag(1)
-                .environmentObject(setTabHelper)
+                .environmentObject(mainTabVM)
             
             // MARK: Stats and Leaderboard
             LeaderboardView()
@@ -61,7 +60,7 @@ struct MainTabView: View {
                     Image(systemName: "person")
                 }
                 .tag(5)
-                .environmentObject(setTabHelper)
+                .environmentObject(mainTabVM)
         }
         .accentColor(SchoolManager.shared.schoolPrimaryColor())
         // MARK: New Post Sheet

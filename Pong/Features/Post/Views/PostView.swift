@@ -4,7 +4,7 @@ import MapKit
 
 struct PostView: View {
     @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var setTabHelper : SetTabHelper
+    @EnvironmentObject var mainTabVM : MainTabViewModel
     @EnvironmentObject var dataManager: DataManager
     
     @Binding var post : Post
@@ -65,7 +65,12 @@ struct PostView: View {
             }
             dataManager.updatePostLocally(post: postVM.post)
         }
-        .onChange(of: setTabHelper.trigger, perform: { newValue in
+        .onChange(of: mainTabVM.scrollToTop, perform: { newValue in
+            DispatchQueue.main.async {
+                self.presentationMode.wrappedValue.dismiss()
+            }
+        })
+        .onChange(of: mainTabVM.newPostDetected, perform: { newValue in
             DispatchQueue.main.async {
                 self.presentationMode.wrappedValue.dismiss()
             }

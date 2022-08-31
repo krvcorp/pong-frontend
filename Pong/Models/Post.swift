@@ -19,5 +19,9 @@ struct Post: Hashable, Codable, Identifiable, Equatable {
     var poll: Poll?
     var imageHeight: Int?
     var imageWidth: Int?
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
 }
 

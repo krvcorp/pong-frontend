@@ -119,12 +119,13 @@ struct ProfileView: View {
             if tab == .posts {
                 if dataManager.profilePosts != [] {
                     ForEach($dataManager.profilePosts, id: \.id) { $post in
-                        CustomListDivider()
                         
                         PostBubble(post: $post)
                             .buttonStyle(PlainButtonStyle())
                             .listRowSeparator(.hidden)
                             .listRowBackground(Color(UIColor.systemBackground))
+                        
+                        CustomListDivider()
                     }
                 } else {
                     VStack(alignment: .center, spacing: 15) {
@@ -160,13 +161,15 @@ struct ProfileView: View {
             else if tab == .comments {
                 if dataManager.profileComments != [] {
                     ForEach($dataManager.profileComments, id: \.id) { $comment in
-                        CustomListDivider()
-                        
+
                         ProfileCommentBubble(comment: $comment)
                             .buttonStyle(PlainButtonStyle())
                             .environmentObject(dataManager)
                             .listRowSeparator(.hidden)
                             .listRowBackground(Color(UIColor.systemBackground))
+                        
+                        CustomListDivider()
+                        
                     }
                 } else {
                     VStack(alignment: .center, spacing: 15) {
@@ -203,12 +206,12 @@ struct ProfileView: View {
                 if dataManager.profileSavedPosts != [] {
                     ForEach($dataManager.profileSavedPosts, id: \.id) { $post in
                         Section {
-                            CustomListDivider()
-                            
                             PostBubble(post: $post)
                                 .buttonStyle(PlainButtonStyle())
                                 .listRowSeparator(.hidden)
                                 .listRowBackground(Color(UIColor.systemBackground))
+                            CustomListDivider()
+                            
                         }
                     }
                 } else {

@@ -4,8 +4,9 @@ import AlertToast
 
 struct FeedView: View {
     @Environment(\.colorScheme) var colorScheme
-    @EnvironmentObject var setTabHelper : SetTabHelper
+    @EnvironmentObject var mainTabVM : MainTabViewModel
     @EnvironmentObject var dataManager : DataManager
+    @Environment(\.presentationMode) var presentationMode
     @StateObject var feedVM = FeedViewModel()
     @Binding var newPostDetected : Bool
     @Binding var showMenu : Bool
@@ -63,6 +64,7 @@ struct FeedView: View {
         .onChange(of: newPostDetected, perform: { change in
             DispatchQueue.main.async {
                 print("DEBUG: NEW POST DETECTED")
+                self.presentationMode.wrappedValue.dismiss()
                 feedVM.selectedFeedFilter = .recent
                 feedVM.paginatePostsReset(selectedFeedFilter: .recent, dataManager: dataManager)
             }
@@ -248,7 +250,7 @@ struct FeedView: View {
                 }
             }
             .environment(\.defaultMinListRowHeight, 0)
-            .onChange(of: setTabHelper.trigger, perform: { newValue in
+            .onChange(of: mainTabVM.scrollToTop, perform: { newValue in
                 withAnimation {
                     if tab == .top {
                         if dataManager.topPosts != [] {

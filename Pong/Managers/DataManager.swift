@@ -145,7 +145,7 @@ class DataManager : ObservableObject {
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
                     self.profilePosts = successResponse.results
-                    let uniqued = self.profilePosts.removingDuplicates()
+                    let uniqued = self.profilePosts.uniqued()
                     self.profilePosts = uniqued
                     if let nextLink = successResponse.next {
                         self.profilePostsCurrentPage = nextLink
@@ -160,7 +160,7 @@ class DataManager : ObservableObject {
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
                     self.profileComments = successResponse.results
-                    let uniqued = self.profileComments.removingDuplicates()
+                    let uniqued = self.profileComments.uniqued()
                     self.profileComments = uniqued
                     if let nextLink = successResponse.next {
                         self.profileCommentsCurrentPage = nextLink

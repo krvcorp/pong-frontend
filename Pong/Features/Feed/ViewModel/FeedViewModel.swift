@@ -115,7 +115,7 @@ class FeedViewModel: ObservableObject {
                 DispatchQueue.main.async {
                     if selectedFeedFilter == .top {
                         dataManager.topPosts.append(contentsOf: successResponse.results)
-                        let uniqued = dataManager.topPosts.removingDuplicates()
+                        let uniqued = dataManager.topPosts.uniqued()
                         dataManager.topPosts = uniqued
                         if let nextLink = successResponse.next {
                             self.topCurrentPage = nextLink
@@ -124,7 +124,7 @@ class FeedViewModel: ObservableObject {
                         }
                     } else if selectedFeedFilter == .hot {
                         dataManager.hotPosts.append(contentsOf: successResponse.results)
-                        let uniqued = dataManager.hotPosts.removingDuplicates()
+                        let uniqued = dataManager.hotPosts.uniqued()
                         dataManager.hotPosts = uniqued
                         if let nextLink = successResponse.next {
                             self.hotCurrentPage = nextLink
@@ -133,7 +133,7 @@ class FeedViewModel: ObservableObject {
                         }
                     } else if selectedFeedFilter == .recent {
                         dataManager.recentPosts.append(contentsOf: successResponse.results)
-                        let uniqued = dataManager.recentPosts.removingDuplicates()
+                        let uniqued = dataManager.recentPosts.uniqued()
                         dataManager.recentPosts = uniqued
                         if let nextLink = successResponse.next {
                             self.recentCurrentPage = nextLink

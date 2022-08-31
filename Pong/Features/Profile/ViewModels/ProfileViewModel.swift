@@ -76,7 +76,7 @@ class ProfileViewModel: ObservableObject {
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
                     dataManager.profilePosts.append(contentsOf: successResponse.results)
-                    let uniqued = dataManager.profilePosts.removingDuplicates()
+                    let uniqued = dataManager.profilePosts.uniqued()
                     dataManager.profilePosts = uniqued
                     if let nextLink = successResponse.next {
                         dataManager.profilePostsCurrentPage = nextLink
@@ -91,7 +91,7 @@ class ProfileViewModel: ObservableObject {
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
                     dataManager.profileComments.append(contentsOf: successResponse.results)
-                    let uniqued = dataManager.profileComments.removingDuplicates()
+                    let uniqued = dataManager.profileComments.uniqued()
                     dataManager.profileComments = uniqued
                     if let nextLink = successResponse.next {
                         dataManager.profileCommentsCurrentPage = nextLink
@@ -110,7 +110,7 @@ class ProfileViewModel: ObservableObject {
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
                     dataManager.profileSavedPosts.append(contentsOf: successResponse.results)
-                    let uniqued = dataManager.profileSavedPosts.removingDuplicates()
+                    let uniqued = dataManager.profileSavedPosts.uniqued()
                     dataManager.profileSavedPosts = uniqued
                     if let nextLink = successResponse.next {
                         dataManager.profileSavedCurrentPage = nextLink
