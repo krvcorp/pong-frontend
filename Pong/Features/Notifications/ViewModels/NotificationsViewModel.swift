@@ -7,11 +7,20 @@
 
 import Foundation
 
-enum NotificationsFilter: String, CaseIterable, Identifiable {
-    case messages, postsAndComments
-    var id: Self { self }
-}
 
 class NotificationsViewModel: ObservableObject {
-    @Published var selectedNotificationsFilter : NotificationsFilter = .messages
+    
+    @Published var notificationHistory: [NotificationsModel.WrappedNotification] = [NotificationsModel.WrappedNotification]()
+    
+    func getNotificationHistory() {
+        NetworkManager.networkManager.request(route: "notifications/", method: .get, successType: [NotificationsModel.WrappedNotification].self) { successResponse, errorResponse in
+            print("ERRORHERENOW")
+            if let successResponse = successResponse {
+                self.notificationHistory = successResponse
+            } else {
+                print("ERRORHERENOW")
+                print(errorResponse?.error)
+            }
+        }
+    }
 }

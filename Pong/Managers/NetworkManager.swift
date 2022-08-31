@@ -6,7 +6,12 @@ class NetworkManager: ObservableObject {
     static let networkManager = NetworkManager()
     
     // MARK: BaseURL
-    var baseURL = "http:/localhost:8005/api/"
+    #if DEBUG
+        var baseURL = "http:/localhost:8005/api/"
+    #else
+        var baseURL = "https://raunakdaga-pong.herokuapp.com/api/"
+    #endif
+    
     
     struct EmptyBody: Encodable {}
     struct EmptyResponse: Codable {
@@ -66,6 +71,16 @@ class NetworkManager: ObservableObject {
                         return
                     }
                     completionHandler(nil, error)
+                }
+                .responseJSON() { (response) in
+                    switch response.result {
+                    case .success:
+                        debugPrint(response)
+                        break
+                    case let .failure(error):
+                        print(error)
+                        debugPrint(response)
+                    }
                 }
         } else {
             AF.request(self.baseURL+route, method: method, parameters: body, encoder: parameterEncoder, headers: httpHeaders)

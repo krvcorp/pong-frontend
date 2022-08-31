@@ -9,51 +9,17 @@ import SwiftUI
 
 struct NotificationsView: View {
     @StateObject private var notificationsVM = NotificationsViewModel()
+    @ObservedObject private var notificationsManager = NotificationsManager.notificationsManager
     @State private var searchText = ""
     @State private var showAlert = false
     @Environment(\.colorScheme) var colorScheme
-    
-    struct NotificationModel: Identifiable {
-        
-        enum NotificationType: String {
-            case upvote
-            case comment
-            case hot
-            case top
-            case leader
-            case message
-            case reply
-            case violation
-            case generic
-        }
-        
-        var id: String { title }
-        let title: String
-        let type: NotificationType
-    }
-    
-
-    let notificationModels: [NotificationModel] = [
-        NotificationModel(title: "Your post \"fuck midterms\" reached 10 upvotes.", type: .upvote),
-        NotificationModel(title: "Your post \"When you take a 10 minutes study break and it...\" has a new comment.", type: .comment),
-        NotificationModel(title: "Your post \"When you take a 10 minutes study break and it...\" reached the hot page!", type: .hot),
-        NotificationModel(title: "You made it to the leaderboard!", type: .leader),
-        NotificationModel(title: "Your comment \"Returning to college after Thanksgiving break\" received a reply.", type: .reply),
-        NotificationModel(title: "Your post \"goo goo ga ga\" was removed for violating our community guidelines.", type: .violation),
-        NotificationModel(title: "Version 2.0 of Pong has launched! Tap to download now.", type: .generic),
-    ]
-    let chatmodels: [ChatModel] = [ChatModel(title: "Brattle street when jefes moves in", subtitle: "Why would you post that", timestamp: "6:09 PM", new: true, color1: Color.releaseNotesGradient1, color2: Color.releaseNotesGradient2),
-                                   ChatModel(title: "I am getting housing at adams, but I'm also secretly", subtitle: "How much for the appt", timestamp: "4:20 PM", new: true, color1: Color.analyticsRevenueGradient1, color2: Color.analyticsRevenueGradient2),
-                                   ChatModel(title: "Winthrop dining hall vibes are fire", subtitle: "No they're not", timestamp: "3:07 PM", new: false, color1: Color.webListItemGradient1, color2: Color.blue),
-                                   ChatModel(title: "What if I 👉👈 got the HSA bigger bed", subtitle: "What if you didn't", timestamp: "2:59 PM", new: false, color1: Color.trackingLinksGradient1, color2: Color.trackingLinksGradient2),
-                                   ChatModel(title: "is 1011a THAT hard...", subtitle: "Yes", timestamp: "1:06 PM", new: false, color1: Color.guestListGradient1, color2: Color.guestListGradient2)]
     
     var body: some View {
         LoadingView(isShowing: .constant(false)) {
             NavigationView {
                 List {
                     Section() {
-                        if searchText.isEmpty {
+                        if searchText.isEmpty && !notificationsManager.hasEnabledNotificationsOnce {
                             Button(action: {
                                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                                 showAlert = true
@@ -93,11 +59,11 @@ struct NotificationsView: View {
                                         message: Text("Enable push notifications? You can always change this later in settings."),
                                         primaryButton: .destructive(
                                             Text("Don't Enable"),
-                                            action: enableNotifs
+                                            action: dontEnableNotifs
                                         ),
                                         secondaryButton: .default(
                                             Text("Enable"),
-                                            action: dontEnableNotifs
+                                            action: notificationsManager.registerForNotifications
                                         )
                                     )
                                 }
@@ -105,12 +71,12 @@ struct NotificationsView: View {
                         }
                     }
                     Section(header: Text("Recent Notifications")) {
-                        ForEach(notificationModels.filter { searchText.isEmpty || $0.title.localizedStandardContains(searchText)}) { notificationModel in
+                        ForEach(notificationsVM.notificationHistory.filter { searchText.isEmpty || $0.notification.body.localizedStandardContains(searchText)}) { notificationModel in
                             NavigationLink(destination: Text("ref here")) {
                                 HStack {
                                     ZStack {
-                                        LinearGradient(gradient: Gradient(colors: [getGradientColorsFromType(type: notificationModel.type).0, getGradientColorsFromType(type: notificationModel.type).1]), startPoint: .bottomLeading, endPoint: .topTrailing)
-                                        Image(systemName: getImageNameFromType(type: notificationModel.type))
+                                        LinearGradient(gradient: Gradient(colors: [getGradientColorsFromType(type: notificationModel.data.type).0, getGradientColorsFromType(type: notificationModel.data.type).1]), startPoint: .bottomLeading, endPoint: .topTrailing)
+                                        Image(systemName: getImageNameFromType(type: notificationModel.data.type))
                                             .imageScale(.small)
                                             .foregroundColor(.white)
                                             .font(.title2)
@@ -119,7 +85,7 @@ struct NotificationsView: View {
                                     .cornerRadius(6)
                                     .padding(.trailing, 4)
                                     VStack (alignment: .leading, spacing: 6) {
-                                        Text(notificationModel.title).foregroundColor(Color(uiColor: colorScheme == .dark ? .white : .darkGray)).lineLimit(2).font(Font.caption)
+                                        Text(notificationModel.notification.title).foregroundColor(Color(uiColor: colorScheme == .dark ? .white : .darkGray)).lineLimit(2).font(Font.caption)
                                     }.padding(.vertical, 1)
                                 }
                             }
@@ -129,6 +95,7 @@ struct NotificationsView: View {
                 .listStyle(GroupedListStyle())
                 .onAppear {
                     UITableView.appearance().showsVerticalScrollIndicator = false
+                    notificationsVM.getNotificationHistory()
                 }
                 .navigationTitle("Notifications")
             }
@@ -137,7 +104,7 @@ struct NotificationsView: View {
         }
     }
     
-    func getImageNameFromType(type: NotificationModel.NotificationType) -> String {
+    func getImageNameFromType(type: NotificationsModel.WrappedNotification.Data.NotificationType) -> String {
         switch type {
         case .upvote:
             return "arrow.up"
@@ -158,7 +125,7 @@ struct NotificationsView: View {
         }
     }
     
-    func getGradientColorsFromType(type: NotificationModel.NotificationType) -> (Color, Color) {
+    func getGradientColorsFromType(type: NotificationsModel.WrappedNotification.Data.NotificationType) -> (Color, Color) {
         switch type {
         case .upvote:
             return (.earlyPeriod1, .earlyPeriod2)
@@ -178,10 +145,6 @@ struct NotificationsView: View {
     }
     
     func dontEnableNotifs() {
-        
-    }
-    
-    func enableNotifs() {
         
     }
 }

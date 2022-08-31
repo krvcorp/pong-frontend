@@ -191,7 +191,6 @@ struct PostBubble: View {
                         .frame(idealWidth: UIScreen.screenWidth / 1.1, idealHeight: CGFloat(post.imageHeight!) * (UIScreen.screenWidth / 1.1) / CGFloat(post.imageWidth!), maxHeight: CGFloat(150))
                         .cornerRadius(15)
                 }
-
                 
                 // MARK: Poll
                 if post.poll != nil {
