@@ -32,6 +32,7 @@ class NotificationsManager: ObservableObject {
                     NetworkManager.networkManager.emptyRequest(route: "notifications/register/", method: .post, body: Registration.Request(fcm_token: token)) { success, error in
                         print("success")
                         self.hasEnabledNotificationsOnce = true
+                        self.notificationsPreference = true
                     }
                 }
                 UIApplication.shared.registerForRemoteNotifications()
@@ -39,7 +40,7 @@ class NotificationsManager: ObservableObject {
         }
     }
     
-    @Published var notificationsPreference: Bool {
+    @Published var notificationsPreference: Bool = false {
         didSet {
             defaults.set(notificationsPreference, forKey: "notificationsPreference")
             NetworkManager.networkManager.request(route: "notifications/settings/", method: .post, body: Settings.Request(enabled: notificationsPreference), successType: Settings.Success.self) { success, error in
