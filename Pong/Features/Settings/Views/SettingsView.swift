@@ -6,8 +6,8 @@ struct SettingsView: View {
     @StateObject private var settingsVM = SettingsViewModel()
     @State private var showAlert = false
     @State private var showUnblockAlert = false
-    @State private var notifications = false
     @State private var shareSheet = false
+    @ObservedObject private var notificationsManager = NotificationsManager.notificationsManager
     
     var body: some View {
         List {
@@ -108,10 +108,7 @@ struct SettingsView: View {
                 }
                 
                 // MARK: Notifications
-                Toggle("Notifications", isOn: $notifications)
-                    .onChange(of: notifications) { value in
-                        settingsVM.changeNotifications(setTo: notifications)
-                    }
+                Toggle("Notifications", isOn: $notificationsManager.notificationsPreference)
                 
                 // MARK: Logout
                 Button {

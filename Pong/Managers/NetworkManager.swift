@@ -70,6 +70,16 @@ class NetworkManager: ObservableObject {
                     }
                     completionHandler(nil, error)
                 }
+                .responseJSON() { (response) in
+                    switch response.result {
+                    case .success:
+                        debugPrint(response)
+                        break
+                    case let .failure(error):
+                        print(error)
+                        debugPrint(response)
+                    }
+                }
         } else {
             AF.request(self.baseURL+route, method: method, parameters: body, encoder: parameterEncoder, headers: httpHeaders)
                 .response() { (response) in
