@@ -4,8 +4,6 @@ import UniformTypeIdentifiers
 
 struct SettingsView: View {
     @StateObject private var settingsVM = SettingsViewModel()
-    @State private var showAlert = false
-    @State private var showUnblockAlert = false
     @State private var shareSheet = false
     @ObservedObject private var notificationsManager = NotificationsManager.notificationsManager
     
@@ -66,7 +64,8 @@ struct SettingsView: View {
                 // MARK: Unblock All
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    showUnblockAlert.toggle()
+                    settingsVM.activeAlertType = .unblockAll
+                    settingsVM.activeAlert = true
                 } label: {
                     HStack {
                         Text("Unblock All Users").foregroundColor(.red).bold()
@@ -74,20 +73,6 @@ struct SettingsView: View {
                         Image(systemName: "eye.slash.fill").foregroundColor(.red).font(Font.body.weight(.bold))
                     }
                 }
-                .alert(isPresented: $showUnblockAlert) {
-                    Alert(
-                        title: Text("Unblock All"),
-                        message: Text("Are you sure you want to unblock everyone you've blocked so far? You can't reverse this action."),
-                        primaryButton: .default(
-                            Text("Cancel")
-                        ),
-                        secondaryButton: .destructive(Text("Unblock")){
-                            settingsVM.unblockAll()
-                        }
-                    )
-                }
-                
-                
             }.modifier(ProminentHeaderModifier())
             
             // MARK: Preferences Section
@@ -113,7 +98,8 @@ struct SettingsView: View {
                 // MARK: Logout
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    AuthManager.authManager.signout()
+                    settingsVM.activeAlertType = .signOut
+                    settingsVM.activeAlert = true
                 } label: {
                     HStack {
                         Text("Logout").foregroundColor(.red)
@@ -125,25 +111,14 @@ struct SettingsView: View {
                 // MARK: Delete Account
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    showAlert.toggle()
+                    settingsVM.activeAlertType = .deleteAccount
+                    settingsVM.activeAlert = true
                 } label: {
                     HStack {
                         Text("Delete Account").foregroundColor(.red).bold()
                         Spacer()
                         Image(systemName: "trash").foregroundColor(.red).font(Font.body.weight(.bold))
                     }
-                }
-                .alert(isPresented: $showAlert) {
-                    Alert(
-                        title: Text("Delete Account"),
-                        message: Text("Are you sure you want to delete your account? This is an irreversible action, and we won't be able to recover any of your data."),
-                        primaryButton: .default(
-                            Text("Cancel")
-                        ),
-                        secondaryButton: .destructive(Text("Delete")){
-                            settingsVM.deleteAccount()
-                        }
-                    )
                 }
             }.modifier(ProminentHeaderModifier())
             
@@ -251,6 +226,45 @@ struct SettingsView: View {
             UITableView.appearance().showsVerticalScrollIndicator = false
         }
         .background(Color(UIColor.systemGroupedBackground))
+        .alert(isPresented: $settingsVM.activeAlert) {
+            switch settingsVM.activeAlertType {
+            case .unblockAll:
+                return Alert(
+                    title: Text("Unblock All"),
+                    message: Text("Are you sure you want to unblock everyone you've blocked so far? You can't reverse this action."),
+                    primaryButton: .default(
+                        Text("Cancel")
+                    ),
+                    secondaryButton: .destructive(Text("Unblock All")){
+                        settingsVM.unblockAll()
+                    }
+                )
+
+            case .signOut:
+                return Alert(
+                    title: Text("Log Out"),
+                    message: Text("Are you sure you want to logout?"),
+                    primaryButton: .default(
+                        Text("Cancel")
+                    ),
+                    secondaryButton: .destructive(Text("Sign Out")){
+                        AuthManager.authManager.signout()
+                    }
+                )
+
+            case .deleteAccount:
+                return Alert(
+                    title: Text("Delete Account"),
+                    message: Text("Are you sure you want to delete your account? This is an irreversible action, and we won't be able to recover any of your data."),
+                    primaryButton: .default(
+                        Text("Cancel")
+                    ),
+                    secondaryButton: .destructive(Text("DELETE ACCOUNT")){
+                        settingsVM.deleteAccount()
+                    }
+                )
+            }
+        }
     }
 }
 

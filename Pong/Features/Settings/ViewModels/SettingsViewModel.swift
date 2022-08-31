@@ -2,9 +2,15 @@ import Foundation
 import SwiftUI
 import GoogleSignIn
 
+enum SettingsActiveAlert {
+    case unblockAll, signOut, deleteAccount
+}
+
 class SettingsViewModel: ObservableObject {
     @AppStorage("displayMode") var displayMode = DisplayMode.system
     @Published var numberReferred : Int = 0
+    @Published var activeAlert : Bool = false
+    @Published var activeAlertType : SettingsActiveAlert = .unblockAll
     
     @Published var enableStagingServer = false {
         didSet {
