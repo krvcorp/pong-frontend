@@ -9,8 +9,9 @@ class NetworkManager: ObservableObject {
     #if DEBUG
         var baseURL = "http:/localhost:8005/api/"
     #else
-        var baseURL = "https://raunakdaga-pong.herokuapp.com/admin/"
+        var baseURL = "https://raunakdaga-pong.herokuapp.com/api/"
     #endif
+    
     
     struct EmptyBody: Encodable {}
     struct EmptyResponse: Codable {

@@ -183,9 +183,11 @@ struct PostBubble: View {
                 }
                 
                 // MARK: Image
-                AsyncImage(url: URL(string: post.image!)!,
-                           placeholder: {ProgressView()},
-                           image: { Image(uiImage: $0).resizable() })
+                if post.image != nil {
+                    AsyncImage(url: URL(string: post.image!)!,
+                               placeholder: {ProgressView()},
+                               image: { Image(uiImage: $0).resizable() })
+                }
                 
                 // MARK: Poll
                 if post.poll != nil {
