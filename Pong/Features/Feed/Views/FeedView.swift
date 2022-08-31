@@ -19,6 +19,7 @@ struct FeedView: View {
                 }
                 .background(Color(UIColor.secondarySystemBackground))
             }
+            .background(Color(UIColor.secondarySystemBackground))
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             
             // Hide navbar
@@ -250,16 +251,24 @@ struct FeedView: View {
             .onChange(of: setTabHelper.trigger, perform: { newValue in
                 withAnimation {
                     if tab == .top {
-                        proxy.scrollTo(dataManager.topPosts[0].id, anchor: .bottom)
+                        if dataManager.topPosts != [] {
+                            proxy.scrollTo(dataManager.topPosts[0].id, anchor: .bottom)
+                        }
                     } else if tab == .hot {
-                        proxy.scrollTo(dataManager.hotPosts[0].id, anchor: .bottom)
+                        if dataManager.hotPosts != [] {
+                            proxy.scrollTo(dataManager.hotPosts[0].id, anchor: .bottom)
+                        }
                     } else if tab == .recent {
-                        proxy.scrollTo(dataManager.recentPosts[0].id, anchor: .bottom)
+                        if dataManager.recentPosts != [] {
+                            proxy.scrollTo(dataManager.recentPosts[0].id, anchor: .bottom)
+                        }
                     }
                 }
             })
             .onChange(of: newPostDetected, perform: { newValue in
-                proxy.scrollTo(dataManager.recentPosts[0].id, anchor: .bottom)
+                if dataManager.recentPosts != [] {
+                    proxy.scrollTo(dataManager.recentPosts[0].id, anchor: .bottom)
+                }
             })
             .refreshable{
                 feedVM.paginatePostsReset(selectedFeedFilter: feedVM.selectedFeedFilter, dataManager: dataManager)
