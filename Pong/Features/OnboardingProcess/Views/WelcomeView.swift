@@ -14,7 +14,7 @@ struct WelcomeView: View {
                 Image("OnboardSchoolImage")
                     .resizable()
                     .scaledToFit()
-                    .frame(width: UIScreen.screenWidth)
+                    .frame(width: UIScreen.screenWidth / 1.1)
                 
                 Spacer()
                 
@@ -22,10 +22,8 @@ struct WelcomeView: View {
 
             }
             .padding(15)
-        
-            Spacer()
-
         }
+        .padding()
         .padding(.bottom, 20)
     }
 }

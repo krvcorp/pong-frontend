@@ -14,6 +14,11 @@ struct RulesView: View {
             Text("Rules!")
                 .font(.title.bold())
             
+            Image("OnboardRulesImage")
+                .resizable()
+                .scaledToFit()
+                .frame(width: UIScreen.screenWidth / 1.1)
+            
             Text("Obviously there are special execptions.")
                 .font(.title3)
             
