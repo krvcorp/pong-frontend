@@ -140,7 +140,7 @@ struct PostView: View {
             
         }
         .toast(isPresenting: $dataManager.removedComment) {
-            AlertToast(displayMode: .hud, type: .regular, title: dataManager.removedCommentMessage)
+            AlertToast(displayMode: .banner(.slide), type: .regular, title: dataManager.removedCommentMessage)
         }
     }
     

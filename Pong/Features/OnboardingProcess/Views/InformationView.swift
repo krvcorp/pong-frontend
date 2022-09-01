@@ -13,6 +13,12 @@ struct InformationView: View {
             
             Text("Self-expression")
                 .font(.title.bold())
+                .padding(.horizontal)
+            
+            Image("OnboardInformationImage")
+                .resizable()
+                .scaledToFit()
+                .frame(width: UIScreen.screenWidth / 1.1)
             
             Text("Anonymity helps us express ourselves in honest ways.")
                 .font(.title3)

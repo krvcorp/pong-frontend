@@ -335,7 +335,6 @@
 				6A449C342896F4320015826A /* Components */,
 				6A449BC02896F4320015826A /* Features */,
 				6A78FA5A28A1A81200B75CC6 /* Extensions */,
-				289CC869289993C9009C1DCE /* AppDelegate.swift */,
 				6A449C602896F4320015826A /* DefaultModels.swift */,
 				6A449C312896F4320015826A /* Preview Content */,
 			);
@@ -753,6 +752,7 @@
 				6A5479C82895C08F00BC18CD /* Pong.entitlements */,
 				6A449C192896F4320015826A /* PongApp.swift */,
 				6A449C622896F4320015826A /* ContentView.swift */,
+				289CC869289993C9009C1DCE /* AppDelegate.swift */,
 				6A449BB92896F4320015826A /* Pong */,
 				6A5DF0E42851321000F28A06 /* Products */,
 			);
@@ -1382,7 +1382,7 @@
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1419,7 +1419,7 @@
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

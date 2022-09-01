@@ -230,13 +230,12 @@ struct CommentBubble: View {
                 }
             } else {
                 Menu {
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        commentBubbleVM.saveComment()
-                    } label: {
-                        Label("Save", systemImage: "bookmark")
-                    }
-                    
+//                    Button {
+//                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+//                        commentBubbleVM.saveComment()
+//                    } label: {
+//                        Label("Save", systemImage: "bookmark")
+//                    }
                     Button {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         commentBubbleVM.blockComment()
