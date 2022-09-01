@@ -4,14 +4,16 @@ import GoogleSignIn
 class OnboardingViewModel: ObservableObject {
     @Published var firstCall : Bool = true
     @Published var welcomed: Bool = false
+    @Published var onBoarded: Bool = false
     
     func setReferrer(referralCode: String) {
         let parameters = SetReferrer.Request(referralCode: referralCode)
         NetworkManager.networkManager.emptyRequest(route: "users/\(AuthManager.authManager.userId)/refer/", method: .post, body: parameters) { successResponse, errorResponse in
             if successResponse != nil {
                 DispatchQueue.main.async {
-                    AuthManager.authManager.onboarded = true
-                    DAKeychain.shared["onboarded"] = "true"
+//                    AuthManager.authManager.onboarded = true
+//                    DAKeychain.shared["onboarded"] = "true"
+                    self.onBoarded = true
                 }
             }
             

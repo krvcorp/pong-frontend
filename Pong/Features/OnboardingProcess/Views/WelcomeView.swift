@@ -6,30 +6,26 @@ struct WelcomeView: View {
     var body: some View {
         VStack{
             VStack(alignment: .leading, spacing: 20) {
-                Text("Welcome to Pong")
+                Text("Connect with your college community, anonymously.")
                     .font(.title).bold()
+                    .multilineTextAlignment(.center)
+                    .frame(maxWidth: .infinity, alignment: .center)
                 
-                Text("This is a place to connect with your college community, anonymously.")
-                    .font(.title2).bold()
+                Image("OnboardSchoolImage")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: UIScreen.screenWidth)
                 
-                Text("Anonymity can help us express ourselves in honest ways. Controversial opinions, memes, confessions. We really don't care as anything is fair game.")
+                Spacer()
                 
-                Text("Just one rule: identification of others in any form isn't allowed. After all, you'd want to remain anonymous too, wouldn't you?")
+                Text("By using Pong, you understand our [Terms of Service](https://www.pong.college/legal) and [Privacy Policy](https://www.pong.college/legal)")
 
             }
-            .padding(10)
+            .padding(15)
         
             Spacer()
-            
-            Button {
-                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                onboardingVM.welcomed = true
-            } label: {
-                Label("Agree", systemImage: "checkmark.seal")
-                    .font(.title)
-                    .foregroundColor(Color(UIColor.label))
-            }
-            .padding(.bottom)
+
         }
+        .padding(.bottom, 20)
     }
 }

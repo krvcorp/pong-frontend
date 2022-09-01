@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AlertToast
 
 @main
 struct Pong: App {
@@ -14,6 +15,8 @@ struct Pong: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .dynamicTypeSize(.medium ... .medium)
+            
         }
     }
 }

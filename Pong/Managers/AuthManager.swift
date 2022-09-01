@@ -10,6 +10,7 @@ class AuthManager: ObservableObject {
     @Published var onboarded: Bool = false
     @Published var userId: String = ""
     @Published var isAdmin: Bool = false
+    @Published var signedOutAlert : Bool = false
     
     // MARK: LOAD CURRENT STATE
     func loadCurrentState() {
@@ -38,6 +39,7 @@ class AuthManager: ObservableObject {
             DAKeychain.shared["dateJoined"] = nil
             DAKeychain.shared["referralCode"] = nil
             DAKeychain.shared["onboarded"] = nil
+            self.signedOutAlert = true
         }
     }
 }

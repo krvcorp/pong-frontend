@@ -1,4 +1,5 @@
 import SwiftUI
+import AlertToast
 
 struct ContentView: View {
     @ObservedObject private var authManager = AuthManager.authManager
@@ -22,6 +23,9 @@ struct ContentView: View {
         
         if (!AuthManager.authManager.isSignedIn) {
             EmailVerificationView()
+                .toast(isPresenting: $authManager.signedOutAlert) {
+                    AlertToast(displayMode: .hud, type: .regular,  title: "Signed out! We hope to see you soon")
+                }
         } else if (!AuthManager.authManager.onboarded) {
             OnboardingView()
         } else {
