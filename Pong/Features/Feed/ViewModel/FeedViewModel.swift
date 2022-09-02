@@ -39,15 +39,14 @@ enum FeedFilter: String, CaseIterable, Identifiable {
 }
 
 enum TopFilter: String, CaseIterable, Identifiable, Equatable {
-    case all, month, week, day
+    case all, month, week
     var id: Self { self }
     
     var title: String {
         switch self {
-        case .all: return "ALL TIME"
-        case .month: return "MONTH"
-        case .week: return "WEEK"
-        case .day: return "DAY"
+        case .all: return "All Time"
+        case .month: return "Month"
+        case .week: return "Week"
         }
     }
 }
@@ -206,8 +205,6 @@ class FeedViewModel: ObservableObject {
             return "&range=month"
         } else if filter == .week {
             return "&range=week"
-        } else if filter == .day {
-            return "&range=day"
         } else {
             return "neverHit"
         }
