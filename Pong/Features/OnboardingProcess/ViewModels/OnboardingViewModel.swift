@@ -1,5 +1,6 @@
 import Foundation
 import GoogleSignIn
+import SwiftUI
 
 class OnboardingViewModel: ObservableObject {
     @Published var firstCall : Bool = true
@@ -11,9 +12,9 @@ class OnboardingViewModel: ObservableObject {
         NetworkManager.networkManager.emptyRequest(route: "users/\(AuthManager.authManager.userId)/refer/", method: .post, body: parameters) { successResponse, errorResponse in
             if successResponse != nil {
                 DispatchQueue.main.async {
-//                    AuthManager.authManager.onboarded = true
-//                    DAKeychain.shared["onboarded"] = "true"
-                    self.onBoarded = true
+                    withAnimation {
+                        self.onBoarded = true
+                    }
                 }
             }
             
@@ -26,8 +27,10 @@ class OnboardingViewModel: ObservableObject {
     func onboard() {
         NetworkManager.networkManager.emptyRequest(route: "users/\(AuthManager.authManager.userId)/onboard/", method: .post) { successResponse, errorResponse in
             if successResponse != nil {
-                AuthManager.authManager.onboarded = true
-                DAKeychain.shared["onboarded"] = "true"
+                withAnimation {
+                    AuthManager.authManager.onboarded = true
+                    DAKeychain.shared["onboarded"] = "true"
+                }
             }
         }
     }
