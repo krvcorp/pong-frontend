@@ -18,12 +18,14 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         UserDefaults.standard.set(true, forKey: "Text Messages")
         
         // White non-transucent navigatio bar, supports dark appearance
-//        if #available(iOS 15, *) {
-//            let appearance = UINavigationBarAppearance()
-//            appearance.configureWithOpaqueBackground()
-//            UINavigationBar.appearance().standardAppearance = appearance
-//            UINavigationBar.appearance().scrollEdgeAppearance = appearance
-//        }
+        if #available(iOS 15, *) {
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            UINavigationBar.appearance().standardAppearance = appearance
+            UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        }
+        
+        UITabBar.appearance().backgroundColor = UIColor.systemBackground
         
         return true
     }
