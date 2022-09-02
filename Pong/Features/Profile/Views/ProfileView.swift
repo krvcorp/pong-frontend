@@ -92,7 +92,7 @@ struct ProfileView: View {
                     profileVM.selectedProfileFilter = filter
                 } label: {
                     if profileVM.selectedProfileFilter == filter {
-                        HStack {
+                        HStack(spacing: 5) {
                             Image(systemName: filter.filledImageName)
                             Text(filter.title)
                                 .bold()
@@ -101,7 +101,7 @@ struct ProfileView: View {
                         .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
 
                     } else {
-                        HStack{
+                        HStack(spacing: 5) {
                             Image(systemName: filter.imageName)
                             Text(filter.title)
                         }
