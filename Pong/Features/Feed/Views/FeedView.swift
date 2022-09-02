@@ -51,14 +51,14 @@ struct FeedView: View {
                     toolbarPickerComponent
                 }
             }
-            .introspectNavigationController { navigationController in
-                let navigationBarAppearance = UINavigationBarAppearance()
-                navigationBarAppearance.configureWithOpaqueBackground()
-                
-                navigationController.navigationBar.standardAppearance = navigationBarAppearance
-                navigationController.navigationBar.compactAppearance = navigationBarAppearance
-                navigationController.navigationBar.scrollEdgeAppearance = navigationBarAppearance
-            }
+//            .introspectNavigationController { navigationController in
+//                let navigationBarAppearance = UINavigationBarAppearance()
+//                navigationBarAppearance.configureWithOpaqueBackground()
+//                
+//                navigationController.navigationBar.standardAppearance = navigationBarAppearance
+//                navigationController.navigationBar.compactAppearance = navigationBarAppearance
+//                navigationController.navigationBar.scrollEdgeAppearance = navigationBarAppearance
+//            }
         }
         .environmentObject(feedVM)
         .onChange(of: newPostDetected, perform: { change in
