@@ -242,8 +242,8 @@ struct SettingsView: View {
 
             case .signOut:
                 return Alert(
-                    title: Text("Log Out"),
-                    message: Text("Are you sure you want to logout?"),
+                    title: Text("Sign Out"),
+                    message: Text("Are you sure you want to signout?"),
                     primaryButton: .default(
                         Text("Cancel")
                     ),
@@ -259,7 +259,7 @@ struct SettingsView: View {
                     primaryButton: .default(
                         Text("Cancel")
                     ),
-                    secondaryButton: .destructive(Text("DELETE ACCOUNT")){
+                    secondaryButton: .destructive(Text("DELETE ACCOUNT").bold()){
                         settingsVM.deleteAccount()
                     }
                 )

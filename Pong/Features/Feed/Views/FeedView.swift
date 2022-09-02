@@ -28,17 +28,17 @@ struct FeedView: View {
             .navigationBarTitleDisplayMode(.inline)
             // Toolbar
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button {
-                        print("DEBUG: Show Menu")
-                        withAnimation {
-                            showMenu.toggle()
-                        }
-                    } label: {
-                        Image(systemName: "line.horizontal.3")
-                            .imageScale(.large)
-                    }
-                }
+//                ToolbarItem(placement: .navigationBarLeading) {
+//                    Button {
+//                        print("DEBUG: Show Menu")
+//                        withAnimation {
+//                            showMenu.toggle()
+//                        }
+//                    } label: {
+//                        Image(systemName: "line.horizontal.3")
+//                            .imageScale(.large)
+//                    }
+//                }
                 
                 ToolbarItem {
                     NavigationLink {

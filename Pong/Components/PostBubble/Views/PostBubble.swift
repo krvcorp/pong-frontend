@@ -131,7 +131,7 @@ struct PostBubble: View {
             case .delete:
                 return Alert(
                     title: Text("Delete post"),
-                    message: Text("Are you sure you want to delete \(post.title)"),
+                    message: Text("Are you sure you want to delete \"\(post.title)\""),
                     primaryButton: .destructive(Text("Delete")) {
                         postBubbleVM.deletePost(post: post, dataManager: dataManager)
                     },
@@ -141,7 +141,7 @@ struct PostBubble: View {
             case .report:
                 return Alert(
                     title: Text("Report post"),
-                    message: Text("Are you sure you want to report \(post.title)"),
+                    message: Text("Are you sure you want to report \"\(post.title)\""),
                     primaryButton: .destructive(Text("Report")) {
                         postBubbleVM.reportPost(post: post, dataManager: dataManager)
                     },

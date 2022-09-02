@@ -218,7 +218,7 @@ struct CommentBubble: View {
 
             
             // MARK: Delete or More Button
-            if commentBubbleVM.comment.userOwned {
+            if comment.userOwned {
                 Button {
                     DispatchQueue.main.async {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
@@ -230,22 +230,16 @@ struct CommentBubble: View {
                 }
             } else {
                 Menu {
-//                    Button {
-//                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-//                        commentBubbleVM.saveComment()
-//                    } label: {
-//                        Label("Save", systemImage: "bookmark")
-//                    }
                     Button {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        commentBubbleVM.blockComment()
+                        postVM.blockComment(comment: comment)
                     } label: {
                         Label("Block user", systemImage: "x.circle")
                     }
                     
                     Button {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        commentBubbleVM.reportComment()
+                        postVM.reportComment(comment: comment)
                     } label: {
                         Label("Report", systemImage: "flag")
                     }
