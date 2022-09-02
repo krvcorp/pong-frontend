@@ -1,6 +1,6 @@
 import Foundation
 import GoogleSignIn
-
+import SwiftUI
 
 class EmailVerificationViewModel: ObservableObject {
 
@@ -40,34 +40,36 @@ class EmailVerificationViewModel: ObservableObject {
         
         NetworkManager.networkManager.request(route: "login/", method: .post, body: parameters, successType: VerifyEmailModel.Response.self) { successResponse, errorResponse in
             DispatchQueue.main.async {
-                if let successResponse = successResponse {
-                    if let token = successResponse.token {
-                        DAKeychain.shared["token"] = token
-                    }
-                    if let userId = successResponse.userId {
-                        DAKeychain.shared["userId"] = userId
-                    }
-                    if let isAdmin = successResponse.isAdmin {
-                        if isAdmin {
-                            DAKeychain.shared["isAdmin"] = String(isAdmin)
+                withAnimation {
+                    if let successResponse = successResponse {
+                        if let token = successResponse.token {
+                            DAKeychain.shared["token"] = token
                         }
-                    }
-                    if let dateJoined = successResponse.dateJoined {
-                        DAKeychain.shared["dateJoined"] = String(dateJoined)
-                    }
-                    if let referralCode = successResponse.referralCode {
-                        DAKeychain.shared["referralCode"] = String(referralCode)
-                    }
-                    if let onboarded = successResponse.onboarded {
-                        if onboarded {
-                            DAKeychain.shared["onboarded"] = "true"
+                        if let userId = successResponse.userId {
+                            DAKeychain.shared["userId"] = userId
                         }
+                        if let isAdmin = successResponse.isAdmin {
+                            if isAdmin {
+                                DAKeychain.shared["isAdmin"] = String(isAdmin)
+                            }
+                        }
+                        if let dateJoined = successResponse.dateJoined {
+                            DAKeychain.shared["dateJoined"] = String(dateJoined)
+                        }
+                        if let referralCode = successResponse.referralCode {
+                            DAKeychain.shared["referralCode"] = String(referralCode)
+                        }
+                        if let onboarded = successResponse.onboarded {
+                            if onboarded {
+                                DAKeychain.shared["onboarded"] = "true"
+                            }
+                        }
+                        AuthManager.authManager.loadCurrentState()
                     }
-                    AuthManager.authManager.loadCurrentState()
-                }
-                if let errorResponse = errorResponse {
-                    self.loginErrorMessage = errorResponse.error
-                    self.loginError = true
+                    if let errorResponse = errorResponse {
+                        self.loginErrorMessage = errorResponse.error
+                        self.loginError = true
+                    }
                 }
             }
         }

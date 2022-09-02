@@ -129,8 +129,9 @@ struct FeedView: View {
             List {
                 // MARK: Top
                 if tab == .top {
-                    HStack{
+                    HStack {
                         Spacer()
+                        
                         ForEach(TopFilter.allCases, id: \.self) { filter in
                             Button {
                                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
@@ -138,13 +139,18 @@ struct FeedView: View {
                             } label: {
                                 Text(filter.title)
                                     .font(.caption)
+                                    .padding(.vertical, 10)
+                                    .padding(.horizontal, 30)
+                                    .foregroundColor(feedVM.selectedTopFilter == filter ? Color(UIColor.systemBackground) : Color(UIColor.label))
+                                    .overlay(RoundedRectangle(cornerRadius: 15).stroke().foregroundColor(Color(UIColor.label)))
+                                    .background(feedVM.selectedTopFilter == filter ? Color(UIColor.label) : Color(UIColor.systemBackground))
+                                    .cornerRadius(15)
                             }
-                            .padding(.horizontal, 30)
-                            .foregroundColor(Color(UIColor.label))
-                            .overlay(RoundedRectangle(cornerRadius: 16).stroke().foregroundColor(Color(UIColor.label)))
                         }
+                        
                         Spacer()
                     }
+                    .buttonStyle(PlainButtonStyle())
                     .listRowBackground(Color(UIColor.systemBackground))
                     .listRowSeparator(.hidden)
                     .onChange(of: feedVM.selectedTopFilter) { newValue in
