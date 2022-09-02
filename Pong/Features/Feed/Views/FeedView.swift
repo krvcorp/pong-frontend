@@ -129,29 +129,23 @@ struct FeedView: View {
             List {
                 // MARK: Top
                 if tab == .top {
-                    // top filter
-                    HStack {
-                        Menu {
-                            ForEach(TopFilter.allCases, id: \.self) { filter in
-                                Button {
-                                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                                    feedVM.selectedTopFilter = filter
-                                } label: {
-                                    Text(filter.title)
-                                }
+                    HStack{
+                        Spacer()
+                        ForEach(TopFilter.allCases, id: \.self) { filter in
+                            Button {
+                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                                feedVM.selectedTopFilter = filter
+                            } label: {
+                                Text(filter.title)
+                                    .font(.caption)
                             }
-                        } label: {
-                            HStack {
-                                Text("\(feedVM.selectedTopFilter.title)")
-                                    .font(.caption.bold())
-                                Image(systemName: "chevron.down")
-                            }
-                            .padding(.top)
-                            .padding(.bottom)
+                            .padding(.horizontal, 30)
+                            .foregroundColor(Color(UIColor.label))
+                            .overlay(RoundedRectangle(cornerRadius: 16).stroke().foregroundColor(Color(UIColor.label)))
                         }
                         Spacer()
                     }
-                    .listRowBackground(Color(UIColor.secondarySystemBackground))
+                    .listRowBackground(Color(UIColor.systemBackground))
                     .listRowSeparator(.hidden)
                     .onChange(of: feedVM.selectedTopFilter) { newValue in
                         feedVM.paginatePostsReset(selectedFeedFilter: .top, dataManager: dataManager)

@@ -89,4 +89,13 @@ class PostBubbleViewModel: ObservableObject {
             }
         }
     }
+    
+    func startConversation(post: Post, dataManager: DataManager) {
+        let parameters = CreateConversation.RequestPost(postId: post.id)
+        NetworkManager.networkManager.request(route: "conversations/", method: .post, body: parameters, successType: CreateConversation.Response.self) { successResponse, errorResponse in
+            if successResponse != nil {
+                dataManager.removePostLocally(post: post, message: "Reported post!")
+            }
+        }
+    }
 }
