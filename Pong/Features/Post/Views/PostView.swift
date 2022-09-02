@@ -82,7 +82,7 @@ struct PostView: View {
             case .postDelete:
                 return Alert(
                     title: Text("Delete post"),
-                    message: Text("Are you sure you want to delete \(post.title)"),
+                    message: Text("Are you sure you want to delete \"\(post.title)\""),
                     primaryButton: .destructive(Text("Delete")) {
                         postVM.deletePost(post: post, dataManager: dataManager)
                     },
@@ -92,7 +92,7 @@ struct PostView: View {
             case .postReport:
                 return Alert(
                     title: Text("Report post"),
-                    message: Text("Are you sure you want to report \(post.title)"),
+                    message: Text("Are you sure you want to report \"\(post.title)\""),
                     primaryButton: .destructive(Text("Report")) {
                         postVM.reportPost(post: post, dataManager: dataManager)
                     },
@@ -102,7 +102,7 @@ struct PostView: View {
             case .postBlock:
                 return Alert(
                     title: Text("Block post and user"),
-                    message: Text("Are you sure you want to block posts from this user?"),
+                    message: Text("Are you sure you want to block content from this user?"),
                     primaryButton: .destructive(Text("Block")) {
                         postVM.blockPost(post: post, dataManager: dataManager)
                     },
@@ -111,7 +111,7 @@ struct PostView: View {
             case .commentDelete:
                 return Alert(
                     title: Text("Delete comment"),
-                    message: Text("Are you sure you want to delete \(postVM.commentToDelete.comment)"),
+                    message: Text("Are you sure you want to delete \"\(postVM.commentToDelete.comment)\""),
                     primaryButton: .destructive(Text("Delete")) {
                         postVM.deleteCommentConfirm(dataManager: dataManager)
                     },
@@ -120,8 +120,8 @@ struct PostView: View {
             case .commentReport:
                 return Alert(
                     title: Text("Report comment"),
-                    message: Text("Are you sure you want to report \(postVM.commentToDelete.comment)"),
-                    primaryButton: .destructive(Text("Delete")) {
+                    message: Text("Are you sure you want to report \"\(postVM.commentToDelete.comment)\""),
+                    primaryButton: .destructive(Text("Report")) {
                         postVM.deleteCommentConfirm(dataManager: dataManager)
                     },
                     secondaryButton: .cancel()
@@ -129,8 +129,8 @@ struct PostView: View {
             case .commentBlock:
                 return Alert(
                     title: Text("Block comment"),
-                    message: Text("Are you sure you want to block \(postVM.commentToDelete.comment)"),
-                    primaryButton: .destructive(Text("Delete")) {
+                    message: Text("Are you sure you want to block content from this user?"),
+                    primaryButton: .destructive(Text("Block")) {
                         postVM.deleteCommentConfirm(dataManager: dataManager)
                     },
                     secondaryButton: .cancel()

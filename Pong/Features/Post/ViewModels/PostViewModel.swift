@@ -167,6 +167,22 @@ class PostViewModel: ObservableObject {
         }
     }
     
+    func blockComment(comment: Comment) {
+        DispatchQueue.main.async {
+            self.commentToDelete = comment
+            self.activeAlert = .commentBlock
+            self.showConfirmation = true
+        }
+    }
+    
+    func reportComment(comment: Comment) {
+        DispatchQueue.main.async {
+            self.commentToDelete = comment
+            self.activeAlert = .commentReport
+            self.showConfirmation = true
+        }
+    }
+    
     func deleteCommentConfirm(dataManager: DataManager) {
         NetworkManager.networkManager.emptyRequest(route: "comments/\(self.commentToDelete.id)/", method: .delete) { successResponse, errorResponse in
             if successResponse != nil {
@@ -185,8 +201,16 @@ class PostViewModel: ObservableObject {
                             }
                         }
                     }
+                    if self.activeAlert == .commentReport {
+                        dataManager.removedCommentMessage = "Comment reported!"
+                    } else if self.activeAlert == .commentBlock {
+                        dataManager.removedCommentMessage = "User blocked!"
+                    } else if self.activeAlert == .commentDelete {
+                        dataManager.removedCommentMessage = "Comment deleted!"
+                    } else {
+                        dataManager.removedCommentMessage = "Comment removed!"
+                    }
                     dataManager.removedComment = true
-                    dataManager.removedCommentMessage = "Comment deleted!"
                     self.post.numComments -= 1
                     self.commentUpdateTrigger.toggle()
                     dataManager.removeCommentLocally(commentId: self.commentToDelete.id, message: "Deleted comment")

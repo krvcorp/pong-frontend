@@ -68,7 +68,7 @@ struct ProfileCommentBubble: View {
         .alert(isPresented: $profileCommentBubbleVM.showDeleteConfirmationView) {
             Alert(
                 title: Text("Delete comment"),
-                message: Text("Are you sure you want to delete \(comment.comment)"),
+                message: Text("Are you sure you want to delete \"\(comment.comment)\""),
                 primaryButton: .destructive(Text("Delete")) {
                     profileCommentBubbleVM.deleteComment(comment: self.comment, dataManager: dataManager)
                 },
