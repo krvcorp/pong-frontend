@@ -1,6 +1,7 @@
 import SwiftUI
 import AlertToast
 import MapKit
+import Kingfisher
 
 struct PostView: View {
     @Environment(\.presentationMode) var presentationMode
@@ -163,6 +164,15 @@ struct PostView: View {
                     VoteComponent
                 }
                 .padding(.bottom)
+                
+                // MARK: Image
+                if let imageUrl = post.image {
+                    KFImage(URL(string: "\(imageUrl)")!)
+                        .resizable()
+                        .scaledToFit()
+//                        .frame(idealWidth: UIScreen.screenWidth / 1.1, idealHeight: CGFloat(post.imageHeight!) * (UIScreen.screenWidth / 1.1) / CGFloat(post.imageWidth!), maxHeight: CGFloat(150))
+                        .cornerRadius(15)
+                }
                 
                 // MARK: Poll
                 if post.poll != nil {

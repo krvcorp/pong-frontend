@@ -5,7 +5,7 @@ struct User: Identifiable, Codable {
     var inTimeout: Bool
     var commentScore: Int
     var postScore: Int
-    var totalScore: Int
+    var score: Int
     var isSuperuser: Bool
     var nickname: String
 }
