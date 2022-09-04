@@ -191,7 +191,7 @@ class DataManager : ObservableObject {
         NetworkManager.networkManager.request(route: "users/\(AuthManager.authManager.userId)/", method: .get, successType: User.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
-                    self.totalKarma = successResponse.totalScore
+                    self.totalKarma = successResponse.score
                     self.commentKarma = successResponse.commentScore
                     self.postKarma = successResponse.postScore
                 }

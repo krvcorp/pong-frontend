@@ -43,7 +43,7 @@ class LeaderboardViewModel: ObservableObject {
         NetworkManager.networkManager.request(route: "users/\(AuthManager.authManager.userId)/", method: .get, successType: User.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
-                    dataManager.totalKarma = successResponse.totalScore
+                    dataManager.totalKarma = successResponse.score
                     dataManager.commentKarma = successResponse.commentScore
                     dataManager.postKarma = successResponse.postScore
                     self.nickname = successResponse.nickname
