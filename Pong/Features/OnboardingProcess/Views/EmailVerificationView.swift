@@ -20,9 +20,7 @@ struct EmailVerificationView: View {
                 .font(.system(size: 20, weight: .medium))
                 .foregroundColor(Color(white: 0.7, opacity: 1))
             Spacer(minLength: 36)
-            Text("Sign In with your College Email")
-                .font(.system(size: 20, weight: .medium))
-                .foregroundColor(Color(white: 0.7, opacity: 1))
+
             Button {
                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                 emailVerificationVM.signinWithGoogle()
@@ -33,7 +31,7 @@ struct EmailVerificationView: View {
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 32, height: 32)
                         .padding(8)
-                    Text("Continue with Google")
+                    Text("College Email")
                         .fontWeight(.semibold)
                         .foregroundColor(.poshDarkPurple)
                         .padding([.leading], -6)

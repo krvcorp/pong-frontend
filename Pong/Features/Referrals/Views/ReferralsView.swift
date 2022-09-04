@@ -9,14 +9,28 @@ struct ReferralsView: View {
     var body: some View {
         VStack{
             VStack(alignment: .leading, spacing: 20) {
-                Text("Invite your friends to Pong")
+                Text("Invite your friends!")
                     .font(.title).bold()
+                
                 Text("Pong is growing fast, but we need your help to spread even faster.")
                     .font(.title2).bold()
-                Text("For each friend you refer (up to 10), we'll send you 5 bucks.")
-                Text("You have \(referralsVM.numberReferred) referrals.")
-
+                
+                Text("For each friend you refer, we'll send you 5 bucks.")
+                
+                HStack {
+                    Spacer()
+                    
+                    Text("\(referralsVM.numberReferred)")
+                        .font(.title.bold())
+                        .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
+                    
+                    Text("referrals")
+                        .font(.title.bold())
+                    
+                    Spacer()
+                }
             }
+            
             Spacer()
             
             Button {
@@ -45,8 +59,9 @@ struct ReferralsView: View {
         .onAppear{
             referralsVM.getNumReferred()
         }
-        .navigationBarTitle("Admin View")
+        .navigationBarTitle("Referrals")
         .navigationBarTitleDisplayMode(.inline)
+        .padding()
     }
 }
 

@@ -242,12 +242,12 @@ struct SettingsView: View {
 
             case .signOut:
                 return Alert(
-                    title: Text("Sign Out"),
+                    title: Text("Log Out"),
                     message: Text("Are you sure you want to signout?"),
                     primaryButton: .default(
                         Text("Cancel")
                     ),
-                    secondaryButton: .destructive(Text("Sign Out")){
+                    secondaryButton: .destructive(Text("Log Out")){
                         AuthManager.authManager.signout()
                     }
                 )

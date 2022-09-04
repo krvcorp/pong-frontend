@@ -478,8 +478,8 @@
 		6A449C002896F4320015826A /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				82AEE06728AEDF2A00738EB5 /* LeaderboardAwardCoin.swift */,
 				6A449C012896F4320015826A /* LeaderboardView.swift */,
+				82AEE06728AEDF2A00738EB5 /* LeaderboardAwardCoin.swift */,
 				82AEE06A28AEE03400738EB5 /* LeaderboardTopThree.swift */,
 			);
 			path = Views;
