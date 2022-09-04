@@ -30,7 +30,7 @@ struct CommentBubble: View {
             ForEach($comment.children, id: \.self) { $child in
                 HStack {
                     Rectangle()
-                        .fill(Color(UIColor.tertiarySystemBackground))
+                        .fill(Color(UIColor.systemBackground))
                         .frame(width: 20)
                     Spacer()
                     CommentBubble(comment: $child)
@@ -38,7 +38,7 @@ struct CommentBubble: View {
                 }
             }
         }
-        .background(Color(UIColor.tertiarySystemBackground))
+        .background(Color(UIColor.systemBackground))
         .onChange(of: commentBubbleVM.comment) { change in
             self.comment = commentBubbleVM.comment
         }
@@ -75,7 +75,7 @@ struct CommentBubble: View {
                     .multilineTextAlignment(.leading)
             }
             .padding(.bottom)
-            .background(Color(UIColor.tertiarySystemBackground))
+            .background(Color(UIColor.systemBackground))
         }
     }
     
@@ -213,7 +213,7 @@ struct CommentBubble: View {
 
                     Spacer()
                 }
-                .background(Color(UIColor.tertiarySystemBackground))
+                .background(Color(UIColor.systemBackground))
             }
 
             

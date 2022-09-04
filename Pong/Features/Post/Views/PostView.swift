@@ -32,10 +32,11 @@ struct PostView: View {
                 }
                 .padding(.bottom, 150)
             }
+            .background(Color(UIColor.secondarySystemBackground))
             
             MessagingComponent
         }
-        .background(Color(UIColor.systemGroupedBackground))
+        .background(Color(UIColor.systemBackground))
         .environmentObject(postVM)
         .onAppear {
             DispatchQueue.main.async {
@@ -183,17 +184,14 @@ struct PostView: View {
             }
             .font(.system(size: 18).bold())
             .padding()
-            .background(Color(UIColor.tertiarySystemBackground))
+            .background(Color(UIColor.systemBackground))
 
-            ZStack {
-                Divider()
-                Text("\(postVM.post.numComments) Comments")
-                    .font(.caption)
-                    .background(Rectangle().fill(Color(UIColor.systemGroupedBackground)).frame(minWidth: 90))
-            }
-            .background(Color(UIColor.systemGroupedBackground))
+            Text("\(postVM.post.numComments) Comments")
+                .font(.caption)
+                .background(Color(UIColor.secondarySystemBackground))
+                .frame(maxWidth: .infinity)
         }
-        .background(Color(UIColor.systemGroupedBackground))
+        .background(Color(UIColor.secondarySystemBackground))
     }
     
     var bottomRow: some View {
