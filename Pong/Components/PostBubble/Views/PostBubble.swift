@@ -215,24 +215,16 @@ struct PostBubble: View {
                 if post.voteStatus == 0 {
                     Button {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        postBubbleVM.postVote(direction: 1, post: post)
+                        postBubbleVM.postVote(direction: 1, post: post, dataManager: dataManager)
                     } label: {
                         Image(systemName: "arrow.up")
                     }
                     
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        withAnimation {
-                            showScore.toggle()
-                        }
-
-                    } label: {
-                        Text("\(post.score)")
-                    }
+                    Text("\(post.score)")
                     
                     Button {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        postBubbleVM.postVote(direction: -1, post: post)
+                        postBubbleVM.postVote(direction: -1, post: post, dataManager: dataManager)
                     } label: {
                         Image(systemName: "arrow.down")
                     }
@@ -240,25 +232,17 @@ struct PostBubble: View {
                     // if upvoted
                     Button {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        postBubbleVM.postVote(direction: 1, post: post)
+                        postBubbleVM.postVote(direction: 1, post: post, dataManager: dataManager)
                     } label: {
                         Image(systemName: "arrow.up")
                             .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
                     }
                     
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        withAnimation {
-                            showScore.toggle()
-                        }
-
-                    } label: {
-                        Text("\(post.score + 1)")
-                    }
+                    Text("\(post.score + 1)")
                     
                     Button {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        postBubbleVM.postVote(direction: -1, post: post)
+                        postBubbleVM.postVote(direction: -1, post: post, dataManager: dataManager)
                     } label: {
                         Image(systemName: "arrow.down")
                     }
@@ -268,25 +252,18 @@ struct PostBubble: View {
                     // upvote
                     Button {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        postBubbleVM.postVote(direction: 1, post: post)
+                        postBubbleVM.postVote(direction: 1, post: post, dataManager: dataManager)
                     } label: {
                         Image(systemName: "arrow.up")
                     }
                     
                     // score
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        withAnimation {
-                            showScore.toggle()
-                        }
-                    } label: {
-                        Text("\(post.score - 1)")
-                    }
+                    Text("\(post.score - 1)")
                     
                     // downvote
                     Button {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        postBubbleVM.postVote(direction: -1, post: post)
+                        postBubbleVM.postVote(direction: -1, post: post, dataManager: dataManager)
                     } label: {
                         Image(systemName: "arrow.down")
                             .foregroundColor(SchoolManager.shared.schoolPrimaryColor())

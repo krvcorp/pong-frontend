@@ -44,6 +44,10 @@ class DataManager : ObservableObject {
     @Published var removedComment = false
     @Published var removedCommentMessage = "Removed comment!"
     
+    @Published var errorDetected = false
+    @Published var errorDetectedMessage = "Something went wrong!"
+    @Published var errorDetectedSubMessage = "Unable to connect to network"
+    
     func loadStartupState() {
         print("DEBUG: loadStartupState")
         // feed
@@ -109,6 +113,7 @@ class DataManager : ObservableObject {
             
             if let errorResponse = errorResponse {
                 print("DEBUG: \(errorResponse)")
+                self.errorDetected(message: "Something went wrong!", subMessage: "Couldn't load posts")
             }
         }
     }
@@ -264,6 +269,14 @@ class DataManager : ObservableObject {
                 self.profileComments[index].numUpvotes = comment.numUpvotes
                 self.profileComments[index].numDownvotes = comment.numDownvotes
             }
+        }
+    }
+    
+    func errorDetected(message: String, subMessage: String) {
+        DispatchQueue.main.async {
+            self.errorDetectedMessage = message
+            self.errorDetectedSubMessage = subMessage
+            self.errorDetected = true
         }
     }
 }

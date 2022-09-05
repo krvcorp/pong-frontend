@@ -44,7 +44,7 @@ struct PostView: View {
                 postVM.post = self.post
                 
                 // api call to refresh local data
-                postVM.readPost() { result in
+                postVM.readPost(dataManager: dataManager) { result in
                     if !result {
                         self.presentationMode.wrappedValue.dismiss()
                         dataManager.removePostLocally(post: post, message: "Post doesn't exist!")
@@ -151,12 +151,12 @@ struct PostView: View {
             VStack {
                 HStack(alignment: .top){
                     VStack(alignment: .leading){
-                        Text("\(postVM.post.timeSincePosted)")
+                        Text("\(post.timeSincePosted)")
                             .font(.caption)
                             .padding(.bottom, 4)
 
                                                
-                        Text(postVM.post.title)
+                        Text(post.title)
                             .multilineTextAlignment(.leading)
                     }
                     
@@ -186,7 +186,7 @@ struct PostView: View {
             .padding()
             .background(Color(UIColor.systemBackground))
 
-            Text("\(postVM.post.numComments) Comments")
+            Text("\(post.numComments) Comments")
                 .font(.caption)
                 .background(Color(UIColor.secondarySystemBackground))
                 .frame(maxWidth: .infinity)
@@ -201,14 +201,14 @@ struct PostView: View {
             if post.saved {
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    postVM.unsavePost(post: post)
+                    postVM.unsavePost(post: post, dataManager: dataManager)
                 } label: {
                     Image(systemName: "bookmark.fill")
                 }
             } else if !post.saved {
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    postVM.savePost(post: post)
+                    postVM.savePost(post: post, dataManager: dataManager)
                 } label: {
                     Image(systemName: "bookmark")
                 }
@@ -221,11 +221,11 @@ struct PostView: View {
                 Image(systemName: "square.and.arrow.up")
             }
             .sheet(isPresented: $sheet) {
-                ShareSheet(items: ["\(postVM.post.title)"])
+                ShareSheet(items: ["\(post.title)"])
             }
             
             // DELETE BUTTON
-            if postVM.post.userOwned {
+            if post.userOwned {
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     DispatchQueue.main.async {
@@ -264,80 +264,56 @@ struct PostView: View {
         VStack {
             if !showScore {
                 // MARK: if not upvoted or downvoted
-                if postVM.post.voteStatus == 0 {
+                if post.voteStatus == 0 {
                     Button {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        postVM.postVote(direction: 1)
+                        postVM.postVote(direction: 1, dataManager: dataManager)
                     } label: {
                         Image(systemName: "arrow.up")
                     }
                     
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        withAnimation {
-                            showScore.toggle()
-                        }
-
-                    } label: {
-                        Text("\(postVM.post.score)")
-                    }
+                    Text("\(post.score)")
                     
                     Button {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        postVM.postVote(direction: -1)
+                        postVM.postVote(direction: -1, dataManager: dataManager)
                     } label: {
                         Image(systemName: "arrow.down")
                     }
                 }
                 // MARK: if upvoted
-                else if postVM.post.voteStatus == 1 {
+                else if post.voteStatus == 1 {
                     Button {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        postVM.postVote(direction: 1)
+                        postVM.postVote(direction: 1, dataManager: dataManager)
                     } label: {
                         Image(systemName: "arrow.up")
                             .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
                     }
                     
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        withAnimation {
-                            showScore.toggle()
-                        }
-
-                    } label: {
-                        Text("\(postVM.post.score + 1)")
-                    }
+                    Text("\(post.score + 1)")
                     
                     Button {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        postVM.postVote(direction: -1)
+                        postVM.postVote(direction: -1, dataManager: dataManager)
                     } label: {
                         Image(systemName: "arrow.down")
                     }
                 }
                 // MARK: if downvoted
-                else if postVM.post.voteStatus == -1 {
+                else if post.voteStatus == -1 {
                     Button {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        postVM.postVote(direction: 1)
+                        postVM.postVote(direction: 1, dataManager: dataManager)
                     } label: {
                         Image(systemName: "arrow.up")
                     }
                     
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        withAnimation {
-                            showScore.toggle()
-                        }
-
-                    } label: {
-                        Text("\(postVM.post.score - 1)")
-                    }
+                    Text("\(post.score - 1)")
                     
                     Button {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        postVM.postVote(direction: -1)
+                        postVM.postVote(direction: -1, dataManager: dataManager)
                     } label: {
                         Image(systemName: "arrow.down")
                             .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
@@ -432,7 +408,7 @@ struct PostView: View {
                         if postVM.replyToComment == defaultComment {
                             postVM.createComment(comment: text, dataManager: dataManager)
                         } else {
-                            postVM.commentReply(comment: text)
+                            postVM.commentReply(comment: text, dataManager: dataManager)
                             postVM.replyToComment = defaultComment
                         }
                         text = ""

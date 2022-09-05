@@ -144,8 +144,8 @@ class FeedViewModel: ObservableObject {
                 }
             }
             
-            if let errorResponse = errorResponse {
-                print("DEBUG: \(errorResponse)")
+            if errorResponse != nil {
+                dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't load posts")
             }
         }
     }
@@ -192,8 +192,8 @@ class FeedViewModel: ObservableObject {
                 }
             }
             
-            if let errorResponse = errorResponse {
-                print("DEBUG: \(errorResponse)")
+            if errorResponse != nil {
+                dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't load posts")
             }
         }
     }

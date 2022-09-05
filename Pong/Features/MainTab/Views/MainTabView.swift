@@ -1,4 +1,5 @@
 import SwiftUI
+import AlertToast
 
 struct MainTabView: View {
     @ObservedObject private var mainTabVM = MainTabViewModel(initialIndex: 1, customItemIndex: 3)
@@ -70,6 +71,9 @@ struct MainTabView: View {
         .environmentObject(dataManager)
         .onAppear() {
             dataManager.loadStartupState()
+        }
+        .toast(isPresenting: $dataManager.errorDetected){
+            AlertToast(displayMode: .hud, type: .error(Color.red), title: dataManager.errorDetectedMessage, subTitle: dataManager.errorDetectedSubMessage)
         }
     }
 }

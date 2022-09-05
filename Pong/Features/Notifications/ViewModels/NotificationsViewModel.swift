@@ -19,7 +19,7 @@ class NotificationsViewModel: ObservableObject {
                 self.notificationHistory = successResponse
             } else {
                 print("ERRORHERENOW")
-                print(errorResponse?.error)
+//                print(errorResponse?.error)
             }
         }
     }

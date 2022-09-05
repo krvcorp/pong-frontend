@@ -29,8 +29,9 @@ class PostViewModel: ObservableObject {
     @Published var postUpdateTrigger = false
     @Published var commentUpdateTrigger = false
     
-    func postVote(direction: Int) -> Void {
+    func postVote(direction: Int, dataManager: DataManager) -> Void {
         var voteToSend = 0
+        let temp = self.post.voteStatus
         
         if direction == post.voteStatus {
             voteToSend = 0
@@ -40,15 +41,21 @@ class PostViewModel: ObservableObject {
         
         let parameters = PostVoteModel.Request(vote: voteToSend)
         
+        DispatchQueue.main.async {
+            self.post.voteStatus = voteToSend
+            self.postUpdateTrigger.toggle()
+        }
+        
         NetworkManager.networkManager.request(route: "posts/\(post.id)/vote/", method: .post, body: parameters, successType: PostVoteModel.Response.self) { successResponse, errorResponse in
             DispatchQueue.main.async {
-                if let successResponse = successResponse {
-                    self.post.voteStatus = successResponse.voteStatus
-                    self.postUpdateTrigger.toggle()
+                if successResponse != nil {
+                    
                 }
                 
-                if let errorResponse = errorResponse {
-                    print("DEBUG: \(errorResponse)")
+                if errorResponse != nil {
+                    self.post.voteStatus = temp
+                    self.postUpdateTrigger.toggle()
+                    dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't vote on post")
                 }
             }
         }
@@ -83,7 +90,7 @@ class PostViewModel: ObservableObject {
         }
     }
     
-    func commentReply(comment: String) -> Void {
+    func commentReply(comment: String, dataManager: DataManager) -> Void {
         let parameters = CommentReplyModel.Request(postId: post.id, replyingId: replyToComment.id, comment: comment)
         
         NetworkManager.networkManager.request(route: "comments/", method: .post, body: parameters, successType: Comment.self) { successResponse, errorResponse in
@@ -99,51 +106,72 @@ class PostViewModel: ObservableObject {
                     }
                     self.post.numComments = self.post.numComments + 1
                 }
+            } else if errorResponse != nil {
+                DispatchQueue.main.async {
+                    dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't create comment reply")
+                }
             }
         }
     }
     
     // MARK: ReadPost
-    func readPost(completion: @escaping (Bool) -> Void) {
+    func readPost(dataManager : DataManager, completion: @escaping (Bool) -> Void) {
         NetworkManager.networkManager.request(route: "posts/\(post.id)/", method: .get, successType: Post.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
                     // replace the local post
                     self.post = successResponse
-                    self.postUpdateTrigger.toggle()
+//                    self.postUpdateTrigger.toggle()
                 }
             }
             
-            if let errorResponse = errorResponse {
+            if errorResponse != nil {
                 DispatchQueue.main.async {
-                    print("DEBUG: \(errorResponse)")
-                    completion(false)
+                    dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't read post")
                 }
             }
         }
     }
     
     // MARK: Save Post
-    func savePost(post: Post) {
+    func savePost(post: Post, dataManager: DataManager) {
+        DispatchQueue.main.async {
+            self.post = post
+            self.post.saved = true
+            self.savedPostConfirmation = true
+            self.postUpdateTrigger.toggle()
+        }
+        
         NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/save/", method: .post) { successResponse, errorResponse in
             if successResponse != nil {
+                
+            } else if errorResponse != nil {
                 DispatchQueue.main.async {
                     self.post = post
-                    self.post.saved = true
-                    self.savedPostConfirmation = true
+                    self.post.saved = false
                     self.postUpdateTrigger.toggle()
+                    dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't save post")
                 }
             }
         }
     }
     
-    func unsavePost(post: Post) {
+    func unsavePost(post: Post, dataManager: DataManager) {
+        DispatchQueue.main.async {
+            self.post = post
+            self.post.saved = false
+            self.postUpdateTrigger.toggle()
+        }
+        
         NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/save/", method: .delete) { successResponse, errorResponse in
             if successResponse != nil {
+                
+            } else if errorResponse != nil {
                 DispatchQueue.main.async {
                     self.post = post
-                    self.post.saved = false
+                    self.post.saved = true
                     self.postUpdateTrigger.toggle()
+                    dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't unsave post")
                 }
             }
         }
@@ -215,6 +243,8 @@ class PostViewModel: ObservableObject {
                     self.commentUpdateTrigger.toggle()
                     dataManager.removeCommentLocally(commentId: self.commentToDelete.id, message: "Deleted comment")
                 }
+            } else if errorResponse != nil {
+                dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't delete post")
             }
         }
     }
@@ -224,6 +254,8 @@ class PostViewModel: ObservableObject {
             if successResponse != nil {
                 dataManager.removePostLocally(post: post, message: "Blocked user!")
                 self.postUpdateTrigger.toggle()
+            } else if errorResponse != nil {
+                dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't block post")
             }
         }
     }
@@ -233,6 +265,8 @@ class PostViewModel: ObservableObject {
             if successResponse != nil {
                 dataManager.removePostLocally(post: post, message: "Reported post!")
                 self.postUpdateTrigger.toggle()
+            } else if errorResponse != nil {
+                dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't report post")
             }
         }
     }

@@ -4,6 +4,7 @@ struct CommentBubble: View {
     @Binding var comment : Comment
     @StateObject var commentBubbleVM = CommentBubbleViewModel()
     @EnvironmentObject var postVM : PostViewModel
+    @EnvironmentObject var dataManager : DataManager
     
     @State private var showScore = false
     
@@ -42,7 +43,9 @@ struct CommentBubble: View {
         .onChange(of: commentBubbleVM.comment) { change in
             self.comment = commentBubbleVM.comment
         }
-
+        .onAppear() {
+            commentBubbleVM.comment = self.comment
+        }
     }
     
     var CommentBody: some View {
@@ -86,23 +89,24 @@ struct CommentBubble: View {
                 if comment.voteStatus == 0 {
                     Button {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        commentBubbleVM.commentVote(direction: 1)
+                        commentBubbleVM.commentVote(direction: 1, dataManager: dataManager)
                     } label: {
                         Image(systemName: "chevron.up")
                     }
                     
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        withAnimation {
-                            showScore.toggle()
-                        }
-                    } label: {
-                        Text("\(comment.score)")
-                    }
+                    Text("\(comment.score)")
+//                    Button {
+//                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+//                        withAnimation {
+//                            showScore.toggle()
+//                        }
+//                    } label: {
+//                        Text("\(comment.score)")
+//                    }
                     
                     Button {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        commentBubbleVM.commentVote(direction: -1)
+                        commentBubbleVM.commentVote(direction: -1, dataManager: dataManager)
                     } label: {
                         Image(systemName: "chevron.down")
                     }
@@ -111,25 +115,26 @@ struct CommentBubble: View {
                 else if comment.voteStatus == 1 {
                     Button {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        commentBubbleVM.commentVote(direction: 1)
+                        commentBubbleVM.commentVote(direction: 1, dataManager: dataManager)
                     } label: {
                         Image(systemName: "chevron.up")
                             .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
                     }
                     
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        withAnimation {
-                            showScore.toggle()
-                        }
-
-                    } label: {
-                        Text("\(comment.score + 1)")
-                    }
+                    Text("\(comment.score + 1)")
+//                    Button {
+//                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+//                        withAnimation {
+//                            showScore.toggle()
+//                        }
+//
+//                    } label: {
+//                        Text("\(comment.score + 1)")
+//                    }
                     
                     Button {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        commentBubbleVM.commentVote(direction: -1)
+                        commentBubbleVM.commentVote(direction: -1, dataManager: dataManager)
                     } label: {
                         Image(systemName: "chevron.down")
                     }
@@ -138,24 +143,25 @@ struct CommentBubble: View {
                 else if comment.voteStatus == -1 {
                     Button {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        commentBubbleVM.commentVote(direction: 1)
+                        commentBubbleVM.commentVote(direction: 1, dataManager: dataManager)
                     } label: {
                         Image(systemName: "chevron.up")
                     }
                     
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        withAnimation {
-                            showScore.toggle()
-                        }
-
-                    } label: {
-                        Text("\(comment.score - 1)")
-                    }
+                    Text("\(comment.score - 1)")
+//                    Button {
+//                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+//                        withAnimation {
+//                            showScore.toggle()
+//                        }
+//
+//                    } label: {
+//                        Text("\(comment.score - 1)")
+//                    }
                     
                     Button {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        commentBubbleVM.commentVote(direction: -1)
+                        commentBubbleVM.commentVote(direction: -1, dataManager: dataManager)
                     } label: {
                         Image(systemName: "chevron.down")
                             .foregroundColor(SchoolManager.shared.schoolPrimaryColor())

@@ -11,10 +11,12 @@ class PostBubbleViewModel: ObservableObject {
     @Published var activeAlert: ActiveAlert = .delete
     
     @Published var savedPostConfirmation : Bool = false
+    // this triggers a .onChange in the view file to bind the values between self.post and a binding post var
     @Published var updateTrigger : Bool = false
     
-    func postVote(direction: Int, post: Post) -> Void {
+    func postVote(direction: Int, post: Post, dataManager: DataManager) -> Void {
         var voteToSend = 0
+        let temp = self.post.voteStatus
         
         if direction == post.voteStatus {
             voteToSend = 0
@@ -24,44 +26,70 @@ class PostBubbleViewModel: ObservableObject {
         
         let parameters = PostVoteModel.Request(vote: voteToSend)
         
+        DispatchQueue.main.async {
+            self.post = post
+            self.post.voteStatus = voteToSend
+            self.updateTrigger.toggle()
+        }
+        
         NetworkManager.networkManager.request(route: "posts/\(post.id)/vote/", method: .post, body: parameters, successType: PostVoteModel.Response.self) { successResponse, errorResponse in
             // MARK: Success
-            if let successResponse = successResponse {
+            if successResponse != nil {
+                
+            }
+            
+            if errorResponse != nil {
+                print("DEBUG: IN HERE")
                 DispatchQueue.main.async {
-                    self.post = post
-                    self.post.voteStatus = successResponse.voteStatus
+                    self.post.voteStatus = temp
+                    self.updateTrigger.toggle()
+                    dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't vote on post")
                     self.updateTrigger.toggle()
                 }
-            }
-            if let errorResponse = errorResponse {
-                print("DEBUG: \(errorResponse)")
             }
         }
     }
     
     func savePost(post: Post, dataManager: DataManager) {
+        DispatchQueue.main.async {
+            self.post = post
+            self.post.saved = true
+            self.updateTrigger.toggle()
+        }
+        
         NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/save/", method: .post) { successResponse, errorResponse in
             if successResponse != nil {
                 DispatchQueue.main.async {
-                    self.post = post
-                    self.post.saved = true
                     self.savedPostConfirmation = true
-                    self.updateTrigger.toggle()
                     dataManager.updatePostLocally(post: post)
+                    self.updateTrigger.toggle()
                 }
+            } else if errorResponse != nil {
+                self.post = post
+                self.post.saved = false
+                dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't save post")
+                self.updateTrigger.toggle()
             }
         }
     }
     
     func unsavePost(post: Post, dataManager: DataManager) {
+        DispatchQueue.main.async {
+            self.post.saved = false
+            self.updateTrigger.toggle()
+        }
+        
         NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/save/", method: .delete) { successResponse, errorResponse in
             if successResponse != nil {
                 DispatchQueue.main.async {
-                    print("DEBUG: Unsave success")
-                    self.post.saved = false
-                    self.updateTrigger.toggle()
                     dataManager.updatePostLocally(post: post)
+                    self.updateTrigger.toggle()
                 }
+            } else if errorResponse != nil {
+                self.post = post
+                self.post.saved = true
+                dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't unsave post")
+                self.updateTrigger.toggle()
             }
         }
     }
