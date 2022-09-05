@@ -128,6 +128,7 @@ class PostViewModel: ObservableObject {
             if errorResponse != nil {
                 DispatchQueue.main.async {
                     dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't read post")
+                    completion(false)
                 }
             }
         }
@@ -267,6 +268,14 @@ class PostViewModel: ObservableObject {
                 self.postUpdateTrigger.toggle()
             } else if errorResponse != nil {
                 dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't report post")
+            }
+        }
+    }
+    
+    func updateCommentLocally(comment: Comment) {
+        DispatchQueue.main.async {
+            if let index = self.comments.firstIndex(where: {$0.id == comment.id}) {
+                self.comments[index] = comment
             }
         }
     }

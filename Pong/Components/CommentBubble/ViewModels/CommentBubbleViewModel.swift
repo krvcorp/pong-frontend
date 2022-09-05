@@ -2,6 +2,7 @@ import Foundation
 
 class CommentBubbleViewModel: ObservableObject {
     @Published var comment : Comment = defaultComment
+    @Published var commentUpdateTrigger : Bool = false
     @Published var showDeleteConfirmationView : Bool = false
     
     // MARK: CommentVote
@@ -17,30 +18,32 @@ class CommentBubbleViewModel: ObservableObject {
         
         DispatchQueue.main.async {
             self.comment.voteStatus = voteToSend
+            self.commentUpdateTrigger.toggle()
         }
         
         let parameters = CommentVoteModel.Request(vote: voteToSend)
         
         NetworkManager.networkManager.request(route: "comments/\(comment.id)/vote/", method: .post, body: parameters, successType: CommentVoteModel.Response.self) { successResponse, errorResponse in
-            // MARK: Success
-            DispatchQueue.main.async {
+            // top comment works regarding no internet kinda but replies don't get corrected
+//            DispatchQueue.main.async {
                 if successResponse != nil {
                     
                 }
-                if let errorResponse = errorResponse {
-                    print("DEBUG: \(errorResponse)")
-                    DispatchQueue.main.async {
-                        self.comment.voteStatus = temp
-                        dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't vote on comment")
-                    }
+                
+                // MARK: self.commentUpdateTrigger IS NOT TRIGGERING onChange??????????????
+                if errorResponse != nil {
+                    self.comment.voteStatus = temp
+                    self.commentUpdateTrigger.toggle()
+                    dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't vote on comment")
                 }
-            }
+//            }
         }
     }
     
     func deleteComment(comment: Comment, postVM: PostViewModel) {
         NetworkManager.networkManager.request(route: "comments/\(comment.id)/", method: .delete, successType: Post.self) { successResponse, errorResponse in
             DispatchQueue.main.async {
+                self.commentUpdateTrigger.toggle()
                 print("DEBUG: ")
             }
         }
@@ -49,6 +52,7 @@ class CommentBubbleViewModel: ObservableObject {
     func saveComment() {
         NetworkManager.networkManager.emptyRequest(route: "comments/\(comment.id)/save/", method: .post) { successResponse, errorResponse in
             DispatchQueue.main.async {
+//                self.commentUpdateTrigger.toggle()
                 print("DEBUG: ")
             }
         }
@@ -57,6 +61,7 @@ class CommentBubbleViewModel: ObservableObject {
     func blockComment() {
         NetworkManager.networkManager.emptyRequest(route: "comments/\(comment.id)/block/", method: .post) { successResponse, errorResponse in
             DispatchQueue.main.async {
+                self.commentUpdateTrigger.toggle()
                 print("DEBUG: ")
             }
         }
@@ -65,9 +70,9 @@ class CommentBubbleViewModel: ObservableObject {
     func reportComment() {
         NetworkManager.networkManager.emptyRequest(route: "comments/\(comment.id)/report/", method: .post) { successResponse, errorResponse in
             DispatchQueue.main.async {
+                self.commentUpdateTrigger.toggle()
                 print("DEBUG: ")
             }
         }
     }
-    
 }

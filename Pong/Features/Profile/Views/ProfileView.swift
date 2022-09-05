@@ -1,5 +1,4 @@
 import SwiftUI
-import PopupView
 import AlertToast
 
 struct ProfileView: View {

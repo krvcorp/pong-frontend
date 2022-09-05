@@ -40,18 +40,25 @@ struct CommentBubble: View {
             }
         }
         .background(Color(UIColor.systemBackground))
-        .onChange(of: commentBubbleVM.comment) { change in
-            self.comment = commentBubbleVM.comment
-        }
         .onAppear() {
-            commentBubbleVM.comment = self.comment
+            DispatchQueue.main.async {
+                commentBubbleVM.comment = self.comment
+            }
+        }
+        .onChange(of: commentBubbleVM.commentUpdateTrigger) { change in
+            print("DEBUG: old onChange self.comment.voteStatus \(self.comment.voteStatus)")
+            print("DEBUG: new onChange VM.comment.voteStatus \(commentBubbleVM.comment.voteStatus)")
+            // on change should be running twice when there's no internet?
+            DispatchQueue.main.async {
+                self.comment = commentBubbleVM.comment
+            }
+//            postVM.updateCommentLocally(comment: commentBubbleVM.comment)
         }
     }
     
     var CommentBody: some View {
         Button {
             UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-            print("DEBUG: Reply to \(comment.comment)")
             postVM.replyToComment = comment
         } label: {
             VStack(alignment: .leading) {
@@ -95,14 +102,6 @@ struct CommentBubble: View {
                     }
                     
                     Text("\(comment.score)")
-//                    Button {
-//                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-//                        withAnimation {
-//                            showScore.toggle()
-//                        }
-//                    } label: {
-//                        Text("\(comment.score)")
-//                    }
                     
                     Button {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
@@ -122,15 +121,6 @@ struct CommentBubble: View {
                     }
                     
                     Text("\(comment.score + 1)")
-//                    Button {
-//                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-//                        withAnimation {
-//                            showScore.toggle()
-//                        }
-//
-//                    } label: {
-//                        Text("\(comment.score + 1)")
-//                    }
                     
                     Button {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
@@ -149,15 +139,6 @@ struct CommentBubble: View {
                     }
                     
                     Text("\(comment.score - 1)")
-//                    Button {
-//                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-//                        withAnimation {
-//                            showScore.toggle()
-//                        }
-//
-//                    } label: {
-//                        Text("\(comment.score - 1)")
-//                    }
                     
                     Button {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()

@@ -11,7 +11,6 @@ struct ContentView: View {
     }
     
     var body: some View {
-        
         let drag = DragGesture()
             .onEnded {
                 if $0.translation.width < -100 {

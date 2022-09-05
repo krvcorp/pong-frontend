@@ -18,7 +18,7 @@ struct PostView: View {
     
     var body: some View {
         ZStack(alignment: .bottom) {
-            ScrollView {
+            RefreshableScrollView {
                 mainPost
                     .toast(isPresenting: $postVM.savedPostConfirmation) {
                         AlertToast(type: .regular, title: "Post saved!")
@@ -31,6 +31,19 @@ struct PostView: View {
                     }
                 }
                 .padding(.bottom, 150)
+            }
+            .refreshable {
+                print("DEBUG: PostView refresh")
+                // api call to refresh local data
+                postVM.readPost(dataManager: dataManager) { result in
+                    if !result {
+                        self.presentationMode.wrappedValue.dismiss()
+//                        dataManager.removePostLocally(post: post, message: "Post doesn't exist!")
+                    }
+                }
+                
+                // api call to fetch comments to display
+                postVM.getComments()
             }
             .background(Color(UIColor.secondarySystemBackground))
             
@@ -46,8 +59,11 @@ struct PostView: View {
                 // api call to refresh local data
                 postVM.readPost(dataManager: dataManager) { result in
                     if !result {
+                        print("DEBUG: READ ERROR SHOULD DISMISS")
                         self.presentationMode.wrappedValue.dismiss()
-                        dataManager.removePostLocally(post: post, message: "Post doesn't exist!")
+                        
+                        // THIS IS IF DELETED
+//                        dataManager.removePostLocally(post: post, message: "Post doesn't exist!")
                     }
                 }
                 
@@ -56,6 +72,8 @@ struct PostView: View {
             }
         }
         .onChange(of: postVM.postUpdateTrigger) { newValue in
+            print("DEBUG: old onChange self.post.voteStatus \(self.post.voteStatus)")
+            print("DEBUG: new onChange VM.post.voteStatus \(postVM.post.voteStatus)")
             DispatchQueue.main.async {
                 self.post = postVM.post
             }
