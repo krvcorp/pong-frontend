@@ -29,6 +29,7 @@ class NewPostViewModel: ObservableObject {
     @Published var newPollVM : NewPollViewModel = NewPollViewModel()
     @Published var error = false
     @Published var errorMessage = "Error"
+    @Published var newPostLoading = false
 
     // MARK: NewPost request
     func newPost(mainTabVM: MainTabViewModel, dataManager: DataManager) -> Void {
@@ -56,7 +57,7 @@ class NewPostViewModel: ObservableObject {
                         mainTabVM.newPostDetected.toggle()
                         dataManager.initProfile()
                     }
-            }
+                }
         }
         // MARK: else use network manager
         else {
@@ -71,8 +72,6 @@ class NewPostViewModel: ObservableObject {
             // validate newPoll doesn't have invalid entries
             if newPollVM.validate() {
                 NetworkManager.networkManager.request(route: "posts/", method: .post, body: parameters, successType: Post.self) { successResponse, errorResponse in
-                    // MARK: Success
-                    print("DEBUG: NewPost success!")
                     if successResponse != nil {
                         DispatchQueue.main.async {
                             mainTabVM.isCustomItemSelected = false
@@ -82,13 +81,19 @@ class NewPostViewModel: ObservableObject {
                         }
                     }
                     if let errorResponse = errorResponse {
-                        self.errorMessage = errorResponse.error
-                        self.error = true
+                        DispatchQueue.main.async {
+                            self.errorMessage = errorResponse.error
+                            self.error = true
+                            self.newPostLoading = false
+                        }
                     }
                 }
             } else {
-                self.errorMessage = "Invalid empty entries!"
-                self.error = true
+                DispatchQueue.main.async {
+                    self.errorMessage = "Invalid empty entries!"
+                    self.error = true
+                    self.newPostLoading = false
+                }
             }
         }
     }

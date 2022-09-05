@@ -113,23 +113,46 @@ struct NewPostView: View {
                             .frame(minHeight: 25, maxHeight: 60)
 
                             // MARK: On success of newPost, NewPostView needs to dismiss to reset data in NewPost
-                            Button {
-                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                                newPostVM.newPost(mainTabVM: mainTabVM, dataManager: dataManager)
-                            } label: {
-                                Text("Post")
-                                    .frame(minWidth: 100, maxWidth: 150)
-                                    .font(.system(size: 18).bold())
-                                    .padding()
-                                    .foregroundColor(Color(UIColor.systemBackground))
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 5)
-                                            .stroke(Color.primary, lineWidth: 2)
-                                )
+                            if !newPostVM.newPostLoading {
+                                Button {
+                                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                                    DispatchQueue.main.async {
+                                        newPostVM.newPostLoading = true
+                                    }
+                                    newPostVM.newPost(mainTabVM: mainTabVM, dataManager: dataManager)
+                                } label: {
+                                    Text("Post")
+                                        .frame(minWidth: 100, maxWidth: 150)
+                                        .font(.system(size: 18).bold())
+                                        .padding()
+                                        .foregroundColor(Color(UIColor.systemBackground))
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 5)
+                                                .stroke(Color.primary, lineWidth: 2)
+                                    )
+                                }
+                                .background(Color(UIColor.label)) // If you have this
+                                .cornerRadius(20)         // You also need the cornerRadius here
+                                .padding(.bottom)
+                            } else {
+                                Button {
+                                    
+                                } label: {
+                                    ProgressView()
+                                        .progressViewStyle(CircularProgressViewStyle(tint: Color(UIColor.systemBackground)))
+                                        .frame(minWidth: 100, maxWidth: 150)
+                                        .font(.system(size: 18).bold())
+                                        .padding()
+                                        .foregroundColor(Color(UIColor.systemBackground))
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 5)
+                                                .stroke(Color.primary, lineWidth: 2)
+                                        )
+                                }
+                                .background(Color(UIColor.label)) // If you have this
+                                .cornerRadius(20)         // You also need the cornerRadius here
+                                .padding(.bottom)
                             }
-                            .background(Color(UIColor.label)) // If you have this
-                            .cornerRadius(20)         // You also need the cornerRadius here
-                            .padding(.bottom)
                         }
                     }
                 }
