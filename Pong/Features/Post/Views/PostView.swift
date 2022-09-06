@@ -204,10 +204,10 @@ struct PostView: View {
             .padding()
             .background(Color(UIColor.systemBackground))
 
-            Text("\(post.numComments) Comments")
-                .font(.caption)
-                .background(Color(UIColor.secondarySystemBackground))
-                .frame(maxWidth: .infinity)
+//            Text("\(post.numComments) Comments")
+//                .font(.caption)
+//                .background(Color(UIColor.secondarySystemBackground))
+//                .frame(maxWidth: .infinity)
         }
         .background(Color(UIColor.secondarySystemBackground))
     }
@@ -435,10 +435,10 @@ struct PostView: View {
                         }
                     } label: {
                         ZStack {
-                            LinearGradient(gradient: Gradient(colors: [Color.viewEventsGradient1, Color.viewEventsGradient2]), startPoint: .topTrailing, endPoint: .bottomLeading)
-                            Image(systemName: "paperplane.fill")
+//                            LinearGradient(gradient: Gradient(colors: [SchoolManager.shared.schoolPrimaryColor(), Color.black]), startPoint: .topTrailing, endPoint: .bottomLeading)
+                            Image(systemName: "paperplane")
                                 .imageScale(.small)
-                                .foregroundColor(.white)
+                                .foregroundColor(Color(UIColor.label))
                                 .font(.largeTitle)
                         }
                         .frame(width: 40, height: 40, alignment: .center)

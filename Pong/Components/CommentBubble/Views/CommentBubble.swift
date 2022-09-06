@@ -184,24 +184,25 @@ struct CommentBubble: View {
     }
     
     var CommentBottomRow: some View {
-        HStack {
+        HStack(spacing: 10) {
+            
             Button {
                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                 print("DEBUG: Reply to \(comment.comment)")
                 postVM.replyToComment = comment
             } label: {
                 HStack {
-                    ZStack {
-                        LinearGradient(gradient: Gradient(colors: [Color.viewEventsGradient1, Color.viewEventsGradient2]), startPoint: .bottomLeading, endPoint: .topTrailing)
-                        Text("Reply").foregroundColor(Color(UIColor.black)).bold().lineLimit(1)
-                    }
-                    .cornerRadius(6)
-                    .frame(width: 70, height: 10)
-
-                    Spacer()
+                    Image(systemName: "arrowshape.turn.up.left")
+                        .padding(3)
+                        .foregroundColor(Color(UIColor.label))
+                        .background(Color(UIColor.systemBackground))
+                        .cornerRadius(6)
+                        .frame(width: 15, height: 15)
                 }
                 .background(Color(UIColor.systemBackground))
             }
+            
+            Spacer()
 
             
             // MARK: Delete or More Button

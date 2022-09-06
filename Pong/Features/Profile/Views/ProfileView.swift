@@ -54,23 +54,45 @@ struct ProfileView: View {
             HStack {
                 Spacer()
                 
-                VStack(alignment: .center) {
-                    Text("Karma")
-                        .font(.title.bold())
-                    Text("\(dataManager.totalKarma)")
-                        .font(.title.bold())
+                HStack(spacing: 15) {
+                    Image(systemName: "sun.min")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(maxWidth: UIScreen.screenWidth / 10)
                         .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
+                    
+                    VStack(alignment: .leading) {
+                        Text("\(dataManager.totalKarma)")
+                            .font(.title.bold())
+                            .foregroundColor(Color(UIColor.label))
+                        
+                        Text("Karma")
+                            .font(.headline.bold())
+                            .foregroundColor(Color(UIColor.systemGray))
+                    }
                 }
                 
                 Spacer()
+                Spacer()
                 
-                VStack(alignment: .center) {
-                    Text("Views")
-                        .font(.title.bold())
-                    Text("\(dataManager.postKarma)")
-                        .font(.title.bold())
+                HStack(spacing: 15) {
+                    Image(systemName: "chart.bar")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(maxWidth: UIScreen.screenWidth / 10)
                         .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
+                    
+                    VStack(alignment: .leading) {
+                        Text("\(dataManager.postKarma)")
+                            .font(.title.bold())
+                            .foregroundColor(Color(UIColor.label))
+                        
+                        Text("Views")
+                            .font(.headline.bold())
+                            .foregroundColor(Color(UIColor.systemGray))
+                    }
                 }
+
                 
                 Spacer()
             }
