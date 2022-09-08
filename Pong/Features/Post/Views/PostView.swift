@@ -14,7 +14,7 @@ struct PostView: View {
     @State private var text = ""
     @State var sheet = false
     @State private var showScore = false
-    @FocusState private var textIsFocused: Bool
+    @FocusState private var textIsFocused : Bool
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -383,6 +383,7 @@ struct PostView: View {
                     
                     Button {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        postVM.textIsFocused = false
                         textIsFocused = false
                     } label: {
                         Image(systemName: "keyboard.chevron.compact.down")
@@ -420,6 +421,9 @@ struct PostView: View {
                     TextField("Enter your message here", text: $text)
                         .font(.headline)
                         .focused($textIsFocused)
+                        .onChange(of: postVM.textIsFocused) {
+                            self.textIsFocused = $0
+                        }
                         
                     Button {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
@@ -432,6 +436,7 @@ struct PostView: View {
                         text = ""
                         withAnimation {
                             textIsFocused = false
+                            postVM.textIsFocused = false
                         }
                     } label: {
                         ZStack {

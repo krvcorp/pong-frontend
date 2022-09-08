@@ -29,6 +29,8 @@ class PostViewModel: ObservableObject {
     @Published var postUpdateTrigger = false
     @Published var commentUpdateTrigger = false
     
+    @Published var textIsFocused = false
+    
     func postVote(direction: Int, dataManager: DataManager) -> Void {
         var voteToSend = 0
         let temp = self.post.voteStatus
@@ -112,6 +114,16 @@ class PostViewModel: ObservableObject {
                 }
             }
         }
+    }
+    
+    func setCommentReply(comment: Comment) {
+        if self.replyToComment != comment {
+            self.textIsFocused = true
+        } else {
+            self.textIsFocused.toggle()
+        }
+
+        self.replyToComment = comment
     }
     
     // MARK: ReadPost

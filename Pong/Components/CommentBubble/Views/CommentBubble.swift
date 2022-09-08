@@ -59,7 +59,7 @@ struct CommentBubble: View {
     var CommentBody: some View {
         Button {
             UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-            postVM.replyToComment = comment
+            postVM.setCommentReply(comment: comment)
         } label: {
             VStack(alignment: .leading) {
                 HStack {
@@ -188,8 +188,7 @@ struct CommentBubble: View {
             
             Button {
                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                print("DEBUG: Reply to \(comment.comment)")
-                postVM.replyToComment = comment
+                postVM.setCommentReply(comment: comment)
             } label: {
                 HStack {
                     Image(systemName: "arrowshape.turn.up.left")
