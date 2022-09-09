@@ -1,10 +1,3 @@
-//
-//  NotificationModel.swift
-//  Pong
-//
-//  Created by Artemas on 8/30/22.
-//
-
 import Foundation
 
 struct NotificationsModel: Decodable {

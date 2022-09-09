@@ -1,19 +1,15 @@
-//
-//  NotificationsView.swift
-//  Pong
-//
-//  Created by Khoi Nguyen on 8/5/22.
-//
-
 import SwiftUI
 
 struct NotificationsView: View {
     @StateObject private var notificationsVM = NotificationsViewModel()
     @ObservedObject private var notificationsManager = NotificationsManager.notificationsManager
+    @EnvironmentObject var mainTabVM : MainTabViewModel
     @State private var searchText = ""
     @State private var showAlert = false
+    @State var isLinkActive = false
     @Environment(\.colorScheme) var colorScheme
     
+    @ViewBuilder
     var body: some View {
         LoadingView(isShowing: .constant(false)) {
             NavigationView {
@@ -72,21 +68,33 @@ struct NotificationsView: View {
                     }
                     Section(header: Text("Recent Notifications")) {
                         ForEach(notificationsVM.notificationHistory.filter { searchText.isEmpty || $0.notification.body.localizedStandardContains(searchText)}) { notificationModel in
-                            NavigationLink(destination: Text("ref here")) {
-                                HStack {
-                                    ZStack {
-                                        LinearGradient(gradient: Gradient(colors: [getGradientColorsFromType(type: notificationModel.data.type).0, getGradientColorsFromType(type: notificationModel.data.type).1]), startPoint: .bottomLeading, endPoint: .topTrailing)
-                                        Image(systemName: getImageNameFromType(type: notificationModel.data.type))
-                                            .imageScale(.small)
-                                            .foregroundColor(.white)
-                                            .font(.title2)
+                            if notificationModel.data.type == .upvote || notificationModel.data.type == .comment || notificationModel.data.type == .hot || notificationModel.data.type == .top || notificationModel.data.type == .reply {
+                                NavigationLink(destination: NavigationLazyView(PostView(post: .constant(notificationsVM.post))), isActive: $isLinkActive) {
+                                    Button {
+                                        DispatchQueue.main.async {
+                                            let _ = notificationsVM.getPost(url: notificationModel.data.url)
+                                            self.isLinkActive = true
+                                        }
+                                    } label: {
+                                        EmptyView()
                                     }
-                                    .frame(width: 30, height: 30, alignment: .center)
-                                    .cornerRadius(6)
-                                    .padding(.trailing, 4)
-                                    VStack (alignment: .leading, spacing: 6) {
-                                        Text(notificationModel.notification.title).foregroundColor(Color(uiColor: colorScheme == .dark ? .white : .darkGray)).lineLimit(2).font(Font.caption)
-                                    }.padding(.vertical, 1)
+                                    getNotificationText(notificationModel: notificationModel)
+                                }
+                            }
+                            else if notificationModel.data.type == .message  {
+                                NavigationLink(destination: Text("ref here")) {
+                                    getNotificationText(notificationModel: notificationModel)
+                                }
+                            }
+                            
+                            else if notificationModel.data.type == .leader {
+                                Button {
+                                    DispatchQueue.main.async {
+                                        mainTabVM.isCustomItemSelected = false
+                                        mainTabVM.itemSelected = 2
+                                    }
+                                } label: {
+                                    getNotificationText(notificationModel: notificationModel)
                                 }
                             }
                         }
@@ -103,6 +111,27 @@ struct NotificationsView: View {
             .navigationViewStyle(StackNavigationViewStyle())
         }
     }
+    
+    func getNotificationText(notificationModel: NotificationsModel.WrappedNotification) -> some View {
+        return
+            HStack {
+                ZStack {
+                    LinearGradient(gradient: Gradient(colors: [getGradientColorsFromType(type: notificationModel.data.type).0, getGradientColorsFromType(type: notificationModel.data.type).1]), startPoint: .bottomLeading, endPoint: .topTrailing)
+                    Image(systemName: getImageNameFromType(type: notificationModel.data.type))
+                        .imageScale(.small)
+                        .foregroundColor(.white)
+                        .font(.title2)
+                }
+                .frame(width: 30, height: 30, alignment: .center)
+                .cornerRadius(6)
+                .padding(.trailing, 4)
+                VStack (alignment: .leading, spacing: 6) {
+                    Text(notificationModel.notification.title).foregroundColor(Color(uiColor: colorScheme == .dark ? .white : .darkGray)).lineLimit(2).font(Font.caption)
+                }.padding(.vertical, 1)
+            }
+    }
+    
+    
     
     func getImageNameFromType(type: NotificationsModel.WrappedNotification.Data.NotificationType) -> String {
         switch type {

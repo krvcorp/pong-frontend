@@ -1,10 +1,3 @@
-//
-//  NotificationManager.swift
-//  Pong
-//
-//  Created by Artemas on 8/30/22.
-//
-
 import Foundation
 import Firebase
 import SwiftUI

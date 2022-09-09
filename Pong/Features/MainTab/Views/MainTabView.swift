@@ -40,6 +40,7 @@ struct MainTabView: View {
                     Image(systemName: "chart.bar.xaxis")
                 }
                 .tag(2)
+                
 
             // MARK: NewPostView
             NewPostView(mainTabVM: MainTabViewModel(initialIndex: 1, customItemIndex: 1))
@@ -54,6 +55,7 @@ struct MainTabView: View {
                     Image(systemName: "bell")
                 }
                 .tag(4)
+                .environmentObject(mainTabVM)
 
             // MARK: ProfileView
             ProfileView()

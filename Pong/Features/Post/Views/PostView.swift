@@ -186,10 +186,11 @@ struct PostView: View {
                 
                 // MARK: Image
                 if let imageUrl = post.image {
+                    let _ = debugPrint("DEBUG POST: ", post)
                     KFImage(URL(string: "\(imageUrl)")!)
                         .resizable()
                         .scaledToFit()
-//                        .frame(idealWidth: UIScreen.screenWidth / 1.1, idealHeight: CGFloat(post.imageHeight!) * (UIScreen.screenWidth / 1.1) / CGFloat(post.imageWidth!), maxHeight: CGFloat(150))
+                        .frame(idealWidth: UIScreen.screenWidth / 1.1, idealHeight: CGFloat(post.imageHeight!) * (UIScreen.screenWidth / 1.1) / CGFloat(post.imageWidth!), maxHeight: CGFloat(150))
                         .cornerRadius(15)
                 }
                 
