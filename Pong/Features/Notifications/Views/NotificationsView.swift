@@ -69,11 +69,15 @@ struct NotificationsView: View {
                     Section(header: Text("Recent Notifications")) {
                         ForEach(notificationsVM.notificationHistory.filter { searchText.isEmpty || $0.notification.body.localizedStandardContains(searchText)}) { notificationModel in
                             if notificationModel.data.type == .upvote || notificationModel.data.type == .comment || notificationModel.data.type == .hot || notificationModel.data.type == .top || notificationModel.data.type == .reply {
+                                
                                 NavigationLink(destination: NavigationLazyView(PostView(post: .constant(notificationsVM.post))), isActive: $isLinkActive) {
                                     Button {
                                         DispatchQueue.main.async {
-                                            let _ = notificationsVM.getPost(url: notificationModel.data.url)
-                                            self.isLinkActive = true
+                                            let _ = notificationsVM.getPost(url: notificationModel.data.url) { success in
+                                                if success {
+                                                    self.isLinkActive = true
+                                                }
+                                            }
                                         }
                                     } label: {
                                         EmptyView()

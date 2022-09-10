@@ -15,10 +15,11 @@ class NotificationsViewModel: ObservableObject {
         }
     }
     
-    func getPost(url: String) {
+    func getPost(url: String, completionHandler: @escaping (Bool) -> Void) {
         NetworkManager.networkManager.request(route: "\(url)", method: .get, successType: Post.self) { successResponse, errorResponse in
             if successResponse != nil {
                 self.post = successResponse!
+                completionHandler(true)
             }
             if errorResponse != nil {
                 debugPrint("This post was probably deleted")
