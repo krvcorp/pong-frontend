@@ -11,8 +11,6 @@ struct LeaderboardView: View {
     
     @State private var nickname: String = ""
     
-
-    
     var body: some View {
         let lblist = dataManager.leaderboardList
         NavigationView {
@@ -44,9 +42,6 @@ struct LeaderboardView: View {
                                 Label("Save", systemImage: "pencil")
                             }
                         }
-                        
-                        
-                        
                         
                         if (lblist.count > 3) {
                             Section(header: Text("Leaderboard")) {

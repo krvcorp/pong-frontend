@@ -22,18 +22,26 @@
 
 import InputBarAccessoryView
 import MessageKit
-
 import SwiftUI
 
 // MARK: - MessageSwiftUIVC
 
 final class MessageSwiftUIVC: MessagesViewController {
-  override func viewDidAppear(_ animated: Bool) {
-    super.viewDidAppear(animated)
-    // Because SwiftUI wont automatically make our controller the first responder, we need to do it on viewDidAppear
-    becomeFirstResponder()
-    messagesCollectionView.scrollToLastItem(animated: true)
-  }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        // Because SwiftUI wont automatically make our controller the first responder, we need to do it on viewDidAppear
+        becomeFirstResponder()
+        messagesCollectionView.scrollToLastItem(animated: true)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        if let layout = messagesCollectionView.collectionViewLayout as? MessagesCollectionViewFlowLayout {
+            layout.setMessageIncomingAvatarSize(.zero)
+            layout.setMessageOutgoingAvatarSize(.zero)
+        }
+    }
 }
 
 // MARK: - MessagesView
@@ -41,124 +49,141 @@ final class MessageSwiftUIVC: MessagesViewController {
 struct MessagesView: UIViewControllerRepresentable {
   // MARK: Internal
 
-  final class Coordinator {
-    // MARK: Lifecycle
+    final class Coordinator {
+        // MARK: Lifecycle
 
-    init(messages: Binding<[MessageType]>) {
-      self.messages = messages
+        init(messages: Binding<[MessageType]>, messageVM: MessageViewModel) {
+            self.messages = messages
+            self.messageVM = messageVM
+        }
+
+        // MARK: Internal
+
+        let formatter: DateFormatter = {
+            let formatter = DateFormatter()
+            formatter.dateStyle = .medium
+            return formatter
+        }()
+
+        var messages: Binding<[MessageType]>
+        var messageVM : MessageViewModel
     }
 
-    // MARK: Internal
 
-    let formatter: DateFormatter = {
-      let formatter = DateFormatter()
-      formatter.dateStyle = .medium
-      return formatter
-    }()
+    @State var initialized = false
+    @Binding var messages: [MessageType]
+    @ObservedObject var messageVM : MessageViewModel
 
-    var messages: Binding<[MessageType]>
-  }
+    func makeUIViewController(context: Context) -> MessagesViewController {
+        let messagesVC = MessageSwiftUIVC()
 
-  @State var initialized = false
-  @Binding var messages: [MessageType]
+        messagesVC.messagesCollectionView.messagesDisplayDelegate = context.coordinator
+        messagesVC.messagesCollectionView.messagesLayoutDelegate = context.coordinator
+        messagesVC.messagesCollectionView.messagesDataSource = context.coordinator
+        messagesVC.messageInputBar.delegate = context.coordinator
+        messagesVC.scrollsToLastItemOnKeyboardBeginsEditing = true // default false
+        messagesVC.maintainPositionOnInputBarHeightChanged = true // default false
+        messagesVC.showMessageTimestampOnSwipeLeft = true // default false
 
-  func makeUIViewController(context: Context) -> MessagesViewController {
-    let messagesVC = MessageSwiftUIVC()
+        return messagesVC
+    }
 
-    messagesVC.messagesCollectionView.messagesDisplayDelegate = context.coordinator
-    messagesVC.messagesCollectionView.messagesLayoutDelegate = context.coordinator
-    messagesVC.messagesCollectionView.messagesDataSource = context.coordinator
-    messagesVC.messageInputBar.delegate = context.coordinator
-    messagesVC.scrollsToLastItemOnKeyboardBeginsEditing = true // default false
-    messagesVC.maintainPositionOnInputBarHeightChanged = true // default false
-    messagesVC.showMessageTimestampOnSwipeLeft = true // default false
+    func updateUIViewController(_ uiViewController: MessagesViewController, context _: Context) {
+        uiViewController.messagesCollectionView.reloadData()
+        scrollToBottom(uiViewController)
+    }
 
-    return messagesVC
-  }
-
-  func updateUIViewController(_ uiViewController: MessagesViewController, context _: Context) {
-    uiViewController.messagesCollectionView.reloadData()
-    scrollToBottom(uiViewController)
-  }
-
-  func makeCoordinator() -> Coordinator {
-    Coordinator(messages: $messages)
-  }
+    func makeCoordinator() -> Coordinator {
+        Coordinator(messages: $messages, messageVM: messageVM)
+    }
 
   // MARK: Private
 
-  private func scrollToBottom(_ uiViewController: MessagesViewController) {
-    DispatchQueue.main.async {
-      // The initialized state variable allows us to start at the bottom with the initial messages without seeing the initial scroll flash by
-      uiViewController.messagesCollectionView.scrollToLastItem(animated: self.initialized)
-      self.initialized = true
+    private func scrollToBottom(_ uiViewController: MessagesViewController) {
+        DispatchQueue.main.async {
+            // The initialized state variable allows us to start at the bottom with the initial messages without seeing the initial scroll flash by
+            uiViewController.messagesCollectionView.scrollToLastItem(animated: self.initialized)
+            self.initialized = true
+        }
     }
-  }
 }
 
 // MARK: - MessagesView.Coordinator + MessagesDataSource
 
 extension MessagesView.Coordinator: MessagesDataSource {
-  var currentSender: SenderType {
-    SampleData.shared.currentSender
-  }
+    var currentSender: SenderType {
+        MockUser(senderId: "1", displayName: "Me")
+    }
 
-  func messageForItem(at indexPath: IndexPath, in _: MessagesCollectionView) -> MessageType {
-    messages.wrappedValue[indexPath.section]
-  }
+    func messageForItem(at indexPath: IndexPath, in _: MessagesCollectionView) -> MessageType {
+        messages.wrappedValue[indexPath.section]
+    }
 
-  func numberOfSections(in _: MessagesCollectionView) -> Int {
-    messages.wrappedValue.count
-  }
+    func numberOfSections(in _: MessagesCollectionView) -> Int {
+        messages.wrappedValue.count
+    }
 
-  func messageTopLabelAttributedText(for message: MessageType, at _: IndexPath) -> NSAttributedString? {
-    let name = message.sender.displayName
-    return NSAttributedString(
-      string: name,
-      attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .caption1)])
-  }
+    func messageTopLabelAttributedText(for message: MessageType, at _: IndexPath) -> NSAttributedString? {
+        let name = message.sender.displayName
+        return NSAttributedString(
+        string: name,
+        attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .caption1)])
+    }
 
-  func messageBottomLabelAttributedText(for message: MessageType, at _: IndexPath) -> NSAttributedString? {
-    let dateString = formatter.string(from: message.sentDate)
-    return NSAttributedString(
-      string: dateString,
-      attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .caption2)])
-  }
+    func messageBottomLabelAttributedText(for message: MessageType, at _: IndexPath) -> NSAttributedString? {
+        let dateString = formatter.string(from: message.sentDate)
+        return NSAttributedString(
+        string: dateString,
+        attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .caption2)])
+    }
 
-  func messageTimestampLabelAttributedText(for message: MessageType, at _: IndexPath) -> NSAttributedString? {
-    let sentDate = message.sentDate
-    let sentDateString = MessageKitDateFormatter.shared.string(from: sentDate)
-    let timeLabelFont: UIFont = .boldSystemFont(ofSize: 10)
-    let timeLabelColor: UIColor = .systemGray
-    return NSAttributedString(
-      string: sentDateString,
-      attributes: [NSAttributedString.Key.font: timeLabelFont, NSAttributedString.Key.foregroundColor: timeLabelColor])
-  }
+    func messageTimestampLabelAttributedText(for message: MessageType, at _: IndexPath) -> NSAttributedString? {
+        let sentDate = message.sentDate
+        let sentDateString = MessageKitDateFormatter.shared.string(from: sentDate)
+        let timeLabelFont: UIFont = .boldSystemFont(ofSize: 10)
+        let timeLabelColor: UIColor = .systemGray
+        return NSAttributedString(
+        string: sentDateString,
+        attributes: [NSAttributedString.Key.font: timeLabelFont, NSAttributedString.Key.foregroundColor: timeLabelColor])
+    }
 }
 
 // MARK: - MessagesView.Coordinator + InputBarAccessoryViewDelegate
 
 extension MessagesView.Coordinator: InputBarAccessoryViewDelegate {
-  func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
-    let message = MockMessage(text: text, user: SampleData.shared.currentSender, messageId: UUID().uuidString, date: Date())
-    messages.wrappedValue.append(message)
-    inputBar.inputTextView.text = ""
-  }
+    // send message here
+    func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
+//        let message = MockMessage(text: text, user: MockUser(senderId: "1", displayName: "Me"), messageId: UUID().uuidString, date: Date())
+//        messages.wrappedValue.append(message)
+        messageVM.sendMessage(message: text)
+        inputBar.inputTextView.text = ""
+    }
 }
 
 // MARK: - MessagesView.Coordinator + MessagesLayoutDelegate, MessagesDisplayDelegate
-
+// just added custom avatar where image is nil and initials are an empty string
 extension MessagesView.Coordinator: MessagesLayoutDelegate, MessagesDisplayDelegate {
-  func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at _: IndexPath, in _: MessagesCollectionView) {
-    let avatar = SampleData.shared.getAvatarFor(sender: message.sender)
-    avatarView.set(avatar: avatar)
-  }
+    func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at _: IndexPath, in _: MessagesCollectionView) {
+        avatarView.isHidden = true
+    }
 
-  func messageTopLabelHeight(for _: MessageType, at _: IndexPath, in _: MessagesCollectionView) -> CGFloat {
-    20
-  }
+    func messageTopLabelHeight(for _: MessageType, at _: IndexPath, in _: MessagesCollectionView) -> CGFloat {
+        20
+    }
 
-  func messageBottomLabelHeight(for _: MessageType, at _: IndexPath, in _: MessagesCollectionView) -> CGFloat {
-    16
-  }
+    func messageBottomLabelHeight(for _: MessageType, at _: IndexPath, in _: MessagesCollectionView) -> CGFloat {
+        16
+    }
+    
+    func backgroundColor(for message: MessageType, at  indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
+        switch message.kind {
+        case .emoji:
+            return .clear
+        default:
+            guard let dataSource = messagesCollectionView.messagesDataSource else {
+                return .white
+            }
+            return dataSource.isFromCurrentSender(message: message) ? .systemBlue : .systemGray
+        }
+    }
 }
