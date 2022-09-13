@@ -77,7 +77,7 @@ struct NotificationsView: View {
                                     
                                     Button {
                                         DispatchQueue.main.async {
-                                            notificationsVM.getPost(url: notificationModel.data.url) { success in
+                                            notificationsVM.getPost(url: notificationModel.data.url!) { success in
                                                 post = success
                                                 isLinkActive = true
                                             }
@@ -112,6 +112,7 @@ struct NotificationsView: View {
                     notificationsVM.getNotificationHistory()
                 }
                 .navigationTitle("Notifications")
+                .navigationBarTitleDisplayMode(.inline)			
                 
             }
             .accentColor(Color(UIColor.label))
@@ -134,7 +135,7 @@ struct NotificationsView: View {
                 .cornerRadius(6)
                 .padding(.trailing, 4)
                 VStack (alignment: .leading, spacing: 6) {
-                    Text(notificationModel.notification.title).lineLimit(2).font(Font.caption)
+                    Text(notificationModel.notification.body).lineLimit(2).font(Font.caption)
                 }.padding(.vertical, 1)
             }
     }
