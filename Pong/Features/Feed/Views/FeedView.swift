@@ -130,7 +130,7 @@ struct FeedView: View {
                                 feedVM.selectedTopFilter = filter
                             } label: {
                                 Text(filter.title)
-                                    .font(.caption.bold())
+                                    .font(.subheadline.bold())
                                     .padding(.vertical, 5)
                                     .padding(.horizontal, 30)
                                     .foregroundColor(feedVM.selectedTopFilter == filter ? Color(UIColor.systemBackground) : Color(UIColor.label))

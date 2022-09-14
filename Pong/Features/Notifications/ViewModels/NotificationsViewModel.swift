@@ -10,7 +10,7 @@ class NotificationsViewModel: ObservableObject {
             if let successResponse = successResponse {
                 self.notificationHistory = successResponse
             } else {
-                print(errorResponse?.error)
+                print(errorResponse?.error ?? "")
             }
         }
     }

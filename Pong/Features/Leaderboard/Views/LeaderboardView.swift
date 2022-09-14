@@ -17,6 +17,9 @@ struct LeaderboardView: View {
             VStack {
                 VStack {
                     List {
+                        Text("Powered by [Guayaki Yerba Mate](https://guayaki.com/)")
+                            .bold()
+                        
                         karmaInfo
                             .padding([.leading, .top, .trailing])
                             .listRowSeparator(.hidden)

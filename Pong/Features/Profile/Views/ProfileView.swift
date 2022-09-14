@@ -175,7 +175,7 @@ struct ProfileView: View {
                             Spacer()
                         }
                     }
-                    .listRowBackground(Color(UIColor.secondarySystemBackground))
+//                    .listRowBackground(Color(UIColor.secondarySystemBackground))
                     .listRowSeparator(.hidden)
                 }
             }
@@ -219,7 +219,8 @@ struct ProfileView: View {
                             Spacer()
                         }
                     }
-                    .listRowBackground(Color(UIColor.secondarySystemBackground))
+//                    .listRowBackground(Color(UIColor.secondarySystemBackground))
+                    
                     .listRowSeparator(.hidden)
                 }
             }
@@ -262,7 +263,7 @@ struct ProfileView: View {
                             Spacer()
                         }
                     }
-                    .listRowBackground(Color(UIColor.secondarySystemBackground))
+//                    .listRowBackground(Color(UIColor.secondarySystemBackground))
                     .listRowSeparator(.hidden)
                 }
             }

@@ -105,6 +105,9 @@ struct NotificationsView: View {
                             }
                         }
                     }
+                    .refreshable(action: {
+                        print("DEBUG: Refreshed!")
+                    })
                     .listStyle(GroupedListStyle())
                 }
                 .onAppear {
@@ -134,9 +137,13 @@ struct NotificationsView: View {
                 .frame(width: 30, height: 30, alignment: .center)
                 .cornerRadius(6)
                 .padding(.trailing, 4)
+                
                 VStack (alignment: .leading, spacing: 6) {
-                    Text(notificationModel.notification.body).lineLimit(2).font(Font.caption)
-                }.padding(.vertical, 1)
+                    Text(notificationModel.notification.body)
+                        .lineLimit(2)
+                        .font(.subheadline)
+                }
+                .padding(.vertical, 1)
             }
     }
     

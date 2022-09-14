@@ -137,7 +137,7 @@ class NetworkManager: ObservableObject {
                         if httpStatusCode == 401 {
 //                            print("NETWORK: 401 Error")
                             AuthManager.authManager.signout()
-                        } else if httpStatusCode == 204 || httpStatusCode == 200 {
+                        } else if httpStatusCode == 204 || httpStatusCode == 200 || httpStatusCode == 201 {
 //                            print("NETWORK: 204 Empty")
                             completionHandler(EmptyResponse(success: "204"), nil)
                         }
@@ -165,7 +165,7 @@ class NetworkManager: ObservableObject {
                         if httpStatusCode == 401 {
 //                            print("NETWORK: 401 Error")
                             AuthManager.authManager.signout()
-                        } else if httpStatusCode == 204 || httpStatusCode == 200 {
+                        } else if httpStatusCode == 204 || httpStatusCode == 200 || httpStatusCode == 201 {
 //                            print("NETWORK: 204 Empty")
 //                            print("NETWORK: \(response)")
                             completionHandler(EmptyResponse(success: "204"), nil)

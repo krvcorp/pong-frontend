@@ -10,27 +10,43 @@ import SwiftUI
 import Foundation
 
 class MessageRosterViewModel: ObservableObject {
-//    @Published var conversations = []
-    @Published var conversations : [Conversation] = [Conversation(id: "1",
-                                                                  messages: [Message(id: "3", message: "Fuck you", createdAt: "2016-04-14T10:44:00+0000", userOwned: true)],
-                                                                  re: "Brattle street when jefes moves in",
-                                                                  read: true),
-                                                     Conversation(id: "2",
-                                                                  messages: [Message(id: "4", message: "What if you didn't", createdAt: "2016-04-14T10:44:00+0000", userOwned: false)],
-                                                                  re: "What if I 👉👈 got the HSA bigger bed",
-                                                                  read: false)]
-    @Published var timePassed = 0
-    @Published var timer = Timer.publish(every: 1, on: .current, in: .common).autoconnect()
-    @Published var insideMessageView = false
+    @Published var conversations : [Conversation] = []
+    var timePassed = 0
+    var timer = Timer.publish(every: 1, on: .current, in: .common).autoconnect()
     
     // MARK: Polling here
     func getConversations() {
-        NetworkManager.networkManager.request(route: "conversation/conversations", method: .get, successType: [Conversation].self) { successResponse, errorResponse in
+        NetworkManager.networkManager.request(route: "conversations/", method: .get, successType: [Conversation].self) { successResponse, errorResponse in
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
-                    self.conversations = successResponse
+                    if self.conversations != successResponse {
+                        self.conversations = successResponse
+                    }
                 }
             }
+        }
+    }
+    
+    func stringToDateToString(dateString : String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ"
+        let date = dateFormatter.date(from: dateString)!
+        let dateToStringFormatter = DateFormatter()
+        
+        if Calendar.current.isDateInToday(date) {
+            // return time
+            dateToStringFormatter.timeStyle = .short
+            let dateToDisplay = dateToStringFormatter.string(from: date)
+            return dateToDisplay
+        } else if Calendar.current.isDateInYesterday(date) {
+            // return yesterday string
+            return "Yesterday"
+        } else {
+            // return short date format
+            dateToStringFormatter.dateStyle = .short
+            let dateToDisplay = dateToStringFormatter.string(from: date)
+            return dateToDisplay
         }
     }
 }

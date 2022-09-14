@@ -37,23 +37,15 @@ struct ReferralsView: View {
                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                 sheet.toggle()
             } label: {
-                Text("Share")
-                    .frame(minWidth: 0, maxWidth: 150)
-                    .font(.system(size: 18).bold())
-                    .foregroundColor(Color(UIColor.systemBackground))
-                    .padding()
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 5)
-                            .stroke(Color(UIColor.label), lineWidth: 2)
-                )
+                Image(systemName: "square.and.arrow.up.circle")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: UIScreen.screenWidth / 3)
             }
             .sheet(isPresented: $sheet) {
                 let url = URL(string: "https://www.pong.college/\(String(describing: DAKeychain.shared["referralCode"]))")
                 ShareSheet(items: [url!])
             }
-            .background(Color(UIColor.label)) // If you have this
-            .cornerRadius(20)         // You also need the cornerRadius here
-            .padding(.bottom)
             
         }
         .onAppear{

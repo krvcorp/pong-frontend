@@ -71,7 +71,7 @@ struct MessageRosterView: View {
                 // MARK: Messages
                 Section(header: Text("Messages")) {
                     ForEach($messageRosterVM.conversations.filter { searchText.isEmpty || $0.re.wrappedValue.contains(searchText)}) { $conversation in
-                        NavigationLink(destination: MessageView(conversation: $conversation, messageRosterVM: messageRosterVM)) {
+                        NavigationLink(destination: MessageView(conversation: $conversation)) {
                             HStack {
                                 VStack (alignment: .leading, spacing: 6) {
                                     Text(conversation.re).bold().lineLimit(1)
@@ -84,7 +84,9 @@ struct MessageRosterView: View {
                                             } else {
                                                 Color(UIColor.secondarySystemFill)
                                             }
-                                            Text(conversation.messages.last!.createdAt).foregroundColor(conversation.read ? .white : .gray).bold().lineLimit(1)
+                                            Text(messageRosterVM.stringToDateToString(dateString: conversation.messages.last!.createdAt))
+                                                .foregroundColor(conversation.read ? .white : .gray).bold().lineLimit(1)
+                                                .font(.caption)
                                         }
                                         .cornerRadius(6)
                                         .frame(width: 75)
@@ -100,28 +102,23 @@ struct MessageRosterView: View {
                 UITableView.appearance().showsVerticalScrollIndicator = false
             }
             .navigationTitle("Messages")
-//            .navigationBarTitleDisplayMode(.inline)
             .searchable(text: $searchText)
+            
             .onReceive(messageRosterVM.timer) { _ in
                 if messageRosterVM.timePassed % 5 != 0 {
-//                    print("DEBUG: one second")
                     messageRosterVM.timePassed += 1
                 }
                 else {
-                    // poll here
-                    print("DEBUG: pollConversations")
                     messageRosterVM.getConversations()
                     messageRosterVM.timePassed += 1
                 }
             }
             .onAppear {
+                messageRosterVM.getConversations()
                 self.messageRosterVM.timer = Timer.publish (every: 1, on: .current, in: .common).autoconnect()
             }
             .onDisappear {
-                if !self.messageRosterVM.insideMessageView {
-                    print("DEBUG: onDisappear")
-                    self.messageRosterVM.timer.upstream.connect().cancel()
-                }
+                self.messageRosterVM.timer.upstream.connect().cancel()
             }
         }
     }
