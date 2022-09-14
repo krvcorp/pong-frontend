@@ -49,19 +49,13 @@ class DataManager : ObservableObject {
     @Published var errorDetectedSubMessage = "Unable to connect to network"
     
     // messaging
-    
+    @Published var isAppLoading = true
     
     func loadStartupState() {
-        print("DEBUG: loadStartupState")
-        // feed
         self.initTopPosts()
         self.initHotPosts()
         self.initRecentPosts()
-        
-        // leaderboard
         self.initLeaderboard()
-        
-        // profile
         self.initProfile()
     }
     
@@ -95,13 +89,15 @@ class DataManager : ObservableObject {
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
                     if selectedFeedFilter == .top {
-
                         self.topPosts = successResponse.results
                         if let nextLink = successResponse.next {
                             self.topCurrentPage = nextLink
                         }
                     } else if selectedFeedFilter == .hot {
                         self.hotPosts = successResponse.results
+                        withAnimation {
+                            self.isAppLoading = false
+                        }
                         if let nextLink = successResponse.next {
                             self.hotCurrentPage = nextLink
                         }

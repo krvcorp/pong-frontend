@@ -130,6 +130,7 @@
 		D389D89928BBFAB800A41329 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D389D89828BBFAB800A41329 /* OnboardingView.swift */; };
 		D389D89D28BC099100A41329 /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D389D89C28BC099100A41329 /* OnboardingViewModel.swift */; };
 		D389D89F28BC0A3000A41329 /* SetReferrer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D389D89E28BC0A3000A41329 /* SetReferrer.swift */; };
+		D396186C28D2695D000418B1 /* ActivityIndicatorView in Frameworks */ = {isa = PBXBuildFile; productRef = D396186B28D2695D000418B1 /* ActivityIndicatorView */; };
 		D3D7EA4028BE4217002E75F0 /* EmailVerificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D7EA3F28BE4217002E75F0 /* EmailVerificationViewModel.swift */; };
 		D3D7EA4328BE6731002E75F0 /* Nickname.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D7EA4228BE6731002E75F0 /* Nickname.swift */; };
 		D3D7EA4528BEA5BF002E75F0 /* AsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D7EA4428BEA5BF002E75F0 /* AsyncImage.swift */; };
@@ -273,6 +274,7 @@
 				289CC86628999135009C1DCE /* FirebaseMessaging in Frameworks */,
 				28E7C32A2895E302002C186A /* Alamofire in Frameworks */,
 				28B286E828B2EDCD0088B857 /* MessageKit in Frameworks */,
+				D396186C28D2695D000418B1 /* ActivityIndicatorView in Frameworks */,
 				6A4BD72A28B18405004EFE4A /* AlertToast in Frameworks */,
 				28E7C3242895E23B002C186A /* GoogleSignInSwift in Frameworks */,
 				287727EB28A38E5F00BC60D1 /* Introspect in Frameworks */,
@@ -1080,6 +1082,7 @@
 				6A4BD72928B18405004EFE4A /* AlertToast */,
 				6A4BD73028B2CCB2004EFE4A /* Algorithms */,
 				6A6F2D5E28BEF2740091CFE4 /* Kingfisher */,
+				D396186B28D2695D000418B1 /* ActivityIndicatorView */,
 			);
 			productName = pong;
 			productReference = 6A5DF0E32851321000F28A06 /* Pong.app */;
@@ -1121,6 +1124,7 @@
 				6A4BD72828B18405004EFE4A /* XCRemoteSwiftPackageReference "AlertToast" */,
 				6A4BD72F28B2CCB2004EFE4A /* XCRemoteSwiftPackageReference "swift-algorithms" */,
 				6A6F2D5D28BEF2740091CFE4 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				D396186A28D2695D000418B1 /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */,
 			);
 			productRefGroup = 6A5DF0E42851321000F28A06 /* Products */;
 			projectDirPath = "";
@@ -1567,6 +1571,14 @@
 				kind = branch;
 			};
 		};
+		D396186A28D2695D000418B1 /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/exyte/ActivityIndicatorView";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1619,6 +1631,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 6A6F2D5D28BEF2740091CFE4 /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
+		};
+		D396186B28D2695D000418B1 /* ActivityIndicatorView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D396186A28D2695D000418B1 /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */;
+			productName = ActivityIndicatorView;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

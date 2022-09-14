@@ -8,6 +8,7 @@ class NetworkManager: ObservableObject {
     // MARK: BaseURL
     #if DEBUG
         var baseURL = "http://localhost:8005/api/"
+//        var baseURL = "https://34f3-65-112-8-18.ngrok.io/api/"
     #else
         var baseURL = "https://raunakdaga-pong.herokuapp.com/api/"
     #endif
