@@ -28,7 +28,7 @@ struct MainTabView: View {
         if dataManager.isAppLoading {
             HStack {
                 Spacer()
-                ActivityIndicatorView(isVisible: $dataManager.isAppLoading, type: .flickeringDots(count: 8))
+                ActivityIndicatorView(isVisible: $dataManager.isAppLoading, type: .equalizer(count: 8))
                     .frame(width: 50.0, height: 50.0)
                 .onAppear {
                     dataManager.loadStartupState() 
