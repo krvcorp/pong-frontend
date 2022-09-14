@@ -84,9 +84,11 @@ struct MessageRosterView: View {
                                             } else {
                                                 Color(UIColor.secondarySystemFill)
                                             }
-                                            Text(messageRosterVM.stringToDateToString(dateString: conversation.messages.last!.createdAt))
-                                                .foregroundColor(conversation.read ? .white : .gray).bold().lineLimit(1)
-                                                .font(.caption)
+                                            if conversation.messages != [] {
+                                                Text(messageRosterVM.stringToDateToString(dateString: conversation.messages.last!.createdAt))
+                                                    .foregroundColor(conversation.read ? .white : .gray).bold().lineLimit(1)
+                                                    .font(.caption)
+                                            }
                                         }
                                         .cornerRadius(6)
                                         .frame(width: 75)
