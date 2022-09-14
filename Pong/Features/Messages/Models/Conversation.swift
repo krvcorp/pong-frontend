@@ -12,6 +12,7 @@ struct Conversation: Hashable, Codable, Identifiable, Equatable {
     var messages: [Message]
     var re: String
     var read: Bool
+    var timeSinceUpdated: String
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)

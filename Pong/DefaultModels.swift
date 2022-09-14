@@ -53,6 +53,6 @@ var defaultProfileComment = ProfileComment(id: "default",
 
 var defaultPoll = Poll(id: "default", userHasVoted: false, votedFor: "default", options: [])
 
-var defaultConversation = Conversation(id: "default", messages: [defaultMessage], re: "default", read: true)
+var defaultConversation = Conversation(id: "default", messages: [defaultMessage], re: "default", read: true, timeSinceUpdated: "yesterday")
 
 var defaultMessage = Message(id: "default", message: "default", createdAt: "now", userOwned: true)
