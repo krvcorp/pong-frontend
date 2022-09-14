@@ -48,6 +48,9 @@ class DataManager : ObservableObject {
     @Published var errorDetectedMessage = "Something went wrong!"
     @Published var errorDetectedSubMessage = "Unable to connect to network"
     
+    // messaging
+    
+    
     func loadStartupState() {
         print("DEBUG: loadStartupState")
         // feed

@@ -46,6 +46,7 @@ struct MessageView: View {
                 print("DEBUG: messageUpdateTrigger")
                 if self.conversation.messages != messageVM.conversation.messages {
                     self.conversation.messages = messageVM.conversation.messages
+                    self.messageVM.ourMessageAPIToMessageKitAPI(messages: conversation.messages)
                 }
             }
     }
