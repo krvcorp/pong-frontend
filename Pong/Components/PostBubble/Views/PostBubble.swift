@@ -196,7 +196,7 @@ struct PostBubble: View {
                     KFImage(URL(string: "\(imageUrl)")!)
                         .resizable()
                         .scaledToFit()
-                        .frame(idealWidth: UIScreen.screenWidth / 1.1, idealHeight: CGFloat(post.imageHeight!) * (UIScreen.screenWidth / 1.1) / CGFloat(post.imageWidth!), maxHeight: CGFloat(150))
+                        .frame(idealWidth: abs(UIScreen.screenWidth / 1.1), idealHeight: abs(CGFloat(post.imageHeight!) * (UIScreen.screenWidth / 1.1) / CGFloat(post.imageWidth!)), maxHeight: abs(CGFloat(150)))
                         .cornerRadius(15)
                 }
                 

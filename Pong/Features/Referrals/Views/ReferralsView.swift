@@ -43,7 +43,8 @@ struct ReferralsView: View {
                     .frame(width: UIScreen.screenWidth / 3)
             }
             .sheet(isPresented: $sheet) {
-                let url = URL(string: "https://www.pong.college/\(String(describing: DAKeychain.shared["referralCode"]))")
+                let referralCode = DAKeychain.shared["referralCode"]!
+                let url = URL(string: "https://www.pong.college/\(referralCode)")
                 ShareSheet(items: [url!])
             }
             
