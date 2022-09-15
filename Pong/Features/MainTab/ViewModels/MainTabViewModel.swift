@@ -10,7 +10,10 @@ import Combine
 class MainTabViewModel: ObservableObject {
     /// This is true when the user has selected the Item with the custom action
     @Published var isCustomItemSelected: Bool = false
+    
     @Published var newPostDetected: Bool = false
+    @Published var openDMsDetected: Bool = false
+    
     @Published var scrollToTop : Bool = false
     
     /// This is the index of the item that fires a custom action
@@ -33,10 +36,15 @@ class MainTabViewModel: ObservableObject {
         itemSelected = previousItem
     }
 
-
     init(initialIndex: Int = 1, customItemIndex: Int) {
         self.customActiontemindex = customItemIndex
         self.itemSelected = initialIndex
         self.previousItem = initialIndex
+    }
+    
+    func newPost() {
+        self.isCustomItemSelected = false
+        self.itemSelected = 1
+        self.newPostDetected.toggle()
     }
 }

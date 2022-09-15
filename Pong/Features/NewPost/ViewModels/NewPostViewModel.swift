@@ -52,9 +52,7 @@ class NewPostViewModel: ObservableObject {
                 .responseDecodable(of: Post.self) { successResponse in
                     print("DEBUG: newPostVM.newPost success \(successResponse)")
                     DispatchQueue.main.async {
-                        mainTabVM.isCustomItemSelected = false
-                        mainTabVM.itemSelected = 1
-                        mainTabVM.newPostDetected.toggle()
+                        mainTabVM.newPost()
                         dataManager.initProfile()
                     }
                 }
@@ -74,9 +72,7 @@ class NewPostViewModel: ObservableObject {
                 NetworkManager.networkManager.request(route: "posts/", method: .post, body: parameters, successType: Post.self) { successResponse, errorResponse in
                     if successResponse != nil {
                         DispatchQueue.main.async {
-                            mainTabVM.isCustomItemSelected = false
-                            mainTabVM.itemSelected = 1
-                            mainTabVM.newPostDetected.toggle()
+                            mainTabVM.newPost()
                             dataManager.initProfile()
                         }
                     }

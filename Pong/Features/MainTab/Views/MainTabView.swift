@@ -44,7 +44,6 @@ struct MainTabView: View {
                         Image(systemName: "house")
                     }
                     .tag(1)
-                    .environmentObject(mainTabVM)
                 
                 // MARK: Stats and Leaderboard
                 LeaderboardView()
@@ -67,7 +66,6 @@ struct MainTabView: View {
                         Image(systemName: "bell")
                     }
                     .tag(4)
-                    .environmentObject(mainTabVM)
 
                 // MARK: ProfileView
                 ProfileView()
@@ -75,7 +73,6 @@ struct MainTabView: View {
                         Image(systemName: "person")
                     }
                     .tag(5)
-                    .environmentObject(mainTabVM)
             }
             .accentColor(SchoolManager.shared.schoolPrimaryColor())
             // MARK: New Post Sheet
@@ -83,6 +80,7 @@ struct MainTabView: View {
                 NewPostView(mainTabVM: mainTabVM)
             }
             .environmentObject(dataManager)
+            .environmentObject(mainTabVM)
             .toast(isPresenting: $dataManager.errorDetected){
                 AlertToast(displayMode: .hud, type: .error(Color.red), title: dataManager.errorDetectedMessage, subTitle: dataManager.errorDetectedSubMessage)
             }
