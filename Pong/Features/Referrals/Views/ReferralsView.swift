@@ -8,28 +8,28 @@ struct ReferralsView: View {
     
     var body: some View {
         VStack{
-            VStack(alignment: .leading, spacing: 20) {
-                Text("Invite your friends!")
-                    .font(.title).bold()
-                
-                Text("Pong is growing fast, but we need your help to spread even faster.")
-                    .font(.title2).bold()
-                
-                Text("For each friend you refer, we'll send you 5 bucks.")
-                
-                HStack {
-                    Spacer()
-                    
-                    Text("\(referralsVM.numberReferred)")
-                        .font(.title.bold())
-                        .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
-                    
-                    Text("referrals")
-                        .font(.title.bold())
-                    
-                    Spacer()
-                }
+            Rectangle()
+                .fill(.blue)
+                .overlay(
+                    VStack {
+                        Text("For each friend you refer to Pong, we'll Venmo you 5$.")
+                            .font(.title).bold()
+                            .padding(.top, 20)
+                            .padding(.leading, 20)
+                        Text("(or CashApp, Zelle, Bitcoin - we don't discriminate.)")
+                            .font(.caption)
+                            .padding(.leading, 20)
+                            .padding(.top, 2)
+                            .padding(.bottom, 5)
+                    }
+                )
+                .frame(maxWidth: .infinity, maxHeight: CGFloat(150))
+            HStack {
+                Text("You currently have \(referralsVM.getReferralsText())")
+                    .font(.title.bold())
+                    .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
             }
+                
             
             Spacer()
             
@@ -37,11 +37,13 @@ struct ReferralsView: View {
                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                 sheet.toggle()
             } label: {
-                Image(systemName: "square.and.arrow.up.circle")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: UIScreen.screenWidth / 3)
+//                Image(systemName: "square.and.arrow.up.circle")
+//                    .resizable()
+//                    .scaledToFit()
+//                    .frame(width: UIScreen.screenWidth / 7)
+                Text("Share Pong")
             }
+            .padding(.bottom, 5)
             .sheet(isPresented: $sheet) {
                 let referralCode = DAKeychain.shared["referralCode"]!
                 let url = URL(string: "https://www.pong.college/\(referralCode)")
@@ -52,9 +54,8 @@ struct ReferralsView: View {
         .onAppear{
             referralsVM.getNumReferred()
         }
-        .navigationBarTitle("Referrals")
+        .navigationBarTitle("Invite Friends")
         .navigationBarTitleDisplayMode(.inline)
-        .padding()
     }
 }
 

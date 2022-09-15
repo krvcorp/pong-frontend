@@ -12,4 +12,13 @@ class ReferralsViewModel: ObservableObject {
             }
         }
     }
+    
+    func getReferralsText() -> String {
+        if self.numberReferred == 0 {
+            return "absolutely NO referrals."
+        }
+        else {
+            return "\(self.numberReferred) referrals. Sweet moolah."
+        }
+    }
 }
