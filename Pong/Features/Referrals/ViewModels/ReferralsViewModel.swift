@@ -15,10 +15,10 @@ class ReferralsViewModel: ObservableObject {
     
     func getReferralsText() -> String {
         if self.numberReferred == 0 {
-            return "absolutely NO referrals."
+            return "Oof, kind of embarassing."
         }
         else {
-            return "\(self.numberReferred) referrals. Sweet moolah."
+            return "Get that bag."
         }
     }
 }

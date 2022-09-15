@@ -24,24 +24,40 @@ struct ReferralsView: View {
                     }
                 )
                 .frame(maxWidth: .infinity, maxHeight: CGFloat(150))
-            HStack {
-                Text("You currently have \(referralsVM.getReferralsText())")
-                    .font(.title.bold())
-                    .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
-            }
-                
-            
             Spacer()
+            VStack {
+                HStack {
+                    Text("You have")
+                        .font(.title2)
+                        .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
+                }
+                HStack {
+                    Text("\(referralsVM.numberReferred)")
+                        .font(.system(size: 80))
+                        .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
+                }
+                HStack {
+                    Text("referrals. \(referralsVM.getReferralsText())")
+                        .font(.title2)
+                        .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
+                }
+            }
+            Spacer()
+            
             
             Button {
                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                 sheet.toggle()
             } label: {
-//                Image(systemName: "square.and.arrow.up.circle")
-//                    .resizable()
-//                    .scaledToFit()
-//                    .frame(width: UIScreen.screenWidth / 7)
-                Text("Share Pong")
+                Text("Refer your friends")
+                    .frame(minWidth: 0, maxWidth: .infinity)
+                    .font(.system(size: 18))
+                    .padding()
+                    .foregroundColor(.white)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 25)
+                            .stroke(Color(uiColor: UIColor.secondarySystemBackground), lineWidth: 2)
+                    )
             }
             .padding(.bottom, 5)
             .sheet(isPresented: $sheet) {
