@@ -18,6 +18,8 @@ class MessageViewModel: ObservableObject {
     var timePassed = 0
     var timer = Timer.publish(every: 1, on: .current, in: .common).autoconnect()
     
+    @Published var scrolledToBottom = false
+    
     // create a function that takes in a [Message] and returns a [MessageType]
     func ourMessageAPIToMessageKitAPI(messages : [Message]) {
         var returnArray : [MessageType] = []
@@ -45,8 +47,11 @@ class MessageViewModel: ObservableObject {
         // send message
         NetworkManager.networkManager.emptyRequest(route: "messages/", method: .post, body: Message.Request(conversationId: conversation.id, message: message)) { successResponse, errorResponse in
             if successResponse != nil {
-//                print("DEBUG: sendMEssage success")
-                self.getConversation()
+                DispatchQueue.main.async {
+                    print("DEBUG: sendMessage success")
+                    self.getConversation()
+                    self.scrolledToBottom = false
+                }
             }
         }
     }

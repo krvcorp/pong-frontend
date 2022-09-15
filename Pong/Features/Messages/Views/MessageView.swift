@@ -71,6 +71,7 @@ struct MessageView: View {
             .onChange(of: messageVM.messageUpdateTrigger) { newValue in
                 if self.conversation.messages != messageVM.conversation.messages {
                     print("DEBUG: message written")
+                    self.messageVM.scrolledToBottom = false
                     self.conversation.messages = messageVM.conversation.messages
                     self.messageVM.ourMessageAPIToMessageKitAPI(messages: conversation.messages)
                 }

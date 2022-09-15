@@ -123,8 +123,6 @@ class PostBubbleViewModel: ObservableObject {
         
         NetworkManager.networkManager.request(route: "conversations/", method: .post, body: parameters, successType: Conversation.self) { successResponse, errorResponse in
             if successResponse != nil {
-//                print("DEBUG: start conversation was successful")
-//                dataManager.getConversations()
                 print("DEBUG: \(successResponse!)")
                 mainTabVM.openDMs(conversation: successResponse!)
             }

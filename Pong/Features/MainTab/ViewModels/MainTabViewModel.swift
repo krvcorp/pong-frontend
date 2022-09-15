@@ -55,6 +55,6 @@ class MainTabViewModel: ObservableObject {
         self.openConversation = conversation
         self.itemSelected = 1
         self.openConversationsDetected.toggle()
-        self.openConversationDetected.toggle()
+//        self.openConversationDetected.toggle()
     }
 }

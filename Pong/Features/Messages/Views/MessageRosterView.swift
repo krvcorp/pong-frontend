@@ -106,9 +106,6 @@ struct MessageRosterView: View {
                                 .padding(.vertical, 10)
                             }
                             
-//                            NavigationLink(destination: EmptyView()) {
-//                                EmptyView()
-//                            }
                         } else {
                             NavigationLink(destination: MessageView(conversation: $conversation)) {
                                 HStack {

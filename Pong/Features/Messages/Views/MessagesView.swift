@@ -89,10 +89,16 @@ struct MessagesView: UIViewControllerRepresentable {
     }
 
     func updateUIViewController(_ uiViewController: MessagesViewController, context _: Context) {
-//        print("DEBUG: updateUIViewController")
         uiViewController.messagesCollectionView.reloadData()
-        // commented this out because this function keeps getting called many times at the very top of the view?
-        scrollToBottom(uiViewController)
+        print("DEBUG: ONE SHOT")
+//        scrollToBottom(uiViewController)
+        if !messageVM.scrolledToBottom {
+            print("DEBUG: TWO SHOT")
+            scrollToBottom(uiViewController)
+            DispatchQueue.main.async {
+                messageVM.scrolledToBottom = true
+            }
+        }
     }
 
     func makeCoordinator() -> Coordinator {
@@ -153,10 +159,8 @@ extension MessagesView.Coordinator: MessagesDataSource {
 // MARK: - MessagesView.Coordinator + InputBarAccessoryViewDelegate
 
 extension MessagesView.Coordinator: InputBarAccessoryViewDelegate {
-    // send message here
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
-//        let message = MockMessage(text: text, user: MockUser(senderId: "1", displayName: "Me"), messageId: UUID().uuidString, date: Date())
-//        messages.wrappedValue.append(message)
+        messageVM.scrolledToBottom = false
         messageVM.sendMessage(message: text)
         inputBar.inputTextView.text = ""
     }
