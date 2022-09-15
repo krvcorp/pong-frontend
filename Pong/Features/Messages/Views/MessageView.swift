@@ -28,8 +28,6 @@ struct MessageView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
-//                        messageVM.blockUser()
-//                        self.presentationMode.wrappedValue.dismiss()
                         messageVM.showBlockConfirmationView = true
                     } label: {
                         Image(systemName: "person.fill.badge.minus")
@@ -71,7 +69,6 @@ struct MessageView: View {
             }
             // action to do on update of conversation model
             .onChange(of: messageVM.messageUpdateTrigger) { newValue in
-                print("DEBUG: messageUpdateTrigger")
                 if self.conversation.messages != messageVM.conversation.messages {
                     print("DEBUG: message written")
                     self.conversation.messages = messageVM.conversation.messages

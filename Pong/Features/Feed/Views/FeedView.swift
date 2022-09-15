@@ -41,14 +41,8 @@ struct FeedView: View {
 //                }
                 
                 ToolbarItem {
-                    ZStack {
-                        NavigationLink(destination: MessageRosterView(), isActive: $mainTabVM.openDMsDetected) { EmptyView() }
-                        
-                        NavigationLink {
-                            MessageRosterView()
-                        } label: {
-                            Image(systemName: "message")
-                        }
+                    NavigationLink(destination: MessageRosterView(), isActive: $mainTabVM.openConversationsDetected) {
+                        Image(systemName: "message")
                     }
                 }
                 ToolbarItem(placement: .principal) {

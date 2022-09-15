@@ -35,6 +35,7 @@ class MessageViewModel: ObservableObject {
         }
         
         if self.messages != messages {
+//            print("DEBUG: convert messages")
             self.messageKitMessages = returnArray
         }
     }
@@ -44,7 +45,7 @@ class MessageViewModel: ObservableObject {
         // send message
         NetworkManager.networkManager.emptyRequest(route: "messages/", method: .post, body: Message.Request(conversationId: conversation.id, message: message)) { successResponse, errorResponse in
             if successResponse != nil {
-                print("DEBUG: sendMEssage success")
+//                print("DEBUG: sendMEssage success")
                 self.getConversation()
             }
         }
@@ -53,8 +54,9 @@ class MessageViewModel: ObservableObject {
     func getConversation() {
         NetworkManager.networkManager.request(route: "conversations/\(self.conversation.id)/", method: .get, successType: Conversation.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
-                print("DEBUG: getConversation success")
+//                print("DEBUG: getConversation success")
                 if self.conversation.messages != successResponse.messages {
+                    print("DEBUG: getConversation write")
                     self.conversation = successResponse
                     self.messageUpdateTrigger.toggle()
                 }
@@ -71,7 +73,7 @@ class MessageViewModel: ObservableObject {
         // send message
         NetworkManager.networkManager.emptyRequest(route: "conversations/\(self.conversation.id)/read/", method: .post) { successResponse, errorResponse in
             if successResponse != nil {
-                print("DEBUG: readMessage success")
+//                print("DEBUG: readMessage success")
                 self.getConversation()
             }
         }

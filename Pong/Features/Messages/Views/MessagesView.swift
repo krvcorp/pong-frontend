@@ -89,7 +89,7 @@ struct MessagesView: UIViewControllerRepresentable {
     }
 
     func updateUIViewController(_ uiViewController: MessagesViewController, context _: Context) {
-        print("DEBUG: updateUIViewController")
+//        print("DEBUG: updateUIViewController")
         uiViewController.messagesCollectionView.reloadData()
         // commented this out because this function keeps getting called many times at the very top of the view?
         scrollToBottom(uiViewController)

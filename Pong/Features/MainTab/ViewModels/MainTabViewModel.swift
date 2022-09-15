@@ -12,7 +12,10 @@ class MainTabViewModel: ObservableObject {
     @Published var isCustomItemSelected: Bool = false
     
     @Published var newPostDetected: Bool = false
-    @Published var openDMsDetected: Bool = false
+    
+    @Published var openConversationsDetected: Bool = false
+    @Published var openConversationDetected: Bool = false
+    @Published var openConversation: Conversation = defaultConversation
     
     @Published var scrollToTop : Bool = false
     
@@ -48,8 +51,10 @@ class MainTabViewModel: ObservableObject {
         self.newPostDetected.toggle()
     }
     
-    func openDMs() {
+    func openDMs(conversation: Conversation) {
+        self.openConversation = conversation
         self.itemSelected = 1
-        self.openDMsDetected.toggle()
+        self.openConversationsDetected.toggle()
+        self.openConversationDetected.toggle()
     }
 }

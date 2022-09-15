@@ -51,8 +51,17 @@ var defaultProfileComment = ProfileComment(id: "default",
 
 //var defaultTotalScore = TotalScore(score: 1, place:"1")
 
-var defaultPoll = Poll(id: "default", userHasVoted: false, votedFor: "default", options: [])
+var defaultPoll = Poll(id: "default",
+                       userHasVoted: false,
+                       votedFor: "default",
+                       options: [])
 
-var defaultConversation = Conversation(id: "default", messages: [defaultMessage], re: "default", read: true, timeSinceUpdated: "yesterday")
+var defaultConversation = Conversation(id: "default",
+                                       messages: [defaultMessage],
+                                       re: "default",
+                                       read: true)
 
-var defaultMessage = Message(id: "default", message: "default", createdAt: "now", userOwned: true)
+var defaultMessage = Message(id: "default",
+                             message: "default",
+                             createdAt: "now",
+                             userOwned: true)
