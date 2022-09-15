@@ -76,33 +76,29 @@ struct MessageRosterView: View {
                             HStack {
                                 VStack (alignment: .leading, spacing: 6) {
                                     Text(conversation.re).bold().lineLimit(1)
-                                    HStack {
-                                        Text(conversation.messages.last!.message).lineLimit(1).foregroundColor(.gray)
-                                        Spacer()
-                                        ZStack {
-                                            if !conversation.read {
-                                                LinearGradient(gradient: Gradient(colors: [Color.viewEventsGradient1, Color.viewEventsGradient2]), startPoint: .bottomLeading, endPoint: .topTrailing)
-                                            } else {
-                                                Color(UIColor.secondarySystemFill)
-                                            }
-                                            if conversation.messages != [] {
+                                    if conversation.messages != [] {
+                                        HStack {
+                                            Text(conversation.messages.last!.message).lineLimit(1).foregroundColor(.gray)
+                                            Spacer()
+                                            ZStack {
+                                                if !conversation.read {
+                                                    LinearGradient(gradient: Gradient(colors: [Color.viewEventsGradient1, Color.viewEventsGradient2]), startPoint: .bottomLeading, endPoint: .topTrailing)
+                                                } else {
+                                                    Color(UIColor.secondarySystemFill)
+                                                }
+                                                
                                                 Text(messageRosterVM.stringToDateToString(dateString: conversation.messages.last!.createdAt))
                                                     .foregroundColor(conversation.read ? .white : .gray).bold().lineLimit(1)
                                                     .font(.caption)
+                                                
                                             }
+                                            .cornerRadius(6)
+                                            .frame(width: 75)
                                         }
-                                        .cornerRadius(6)
-                                        .frame(width: 75)
                                     }
                                 }
                             }
                             .padding(.vertical, 10)
-                            .swipeActions {
-                                Button("Delete") {
-                                    print("DEBUG: delete the row")
-                                }
-                                .tint(.red)
-                            }
                         }
                     }
                 }

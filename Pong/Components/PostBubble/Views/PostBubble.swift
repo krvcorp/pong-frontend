@@ -39,6 +39,7 @@ struct PostBubble: View {
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     postBubbleVM.post = post
+                    postBubbleVM.startConversation(post: post, dataManager: dataManager)
                 } label: {
                     Image(systemName: "paperplane")
                 }

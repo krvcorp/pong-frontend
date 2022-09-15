@@ -43,7 +43,6 @@ struct MessageView: View {
                     title: Text("Block user"),
                     message: Text("Are you sure you want to block this user?"),
                     primaryButton: .destructive(Text("Block")) {
-//                        self.presentationMode.wrappedValue.dismiss()
                         messageVM.blockUser() { success in
                             self.presentationMode.wrappedValue.dismiss()
                         }
@@ -74,6 +73,7 @@ struct MessageView: View {
             .onChange(of: messageVM.messageUpdateTrigger) { newValue in
                 print("DEBUG: messageUpdateTrigger")
                 if self.conversation.messages != messageVM.conversation.messages {
+                    print("DEBUG: message written")
                     self.conversation.messages = messageVM.conversation.messages
                     self.messageVM.ourMessageAPIToMessageKitAPI(messages: conversation.messages)
                 }

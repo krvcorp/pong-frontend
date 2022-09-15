@@ -13,7 +13,7 @@ class MessageViewModel: ObservableObject {
     @Published var conversation : Conversation = defaultConversation
     @Published var messages : [Message] = []
     @Published var messageKitMessages : [MessageType] = []
-    @Published var messageUpdateTrigger : Bool = true
+    @Published var messageUpdateTrigger : Bool = false
     @Published var showBlockConfirmationView : Bool = false
     var timePassed = 0
     var timer = Timer.publish(every: 1, on: .current, in: .common).autoconnect()
@@ -53,7 +53,8 @@ class MessageViewModel: ObservableObject {
     func getConversation() {
         NetworkManager.networkManager.request(route: "conversations/\(self.conversation.id)/", method: .get, successType: Conversation.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
-                if self.conversation != successResponse {
+                print("DEBUG: getConversation success")
+                if self.conversation.messages != successResponse.messages {
                     self.conversation = successResponse
                     self.messageUpdateTrigger.toggle()
                 }
