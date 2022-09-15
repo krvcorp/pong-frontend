@@ -39,7 +39,7 @@ struct MainTabView: View {
         else {
             TabView(selection: handler) {
                 // MARK: FeedView
-                FeedView(newPostDetected: $mainTabVM.newPostDetected, showMenu: $showMenu)
+                FeedView(showMenu: $showMenu)
                     .tabItem{
                         Image(systemName: "house")
                     }

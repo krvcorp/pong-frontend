@@ -8,7 +8,7 @@ struct FeedView: View {
     @EnvironmentObject var dataManager : DataManager
     @Environment(\.presentationMode) var presentationMode
     @StateObject var feedVM = FeedViewModel()
-    @Binding var newPostDetected : Bool
+//    @Binding var newPostDetected : Bool
     @Binding var showMenu : Bool
     
     var body: some View {
@@ -41,10 +41,14 @@ struct FeedView: View {
 //                }
                 
                 ToolbarItem {
-                    NavigationLink {
-                        MessageRosterView()
-                    } label: {
-                        Image(systemName: "message")
+                    ZStack {
+                        NavigationLink(destination: MessageRosterView(), isActive: $mainTabVM.openDMsDetected) { EmptyView() }
+                        
+                        NavigationLink {
+                            MessageRosterView()
+                        } label: {
+                            Image(systemName: "message")
+                        }
                     }
                 }
                 ToolbarItem(placement: .principal) {
@@ -53,7 +57,7 @@ struct FeedView: View {
             }
         }
         .environmentObject(feedVM)
-        .onChange(of: newPostDetected, perform: { change in
+        .onChange(of: mainTabVM.newPostDetected, perform: { change in
             DispatchQueue.main.async {
                 print("DEBUG: NEW POST DETECTED")
                 self.presentationMode.wrappedValue.dismiss()
@@ -259,7 +263,7 @@ struct FeedView: View {
                     }
                 }
             })
-            .onChange(of: newPostDetected, perform: { newValue in
+            .onChange(of: mainTabVM.newPostDetected, perform: { newValue in
                 if dataManager.recentPosts != [] {
                     proxy.scrollTo(dataManager.recentPosts[0].id, anchor: .bottom)
                 }
@@ -274,6 +278,6 @@ struct FeedView: View {
 
 struct FeedView_Previews: PreviewProvider {
     static var previews: some View {
-        FeedView(newPostDetected: .constant(false), showMenu: .constant(false))
+        FeedView(showMenu: .constant(false))
     }
 }

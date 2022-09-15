@@ -118,12 +118,13 @@ class PostBubbleViewModel: ObservableObject {
         }
     }
     
-    func startConversation(post: Post, dataManager: DataManager) {
+    func startConversation(post: Post, dataManager: DataManager, mainTabVM: MainTabViewModel) {
         let parameters = CreateConversation.RequestPost(postId: post.id)
         
         NetworkManager.networkManager.request(route: "conversations/", method: .post, body: parameters, successType: CreateConversation.Response.self) { successResponse, errorResponse in
             if successResponse != nil {
                 print("DEBUG: start conversation was successful")
+                mainTabVM.openDMs()
             }
         }
     }

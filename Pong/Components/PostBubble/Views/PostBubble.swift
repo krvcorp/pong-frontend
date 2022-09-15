@@ -5,6 +5,7 @@ import Kingfisher
 struct PostBubble: View {
     @Binding var post : Post
     @EnvironmentObject var dataManager: DataManager
+    @EnvironmentObject var mainTabVM: MainTabViewModel
     @StateObject var postBubbleVM = PostBubbleViewModel()
     
     // MARK: Some local view logic
@@ -36,14 +37,15 @@ struct PostBubble: View {
                     }
                 }
                 
-                Button {
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    postBubbleVM.post = post
-                    postBubbleVM.startConversation(post: post, dataManager: dataManager)
-                } label: {
-                    Image(systemName: "paperplane")
+                if !post.userOwned {
+                    Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        postBubbleVM.post = post
+                        postBubbleVM.startConversation(post: post, dataManager: dataManager, mainTabVM: mainTabVM)
+                    } label: {
+                        Image(systemName: "paperplane")
+                    }
                 }
-                
                 
                 if post.saved {
                     Button {

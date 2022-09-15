@@ -47,4 +47,9 @@ class MainTabViewModel: ObservableObject {
         self.itemSelected = 1
         self.newPostDetected.toggle()
     }
+    
+    func openDMs() {
+        self.itemSelected = 1
+        self.openDMsDetected.toggle()
+    }
 }
