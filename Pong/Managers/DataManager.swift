@@ -49,6 +49,7 @@ class DataManager : ObservableObject {
     @Published var errorDetectedSubMessage = "Unable to connect to network"
     
     // messaging
+    @Published var conversations : [Conversation] = []
     @Published var isAppLoading = true
     
     func loadStartupState() {
@@ -57,6 +58,7 @@ class DataManager : ObservableObject {
         self.initRecentPosts()
         self.initLeaderboard()
         self.initProfile()
+        self.getConversations()
     }
     
     func initTopPosts() {
@@ -276,6 +278,18 @@ class DataManager : ObservableObject {
             self.errorDetectedMessage = message
             self.errorDetectedSubMessage = subMessage
             self.errorDetected = true
+        }
+    }
+    
+    func getConversations() {
+        NetworkManager.networkManager.request(route: "conversations/", method: .get, successType: [Conversation].self) { successResponse, errorResponse in
+            if let successResponse = successResponse {
+                DispatchQueue.main.async {
+                    if self.conversations != successResponse {
+                        self.conversations = successResponse
+                    }
+                }
+            }
         }
     }
 }

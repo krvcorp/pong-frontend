@@ -12,6 +12,7 @@ import SwiftUI
 struct MessageView: View {
     @Binding var conversation: Conversation
     @StateObject var messageVM : MessageViewModel = MessageViewModel()
+    @Environment(\.presentationMode) var presentationMode
 //    @ObservedObject var messageRosterVM : MessageRosterViewModel
 
     var body: some View {
@@ -24,6 +25,32 @@ struct MessageView: View {
             }
             .ignoresSafeArea(edges: .bottom)
             .navigationBarTitle("\(conversation.re)", displayMode: .inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+//                        messageVM.blockUser()
+//                        self.presentationMode.wrappedValue.dismiss()
+                        messageVM.showBlockConfirmationView = true
+                    } label: {
+                        Image(systemName: "person.fill.badge.minus")
+                            .foregroundColor(Color(UIColor.label))
+                    }
+                }
+            }
+            // MARK: Delete Confirmation
+            .alert(isPresented: $messageVM.showBlockConfirmationView) {
+                Alert(
+                    title: Text("Block user"),
+                    message: Text("Are you sure you want to block this user?"),
+                    primaryButton: .destructive(Text("Block")) {
+//                        self.presentationMode.wrappedValue.dismiss()
+                        messageVM.blockUser() { success in
+                            self.presentationMode.wrappedValue.dismiss()
+                        }
+                    },
+                    secondaryButton: .cancel()
+                )
+            }
         
             // logic to start/stop polling
             .onReceive(messageVM.timer) { _ in
@@ -36,6 +63,8 @@ struct MessageView: View {
                 }
             }
             .onAppear {
+                self.messageVM.conversation.read = true
+                self.messageVM.readConversation()
                 self.messageVM.timer = Timer.publish (every: 1, on: .current, in: .common).autoconnect()
             }
             .onDisappear {

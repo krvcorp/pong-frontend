@@ -11,6 +11,7 @@ struct MessageRosterView: View {
     @State private var searchText = ""
     @State private var showAlert = false
     @StateObject var messageRosterVM = MessageRosterViewModel()
+    @EnvironmentObject var dataManager : DataManager
     
     var body: some View {
         LoadingView(isShowing: .constant(false)) {
@@ -70,7 +71,7 @@ struct MessageRosterView: View {
                 }
                 // MARK: Messages
                 Section(header: Text("Messages")) {
-                    ForEach($messageRosterVM.conversations.filter { searchText.isEmpty || $0.re.wrappedValue.contains(searchText)}) { $conversation in
+                    ForEach($dataManager.conversations.filter { searchText.isEmpty || $0.re.wrappedValue.contains(searchText)}) { $conversation in
                         NavigationLink(destination: MessageView(conversation: $conversation)) {
                             HStack {
                                 VStack (alignment: .leading, spacing: 6) {
@@ -79,7 +80,7 @@ struct MessageRosterView: View {
                                         Text(conversation.messages.last!.message).lineLimit(1).foregroundColor(.gray)
                                         Spacer()
                                         ZStack {
-                                            if conversation.read {
+                                            if !conversation.read {
                                                 LinearGradient(gradient: Gradient(colors: [Color.viewEventsGradient1, Color.viewEventsGradient2]), startPoint: .bottomLeading, endPoint: .topTrailing)
                                             } else {
                                                 Color(UIColor.secondarySystemFill)
@@ -94,7 +95,14 @@ struct MessageRosterView: View {
                                         .frame(width: 75)
                                     }
                                 }
-                            }.padding(.vertical, 10)
+                            }
+                            .padding(.vertical, 10)
+                            .swipeActions {
+                                Button("Delete") {
+                                    print("DEBUG: delete the row")
+                                }
+                                .tint(.red)
+                            }
                         }
                     }
                 }
@@ -111,12 +119,12 @@ struct MessageRosterView: View {
                     messageRosterVM.timePassed += 1
                 }
                 else {
-                    messageRosterVM.getConversations()
+                    messageRosterVM.getConversations(dataManager: dataManager)
                     messageRosterVM.timePassed += 1
                 }
             }
             .onAppear {
-                messageRosterVM.getConversations()
+                messageRosterVM.getConversations(dataManager: dataManager)
                 self.messageRosterVM.timer = Timer.publish (every: 1, on: .current, in: .common).autoconnect()
             }
             .onDisappear {

@@ -10,17 +10,17 @@ import SwiftUI
 import Foundation
 
 class MessageRosterViewModel: ObservableObject {
-    @Published var conversations : [Conversation] = []
+//    @Published var conversations : [Conversation] = []
     var timePassed = 0
     var timer = Timer.publish(every: 1, on: .current, in: .common).autoconnect()
     
     // MARK: Polling here
-    func getConversations() {
+    func getConversations(dataManager : DataManager) {
         NetworkManager.networkManager.request(route: "conversations/", method: .get, successType: [Conversation].self) { successResponse, errorResponse in
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
-                    if self.conversations != successResponse {
-                        self.conversations = successResponse
+                    if dataManager.conversations != successResponse {
+                        dataManager.conversations = successResponse
                     }
                 }
             }

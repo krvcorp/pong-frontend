@@ -14,6 +14,7 @@ class MessageViewModel: ObservableObject {
     @Published var messages : [Message] = []
     @Published var messageKitMessages : [MessageType] = []
     @Published var messageUpdateTrigger : Bool = true
+    @Published var showBlockConfirmationView : Bool = false
     var timePassed = 0
     var timer = Timer.publish(every: 1, on: .current, in: .common).autoconnect()
     
@@ -61,6 +62,26 @@ class MessageViewModel: ObservableObject {
             if let errorResponse = errorResponse {
                 print("DEBUG: \(errorResponse)")
                 
+            }
+        }
+    }
+    
+    func readConversation() {
+        // send message
+        NetworkManager.networkManager.emptyRequest(route: "conversations/\(self.conversation.id)/read/", method: .post) { successResponse, errorResponse in
+            if successResponse != nil {
+                print("DEBUG: readMessage success")
+                self.getConversation()
+            }
+        }
+    }
+    
+    func blockUser(completionHandler: @escaping (Bool) -> Void) {
+        // send message
+        NetworkManager.networkManager.emptyRequest(route: "conversations/\(self.conversation.id)/block/", method: .post) { successResponse, errorResponse in
+            if successResponse != nil {
+                print("DEBUG: blockUser success")
+                self.getConversation()
             }
         }
     }
