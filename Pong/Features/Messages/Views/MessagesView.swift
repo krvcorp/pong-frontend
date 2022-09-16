@@ -40,6 +40,13 @@ final class MessageSwiftUIVC: MessagesViewController {
         if let layout = messagesCollectionView.collectionViewLayout as? MessagesCollectionViewFlowLayout {
             layout.setMessageIncomingAvatarSize(.zero)
             layout.setMessageOutgoingAvatarSize(.zero)
+            layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+            layout.minimumInteritemSpacing = 0
+            layout.minimumLineSpacing = 0
+            messagesCollectionView.messagesCollectionViewFlowLayout.setMessageIncomingMessageBottomLabelAlignment(LabelAlignment(textAlignment: .left, textInsets: .zero))
+            messagesCollectionView.messagesCollectionViewFlowLayout.setMessageOutgoingMessageBottomLabelAlignment(LabelAlignment(textAlignment: .right, textInsets: .zero))
+            messagesCollectionView.messagesCollectionViewFlowLayout.setMessageIncomingMessageTopLabelAlignment(LabelAlignment(textAlignment: .left, textInsets: .zero))
+            messagesCollectionView.messagesCollectionViewFlowLayout.setMessageOutgoingMessageTopLabelAlignment(LabelAlignment(textAlignment: .right, textInsets: .zero))
         }
     }
 }
@@ -135,12 +142,12 @@ extension MessagesView.Coordinator: MessagesDataSource {
         attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .caption1)])
     }
 
-    func messageBottomLabelAttributedText(for message: MessageType, at _: IndexPath) -> NSAttributedString? {
-        let dateString = formatter.string(from: message.sentDate)
-        return NSAttributedString(
-        string: dateString,
-        attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .caption2)])
-    }
+//    func messageBottomLabelAttributedText(for message: MessageType, at _: IndexPath) -> NSAttributedString? {
+//        let dateString = formatter.string(from: message.sentDate)
+//        return NSAttributedString(
+//        string: dateString,
+//        attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .caption2)])
+//    }
 
     func messageTimestampLabelAttributedText(for message: MessageType, at _: IndexPath) -> NSAttributedString? {
         let sentDate = message.sentDate

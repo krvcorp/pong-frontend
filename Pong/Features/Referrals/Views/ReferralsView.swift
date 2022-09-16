@@ -56,8 +56,10 @@ struct ReferralsView: View {
                     .foregroundColor(.white)
                     .overlay(
                         RoundedRectangle(cornerRadius: 25)
-                            .stroke(Color(uiColor: UIColor.secondarySystemBackground), lineWidth: 2)
+                            .stroke(Color(UIColor.systemBlue), lineWidth: 2)
                     )
+                    .background(Color(UIColor.systemBlue))
+                    .cornerRadius(25)
             }
             .padding(.bottom, 5)
             .sheet(isPresented: $sheet) {
