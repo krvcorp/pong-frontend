@@ -203,6 +203,14 @@ struct CommentBubble: View {
             
             Spacer()
 
+            if !comment.userOwned {
+                Button {
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                    postVM.startConversation(comment: comment, dataManager: dataManager)
+                } label: {
+                    Image(systemName: "paperplane")
+                }
+            }
             
             // MARK: Delete or More Button
             if comment.userOwned {

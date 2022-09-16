@@ -31,6 +31,8 @@ class PostViewModel: ObservableObject {
     
     @Published var textIsFocused = false
     
+    @Published var openConversations = false
+    
     func postVote(direction: Int, dataManager: DataManager) -> Void {
         var voteToSend = 0
         let temp = self.post.voteStatus
@@ -288,6 +290,26 @@ class PostViewModel: ObservableObject {
         DispatchQueue.main.async {
             if let index = self.comments.firstIndex(where: {$0.id == comment.id}) {
                 self.comments[index] = comment
+            }
+        }
+    }
+    
+    func startConversation(post: Post, dataManager: DataManager) {
+        let parameters = CreateConversation.RequestPost(postId: post.id)
+        
+        NetworkManager.networkManager.request(route: "conversations/", method: .post, body: parameters, successType: Conversation.self) { successResponse, errorResponse in
+            if successResponse != nil {
+                self.openConversations = true
+            }
+        }
+    }
+    
+    func startConversation(comment: Comment, dataManager: DataManager) {
+        let parameters = CreateConversation.RequestComment(commentId: comment.id)
+        
+        NetworkManager.networkManager.request(route: "conversations/", method: .post, body: parameters, successType: Conversation.self) { successResponse, errorResponse in
+            if successResponse != nil {
+                self.openConversations = true
             }
         }
     }

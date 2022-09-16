@@ -59,7 +59,6 @@ class MessageViewModel: ObservableObject {
     func getConversation() {
         NetworkManager.networkManager.request(route: "conversations/\(self.conversation.id)/", method: .get, successType: Conversation.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
-//                print("DEBUG: getConversation success")
                 if self.conversation.messages != successResponse.messages {
                     print("DEBUG: getConversation write")
                     self.conversation = successResponse

@@ -90,10 +90,7 @@ struct MessagesView: UIViewControllerRepresentable {
 
     func updateUIViewController(_ uiViewController: MessagesViewController, context _: Context) {
         uiViewController.messagesCollectionView.reloadData()
-        print("DEBUG: ONE SHOT")
-//        scrollToBottom(uiViewController)
         if !messageVM.scrolledToBottom {
-            print("DEBUG: TWO SHOT")
             scrollToBottom(uiViewController)
             DispatchQueue.main.async {
                 messageVM.scrolledToBottom = true

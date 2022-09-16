@@ -18,6 +18,8 @@ struct PostView: View {
     
     var body: some View {
         ZStack(alignment: .bottom) {
+            NavigationLink(destination: MessageRosterView(), isActive: $postVM.openConversations) { EmptyView() }
+            
             RefreshableScrollView {
                 mainPost
                     .toast(isPresenting: $postVM.savedPostConfirmation) {
@@ -38,7 +40,6 @@ struct PostView: View {
                 postVM.readPost(dataManager: dataManager) { result in
                     if !result {
                         self.presentationMode.wrappedValue.dismiss()
-//                        dataManager.removePostLocally(post: post, message: "Post doesn't exist!")
                     }
                 }
                 
@@ -216,6 +217,14 @@ struct PostView: View {
     var bottomRow: some View {
         HStack {
             Spacer()
+            if !post.userOwned {
+                Button {
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                    postVM.startConversation(post: post, dataManager: dataManager)
+                } label: {
+                    Image(systemName: "paperplane")
+                }
+            }
             
             if post.saved {
                 Button {
