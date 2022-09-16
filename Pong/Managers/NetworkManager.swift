@@ -11,7 +11,7 @@ class NetworkManager: ObservableObject {
 //        var baseURL = "https://34f3-65-112-8-18.ngrok.io/api/"
 //        var baseURL = "https://raunakdaga-pong.herokuapp.com/api/"
     #else
-        var baseURL = "https://raunakdaga-pong.herokuapp.com/api/"
+        var baseURL = "https://www.pong.college/api/"
     #endif
     
     

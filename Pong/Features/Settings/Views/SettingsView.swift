@@ -210,17 +210,20 @@ struct SettingsView: View {
         #endif
             
             Section {
-//                Text("Copyright © 2022 KRV Corp.")
-//                    .font(.system(Font.TextStyle.caption2, design: .rounded))
-//                    .frame(maxWidth: .infinity, alignment: .center)
-                Text("Joined \(DAKeychain.shared["dateJoined"] ?? "")")
-                    .font(.system(Font.TextStyle.caption2, design: .rounded))
-                    .frame(maxWidth: .infinity, alignment: .center)
-                    .foregroundColor(Color.gray)
+                VStack {
+                    Text("Copyright © 2022 KRV Corp.")
+                        .font(.system(Font.TextStyle.caption2, design: .rounded))
+                        .frame(maxWidth: .infinity, alignment: .center)
+                    Text("Joined \(DAKeychain.shared["dateJoined"] ?? "")")
+                        .font(.system(Font.TextStyle.caption2, design: .rounded))
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .foregroundColor(Color.gray)
+                }
             }
             .listRowBackground(Color(UIColor.secondarySystemBackground))
             .listRowSeparator(.hidden)
         }
+        .navigationTitle("Settings")
         .listStyle(InsetGroupedListStyle())
         .onAppear {
             UITableView.appearance().showsVerticalScrollIndicator = false
