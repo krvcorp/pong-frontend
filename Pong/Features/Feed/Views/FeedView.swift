@@ -80,7 +80,7 @@ struct FeedView: View {
                             Text(filter.title)
                                 .bold()
                         }
-                        .shadow(color: SchoolManager.shared.schoolPrimaryColor(), radius: 7.5, x: 0, y: 0)
+//                        .shadow(color: SchoolManager.shared.schoolPrimaryColor(), radius: 1, x: 0, y: 0)
                         .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
 
                     } else {

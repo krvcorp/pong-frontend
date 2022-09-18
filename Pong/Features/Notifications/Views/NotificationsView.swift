@@ -141,7 +141,7 @@ struct NotificationsView: View {
                 VStack (alignment: .leading, spacing: 6) {
                     Text(notificationModel.notification.body)
                         .lineLimit(2)
-                        .font(.subheadline)
+                        .font(.headline)
                 }
                 .padding(.vertical, 1)
             }
