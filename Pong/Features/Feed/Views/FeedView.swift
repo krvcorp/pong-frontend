@@ -22,23 +22,22 @@ struct FeedView: View {
             }
             .background(Color(UIColor.secondarySystemBackground))
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-            
             // Hide navbar
             .navigationBarTitle("\(feedVM.school)")
             .navigationBarTitleDisplayMode(.inline)
             // Toolbar
             .toolbar {
-//                ToolbarItem(placement: .navigationBarLeading) {
-//                    Button {
-//                        print("DEBUG: Show Menu")
-//                        withAnimation {
-//                            showMenu.toggle()
-//                        }
-//                    } label: {
-//                        Image(systemName: "line.horizontal.3")
-//                            .imageScale(.large)
-//                    }
-//                }
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        print("DEBUG: Show Menu")
+                        withAnimation {
+                            showMenu.toggle()
+                        }
+                    } label: {
+                        Image(systemName: "line.horizontal.3")
+                            .imageScale(.large)
+                    }
+                }
                 
                 ToolbarItem {
                     NavigationLink(destination: MessageRosterView(), isActive: $mainTabVM.openConversationsDetected) {
@@ -66,6 +65,7 @@ struct FeedView: View {
         }
     }
     
+    
     // component for toolbar picker
     var toolbarPickerComponent : some View {
         HStack {
@@ -80,7 +80,6 @@ struct FeedView: View {
                             Text(filter.title)
                                 .bold()
                         }
-//                        .shadow(color: SchoolManager.shared.schoolPrimaryColor(), radius: 1, x: 0, y: 0)
                         .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
 
                     } else {

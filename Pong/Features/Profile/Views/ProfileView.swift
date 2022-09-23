@@ -214,7 +214,7 @@ struct ProfileView: View {
                         
                         HStack(alignment: .center) {
                             Spacer()
-                            Text("Go make a comment!")
+                            Text("Share an opinion!")
                                 .font(.caption)
                             Spacer()
                         }
