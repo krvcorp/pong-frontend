@@ -34,6 +34,12 @@ struct PostView: View {
                 }
                 .padding(.bottom, 150)
             }
+            .onTapGesture {
+                print("DEBUG: onTap detected")
+                hideKeyboard()
+                self.postVM.textIsFocused = false
+                self.textIsFocused = false
+            }
             .refreshable {
                 print("DEBUG: PostView refresh")
                 // api call to refresh local data
@@ -187,7 +193,7 @@ struct PostView: View {
                 
                 // MARK: Image
                 if let imageUrl = post.image {
-                    let _ = debugPrint("DEBUG POST: ", post)
+//                    let _ = debugPrint("DEBUG POST: ", post)
                     KFImage(URL(string: "\(imageUrl)")!)
                         .resizable()
                         .scaledToFit()
@@ -386,25 +392,6 @@ struct PostView: View {
     // MARK: Overlay component to create a comment or reply
     var MessagingComponent: some View {
         VStack(spacing: 0) {
-            // MARK: Keyboard Down Component
-            if textIsFocused {
-                HStack {
-                    Spacer()
-                    
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        postVM.textIsFocused = false
-                        textIsFocused = false
-                    } label: {
-                        Image(systemName: "keyboard.chevron.compact.down")
-                            .resizable()
-                            .scaledToFit()
-                    }
-                    .frame(width: 50, height: 50)
-                    .background(Color(UIColor.tertiarySystemBackground).cornerRadius(5))
-                }
-                .padding()
-            }
             
             // MARK: Messaging Component
             VStack {

@@ -57,36 +57,31 @@ struct CommentBubble: View {
     }
     
     var CommentBody: some View {
-        Button {
-            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-            postVM.setCommentReply(comment: comment)
-        } label: {
-            VStack(alignment: .leading) {
-                HStack {
-                    Text("\(comment.numberOnPost)")
+        VStack(alignment: .leading) {
+            HStack {
+                Text("\(comment.numberOnPost)")
+                    .font(.headline.bold())
+                    .padding(.bottom, 4)
+                
+                if let receiving = comment.numberReplyingTo {
+                    Image(systemName: "arrow.right")
+                        .scaledToFit()
+                    
+                    Text("\(receiving)")
                         .font(.headline.bold())
                         .padding(.bottom, 4)
-                    
-                    if let receiving = comment.numberReplyingTo {
-                        Image(systemName: "arrow.right")
-                            .scaledToFit()
-                        
-                        Text("\(receiving)")
-                            .font(.headline.bold())
-                            .padding(.bottom, 4)
-                    }
-                    
-                    Text("\(comment.timeSincePosted)")
-                        .font(.caption)
-                        .padding(.bottom, 4)
                 }
-                                       
-                Text(comment.comment)
-                    .multilineTextAlignment(.leading)
+                
+                Text("\(comment.timeSincePosted)")
+                    .font(.caption)
+                    .padding(.bottom, 4)
             }
-            .padding(.bottom)
-            .background(Color(UIColor.systemBackground))
+                                   
+            Text(comment.comment)
+                .multilineTextAlignment(.leading)
         }
+        .padding(.bottom)
+        .background(Color(UIColor.systemBackground))
     }
     
     var VoteComponent: some View {
