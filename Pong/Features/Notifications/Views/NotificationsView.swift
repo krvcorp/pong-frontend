@@ -139,16 +139,9 @@ struct NotificationsView: View {
                 .padding(.trailing, 4)
                 
                 VStack (alignment: .leading, spacing: 6) {
-                    if notificationModel.notification.body == "" {
-                        Text("Untitled Post")
-                            .lineLimit(2)
-                            .font(.headline)
-                    } else {
-                        Text(notificationModel.notification.body)
-                            .lineLimit(2)
-                            .font(.headline)
-                    }
-
+                    Text(notificationModel.notification.body)
+                        .lineLimit(2)
+                        .font(.headline)
                 }
                 .padding(.vertical, 1)
             }
