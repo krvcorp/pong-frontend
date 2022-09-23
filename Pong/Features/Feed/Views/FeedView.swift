@@ -41,7 +41,7 @@ struct FeedView: View {
                 
                 ToolbarItem {
                     NavigationLink(destination: MessageRosterView(), isActive: $mainTabVM.openConversationsDetected) {
-                        Image(systemName: "message")
+                        Image(systemName: "paperplane")
                     }
                 }
                 ToolbarItem(placement: .principal) {

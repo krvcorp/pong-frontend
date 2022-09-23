@@ -55,28 +55,7 @@ struct ProfileView: View {
                 Spacer()
                 
                 HStack(spacing: 15) {
-                    Image(systemName: "sun.min")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(maxWidth: UIScreen.screenWidth / 10)
-                        .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
-                    
-                    VStack(alignment: .leading) {
-                        Text("\(dataManager.totalKarma)")
-                            .font(.title.bold())
-                            .foregroundColor(Color(UIColor.label))
-                        
-                        Text("Karma")
-                            .font(.headline.bold())
-                            .foregroundColor(Color(UIColor.systemGray))
-                    }
-                }
-                
-                Spacer()
-                Spacer()
-                
-                HStack(spacing: 15) {
-                    Image(systemName: "chart.bar")
+                    Image(systemName: "star.bubble")
                         .resizable()
                         .scaledToFit()
                         .frame(maxWidth: UIScreen.screenWidth / 10)
@@ -87,8 +66,29 @@ struct ProfileView: View {
                             .font(.title.bold())
                             .foregroundColor(Color(UIColor.label))
                         
-                        Text("Views")
-                            .font(.headline.bold())
+                        Text("Post Karma")
+                            .font(.caption.bold())
+                            .foregroundColor(Color(UIColor.systemGray))
+                    }
+                }
+                
+                Spacer()
+                Spacer()
+                
+                HStack(spacing: 15) {
+                    Image(systemName: "bubble.left.and.bubble.right")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(maxWidth: UIScreen.screenWidth / 10)
+                        .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
+                    
+                    VStack(alignment: .leading) {
+                        Text("\(dataManager.commentKarma)")
+                            .font(.title.bold())
+                            .foregroundColor(Color(UIColor.label))
+                        
+                        Text("Comment Karma")
+                            .font(.caption.bold())
                             .foregroundColor(Color(UIColor.systemGray))
                     }
                 }
