@@ -3,14 +3,13 @@ import SwiftUI
 import Alamofire
 
 enum AdminFilter: String, CaseIterable, Identifiable {
-    case posts, comments, dms
+    case posts, comments
     var id: Self { self }
     
     var title: String {
         switch self {
         case .posts: return "Posts"
         case .comments: return "Comments"
-        case .dms: return "DMs"
         }
     }
     
@@ -18,7 +17,6 @@ enum AdminFilter: String, CaseIterable, Identifiable {
         switch self {
         case .posts: return "square.grid.2x2"
         case .comments: return "arrowshape.turn.up.left.2"
-        case .dms: return "paperplane"
         }
     }
     
@@ -26,7 +24,6 @@ enum AdminFilter: String, CaseIterable, Identifiable {
         switch self {
         case .posts: return "square.grid.2x2.fill"
         case .comments: return "arrowshape.turn.up.left.2.fill"
-        case .dms: return "paperplane.fill"
         }
     }
 }

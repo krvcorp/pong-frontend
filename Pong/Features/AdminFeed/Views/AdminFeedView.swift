@@ -4,17 +4,6 @@ struct AdminFeedView: View {
     // MARK: ViewModels
     @StateObject var adminFeedVM = AdminFeedViewModel()
     
-    //        ScrollView(showsIndicators: false) {
-    //            LazyVStack {
-    //               ForEach($adminFeedVM.flaggedPosts, id: \.id) { $post in
-    //                    AdminPostBubble(post: $post)
-    //                        .buttonStyle(PlainButtonStyle())
-    //                        .environmentObject(adminFeedVM)
-    //                }
-    //            }
-    //            .padding(.top)
-    //        }
-    
     var body: some View {
         VStack {
             toolbarPickerComponent
@@ -23,10 +12,18 @@ struct AdminFeedView: View {
             TabView(selection: $adminFeedVM.selectedFilter) {
                 ForEach(AdminFilter.allCases, id: \.self) { tab in
                     List {
-                       ForEach($adminFeedVM.flaggedPosts, id: \.id) { $post in
-                            AdminPostBubble(post: $post)
-                                .buttonStyle(PlainButtonStyle())
-                                .environmentObject(adminFeedVM)
+                        if tab == .posts {
+                            ForEach($adminFeedVM.flaggedPosts, id: \.id) { $post in
+                                AdminPostBubble(post: $post)
+                                    .buttonStyle(PlainButtonStyle())
+                                    .environmentObject(adminFeedVM)
+                            }
+                        } else if tab == .comments {
+                            ForEach($adminFeedVM.flaggedPosts, id: \.id) { $post in
+                                AdminPostBubble(post: $post)
+                                    .buttonStyle(PlainButtonStyle())
+                                    .environmentObject(adminFeedVM)
+                            }
                         }
                     }
                     .refreshable {
