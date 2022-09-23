@@ -12,11 +12,13 @@ class SchoolManager: ObservableObject {
     
     static let shared = SchoolManager()
     
-    @Published var school : String = "Boston University"
+    @Published var school : String = "Lesley University"
     
     public func schoolPrimaryColor() -> Color {
         if self.school == "Boston University" {
             return Color(UIColor(named: "BostonUniversityPrimary")!)
+        } else if self.school == "Lesley University" {
+            return Color(UIColor(named: "LesleyUniversityPrimary")!)
         }
         return Color(UIColor.label)
     }
