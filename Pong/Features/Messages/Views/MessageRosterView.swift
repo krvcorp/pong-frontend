@@ -80,7 +80,12 @@ struct MessageRosterView: View {
                             NavigationLink(destination: MessageView(conversation: $conversation), isActive: $mainTabVM.openConversationDetected) {
                                 HStack {
                                     VStack (alignment: .leading, spacing: 6) {
-                                        Text(conversation.re).bold().lineLimit(1)
+                                        if conversation.re == "" {
+                                            Text("Untitled Post").bold().lineLimit(1)
+                                        } else {
+                                            Text(conversation.re).bold().lineLimit(1)
+                                        }
+                                        
                                         if conversation.messages != [] {
                                             HStack {
                                                 Text(conversation.messages.last!.message).lineLimit(1).foregroundColor(.gray)
