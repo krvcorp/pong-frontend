@@ -10,6 +10,7 @@ import SwiftUI
 struct LeaderboardAwardCoin: View {
     
     var score: Int?
+    var nickname: String?
     var place: Int?
     
     private var glyph: String {
@@ -47,10 +48,18 @@ struct LeaderboardAwardCoin: View {
                     .opacity((1...3).contains(place ?? 0) ? 1 : 0.25)
             }
             .frame(width: 96, height: 96)
-            Text(place != nil ? "\(score!)" : " ")
-                .fontWeight(.semibold)
-                .italic()
-                .frame(maxWidth: 96)
+            
+            VStack {
+                Text(place != nil ? "\(score!)" : " ")
+                    .fontWeight(.semibold)
+                    .italic()
+                    .frame(maxWidth: 96)
+                
+                Text(place != nil ? "\(nickname!)" : " ")
+                    .fontWeight(.semibold)
+                    .italic()
+                    .frame(maxWidth: 96)
+            }
         }
     }
 }

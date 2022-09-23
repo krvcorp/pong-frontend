@@ -8,8 +8,8 @@
 import Foundation
 
 class LeaderboardViewModel: ObservableObject {
-    
-    @Published var nickname : String = ""
+//    @Published var nickname : String = ""
+    @Published var savedNicknameAlert : Bool = false
     
     func getLeaderboard(dataManager: DataManager) {
         NetworkManager.networkManager.request(route: "users/leaderboard/", method: .get, successType: [LeaderboardUser].self) { successResponse, errorResponse in
@@ -30,11 +30,14 @@ class LeaderboardViewModel: ObservableObject {
         }
     }
     
-    func updateNickname(nickname: String) {
+    func updateNickname(dataManager: DataManager, nickname: String, completion: @escaping (Bool) -> Void) {
         let parameters = Nickname.self(nickname: nickname)
         NetworkManager.networkManager.emptyRequest(route: "users/\(AuthManager.authManager.userId)/nickname/", method: .post, body: parameters) { successResponse, errorResponse in
-            if let successResponse = successResponse {
-                debugPrint(successResponse)
+            if successResponse != nil {
+                self.getLoggedInUserInfo(dataManager: dataManager)
+                self.getLeaderboard(dataManager: dataManager)
+                self.savedNicknameAlert = true
+                completion(true)
             }
         }
     }
@@ -46,7 +49,7 @@ class LeaderboardViewModel: ObservableObject {
                     dataManager.totalKarma = successResponse.score
                     dataManager.commentKarma = successResponse.commentScore
                     dataManager.postKarma = successResponse.postScore
-                    self.nickname = successResponse.nickname
+                    dataManager.nickname = successResponse.nickname
                 }
             }
         }

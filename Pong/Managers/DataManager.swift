@@ -31,6 +31,7 @@ class DataManager : ObservableObject {
     var profileSavedCurrentPage = "posts/?sort=new"
     
     // leaderboard
+    @Published var nickname : String = ""
     @Published var leaderboardList : [LeaderboardUser] = []
     
     // user stats

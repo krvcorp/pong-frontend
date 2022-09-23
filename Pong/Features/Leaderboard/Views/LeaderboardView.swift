@@ -1,4 +1,5 @@
 import SwiftUI
+import AlertToast
 
 struct LeaderboardView: View {
     @Environment(\.presentationMode) var presentationMode
@@ -9,7 +10,7 @@ struct LeaderboardView: View {
     @State var timeRemaining = 10
     @State var timer = Timer.publish(every: 1, on: .current, in: .common).autoconnect()
     
-    @State private var nickname: String = ""
+    @State var nickname: String = ""
     
     var body: some View {
         let lblist = dataManager.leaderboardList
@@ -17,8 +18,18 @@ struct LeaderboardView: View {
             VStack {
                 VStack {
                     List {
-                        Text("Powered by [Guayaki Yerba Mate](https://guayaki.com/)")
-                            .bold()
+                        HStack {
+                            Text("Powered by [Guayaki Yerba Mate](https://guayaki.com/)")
+                                .bold()
+                            
+                            Spacer()
+                            
+                            Button {
+                                print("DEBUG: info")
+                            } label: {
+                                Image(systemName: "info.circle")
+                            }
+                        }
                         
                         karmaInfo
                             .padding([.leading, .top, .trailing])
@@ -34,16 +45,27 @@ struct LeaderboardView: View {
                                 lblist.count >= 1 ? lblist[0].score : 0,
                                 lblist.count >= 2 ? lblist[1].score : 0,
                                 lblist.count >= 3 ? lblist[2].score : 0,
+                            ],
+                            topThreeNicknames: [
+                                lblist.count >= 1 ? (lblist[0].nickname == "" ? "---" : lblist[0].nickname) : "---",
+                                lblist.count >= 2 ? (lblist[1].nickname == "" ? "---" : lblist[0].nickname) : "---",
+                                lblist.count >= 3 ? (lblist[2].nickname == "" ? "---" : lblist[0].nickname) : "---",
                             ]
                         )
                         
                         HStack {
-                            TextField("Nickname", text: $nickname)
-                            Button(action: {
-                                leaderboardVM.updateNickname(nickname: nickname)
-                            }) {
+                            TextField(dataManager.nickname == "" ? "Nickname" : "\(dataManager.nickname)", text: $nickname)
+                            
+                            Button {
+                                leaderboardVM.updateNickname(dataManager: dataManager, nickname: nickname) { _ in
+                                    self.nickname = ""
+                                }
+                                leaderboardVM.getLeaderboard(dataManager: dataManager)
+                                leaderboardVM.getLoggedInUserInfo(dataManager: dataManager)
+                            } label: {
                                 Label("Save", systemImage: "pencil")
                             }
+                            .buttonStyle(PlainButtonStyle())
                         }
                         
                         if (lblist.count > 3) {
@@ -133,10 +155,17 @@ struct LeaderboardView: View {
                         }
                     }
             }
+            .onTapGesture {
+                print("DEBUG: onTap detected")
+                hideKeyboard()
+            }
+        }
+        .toast(isPresenting: $leaderboardVM.savedNicknameAlert) {
+            AlertToast(displayMode: .hud, type: .regular,  title: "Nickname saved!")
         }
         .onAppear {
             self.timer = Timer.publish (every: 1, on: .current, in: .common).autoconnect()
-            self.nickname = leaderboardVM.nickname
+//            self.nickname = leaderboardVM.nickname
         }
         .onDisappear {
             self.timer.upstream.connect().cancel()
