@@ -8,7 +8,10 @@ class EmailVerificationViewModel: ObservableObject {
     @Published var loginErrorMessage: String = "error"
 
     // MARK: Google OAuth2.0
-    let signInConfig = GIDConfiguration(clientID: "983201170682-kttqq1l89i4fpgk15fud1u1hf192fq1q.apps.googleusercontent.com")
+    // private
+//    let signInConfig = GIDConfiguration(clientID: "983201170682-kttqq1l89i4fpgk15fud1u1hf192fq1q.apps.googleusercontent.com")
+    // company
+    let signInConfig = GIDConfiguration(clientID: "43678979560-6ah9oj1h0cvvd5is4al3lmkmdmd1tdqd.apps.googleusercontent.com")
 
     func signinWithGoogle() {
         let scenes = UIApplication.shared.connectedScenes
