@@ -1,9 +1,14 @@
 import SwiftUI
 import AlertToast
+import Resolver
 
 struct EmailVerificationView: View {
     private let logoDim: CGFloat = 128
     @StateObject var emailVerificationVM = EmailVerificationViewModel()
+    @StateObject var msalModel: MSALScreenViewModel = MSALScreenViewModel()
+//    @EnvironmentObject var msAuthState: MSAuthState
+
+//    private let msAuthAdapter: MSAuthAdapterProtocol = resolve()
     
     var body: some View {
         VStack {
@@ -44,6 +49,35 @@ struct EmailVerificationView: View {
                 .shadow(color: Color(white: 0.1, opacity: 0.3), radius: 12, x: 0, y: 6)
             }
             .padding(.bottom, 32)
+            
+//            Button {
+//                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+//                emailVerificationVM.signInWithMicrosoft()
+////                msAuthAdapter.login(withInteraction: true)
+////                msalModel.loadMSALScreen()
+//            } label: {
+//                HStack {
+//                    Image("GoogleLogo")
+//                        .resizable()
+//                        .aspectRatio(contentMode: .fit)
+//                        .frame(width: 32, height: 32)
+//                        .padding(8)
+//                    Text("Microsoft Email")
+//                        .fontWeight(.semibold)
+//                        .foregroundColor(.poshDarkPurple)
+//                        .padding([.leading], -6)
+//                    Spacer()
+//                }
+//                .background(.white)
+//                .cornerRadius(12)
+//                .frame(maxWidth: .infinity, minHeight: 44)
+//                .padding([.leading, .trailing], 44)
+//                .shadow(color: Color(white: 0.1, opacity: 0.3), radius: 12, x: 0, y: 6)
+//            }
+//            .padding(.bottom, 32)
+            
+//            MSALScreenView_UI(viewModel: msalModel)
+//                .frame(width: 250, height: 250, alignment: .center)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
         .background(

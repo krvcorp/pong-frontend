@@ -21,7 +21,7 @@
 			<string>Microsoft</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>msauth.com.khoinguyen.pong</string>
+				<string>msauth.com.krv.pong</string>
 			</array>
 		</dict>
 	</array>

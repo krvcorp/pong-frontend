@@ -9,6 +9,7 @@ import SwiftUI
 import Alamofire
 import Combine
 
+// MARK: FeelFilter
 enum FeedFilter: String, CaseIterable, Identifiable {
     case top, hot, recent
     var id: Self { self }
@@ -17,7 +18,7 @@ enum FeedFilter: String, CaseIterable, Identifiable {
         switch self {
         case .top: return "Top"
         case .hot: return "Hot"
-        case .recent: return "Recent"
+        case .recent: return "New"
         }
     }
     
@@ -38,6 +39,7 @@ enum FeedFilter: String, CaseIterable, Identifiable {
     }
 }
 
+// MARK: TopFilter
 enum TopFilter: String, CaseIterable, Identifiable, Equatable {
     case all, month, week
     var id: Self { self }
@@ -51,6 +53,7 @@ enum TopFilter: String, CaseIterable, Identifiable, Equatable {
     }
 }
 
+// MARK: FeedViewModel
 class FeedViewModel: ObservableObject {
     @Published var selectedFeedFilter : FeedFilter = .hot
     @Published var school = "Boston University"

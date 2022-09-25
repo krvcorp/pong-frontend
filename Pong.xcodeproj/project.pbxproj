@@ -90,6 +90,22 @@
 		6A4BD72A28B18405004EFE4A /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = 6A4BD72928B18405004EFE4A /* AlertToast */; };
 		6A4BD73128B2CCB2004EFE4A /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 6A4BD73028B2CCB2004EFE4A /* Algorithms */; };
 		6A5479C72895BB9800BC18CD /* MSAL in Frameworks */ = {isa = PBXBuildFile; productRef = 6A5479C62895BB9800BC18CD /* MSAL */; };
+		6A61D01728E008A8003188EE /* MarketplaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A61D01628E008A8003188EE /* MarketplaceView.swift */; };
+		6A61D01928E008B3003188EE /* MarketplaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A61D01828E008B3003188EE /* MarketplaceViewModel.swift */; };
+		6A61D01B28E031BA003188EE /* MSALViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A61D01A28E031BA003188EE /* MSALViewModel.swift */; };
+		6A61D02228E0A2CC003188EE /* Resolver in Frameworks */ = {isa = PBXBuildFile; productRef = 6A61D02128E0A2CC003188EE /* Resolver */; };
+		6A61D02B28E0A453003188EE /* MSAuthProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A61D02428E0A453003188EE /* MSAuthProxy.swift */; };
+		6A61D02C28E0A453003188EE /* AppResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A61D02528E0A453003188EE /* AppResolver.swift */; };
+		6A61D02D28E0A453003188EE /* MSAuthCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A61D02628E0A453003188EE /* MSAuthCredentials.swift */; };
+		6A61D02E28E0A453003188EE /* Logger+Categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A61D02728E0A453003188EE /* Logger+Categories.swift */; };
+		6A61D02F28E0A453003188EE /* UIApplication+TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A61D02828E0A453003188EE /* UIApplication+TopViewController.swift */; };
+		6A61D03028E0A453003188EE /* MSAuthState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A61D02928E0A453003188EE /* MSAuthState.swift */; };
+		6A61D03128E0A453003188EE /* MSAuthAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A61D02A28E0A453003188EE /* MSAuthAdapter.swift */; };
+		6A61D03628E0CB51003188EE /* AdminCommentBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A61D03528E0CB51003188EE /* AdminCommentBubble.swift */; };
+		6A61D03828E0CB5F003188EE /* AdminCommentBubbleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A61D03728E0CB5F003188EE /* AdminCommentBubbleViewModel.swift */; };
+		6A61D03B28E0D3AC003188EE /* PaginateCommentsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A61D03A28E0D3AC003188EE /* PaginateCommentsModel.swift */; };
+		6A61D04428E0EFD2003188EE /* MarketplaceBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A61D04328E0EFD2003188EE /* MarketplaceBubble.swift */; };
+		6A61D04628E0EFDB003188EE /* MarketplaceBubbleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A61D04528E0EFDB003188EE /* MarketplaceBubbleViewModel.swift */; };
 		6A6D884A28CEBFD30071FCFA /* MessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6D884928CEBFD30071FCFA /* MessageViewModel.swift */; };
 		6A6D884C28CEC8360071FCFA /* MessageRosterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6D884B28CEC8360071FCFA /* MessageRosterViewModel.swift */; };
 		6A6D884E28CECA680071FCFA /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6D884D28CECA680071FCFA /* Conversation.swift */; };
@@ -136,7 +152,7 @@
 		D3D7EA4528BEA5BF002E75F0 /* AsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D7EA4428BEA5BF002E75F0 /* AsyncImage.swift */; };
 		D3D7EA4828C15417002E75F0 /* CreateConversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D7EA4728C15417002E75F0 /* CreateConversation.swift */; };
 		D3FF841328BC6B96003C8B06 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3FF841228BC6B96003C8B06 /* DataManager.swift */; };
-		D3FF841628BC6BCA003C8B06 /* PaginateCommentsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3FF841528BC6BCA003C8B06 /* PaginateCommentsModel.swift */; };
+		D3FF841628BC6BCA003C8B06 /* PaginateProfileCommentsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3FF841528BC6BCA003C8B06 /* PaginateProfileCommentsModel.swift */; };
 		D3FF841828BC6C4B003C8B06 /* ImageShare.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3FF841728BC6C4B003C8B06 /* ImageShare.swift */; };
 /* End PBXBuildFile section */
 
@@ -217,6 +233,21 @@
 		6A4BD72628B1772C004EFE4A /* PaginatePostsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaginatePostsModel.swift; sourceTree = "<group>"; };
 		6A5479C82895C08F00BC18CD /* Pong.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Pong.entitlements; sourceTree = "<group>"; };
 		6A5DF0E32851321000F28A06 /* Pong.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pong.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6A61D01628E008A8003188EE /* MarketplaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketplaceView.swift; sourceTree = "<group>"; };
+		6A61D01828E008B3003188EE /* MarketplaceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketplaceViewModel.swift; sourceTree = "<group>"; };
+		6A61D01A28E031BA003188EE /* MSALViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSALViewModel.swift; sourceTree = "<group>"; };
+		6A61D02428E0A453003188EE /* MSAuthProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSAuthProxy.swift; sourceTree = "<group>"; };
+		6A61D02528E0A453003188EE /* AppResolver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppResolver.swift; sourceTree = "<group>"; };
+		6A61D02628E0A453003188EE /* MSAuthCredentials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSAuthCredentials.swift; sourceTree = "<group>"; };
+		6A61D02728E0A453003188EE /* Logger+Categories.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Logger+Categories.swift"; sourceTree = "<group>"; };
+		6A61D02828E0A453003188EE /* UIApplication+TopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+TopViewController.swift"; sourceTree = "<group>"; };
+		6A61D02928E0A453003188EE /* MSAuthState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSAuthState.swift; sourceTree = "<group>"; };
+		6A61D02A28E0A453003188EE /* MSAuthAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSAuthAdapter.swift; sourceTree = "<group>"; };
+		6A61D03528E0CB51003188EE /* AdminCommentBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminCommentBubble.swift; sourceTree = "<group>"; };
+		6A61D03728E0CB5F003188EE /* AdminCommentBubbleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminCommentBubbleViewModel.swift; sourceTree = "<group>"; };
+		6A61D03A28E0D3AC003188EE /* PaginateCommentsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaginateCommentsModel.swift; sourceTree = "<group>"; };
+		6A61D04328E0EFD2003188EE /* MarketplaceBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketplaceBubble.swift; sourceTree = "<group>"; };
+		6A61D04528E0EFDB003188EE /* MarketplaceBubbleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketplaceBubbleViewModel.swift; sourceTree = "<group>"; };
 		6A6D884928CEBFD30071FCFA /* MessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewModel.swift; sourceTree = "<group>"; };
 		6A6D884B28CEC8360071FCFA /* MessageRosterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageRosterViewModel.swift; sourceTree = "<group>"; };
 		6A6D884D28CECA680071FCFA /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
@@ -261,7 +292,7 @@
 		D3D7EA4428BEA5BF002E75F0 /* AsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncImage.swift; sourceTree = "<group>"; };
 		D3D7EA4728C15417002E75F0 /* CreateConversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateConversation.swift; sourceTree = "<group>"; };
 		D3FF841228BC6B96003C8B06 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
-		D3FF841528BC6BCA003C8B06 /* PaginateCommentsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginateCommentsModel.swift; sourceTree = "<group>"; };
+		D3FF841528BC6BCA003C8B06 /* PaginateProfileCommentsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginateProfileCommentsModel.swift; sourceTree = "<group>"; };
 		D3FF841728BC6C4B003C8B06 /* ImageShare.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageShare.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -276,6 +307,7 @@
 				28B286E828B2EDCD0088B857 /* MessageKit in Frameworks */,
 				D396186C28D2695D000418B1 /* ActivityIndicatorView in Frameworks */,
 				6A4BD72A28B18405004EFE4A /* AlertToast in Frameworks */,
+				6A61D02228E0A2CC003188EE /* Resolver in Frameworks */,
 				28E7C3242895E23B002C186A /* GoogleSignInSwift in Frameworks */,
 				287727EB28A38E5F00BC60D1 /* Introspect in Frameworks */,
 				6A5479C72895BB9800BC18CD /* MSAL in Frameworks */,
@@ -373,6 +405,7 @@
 				6A449BE12896F4320015826A /* Post */,
 				6A449C102896F4320015826A /* NewPost */,
 				6A449BFD2896F4320015826A /* Leaderboard */,
+				6A61D01328E0088A003188EE /* Marketplace */,
 				6A78FA4B289CD2DA00B75CC6 /* Notifications */,
 				6A449BDE2896F4320015826A /* Messages */,
 				6A449C022896F4320015826A /* Profile */,
@@ -448,7 +481,6 @@
 			children = (
 				6A78FA6228A3060E00B75CC6 /* Models */,
 				D389D89A28BC087F00A41329 /* ViewModels */,
-				6A449BEA2896F4320015826A /* Views */,
 			);
 			path = OnboardingProcess;
 			sourceTree = "<group>";
@@ -590,6 +622,7 @@
 				6A449C1E2896F4320015826A /* Comment.swift */,
 				D389D88628B94B0B00A41329 /* ProfileComment.swift */,
 				6A4BD72628B1772C004EFE4A /* PaginatePostsModel.swift */,
+				6A61D03A28E0D3AC003188EE /* PaginateCommentsModel.swift */,
 				6A78FA5828A1A65E00B75CC6 /* PostVoteModel.swift */,
 				6A7E109828AED83500CE3CFD /* PollVoteModel.swift */,
 				6A449C202896F4320015826A /* DeleteCommentRequestBody.swift */,
@@ -613,12 +646,12 @@
 		6A449C342896F4320015826A /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				82CCCBB428B0F99E00085E2D /* AdminPostBubble */,
 				6A449CD0289886810015826A /* PostBubble */,
 				6A449CCB2897A5A20015826A /* CommentBubble */,
 				6A449C5A2896F4320015826A /* Poll */,
 				6A449C362896F4320015826A /* NewPoll */,
 				6A449C532896F4320015826A /* Report */,
+				6A61D03C28E0EF94003188EE /* MarketplaceBubble */,
 				6A449C592896F4320015826A /* CustomInputField.swift */,
 				6A449C352896F4320015826A /* TextArea.swift */,
 				6A449C432896F4320015826A /* MessageField.swift */,
@@ -775,6 +808,104 @@
 				6A5DF0E32851321000F28A06 /* Pong.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		6A61D01328E0088A003188EE /* Marketplace */ = {
+			isa = PBXGroup;
+			children = (
+				6A61D01528E00898003188EE /* ViewModels */,
+				6A61D01428E00896003188EE /* Views */,
+			);
+			path = Marketplace;
+			sourceTree = "<group>";
+		};
+		6A61D01428E00896003188EE /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				6A61D01628E008A8003188EE /* MarketplaceView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		6A61D01528E00898003188EE /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				6A61D01828E008B3003188EE /* MarketplaceViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		6A61D02328E0A3F5003188EE /* MSALSwiftUI */ = {
+			isa = PBXGroup;
+			children = (
+				6A61D02628E0A453003188EE /* MSAuthCredentials.swift */,
+				6A61D02528E0A453003188EE /* AppResolver.swift */,
+				6A61D02728E0A453003188EE /* Logger+Categories.swift */,
+				6A61D02A28E0A453003188EE /* MSAuthAdapter.swift */,
+				6A61D02428E0A453003188EE /* MSAuthProxy.swift */,
+				6A61D02928E0A453003188EE /* MSAuthState.swift */,
+				6A61D02828E0A453003188EE /* UIApplication+TopViewController.swift */,
+			);
+			path = MSALSwiftUI;
+			sourceTree = "<group>";
+		};
+		6A61D03228E0CB2D003188EE /* AdminCommentBubble */ = {
+			isa = PBXGroup;
+			children = (
+				6A61D03428E0CB3C003188EE /* ViewModels */,
+				6A61D03328E0CB39003188EE /* Views */,
+			);
+			path = AdminCommentBubble;
+			sourceTree = "<group>";
+		};
+		6A61D03328E0CB39003188EE /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				6A61D03528E0CB51003188EE /* AdminCommentBubble.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		6A61D03428E0CB3C003188EE /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				6A61D03728E0CB5F003188EE /* AdminCommentBubbleViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		6A61D03928E0CB81003188EE /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				82CCCBB428B0F99E00085E2D /* AdminPostBubble */,
+				6A61D03228E0CB2D003188EE /* AdminCommentBubble */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		6A61D03C28E0EF94003188EE /* MarketplaceBubble */ = {
+			isa = PBXGroup;
+			children = (
+				6A61D03E28E0EF9F003188EE /* ViewModel */,
+				6A61D03D28E0EF9D003188EE /* View */,
+			);
+			path = MarketplaceBubble;
+			sourceTree = "<group>";
+		};
+		6A61D03D28E0EF9D003188EE /* View */ = {
+			isa = PBXGroup;
+			children = (
+				6A61D04328E0EFD2003188EE /* MarketplaceBubble.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		6A61D03E28E0EF9F003188EE /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				6A61D04528E0EFDB003188EE /* MarketplaceBubbleViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		6A6D884828CEBFC90071FCFA /* ViewModels */ = {
@@ -941,6 +1072,7 @@
 		82CCCBAD28B0F95500085E2D /* AdminFeed */ = {
 			isa = PBXGroup;
 			children = (
+				6A61D03928E0CB81003188EE /* Components */,
 				82CCCBAE28B0F95500085E2D /* ViewModel */,
 				82CCCBB028B0F95500085E2D /* Views */,
 			);
@@ -1027,6 +1159,9 @@
 			children = (
 				D389D89C28BC099100A41329 /* OnboardingViewModel.swift */,
 				D3D7EA3F28BE4217002E75F0 /* EmailVerificationViewModel.swift */,
+				6A61D01A28E031BA003188EE /* MSALViewModel.swift */,
+				6A61D02328E0A3F5003188EE /* MSALSwiftUI */,
+				6A449BEA2896F4320015826A /* Views */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -1050,7 +1185,7 @@
 		D3FF841428BC6BCA003C8B06 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				D3FF841528BC6BCA003C8B06 /* PaginateCommentsModel.swift */,
+				D3FF841528BC6BCA003C8B06 /* PaginateProfileCommentsModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1083,6 +1218,7 @@
 				6A4BD73028B2CCB2004EFE4A /* Algorithms */,
 				6A6F2D5E28BEF2740091CFE4 /* Kingfisher */,
 				D396186B28D2695D000418B1 /* ActivityIndicatorView */,
+				6A61D02128E0A2CC003188EE /* Resolver */,
 			);
 			productName = pong;
 			productReference = 6A5DF0E32851321000F28A06 /* Pong.app */;
@@ -1125,6 +1261,7 @@
 				6A4BD72F28B2CCB2004EFE4A /* XCRemoteSwiftPackageReference "swift-algorithms" */,
 				6A6F2D5D28BEF2740091CFE4 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				D396186A28D2695D000418B1 /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */,
+				6A61D02028E0A2CC003188EE /* XCRemoteSwiftPackageReference "Resolver" */,
 			);
 			productRefGroup = 6A5DF0E42851321000F28A06 /* Products */;
 			projectDirPath = "";
@@ -1156,8 +1293,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D3FF841628BC6BCA003C8B06 /* PaginateCommentsModel.swift in Sources */,
+				D3FF841628BC6BCA003C8B06 /* PaginateProfileCommentsModel.swift in Sources */,
+				6A61D04628E0EFDB003188EE /* MarketplaceBubbleViewModel.swift in Sources */,
 				6A449C8A2896F4320015826A /* LeaderboardView.swift in Sources */,
+				6A61D01728E008A8003188EE /* MarketplaceView.swift in Sources */,
 				D389D89F28BC0A3000A41329 /* SetReferrer.swift in Sources */,
 				289CC874289C695F009C1DCE /* Colors.swift in Sources */,
 				D389D88928BAA0AF00A41329 /* EmailController.swift in Sources */,
@@ -1167,15 +1306,20 @@
 				D3D7EA4828C15417002E75F0 /* CreateConversation.swift in Sources */,
 				6A449C812896F4320015826A /* EmailVerificationView.swift in Sources */,
 				28B286F828B2EF150088B857 /* MockSocket.swift in Sources */,
+				6A61D02B28E0A453003188EE /* MSAuthProxy.swift in Sources */,
 				82CCCBB928B0F99E00085E2D /* AdminPostBubbleViewModel.swift in Sources */,
 				6A449C652896F4320015826A /* NetworkManager.swift in Sources */,
+				6A61D01928E008B3003188EE /* MarketplaceViewModel.swift in Sources */,
 				6A449C9C2896F4330015826A /* DeleteCommentRequestBody.swift in Sources */,
+				6A61D03128E0A453003188EE /* MSAuthAdapter.swift in Sources */,
+				6A61D03828E0CB5F003188EE /* AdminCommentBubbleViewModel.swift in Sources */,
 				6A449CAF2896F4330015826A /* TextArea.swift in Sources */,
 				28B286E528B2ED760088B857 /* MessageView.swift in Sources */,
 				6A449CC32896F4330015826A /* CommentBubble.swift in Sources */,
 				6A449CC82896F4330015826A /* DefaultModels.swift in Sources */,
 				6A6D884A28CEBFD30071FCFA /* MessageViewModel.swift in Sources */,
 				6A449C8C2896F4320015826A /* ProfileViewModel.swift in Sources */,
+				6A61D03628E0CB51003188EE /* AdminCommentBubble.swift in Sources */,
 				28CC02D928BF091100C10262 /* NotificationsModel.swift in Sources */,
 				6A78FA5E28A1F44F00B75CC6 /* CommentVoteModel.swift in Sources */,
 				6A449C932896F4330015826A /* NewPostView.swift in Sources */,
@@ -1187,7 +1331,9 @@
 				28CC02D628BEC26400C10262 /* NotificationsManager.swift in Sources */,
 				6A449C912896F4320015826A /* MainTabView.swift in Sources */,
 				6A09D64728A59E9A005E5C23 /* ImagePicker.swift in Sources */,
+				6A61D02D28E0A453003188EE /* MSAuthCredentials.swift in Sources */,
 				6A449C982896F4330015826A /* LeaderboardUser.swift in Sources */,
+				6A61D04428E0EFD2003188EE /* MarketplaceBubble.swift in Sources */,
 				6A449CA52896F4330015826A /* CreatePostReportRequestBody.swift in Sources */,
 				6A449CC12896F4330015826A /* ReportViewModel.swift in Sources */,
 				6A6F2D6328C029140091CFE4 /* RulesView.swift in Sources */,
@@ -1197,10 +1343,12 @@
 				6A78FA6028A214FF00B75CC6 /* CommentReplyModel.swift in Sources */,
 				28B286EC28B2EEB80088B857 /* Lorem.swift in Sources */,
 				28B286ED28B2EEB80088B857 /* SampleData.swift in Sources */,
+				6A61D03B28E0D3AC003188EE /* PaginateCommentsModel.swift in Sources */,
 				6A78FA5728A19A0D00B75CC6 /* VerifyEmailModel.swift in Sources */,
 				6A449C7A2896F4320015826A /* PostView.swift in Sources */,
 				82CCCBB228B0F95600085E2D /* AdminFeedViewModel.swift in Sources */,
 				289CC872289C68D8009C1DCE /* LoadingView.swift in Sources */,
+				6A61D02F28E0A453003188EE /* UIApplication+TopViewController.swift in Sources */,
 				6A78FA5C28A1A82C00B75CC6 /* DAKeychain.swift in Sources */,
 				6A449CBF2896F4330015826A /* PostBubble.swift in Sources */,
 				D3FF841328BC6B96003C8B06 /* DataManager.swift in Sources */,
@@ -1217,6 +1365,7 @@
 				82AEE06B28AEE03400738EB5 /* LeaderboardTopThree.swift in Sources */,
 				6A449CBE2896F4330015826A /* PostBubbleViewModel.swift in Sources */,
 				82CCCBB328B0F95600085E2D /* AdminFeedView.swift in Sources */,
+				6A61D01B28E031BA003188EE /* MSALViewModel.swift in Sources */,
 				6A449C7F2896F4320015826A /* WelcomeView.swift in Sources */,
 				82CCCBBA28B0F99E00085E2D /* AdminPostBubble.swift in Sources */,
 				82CCCBBC28B0F9C700085E2D /* TimeoutModel.swift in Sources */,
@@ -1245,6 +1394,8 @@
 				28B286F728B2EF150088B857 /* CustomLayoutSizeCalculator.swift in Sources */,
 				6A449C792896F4320015826A /* PostViewModel.swift in Sources */,
 				D3FF841828BC6C4B003C8B06 /* ImageShare.swift in Sources */,
+				6A61D02C28E0A453003188EE /* AppResolver.swift in Sources */,
+				6A61D02E28E0A453003188EE /* Logger+Categories.swift in Sources */,
 				6A449CBB2896F4330015826A /* ProfileCommentBubbleViewModel.swift in Sources */,
 				6A78FA55289CE38200B75CC6 /* NotificationsViewModel.swift in Sources */,
 				28B286F628B2EF150088B857 /* MockUser.swift in Sources */,
@@ -1254,6 +1405,7 @@
 				6A449CA42896F4330015826A /* ReadPostRequestBody.swift in Sources */,
 				6A449CA72896F4330015826A /* Post.swift in Sources */,
 				82AEE06828AEDF2A00738EB5 /* LeaderboardAwardCoin.swift in Sources */,
+				6A61D03028E0A453003188EE /* MSAuthState.swift in Sources */,
 				6A449C8F2896F4320015826A /* FeedViewModel.swift in Sources */,
 				6A449CD62898E3BC0015826A /* FloatWarning.swift in Sources */,
 				6A449C9D2896F4330015826A /* PostReport.swift in Sources */,
@@ -1400,7 +1552,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Pong.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"Pong/Preview Content\"";
 				DEVELOPMENT_TEAM = 89KY4Q7K5P;
 				ENABLE_PREVIEWS = YES;
@@ -1422,7 +1574,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.krv.pong;
 				PRODUCT_NAME = Pong;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1443,7 +1595,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Pong.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"Pong/Preview Content\"";
 				DEVELOPMENT_TEAM = 89KY4Q7K5P;
 				ENABLE_PREVIEWS = YES;
@@ -1465,7 +1617,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.krv.pong;
 				PRODUCT_NAME = Pong;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1565,6 +1717,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		6A61D02028E0A2CC003188EE /* XCRemoteSwiftPackageReference "Resolver" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hmlongco/Resolver.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		6A68DC44288B7A3100BF2775 /* XCRemoteSwiftPackageReference "ScalingHeaderScrollView" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/exyte/ScalingHeaderScrollView.git";
@@ -1636,6 +1796,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 6A5479C52895BB9800BC18CD /* XCRemoteSwiftPackageReference "microsoft-authentication-library-for-objc" */;
 			productName = MSAL;
+		};
+		6A61D02128E0A2CC003188EE /* Resolver */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6A61D02028E0A2CC003188EE /* XCRemoteSwiftPackageReference "Resolver" */;
+			productName = Resolver;
 		};
 		6A6F2D5E28BEF2740091CFE4 /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;

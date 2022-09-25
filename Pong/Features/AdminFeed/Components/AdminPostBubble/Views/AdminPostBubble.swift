@@ -101,7 +101,6 @@ struct AdminPostBubble: View {
         .onChange(of: adminPostBubbleVM.post) {
             self.post = $0
         }
-        
         // MARK: Timeout Confirmation
         .alert(item: $alertIdentifier) { alert in
             switch alert.id {

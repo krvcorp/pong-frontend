@@ -8,7 +8,6 @@ struct FeedView: View {
     @EnvironmentObject var dataManager : DataManager
     @Environment(\.presentationMode) var presentationMode
     @StateObject var feedVM = FeedViewModel()
-//    @Binding var newPostDetected : Bool
     @Binding var showMenu : Bool
     
     var body: some View {
@@ -25,7 +24,7 @@ struct FeedView: View {
             // Hide navbar
             .navigationBarTitle("\(feedVM.school)")
             .navigationBarTitleDisplayMode(.inline)
-            // Toolbar
+            // MARK: Toolbar
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
@@ -39,13 +38,20 @@ struct FeedView: View {
                     }
                 }
                 
-                ToolbarItem {
-                    NavigationLink(destination: MessageRosterView(), isActive: $mainTabVM.openConversationsDetected) {
-                        Image(systemName: "paperplane")
-                    }
-                }
                 ToolbarItem(placement: .principal) {
                     toolbarPickerComponent
+                }
+                
+                ToolbarItem {
+                    HStack(spacing: 0) {
+                        NavigationLink(destination: NotificationsView()) {
+                            Image(systemName: "bell")
+                        }
+                        
+                        NavigationLink(destination: MessageRosterView(), isActive: $mainTabVM.openConversationsDetected) {
+                            Image(systemName: "paperplane")
+                        }
+                    }
                 }
             }
         }
@@ -66,7 +72,7 @@ struct FeedView: View {
     }
     
     
-    // component for toolbar picker
+    // MARK: ToolbarPickerComponent
     var toolbarPickerComponent : some View {
         HStack {
             ForEach(FeedFilter.allCases, id: \.self) { filter in
@@ -75,17 +81,18 @@ struct FeedView: View {
                     feedVM.selectedFeedFilter = filter
                 } label: {
                     if feedVM.selectedFeedFilter == filter {
-                        HStack {
+                        HStack(spacing: 5) {
                             Image(systemName: filter.filledImageName)
                             Text(filter.title)
-                                .bold()
+                                .font(.subheadline.bold())
                         }
                         .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
 
                     } else {
-                        HStack{
+                        HStack(spacing: 5) {
                             Image(systemName: filter.imageName)
                             Text(filter.title)
+                                .font(.subheadline)
                         }
                         .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
                     }

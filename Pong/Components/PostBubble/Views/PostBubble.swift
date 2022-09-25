@@ -16,6 +16,7 @@ struct PostBubble: View {
     var body: some View {
         VStack {
             postBubbleMain
+                .padding(.bottom)
 
             Color.black.frame(height:CGFloat(1) / UIScreen.main.scale)
             

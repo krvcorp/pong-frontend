@@ -57,7 +57,7 @@ class NetworkManager: ObservableObject {
                 .response() { (response) in
                     if let httpStatusCode = response.response?.statusCode {
                         if httpStatusCode == 401 {
-//                            print("NETWORK: 401 Error")
+                            print("NETWORK: 401 Error")
                             AuthManager.authManager.signout()
                         }
                     }
@@ -77,7 +77,6 @@ class NetworkManager: ObservableObject {
                 .responseJSON() { (response) in
                     switch response.result {
                     case .success:
-//                        debugPrint(response)
                         break
                     case let .failure(error):
                         print("NETWORK: \(error.localizedDescription)")
@@ -89,7 +88,7 @@ class NetworkManager: ObservableObject {
                 .response() { (response) in
                     if let httpStatusCode = response.response?.statusCode {
                         if httpStatusCode == 401 {
-//                            print("NETWORK: 401 Error")
+                            print("NETWORK: 401 Error")
                             AuthManager.authManager.signout()
                         } else if httpStatusCode == 204 {
 //                            print("NETWORK: 204 Empty")
@@ -107,10 +106,8 @@ class NetworkManager: ObservableObject {
                 .responseJSON() { (response) in
                     switch response.result {
                     case .success:
-//                        debugPrint(response)
                         break
                     case .failure(_):
-//                        print("NETWORK: \(error.localizedDescription)")
                         completionHandler(nil, ErrorResponse(error: "Something went wrong!"))
                     }
                 }
@@ -137,10 +134,9 @@ class NetworkManager: ObservableObject {
                 .response() { (response) in
                     if let httpStatusCode = response.response?.statusCode {
                         if httpStatusCode == 401 {
-//                            print("NETWORK: 401 Error")
+                            print("NETWORK: 401 Error")
                             AuthManager.authManager.signout()
                         } else if httpStatusCode == 204 || httpStatusCode == 200 || httpStatusCode == 201 {
-//                            print("NETWORK: 204 Empty")
                             completionHandler(EmptyResponse(success: "204"), nil)
                         }
                     }
@@ -152,10 +148,8 @@ class NetworkManager: ObservableObject {
                 .responseData() { (response) in
                     switch response.result {
                     case .success:
-//                        print("NETWORK: \(response.result)")
                         break
                     case .failure(_):
-//                        print("NETWORK: \(response.result)")
                         completionHandler(nil, ErrorResponse(error: "Something went wrong!"))
                         break
                     }
@@ -165,14 +159,12 @@ class NetworkManager: ObservableObject {
                 .response() { (response) in
                     if let httpStatusCode = response.response?.statusCode {
                         if httpStatusCode == 401 {
-//                            print("NETWORK: 401 Error")
+                            print("NETWORK: 401 Error")
                             AuthManager.authManager.signout()
                         } else if httpStatusCode == 204 || httpStatusCode == 200 || httpStatusCode == 201 {
-//                            print("NETWORK: 204 Empty")
-//                            print("NETWORK: \(response)")
                             completionHandler(EmptyResponse(success: "204"), nil)
                         } else {
-//                            print("NETWORK: OTHER NETWORK \(httpStatusCode)")
+                            print("NETWORK: OTHER NETWORK \(httpStatusCode)")
                         }
                     }
                 }
@@ -183,10 +175,8 @@ class NetworkManager: ObservableObject {
                 .responseData() { (response) in
                     switch response.result {
                     case .success:
-//                        print("NETWORK: \(response.result)")
                         break
                     case .failure(_):
-//                        print("NETWORK: \(response.result)")
                         completionHandler(nil, ErrorResponse(error: "Something went wrong!"))
                         break
                     }

@@ -19,8 +19,8 @@ struct AdminFeedView: View {
                                     .environmentObject(adminFeedVM)
                             }
                         } else if tab == .comments {
-                            ForEach($adminFeedVM.flaggedPosts, id: \.id) { $post in
-                                AdminPostBubble(post: $post)
+                            ForEach($adminFeedVM.flaggedComments, id: \.id) { $comment in
+                                AdminCommentBubble(comment: $comment)
                                     .buttonStyle(PlainButtonStyle())
                                     .environmentObject(adminFeedVM)
                             }
@@ -38,6 +38,7 @@ struct AdminFeedView: View {
         }
         .onAppear {
             adminFeedVM.getPosts()
+            adminFeedVM.getComments()
         }
         .navigationBarTitle("Admin View")
         .navigationBarTitleDisplayMode(.inline)

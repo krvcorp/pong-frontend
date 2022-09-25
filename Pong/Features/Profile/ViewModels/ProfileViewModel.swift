@@ -87,7 +87,7 @@ class ProfileViewModel: ObservableObject {
     }
     
     func paginateComments(dataManager : DataManager) {
-        NetworkManager.networkManager.request(route: dataManager.profileCommentsCurrentPage, method: .get, successType: PaginateCommentsModel.Response.self) { successResponse, errorResponse in
+        NetworkManager.networkManager.request(route: dataManager.profileCommentsCurrentPage, method: .get, successType: PaginateProfileCommentsModel.Response.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
                     dataManager.profileComments.append(contentsOf: successResponse.results)
