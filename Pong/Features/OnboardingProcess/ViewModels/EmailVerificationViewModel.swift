@@ -1,6 +1,8 @@
 import Foundation
 import GoogleSignIn
+import MSAL
 import SwiftUI
+
 
 class EmailVerificationViewModel: ObservableObject {
 
@@ -8,8 +10,6 @@ class EmailVerificationViewModel: ObservableObject {
     @Published var loginErrorMessage: String = "error"
 
     // MARK: Google OAuth2.0
-    // private
-//    let signInConfig = GIDConfiguration(clientID: "983201170682-kttqq1l89i4fpgk15fud1u1hf192fq1q.apps.googleusercontent.com")
     // company
     let signInConfig = GIDConfiguration(clientID: "43678979560-6ah9oj1h0cvvd5is4al3lmkmdmd1tdqd.apps.googleusercontent.com")
 
@@ -34,6 +34,48 @@ class EmailVerificationViewModel: ObservableObject {
                 let idToken = authentication.idToken
                 self.verifyEmail(idToken: idToken!)
             }
+        }
+    }
+    
+    
+    // MARK: Microsoft MSAL
+    
+    func signInWithMicrosoft() {
+        let scenes = UIApplication.shared.connectedScenes
+        let windowScene = scenes.first as? UIWindowScene
+        let window = windowScene?.windows.first
+
+        guard let presentingViewController = window!.rootViewController else {
+            print("There is no root view controller!")
+            return
+        }
+        
+        do {
+            let authority = try MSALB2CAuthority(url: URL(string: "https://login.microsoftonline.com/9f6eb8fa-d85e-4a5d-8df7-6cc10c63ad0c")!)
+            let pcaConfig = MSALPublicClientApplicationConfig(clientId: "3f0ac0b7-abf4-4195-a0c3-a855cbe86f79", redirectUri: "https://www.pong.college", authority: authority)
+            let application = try MSALPublicClientApplication(configuration: pcaConfig)
+            let webViewParameters = MSALWebviewParameters(authPresentationViewController: presentingViewController)
+            let interactiveParameters = MSALInteractiveTokenParameters(scopes: ["user.read"], webviewParameters: webViewParameters)
+            interactiveParameters.promptType = MSALPromptType.login
+            
+            application.acquireToken(with: interactiveParameters) { (result, error) in
+                print("DEBUG: COMPLETION")
+                
+                guard let result = result else {
+                    print("error \(error?.localizedDescription)")
+                    return
+                }
+                
+                if let account = result.account.username {
+                    print("logging \(account)")
+                    print("logging \(result.account.description)")
+                    UIApplication.shared.windows.first {
+                        $0.isKeyWindow
+                    }!.rootViewController = UIHostingController(rootView: ContentView())
+                }
+            }
+        } catch {
+            print("\(#function) logging error \(error)")
         }
     }
 

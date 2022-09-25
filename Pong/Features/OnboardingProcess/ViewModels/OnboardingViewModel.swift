@@ -6,6 +6,9 @@ class OnboardingViewModel: ObservableObject {
     @Published var firstCall : Bool = true
     @Published var welcomed: Bool = false
     @Published var onBoarded: Bool = false
+    @Published var wrongCodeError: Bool = false
+    
+    @Published var errorMessage : String = ""
     
     func setReferrer(referralCode: String) {
         let parameters = SetReferrer.Request(referralCode: referralCode)
@@ -18,8 +21,13 @@ class OnboardingViewModel: ObservableObject {
                 }
             }
             
-            if errorResponse != nil {
-
+            if let errorResponse = errorResponse {
+                DispatchQueue.main.async {
+                    withAnimation {
+                        self.wrongCodeError = true
+                        self.errorMessage = errorResponse.error
+                    }
+                }
             }
         }
     }

@@ -1,4 +1,5 @@
 import SwiftUI
+import AlertToast
 
 struct ReferralOnboardingView: View {
     @EnvironmentObject var onboardingVM : OnboardingViewModel
@@ -61,11 +62,19 @@ struct ReferralOnboardingView: View {
                         .cornerRadius(20)
                     }
                 }
+                
+                
             }
             .padding(10)
         
             Spacer()
+            
+            Text("Go into your settings for your code and for more information!")
+                .font(.subheadline)
         }
         .padding(.bottom, 40)
+        .toast(isPresenting: $onboardingVM.wrongCodeError) {
+            AlertToast(type: .error(.red), title: "Wrong code!")
+        }
     }
 }

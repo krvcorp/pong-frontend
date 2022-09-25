@@ -163,7 +163,7 @@ class DataManager : ObservableObject {
     }
     
     func initProfileComments() {
-        NetworkManager.networkManager.request(route: "comments/?sort=profile", method: .get, successType: PaginateCommentsModel.Response.self) { successResponse, errorResponse in
+        NetworkManager.networkManager.request(route: "comments/?sort=profile", method: .get, successType: PaginateProfileCommentsModel.Response.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
                     self.profileComments = successResponse.results
