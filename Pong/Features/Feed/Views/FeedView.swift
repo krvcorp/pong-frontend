@@ -26,17 +26,17 @@ struct FeedView: View {
             .navigationBarTitleDisplayMode(.inline)
             // MARK: Toolbar
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button {
-                        print("DEBUG: Show Menu")
-                        withAnimation {
-                            showMenu.toggle()
-                        }
-                    } label: {
-                        Image(systemName: "line.horizontal.3")
-                            .imageScale(.large)
-                    }
-                }
+//                ToolbarItem(placement: .navigationBarLeading) {
+//                    Button {
+//                        print("DEBUG: Show Menu")
+//                        withAnimation {
+//                            showMenu.toggle()
+//                        }
+//                    } label: {
+//                        Image(systemName: "line.horizontal.3")
+//                            .imageScale(.large)
+//                    }
+//                }
                 
                 ToolbarItem(placement: .principal) {
                     toolbarPickerComponent
@@ -44,10 +44,6 @@ struct FeedView: View {
                 
                 ToolbarItem {
                     HStack(spacing: 0) {
-                        NavigationLink(destination: NotificationsView()) {
-                            Image(systemName: "bell")
-                        }
-                        
                         NavigationLink(destination: MessageRosterView(), isActive: $mainTabVM.openConversationsDetected) {
                             Image(systemName: "paperplane")
                         }

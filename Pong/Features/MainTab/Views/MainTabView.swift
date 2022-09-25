@@ -45,10 +45,10 @@ struct MainTabView: View {
                     }
                     .tag(1)
                 
-                // MARK: Marketplace
-                MarketplaceView()
-                    .tabItem {
-                        Image(systemName: "cart")
+                // MARK: Stats and Leaderboard
+                LeaderboardView()
+                    .tabItem{
+                        Image(systemName: "chart.bar.xaxis")
                     }
                     .tag(2)
 
@@ -60,9 +60,9 @@ struct MainTabView: View {
                     .tag(3)
                 
                 // MARK: Stats and Leaderboard
-                LeaderboardView()
+                NotificationsView()
                     .tabItem{
-                        Image(systemName: "chart.bar.xaxis")
+                        Image(systemName: "bell")
                     }
                     .tag(4)
 
