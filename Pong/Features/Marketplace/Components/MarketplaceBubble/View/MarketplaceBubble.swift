@@ -6,18 +6,23 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct MarketplaceBubble: View {
-    @Binding var name : String
+    @Binding var marketplaceItem : MarketplaceItem
     
     var body: some View {
-        NavigationLink(destination: MarketplaceItemView()) {
+        NavigationLink(destination: MarketplaceItemView(marketplaceItem: $marketplaceItem)) {
             ZStack {
-                Image(systemName: "doc.plaintext")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .layoutPriority(-1)
-                    .cornerRadius(10)
+                // MARK: Image
+                if let imageUrl = marketplaceItem.image {
+                    KFImage(URL(string: "\(imageUrl)")!)
+                        .resizable()
+                        .scaledToFit()
+                        .aspectRatio(contentMode: .fill)
+                        .layoutPriority(-1)
+                        .cornerRadius(10)
+                }
                 
                 HStack {
                     VStack(alignment: .leading) {
@@ -25,12 +30,12 @@ struct MarketplaceBubble: View {
                         
                         VStack {
                             HStack {
-                                Text("\(name)")
+                                Text("\(marketplaceItem.title)")
                                 Spacer()
                             }
                             
                             HStack {
-                                Text("$10")
+                                Text("\(marketplaceItem.price)")
                                     .font(.subheadline.bold())
                                 Spacer()
                             }

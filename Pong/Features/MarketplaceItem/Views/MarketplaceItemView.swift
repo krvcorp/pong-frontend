@@ -6,26 +6,33 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct MarketplaceItemView: View {
+    @Binding var marketplaceItem: MarketplaceItem
+    
     var body: some View {
         ScrollView {
             VStack{
-                Image(systemName: "doc.plaintext")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(maxWidth: .infinity)
-                    .padding()
+                // MARK: Image
+                if let imageUrl = marketplaceItem.image {
+                    KFImage(URL(string: "\(imageUrl)")!)
+                        .resizable()
+                        .scaledToFit()
+                        .aspectRatio(contentMode: .fill)
+                        .layoutPriority(-1)
+                        .cornerRadius(10)
+                }
                 
                 VStack {
                     HStack {
-                        Text("Arjun")
+                        Text("\(marketplaceItem.title)")
                             .font(.title2.bold())
                         
                         Spacer()
                     }
                     HStack {
-                        Text("$10.00")
+                        Text("\(marketplaceItem.price)")
                             .font(.title.bold())
                             .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
                         
@@ -33,7 +40,7 @@ struct MarketplaceItemView: View {
                     }
                     
                     HStack {
-                        Text("Posted on September 30, 2022")
+                        Text("Posted on \(marketplaceItem.date)")
                             .font(.subheadline)
                         Spacer()
                     }
@@ -89,18 +96,12 @@ struct MarketplaceItemView: View {
             }
             .padding()
             .navigationBarTitleDisplayMode(.inline)
-            .navigationTitle("Item")
+            .navigationTitle("\(marketplaceItem.title)")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Image(systemName: "share")
                 }
             }
         }
-    }
-}
-
-struct MarketplaceItemView_Previews: PreviewProvider {
-    static var previews: some View {
-        MarketplaceItemView()
     }
 }

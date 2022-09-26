@@ -29,15 +29,16 @@ struct ChooseCommunityView: View {
     //    }
     var body: some View {
         VStack(alignment: .leading) {
-            Text("Visiting other communities coming soon!")
+            Text("Visit other communities!")
                 .bold()
                 .padding(.top)
                 .padding(.horizontal)
             
             List {
                 Text("All")
+                Text("Knowledge Base")
                 Text("Boston University")
-                Text("And other schools!")
+                Text("Lesley University")
             }
             .refreshable {
                 print("DEBUG: Community Refresh")
