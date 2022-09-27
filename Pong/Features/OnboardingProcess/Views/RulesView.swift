@@ -22,7 +22,7 @@ struct RulesView: View {
             Text("Obviously there are special execptions.")
                 .font(.title3)
             
-            Text("[Rules](https://www.pong.college/) are common sense. Basic shit like no threats, doxxing, or harassment.")
+            Text("[Rules](https://www.pong.blog/) are common sense. Basic shit like no threats, doxxing, or harassment.")
                 .font(.title3)
             
             Spacer()
