@@ -38,7 +38,6 @@ class EmailVerificationViewModel: ObservableObject {
     
     
     // MARK: Microsoft MSAL
-    
     func signInWithMicrosoft() {
         let scenes = UIApplication.shared.connectedScenes
         let windowScene = scenes.first as? UIWindowScene
@@ -58,10 +57,9 @@ class EmailVerificationViewModel: ObservableObject {
             interactiveParameters.promptType = MSALPromptType.login
             
             application.acquireToken(with: interactiveParameters) { (result, error) in
-                print("DEBUG: COMPLETION")
                 
                 guard let result = result else {
-                    print("error \(error?.localizedDescription)")
+                    print("error \(String(describing: error?.localizedDescription))")
                     return
                 }
                 
