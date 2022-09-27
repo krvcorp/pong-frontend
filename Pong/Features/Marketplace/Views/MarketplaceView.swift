@@ -15,8 +15,7 @@ struct MarketplaceView: View {
                                    MarketplaceItem(id: "4", title: "harvard sweatshirt", price: "$25", image: "https://i.imgur.com/Yjp3WI5.jpg", date: "09/26/22"),
                                    MarketplaceItem(id: "5", title: "children's toy", price: "$5", image: "https://i.imgur.com/wpoFnGy.jpg", date: "09/25/22"),
                                    MarketplaceItem(id: "6", title: "adderall", price: "$10", image: "https://i.imgur.com/FeRnXx8.jpg", date: "09/26/22"),
-                                   MarketplaceItem(id: "7", title: "mini fridge", price: "$50", image: "https://i.imgur.com/rqzhey2.png", date: "09/25/22"),
-                                   MarketplaceItem(id: "8", title: "shirts", price: "$10", image: "https://img.wattpad.com/fb3f09503acdf850e047007e55c57ce950004c3b/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f776174747061642d6d656469612d736572766963652f53746f7279496d6167652f6947424b3166734c4e64377a45773d3d2d3637362e313631623837356335653731353161393735373931353633343639372e6a7067?s=fit&w=720&h=720", date: "09/25/22")]
+                                   MarketplaceItem(id: "7", title: "shirts", price: "$10", image: "https://img.wattpad.com/fb3f09503acdf850e047007e55c57ce950004c3b/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f776174747061642d6d656469612d736572766963652f53746f7279496d6167652f6947424b3166734c4e64377a45773d3d2d3637362e313631623837356335653731353161393735373931353633343639372e6a7067?s=fit&w=720&h=720", date: "09/25/22")]
     
     @State var showNewMarketplaceItem : Bool = false
     
