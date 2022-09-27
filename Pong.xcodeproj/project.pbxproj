@@ -90,7 +90,17 @@
 		6A4BD72A28B18405004EFE4A /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = 6A4BD72928B18405004EFE4A /* AlertToast */; };
 		6A4BD73128B2CCB2004EFE4A /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 6A4BD73028B2CCB2004EFE4A /* Algorithms */; };
 		6A5479C72895BB9800BC18CD /* MSAL in Frameworks */ = {isa = PBXBuildFile; productRef = 6A5479C62895BB9800BC18CD /* MSAL */; };
+		6A61D01728E008A8003188EE /* MarketplaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A61D01628E008A8003188EE /* MarketplaceView.swift */; };
+		6A61D01928E008B3003188EE /* MarketplaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A61D01828E008B3003188EE /* MarketplaceViewModel.swift */; };
+		6A61D01B28E031BA003188EE /* MSALViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A61D01A28E031BA003188EE /* MSALViewModel.swift */; };
 		6A61D02228E0A2CC003188EE /* Resolver in Frameworks */ = {isa = PBXBuildFile; productRef = 6A61D02128E0A2CC003188EE /* Resolver */; };
+		6A61D02B28E0A453003188EE /* MSAuthProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A61D02428E0A453003188EE /* MSAuthProxy.swift */; };
+		6A61D02C28E0A453003188EE /* AppResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A61D02528E0A453003188EE /* AppResolver.swift */; };
+		6A61D02D28E0A453003188EE /* MSAuthCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A61D02628E0A453003188EE /* MSAuthCredentials.swift */; };
+		6A61D02E28E0A453003188EE /* Logger+Categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A61D02728E0A453003188EE /* Logger+Categories.swift */; };
+		6A61D02F28E0A453003188EE /* UIApplication+TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A61D02828E0A453003188EE /* UIApplication+TopViewController.swift */; };
+		6A61D03028E0A453003188EE /* MSAuthState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A61D02928E0A453003188EE /* MSAuthState.swift */; };
+		6A61D03128E0A453003188EE /* MSAuthAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A61D02A28E0A453003188EE /* MSAuthAdapter.swift */; };
 		6A61D03628E0CB51003188EE /* AdminCommentBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A61D03528E0CB51003188EE /* AdminCommentBubble.swift */; };
 		6A61D03828E0CB5F003188EE /* AdminCommentBubbleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A61D03728E0CB5F003188EE /* AdminCommentBubbleViewModel.swift */; };
 		6A61D03B28E0D3AC003188EE /* PaginateCommentsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A61D03A28E0D3AC003188EE /* PaginateCommentsModel.swift */; };
@@ -228,6 +238,16 @@
 		6A4BD72628B1772C004EFE4A /* PaginatePostsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaginatePostsModel.swift; sourceTree = "<group>"; };
 		6A5479C82895C08F00BC18CD /* Pong.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Pong.entitlements; sourceTree = "<group>"; };
 		6A5DF0E32851321000F28A06 /* Pong.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pong.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6A61D01628E008A8003188EE /* MarketplaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketplaceView.swift; sourceTree = "<group>"; };
+		6A61D01828E008B3003188EE /* MarketplaceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketplaceViewModel.swift; sourceTree = "<group>"; };
+		6A61D01A28E031BA003188EE /* MSALViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSALViewModel.swift; sourceTree = "<group>"; };
+		6A61D02428E0A453003188EE /* MSAuthProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSAuthProxy.swift; sourceTree = "<group>"; };
+		6A61D02528E0A453003188EE /* AppResolver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppResolver.swift; sourceTree = "<group>"; };
+		6A61D02628E0A453003188EE /* MSAuthCredentials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSAuthCredentials.swift; sourceTree = "<group>"; };
+		6A61D02728E0A453003188EE /* Logger+Categories.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Logger+Categories.swift"; sourceTree = "<group>"; };
+		6A61D02828E0A453003188EE /* UIApplication+TopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+TopViewController.swift"; sourceTree = "<group>"; };
+		6A61D02928E0A453003188EE /* MSAuthState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSAuthState.swift; sourceTree = "<group>"; };
+		6A61D02A28E0A453003188EE /* MSAuthAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSAuthAdapter.swift; sourceTree = "<group>"; };
 		6A61D03528E0CB51003188EE /* AdminCommentBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminCommentBubble.swift; sourceTree = "<group>"; };
 		6A61D03728E0CB5F003188EE /* AdminCommentBubbleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminCommentBubbleViewModel.swift; sourceTree = "<group>"; };
 		6A61D03A28E0D3AC003188EE /* PaginateCommentsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaginateCommentsModel.swift; sourceTree = "<group>"; };
@@ -473,7 +493,6 @@
 			children = (
 				6A78FA6228A3060E00B75CC6 /* Models */,
 				D389D89A28BC087F00A41329 /* ViewModels */,
-				6A449BEA2896F4320015826A /* Views */,
 			);
 			path = OnboardingProcess;
 			sourceTree = "<group>";
@@ -1211,6 +1230,9 @@
 			children = (
 				D389D89C28BC099100A41329 /* OnboardingViewModel.swift */,
 				D3D7EA3F28BE4217002E75F0 /* EmailVerificationViewModel.swift */,
+				6A61D01A28E031BA003188EE /* MSALViewModel.swift */,
+				6A61D02328E0A3F5003188EE /* MSALSwiftUI */,
+				6A449BEA2896F4320015826A /* Views */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -1346,6 +1368,7 @@
 				D3FF841628BC6BCA003C8B06 /* PaginateProfileCommentsModel.swift in Sources */,
 				6A61D04628E0EFDB003188EE /* MarketplaceBubbleViewModel.swift in Sources */,
 				6A449C8A2896F4320015826A /* LeaderboardView.swift in Sources */,
+				6A61D01728E008A8003188EE /* MarketplaceView.swift in Sources */,
 				D389D89F28BC0A3000A41329 /* SetReferrer.swift in Sources */,
 				289CC874289C695F009C1DCE /* Colors.swift in Sources */,
 				D389D88928BAA0AF00A41329 /* EmailController.swift in Sources */,
@@ -1355,8 +1378,10 @@
 				D3D7EA4828C15417002E75F0 /* CreateConversation.swift in Sources */,
 				6A449C812896F4320015826A /* EmailVerificationView.swift in Sources */,
 				28B286F828B2EF150088B857 /* MockSocket.swift in Sources */,
+				6A61D02B28E0A453003188EE /* MSAuthProxy.swift in Sources */,
 				82CCCBB928B0F99E00085E2D /* AdminPostBubbleViewModel.swift in Sources */,
 				6A449C652896F4320015826A /* NetworkManager.swift in Sources */,
+				6A61D01928E008B3003188EE /* MarketplaceViewModel.swift in Sources */,
 				6A449C9C2896F4330015826A /* DeleteCommentRequestBody.swift in Sources */,
 				6A61D03128E0A453003188EE /* MSAuthAdapter.swift in Sources */,
 				6A61D04B28E0FABA003188EE /* MarketplaceItemView.swift in Sources */,
@@ -1380,6 +1405,7 @@
 				6A449C912896F4320015826A /* MainTabView.swift in Sources */,
 				6A61D04D28E0FAC2003188EE /* MarketplaceItemViewModel.swift in Sources */,
 				6A09D64728A59E9A005E5C23 /* ImagePicker.swift in Sources */,
+				6A61D02D28E0A453003188EE /* MSAuthCredentials.swift in Sources */,
 				6A449C982896F4330015826A /* LeaderboardUser.swift in Sources */,
 				6A61D04428E0EFD2003188EE /* MarketplaceBubble.swift in Sources */,
 				6A449CA52896F4330015826A /* CreatePostReportRequestBody.swift in Sources */,
@@ -1396,6 +1422,7 @@
 				6A449C7A2896F4320015826A /* PostView.swift in Sources */,
 				82CCCBB228B0F95600085E2D /* AdminFeedViewModel.swift in Sources */,
 				289CC872289C68D8009C1DCE /* LoadingView.swift in Sources */,
+				6A61D02F28E0A453003188EE /* UIApplication+TopViewController.swift in Sources */,
 				6A78FA5C28A1A82C00B75CC6 /* DAKeychain.swift in Sources */,
 				6A449CBF2896F4330015826A /* PostBubble.swift in Sources */,
 				D3FF841328BC6B96003C8B06 /* DataManager.swift in Sources */,
@@ -1412,6 +1439,7 @@
 				82AEE06B28AEE03400738EB5 /* LeaderboardTopThree.swift in Sources */,
 				6A449CBE2896F4330015826A /* PostBubbleViewModel.swift in Sources */,
 				82CCCBB328B0F95600085E2D /* AdminFeedView.swift in Sources */,
+				6A61D01B28E031BA003188EE /* MSALViewModel.swift in Sources */,
 				6A449C7F2896F4320015826A /* WelcomeView.swift in Sources */,
 				82CCCBBA28B0F99E00085E2D /* AdminPostBubble.swift in Sources */,
 				6A61D05328E0FD9E003188EE /* NewMarketplaceItem.swift in Sources */,
@@ -1441,6 +1469,8 @@
 				28B286F728B2EF150088B857 /* CustomLayoutSizeCalculator.swift in Sources */,
 				6A449C792896F4320015826A /* PostViewModel.swift in Sources */,
 				D3FF841828BC6C4B003C8B06 /* ImageShare.swift in Sources */,
+				6A61D02C28E0A453003188EE /* AppResolver.swift in Sources */,
+				6A61D02E28E0A453003188EE /* Logger+Categories.swift in Sources */,
 				6A449CBB2896F4330015826A /* ProfileCommentBubbleViewModel.swift in Sources */,
 				6A78FA55289CE38200B75CC6 /* NotificationsViewModel.swift in Sources */,
 				28B286F628B2EF150088B857 /* MockUser.swift in Sources */,
@@ -1450,6 +1480,7 @@
 				6A449CA42896F4330015826A /* ReadPostRequestBody.swift in Sources */,
 				6A449CA72896F4330015826A /* Post.swift in Sources */,
 				82AEE06828AEDF2A00738EB5 /* LeaderboardAwardCoin.swift in Sources */,
+				6A61D03028E0A453003188EE /* MSAuthState.swift in Sources */,
 				6A449C8F2896F4320015826A /* FeedViewModel.swift in Sources */,
 				6A449CD62898E3BC0015826A /* FloatWarning.swift in Sources */,
 				6A449C9D2896F4330015826A /* PostReport.swift in Sources */,
@@ -1597,7 +1628,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Pong.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"Pong/Preview Content\"";
 				DEVELOPMENT_TEAM = 89KY4Q7K5P;
 				ENABLE_PREVIEWS = YES;
@@ -1619,7 +1650,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.krv.pong;
 				PRODUCT_NAME = Pong;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1640,7 +1671,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Pong.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"Pong/Preview Content\"";
 				DEVELOPMENT_TEAM = 89KY4Q7K5P;
 				ENABLE_PREVIEWS = YES;
@@ -1662,7 +1693,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.krv.pong;
 				PRODUCT_NAME = Pong;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
