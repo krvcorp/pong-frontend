@@ -10,7 +10,6 @@ class EmailVerificationViewModel: ObservableObject {
     @Published var loginErrorMessage: String = "error"
 
     // MARK: Google OAuth2.0
-    // company
     let signInConfig = GIDConfiguration(clientID: "43678979560-6ah9oj1h0cvvd5is4al3lmkmdmd1tdqd.apps.googleusercontent.com")
 
     func signinWithGoogle() {
@@ -32,7 +31,7 @@ class EmailVerificationViewModel: ObservableObject {
                 guard let authentication = authentication else { return }
 
                 let idToken = authentication.idToken
-                self.verifyEmail(idToken: idToken!)
+                self.verifyEmail(idToken: idToken!, loginType: "google")
             }
         }
     }
@@ -52,7 +51,7 @@ class EmailVerificationViewModel: ObservableObject {
         
         do {
             let authority = try MSALB2CAuthority(url: URL(string: "https://login.microsoftonline.com/9f6eb8fa-d85e-4a5d-8df7-6cc10c63ad0c")!)
-            let pcaConfig = MSALPublicClientApplicationConfig(clientId: "3f0ac0b7-abf4-4195-a0c3-a855cbe86f79", redirectUri: "https://www.pong.college", authority: authority)
+            let pcaConfig = MSALPublicClientApplicationConfig(clientId: "3f0ac0b7-abf4-4195-a0c3-a855cbe86f79", redirectUri: "msauth.com.krv.pong://auth", authority: authority)
             let application = try MSALPublicClientApplication(configuration: pcaConfig)
             let webViewParameters = MSALWebviewParameters(authPresentationViewController: presentingViewController)
             let interactiveParameters = MSALInteractiveTokenParameters(scopes: ["user.read"], webviewParameters: webViewParameters)
@@ -66,12 +65,17 @@ class EmailVerificationViewModel: ObservableObject {
                     return
                 }
                 
+//                email
+//                if let account = result.account.username {
+//                    print("logging \(account)")
+//                    print("logging \(result.account.description)")
+//                    UIApplication.shared.windows.first {
+//                        $0.isKeyWindow
+//                    }!.rootViewController = UIHostingController(rootView: ContentView())
+//                }
+                
                 if let account = result.account.username {
-                    print("logging \(account)")
-                    print("logging \(result.account.description)")
-                    UIApplication.shared.windows.first {
-                        $0.isKeyWindow
-                    }!.rootViewController = UIHostingController(rootView: ContentView())
+                    self.verifyEmail(idToken: account, loginType: "microsoft")
                 }
             }
         } catch {
@@ -80,8 +84,8 @@ class EmailVerificationViewModel: ObservableObject {
     }
 
     // MARK: VerifyEmail, set keychain
-    private func verifyEmail(idToken: String) {
-        let parameters = VerifyEmailModel.Request(idToken: idToken)
+    private func verifyEmail(idToken: String, loginType: String) {
+        let parameters = VerifyEmailModel.Request(idToken: idToken, loginType: loginType)
         
         NetworkManager.networkManager.request(route: "login/", method: .post, body: parameters, successType: VerifyEmailModel.Response.self) { successResponse, errorResponse in
             DispatchQueue.main.async {

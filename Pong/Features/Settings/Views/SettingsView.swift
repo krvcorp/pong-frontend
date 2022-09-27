@@ -126,14 +126,14 @@ struct SettingsView: View {
             Section(header: Text("The Boring Stuff")) {
                 // MARK: Privacy Policy
                 HStack() {
-                    Link("Privacy Policy", destination: URL(string: "https://www.pong.college/legal")!)
+                    Link("Privacy Policy", destination: URL(string: "https://www.pong.blog/legal")!)
                     Spacer()
                     Image(systemName: "person.fill.questionmark")
                 }
                 
                 // MARK: Terms of SERVICE
                 HStack() {
-                    Link("Terms of Service", destination: URL(string: "https://www.pong.college/legal")!)
+                    Link("Terms of Service", destination: URL(string: "https://www.pong.blog/legal")!)
                     Spacer()
                     Image(systemName: "newspaper")
                 }
