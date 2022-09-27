@@ -8,18 +8,36 @@
 import SwiftUI
 
 struct ChooseCommunityView: View {
+    //    var body: some View {
+    //        VStack(alignment: .leading) {
+    //            Text("Check out these communities!")
+    //                .bold()
+    //                .padding(.top)
+    //                .padding(.horizontal)
+    //
+    //            List {
+    //                Text("All colleges!")
+    //                Text("Boston University")
+    //            }
+    //            .refreshable {
+    //                print("DEBUG: Community Refresh")
+    //            }
+    //            .background(Color(UIColor.secondarySystemBackground))
+    //        }
+    //        .background(Color(UIColor.secondarySystemBackground))
+    //        .frame(maxWidth: .infinity, alignment: .leading)
+    //    }
     var body: some View {
         VStack(alignment: .leading) {
-            Text("Visit other communities!")
+            Text("Visiting other communities coming soon!")
                 .bold()
                 .padding(.top)
                 .padding(.horizontal)
             
             List {
                 Text("All")
-                Text("Knowledge Base")
                 Text("Boston University")
-                Text("Lesley University")
+                Text("And other schools!")
             }
             .refreshable {
                 print("DEBUG: Community Refresh")
