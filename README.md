@@ -1,4 +1,15 @@
 # Pong iOS
+## Project Organization
+
+### Main
+Main is the branch that is currently in production on the app store. The current version on the app store is 1.0.2 Build 5. (Need to figure out where to store version information)
+
+### Development
+Development is the branch where all work and changes will be pushed into before a final push into the prod version. Major changes SHOULD NOT go onto development unless they are changes that we want to push onto prod soon.
+
+### Feature Branches
+If major features are being worked on (marketplace for example), you should create a seperate branch to work on it.
+
 
 ## Notifications
 ### Registration
