@@ -93,11 +93,22 @@
 		6A61D01728E008A8003188EE /* MarketplaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A61D01628E008A8003188EE /* MarketplaceView.swift */; };
 		6A61D01928E008B3003188EE /* MarketplaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A61D01828E008B3003188EE /* MarketplaceViewModel.swift */; };
 		6A61D02228E0A2CC003188EE /* Resolver in Frameworks */ = {isa = PBXBuildFile; productRef = 6A61D02128E0A2CC003188EE /* Resolver */; };
+		6A61D02B28E0A453003188EE /* MSAuthProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A61D02428E0A453003188EE /* MSAuthProxy.swift */; };
+		6A61D02C28E0A453003188EE /* AppResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A61D02528E0A453003188EE /* AppResolver.swift */; };
+		6A61D02D28E0A453003188EE /* MSAuthCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A61D02628E0A453003188EE /* MSAuthCredentials.swift */; };
+		6A61D02E28E0A453003188EE /* Logger+Categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A61D02728E0A453003188EE /* Logger+Categories.swift */; };
+		6A61D02F28E0A453003188EE /* UIApplication+TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A61D02828E0A453003188EE /* UIApplication+TopViewController.swift */; };
+		6A61D03028E0A453003188EE /* MSAuthState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A61D02928E0A453003188EE /* MSAuthState.swift */; };
+		6A61D03128E0A453003188EE /* MSAuthAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A61D02A28E0A453003188EE /* MSAuthAdapter.swift */; };
 		6A61D03628E0CB51003188EE /* AdminCommentBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A61D03528E0CB51003188EE /* AdminCommentBubble.swift */; };
 		6A61D03828E0CB5F003188EE /* AdminCommentBubbleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A61D03728E0CB5F003188EE /* AdminCommentBubbleViewModel.swift */; };
 		6A61D03B28E0D3AC003188EE /* PaginateCommentsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A61D03A28E0D3AC003188EE /* PaginateCommentsModel.swift */; };
 		6A61D04428E0EFD2003188EE /* MarketplaceBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A61D04328E0EFD2003188EE /* MarketplaceBubble.swift */; };
 		6A61D04628E0EFDB003188EE /* MarketplaceBubbleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A61D04528E0EFDB003188EE /* MarketplaceBubbleViewModel.swift */; };
+		6A61D04B28E0FABA003188EE /* MarketplaceItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A61D04A28E0FABA003188EE /* MarketplaceItemView.swift */; };
+		6A61D04D28E0FAC2003188EE /* MarketplaceItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A61D04C28E0FAC2003188EE /* MarketplaceItemViewModel.swift */; };
+		6A61D05328E0FD9E003188EE /* NewMarketplaceItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A61D05228E0FD9E003188EE /* NewMarketplaceItem.swift */; };
+		6A61D05528E0FDAB003188EE /* NewMarketplaceItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A61D05428E0FDAB003188EE /* NewMarketplaceItemViewModel.swift */; };
 		6A6D884A28CEBFD30071FCFA /* MessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6D884928CEBFD30071FCFA /* MessageViewModel.swift */; };
 		6A6D884C28CEC8360071FCFA /* MessageRosterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6D884B28CEC8360071FCFA /* MessageRosterViewModel.swift */; };
 		6A6D884E28CECA680071FCFA /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6D884D28CECA680071FCFA /* Conversation.swift */; };
@@ -118,6 +129,7 @@
 		6A78FA5C28A1A82C00B75CC6 /* DAKeychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A78FA5B28A1A82C00B75CC6 /* DAKeychain.swift */; };
 		6A78FA5E28A1F44F00B75CC6 /* CommentVoteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A78FA5D28A1F44F00B75CC6 /* CommentVoteModel.swift */; };
 		6A78FA6028A214FF00B75CC6 /* CommentReplyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A78FA5F28A214FF00B75CC6 /* CommentReplyModel.swift */; };
+		6A7903A328E2423600AF7D68 /* MarketplaceItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A7903A228E2423600AF7D68 /* MarketplaceItem.swift */; };
 		6A7E109928AED83500CE3CFD /* PollVoteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A7E109828AED83500CE3CFD /* PollVoteModel.swift */; };
 		6A832ED628A6C29300F4EBEF /* CommentCreateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A832ED528A6C29300F4EBEF /* CommentCreateModel.swift */; };
 		6AEE15D428AC4AC600EEF1E6 /* Poll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEE15D328AC4AC600EEF1E6 /* Poll.swift */; };
@@ -232,6 +244,10 @@
 		6A61D03A28E0D3AC003188EE /* PaginateCommentsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaginateCommentsModel.swift; sourceTree = "<group>"; };
 		6A61D04328E0EFD2003188EE /* MarketplaceBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketplaceBubble.swift; sourceTree = "<group>"; };
 		6A61D04528E0EFDB003188EE /* MarketplaceBubbleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketplaceBubbleViewModel.swift; sourceTree = "<group>"; };
+		6A61D04A28E0FABA003188EE /* MarketplaceItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketplaceItemView.swift; sourceTree = "<group>"; };
+		6A61D04C28E0FAC2003188EE /* MarketplaceItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketplaceItemViewModel.swift; sourceTree = "<group>"; };
+		6A61D05228E0FD9E003188EE /* NewMarketplaceItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMarketplaceItem.swift; sourceTree = "<group>"; };
+		6A61D05428E0FDAB003188EE /* NewMarketplaceItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMarketplaceItemViewModel.swift; sourceTree = "<group>"; };
 		6A6D884928CEBFD30071FCFA /* MessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewModel.swift; sourceTree = "<group>"; };
 		6A6D884B28CEC8360071FCFA /* MessageRosterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageRosterViewModel.swift; sourceTree = "<group>"; };
 		6A6D884D28CECA680071FCFA /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
@@ -251,6 +267,7 @@
 		6A78FA5B28A1A82C00B75CC6 /* DAKeychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DAKeychain.swift; sourceTree = "<group>"; };
 		6A78FA5D28A1F44F00B75CC6 /* CommentVoteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentVoteModel.swift; sourceTree = "<group>"; };
 		6A78FA5F28A214FF00B75CC6 /* CommentReplyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentReplyModel.swift; sourceTree = "<group>"; };
+		6A7903A228E2423600AF7D68 /* MarketplaceItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketplaceItem.swift; sourceTree = "<group>"; };
 		6A7E109828AED83500CE3CFD /* PollVoteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollVoteModel.swift; sourceTree = "<group>"; };
 		6A832ED528A6C29300F4EBEF /* CommentCreateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCreateModel.swift; sourceTree = "<group>"; };
 		6AEE15D328AC4AC600EEF1E6 /* Poll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Poll.swift; sourceTree = "<group>"; };
@@ -389,6 +406,9 @@
 				6A449BE12896F4320015826A /* Post */,
 				6A449C102896F4320015826A /* NewPost */,
 				6A449BFD2896F4320015826A /* Leaderboard */,
+				6A61D01328E0088A003188EE /* Marketplace */,
+				6A61D04728E0FA91003188EE /* MarketplaceItem */,
+				6A61D04F28E0FD7C003188EE /* NewMarketplaceItem */,
 				6A78FA4B289CD2DA00B75CC6 /* Notifications */,
 				6A449BDE2896F4320015826A /* Messages */,
 				6A449C022896F4320015826A /* Profile */,
@@ -464,7 +484,6 @@
 			children = (
 				6A78FA6228A3060E00B75CC6 /* Models */,
 				D389D89A28BC087F00A41329 /* ViewModels */,
-				6A449BEA2896F4320015826A /* Views */,
 			);
 			path = OnboardingProcess;
 			sourceTree = "<group>";
@@ -605,6 +624,7 @@
 				6AEE15D328AC4AC600EEF1E6 /* Poll.swift */,
 				6A449C1E2896F4320015826A /* Comment.swift */,
 				D389D88628B94B0B00A41329 /* ProfileComment.swift */,
+				6A7903A228E2423600AF7D68 /* MarketplaceItem.swift */,
 				6A4BD72628B1772C004EFE4A /* PaginatePostsModel.swift */,
 				6A61D03A28E0D3AC003188EE /* PaginateCommentsModel.swift */,
 				6A78FA5828A1A65E00B75CC6 /* PostVoteModel.swift */,
@@ -635,7 +655,6 @@
 				6A449C5A2896F4320015826A /* Poll */,
 				6A449C362896F4320015826A /* NewPoll */,
 				6A449C532896F4320015826A /* Report */,
-				6A61D03C28E0EF94003188EE /* MarketplaceBubble */,
 				6A449C592896F4320015826A /* CustomInputField.swift */,
 				6A449C352896F4320015826A /* TextArea.swift */,
 				6A449C432896F4320015826A /* MessageField.swift */,
@@ -877,6 +896,64 @@
 				6A61D04528E0EFDB003188EE /* MarketplaceBubbleViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		6A61D04728E0FA91003188EE /* MarketplaceItem */ = {
+			isa = PBXGroup;
+			children = (
+				6A61D04928E0FAA0003188EE /* ViewModels */,
+				6A61D04828E0FA9E003188EE /* Views */,
+			);
+			path = MarketplaceItem;
+			sourceTree = "<group>";
+		};
+		6A61D04828E0FA9E003188EE /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				6A61D04A28E0FABA003188EE /* MarketplaceItemView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		6A61D04928E0FAA0003188EE /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				6A61D04C28E0FAC2003188EE /* MarketplaceItemViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		6A61D04E28E0FD6A003188EE /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				6A61D03C28E0EF94003188EE /* MarketplaceBubble */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		6A61D04F28E0FD7C003188EE /* NewMarketplaceItem */ = {
+			isa = PBXGroup;
+			children = (
+				6A61D05128E0FD8A003188EE /* ViewModels */,
+				6A61D05028E0FD87003188EE /* Views */,
+			);
+			path = NewMarketplaceItem;
+			sourceTree = "<group>";
+		};
+		6A61D05028E0FD87003188EE /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				6A61D05228E0FD9E003188EE /* NewMarketplaceItem.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		6A61D05128E0FD8A003188EE /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				6A61D05428E0FDAB003188EE /* NewMarketplaceItemViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		6A6D884828CEBFC90071FCFA /* ViewModels */ = {
@@ -1262,9 +1339,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6A7903A328E2423600AF7D68 /* MarketplaceItem.swift in Sources */,
 				D3FF841628BC6BCA003C8B06 /* PaginateProfileCommentsModel.swift in Sources */,
 				6A61D04628E0EFDB003188EE /* MarketplaceBubbleViewModel.swift in Sources */,
 				6A449C8A2896F4320015826A /* LeaderboardView.swift in Sources */,
+				6A61D01728E008A8003188EE /* MarketplaceView.swift in Sources */,
 				D389D89F28BC0A3000A41329 /* SetReferrer.swift in Sources */,
 				289CC874289C695F009C1DCE /* Colors.swift in Sources */,
 				D389D88928BAA0AF00A41329 /* EmailController.swift in Sources */,
@@ -1274,9 +1353,12 @@
 				D3D7EA4828C15417002E75F0 /* CreateConversation.swift in Sources */,
 				6A449C812896F4320015826A /* EmailVerificationView.swift in Sources */,
 				28B286F828B2EF150088B857 /* MockSocket.swift in Sources */,
+				6A61D02B28E0A453003188EE /* MSAuthProxy.swift in Sources */,
 				82CCCBB928B0F99E00085E2D /* AdminPostBubbleViewModel.swift in Sources */,
 				6A449C652896F4320015826A /* NetworkManager.swift in Sources */,
+				6A61D01928E008B3003188EE /* MarketplaceViewModel.swift in Sources */,
 				6A449C9C2896F4330015826A /* DeleteCommentRequestBody.swift in Sources */,
+				6A61D03128E0A453003188EE /* MSAuthAdapter.swift in Sources */,
 				6A61D04B28E0FABA003188EE /* MarketplaceItemView.swift in Sources */,
 				6A61D03828E0CB5F003188EE /* AdminCommentBubbleViewModel.swift in Sources */,
 				6A449CAF2896F4330015826A /* TextArea.swift in Sources */,
@@ -1296,7 +1378,9 @@
 				28B286F528B2EF150088B857 /* CustomTextLayoutSizeCalculator.swift in Sources */,
 				28CC02D628BEC26400C10262 /* NotificationsManager.swift in Sources */,
 				6A449C912896F4320015826A /* MainTabView.swift in Sources */,
+				6A61D04D28E0FAC2003188EE /* MarketplaceItemViewModel.swift in Sources */,
 				6A09D64728A59E9A005E5C23 /* ImagePicker.swift in Sources */,
+				6A61D02D28E0A453003188EE /* MSAuthCredentials.swift in Sources */,
 				6A449C982896F4330015826A /* LeaderboardUser.swift in Sources */,
 				6A61D04428E0EFD2003188EE /* MarketplaceBubble.swift in Sources */,
 				6A449CA52896F4330015826A /* CreatePostReportRequestBody.swift in Sources */,
@@ -1313,6 +1397,7 @@
 				6A449C7A2896F4320015826A /* PostView.swift in Sources */,
 				82CCCBB228B0F95600085E2D /* AdminFeedViewModel.swift in Sources */,
 				289CC872289C68D8009C1DCE /* LoadingView.swift in Sources */,
+				6A61D02F28E0A453003188EE /* UIApplication+TopViewController.swift in Sources */,
 				6A78FA5C28A1A82C00B75CC6 /* DAKeychain.swift in Sources */,
 				6A449CBF2896F4330015826A /* PostBubble.swift in Sources */,
 				D3FF841328BC6B96003C8B06 /* DataManager.swift in Sources */,
@@ -1329,8 +1414,10 @@
 				82AEE06B28AEE03400738EB5 /* LeaderboardTopThree.swift in Sources */,
 				6A449CBE2896F4330015826A /* PostBubbleViewModel.swift in Sources */,
 				82CCCBB328B0F95600085E2D /* AdminFeedView.swift in Sources */,
+				6A61D01B28E031BA003188EE /* MSALViewModel.swift in Sources */,
 				6A449C7F2896F4320015826A /* WelcomeView.swift in Sources */,
 				82CCCBBA28B0F99E00085E2D /* AdminPostBubble.swift in Sources */,
+				6A61D05328E0FD9E003188EE /* NewMarketplaceItem.swift in Sources */,
 				82CCCBBC28B0F9C700085E2D /* TimeoutModel.swift in Sources */,
 				6A449CB02896F4330015826A /* NewPollViewModel.swift in Sources */,
 				289CC86A289993C9009C1DCE /* AppDelegate.swift in Sources */,
@@ -1357,6 +1444,8 @@
 				28B286F728B2EF150088B857 /* CustomLayoutSizeCalculator.swift in Sources */,
 				6A449C792896F4320015826A /* PostViewModel.swift in Sources */,
 				D3FF841828BC6C4B003C8B06 /* ImageShare.swift in Sources */,
+				6A61D02C28E0A453003188EE /* AppResolver.swift in Sources */,
+				6A61D02E28E0A453003188EE /* Logger+Categories.swift in Sources */,
 				6A449CBB2896F4330015826A /* ProfileCommentBubbleViewModel.swift in Sources */,
 				6A78FA55289CE38200B75CC6 /* NotificationsViewModel.swift in Sources */,
 				28B286F628B2EF150088B857 /* MockUser.swift in Sources */,
@@ -1366,6 +1455,7 @@
 				6A449CA42896F4330015826A /* ReadPostRequestBody.swift in Sources */,
 				6A449CA72896F4330015826A /* Post.swift in Sources */,
 				82AEE06828AEDF2A00738EB5 /* LeaderboardAwardCoin.swift in Sources */,
+				6A61D03028E0A453003188EE /* MSAuthState.swift in Sources */,
 				6A449C8F2896F4320015826A /* FeedViewModel.swift in Sources */,
 				6A449CD62898E3BC0015826A /* FloatWarning.swift in Sources */,
 				6A449C9D2896F4330015826A /* PostReport.swift in Sources */,
@@ -1379,6 +1469,7 @@
 				6A449CD42898B1D00015826A /* ErrorResponseBody.swift in Sources */,
 				6A4BD72728B1772C004EFE4A /* PaginatePostsModel.swift in Sources */,
 				6A6F2D6128C0290F0091CFE4 /* InformationView.swift in Sources */,
+				6A61D05528E0FDAB003188EE /* NewMarketplaceItemViewModel.swift in Sources */,
 				6A449CB72896F4330015826A /* MessageField.swift in Sources */,
 				289CC870289C6846009C1DCE /* SettingsViewModel.swift in Sources */,
 				6A6F2D6A28C663EF0091CFE4 /* RefreshableScrollView.swift in Sources */,
@@ -1512,7 +1603,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Pong.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"Pong/Preview Content\"";
 				DEVELOPMENT_TEAM = 89KY4Q7K5P;
 				ENABLE_PREVIEWS = YES;
@@ -1534,7 +1625,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.krv.pong;
 				PRODUCT_NAME = Pong;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1555,7 +1646,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Pong.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"Pong/Preview Content\"";
 				DEVELOPMENT_TEAM = 89KY4Q7K5P;
 				ENABLE_PREVIEWS = YES;
@@ -1577,7 +1668,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.krv.pong;
 				PRODUCT_NAME = Pong;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

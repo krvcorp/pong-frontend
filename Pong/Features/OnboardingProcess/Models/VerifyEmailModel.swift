@@ -10,7 +10,6 @@ import Foundation
 struct VerifyEmailModel {
     struct Request : Encodable {
         let idToken : String
-        let loginType: String
     }
     
     struct Response : Codable {
