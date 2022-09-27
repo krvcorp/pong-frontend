@@ -172,6 +172,7 @@ struct PostBubble: View {
             }
             .opacity(0.0)
             .buttonStyle(PlainButtonStyle())
+            
             VStack {
                 HStack(alignment: .top) {
                     VStack(alignment: .leading) {
