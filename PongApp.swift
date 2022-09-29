@@ -9,7 +9,6 @@ struct Pong: App {
         WindowGroup {
             ContentView()
                 .dynamicTypeSize(.medium ... .medium)
-            
         }
     }
 }
