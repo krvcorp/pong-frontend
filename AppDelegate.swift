@@ -8,6 +8,7 @@
 import FirebaseCore
 import UIKit
 import FirebaseMessaging
+import Siren
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
@@ -26,6 +27,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         }
         
         UITabBar.appearance().backgroundColor = UIColor.systemBackground
+        
+        hyperCriticalRulesExample()
         
         return true
     }
@@ -56,6 +59,26 @@ extension AppDelegate: MessagingDelegate {
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         let tokenDict = ["token": fcmToken ?? ""]
         NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil,userInfo: tokenDict)
+    }
+}
+
+private extension AppDelegate {
+    func hyperCriticalRulesExample() {
+        let siren = Siren.shared
+        siren.rulesManager = RulesManager(globalRules: .critical,
+                                          showAlertAfterCurrentVersionHasBeenReleasedForDays: 0)
+
+        siren.wail { results in
+            switch results {
+            case .success(let updateResults):
+                print("AlertAction ", updateResults.alertAction)
+                print("Localization ", updateResults.localization)
+                print("Model ", updateResults.model)
+                print("UpdateType ", updateResults.updateType)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
 }
 
