@@ -25,6 +25,7 @@ struct MainTabView: View {
     )}
     
     var body: some View {
+        // MARK: If app is loading
         if dataManager.isAppLoading {
             HStack {
                 Spacer()
@@ -36,6 +37,7 @@ struct MainTabView: View {
                 Spacer()
             }
         }
+        // MARK: If app is loaded
         else {
             TabView(selection: handler) {
                 // MARK: FeedView
