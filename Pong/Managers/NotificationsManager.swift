@@ -36,7 +36,7 @@ class NotificationsManager: ObservableObject {
     @Published var notificationsPreference: Bool = false {
         didSet {
             defaults.set(notificationsPreference, forKey: "notificationsPreference")
-            NetworkManager.networkManager.request(route: "notifications/settingshandler/", method: .post, body: Settings.Request(enabled: notificationsPreference), successType: Settings.Success.self) { success, error in
+            NetworkManager.networkManager.request(route: "notifications/settings/", method: .post, body: Settings.Request(enabled: notificationsPreference), successType: Settings.Success.self) { success, error in
                 if success != nil {
                     print("success")
                     self.defaults.set(self.notificationsPreference, forKey: "notificationsPreference")

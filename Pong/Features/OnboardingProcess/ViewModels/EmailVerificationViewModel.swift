@@ -10,6 +10,7 @@ class EmailVerificationViewModel: ObservableObject {
     @Published var loginErrorMessage: String = "error"
 
     // MARK: Google OAuth2.0
+    // company
     let signInConfig = GIDConfiguration(clientID: "43678979560-6ah9oj1h0cvvd5is4al3lmkmdmd1tdqd.apps.googleusercontent.com")
 
     func signinWithGoogle() {
@@ -38,7 +39,6 @@ class EmailVerificationViewModel: ObservableObject {
     
     
     // MARK: Microsoft MSAL
-    
     func signInWithMicrosoft() {
         let scenes = UIApplication.shared.connectedScenes
         let windowScene = scenes.first as? UIWindowScene
@@ -58,21 +58,11 @@ class EmailVerificationViewModel: ObservableObject {
             interactiveParameters.promptType = MSALPromptType.login
             
             application.acquireToken(with: interactiveParameters) { (result, error) in
-                print("DEBUG: COMPLETION")
                 
                 guard let result = result else {
-                    print("error \(error?.localizedDescription)")
+                    print("error \(String(describing: error?.localizedDescription))")
                     return
                 }
-                
-//                email
-//                if let account = result.account.username {
-//                    print("logging \(account)")
-//                    print("logging \(result.account.description)")
-//                    UIApplication.shared.windows.first {
-//                        $0.isKeyWindow
-//                    }!.rootViewController = UIHostingController(rootView: ContentView())
-//                }
                 
                 if let account = result.account.username {
                     self.verifyEmail(idToken: account, loginType: "microsoft")

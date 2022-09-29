@@ -47,7 +47,7 @@ struct SettingsView: View {
                         }
                     }
                     .sheet(isPresented: $shareSheet) {
-                        let url = URL(string: "https://www.pong.college/")
+                        let url = URL(string: "https://www.pong.blog/")
                         ShareSheet(items: [url ?? []])
                     }
                 }

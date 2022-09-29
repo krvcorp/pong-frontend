@@ -56,7 +56,7 @@ struct EmailVerificationView: View {
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 32, height: 32)
                         .padding(8)
-                    Text("College Email")
+                    Text("Microsoft Email")
                         .fontWeight(.semibold)
                         .foregroundColor(.poshDarkPurple)
                         .padding([.leading], -6)

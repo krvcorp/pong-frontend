@@ -8,7 +8,7 @@ Main is the branch that is currently in production on the app store. The current
 Development is the branch where all work and changes will be pushed into before a final push into the prod version. Major changes SHOULD NOT go onto development unless they are changes that we want to push onto prod soon.
 
 ### Feature Branches
-If major features are being worked on (marketplace for example), you should create a seperate branch to work on it.
+If major features are being worked on (marketplace for example), you should create a separate branch to work on it.
 
 
 ## Notifications
