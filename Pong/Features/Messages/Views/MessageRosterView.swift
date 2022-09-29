@@ -94,7 +94,6 @@ struct MessageRosterView: View {
             }
             .navigationTitle("Messages")
             .searchable(text: $searchText)
-            
             .onReceive(messageRosterVM.timer) { _ in
                 if messageRosterVM.timePassed % 5 != 0 {
                     messageRosterVM.timePassed += 1

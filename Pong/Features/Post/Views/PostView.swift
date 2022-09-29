@@ -10,6 +10,7 @@ struct PostView: View {
     
     @Binding var post : Post
     @StateObject var postVM = PostViewModel()
+    @ObservedObject private var notificationsManager = NotificationsManager.notificationsManager
     
     @State private var text = ""
     @State var sheet = false
@@ -70,7 +71,7 @@ struct PostView: View {
                         self.presentationMode.wrappedValue.dismiss()
                         
                         // THIS IS IF DELETED
-//                        dataManager.removePostLocally(post: post, message: "Post doesn't exist!")
+                        dataManager.removePostLocally(post: post, message: "Post doesn't exist!")
                     }
                 }
                 
@@ -162,13 +163,38 @@ struct PostView: View {
                     },
                     secondaryButton: .cancel()
                 )
+            case .pushNotifications:
+                return Alert(
+                    title: Text("Notifications Setup"),
+                    message: Text("Enable push notifications? You can always change this later in settings."),
+                    primaryButton: .destructive(
+                        Text("Don't Enable"),
+                        action: NotificationsManager.notificationsManager.dontEnableNotifs
+                    ),
+                    secondaryButton: .default(
+                        Text("Enable"),
+                        action: NotificationsManager.notificationsManager.registerForNotifications
+                    )
+                )
             }
-
-            
         }
         .toast(isPresenting: $dataManager.removedComment) {
             AlertToast(displayMode: .banner(.slide), type: .regular, title: dataManager.removedCommentMessage)
         }
+//        .alert(isPresented: $notificationsManager.pushNotification) {
+//            Alert(
+//                title: Text("Notifications Setup"),
+//                message: Text("Enable push notifications? You can always change this later in settings."),
+//                primaryButton: .destructive(
+//                    Text("Don't Enable"),
+//                    action: NotificationsManager.notificationsManager.dontEnableNotifs
+//                ),
+//                secondaryButton: .default(
+//                    Text("Enable"),
+//                    action: NotificationsManager.notificationsManager.registerForNotifications
+//                )
+//            )
+//        }
     }
     
     var mainPost: some View {
@@ -425,9 +451,9 @@ struct PostView: View {
                     Button {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         if postVM.replyToComment == defaultComment {
-                            postVM.createComment(comment: text, dataManager: dataManager)
+                            postVM.createComment(comment: text, dataManager: dataManager, notificationsManager: notificationsManager)
                         } else {
-                            postVM.commentReply(comment: text, dataManager: dataManager)
+                            postVM.commentReply(comment: text, dataManager: dataManager, notificationsManager: notificationsManager)
                             postVM.replyToComment = defaultComment
                         }
                         text = ""
@@ -437,7 +463,6 @@ struct PostView: View {
                         }
                     } label: {
                         ZStack {
-//                            LinearGradient(gradient: Gradient(colors: [SchoolManager.shared.schoolPrimaryColor(), Color.black]), startPoint: .topTrailing, endPoint: .bottomLeading)
                             Image(systemName: "paperplane")
                                 .imageScale(.small)
                                 .foregroundColor(Color(UIColor.label))

@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 enum PostViewActiveAlert {
-    case postDelete, postReport, postBlock, commentDelete, commentReport, commentBlock
+    case postDelete, postReport, postBlock, commentDelete, commentReport, commentBlock, pushNotifications
 }
 
 class PostViewModel: ObservableObject {
@@ -77,13 +77,17 @@ class PostViewModel: ObservableObject {
         }
     }
     
-    func createComment(comment: String, dataManager: DataManager) -> Void {
+    func createComment(comment: String, dataManager: DataManager, notificationsManager: NotificationsManager) -> Void {
         let parameters = CommentCreateModel.Request(postId: self.post.id, comment: comment)
         
         NetworkManager.networkManager.request(route: "comments/", method: .post, body: parameters, successType: Comment.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
                     withAnimation {
+                        if !notificationsManager.hasEnabledNotificationsOnce {
+                            self.activeAlert = .pushNotifications
+                            self.showConfirmation = true
+                        }
                         self.comments.append(successResponse)
                         self.post.numComments = self.post.numComments + 1
                         self.commentUpdateTrigger.toggle()
@@ -94,13 +98,17 @@ class PostViewModel: ObservableObject {
         }
     }
     
-    func commentReply(comment: String, dataManager: DataManager) -> Void {
+    func commentReply(comment: String, dataManager: DataManager, notificationsManager: NotificationsManager) -> Void {
         let parameters = CommentReplyModel.Request(postId: post.id, replyingId: replyToComment.id, comment: comment)
         
         NetworkManager.networkManager.request(route: "comments/", method: .post, body: parameters, successType: Comment.self) { successResponse, errorResponse in
             // MARK: Success
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
+                    if !notificationsManager.hasEnabledNotificationsOnce {
+                        self.activeAlert = .pushNotifications
+                        self.showConfirmation = true
+                    }
                     for (index, comment) in self.comments.enumerated() {
                         if successResponse.parent == comment.id {
                             withAnimation {

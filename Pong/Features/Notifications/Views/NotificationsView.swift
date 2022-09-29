@@ -7,70 +7,16 @@ struct NotificationsView: View {
     @State private var searchText = ""
     @State private var showAlert = false
     @State var isLinkActive = false
-//    @Environment(\.colorScheme) var colorScheme
     
     @State var post = defaultPost
     
     @ViewBuilder
     var body: some View {
         LoadingView(isShowing: .constant(false)) {
-//            NavigationView {
                 VStack {
                     NavigationLink(destination: PostView(post: $post), isActive: $isLinkActive) { EmptyView() }
                     
                     List {
-                        Section() {
-                            if searchText.isEmpty && !notificationsManager.hasEnabledNotificationsOnce {
-                                Button(action: {
-                                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                                    showAlert = true
-                                }) {
-                                    HStack {
-                                        ZStack {
-                                            LinearGradient(gradient: Gradient(colors: [Color.viewEventsGradient1, Color.viewEventsGradient2]), startPoint: .topTrailing, endPoint: .bottomLeading)
-                                            Image(systemName: "bell")
-                                                .imageScale(.small)
-                                                .foregroundColor(.white)
-                                                .font(.largeTitle)
-                                        }
-                                        .frame(width: 40, height: 40, alignment: .center)
-                                        .cornerRadius(10)
-                                        .padding(.trailing, 4)
-                                        VStack (alignment: .leading, spacing: 6) {
-                                            Text("Enable Notifications").foregroundColor(Color(uiColor: UIColor.label)).bold().lineLimit(1)
-                                            HStack {
-                                                Text("Never miss a message.").lineLimit(1).foregroundColor(.gray)
-                                                Spacer()
-                                            }
-                                        }
-                                        Spacer()
-                                        ZStack {
-                                            Circle()
-                                                .fill(Color(UIColor.secondarySystemFill))
-                                            Image(systemName: "hand.tap")
-                                                .font(Font.body.weight(.bold))
-                                                .foregroundColor(.gray)
-                                        }
-                                        .frame(width: 40, height: 40)
-
-                                    }.padding(.vertical, 10)
-                                    .alert(isPresented: $showAlert) {
-                                        Alert(
-                                            title: Text("Notifications Setup"),
-                                            message: Text("Enable push notifications? You can always change this later in settings."),
-                                            primaryButton: .destructive(
-                                                Text("Don't Enable"),
-                                                action: dontEnableNotifs
-                                            ),
-                                            secondaryButton: .default(
-                                                Text("Enable"),
-                                                action: notificationsManager.registerForNotifications
-                                            )
-                                        )
-                                    }
-                                }
-                            }
-                        }
                         Section(header: Text("Recent Notifications")) {
                             ForEach(notificationsVM.notificationHistory.filter { searchText.isEmpty || $0.notification.body.localizedStandardContains(searchText)}) { notificationModel in
                                 if notificationModel.data.type == .upvote || notificationModel.data.type == .comment || notificationModel.data.type == .hot || notificationModel.data.type == .top || notificationModel.data.type == .reply {
@@ -119,11 +65,6 @@ struct NotificationsView: View {
                 .accentColor(Color(UIColor.label))
                 .searchable(text: $searchText)
                 .navigationViewStyle(StackNavigationViewStyle())
-                
-//            }
-//            .accentColor(Color(UIColor.label))
-//            .searchable(text: $searchText)
-//            .navigationViewStyle(StackNavigationViewStyle())
         }
     }
     
@@ -190,10 +131,6 @@ struct NotificationsView: View {
         default:
             return (.viewEventsGradient2, .viewEventsGradient1)
         }
-    }
-    
-    func dontEnableNotifs() {
-        
     }
 }
 

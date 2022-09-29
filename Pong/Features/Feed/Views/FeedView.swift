@@ -8,6 +8,7 @@ struct FeedView: View {
     @EnvironmentObject var dataManager : DataManager
     @Environment(\.presentationMode) var presentationMode
     @StateObject var feedVM = FeedViewModel()
+    @ObservedObject private var notificationsManager = NotificationsManager.notificationsManager
     @Binding var showMenu : Bool
     
     var body: some View {
@@ -62,12 +63,27 @@ struct FeedView: View {
                 self.presentationMode.wrappedValue.dismiss()
                 feedVM.selectedFeedFilter = .recent
                 feedVM.paginatePostsReset(selectedFeedFilter: .recent, dataManager: dataManager)
+                notificationsManager.triggerNotification()
             }
         })
         .navigationViewStyle(StackNavigationViewStyle())
         .accentColor(Color(UIColor.label))
         .toast(isPresenting: $dataManager.removedPost){
             AlertToast(displayMode: .hud, type: .regular, title: dataManager.removedPostMessage)
+        }
+        .alert(isPresented: $notificationsManager.pushNotification) {
+            Alert(
+                title: Text("Notifications Setup"),
+                message: Text("Enable push notifications? You can always change this later in settings."),
+                primaryButton: .destructive(
+                    Text("Don't Enable"),
+                    action: NotificationsManager.notificationsManager.dontEnableNotifs
+                ),
+                secondaryButton: .default(
+                    Text("Enable"),
+                    action: NotificationsManager.notificationsManager.registerForNotifications
+                )
+            )
         }
     }
     

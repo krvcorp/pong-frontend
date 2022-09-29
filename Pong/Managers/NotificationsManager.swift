@@ -5,6 +5,9 @@ import SwiftUI
 class NotificationsManager: ObservableObject {
     
     static let notificationsManager = NotificationsManager()
+    
+    @Published var pushNotification : Bool = false
+    
     let defaults = UserDefaults.standard
     
     struct Registration {
@@ -15,6 +18,12 @@ class NotificationsManager: ObservableObject {
     struct Settings {
         struct Request: Encodable { let enabled: Bool }
         struct Success: Decodable {}
+    }
+    
+    func triggerNotification() {
+        if !self.hasEnabledNotificationsOnce {
+            pushNotification = true
+        }
     }
     
     func registerForNotifications() {
@@ -33,10 +42,15 @@ class NotificationsManager: ObservableObject {
         }
     }
     
+    func dontEnableNotifs() {
+        print("DEBUG DONT ENABLE NOTIFICATIONS")
+        defaults.set(false, forKey: "notificationsPreference")
+    }
+    
     @Published var notificationsPreference: Bool = false {
         didSet {
             defaults.set(notificationsPreference, forKey: "notificationsPreference")
-            NetworkManager.networkManager.request(route: "notifications/settings/", method: .post, body: Settings.Request(enabled: notificationsPreference), successType: Settings.Success.self) { success, error in
+            NetworkManager.networkManager.request(route: "notifications/settingshandler/", method: .post, body: Settings.Request(enabled: notificationsPreference), successType: Settings.Success.self) { success, error in
                 if success != nil {
                     print("success")
                     self.defaults.set(self.notificationsPreference, forKey: "notificationsPreference")

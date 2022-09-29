@@ -1073,8 +1073,8 @@
 		6A78FA5A28A1A81200B75CC6 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				D3FF841728BC6C4B003C8B06 /* ImageShare.swift */,
 				6A449C332896F4320015826A /* Extensions.swift */,
+				D3FF841728BC6C4B003C8B06 /* ImageShare.swift */,
 				289CC871289C68D8009C1DCE /* LoadingView.swift */,
 				6A78FA5B28A1A82C00B75CC6 /* DAKeychain.swift */,
 				6A09D64628A59E9A005E5C23 /* ImagePicker.swift */,

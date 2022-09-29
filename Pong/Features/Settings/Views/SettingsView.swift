@@ -148,13 +148,13 @@ struct SettingsView: View {
                 }) {
                     Text("Copy User ID").foregroundColor(.pink)
                 }
-                Button(action: {
-                    let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-                    UNUserNotificationCenter.current().requestAuthorization(options: authOptions) { _, _ in }
-                    UIApplication.shared.registerForRemoteNotifications()
-                }) {
-                    Text("Register for APNS").foregroundColor(.blue)
+                
+                Button {
+                    settingsVM.resetDefaults()
+                } label: {
+                    Text("Reset User Defaults").foregroundColor(.pink)
                 }
+                
                 Button(action: {
                     Messaging.messaging().token { token, error in
                       if let error = error {
@@ -184,6 +184,7 @@ struct SettingsView: View {
                         Text("Debug")
                             .foregroundColor(.gray)
                 }
+                
                 Button(action: {
                     UIPasteboard.general.setValue(DAKeychain.shared["userId"] ?? "Invalid",
                                 forPasteboardType: UTType.plainText.identifier)
@@ -195,6 +196,7 @@ struct SettingsView: View {
                             .foregroundColor(.gray)
                     }
                 }
+                
                 Button(action: {
                     UIPasteboard.general.setValue(DAKeychain.shared["token"] ?? "Invalid",
                                 forPasteboardType: UTType.plainText.identifier)
