@@ -6,10 +6,17 @@ struct SettingsView: View {
     @StateObject private var settingsVM = SettingsViewModel()
     @State private var shareSheet = false
     @ObservedObject private var notificationsManager = NotificationsManager.notificationsManager
+    @Environment(\.colorScheme) var colorScheme: ColorScheme
     
     var body: some View {
         List {
-            CustomListDivider()
+            Rectangle()
+                .fill(Color("pongSystemBackground"))
+                .frame(maxHeight: 1)
+                .listRowBackground(Color("pongSystemBackground").edgesIgnoringSafeArea([.leading, .trailing]))
+                .listRowSeparator(.hidden)
+                .padding(0)
+            
             Section() {
                 
                 // MARK: Referrals View
@@ -82,9 +89,10 @@ struct SettingsView: View {
                 .frame(minHeight: 30)
 
             }
+            .listRowBackground(Color("pongSystemBackground"))
             .listRowSeparator(.hidden)
             
-            CustomListDivider()
+//            CustomListDivider()
 
             Section() {
                 // MARK: Dark Mode
@@ -160,6 +168,7 @@ struct SettingsView: View {
                 }
                 .frame(minHeight: 30)
             }
+            .listRowBackground(Color("pongSystemBackground"))
             .listRowSeparator(.hidden)
                     
             
@@ -173,11 +182,11 @@ struct SettingsView: View {
                         settingsVM.activeAlert = true
                     } label: {
                         Text("Logout")
-                            .frame(minWidth: 100, maxWidth: 150)
+                            .frame(minWidth: 75, maxWidth: 100)
                             .font(.system(size: 18).bold())
                             .padding()
                             .background(Color(UIColor.label))
-                            .foregroundColor(Color(UIColor.systemBackground))
+                            .foregroundColor(Color("pongSystemBackground"))
                             .overlay(
                                 RoundedRectangle(cornerRadius: 50)
                                     .stroke(Color(UIColor.label), lineWidth: 2)
@@ -191,15 +200,15 @@ struct SettingsView: View {
                 }
                 .padding(.top, 100)
             }
-            .listRowBackground(Color(UIColor.clear))
+            .listRowBackground(Color("pongSystemBackground"))
             .listRowSeparator(.hidden)
             
             Section {
                 VStack {
-                    Text("Copyright © 2022 KRV Corp.")
+                    Text("Joined \(DAKeychain.shared["dateJoined"] ?? "")")
                         .font(.system(Font.TextStyle.caption2, design: .rounded))
                         .frame(maxWidth: .infinity, alignment: .center)
-                    Text("Joined \(DAKeychain.shared["dateJoined"] ?? "")")
+                    Text("© 2022 KRV Corp.")
                         .font(.system(Font.TextStyle.caption2, design: .rounded))
                         .frame(maxWidth: .infinity, alignment: .center)
                     Text("Version \(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String)")
@@ -208,11 +217,11 @@ struct SettingsView: View {
                 }
                 .foregroundColor(Color.gray)
             }
-            .listRowBackground(Color(UIColor.clear))
+            .listRowBackground(Color("pongSystemBackground"))
             .listRowSeparator(.hidden)
         }
         .environment(\.defaultMinListRowHeight, 0)
-        .background(Color(UIColor.secondarySystemBackground))
+        .background(Color("pongSystemBackground"))
         .listStyle(PlainListStyle())
         .frame(maxWidth: .infinity)
         .navigationTitle("Settings")
