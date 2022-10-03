@@ -1,5 +1,5 @@
 //
-//  NewMarketplaceItem.swift
+//  NewMarketplaceItemView.swift
 //  Pong
 //
 //  Created by Khoi Nguyen on 9/25/22.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct NewMarketplaceItem: View {
+struct NewMarketplaceItemView: View {
     @Environment(\.presentationMode) var presentationMode
     @StateObject var newMarketplaceItemVM = NewMarketplaceItemViewModel()
     
@@ -101,25 +101,15 @@ struct NewMarketplaceItem: View {
                     Spacer()
                 }
                 VStack {
-                    TextArea("Title *", text: $newMarketplaceItemVM.title)
-                        .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color(UIColor.systemGray), lineWidth: 2))
-                        .padding(2)
-                    
-                    HStack {
-                        TextArea("Price *", text: $newMarketplaceItemVM.price)
-                            .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color(UIColor.systemGray), lineWidth: 2))
-                            .padding(2)
-                        
-                        TextArea("Size", text: $newMarketplaceItemVM.size)
-                            .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color(UIColor.systemGray), lineWidth: 2))
-                            .padding(2)
-                    }
-                    
-                    TextArea("Brand", text: $newMarketplaceItemVM.brand)
+                    TextArea("Title *", text: $newMarketplaceItemVM.name)
                         .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color(UIColor.systemGray), lineWidth: 2))
                         .padding(2)
                     
                     TextArea("Description", text: $newMarketplaceItemVM.description)
+                        .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color(UIColor.systemGray), lineWidth: 2))
+                        .padding(2)
+                    
+                    TextArea("Price *", text: $newMarketplaceItemVM.price)
                         .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color(UIColor.systemGray), lineWidth: 2))
                         .padding(2)
                     
@@ -130,11 +120,5 @@ struct NewMarketplaceItem: View {
             }
             .padding()
         }
-    }
-}
-
-struct NewMarketplaceItem_Previews: PreviewProvider {
-    static var previews: some View {
-        NewMarketplaceItem()
     }
 }

@@ -12,7 +12,6 @@ struct MessageRosterView: View {
     @State private var showAlert = false
     @StateObject var messageRosterVM = MessageRosterViewModel()
     @EnvironmentObject var dataManager : DataManager
-    @EnvironmentObject var mainTabVM : MainTabViewModel
     
     var body: some View {
         LoadingView(isShowing: .constant(false)) {
@@ -20,64 +19,93 @@ struct MessageRosterView: View {
                 // MARK: Messages
                 Section(header: Text("Messages")) {
                     ForEach($dataManager.conversations.filter { searchText.isEmpty || $0.re.wrappedValue.contains(searchText)}, id: \.id) { $conversation in
-                        if conversation.id == mainTabVM.openConversation.id {
-                            NavigationLink(destination: MessageView(conversation: $conversation), isActive: $mainTabVM.openConversationDetected) {
+                        NavigationLink(destination: MessageView(conversation: $conversation)) {
+                            if conversation.read {
+                                // if read
                                 HStack {
                                     VStack (alignment: .leading, spacing: 6) {
-                                        if conversation.re == "" {
-                                            Text("Untitled Post").bold().lineLimit(1)
-                                        } else {
-                                            Text(conversation.re).bold().lineLimit(1)
+                                        HStack {
+                                            if conversation.re == "" {
+                                                Text("Untitled Post")
+                                                    .font(.subheadline)
+                                                    .lineLimit(1)
+                                            } else {
+                                                Text(conversation.re)
+                                                    .font(.subheadline)
+                                                    .lineLimit(1)
+                                            }
+                                            
+                                            Spacer()
+                                            
+                                            if conversation.messages != [] {
+                                                Text(messageRosterVM.stringToDateToString(dateString: conversation.messages.last!.createdAt))
+                                                    .font(.subheadline)
+                                                    .foregroundColor(Color(UIColor.label))
+                                                    .lineLimit(1)
+                                                    
+                                            }
                                         }
+
                                         
                                         if conversation.messages != [] {
                                             HStack {
-                                                Text(conversation.messages.last!.message).lineLimit(1).foregroundColor(.gray)
+                                                Text(conversation.messages.last!.message)
+                                                    .font(.subheadline)
+                                                    .lineLimit(1)
+                                                    .foregroundColor(.gray)
+                                                
                                                 Spacer()
-                                                ZStack {
-                                                    if !conversation.read {
-                                                        LinearGradient(gradient: Gradient(colors: [Color.viewEventsGradient1, Color.viewEventsGradient2]), startPoint: .bottomLeading, endPoint: .topTrailing)
-                                                    } else {
-                                                        Color(UIColor.secondarySystemFill)
-                                                    }
-                                                    
-                                                    Text(messageRosterVM.stringToDateToString(dateString: conversation.messages.last!.createdAt))
-                                                        .foregroundColor(conversation.read ? .white : .gray).bold().lineLimit(1)
-                                                        .font(.caption)
-                                                    
-                                                }
-                                                .cornerRadius(6)
-                                                .frame(width: 75)
+                                                
+                                                Circle()
+                                                    .fill(.clear)
+                                                    .frame(width: 7, height: 7)
                                             }
                                         }
                                     }
                                 }
                                 .padding(.vertical, 10)
-                            }
-                            
-                        } else {
-                            NavigationLink(destination: MessageView(conversation: $conversation)) {
+                            } else {
+                                // if unread
                                 HStack {
                                     VStack (alignment: .leading, spacing: 6) {
-                                        Text(conversation.re).bold().lineLimit(1)
+                                        HStack {
+                                            if conversation.re == "" {
+                                                Text("Untitled Post")
+                                                    .font(.subheadline)
+                                                    .bold()
+                                                    .lineLimit(1)
+                                            } else {
+                                                Text(conversation.re)
+                                                    .font(.subheadline)
+                                                    .bold()
+                                                    .lineLimit(1)
+                                            }
+                                            
+                                            Spacer()
+                                            
+                                            if conversation.messages != [] {
+                                                Text(messageRosterVM.stringToDateToString(dateString: conversation.messages.last!.createdAt))
+                                                    .font(.subheadline)
+                                                    .bold()
+                                                    .foregroundColor(Color(UIColor.label))
+                                                    .lineLimit(1)
+
+                                            }
+                                        }
                                         if conversation.messages != [] {
                                             HStack {
-                                                Text(conversation.messages.last!.message).lineLimit(1).foregroundColor(.gray)
+                                                Text(conversation.messages.last!.message)
+                                                    .font(.subheadline)
+                                                    .bold()
+                                                    .foregroundColor(Color(UIColor.label))
+                                                    .lineLimit(1)
+                                                    .foregroundColor(.gray)
+
                                                 Spacer()
-                                                ZStack {
-                                                    if !conversation.read {
-                                                        LinearGradient(gradient: Gradient(colors: [Color.viewEventsGradient1, Color.viewEventsGradient2]), startPoint: .bottomLeading, endPoint: .topTrailing)
-                                                    } else {
-                                                        Color(UIColor.secondarySystemFill)
-                                                    }
-                                                    
-                                                    Text(messageRosterVM.stringToDateToString(dateString: conversation.messages.last!.createdAt))
-                                                        .foregroundColor(conversation.read ? .white : .gray).bold().lineLimit(1)
-                                                        .font(.caption)
-                                                    
-                                                }
-                                                .cornerRadius(6)
-                                                .frame(width: 75)
+                                                
+                                                Circle()
+                                                    .fill(Color(UIColor.systemBlue))
+                                                    .frame(width: 7, height: 7)
                                             }
                                         }
                                     }

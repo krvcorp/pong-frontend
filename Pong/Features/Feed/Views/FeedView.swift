@@ -29,7 +29,6 @@ struct FeedView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
-                        print("DEBUG: Show Menu")
                         withAnimation {
                             showMenu.toggle()
                         }
@@ -50,7 +49,16 @@ struct FeedView: View {
                         }
                         
                         NavigationLink(destination: MessageRosterView(), isActive: $mainTabVM.openConversationsDetected) {
-                            Image(systemName: "paperplane")
+                            if let index = dataManager.conversations.firstIndex(where: {$0.read}) {
+                                ZStack(alignment: .bottomTrailing) {
+                                    Image(systemName: "paperplane")
+                                    Circle()
+                                        .fill(.red)
+                                        .frame(width: 7, height: 7)
+                                }
+                            } else {
+                                Image(systemName: "paperplane")
+                            }
                         }
                     }
                 }

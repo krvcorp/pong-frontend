@@ -13,7 +13,6 @@ struct MessageView: View {
     @Binding var conversation: Conversation
     @StateObject var messageVM : MessageViewModel = MessageViewModel()
     @Environment(\.presentationMode) var presentationMode
-//    @ObservedObject var messageRosterVM : MessageRosterViewModel
 
     var body: some View {
         // MARK: MessagesView can only take messages that conform to MesssageKit API

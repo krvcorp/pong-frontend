@@ -15,18 +15,18 @@ struct MarketplaceItemView: View {
         ScrollView {
             VStack{
                 // MARK: Image
-                if let imageUrl = marketplaceItem.image {
-                    KFImage(URL(string: "\(imageUrl)")!)
-                        .resizable()
-                        .scaledToFit()
-                        .aspectRatio(contentMode: .fill)
-                        .layoutPriority(-1)
-                        .cornerRadius(10)
-                }
+//                if let imageUrl = marketplaceItem.image {
+//                    KFImage(URL(string: "\(imageUrl)")!)
+//                        .resizable()
+//                        .scaledToFit()
+//                        .aspectRatio(contentMode: .fill)
+//                        .layoutPriority(-1)
+//                        .cornerRadius(10)
+//                }
                 
                 VStack {
                     HStack {
-                        Text("\(marketplaceItem.title)")
+                        Text("\(marketplaceItem.name)")
                             .font(.title2.bold())
                         
                         Spacer()
@@ -96,7 +96,7 @@ struct MarketplaceItemView: View {
             }
             .padding()
             .navigationBarTitleDisplayMode(.inline)
-            .navigationTitle("\(marketplaceItem.title)")
+            .navigationTitle("\(marketplaceItem.name)")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Image(systemName: "share")
