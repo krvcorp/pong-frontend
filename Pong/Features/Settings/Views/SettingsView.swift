@@ -145,11 +145,6 @@ struct SettingsView: View {
                                     .bold()
                                 Spacer()
                             }
-                            HStack {
-                                Text("Coming soon: select only certain notifications!")
-                                    .font(.caption)
-                                Spacer()
-                            }
                         }
                     }
                 })
