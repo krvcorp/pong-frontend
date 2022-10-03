@@ -9,16 +9,36 @@ struct SettingsView: View {
     
     var body: some View {
         List {
-            Section(header: Text("The Fun Stuff")) {
+            CustomListDivider()
+            Section() {
+                
+                // MARK: Referrals View
+                NavigationLink(destination: ReferralsView()){
+                    HStack {
+                        Image(systemName: "dollarsign.circle").font(Font.body.weight(.bold))
+                            .frame(width: 20)
+                        Text("Referrals")
+                            .bold()
+                        Spacer()
+                    }
+                }
+                .frame(minHeight: 30)
+                
                 // MARK: Admin Feed View
                 if (AuthManager.authManager.isAdmin) {
                     NavigationLink(destination: AdminFeedView()){
                         HStack {
+                            Image(systemName: "flag").font(Font.body.weight(.bold))
+                                .frame(width: 20)
                             Text("Admin Feed View").foregroundColor(Color(uiColor: UIColor.label))
+                                .bold()
                             Spacer()
+                            
                         }
                     }
+                    .frame(minHeight: 30)
                 }
+                
                 
                 // MARK: Contact Us
                 HStack {
@@ -27,39 +47,86 @@ struct SettingsView: View {
                         EmailController().sendEmail()
                     } label: {
                         HStack{
+                            Image(systemName: "envelope").font(Font.body.weight(.bold))
+                                .frame(width: 20)
                             Text("Contact Us")
+                                .bold()
                             Spacer()
-                            Image(systemName: "envelope")
                         }
                     }
                 }
+                .frame(minHeight: 30)
                 
-                // MARK: Share Pong
+                // MARK: Privacy Policy
+                HStack() {
+                    Image(systemName: "lock.shield").font(Font.body.weight(.bold))
+                        .frame(width: 20)
+                    Link(destination: URL(string: "https://www.pong.blog/legal")!, label: {
+                        Text("Privacy Policy")
+                            .bold()
+                    })
+                    Spacer()
+                }
+                .frame(minHeight: 30)
+                
+                // MARK: Terms of SERVICE
+                HStack() {
+                    Image(systemName: "newspaper").font(Font.body.weight(.bold))
+                        .frame(width: 20)
+                    Link(destination: URL(string: "https://www.pong.blog/legal")!, label: {
+                        Text("Terms of Service")
+                            .bold()
+                    })
+                    Spacer()
+                }
+                .frame(minHeight: 30)
+
+            }
+            .listRowSeparator(.hidden)
+            
+            CustomListDivider()
+
+            Section() {
+                // MARK: Dark Mode
                 HStack {
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        shareSheet.toggle()
-                    } label: {
-                        HStack{
-                            Text("Share Pong")
-                            Spacer()
-                            Image(systemName: "square.and.arrow.up")
+                    Image(systemName: "moon").font(Font.body.weight(.bold))
+                        .frame(width: 20)
+                    Text("Dark Mode")
+                        .bold()
+                    Spacer()
+                    Picker("Display Mode", selection: $settingsVM.displayMode) {
+                        Text("Auto").tag(DisplayMode.system)
+                        Text("On").tag(DisplayMode.dark)
+                        Text("Off").tag(DisplayMode.light)
+                    }
+                    .frame(maxWidth: 200)
+                    .pickerStyle(.segmented)
+                    .onChange(of: settingsVM.displayMode) { newValue in
+                        settingsVM.displayMode.setAppDisplayMode()
+                    }
+                }
+                .frame(minHeight: 30)
+                
+                // MARK: Notifications
+                Toggle(isOn: $notificationsManager.notificationsPreference, label: {
+                    HStack {
+                        Image(systemName: "bell").font(Font.body.weight(.bold))
+                            .frame(width: 20)
+                        VStack {
+                            HStack {
+                                Text("Notifications")
+                                    .bold()
+                                Spacer()
+                            }
+                            HStack {
+                                Text("Coming soon: select only certain notifications!")
+                                    .font(.caption)
+                                Spacer()
+                            }
                         }
                     }
-                    .sheet(isPresented: $shareSheet) {
-                        let url = URL(string: "https://www.pong.blog/")
-                        ShareSheet(items: [url ?? []])
-                    }
-                }
-                
-                // MARK: Referrals View
-                NavigationLink(destination: ReferralsView()){
-                    HStack {
-                        Text("Referrals")
-                        Spacer()
-                        Image(systemName: "figure.stand.line.dotted.figure.stand")
-                    }
-                }
+                })
+                .frame(minHeight: 30)
                 
                 // MARK: Unblock All
                 Button {
@@ -68,45 +135,14 @@ struct SettingsView: View {
                     settingsVM.activeAlert = true
                 } label: {
                     HStack {
-                        Text("Unblock All Users").foregroundColor(.red).bold()
+                        Image(systemName: "eye.slash").font(Font.body.weight(.bold))
+                            .frame(width: 20)
+                        Text("Unblock All Users")
+                            .bold()
                         Spacer()
-                        Image(systemName: "eye.slash.fill").foregroundColor(.red).font(Font.body.weight(.bold))
                     }
                 }
-            }.modifier(ProminentHeaderModifier())
-            
-            // MARK: Preferences Section
-            Section(header: Text("You Pick")) {
-                // MARK: Dark Mode
-                HStack(spacing: 0) {
-                    Text("Dark Mode")
-                    Spacer(minLength: 20)
-                    Picker("Display Mode", selection: $settingsVM.displayMode) {
-                        Text("Auto").tag(DisplayMode.system)
-                        Text("On").tag(DisplayMode.dark)
-                        Text("Off").tag(DisplayMode.light)
-                    }
-                    .pickerStyle(.segmented)
-                    .onChange(of: settingsVM.displayMode) { newValue in
-                        settingsVM.displayMode.setAppDisplayMode()
-                    }
-                }
-                
-                // MARK: Notifications
-                Toggle("Notifications", isOn: $notificationsManager.notificationsPreference)
-                
-                // MARK: Logout
-                Button {
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    settingsVM.activeAlertType = .signOut
-                    settingsVM.activeAlert = true
-                } label: {
-                    HStack {
-                        Text("Logout").foregroundColor(.red)
-                        Spacer()
-                        Image(systemName: "arrow.uturn.left").foregroundColor(.red)
-                    }
-                }
+                .frame(minHeight: 30)
                 
                 // MARK: Delete Account
                 Button {
@@ -115,101 +151,48 @@ struct SettingsView: View {
                     settingsVM.activeAlert = true
                 } label: {
                     HStack {
-                        Text("Delete Account").foregroundColor(.red).bold()
-                        Spacer()
                         Image(systemName: "trash").foregroundColor(.red).font(Font.body.weight(.bold))
-                    }
-                }
-            }.modifier(ProminentHeaderModifier())
-            
-            // MARK: Legal
-            Section(header: Text("The Boring Stuff")) {
-                // MARK: Privacy Policy
-                HStack() {
-                    Link("Privacy Policy", destination: URL(string: "https://www.pong.blog/legal")!)
-                    Spacer()
-                    Image(systemName: "person.fill.questionmark")
-                }
-                
-                // MARK: Terms of SERVICE
-                HStack() {
-                    Link("Terms of Service", destination: URL(string: "https://www.pong.blog/legal")!)
-                    Spacer()
-                    Image(systemName: "newspaper")
-                }
-            
-            }.modifier(ProminentHeaderModifier())
-            
-            // MARK: Admin Debug Section
-            #if DEBUG
-            Section(header: Text("Debug")) {
-                Button(action: {
-                    UIPasteboard.general.string = DAKeychain.shared["userId"]
-                }) {
-                    Text("Copy User ID").foregroundColor(.pink)
-                }
-                
-                Button {
-                    settingsVM.resetDefaults()
-                } label: {
-                    Text("Reset User Defaults").foregroundColor(.pink)
-                }
-                
-                Button(action: {
-                    Messaging.messaging().token { token, error in
-                      if let error = error {
-                          UIPasteboard.general.string = "Error Fetching FCM Registration Token: \(error)"
-                      } else if let token = token {
-                          UIPasteboard.general.string = token
-                      }
-                    }
-                }) {
-                    Text("Copy FCM Token").foregroundColor(.blue)
-                }
-                HStack {
-                    Text("Version")
-                    Spacer()
-                    Text(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String)
-                        .foregroundColor(.gray)
-                }
-                HStack {
-                    Text("Build")
-                    Spacer()
-                    Text(Bundle.main.infoDictionary?["CFBundleVersion"] as! String)
-                        .foregroundColor(.gray)
-                }
-                HStack {
-                    Text("Environment")
-                    Spacer()
-                        Text("Debug")
-                            .foregroundColor(.gray)
-                }
-                
-                Button(action: {
-                    UIPasteboard.general.setValue(DAKeychain.shared["userId"] ?? "Invalid",
-                                forPasteboardType: UTType.plainText.identifier)
-                }) {
-                    HStack {
-                        Text("User ID").foregroundColor(Color(uiColor: UIColor.label))
+                            .frame(width: 20)
+                        Text("Delete Account").foregroundColor(.red)
+                            .bold()
                         Spacer()
-                        Text( DAKeychain.shared["userId"]?.prefix(16) ?? "Invalid")
-                            .foregroundColor(.gray)
                     }
                 }
-                
-                Button(action: {
-                    UIPasteboard.general.setValue(DAKeychain.shared["token"] ?? "Invalid",
-                                forPasteboardType: UTType.plainText.identifier)
-                }) {
-                    HStack {
-                        Text("Token").foregroundColor(Color(uiColor: UIColor.label))
-                        Spacer()
-                        Text( DAKeychain.shared["token"]?.prefix(16) ?? "Invalid")
-                            .foregroundColor(.gray)
+                .frame(minHeight: 30)
+            }
+            .listRowSeparator(.hidden)
+                    
+            
+
+            Section() {
+                HStack {
+                    Spacer()
+                    Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        settingsVM.activeAlertType = .signOut
+                        settingsVM.activeAlert = true
+                    } label: {
+                        Text("Logout")
+                            .frame(minWidth: 100, maxWidth: 150)
+                            .font(.system(size: 18).bold())
+                            .padding()
+                            .background(Color(UIColor.label))
+                            .foregroundColor(Color(UIColor.systemBackground))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 50)
+                                    .stroke(Color(UIColor.label), lineWidth: 2)
+                            )
                     }
+                    .background(Color(UIColor.label)) // If you have this
+                    .cornerRadius(50)         // You also need the cornerRadius here
+                    .padding(.bottom)
+                    .buttonStyle(PlainButtonStyle())
+                    Spacer()
                 }
-            }.modifier(ProminentHeaderModifier())
-        #endif
+                .padding(.top, 100)
+            }
+            .listRowBackground(Color(UIColor.clear))
+            .listRowSeparator(.hidden)
             
             Section {
                 VStack {
@@ -219,18 +202,23 @@ struct SettingsView: View {
                     Text("Joined \(DAKeychain.shared["dateJoined"] ?? "")")
                         .font(.system(Font.TextStyle.caption2, design: .rounded))
                         .frame(maxWidth: .infinity, alignment: .center)
-                        .foregroundColor(Color.gray)
+                    Text("Version \(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String)")
+                        .font(.system(Font.TextStyle.caption2, design: .rounded))
+                        .frame(maxWidth: .infinity, alignment: .center)
                 }
+                .foregroundColor(Color.gray)
             }
-            .listRowBackground(Color(UIColor.secondarySystemBackground))
+            .listRowBackground(Color(UIColor.clear))
             .listRowSeparator(.hidden)
         }
+        .environment(\.defaultMinListRowHeight, 0)
+        .background(Color(UIColor.secondarySystemBackground))
+        .listStyle(PlainListStyle())
+        .frame(maxWidth: .infinity)
         .navigationTitle("Settings")
-        .listStyle(InsetGroupedListStyle())
         .onAppear {
             UITableView.appearance().showsVerticalScrollIndicator = false
         }
-        .background(Color(UIColor.systemGroupedBackground))
         .alert(isPresented: $settingsVM.activeAlert) {
             switch settingsVM.activeAlertType {
             case .unblockAll:
@@ -248,11 +236,11 @@ struct SettingsView: View {
             case .signOut:
                 return Alert(
                     title: Text("Log Out"),
-                    message: Text("Are you sure you want to signout?"),
+                    message: Text("Are you sure you want to logout?"),
                     primaryButton: .default(
                         Text("Cancel")
                     ),
-                    secondaryButton: .destructive(Text("Log Out")){
+                    secondaryButton: .destructive(Text("Logout")){
                         AuthManager.authManager.signout()
                     }
                 )
@@ -264,7 +252,7 @@ struct SettingsView: View {
                     primaryButton: .default(
                         Text("Cancel")
                     ),
-                    secondaryButton: .destructive(Text("DELETE ACCOUNT").bold()){
+                    secondaryButton: .destructive(Text("Delete Account").bold()){
                         settingsVM.deleteAccount()
                     }
                 )
