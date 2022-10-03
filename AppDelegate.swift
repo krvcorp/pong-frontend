@@ -9,6 +9,7 @@ import FirebaseCore
 import UIKit
 import FirebaseMessaging
 import Siren
+import SwiftUI
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
@@ -19,14 +20,14 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         UserDefaults.standard.set(true, forKey: "Text Messages")
         
         // White non-transucent navigatio bar, supports dark appearance
-        if #available(iOS 15, *) {
-            let appearance = UINavigationBarAppearance()
-            appearance.configureWithOpaqueBackground()
-            UINavigationBar.appearance().standardAppearance = appearance
-            UINavigationBar.appearance().scrollEdgeAppearance = appearance
-        }
+//        if #available(iOS 15, *) {
+//            let appearance = UINavigationBarAppearance()
+//            appearance.configureWithOpaqueBackground()
+//            UINavigationBar.appearance().standardAppearance = appearance
+//            UINavigationBar.appearance().scrollEdgeAppearance = appearance
+//        }
         
-        UITabBar.appearance().backgroundColor = UIColor.systemBackground
+        UITabBar.appearance().backgroundColor = UIColor(Color("pongSystemBackground"))
         
         hyperCriticalRulesExample()
         

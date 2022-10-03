@@ -140,6 +140,7 @@
 		82CCCBBA28B0F99E00085E2D /* AdminPostBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CCCBB828B0F99E00085E2D /* AdminPostBubble.swift */; };
 		82CCCBBC28B0F9C700085E2D /* TimeoutModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CCCBBB28B0F9C700085E2D /* TimeoutModel.swift */; };
 		D303B88128E5DA3300B36775 /* Siren in Frameworks */ = {isa = PBXBuildFile; productRef = D303B88028E5DA3300B36775 /* Siren */; };
+		D32D0B3028EB8F9A00EF548E /* AccountActionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32D0B2F28EB8F9A00EF548E /* AccountActionsView.swift */; };
 		D339621828BC1A41003AC841 /* Onboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D339621728BC1A41003AC841 /* Onboard.swift */; };
 		D389D88728B94B0B00A41329 /* ProfileComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D389D88628B94B0B00A41329 /* ProfileComment.swift */; };
 		D389D88928BAA0AF00A41329 /* EmailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D389D88828BAA0AF00A41329 /* EmailController.swift */; };
@@ -277,6 +278,7 @@
 		82CCCBB628B0F99E00085E2D /* AdminPostBubbleViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdminPostBubbleViewModel.swift; sourceTree = "<group>"; };
 		82CCCBB828B0F99E00085E2D /* AdminPostBubble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdminPostBubble.swift; sourceTree = "<group>"; };
 		82CCCBBB28B0F9C700085E2D /* TimeoutModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeoutModel.swift; sourceTree = "<group>"; };
+		D32D0B2F28EB8F9A00EF548E /* AccountActionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountActionsView.swift; sourceTree = "<group>"; };
 		D339621728BC1A41003AC841 /* Onboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Onboard.swift; sourceTree = "<group>"; };
 		D389D88628B94B0B00A41329 /* ProfileComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileComment.swift; sourceTree = "<group>"; };
 		D389D88828BAA0AF00A41329 /* EmailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailController.swift; sourceTree = "<group>"; };
@@ -434,6 +436,7 @@
 				289CC86D289C6826009C1DCE /* SettingsView.swift */,
 				289CC875289C69D9009C1DCE /* ProminentHeaderModifier.swift */,
 				D389D88828BAA0AF00A41329 /* EmailController.swift */,
+				D32D0B2F28EB8F9A00EF548E /* AccountActionsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1372,6 +1375,7 @@
 				28CC02D628BEC26400C10262 /* NotificationsManager.swift in Sources */,
 				6A449C912896F4320015826A /* MainTabView.swift in Sources */,
 				6A61D04D28E0FAC2003188EE /* MarketplaceItemViewModel.swift in Sources */,
+				D32D0B3028EB8F9A00EF548E /* AccountActionsView.swift in Sources */,
 				6A09D64728A59E9A005E5C23 /* ImagePicker.swift in Sources */,
 				6A61D02D28E0A453003188EE /* (null) in Sources */,
 				6A449C982896F4330015826A /* LeaderboardUser.swift in Sources */,

@@ -10,14 +10,8 @@ struct SettingsView: View {
     
     var body: some View {
         List {
-            Rectangle()
-                .fill(Color("pongSystemBackground"))
-                .frame(maxHeight: 1)
-                .listRowBackground(Color("pongSystemBackground").edgesIgnoringSafeArea([.leading, .trailing]))
-                .listRowSeparator(.hidden)
-                .padding(0)
             
-            Section() {
+            Section("ACCOUNT") {
                 
                 // MARK: Referrals View
                 NavigationLink(destination: ReferralsView()){
@@ -44,9 +38,29 @@ struct SettingsView: View {
                         }
                     }
                     .frame(minHeight: 30)
+                    
+        
                 }
                 
-                
+                // MARK: Account Actions View
+                NavigationLink(destination: AccountActionsView()){
+                    HStack {
+                        Image(systemName: "person.crop.circle").font(Font.body.weight(.bold))
+                            .frame(width: 20)
+                        Text("Account Actions")
+                            .bold()
+                        Spacer()
+                    }
+                }
+                .frame(minHeight: 30)
+            }
+            .listRowBackground(Color("pongSystemBackground"))
+            .listRowSeparator(.hidden)
+            
+//            Divider()
+//                .listRowSeparator(.hidden)
+            
+            Section("ABOUT") {
                 // MARK: Contact Us
                 HStack {
                     Button {
@@ -63,6 +77,7 @@ struct SettingsView: View {
                     }
                 }
                 .frame(minHeight: 30)
+                
                 
                 // MARK: Privacy Policy
                 HStack() {
@@ -87,14 +102,17 @@ struct SettingsView: View {
                     Spacer()
                 }
                 .frame(minHeight: 30)
-
+                
             }
             .listRowBackground(Color("pongSystemBackground"))
             .listRowSeparator(.hidden)
             
-//            CustomListDivider()
-
-            Section() {
+//            Divider()
+//                .listRowSeparator(.hidden)
+//                .padding(0)
+            
+            Section("PREFERENCES") {
+                
                 // MARK: Dark Mode
                 HStack {
                     Image(systemName: "moon").font(Font.body.weight(.bold))
@@ -114,6 +132,7 @@ struct SettingsView: View {
                     }
                 }
                 .frame(minHeight: 30)
+                
                 
                 // MARK: Notifications
                 Toggle(isOn: $notificationsManager.notificationsPreference, label: {
@@ -136,69 +155,6 @@ struct SettingsView: View {
                 })
                 .frame(minHeight: 30)
                 
-                // MARK: Unblock All
-                Button {
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    settingsVM.activeAlertType = .unblockAll
-                    settingsVM.activeAlert = true
-                } label: {
-                    HStack {
-                        Image(systemName: "eye.slash").font(Font.body.weight(.bold))
-                            .frame(width: 20)
-                        Text("Unblock All Users")
-                            .bold()
-                        Spacer()
-                    }
-                }
-                .frame(minHeight: 30)
-                
-                // MARK: Delete Account
-                Button {
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    settingsVM.activeAlertType = .deleteAccount
-                    settingsVM.activeAlert = true
-                } label: {
-                    HStack {
-                        Image(systemName: "trash").foregroundColor(.red).font(Font.body.weight(.bold))
-                            .frame(width: 20)
-                        Text("Delete Account").foregroundColor(.red)
-                            .bold()
-                        Spacer()
-                    }
-                }
-                .frame(minHeight: 30)
-            }
-            .listRowBackground(Color("pongSystemBackground"))
-            .listRowSeparator(.hidden)
-                    
-            
-
-            Section() {
-                HStack {
-                    Spacer()
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        settingsVM.activeAlertType = .signOut
-                        settingsVM.activeAlert = true
-                    } label: {
-                        Text("Logout")
-                            .frame(minWidth: 75, maxWidth: 100)
-                            .font(.system(size: 18).bold())
-                            .padding()
-                            .background(Color(UIColor.label))
-                            .foregroundColor(Color("pongSystemBackground"))
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 50)
-                                    .stroke(Color(UIColor.label), lineWidth: 2)
-                            )
-                    }
-                    .background(Color(UIColor.label)) // If you have this
-                    .cornerRadius(50)         // You also need the cornerRadius here
-                    .padding(.bottom)
-                    .buttonStyle(PlainButtonStyle())
-                    Spacer()
-                }
-                .padding(.top, 100)
             }
             .listRowBackground(Color("pongSystemBackground"))
             .listRowSeparator(.hidden)
@@ -216,6 +172,7 @@ struct SettingsView: View {
                         .frame(maxWidth: .infinity, alignment: .center)
                 }
                 .foregroundColor(Color.gray)
+                .padding(.top, 100)
             }
             .listRowBackground(Color("pongSystemBackground"))
             .listRowSeparator(.hidden)
@@ -225,6 +182,7 @@ struct SettingsView: View {
         .listStyle(PlainListStyle())
         .frame(maxWidth: .infinity)
         .navigationTitle("Settings")
+        .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             UITableView.appearance().showsVerticalScrollIndicator = false
         }
