@@ -44,9 +44,9 @@ struct FeedView: View {
                 
                 ToolbarItem {
                     HStack(spacing: 0) {
-                        NavigationLink(destination: NotificationsView()) {
-                            Image(systemName: "bell")
-                        }
+//                        NavigationLink(destination: NotificationsView()) {
+//                            Image(systemName: "bell")
+//                        }
                         
                         NavigationLink(destination: MessageRosterView(), isActive: $mainTabVM.openConversationsDetected) {
                             if let index = dataManager.conversations.firstIndex(where: {$0.read}) {

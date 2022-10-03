@@ -13,6 +13,7 @@ struct NotificationsView: View {
     @ViewBuilder
     var body: some View {
         LoadingView(isShowing: .constant(false)) {
+            NavigationView {
                 VStack {
                     NavigationLink(destination: PostView(post: $post), isActive: $isLinkActive) { EmptyView() }
                     
@@ -42,7 +43,7 @@ struct NotificationsView: View {
                                     Button {
                                         DispatchQueue.main.async {
                                             mainTabVM.isCustomItemSelected = false
-                                            mainTabVM.itemSelected = 4
+                                            mainTabVM.itemSelected = 2
                                         }
                                     } label: {
                                         getNotificationText(notificationModel: notificationModel)
@@ -65,6 +66,7 @@ struct NotificationsView: View {
                 .accentColor(Color(UIColor.label))
                 .searchable(text: $searchText)
                 .navigationViewStyle(StackNavigationViewStyle())
+            }
         }
     }
     

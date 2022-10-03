@@ -47,12 +47,20 @@ struct MainTabView: View {
                     }
                     .tag(1)
                 
-                // MARK: Marketplace
-                MarketplaceView()
-                    .tabItem {
-                        Image(systemName: "cart")
+                // MARK: Stats and Leaderboard
+                LeaderboardView()
+                    .tabItem{
+                        Image(systemName: "chart.bar.xaxis")
                     }
                     .tag(2)
+                
+//                // MARK: Marketplace
+//                MarketplaceView()
+//                    .tabItem {
+//                        Image(systemName: "cart")
+//                    }
+//                    .tag(2)
+
 
                 // MARK: NewPostView
                 NewPostView(mainTabVM: MainTabViewModel(initialIndex: 1, customItemIndex: 1))
@@ -61,12 +69,13 @@ struct MainTabView: View {
                     }
                     .tag(3)
                 
-                // MARK: Stats and Leaderboard
-                LeaderboardView()
+                //MARK: Notifications
+                NotificationsView()
                     .tabItem{
-                        Image(systemName: "chart.bar.xaxis")
+                        Image(systemName: "bell")
                     }
                     .tag(4)
+                
 
                 // MARK: ProfileView
                 ProfileView()
