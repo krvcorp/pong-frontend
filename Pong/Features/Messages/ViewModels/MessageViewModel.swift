@@ -3,7 +3,6 @@ import Foundation
 
 class MessageViewModel: ObservableObject {
     @Published var conversation : Conversation = defaultConversation
-//    @Published var messages : [Message] = []
     @Published var messageUpdateTrigger : Bool = false
     @Published var showBlockConfirmationView : Bool = false
     var timePassed = 0

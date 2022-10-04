@@ -398,7 +398,6 @@ struct PostView: View {
     // MARK: Overlay component to create a comment or reply
     var MessagingComponent: some View {
         VStack(spacing: 0) {
-            
             // MARK: Messaging Component
             VStack {
                 // MARK: Reply to Component
