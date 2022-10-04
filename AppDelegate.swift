@@ -28,6 +28,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 //        }
         
         UITabBar.appearance().backgroundColor = UIColor(.pongSystemBackground)
+        UIScrollView.appearance().backgroundColor = UIColor(Color.pongSystemBackground)
         
         hyperCriticalRulesExample()
         

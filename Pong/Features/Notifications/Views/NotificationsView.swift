@@ -4,70 +4,68 @@ struct NotificationsView: View {
     @StateObject private var notificationsVM = NotificationsViewModel()
     @ObservedObject private var notificationsManager = NotificationsManager.notificationsManager
     @EnvironmentObject var mainTabVM : MainTabViewModel
-    @State private var searchText = ""
     @State private var showAlert = false
     @State var isLinkActive = false
     
     @State var post = defaultPost
     
-    @ViewBuilder
     var body: some View {
-        LoadingView(isShowing: .constant(false)) {
-            NavigationView {
-                VStack {
-                    NavigationLink(destination: PostView(post: $post), isActive: $isLinkActive) { EmptyView() }
-                    
-                    List {
-                        Section(header: Text("Recent Notifications")) {
-                            ForEach(notificationsVM.notificationHistory.filter { searchText.isEmpty || $0.notification.body.localizedStandardContains(searchText)}) { notificationModel in
-                                if notificationModel.data.type == .upvote || notificationModel.data.type == .comment || notificationModel.data.type == .hot || notificationModel.data.type == .top || notificationModel.data.type == .reply {
-                                    
-                                    Button {
-                                        DispatchQueue.main.async {
-                                            notificationsVM.getPost(url: notificationModel.data.url!) { success in
-                                                post = success
-                                                isLinkActive = true
-                                            }
-                                        }
-                                    } label: {
-                                        getNotificationText(notificationModel: notificationModel)
-                                    }
-                                }
-                                else if notificationModel.data.type == .message  {
-                                    NavigationLink(destination: Text("ref here")) {
-                                        getNotificationText(notificationModel: notificationModel)
-                                    }
-                                }
+        NavigationView {
+            VStack {
+                NavigationLink(destination: PostView(post: $post), isActive: $isLinkActive) { EmptyView() }
+                
+                List {
+                    Section(header: Text("Recent Notifications")) {
+                        ForEach(notificationsVM.notificationHistory) { notificationModel in
+                            if notificationModel.data.type == .upvote || notificationModel.data.type == .comment || notificationModel.data.type == .hot || notificationModel.data.type == .top || notificationModel.data.type == .reply {
                                 
-                                else if notificationModel.data.type == .leader {
-                                    Button {
-                                        DispatchQueue.main.async {
-                                            mainTabVM.isCustomItemSelected = false
-                                            mainTabVM.itemSelected = 2
+                                Button {
+                                    DispatchQueue.main.async {
+                                        notificationsVM.getPost(url: notificationModel.data.url!) { success in
+                                            post = success
+                                            isLinkActive = true
                                         }
-                                    } label: {
-                                        getNotificationText(notificationModel: notificationModel)
                                     }
+                                } label: {
+                                    getNotificationText(notificationModel: notificationModel)
+                                }
+                            }
+                            else if notificationModel.data.type == .message  {
+                                NavigationLink(destination: Text("ref here")) {
+                                    getNotificationText(notificationModel: notificationModel)
+                                }
+                            }
+                            
+                            else if notificationModel.data.type == .leader {
+                                Button {
+                                    DispatchQueue.main.async {
+                                        mainTabVM.isCustomItemSelected = false
+                                        mainTabVM.itemSelected = 2
+                                    }
+                                } label: {
+                                    getNotificationText(notificationModel: notificationModel)
                                 }
                             }
                         }
                     }
-                    .refreshable(action: {
-                        print("DEBUG: Refreshed!")
-                    })
-                    .listStyle(GroupedListStyle())
                 }
-                .onAppear {
-                    UITableView.appearance().showsVerticalScrollIndicator = false
-                    notificationsVM.getNotificationHistory()
-                }
-                .navigationTitle("Notifications")
-                .navigationBarTitleDisplayMode(.inline)
-                .accentColor(Color(UIColor.label))
-                .searchable(text: $searchText)
-                .navigationViewStyle(StackNavigationViewStyle())
+                .background(Color.red)
+                .refreshable(action: {
+                    print("DEBUG: Refreshed!")
+                })
+                .listStyle(GroupedListStyle())
             }
+            .onAppear {
+                UITableView.appearance().showsVerticalScrollIndicator = false
+                notificationsVM.getNotificationHistory()
+            }
+            .navigationTitle("Notifications")
+            .navigationBarTitleDisplayMode(.inline)
+            .accentColor(Color(UIColor.label))
+            .navigationViewStyle(StackNavigationViewStyle())
+            .background(Color.red)
         }
+        .background(Color.red)
     }
     
     func getNotificationText(notificationModel: NotificationsModel) -> some View {
@@ -136,8 +134,3 @@ struct NotificationsView: View {
     }
 }
 
-//struct NotificationsView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        NotificationsView()
-//    }
-//}
