@@ -181,20 +181,6 @@ struct PostView: View {
         .toast(isPresenting: $dataManager.removedComment) {
             AlertToast(displayMode: .banner(.slide), type: .regular, title: dataManager.removedCommentMessage)
         }
-//        .alert(isPresented: $notificationsManager.pushNotification) {
-//            Alert(
-//                title: Text("Notifications Setup"),
-//                message: Text("Enable push notifications? You can always change this later in settings."),
-//                primaryButton: .destructive(
-//                    Text("Don't Enable"),
-//                    action: NotificationsManager.notificationsManager.dontEnableNotifs
-//                ),
-//                secondaryButton: .default(
-//                    Text("Enable"),
-//                    action: NotificationsManager.notificationsManager.registerForNotifications
-//                )
-//            )
-//        }
     }
     
     var mainPost: some View {
@@ -219,7 +205,6 @@ struct PostView: View {
                 
                 // MARK: Image
                 if let imageUrl = post.image {
-//                    let _ = debugPrint("DEBUG POST: ", post)
                     KFImage(URL(string: "\(imageUrl)")!)
                         .resizable()
                         .scaledToFit()
@@ -237,11 +222,6 @@ struct PostView: View {
             .font(.system(size: 18).bold())
             .padding()
             .background(Color(UIColor.systemBackground))
-
-//            Text("\(post.numComments) Comments")
-//                .font(.caption)
-//                .background(Color(UIColor.secondarySystemBackground))
-//                .frame(maxWidth: .infinity)
         }
         .background(Color(UIColor.secondarySystemBackground))
     }

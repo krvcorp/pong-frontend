@@ -27,16 +27,16 @@ struct FeedView: View {
             .navigationBarTitleDisplayMode(.inline)
             // MARK: Toolbar
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button {
-                        withAnimation {
-                            showMenu.toggle()
-                        }
-                    } label: {
-                        Image(systemName: "line.horizontal.3")
-                            .imageScale(.large)
-                    }
-                }
+//                ToolbarItem(placement: .navigationBarLeading) {
+//                    Button {
+//                        withAnimation {
+//                            showMenu.toggle()
+//                        }
+//                    } label: {
+//                        Image(systemName: "line.horizontal.3")
+//                            .imageScale(.large)
+//                    }
+//                }
                 
                 ToolbarItem(placement: .principal) {
                     toolbarPickerComponent
@@ -116,7 +116,7 @@ struct FeedView: View {
                         HStack(spacing: 5) {
                             Image(systemName: filter.imageName)
                             Text(filter.title)
-                                .font(.subheadline)
+                                .font(.subheadline.bold())
                         }
                         .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
                     }
