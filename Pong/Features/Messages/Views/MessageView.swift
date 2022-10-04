@@ -17,46 +17,70 @@ struct MessageView: View {
 
     var body: some View {
         ZStack(alignment: .bottom) {
-            List {
-                ForEach(messageVM.conversation.messages, id: \.self) { message in
-                    if message.userOwned {
-                        HStack {
-                            Spacer()
+            ScrollViewReader { proxy in
+                List {
+                    ForEach(messageVM.conversation.messages, id: \.id) { message in
+                        if message.userOwned {
                             HStack {
-                                Text("\(message.message)")
-                                    .font(.headline)
-                                    .padding()
+                                Spacer()
+                                HStack {
+                                    Text("\(message.message)")
+                                        .font(.headline)
+                                        .padding()
+                                }
+                                .foregroundColor(Color(UIColor.label))
+                                .background(Color(UIColor.secondarySystemBackground))
+                                .cornerRadius(10)
+                                .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color(UIColor.darkGray), lineWidth: 1))
                             }
-                            .foregroundColor(Color(UIColor.label))
-                            .background(Color.pongSystemBackground)
-                            .cornerRadius(10)
-                            .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color(UIColor.darkGray), lineWidth: 1))
-                        }
-                        .listRowSeparator(.hidden)
-                    } else {
-                        HStack {
+                            .listRowBackground(Color.pongSystemBackground)
+                            .listRowSeparator(.hidden)
+                        } else {
                             HStack {
-                                Text("\(message.message)")
-                                    .font(.headline)
-                                    .padding()
+                                HStack {
+                                    Text("\(message.message)")
+                                        .font(.headline)
+                                        .padding()
+                                }
+                                .foregroundColor(Color(UIColor.label))
+                                .background(Color.pongSystemBackground)
+                                .cornerRadius(10)
+                                .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color(UIColor.darkGray), lineWidth: 1))
+                                
+                                Spacer()
                             }
-                            .foregroundColor(Color(UIColor.label))
-                            .background(Color(UIColor.secondarySystemBackground))
-                            .cornerRadius(10)
-                            .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color(UIColor.darkGray), lineWidth: 1))
-                            
-                            Spacer()
+                            .listRowBackground(Color.pongSystemBackground)
+                            .listRowSeparator(.hidden)
                         }
+                    }
+                    
+                    Rectangle()
+                        .fill(Color.pongSystemBackground)
+                        .frame(height: 50)
+                        .listRowBackground(Color.pongSystemBackground)
                         .listRowSeparator(.hidden)
+                        .tag("bottom")
+                }
+                .onChange(of: conversation.messages, perform: { newValue in
+                    print("DEBUG: new message!")
+                    withAnimation {
+                        proxy.scrollTo(conversation.messages[0].id, anchor: .top)
+                    }
+
+                })
+                .onAppear() {
+                    print("DEBUG: scroll")
+                    withAnimation {
+                        proxy.scrollTo(conversation.messages[0].id, anchor: .top)
                     }
                 }
+                .background(Color.pongSystemBackground)
+                .listStyle(PlainListStyle())
             }
-            .listStyle(PlainListStyle())
-            .padding(.bottom, 50)
             
             MessageComponent
         }
-        .background(Color.pongSystemBackground)
+        .background(Color.clear)
         // onAppear load binding conversation into viewmodel
         .onAppear {
             self.messageVM.conversation = conversation
@@ -122,12 +146,18 @@ struct MessageView: View {
             VStack {
                 // MARK: TextArea and Button Component
                 HStack {
-                    TextField("Enter your message here", text: $text)
+                    TextField("Message", text: $text)
                         .font(.headline)
+                        .padding(5)
+                        .background(Color(UIColor.secondarySystemBackground))
+                        .cornerRadius(20)
                         
                     Button {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         print("DEBUG SEND MESSAGE")
+                        messageVM.sendMessage(message: text) 
+                        text = ""
+                        
                     } label: {
                         ZStack {
                             Image(systemName: "paperplane")
@@ -140,13 +170,11 @@ struct MessageView: View {
                     }
                 }
                 .padding(.horizontal)
-                .padding(.vertical, 3)
-                .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color(UIColor.secondarySystemBackground), lineWidth: 2))
+                .padding(.vertical, 10)
+                .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.pongSystemBackground, lineWidth: 2))
             }
-            .background(Color(UIColor.secondarySystemBackground))
-            .cornerRadius(20, corners: [.topLeft, .topRight])
+            .background(Color.pongSystemBackground)
         }
-        .shadow(color: Color(.black).opacity(0.3), radius: 10, x: 0, y: 0)
         .mask(Rectangle().padding(.top, -20))
     }
 }

@@ -44,10 +44,6 @@ struct FeedView: View {
                 
                 ToolbarItem {
                     HStack(spacing: 0) {
-//                        NavigationLink(destination: NotificationsView()) {
-//                            Image(systemName: "bell")
-//                        }
-                        
                         NavigationLink(destination: MessageRosterView(), isActive: $mainTabVM.openConversationsDetected) {
                             if let index = dataManager.conversations.firstIndex(where: {$0.read}) {
                                 ZStack(alignment: .bottomTrailing) {
@@ -211,7 +207,6 @@ struct FeedView: View {
                 // MARK: HOT
                 else if tab == .hot {
                     ForEach($dataManager.hotPosts, id: \.id) { $post in
-                        
                         PostBubble(post: $post)
                             .buttonStyle(PlainButtonStyle())
                             .onAppear {
@@ -221,7 +216,6 @@ struct FeedView: View {
                             .listRowBackground(Color(UIColor.systemBackground))
 
                         CustomListDivider()
-                        
                     }
                     if !feedVM.finishedHot {
                         CustomListDivider()
@@ -242,7 +236,6 @@ struct FeedView: View {
                 // MARK: RECENT
                 else if tab == .recent {
                     ForEach($dataManager.recentPosts, id: \.id) { $post in
-                        
                         PostBubble(post: $post)
                             .buttonStyle(PlainButtonStyle())
                             .onAppear {
