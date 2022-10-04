@@ -329,6 +329,18 @@ extension Color {
     public static var pongSystemBackground : Color {
         return Color(UIColor(named: "pongSystemBackground")!)
     }
+    
+    public static var lesleyUniversityPrimary : Color {
+        return Color(UIColor(named: "LesleyUniversityPrimary")!)
+    }
+    
+    public static var bostonUniversityPrimary : Color {
+        return Color(UIColor(named: "BostonUniversityPrimary")!)
+    }
+    
+    public static var notificationUnread : Color {
+        return Color(UIColor(named: "notificationUnread")!)
+    }
 }
 
 

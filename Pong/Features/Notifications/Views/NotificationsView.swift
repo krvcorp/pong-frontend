@@ -15,7 +15,7 @@ struct NotificationsView: View {
                 NavigationLink(destination: PostView(post: $post), isActive: $isLinkActive) { EmptyView() }
                 
                 List {
-                    Section(header: Text("Recent Notifications")) {
+                    Section() {
                         ForEach(notificationsVM.notificationHistory) { notificationModel in
                             if notificationModel.data.type == .upvote || notificationModel.data.type == .comment || notificationModel.data.type == .hot || notificationModel.data.type == .top || notificationModel.data.type == .reply {
                                 
@@ -29,13 +29,9 @@ struct NotificationsView: View {
                                 } label: {
                                     getNotificationText(notificationModel: notificationModel)
                                 }
+                                .listRowSeparator(.hidden)
+                                .listRowBackground(notificationModel.data.read ? Color.pongSystemBackground : Color.notificationUnread)
                             }
-                            else if notificationModel.data.type == .message  {
-                                NavigationLink(destination: Text("ref here")) {
-                                    getNotificationText(notificationModel: notificationModel)
-                                }
-                            }
-                            
                             else if notificationModel.data.type == .leader {
                                 Button {
                                     DispatchQueue.main.async {
@@ -45,27 +41,27 @@ struct NotificationsView: View {
                                 } label: {
                                     getNotificationText(notificationModel: notificationModel)
                                 }
+                                .listRowBackground(notificationModel.data.read ? Color.pongSystemBackground : Color.notificationUnread)
+                                .listRowSeparator(.hidden)
                             }
                         }
                     }
                 }
-                .background(Color.red)
                 .refreshable(action: {
                     print("DEBUG: Refreshed!")
                 })
-                .listStyle(GroupedListStyle())
+                .listStyle(PlainListStyle())
             }
+            .background(Color.pongSystemBackground)
             .onAppear {
                 UITableView.appearance().showsVerticalScrollIndicator = false
                 notificationsVM.getNotificationHistory()
             }
-            .navigationTitle("Notifications")
+            .navigationTitle("Activity")
             .navigationBarTitleDisplayMode(.inline)
             .accentColor(Color(UIColor.label))
             .navigationViewStyle(StackNavigationViewStyle())
-            .background(Color.red)
         }
-        .background(Color.red)
     }
     
     func getNotificationText(notificationModel: NotificationsModel) -> some View {
@@ -86,6 +82,7 @@ struct NotificationsView: View {
                     Text(notificationModel.notification.body)
                         .lineLimit(2)
                         .font(.headline)
+                        .background(notificationModel.data.read ? Color.pongSystemBackground : Color.notificationUnread)
                 }
                 .padding(.vertical, 1)
             }

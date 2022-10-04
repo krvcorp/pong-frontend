@@ -14,6 +14,7 @@ struct NotificationsModel: Decodable, Identifiable {
         let url: String?
         let type: NotificationType
         let read: Bool
+        let timeSincePosted: String
         enum NotificationType: String, Decodable {
             case upvote
             case comment
