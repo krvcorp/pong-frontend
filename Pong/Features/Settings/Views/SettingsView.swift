@@ -54,7 +54,7 @@ struct SettingsView: View {
                 }
                 .frame(minHeight: 30)
             }
-            .listRowBackground(Color("pongSystemBackground"))
+            .listRowBackground(Color.pongSystemBackground)
             .listRowSeparator(.hidden)
             
 //            Divider()
@@ -104,7 +104,7 @@ struct SettingsView: View {
                 .frame(minHeight: 30)
                 
             }
-            .listRowBackground(Color("pongSystemBackground"))
+            .listRowBackground(Color.pongSystemBackground)
             .listRowSeparator(.hidden)
             
 //            Divider()
@@ -151,7 +151,7 @@ struct SettingsView: View {
                 .frame(minHeight: 30)
                 
             }
-            .listRowBackground(Color("pongSystemBackground"))
+            .listRowBackground(Color.pongSystemBackground)
             .listRowSeparator(.hidden)
             
             Section {
@@ -169,11 +169,11 @@ struct SettingsView: View {
                 .foregroundColor(Color.gray)
                 .padding(.top, 100)
             }
-            .listRowBackground(Color("pongSystemBackground"))
+            .listRowBackground(Color.pongSystemBackground)
             .listRowSeparator(.hidden)
         }
         .environment(\.defaultMinListRowHeight, 0)
-        .background(Color("pongSystemBackground"))
+        .background(Color.pongSystemBackground)
         .listStyle(PlainListStyle())
         .frame(maxWidth: .infinity)
         .navigationTitle("Settings")

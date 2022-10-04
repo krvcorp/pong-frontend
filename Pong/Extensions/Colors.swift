@@ -327,9 +327,8 @@ extension Color {
     }
     
     public static var pongSystemBackground : Color {
-        return Color(red: 26/255, green: 26/255, blue: 26/255)
+        return Color(UIColor(named: "pongSystemBackground")!)
     }
-    
 }
 
 

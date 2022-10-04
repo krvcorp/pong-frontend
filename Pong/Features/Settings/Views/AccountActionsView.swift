@@ -56,7 +56,7 @@ struct AccountActionsView: View {
                             .font(.system(size: 18).bold())
                             .padding()
                             .background(Color(UIColor.label))
-                            .foregroundColor(Color("pongSystemBackground"))
+                            .foregroundColor(.pongSystemBackground)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 50)
                                     .stroke(Color(UIColor.label), lineWidth: 2)
@@ -69,12 +69,12 @@ struct AccountActionsView: View {
                     Spacer()
                 }
             }
-            .listRowBackground(Color("pongSystemBackground"))
+            .listRowBackground(Color.pongSystemBackground)
             .listRowSeparator(.hidden)
             
         }
         .environment(\.defaultMinListRowHeight, 0)
-        .background(Color("pongSystemBackground"))
+        .background(Color.pongSystemBackground)
         .listStyle(PlainListStyle())
         .frame(maxWidth: .infinity)
         .navigationTitle("Account Actions")

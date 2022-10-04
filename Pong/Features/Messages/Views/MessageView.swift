@@ -25,9 +25,12 @@ struct MessageView: View {
                             HStack {
                                 Text("\(message.message)")
                                     .font(.headline)
+                                    .padding()
                             }
-                            .background(Color(UIColor.systemBackground))
+                            .foregroundColor(Color(UIColor.label))
+                            .background(Color.pongSystemBackground)
                             .cornerRadius(10)
+                            .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color(UIColor.darkGray), lineWidth: 1))
                         }
                         .listRowSeparator(.hidden)
                     } else {
@@ -35,9 +38,13 @@ struct MessageView: View {
                             HStack {
                                 Text("\(message.message)")
                                     .font(.headline)
+                                    .padding()
                             }
-                            .background(Color(UIColor.tertiarySystemBackground))
+                            .foregroundColor(Color(UIColor.label))
+                            .background(Color(UIColor.secondarySystemBackground))
                             .cornerRadius(10)
+                            .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color(UIColor.darkGray), lineWidth: 1))
+                            
                             Spacer()
                         }
                         .listRowSeparator(.hidden)
@@ -49,7 +56,7 @@ struct MessageView: View {
             
             MessageComponent
         }
-        .background(Color(UIColor.systemBackground))
+        .background(Color.pongSystemBackground)
         // onAppear load binding conversation into viewmodel
         .onAppear {
             self.messageVM.conversation = conversation

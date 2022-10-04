@@ -27,7 +27,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 //            UINavigationBar.appearance().scrollEdgeAppearance = appearance
 //        }
         
-        UITabBar.appearance().backgroundColor = UIColor(Color("pongSystemBackground"))
+        UITabBar.appearance().backgroundColor = UIColor(.pongSystemBackground)
         
         hyperCriticalRulesExample()
         
