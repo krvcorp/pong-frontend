@@ -133,11 +133,6 @@ struct FeedView: View {
         }
     }
     
-    // Component at the bottom of the list that shows when all posts have been fetched
-    var reachedBottomComponentAndFinished : some View {
-        Text("There's nothing left! Scroll to top and refresh!")
-    }
-    
     // MARK: Custom Feed Stack
     @ViewBuilder
     func customFeedStack(filter: FeedFilter, tab : FeedFilter) -> some View {
@@ -199,9 +194,6 @@ struct FeedView: View {
                         .onAppear() {
                             feedVM.paginatePosts(selectedFeedFilter: tab, dataManager: dataManager)
                         }
-                    } else {
-                        reachedBottomComponentAndFinished
-                        CustomListDivider()
                     }
                 }
                 // MARK: HOT
@@ -228,9 +220,6 @@ struct FeedView: View {
                         .onAppear() {
                             feedVM.paginatePosts(selectedFeedFilter: tab, dataManager: dataManager)
                         }
-                    } else {
-                        reachedBottomComponentAndFinished
-                        CustomListDivider()
                     }
                 }
                 // MARK: RECENT
@@ -256,9 +245,6 @@ struct FeedView: View {
                         .onAppear() {
                             feedVM.paginatePosts(selectedFeedFilter: tab, dataManager: dataManager)
                         }
-                    } else {
-                        reachedBottomComponentAndFinished
-                        CustomListDivider()
                     }
                 }
             }

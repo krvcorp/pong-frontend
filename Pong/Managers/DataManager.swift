@@ -20,7 +20,6 @@ class DataManager : ObservableObject {
     var recentCurrentPage = "posts/?sort=new"
     
     // profile
-    //    @Published var user : User = defaultUser
     @Published var profilePosts : [Post] = []
     @Published var profileComments : [ProfileComment] = []
     @Published var awards : [String] = []
@@ -44,6 +43,9 @@ class DataManager : ObservableObject {
     
     @Published var removedComment = false
     @Published var removedCommentMessage = "Removed comment!"
+    
+    @Published var removedConversation = false
+    @Published var removedConversationMessage = "Removed conversation!"
     
     @Published var errorDetected = false
     @Published var errorDetectedMessage = "Something went wrong!"
@@ -289,6 +291,18 @@ class DataManager : ObservableObject {
                     if self.conversations != successResponse {
                         self.conversations = successResponse
                     }
+                }
+            }
+        }
+    }
+    
+    func deleteConversationLocally(conversationId : String) {
+        DispatchQueue.main.async {
+            withAnimation {
+                if let index = self.conversations.firstIndex(where: {$0.id == conversationId}) {
+                    self.conversations.remove(at: index)
+//                    self.removedConversationMessage = message
+                    self.removedConversation = true
                 }
             }
         }

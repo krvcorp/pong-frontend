@@ -54,7 +54,11 @@ class MessageViewModel: ObservableObject {
         NetworkManager.networkManager.emptyRequest(route: "conversations/\(self.conversation.id)/block/", method: .post) { successResponse, errorResponse in
             if successResponse != nil {
                 print("DEBUG: blockUser success")
-                self.getConversation()
+                completionHandler(true)
+            }
+            
+            if errorResponse != nil {
+                
             }
         }
     }

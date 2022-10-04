@@ -1,77 +1,40 @@
-//
-//  ChatView.swift
-//  ChatExample
-//
-//  Created by Kino Roy on 2020-07-18.
-//  Copyright © 2020 MessageKit. All rights reserved.
-//
-
-//import MessageKit
 import SwiftUI
 
 struct MessageView: View {
     @State private var text = ""
     @Binding var conversation: Conversation
     @StateObject var messageVM : MessageViewModel = MessageViewModel()
+    @EnvironmentObject var dataManager : DataManager
     @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
         ZStack(alignment: .bottom) {
             ScrollViewReader { proxy in
                 List {
-                    ForEach(messageVM.conversation.messages, id: \.id) { message in
-                        if message.userOwned {
-                            HStack {
-                                Spacer()
-                                HStack {
-                                    Text("\(message.message)")
-                                        .font(.headline)
-                                        .padding()
-                                }
-                                .foregroundColor(Color(UIColor.label))
-                                .background(Color(UIColor.secondarySystemBackground))
-                                .cornerRadius(10)
-                                .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color(UIColor.darkGray), lineWidth: 1))
-                            }
-                            .listRowBackground(Color.pongSystemBackground)
-                            .listRowSeparator(.hidden)
-                        } else {
-                            HStack {
-                                HStack {
-                                    Text("\(message.message)")
-                                        .font(.headline)
-                                        .padding()
-                                }
-                                .foregroundColor(Color(UIColor.label))
-                                .background(Color.pongSystemBackground)
-                                .cornerRadius(10)
-                                .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color(UIColor.darkGray), lineWidth: 1))
-                                
-                                Spacer()
-                            }
-                            .listRowBackground(Color.pongSystemBackground)
-                            .listRowSeparator(.hidden)
-                        }
-                    }
-                    
                     Rectangle()
                         .fill(Color.pongSystemBackground)
                         .frame(height: 50)
                         .listRowBackground(Color.pongSystemBackground)
                         .listRowSeparator(.hidden)
-                        .tag("bottom")
+                        .id("bottom")
+                    
+                    ForEach(messageVM.conversation.messages.reversed(), id: \.id) { message in
+                        chatBubble(userOwned: message.userOwned, message: message)
+                            .flippedUpsideDown()
+                            .listRowBackground(Color.pongSystemBackground)
+                            .listRowSeparator(.hidden)
+                    }
                 }
+                .flippedUpsideDown()
                 .onChange(of: conversation.messages, perform: { newValue in
-                    print("DEBUG: new message!")
                     withAnimation {
-                        proxy.scrollTo(conversation.messages[0].id, anchor: .top)
+                        proxy.scrollTo("bottom", anchor: .top)
                     }
 
                 })
                 .onAppear() {
-                    print("DEBUG: scroll")
                     withAnimation {
-                        proxy.scrollTo(conversation.messages[0].id, anchor: .top)
+                        proxy.scrollTo("bottom", anchor: .top)
                     }
                 }
                 .background(Color.pongSystemBackground)
@@ -103,13 +66,12 @@ struct MessageView: View {
                 message: Text("Are you sure you want to block this user?"),
                 primaryButton: .destructive(Text("Block")) {
                     messageVM.blockUser() { success in
-                        self.presentationMode.wrappedValue.dismiss()
+                        dataManager.deleteConversationLocally(conversationId: conversation.id)
                     }
                 },
                 secondaryButton: .cancel()
             )
         }
-
         // logic to start/stop polling
         .onReceive(messageVM.timer) { _ in
             if messageVM.timePassed % 5 != 0 {
@@ -139,6 +101,29 @@ struct MessageView: View {
         }
     }
     
+    @ViewBuilder
+    func chatBubble(userOwned: Bool, message: Message) -> some View {
+        HStack {
+            if userOwned {
+                Spacer()
+            }
+
+            HStack {
+                Text("\(message.message)")
+                    .font(.headline)
+                    .padding()
+            }
+            .foregroundColor(Color(UIColor.label))
+            .background(userOwned ? Color.pongSystemBackground : Color(UIColor.quaternaryLabel))
+            .cornerRadius(20)
+            .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color(UIColor.quaternaryLabel), lineWidth: 1))
+            
+            if !userOwned {
+                Spacer()
+            }
+        }
+    }
+    
     var MessageComponent : some View {
         VStack(spacing: 0) {
             
@@ -152,22 +137,35 @@ struct MessageView: View {
                         .background(Color(UIColor.secondarySystemBackground))
                         .cornerRadius(20)
                         
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        print("DEBUG SEND MESSAGE")
-                        messageVM.sendMessage(message: text) 
-                        text = ""
-                        
-                    } label: {
+                    // button component, should not be clickable if text empty
+                    if text == "" {
                         ZStack {
                             Image(systemName: "paperplane")
                                 .imageScale(.small)
-                                .foregroundColor(Color(UIColor.label))
+                                .foregroundColor(Color(UIColor.quaternaryLabel))
                                 .font(.largeTitle)
                         }
                         .frame(width: 40, height: 40, alignment: .center)
                         .cornerRadius(10)
+                    } else {
+                        Button {
+                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                            print("DEBUG SEND MESSAGE")
+                            messageVM.sendMessage(message: text)
+                            text = ""
+                            
+                        } label: {
+                            ZStack {
+                                Image(systemName: "paperplane")
+                                    .imageScale(.small)
+                                    .foregroundColor(Color(UIColor.label))
+                                    .font(.largeTitle)
+                            }
+                            .frame(width: 40, height: 40, alignment: .center)
+                            .cornerRadius(10)
+                        }
                     }
+
                 }
                 .padding(.horizontal)
                 .padding(.vertical, 10)
