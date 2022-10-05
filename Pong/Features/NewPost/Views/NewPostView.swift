@@ -8,6 +8,8 @@ struct NewPostView: View {
     @StateObject var newPostVM = NewPostViewModel()
     @ObservedObject var mainTabVM : MainTabViewModel
     
+    @FocusState private var textIsFocused : Bool
+    
     // MARK: image uploader
     @State private var showSheet = false
 
@@ -32,10 +34,29 @@ struct NewPostView: View {
                             Spacer()
                         }
 
-                        let prompts = ["What's on your mind?", "What's upsetting you right now?", "Who do you hate?", "Seen anything interesting lately?", "How's your day going?"]
-                        TextArea(prompts.randomElement()!, text: $newPostVM.title)
-                            .font(.title)
-                            .frame(maxHeight: .infinity)
+//                        let prompts = ["What's on your mind?", "What's upsetting you right now?", "Who do you hate?", "Seen anything interesting lately?", "How's your day going?"]
+                        // MARK: TextArea
+                        let prompts = ["What's on your mind?"]
+                        
+                        ZStack(alignment: .topLeading) {
+                            if $newPostVM.title.wrappedValue == "" {
+                                Text(prompts.randomElement()!)
+                                    .foregroundColor(Color(.placeholderText))
+                                    .padding(.horizontal)
+                                    .padding(.vertical, 12)
+                            }
+                            
+                            TextEditor(text: $newPostVM.title)
+                                .focused($textIsFocused)
+                                .padding(4)
+                        }
+                        .font(.title)
+                        .frame(maxHeight: .infinity)
+                        .onAppear() {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {  /// Anything over 0.5 seems to work
+                                textIsFocused = true
+                             }
+                        }
                         
                         if newPostVM.image != nil {
                             ZStack(alignment: .topLeading) {
