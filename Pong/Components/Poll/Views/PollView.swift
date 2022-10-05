@@ -25,6 +25,16 @@ struct PollView: View {
                 if post.poll!.userHasVoted {
                     if option.title != "skipkhoicunt" {
                         ZStack(alignment: .leading) {
+                            
+                            RoundedRectangle(cornerRadius: 20)
+                                .fill(post.poll!.votedFor == option.id ? SchoolManager.shared.schoolPrimaryColor() : Color(UIColor.secondarySystemBackground))
+                                .frame(width: CGFloat(UIScreen.screenWidth - 20) * (CGFloat(option.numVotes) / CGFloat(pollVM.sumVotes(poll: post.poll!))))
+                            
+                            RoundedRectangle(cornerRadius: 20)
+                                .fill(Color(UIColor.systemGray5))
+                                .frame(width: CGFloat(UIScreen.screenWidth - 20) * (CGFloat(option.numVotes) / CGFloat(pollVM.sumVotes(poll: post.poll!))))
+                                .opacity(0.5)
+                            
                             HStack {
                                 Text("\(option.title)")
                                     .font(.headline)
@@ -39,15 +49,8 @@ struct PollView: View {
                             .padding(.horizontal, 10)
                             .frame(width: CGFloat(UIScreen.screenWidth - 20))
                             .foregroundColor(Color(UIColor.label))
-                            .background(post.poll!.votedFor == option.id ? SchoolManager.shared.schoolPrimaryColor() : Color(UIColor.secondarySystemBackground))
-                            .cornerRadius(20)         // You also need the cornerRadius here
-                            .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color(UIColor.darkGray), lineWidth: 1))
-
-                            RoundedRectangle(cornerRadius: 20)
-                                .fill(Color(UIColor.systemGray5))
-                                .frame(width: CGFloat(UIScreen.screenWidth - 20) * (CGFloat(option.numVotes) / CGFloat(pollVM.sumVotes(poll: post.poll!))))
-                                .opacity(0.5)
                         }
+                        .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color(UIColor.darkGray), lineWidth: 1))
                         .frame(minWidth: 0, maxWidth: .infinity)
                         .padding(.top, 5)
                     }
