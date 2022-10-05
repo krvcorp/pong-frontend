@@ -63,21 +63,29 @@ struct PollView: View {
                             print("DEBUG: Tap to vote \(option.title)")
                             pollVM.pollVote(id: option.id, postId: post.id)
                         } label: {
-                            HStack {
-                                Text("\(option.title)")
-                                    .font(.headline)
-                                    .padding(4)
-                                Spacer()
+                            ZStack(alignment: .leading) {
+                                
+                                RoundedRectangle(cornerRadius: 20)
+                                    .fill(Color(UIColor.secondarySystemBackground))
+                                    .frame(width: CGFloat(UIScreen.screenWidth - 20))
+                                    .opacity(0.5)
+                                
+                                HStack {
+                                    Text("\(option.title)")
+                                        .font(.headline)
+                                        .padding(4)
+                                    
+                                    Spacer()
+                                }
+                                .padding(5)
+                                .padding(.horizontal, 10)
+                                .frame(width: CGFloat(UIScreen.screenWidth - 20))
+                                .foregroundColor(Color(UIColor.label))
                             }
-                            .padding(5)
-                            .frame(width: CGFloat(UIScreen.screenWidth - 20))
-                            .foregroundColor(Color(UIColor.label))
-                            .background(Color(UIColor.secondarySystemBackground))
-                            .cornerRadius(20)         // You also need the cornerRadius here
+                            .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color(UIColor.darkGray), lineWidth: 1))
+                            .frame(minWidth: 0, maxWidth: .infinity)
+                            .padding(.top, 5)
                         }
-                        .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color(UIColor.darkGray), lineWidth: 1))
-                        .frame(minWidth: 0, maxWidth: .infinity)
-                        .padding(.top, 5)
                     }
                 }
             }
