@@ -116,8 +116,7 @@ class DataManager : ObservableObject {
             }
             
             if let errorResponse = errorResponse {
-                print("DEBUG: \(errorResponse)")
-                self.errorDetected(message: "Something went wrong!", subMessage: "Couldn't load posts")
+                self.errorDetected(message: "Something went wrong!", subMessage: "Couldn't load app")
             }
         }
     }
@@ -276,6 +275,7 @@ class DataManager : ObservableObject {
         }
     }
     
+    // MARK: Abstract Error Toast
     func errorDetected(message: String, subMessage: String) {
         DispatchQueue.main.async {
             self.errorDetectedMessage = message
@@ -301,7 +301,6 @@ class DataManager : ObservableObject {
             withAnimation {
                 if let index = self.conversations.firstIndex(where: {$0.id == conversationId}) {
                     self.conversations.remove(at: index)
-//                    self.removedConversationMessage = message
                     self.removedConversation = true
                 }
             }

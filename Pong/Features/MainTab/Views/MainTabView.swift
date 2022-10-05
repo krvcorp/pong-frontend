@@ -29,12 +29,36 @@ struct MainTabView: View {
         if dataManager.isAppLoading {
             HStack {
                 Spacer()
-                ActivityIndicatorView(isVisible: $dataManager.isAppLoading, type: .equalizer(count: 8))
-                    .frame(width: 50.0, height: 50.0)
-                .onAppear {
-                    dataManager.loadStartupState() 
+                
+                VStack {
+                    if !dataManager.errorDetected {
+                        ActivityIndicatorView(isVisible: $dataManager.isAppLoading, type: .equalizer(count: 8))
+                            .frame(width: 50.0, height: 50.0)
+                            .onAppear {
+                                dataManager.loadStartupState()
+                            }
+                    } else {
+                        Button {
+                            dataManager.loadStartupState()
+                        } label: {
+                            VStack {
+                                Image(systemName: "arrow.clockwise")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: UIScreen.screenWidth / 4)
+                                Text("Try Again!")
+                            }
+
+                        }
+                        .padding()
+                        .foregroundColor(Color(UIColor.label))
+                    }
                 }
+
                 Spacer()
+            }
+            .toast(isPresenting: $dataManager.errorDetected){
+                AlertToast(displayMode: .hud, type: .error(Color.red), title: dataManager.errorDetectedMessage, subTitle: dataManager.errorDetectedSubMessage)
             }
         }
         // MARK: If app is loaded
@@ -94,7 +118,6 @@ struct MainTabView: View {
             .toast(isPresenting: $dataManager.errorDetected){
                 AlertToast(displayMode: .hud, type: .error(Color.red), title: dataManager.errorDetectedMessage, subTitle: dataManager.errorDetectedSubMessage)
             }
-
         }
     }
 }
