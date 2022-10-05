@@ -66,9 +66,10 @@ struct NotificationsView: View {
                         }
                     }
                 }
-                .refreshable(action: {
-                    print("DEBUG: Refreshed!")
-                })
+                .refreshable() {
+                    print("DEBUG: REFRESH")
+                    notificationsVM.getNotificationHistory()
+                }
                 .listStyle(PlainListStyle())
             }
             .background(Color.pongSystemBackground)
