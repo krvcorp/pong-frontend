@@ -25,8 +25,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             appearance.configureWithOpaqueBackground()
             UINavigationBar.appearance().standardAppearance = appearance
             UINavigationBar.appearance().scrollEdgeAppearance = appearance
-//            UITabBar.appearance().backgroundColor = UIColor(.pongSystemBackground)
-//            UIScrollView.appearance().backgroundColor = UIColor(Color.pongSystemBackground)
         }
         
 

@@ -13,6 +13,11 @@ struct PostBubble: View {
     @State private var sheet = false
     @State private var image = UIImage()
     
+    // MARK: Conversation Shit
+    @State var isLinkActive = false
+    
+    @State var conversation = defaultConversation
+    
     var body: some View {
         VStack {
             postBubbleMain
@@ -39,10 +44,15 @@ struct PostBubble: View {
                 }
                 
                 if !post.userOwned {
+                    NavigationLink(destination: MessageView(conversation: $conversation), isActive: $isLinkActive) { EmptyView().opacity(0) }.opacity(0)
+                    
                     Button {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         postBubbleVM.post = post
-                        postBubbleVM.startConversation(post: post, dataManager: dataManager, mainTabVM: mainTabVM)
+                        postBubbleVM.startConversation(post: post, dataManager: dataManager) { success in
+                            conversation = success
+                            isLinkActive = true
+                        }
                     } label: {
                         Image(systemName: "paperplane")
                     }
