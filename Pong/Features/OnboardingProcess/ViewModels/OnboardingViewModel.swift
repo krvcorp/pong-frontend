@@ -17,6 +17,7 @@ class OnboardingViewModel: ObservableObject {
                 DispatchQueue.main.async {
                     withAnimation {
                         self.onBoarded = true
+                        DAKeychain.shared["referred"] = "true"
                     }
                 }
             }

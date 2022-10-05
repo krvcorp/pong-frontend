@@ -40,7 +40,7 @@ struct ReferralOnboardingView: View {
                     }
                 } else {
                     HStack {
-                        Text(referralCode)
+                        Text(referralCode == "" ? "Referred!" : referralCode)
                             .font(.title.bold())
                         
                         Spacer()
