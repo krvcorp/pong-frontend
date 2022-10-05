@@ -101,6 +101,12 @@ class EmailVerificationViewModel: ObservableObject {
                                 DAKeychain.shared["onboarded"] = "true"
                             }
                         }
+                        if let referred = successResponse.referred {
+                            if referred {
+                                DAKeychain.shared["referred"] = "true"
+                            }
+                        }
+                        
                         AuthManager.authManager.loadCurrentState()
                     }
                     if let errorResponse = errorResponse {
