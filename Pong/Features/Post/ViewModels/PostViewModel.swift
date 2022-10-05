@@ -302,23 +302,33 @@ class PostViewModel: ObservableObject {
         }
     }
     
-    func startConversation(post: Post, dataManager: DataManager) {
+    func startConversation(post: Post, dataManager: DataManager, completion: @escaping (Conversation) -> Void) {
         let parameters = CreateConversation.RequestPost(postId: post.id)
         
         NetworkManager.networkManager.request(route: "conversations/", method: .post, body: parameters, successType: Conversation.self) { successResponse, errorResponse in
-            if successResponse != nil {
-                self.openConversations = true
+            if let successResponse = successResponse {
+                completion(successResponse)
             }
         }
     }
     
-    func startConversation(comment: Comment, dataManager: DataManager) {
+    func startConversation(comment: Comment, dataManager: DataManager, completion: @escaping (Conversation) -> Void) {
         let parameters = CreateConversation.RequestComment(commentId: comment.id)
         
         NetworkManager.networkManager.request(route: "conversations/", method: .post, body: parameters, successType: Conversation.self) { successResponse, errorResponse in
-            if successResponse != nil {
-                self.openConversations = true
+            if let successResponse = successResponse {
+                completion(successResponse)
             }
         }
     }
+    
+//    func startConversation(comment: Comment, dataManager: DataManager) {
+//        let parameters = CreateConversation.RequestComment(commentId: comment.id)
+//        
+//        NetworkManager.networkManager.request(route: "conversations/", method: .post, body: parameters, successType: Conversation.self) { successResponse, errorResponse in
+//            if successResponse != nil {
+//                self.openConversations = true
+//            }
+//        }
+//    }
 }

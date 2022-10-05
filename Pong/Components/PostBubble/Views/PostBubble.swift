@@ -13,10 +13,9 @@ struct PostBubble: View {
     @State private var sheet = false
     @State private var image = UIImage()
     
-    // MARK: Conversation Shit
-    @State var isLinkActive = false
-    
-    @State var conversation = defaultConversation
+    // MARK: Conversation
+    @Binding var isLinkActive : Bool
+    @Binding var conversation : Conversation
     
     var body: some View {
         VStack {
@@ -44,7 +43,7 @@ struct PostBubble: View {
                 }
                 
                 if !post.userOwned {
-                    NavigationLink(destination: MessageView(conversation: $conversation), isActive: $isLinkActive) { EmptyView().opacity(0) }.opacity(0)
+//                    NavigationLink(destination: MessageView(conversation: $conversation), isActive: $isLinkActive) { EmptyView().opacity(0) }.opacity(0)
                     
                     Button {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
@@ -322,12 +321,5 @@ struct PostBubble: View {
         let imageSize: CGSize = CGSize(width: 500, height: 800)
         let highresImage = postBubbleMain.asImage(size: imageSize)
         return highresImage
-    }
-}
-
-
-struct PostBubbleView_Previews: PreviewProvider {
-    static var previews: some View {
-        PostBubble(post: .constant(defaultPost))
     }
 }

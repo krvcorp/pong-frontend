@@ -17,6 +17,10 @@ struct PostView: View {
     @State private var showScore = false
     @FocusState private var textIsFocused : Bool
     
+    // MARK: Conversation
+    @State var isLinkActive = false
+    @State var conversation = defaultConversation
+    
     var body: some View {
         ZStack(alignment: .bottom) {
             NavigationLink(destination: MessageRosterView(), isActive: $postVM.openConversations) { EmptyView() }
@@ -29,7 +33,7 @@ struct PostView: View {
                 
                 LazyVStack {
                     ForEach($postVM.comments, id: \.self) { $comment in
-                        CommentBubble(comment: $comment)
+                        CommentBubble(comment: $comment, isLinkActive: $isLinkActive, conversation: $conversation)
                             .buttonStyle(PlainButtonStyle())
                     }
                 }
@@ -229,10 +233,16 @@ struct PostView: View {
     var bottomRow: some View {
         HStack {
             Spacer()
+            
             if !post.userOwned {
+                NavigationLink(destination: MessageView(conversation: $conversation), isActive: $isLinkActive) { EmptyView().opacity(0) }.opacity(0)
+                
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    postVM.startConversation(post: post, dataManager: dataManager)
+                    postVM.startConversation(post: post, dataManager: dataManager) { success in
+                        conversation = success
+                        isLinkActive = true
+                    }
                 } label: {
                     Image(systemName: "paperplane")
                 }

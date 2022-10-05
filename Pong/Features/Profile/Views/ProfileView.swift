@@ -140,7 +140,7 @@ struct ProfileView: View {
                 if dataManager.profilePosts != [] {
                     ForEach($dataManager.profilePosts, id: \.id) { $post in
                         
-                        PostBubble(post: $post)
+                        PostBubble(post: $post, isLinkActive: .constant(false), conversation: .constant(defaultConversation))
                             .buttonStyle(PlainButtonStyle())
                             .listRowSeparator(.hidden)
                             .listRowBackground(Color.pongSystemBackground)
@@ -227,7 +227,7 @@ struct ProfileView: View {
                 if dataManager.profileSavedPosts != [] {
                     ForEach($dataManager.profileSavedPosts, id: \.id) { $post in
                         Section {
-                            PostBubble(post: $post)
+                            PostBubble(post: $post, isLinkActive: .constant(false), conversation: .constant(defaultConversation))
                                 .buttonStyle(PlainButtonStyle())
                                 .listRowSeparator(.hidden)
                                 .listRowBackground(Color.pongSystemBackground
