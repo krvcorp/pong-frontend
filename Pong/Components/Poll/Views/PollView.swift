@@ -24,23 +24,31 @@ struct PollView: View {
                 // MARK: User has voted
                 if post.poll!.userHasVoted {
                     if option.title != "skipkhoicunt" {
-                        HStack {
-                            Text("\(option.title)")
-                                .font(.headline)
-                                .padding(4)
-                            
-                            Spacer()
-                            
-                            Text("\(option.numVotes) votes")
-                                .font(.caption)
+                        ZStack(alignment: .leading) {
+                            HStack {
+                                Text("\(option.title)")
+                                    .font(.headline)
+                                    .padding(4)
+                                
+                                Spacer()
+                                
+                                Text("\(option.numVotes) votes")
+                                    .font(.caption)
+                            }
+                            .padding(5)
+                            .padding(.horizontal, 10)
+                            .frame(width: CGFloat(UIScreen.screenWidth - 20))
+                            .foregroundColor(Color(UIColor.label))
+                            .background(post.poll!.votedFor == option.id ? SchoolManager.shared.schoolPrimaryColor() : Color(UIColor.secondarySystemBackground))
+                            .cornerRadius(20)         // You also need the cornerRadius here
+                            .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color(UIColor.darkGray), lineWidth: 1))
+
+                            RoundedRectangle(cornerRadius: 20)
+                                .fill(Color(UIColor.systemGray5))
+                                .frame(width: CGFloat(UIScreen.screenWidth - 20) * (CGFloat(option.numVotes) / CGFloat(pollVM.sumVotes(poll: post.poll!))))
+                                .opacity(0.5)
                         }
-                        .padding(5)
-                        .padding(.horizontal, 10)
                         .frame(minWidth: 0, maxWidth: .infinity)
-                        .foregroundColor(Color(UIColor.label))
-                        .background(post.poll!.votedFor == option.id ? SchoolManager.shared.schoolPrimaryColor() : Color(UIColor.secondarySystemBackground))
-                        .cornerRadius(20)         // You also need the cornerRadius here
-                        .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color(UIColor.darkGray), lineWidth: 1))
                         .padding(.top, 5)
                     }
                 }
@@ -59,12 +67,13 @@ struct PollView: View {
                                 Spacer()
                             }
                             .padding(5)
-                            .frame(minWidth: 0, maxWidth: .infinity)
+                            .frame(width: CGFloat(UIScreen.screenWidth - 20))
                             .foregroundColor(Color(UIColor.label))
                             .background(Color(UIColor.secondarySystemBackground))
                             .cornerRadius(20)         // You also need the cornerRadius here
                         }
                         .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color(UIColor.darkGray), lineWidth: 1))
+                        .frame(minWidth: 0, maxWidth: .infinity)
                         .padding(.top, 5)
                     }
                 }
