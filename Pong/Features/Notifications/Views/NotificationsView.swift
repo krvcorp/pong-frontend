@@ -32,9 +32,9 @@ struct NotificationsView: View {
                                 }
                                 .listRowSeparator(.hidden)
                                 
-                                NavigationLink(destination: PostView(post: $post)) {
-                                    EmptyView()
-                                }
+//                                NavigationLink(destination: PostView(post: $post)) {
+//                                    EmptyView()
+//                                }
 //                                .listRowBackground(notificationModel.data.read ? Color.pongSystemBackground : Color.notificationUnread)
                             }
                             else if notificationModel.data.type == .leader {
