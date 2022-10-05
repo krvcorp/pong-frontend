@@ -215,7 +215,7 @@ struct PostBubble: View {
                 }
                 
                 // MARK: Poll
-                if post.poll != nil {
+                if post.poll != nil && post.image == nil {
                     PollView(post: $post)
                 }
             }
