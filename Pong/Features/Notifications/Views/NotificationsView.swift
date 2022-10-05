@@ -6,7 +6,7 @@ struct NotificationsView: View {
     @EnvironmentObject var mainTabVM : MainTabViewModel
     @State private var showAlert = false
     @State var isLinkActive = false
-    
+    @Environment(\.colorScheme) var colorScheme: ColorScheme
     @State var post = defaultPost
     
     var body: some View {
@@ -25,12 +25,17 @@ struct NotificationsView: View {
                                             post = success
                                             isLinkActive = true
                                         }
+                                        notificationsVM.markNotificationAsRead(id: notificationModel.id)
                                     }
                                 } label: {
                                     getNotificationText(notificationModel: notificationModel)
                                 }
                                 .listRowSeparator(.hidden)
-                                .listRowBackground(notificationModel.data.read ? Color.pongSystemBackground : Color.notificationUnread)
+                                
+                                NavigationLink(destination: PostView(post: $post)) {
+                                    EmptyView()
+                                }
+//                                .listRowBackground(notificationModel.data.read ? Color.pongSystemBackground : Color.notificationUnread)
                             }
                             else if notificationModel.data.type == .leader {
                                 Button {
@@ -38,11 +43,25 @@ struct NotificationsView: View {
                                         mainTabVM.isCustomItemSelected = false
                                         mainTabVM.itemSelected = 2
                                     }
+                                    notificationsVM.markNotificationAsRead(id: notificationModel.id)
                                 } label: {
                                     getNotificationText(notificationModel: notificationModel)
                                 }
-                                .listRowBackground(notificationModel.data.read ? Color.pongSystemBackground : Color.notificationUnread)
+//                                .listRowBackground(notificationModel.data.read ? Color.pongSystemBackground : Color.notificationUnread)
                                 .listRowSeparator(.hidden)
+                            }
+                        }
+                    } header: {
+                        HStack {
+                            Text("This Week")
+                                .fontWeight(.heavy)
+                                .foregroundColor(colorScheme == .light ? Color.black : Color.white)
+                                .padding(.bottom, 4)
+                            Spacer()
+                            Button {
+                                notificationsVM.markAllAsRead()
+                            } label: {
+                                Image(systemName: "checkmark.circle.fill")
                             }
                         }
                     }
@@ -82,9 +101,18 @@ struct NotificationsView: View {
                     Text(notificationModel.notification.body)
                         .lineLimit(2)
                         .font(.headline)
-                        .background(notificationModel.data.read ? Color.pongSystemBackground : Color.notificationUnread)
                 }
                 .padding(.vertical, 1)
+
+                // if notification is unread, show a dot on the right side, otherwise, show nothing
+                if !notificationModel.data.read {
+                    Spacer()
+                    Circle()
+                        .frame(width: 8, height: 8, alignment: .center)
+                        .foregroundColor(Color.lesleyUniversityPrimary)
+                }
+                
+                
             }
     }
     
