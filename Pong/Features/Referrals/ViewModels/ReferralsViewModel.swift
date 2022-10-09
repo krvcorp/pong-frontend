@@ -4,6 +4,7 @@ import Alamofire
 
 class ReferralsViewModel: ObservableObject {
     @Published var numberReferred : Int = 0
+    @Published var referred = DAKeychain.shared["referred"] != nil ? true : false
     
     func getNumReferred(){
         NetworkManager.networkManager.request(route: "users/\(AuthManager.authManager.userId)/referrals/", method: .get, successType: ReferralResponse.self) { successResponse, errorResponse in
@@ -19,6 +20,26 @@ class ReferralsViewModel: ObservableObject {
         }
         else {
             return "Get that bag."
+        }
+    }
+    
+    func setReferrer(referralCode: String, dataManager : DataManager) {
+        let parameters = SetReferrer.Request(referralCode: referralCode)
+        NetworkManager.networkManager.emptyRequest(route: "users/\(AuthManager.authManager.userId)/refer/", method: .post, body: parameters) { successResponse, errorResponse in
+            if successResponse != nil {
+                DispatchQueue.main.async {
+                    withAnimation {
+                        DAKeychain.shared["referred"] = "true"
+                        self.referred = true
+                    }
+                }
+            }
+            
+            if let errorResponse = errorResponse {
+                DispatchQueue.main.async {
+                    dataManager.errorDetected(message: "Something went wrong!", subMessage: errorResponse.error)
+                }
+            }
         }
     }
 }

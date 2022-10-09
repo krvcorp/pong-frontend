@@ -230,10 +230,3 @@ struct ProfileCommentBubble: View {
         return highresImage
     }
 }
-
-
-struct ProfileCommentBubble_Previews: PreviewProvider {
-    static var previews: some View {
-        PostBubble(post: .constant(defaultPost))
-    }
-}

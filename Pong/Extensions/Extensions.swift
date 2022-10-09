@@ -29,12 +29,63 @@ struct RoundedCorner: Shape {
     }
 }
 
+struct NavigationBarModifier: ViewModifier {
+        
+    var backgroundColor: UIColor?
+    
+    init( backgroundColor: UIColor?) {
+        self.backgroundColor = backgroundColor
+        let coloredAppearance = UINavigationBarAppearance()
+        coloredAppearance.configureWithTransparentBackground()
+        coloredAppearance.backgroundColor = .clear
+        coloredAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+        coloredAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+        
+        UINavigationBar.appearance().standardAppearance = coloredAppearance
+        UINavigationBar.appearance().compactAppearance = coloredAppearance
+        UINavigationBar.appearance().scrollEdgeAppearance = coloredAppearance
+        UINavigationBar.appearance().tintColor = .white
+    }
+    
+    func body(content: Content) -> some View {
+        ZStack{
+            content
+            VStack {
+                GeometryReader { geometry in
+                    Color(self.backgroundColor ?? .clear)
+                        .frame(height: geometry.safeAreaInsets.top)
+                        .edgesIgnoringSafeArea(.top)
+                    Spacer()
+                }
+            }
+        }
+    }
+}
+
 // allows swipe back to go back
 extension View {
     func hideKeyboard() {
         let resign = #selector(UIResponder.resignFirstResponder)
         UIApplication.shared.sendAction(resign, to: nil, from: nil, for: nil)
     }
+    
+    func navigationBarColor(_ backgroundColor: UIColor?) -> some View {
+        self.modifier(NavigationBarModifier(backgroundColor: backgroundColor))
+    }
+}
+
+struct NavigationConfigurator: UIViewControllerRepresentable {
+    var configure: (UINavigationController) -> Void = { _ in }
+
+    func makeUIViewController(context: UIViewControllerRepresentableContext<NavigationConfigurator>) -> UIViewController {
+        UIViewController()
+    }
+    func updateUIViewController(_ uiViewController: UIViewController, context: UIViewControllerRepresentableContext<NavigationConfigurator>) {
+        if let nc = uiViewController.navigationController {
+            self.configure(nc)
+        }
+    }
+
 }
 
 
@@ -44,27 +95,6 @@ extension UIScreen{
    static let screenHeight = UIScreen.main.bounds.size.height
    static let screenSize = UIScreen.main.bounds.size
 }
-
-// remove duplicate function for posts
-//extension Array where Element == Post {
-//    func removingDuplicates() -> Array {
-//        return reduce(into: []) { result, element in
-//            if !result.contains(where: { $0.id == element.id }) {
-//                result.append(element)
-//            }
-//        }
-//    }
-//}
-
-//extension Array where Element == ProfileComment {
-//    func removingDuplicates() -> Array {
-//        return reduce(into: []) { result, element in
-//            if !result.contains(where: { $0.id == element.id }) {
-//                result.append(element)
-//            }
-//        }
-//    }
-//}
 
 // hashable remove dupe
 public extension Array where Element: Hashable {
@@ -84,3 +114,15 @@ struct NavigationLazyView<Content: View>: View {
     }
 }
 
+struct FlippedUpsideDown: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+        .rotationEffect(.radians(.pi))
+        .scaleEffect(x: -1, y: 1, anchor: .center)
+    }
+}
+extension View{
+    func flippedUpsideDown() -> some View{
+        self.modifier(FlippedUpsideDown())
+    }
+}

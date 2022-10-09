@@ -36,13 +36,13 @@ class AuthManager: ObservableObject {
             withAnimation {
                 AuthManager.authManager.isSignedIn = false
                 AuthManager.authManager.onboarded = false
-                GIDSignIn.sharedInstance.disconnect()
                 DAKeychain.shared["userId"] = nil
                 DAKeychain.shared["token"] = nil
                 DAKeychain.shared["isAdmin"] = nil
                 DAKeychain.shared["dateJoined"] = nil
                 DAKeychain.shared["referralCode"] = nil
                 DAKeychain.shared["onboarded"] = nil
+                DAKeychain.shared["referred"] = nil
                 self.signedOutAlert = true
             }
         }

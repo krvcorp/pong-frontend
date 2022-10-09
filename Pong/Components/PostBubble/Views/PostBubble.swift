@@ -9,60 +9,66 @@ struct PostBubble: View {
     @StateObject var postBubbleVM = PostBubbleViewModel()
     
     // MARK: Some local view logic
-    @State private var showScore = false
     @State private var sheet = false
     @State private var image = UIImage()
+    
+    // MARK: Conversation
+    @Binding var isLinkActive : Bool
+    @Binding var conversation : Conversation
     
     var body: some View {
         VStack {
             postBubbleMain
                 .padding(.bottom)
-
-            Color.black.frame(height:CGFloat(1) / UIScreen.main.scale)
             
             HStack {
                 
-                ZStack {
-                    NavigationLink(destination: PostView(post: $post)) {
-                        EmptyView()
-                    }
-                    .opacity(0.0)
-                    .buttonStyle(PlainButtonStyle())
-                    
-                    HStack {
-                        Image(systemName: "bubble.left")
-                        Text("\(post.numComments)")
-                            .font(.subheadline).bold()
-
-                        Spacer()
-                    }
+                VoteComponent
+                
+                Spacer()
+                
+                HStack {
+                    Image(systemName: "bubble.left")
+                        .foregroundColor(Color(UIColor.gray))
+                    Text("\(post.numComments)")
+                        .bold()
+                        .foregroundColor(Color(UIColor.gray))
                 }
+                
+                Spacer()
+                    
                 
                 if !post.userOwned {
                     Button {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         postBubbleVM.post = post
-                        postBubbleVM.startConversation(post: post, dataManager: dataManager, mainTabVM: mainTabVM)
+                        postBubbleVM.startConversation(post: post, dataManager: dataManager) { success in
+                            conversation = success
+                            isLinkActive = true
+                        }
                     } label: {
-                        Image(systemName: "paperplane")
+                        Image(systemName: "envelope")
+                            .foregroundColor(Color(UIColor.gray))
                     }
-                }
-                
-                if post.saved {
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        postBubbleVM.post = post
-                        postBubbleVM.unsavePost(post: post, dataManager: dataManager)
-                    } label: {
-                        Image(systemName: "bookmark.fill")
-                    }
-                } else if !post.saved {
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        postBubbleVM.post = post
-                        postBubbleVM.savePost(post: post, dataManager: dataManager)
-                    } label: {
-                        Image(systemName: "bookmark")
+                    
+                    if post.saved {
+                        Button {
+                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                            postBubbleVM.post = post
+                            postBubbleVM.unsavePost(post: post, dataManager: dataManager)
+                        } label: {
+                            Image(systemName: "bookmark.fill")
+                                .foregroundColor(Color(UIColor.gray))
+                        }
+                    } else if !post.saved {
+                        Button {
+                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                            postBubbleVM.post = post
+                            postBubbleVM.savePost(post: post, dataManager: dataManager)
+                        } label: {
+                            Image(systemName: "bookmark")
+                                .foregroundColor(Color(UIColor.gray))
+                        }
                     }
                 }
                 
@@ -72,6 +78,7 @@ struct PostBubble: View {
                     sheet.toggle()
                 } label: {
                     Image(systemName: "square.and.arrow.up")
+                        .foregroundColor(Color(UIColor.gray))
                 }
                 .sheet(isPresented: $sheet) {
                     ShareSheet(items: [self.image])
@@ -88,37 +95,15 @@ struct PostBubble: View {
                         }
                     } label: {
                         Image(systemName: "trash")
+                            .foregroundColor(Color(UIColor.gray))
                     }
-                } else {
-                    Menu {
-                        Button {
-                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                            postBubbleVM.post = post
-                            postBubbleVM.activeAlert = .block
-                            postBubbleVM.showConfirmation = true
-                        } label: {
-                            Label("Block user", systemImage: "x.circle")
-                        }
-                        
-                        Button {
-                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                            postBubbleVM.post = post
-                            postBubbleVM.activeAlert = .report
-                            postBubbleVM.showConfirmation = true
-                        } label: {
-                            Label("Report", systemImage: "flag")
-                        }
-                    } label: {
-                        Image(systemName: "ellipsis")
-                            .frame(width: 30, height: 30)
-                    }
-                    .frame(width: 25, height: 25)
                 }
             }
         }
         .font(.system(size: 18).bold())
-        .padding(0)
         .padding(.top, 10)
+        .padding(.leading, 15)
+        .padding(.trailing, 15)
         
         // MARK: Binds the values of postVM.post and the binding Post passed down from Feed
         .onChange(of: postBubbleVM.updateTrigger) { newValue in
@@ -174,26 +159,45 @@ struct PostBubble: View {
             .buttonStyle(PlainButtonStyle())
             
             VStack {
-                HStack(alignment: .top) {
-                    VStack(alignment: .leading) {
-                        HStack {
-                            Image(systemName: "person.fill")
-                                .font(.caption)
-                                .padding(.bottom, 4)
-                            Text("\(post.timeSincePosted)")
-                                .font(.caption)
-                                .padding(.bottom, 4)
-                        }
-                        Text(post.title)
-                            .multilineTextAlignment(.leading)
-                        
-
-                    }
-                    .padding(.bottom)
-                    
+                HStack {
+                    Text("\(post.timeSincePosted) ago")
+                        .font(.caption)
+                        .foregroundColor(Color(UIColor.systemGray))
+                        .padding(.bottom, 3)
                     Spacer()
-                    
-                    VoteComponent
+                    if !post.userOwned {
+                        Menu {
+                            Button {
+                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                                postBubbleVM.post = post
+                                postBubbleVM.activeAlert = .block
+                                postBubbleVM.showConfirmation = true
+                            } label: {
+                                Label("Block user", systemImage: "x.circle")
+                            }
+                            
+                            Button {
+                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                                postBubbleVM.post = post
+                                postBubbleVM.activeAlert = .report
+                                postBubbleVM.showConfirmation = true
+                            } label: {
+                                Label("Report", systemImage: "flag")
+                            }
+                        } label: {
+                            Image(systemName: "ellipsis")
+                                .frame(width: 30, height: 30)
+                        }
+                        .frame(width: 25, height: 25)
+                        .foregroundColor(Color(UIColor.gray))
+                    }
+                }
+                HStack() {
+                    Text(post.title)
+                        .bold()
+                        .fixedSize(horizontal: false, vertical: true)
+                        
+                    Spacer()
                 }
                 
                 // MARK: Image
@@ -206,118 +210,81 @@ struct PostBubble: View {
                 }
                 
                 // MARK: Poll
-                if post.poll != nil {
+                if post.poll != nil && post.image == nil {
                     PollView(post: $post)
                 }
+                
             }
         }
     }
     
     var VoteComponent: some View {
-        VStack {
-            if !showScore {
-                // if not upvoted or downvoted
-                if post.voteStatus == 0 {
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        postBubbleVM.postVote(direction: 1, post: post, dataManager: dataManager)
-                    } label: {
-                        Image(systemName: "arrow.up")
-                    }
-                    
-                    Text("\(post.score)")
-                    
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        postBubbleVM.postVote(direction: -1, post: post, dataManager: dataManager)
-                    } label: {
-                        Image(systemName: "arrow.down")
-                    }
-                } else if post.voteStatus == 1 {
-                    // if upvoted
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        postBubbleVM.postVote(direction: 1, post: post, dataManager: dataManager)
-                    } label: {
-                        Image(systemName: "arrow.up")
-                            .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
-                    }
-                    
-                    Text("\(post.score + 1)")
-                    
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        postBubbleVM.postVote(direction: -1, post: post, dataManager: dataManager)
-                    } label: {
-                        Image(systemName: "arrow.down")
-                    }
-                }
-                // IF POST BUBBLE IS DOWNVOTES
-                else if post.voteStatus == -1 {
-                    // upvote
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        postBubbleVM.postVote(direction: 1, post: post, dataManager: dataManager)
-                    } label: {
-                        Image(systemName: "arrow.up")
-                    }
-                    
-                    // score
-                    Text("\(post.score - 1)")
-                    
-                    // downvote
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        postBubbleVM.postVote(direction: -1, post: post, dataManager: dataManager)
-                    } label: {
-                        Image(systemName: "arrow.down")
-                            .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
-                    }
-                }
-            } else {
+        HStack {
+            if post.voteStatus == 0 {
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    withAnimation {
-                        showScore.toggle()
-                    }
-
+                    postBubbleVM.postVote(direction: 1, post: post, dataManager: dataManager)
                 } label: {
-                    VStack {
-                        if post.voteStatus == 1 {
-                            Text("\(post.numUpvotes + 1)")
-                                .foregroundColor(.green)
-                            Text("\(post.numDownvotes)")
-                                .foregroundColor(.red)
-                        }
-                        else if post.voteStatus == -1 {
-                            Text("\(post.numUpvotes)")
-                                .foregroundColor(.green)
-                            Text("\(post.numDownvotes + 1)")
-                                .foregroundColor(.red)
-                        }
-                        else if post.voteStatus == 0 {
-                            Text("\(post.numUpvotes)")
-                                .foregroundColor(.green)
-                            Text("\(post.numDownvotes)")
-                                .foregroundColor(.red)
-                        }
-                    }
+                    Image(systemName: "chevron.up")
+                        .foregroundColor(Color(UIColor.gray))
+                }
+                
+                Text("\(post.score)")
+                    .foregroundColor(Color(UIColor.gray))
+                
+                Button {
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                    postBubbleVM.postVote(direction: -1, post: post, dataManager: dataManager)
+                } label: {
+                    Image(systemName: "chevron.down")
+                        .foregroundColor(Color(UIColor.gray))
+                }
+            } else if post.voteStatus == 1 {
+                Button {
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                    postBubbleVM.postVote(direction: 1, post: post, dataManager: dataManager)
+                } label: {
+                    Image(systemName: "chevron.up")
+                        .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
+                }
+                
+                Text("\(post.score + 1)")
+                    .foregroundColor(Color(UIColor.gray))
+                
+                Button {
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                    postBubbleVM.postVote(direction: -1, post: post, dataManager: dataManager)
+                } label: {
+                    Image(systemName: "chevron.down")
+                        .foregroundColor(Color(UIColor.gray))
+                }
+            }
+            else if post.voteStatus == -1 {
+                Button {
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                    postBubbleVM.postVote(direction: 1, post: post, dataManager: dataManager)
+                } label: {
+                    Image(systemName: "chevron.up")
+                        .foregroundColor(Color(UIColor.gray))
+                }
+                
+                Text("\(post.score - 1)")
+                    .foregroundColor(Color(UIColor.gray))
+                
+                Button {
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                    postBubbleVM.postVote(direction: -1, post: post, dataManager: dataManager)
+                } label: {
+                    Image(systemName: "chevron.down")
+                        .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
                 }
             }
         }
-        .frame(width: 25, height: 50)
     }
     
     func handleShare() -> UIImage {
         let imageSize: CGSize = CGSize(width: 500, height: 800)
         let highresImage = postBubbleMain.asImage(size: imageSize)
         return highresImage
-    }
-}
-
-
-struct PostBubbleView_Previews: PreviewProvider {
-    static var previews: some View {
-        PostBubble(post: .constant(defaultPost))
     }
 }

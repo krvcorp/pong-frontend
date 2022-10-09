@@ -1,11 +1,14 @@
 import SwiftUI
 import Foundation
 import UniformTypeIdentifiers
+import AlertToast
 
 struct ReferralsView: View {
-    // MARK: ViewModels
     @StateObject var referralsVM = ReferralsViewModel()
+    @EnvironmentObject var dataManager : DataManager
     @State private var sheet : Bool = false
+    
+    @State var referralCode: String = ""
     
     var body: some View {
         List {
@@ -54,6 +57,53 @@ struct ReferralsView: View {
                 .listRowInsets(EdgeInsets())
             }
             
+            Section(header: Text("Get Referred")) {
+                if !referralsVM.referred {
+                    HStack {
+                        TextField("Enter Code", text: $referralCode)
+                            .font(.title.bold())
+                        
+                        Button(action: {
+                            referralsVM.setReferrer(referralCode: referralCode, dataManager: dataManager)
+                        }) {
+                            Image(systemName: "person.fill.checkmark")
+                                .font(.system(size: 18).bold())
+                                .padding()
+                                .foregroundColor(Color(UIColor.systemBackground))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 5)
+                                        .stroke(Color(UIColor.label), lineWidth: 2)
+                            )
+                        }
+                        .background(Color(UIColor.label))
+                        .cornerRadius(20)
+                    }
+                } else {
+                    HStack {
+                        Text(referralCode == "" ? "Referred!" : referralCode)
+                            .font(.title.bold())
+                        
+                        Spacer()
+                        
+                        Button(action: {
+                            referralsVM.setReferrer(referralCode: referralCode, dataManager: dataManager)
+                        }) {
+                            Image(systemName: "person.fill.checkmark")
+                                .font(.system(size: 18).bold())
+                                .padding()
+                                .foregroundColor(Color(UIColor.systemBackground))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 5)
+                                        .stroke(Color(UIColor.systemGreen), lineWidth: 2)
+                            )
+                        }
+                        .disabled(true)
+                        .background(Color(UIColor.systemGreen))
+                        .cornerRadius(20)
+                    }
+                }
+            }
+            
             Section(header: Text("Your Referral Code")) {
                 HStack {
                     let referralCode = DAKeychain.shared["referralCode"]!
@@ -95,6 +145,9 @@ struct ReferralsView: View {
         }
         .navigationBarTitle("Invite Friends")
         .navigationBarTitleDisplayMode(.inline)
+        .toast(isPresenting: $dataManager.errorDetected){
+            AlertToast(displayMode: .hud, type: .error(Color.red), title: dataManager.errorDetectedMessage, subTitle: dataManager.errorDetectedSubMessage)
+        }
     }
 }
 

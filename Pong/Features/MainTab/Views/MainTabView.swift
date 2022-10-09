@@ -29,12 +29,36 @@ struct MainTabView: View {
         if dataManager.isAppLoading {
             HStack {
                 Spacer()
-                ActivityIndicatorView(isVisible: $dataManager.isAppLoading, type: .equalizer(count: 8))
-                    .frame(width: 50.0, height: 50.0)
-                .onAppear {
-                    dataManager.loadStartupState() 
+                
+                VStack {
+                    if !dataManager.errorDetected {
+                        ActivityIndicatorView(isVisible: $dataManager.isAppLoading, type: .equalizer(count: 8))
+                            .frame(width: 50.0, height: 50.0)
+                            .onAppear {
+                                dataManager.loadStartupState()
+                            }
+                    } else {
+                        Button {
+                            dataManager.loadStartupState()
+                        } label: {
+                            VStack {
+                                Image(systemName: "arrow.clockwise")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: UIScreen.screenWidth / 4)
+                                Text("Try Again!")
+                            }
+
+                        }
+                        .padding()
+                        .foregroundColor(Color(UIColor.label))
+                    }
                 }
+
                 Spacer()
+            }
+            .toast(isPresenting: $dataManager.errorDetected){
+                AlertToast(displayMode: .hud, type: .error(Color.red), title: dataManager.errorDetectedMessage, subTitle: dataManager.errorDetectedSubMessage)
             }
         }
         // MARK: If app is loaded
@@ -47,12 +71,20 @@ struct MainTabView: View {
                     }
                     .tag(1)
                 
-                // MARK: Marketplace
-                MarketplaceView()
-                    .tabItem {
-                        Image(systemName: "cart")
+                // MARK: Stats and Leaderboard
+                LeaderboardView()
+                    .tabItem{
+                        Image(systemName: "chart.bar.xaxis")
                     }
                     .tag(2)
+                
+//                // MARK: Marketplace
+//                MarketplaceView()
+//                    .tabItem {
+//                        Image(systemName: "cart")
+//                    }
+//                    .tag(2)
+
 
                 // MARK: NewPostView
                 NewPostView(mainTabVM: MainTabViewModel(initialIndex: 1, customItemIndex: 1))
@@ -61,12 +93,13 @@ struct MainTabView: View {
                     }
                     .tag(3)
                 
-                // MARK: Stats and Leaderboard
-                LeaderboardView()
+                //MARK: Notifications
+                NotificationsView()
                     .tabItem{
-                        Image(systemName: "chart.bar.xaxis")
+                        Image(systemName: "bell")
                     }
                     .tag(4)
+                
 
                 // MARK: ProfileView
                 ProfileView()
@@ -85,7 +118,6 @@ struct MainTabView: View {
             .toast(isPresenting: $dataManager.errorDetected){
                 AlertToast(displayMode: .hud, type: .error(Color.red), title: dataManager.errorDetectedMessage, subTitle: dataManager.errorDetectedSubMessage)
             }
-
         }
     }
 }

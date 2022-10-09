@@ -32,7 +32,7 @@ struct EmailVerificationView: View {
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 32, height: 32)
                         .padding(8)
-                    Text("College Email")
+                    Text("Continue with Google")
                         .fontWeight(.semibold)
                         .foregroundColor(.poshDarkPurple)
                         .padding([.leading], -6)
@@ -44,7 +44,7 @@ struct EmailVerificationView: View {
                 .padding([.leading, .trailing], 44)
                 .shadow(color: Color(white: 0.1, opacity: 0.3), radius: 12, x: 0, y: 6)
             }
-            .padding(.bottom, 32)
+            .padding(.bottom, 16)
             
             Button {
                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
@@ -56,7 +56,7 @@ struct EmailVerificationView: View {
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 32, height: 32)
                         .padding(8)
-                    Text("Microsoft Email")
+                    Text("Continue with Microsoft")
                         .fontWeight(.semibold)
                         .foregroundColor(.poshDarkPurple)
                         .padding([.leading], -6)

@@ -1,10 +1,3 @@
-//
-//  Colors.swift
-//  Pong
-//
-//  Created by Artemas on 8/4/22.
-//
-
 import Foundation
 import SwiftUI
 import AVFAudio
@@ -332,4 +325,22 @@ extension Color {
     public static var bone: Color {
         return Color(red: 215/255, green: 210/255, blue: 203/255)
     }
+    
+    public static var pongSystemBackground : Color {
+        return Color(UIColor(named: "pongSystemBackground")!)
+    }
+    
+    public static var lesleyUniversityPrimary : Color {
+        return Color(UIColor(named: "LesleyUniversityPrimary")!)
+    }
+    
+    public static var bostonUniversityPrimary : Color {
+        return Color(UIColor(named: "BostonUniversityPrimary")!)
+    }
+    
+    public static var notificationUnread : Color {
+        return Color(UIColor(named: "notificationUnread")!)
+    }
 }
+
+

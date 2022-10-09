@@ -8,7 +8,12 @@ struct FeedView: View {
     @EnvironmentObject var dataManager : DataManager
     @Environment(\.presentationMode) var presentationMode
     @StateObject var feedVM = FeedViewModel()
+    @ObservedObject private var notificationsManager = NotificationsManager.notificationsManager
     @Binding var showMenu : Bool
+    
+    // MARK: Conversation
+    @State private var isLinkActive = false
+    @State private var conversation = defaultConversation
     
     var body: some View {
         NavigationView {
@@ -26,17 +31,16 @@ struct FeedView: View {
             .navigationBarTitleDisplayMode(.inline)
             // MARK: Toolbar
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button {
-                        print("DEBUG: Show Menu")
-                        withAnimation {
-                            showMenu.toggle()
-                        }
-                    } label: {
-                        Image(systemName: "line.horizontal.3")
-                            .imageScale(.large)
-                    }
-                }
+//                ToolbarItem(placement: .navigationBarLeading) {
+//                    Button {
+//                        withAnimation {
+//                            showMenu.toggle()
+//                        }
+//                    } label: {
+//                        Image(systemName: "line.horizontal.3")
+//                            .imageScale(.large)
+//                    }
+//                }
                 
                 ToolbarItem(placement: .principal) {
                     toolbarPickerComponent
@@ -44,12 +48,19 @@ struct FeedView: View {
                 
                 ToolbarItem {
                     HStack(spacing: 0) {
-                        NavigationLink(destination: NotificationsView()) {
-                            Image(systemName: "bell")
-                        }
+                        NavigationLink(destination: MessageView(conversation: $conversation), isActive: $isLinkActive) { EmptyView().opacity(0) }.opacity(0)
                         
                         NavigationLink(destination: MessageRosterView(), isActive: $mainTabVM.openConversationsDetected) {
-                            Image(systemName: "paperplane")
+                            if dataManager.conversations.contains(where: {!$0.read}) {
+                                ZStack(alignment: .bottomTrailing) {
+                                    Image(systemName: "envelope")
+                                    Circle()
+                                        .fill(.red)
+                                        .frame(width: 7, height: 7)
+                                }
+                            } else {
+                                Image(systemName: "envelope")
+                            }
                         }
                     }
                 }
@@ -62,12 +73,27 @@ struct FeedView: View {
                 self.presentationMode.wrappedValue.dismiss()
                 feedVM.selectedFeedFilter = .recent
                 feedVM.paginatePostsReset(selectedFeedFilter: .recent, dataManager: dataManager)
+                notificationsManager.triggerNotification()
             }
         })
         .navigationViewStyle(StackNavigationViewStyle())
         .accentColor(Color(UIColor.label))
         .toast(isPresenting: $dataManager.removedPost){
             AlertToast(displayMode: .hud, type: .regular, title: dataManager.removedPostMessage)
+        }
+        .alert(isPresented: $notificationsManager.pushNotification) {
+            Alert(
+                title: Text("Notifications Setup"),
+                message: Text("Enable push notifications? You can always change this later in settings."),
+                primaryButton: .destructive(
+                    Text("Don't Enable"),
+                    action: NotificationsManager.notificationsManager.dontEnableNotifs
+                ),
+                secondaryButton: .default(
+                    Text("Enable"),
+                    action: NotificationsManager.notificationsManager.registerForNotifications
+                )
+            )
         }
     }
     
@@ -92,7 +118,7 @@ struct FeedView: View {
                         HStack(spacing: 5) {
                             Image(systemName: filter.imageName)
                             Text(filter.title)
-                                .font(.subheadline)
+                                .font(.subheadline.bold())
                         }
                         .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
                     }
@@ -111,11 +137,6 @@ struct FeedView: View {
             }
             Spacer()
         }
-    }
-    
-    // Component at the bottom of the list that shows when all posts have been fetched
-    var reachedBottomComponentAndFinished : some View {
-        Text("There's nothing left! Scroll to top and refresh!")
     }
     
     // MARK: Custom Feed Stack
@@ -156,17 +177,24 @@ struct FeedView: View {
                     ForEach($dataManager.topPosts, id: \.id) { $post in
                         // custom divider
                         
-                        PostBubble(post: $post)
+                        PostBubble(post: $post, isLinkActive: $isLinkActive, conversation: $conversation)
                             .buttonStyle(PlainButtonStyle())
                             .onAppear {
                                 feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab, dataManager: dataManager)
                             }
                             .listRowSeparator(.hidden)
                             .listRowBackground(Color(UIColor.systemBackground))
+                            .padding(.bottom, 5)
 
-                        CustomListDivider()
-
+                        Rectangle()
+                            .fill(Color(UIColor.gray))
+                            .frame(maxHeight: 1)
+                            .listRowBackground(Color(UIColor.systemBackground).edgesIgnoringSafeArea([.leading, .trailing]))
+                            .listRowSeparator(.hidden)
+                            .padding(0)
+                            .listRowInsets(EdgeInsets())
                     }
+                    .listRowInsets(EdgeInsets())
                     
                     if !feedVM.finishedTop {
                         CustomListDivider()
@@ -179,26 +207,29 @@ struct FeedView: View {
                         .onAppear() {
                             feedVM.paginatePosts(selectedFeedFilter: tab, dataManager: dataManager)
                         }
-                    } else {
-                        reachedBottomComponentAndFinished
-                        CustomListDivider()
                     }
                 }
                 // MARK: HOT
                 else if tab == .hot {
                     ForEach($dataManager.hotPosts, id: \.id) { $post in
-                        
-                        PostBubble(post: $post)
+                        PostBubble(post: $post, isLinkActive: $isLinkActive, conversation: $conversation)
                             .buttonStyle(PlainButtonStyle())
                             .onAppear {
                                 feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab, dataManager: dataManager)
                             }
                             .listRowSeparator(.hidden)
                             .listRowBackground(Color(UIColor.systemBackground))
+                            .padding(.bottom, 5)
 
-                        CustomListDivider()
-                        
+                        Rectangle()
+                            .fill(Color(UIColor.gray))
+                            .frame(maxHeight: 1)
+                            .listRowBackground(Color(UIColor.systemBackground).edgesIgnoringSafeArea([.leading, .trailing]))
+                            .listRowSeparator(.hidden)
+                            .padding(0)
+                            .listRowInsets(EdgeInsets())
                     }
+                    .listRowInsets(EdgeInsets())
                     if !feedVM.finishedHot {
                         CustomListDivider()
                         
@@ -210,25 +241,30 @@ struct FeedView: View {
                         .onAppear() {
                             feedVM.paginatePosts(selectedFeedFilter: tab, dataManager: dataManager)
                         }
-                    } else {
-                        reachedBottomComponentAndFinished
-                        CustomListDivider()
                     }
                 }
+                
                 // MARK: RECENT
                 else if tab == .recent {
                     ForEach($dataManager.recentPosts, id: \.id) { $post in
-                        
-                        PostBubble(post: $post)
+                        PostBubble(post: $post, isLinkActive: $isLinkActive, conversation: $conversation)
                             .buttonStyle(PlainButtonStyle())
                             .onAppear {
                                 feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab, dataManager: dataManager)
                             }
                             .listRowSeparator(.hidden)
                             .listRowBackground(Color(UIColor.systemBackground))
+                            .padding(.bottom, 5)
 
-                        CustomListDivider()
+                        Rectangle()
+                            .fill(Color(UIColor.gray))
+                            .frame(maxHeight: 1)
+                            .listRowBackground(Color(UIColor.systemBackground).edgesIgnoringSafeArea([.leading, .trailing]))
+                            .listRowSeparator(.hidden)
+                            .padding(0)
+                            .listRowInsets(EdgeInsets())
                     }
+                    .listRowInsets(EdgeInsets())
                     if !feedVM.finishedRecent {
                         CustomListDivider()
                         Button {
@@ -239,9 +275,6 @@ struct FeedView: View {
                         .onAppear() {
                             feedVM.paginatePosts(selectedFeedFilter: tab, dataManager: dataManager)
                         }
-                    } else {
-                        reachedBottomComponentAndFinished
-                        CustomListDivider()
                     }
                 }
             }

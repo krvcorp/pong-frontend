@@ -6,20 +6,61 @@ struct SettingsView: View {
     @StateObject private var settingsVM = SettingsViewModel()
     @State private var shareSheet = false
     @ObservedObject private var notificationsManager = NotificationsManager.notificationsManager
+    @Environment(\.colorScheme) var colorScheme: ColorScheme
     
     var body: some View {
         List {
-            Section(header: Text("The Fun Stuff")) {
+            
+            Section("ACCOUNT") {
+                
+                // MARK: Referrals View
+                NavigationLink(destination: ReferralsView()){
+                    HStack {
+                        Image(systemName: "dollarsign.circle").font(Font.body.weight(.bold))
+                            .frame(width: 20)
+                        Text("Referrals")
+                            .bold()
+                        Spacer()
+                    }
+                }
+                .frame(minHeight: 30)
+                
                 // MARK: Admin Feed View
                 if (AuthManager.authManager.isAdmin) {
                     NavigationLink(destination: AdminFeedView()){
                         HStack {
+                            Image(systemName: "flag").font(Font.body.weight(.bold))
+                                .frame(width: 20)
                             Text("Admin Feed View").foregroundColor(Color(uiColor: UIColor.label))
+                                .bold()
                             Spacer()
+                            
                         }
                     }
+                    .frame(minHeight: 30)
+                    
+        
                 }
                 
+                // MARK: Account Actions View
+                NavigationLink(destination: AccountActionsView()){
+                    HStack {
+                        Image(systemName: "person.crop.circle").font(Font.body.weight(.bold))
+                            .frame(width: 20)
+                        Text("Account Actions")
+                            .bold()
+                        Spacer()
+                    }
+                }
+                .frame(minHeight: 30)
+            }
+            .listRowBackground(Color.pongSystemBackground)
+            .listRowSeparator(.hidden)
+            
+//            Divider()
+//                .listRowSeparator(.hidden)
+            
+            Section("ABOUT") {
                 // MARK: Contact Us
                 HStack {
                     Button {
@@ -27,208 +68,119 @@ struct SettingsView: View {
                         EmailController().sendEmail()
                     } label: {
                         HStack{
+                            Image(systemName: "envelope").font(Font.body.weight(.bold))
+                                .frame(width: 20)
                             Text("Contact Us")
+                                .bold()
                             Spacer()
-                            Image(systemName: "envelope")
                         }
                     }
                 }
+                .frame(minHeight: 30)
                 
-                // MARK: Share Pong
-                HStack {
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        shareSheet.toggle()
-                    } label: {
-                        HStack{
-                            Text("Share Pong")
-                            Spacer()
-                            Image(systemName: "square.and.arrow.up")
-                        }
-                    }
-                    .sheet(isPresented: $shareSheet) {
-                        let url = URL(string: "https://www.pong.blog/")
-                        ShareSheet(items: [url ?? []])
-                    }
-                }
                 
-                // MARK: Referrals View
-                NavigationLink(destination: ReferralsView()){
-                    HStack {
-                        Text("Referrals")
-                        Spacer()
-                        Image(systemName: "figure.stand.line.dotted.figure.stand")
-                    }
+                // MARK: Privacy Policy
+                HStack() {
+                    Image(systemName: "lock.shield").font(Font.body.weight(.bold))
+                        .frame(width: 20)
+                    Link(destination: URL(string: "https://www.pong.blog/legal")!, label: {
+                        Text("Privacy Policy")
+                            .bold()
+                    })
+                    Spacer()
                 }
+                .frame(minHeight: 30)
                 
-                // MARK: Unblock All
-                Button {
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    settingsVM.activeAlertType = .unblockAll
-                    settingsVM.activeAlert = true
-                } label: {
-                    HStack {
-                        Text("Unblock All Users").foregroundColor(.red).bold()
-                        Spacer()
-                        Image(systemName: "eye.slash.fill").foregroundColor(.red).font(Font.body.weight(.bold))
-                    }
+                // MARK: Terms of SERVICE
+                HStack() {
+                    Image(systemName: "newspaper").font(Font.body.weight(.bold))
+                        .frame(width: 20)
+                    Link(destination: URL(string: "https://www.pong.blog/legal")!, label: {
+                        Text("Terms of Service")
+                            .bold()
+                    })
+                    Spacer()
                 }
-            }.modifier(ProminentHeaderModifier())
+                .frame(minHeight: 30)
+                
+            }
+            .listRowBackground(Color.pongSystemBackground)
+            .listRowSeparator(.hidden)
             
-            // MARK: Preferences Section
-            Section(header: Text("You Pick")) {
+//            Divider()
+//                .listRowSeparator(.hidden)
+//                .padding(0)
+            
+            Section("PREFERENCES") {
+                
                 // MARK: Dark Mode
-                HStack(spacing: 0) {
+                HStack {
+                    Image(systemName: "moon").font(Font.body.weight(.bold))
+                        .frame(width: 20)
                     Text("Dark Mode")
-                    Spacer(minLength: 20)
+                        .bold()
+                    Spacer()
                     Picker("Display Mode", selection: $settingsVM.displayMode) {
                         Text("Auto").tag(DisplayMode.system)
                         Text("On").tag(DisplayMode.dark)
                         Text("Off").tag(DisplayMode.light)
                     }
+                    .frame(maxWidth: 200)
                     .pickerStyle(.segmented)
                     .onChange(of: settingsVM.displayMode) { newValue in
                         settingsVM.displayMode.setAppDisplayMode()
                     }
                 }
+                .frame(minHeight: 30)
+                
                 
                 // MARK: Notifications
-                Toggle("Notifications", isOn: $notificationsManager.notificationsPreference)
+                Toggle(isOn: $notificationsManager.notificationsPreference, label: {
+                    HStack {
+                        Image(systemName: "bell").font(Font.body.weight(.bold))
+                            .frame(width: 20)
+                        VStack {
+                            HStack {
+                                Text("Notifications")
+                                    .bold()
+                                Spacer()
+                            }
+                        }
+                    }
+                })
+                .frame(minHeight: 30)
                 
-                // MARK: Logout
-                Button {
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    settingsVM.activeAlertType = .signOut
-                    settingsVM.activeAlert = true
-                } label: {
-                    HStack {
-                        Text("Logout").foregroundColor(.red)
-                        Spacer()
-                        Image(systemName: "arrow.uturn.left").foregroundColor(.red)
-                    }
-                }
-                
-                // MARK: Delete Account
-                Button {
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    settingsVM.activeAlertType = .deleteAccount
-                    settingsVM.activeAlert = true
-                } label: {
-                    HStack {
-                        Text("Delete Account").foregroundColor(.red).bold()
-                        Spacer()
-                        Image(systemName: "trash").foregroundColor(.red).font(Font.body.weight(.bold))
-                    }
-                }
-            }.modifier(ProminentHeaderModifier())
-            
-            // MARK: Legal
-            Section(header: Text("The Boring Stuff")) {
-                // MARK: Privacy Policy
-                HStack() {
-                    Link("Privacy Policy", destination: URL(string: "https://www.pong.blog/legal")!)
-                    Spacer()
-                    Image(systemName: "person.fill.questionmark")
-                }
-                
-                // MARK: Terms of SERVICE
-                HStack() {
-                    Link("Terms of Service", destination: URL(string: "https://www.pong.blog/legal")!)
-                    Spacer()
-                    Image(systemName: "newspaper")
-                }
-            
-            }.modifier(ProminentHeaderModifier())
-            
-            // MARK: Admin Debug Section
-            #if DEBUG
-            Section(header: Text("Debug")) {
-                Button(action: {
-                    UIPasteboard.general.string = DAKeychain.shared["userId"]
-                }) {
-                    Text("Copy User ID").foregroundColor(.pink)
-                }
-                Button(action: {
-                    let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-                    UNUserNotificationCenter.current().requestAuthorization(options: authOptions) { _, _ in }
-                    UIApplication.shared.registerForRemoteNotifications()
-                }) {
-                    Text("Register for APNS").foregroundColor(.blue)
-                }
-                Button(action: {
-                    Messaging.messaging().token { token, error in
-                      if let error = error {
-                          UIPasteboard.general.string = "Error Fetching FCM Registration Token: \(error)"
-                      } else if let token = token {
-                          UIPasteboard.general.string = token
-                      }
-                    }
-                }) {
-                    Text("Copy FCM Token").foregroundColor(.blue)
-                }
-                HStack {
-                    Text("Version")
-                    Spacer()
-                    Text(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String)
-                        .foregroundColor(.gray)
-                }
-                HStack {
-                    Text("Build")
-                    Spacer()
-                    Text(Bundle.main.infoDictionary?["CFBundleVersion"] as! String)
-                        .foregroundColor(.gray)
-                }
-                HStack {
-                    Text("Environment")
-                    Spacer()
-                        Text("Debug")
-                            .foregroundColor(.gray)
-                }
-                Button(action: {
-                    UIPasteboard.general.setValue(DAKeychain.shared["userId"] ?? "Invalid",
-                                forPasteboardType: UTType.plainText.identifier)
-                }) {
-                    HStack {
-                        Text("User ID").foregroundColor(Color(uiColor: UIColor.label))
-                        Spacer()
-                        Text( DAKeychain.shared["userId"]?.prefix(16) ?? "Invalid")
-                            .foregroundColor(.gray)
-                    }
-                }
-                Button(action: {
-                    UIPasteboard.general.setValue(DAKeychain.shared["token"] ?? "Invalid",
-                                forPasteboardType: UTType.plainText.identifier)
-                }) {
-                    HStack {
-                        Text("Token").foregroundColor(Color(uiColor: UIColor.label))
-                        Spacer()
-                        Text( DAKeychain.shared["token"]?.prefix(16) ?? "Invalid")
-                            .foregroundColor(.gray)
-                    }
-                }
-            }.modifier(ProminentHeaderModifier())
-        #endif
+            }
+            .listRowBackground(Color.pongSystemBackground)
+            .listRowSeparator(.hidden)
             
             Section {
                 VStack {
-                    Text("Copyright © 2022 KRV Corp.")
-                        .font(.system(Font.TextStyle.caption2, design: .rounded))
-                        .frame(maxWidth: .infinity, alignment: .center)
                     Text("Joined \(DAKeychain.shared["dateJoined"] ?? "")")
                         .font(.system(Font.TextStyle.caption2, design: .rounded))
                         .frame(maxWidth: .infinity, alignment: .center)
-                        .foregroundColor(Color.gray)
+                    Text("© 2022 KRV Corp.")
+                        .font(.system(Font.TextStyle.caption2, design: .rounded))
+                        .frame(maxWidth: .infinity, alignment: .center)
+                    Text("Version \(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String)")
+                        .font(.system(Font.TextStyle.caption2, design: .rounded))
+                        .frame(maxWidth: .infinity, alignment: .center)
                 }
+                .foregroundColor(Color.gray)
+                .padding(.top, 100)
             }
-            .listRowBackground(Color(UIColor.secondarySystemBackground))
+            .listRowBackground(Color.pongSystemBackground)
             .listRowSeparator(.hidden)
         }
+        .environment(\.defaultMinListRowHeight, 0)
+        .background(Color.pongSystemBackground)
+        .listStyle(PlainListStyle())
+        .frame(maxWidth: .infinity)
         .navigationTitle("Settings")
-        .listStyle(InsetGroupedListStyle())
+        .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             UITableView.appearance().showsVerticalScrollIndicator = false
         }
-        .background(Color(UIColor.systemGroupedBackground))
         .alert(isPresented: $settingsVM.activeAlert) {
             switch settingsVM.activeAlertType {
             case .unblockAll:
@@ -246,11 +198,11 @@ struct SettingsView: View {
             case .signOut:
                 return Alert(
                     title: Text("Log Out"),
-                    message: Text("Are you sure you want to signout?"),
+                    message: Text("Are you sure you want to logout?"),
                     primaryButton: .default(
                         Text("Cancel")
                     ),
-                    secondaryButton: .destructive(Text("Log Out")){
+                    secondaryButton: .destructive(Text("Logout")){
                         AuthManager.authManager.signout()
                     }
                 )
@@ -262,7 +214,7 @@ struct SettingsView: View {
                     primaryButton: .default(
                         Text("Cancel")
                     ),
-                    secondaryButton: .destructive(Text("DELETE ACCOUNT").bold()){
+                    secondaryButton: .destructive(Text("Delete Account").bold()){
                         settingsVM.deleteAccount()
                     }
                 )

@@ -4,126 +4,83 @@ struct NotificationsView: View {
     @StateObject private var notificationsVM = NotificationsViewModel()
     @ObservedObject private var notificationsManager = NotificationsManager.notificationsManager
     @EnvironmentObject var mainTabVM : MainTabViewModel
-    @State private var searchText = ""
     @State private var showAlert = false
     @State var isLinkActive = false
-//    @Environment(\.colorScheme) var colorScheme
-    
+    @Environment(\.colorScheme) var colorScheme: ColorScheme
     @State var post = defaultPost
     
-    @ViewBuilder
     var body: some View {
-        LoadingView(isShowing: .constant(false)) {
-//            NavigationView {
-                VStack {
-                    NavigationLink(destination: PostView(post: $post), isActive: $isLinkActive) { EmptyView() }
-                    
-                    List {
-                        Section() {
-                            if searchText.isEmpty && !notificationsManager.hasEnabledNotificationsOnce {
-                                Button(action: {
-                                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                                    showAlert = true
-                                }) {
-                                    HStack {
-                                        ZStack {
-                                            LinearGradient(gradient: Gradient(colors: [Color.viewEventsGradient1, Color.viewEventsGradient2]), startPoint: .topTrailing, endPoint: .bottomLeading)
-                                            Image(systemName: "bell")
-                                                .imageScale(.small)
-                                                .foregroundColor(.white)
-                                                .font(.largeTitle)
+        NavigationView {
+            VStack {
+                NavigationLink(destination: PostView(post: $post), isActive: $isLinkActive) { EmptyView() }
+                
+                List {
+                    Section() {
+                        ForEach(notificationsVM.notificationHistory) { notificationModel in
+                            if notificationModel.data.type == .upvote || notificationModel.data.type == .comment || notificationModel.data.type == .hot || notificationModel.data.type == .top || notificationModel.data.type == .reply {
+                                
+                                Button {
+                                    DispatchQueue.main.async {
+                                        notificationsVM.getPost(url: notificationModel.data.url!) { success in
+                                            post = success
+                                            isLinkActive = true
                                         }
-                                        .frame(width: 40, height: 40, alignment: .center)
-                                        .cornerRadius(10)
-                                        .padding(.trailing, 4)
-                                        VStack (alignment: .leading, spacing: 6) {
-                                            Text("Enable Notifications").foregroundColor(Color(uiColor: UIColor.label)).bold().lineLimit(1)
-                                            HStack {
-                                                Text("Never miss a message.").lineLimit(1).foregroundColor(.gray)
-                                                Spacer()
-                                            }
-                                        }
-                                        Spacer()
-                                        ZStack {
-                                            Circle()
-                                                .fill(Color(UIColor.secondarySystemFill))
-                                            Image(systemName: "hand.tap")
-                                                .font(Font.body.weight(.bold))
-                                                .foregroundColor(.gray)
-                                        }
-                                        .frame(width: 40, height: 40)
-
-                                    }.padding(.vertical, 10)
-                                    .alert(isPresented: $showAlert) {
-                                        Alert(
-                                            title: Text("Notifications Setup"),
-                                            message: Text("Enable push notifications? You can always change this later in settings."),
-                                            primaryButton: .destructive(
-                                                Text("Don't Enable"),
-                                                action: dontEnableNotifs
-                                            ),
-                                            secondaryButton: .default(
-                                                Text("Enable"),
-                                                action: notificationsManager.registerForNotifications
-                                            )
-                                        )
+                                        notificationsVM.markNotificationAsRead(id: notificationModel.id)
                                     }
+                                } label: {
+                                    getNotificationText(notificationModel: notificationModel)
                                 }
+                                .listRowSeparator(.hidden)
+                                
+//                                NavigationLink(destination: PostView(post: $post)) {
+//                                    EmptyView()
+//                                }
+//                                .listRowBackground(notificationModel.data.read ? Color.pongSystemBackground : Color.notificationUnread)
+                            }
+                            else if notificationModel.data.type == .leader {
+                                Button {
+                                    DispatchQueue.main.async {
+                                        mainTabVM.isCustomItemSelected = false
+                                        mainTabVM.itemSelected = 2
+                                    }
+                                    notificationsVM.markNotificationAsRead(id: notificationModel.id)
+                                } label: {
+                                    getNotificationText(notificationModel: notificationModel)
+                                }
+//                                .listRowBackground(notificationModel.data.read ? Color.pongSystemBackground : Color.notificationUnread)
+                                .listRowSeparator(.hidden)
                             }
                         }
-                        Section(header: Text("Recent Notifications")) {
-                            ForEach(notificationsVM.notificationHistory.filter { searchText.isEmpty || $0.notification.body.localizedStandardContains(searchText)}) { notificationModel in
-                                if notificationModel.data.type == .upvote || notificationModel.data.type == .comment || notificationModel.data.type == .hot || notificationModel.data.type == .top || notificationModel.data.type == .reply {
-                                    
-                                    Button {
-                                        DispatchQueue.main.async {
-                                            notificationsVM.getPost(url: notificationModel.data.url!) { success in
-                                                post = success
-                                                isLinkActive = true
-                                            }
-                                        }
-                                    } label: {
-                                        getNotificationText(notificationModel: notificationModel)
-                                    }
-                                }
-                                else if notificationModel.data.type == .message  {
-                                    NavigationLink(destination: Text("ref here")) {
-                                        getNotificationText(notificationModel: notificationModel)
-                                    }
-                                }
-                                
-                                else if notificationModel.data.type == .leader {
-                                    Button {
-                                        DispatchQueue.main.async {
-                                            mainTabVM.isCustomItemSelected = false
-                                            mainTabVM.itemSelected = 4
-                                        }
-                                    } label: {
-                                        getNotificationText(notificationModel: notificationModel)
-                                    }
-                                }
+                    } header: {
+                        HStack {
+                            Text("This Week")
+                                .fontWeight(.heavy)
+                                .foregroundColor(colorScheme == .light ? Color.black : Color.white)
+                                .padding(.bottom, 4)
+                            Spacer()
+                            Button {
+                                notificationsVM.markAllAsRead()
+                            } label: {
+                                Image(systemName: "checkmark.circle.fill")
                             }
                         }
                     }
-                    .refreshable(action: {
-                        print("DEBUG: Refreshed!")
-                    })
-                    .listStyle(GroupedListStyle())
                 }
-                .onAppear {
-                    UITableView.appearance().showsVerticalScrollIndicator = false
+                .refreshable() {
+                    print("DEBUG: REFRESH")
                     notificationsVM.getNotificationHistory()
                 }
-                .navigationTitle("Notifications")
-                .navigationBarTitleDisplayMode(.inline)
-                .accentColor(Color(UIColor.label))
-                .searchable(text: $searchText)
-                .navigationViewStyle(StackNavigationViewStyle())
-                
-//            }
-//            .accentColor(Color(UIColor.label))
-//            .searchable(text: $searchText)
-//            .navigationViewStyle(StackNavigationViewStyle())
+                .listStyle(PlainListStyle())
+            }
+            .background(Color.pongSystemBackground)
+            .onAppear {
+                UITableView.appearance().showsVerticalScrollIndicator = false
+                notificationsVM.getNotificationHistory()
+            }
+            .navigationTitle("Activity")
+            .navigationBarTitleDisplayMode(.inline)
+            .accentColor(Color(UIColor.label))
+            .navigationViewStyle(StackNavigationViewStyle())
         }
     }
     
@@ -147,6 +104,16 @@ struct NotificationsView: View {
                         .font(.headline)
                 }
                 .padding(.vertical, 1)
+
+                // if notification is unread, show a dot on the right side, otherwise, show nothing
+                if !notificationModel.data.read {
+                    Spacer()
+                    Circle()
+                        .frame(width: 8, height: 8, alignment: .center)
+                        .foregroundColor(Color.lesleyUniversityPrimary)
+                }
+                
+                
             }
     }
     
@@ -191,14 +158,5 @@ struct NotificationsView: View {
             return (.viewEventsGradient2, .viewEventsGradient1)
         }
     }
-    
-    func dontEnableNotifs() {
-        
-    }
 }
 
-//struct NotificationsView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        NotificationsView()
-//    }
-//}

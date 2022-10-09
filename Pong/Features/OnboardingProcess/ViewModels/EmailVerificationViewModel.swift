@@ -10,7 +10,6 @@ class EmailVerificationViewModel: ObservableObject {
     @Published var loginErrorMessage: String = "error"
 
     // MARK: Google OAuth2.0
-    // company
     let signInConfig = GIDConfiguration(clientID: "43678979560-6ah9oj1h0cvvd5is4al3lmkmdmd1tdqd.apps.googleusercontent.com")
 
     func signinWithGoogle() {
@@ -36,7 +35,6 @@ class EmailVerificationViewModel: ObservableObject {
             }
         }
     }
-    
     
     // MARK: Microsoft MSAL
     func signInWithMicrosoft() {
@@ -103,6 +101,12 @@ class EmailVerificationViewModel: ObservableObject {
                                 DAKeychain.shared["onboarded"] = "true"
                             }
                         }
+                        if let referred = successResponse.referred {
+                            if referred {
+                                DAKeychain.shared["referred"] = "true"
+                            }
+                        }
+                        
                         AuthManager.authManager.loadCurrentState()
                     }
                     if let errorResponse = errorResponse {

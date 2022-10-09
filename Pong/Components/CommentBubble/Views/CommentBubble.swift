@@ -8,6 +8,10 @@ struct CommentBubble: View {
     
     @State private var showScore = false
     
+    // MARK: Conversation
+    @Binding var isLinkActive : Bool
+    @Binding var conversation : Conversation
+    
     var body: some View {
         VStack {
             VStack {
@@ -34,7 +38,7 @@ struct CommentBubble: View {
                         .fill(Color(UIColor.systemBackground))
                         .frame(width: 20)
                     Spacer()
-                    CommentBubble(comment: $child)
+                    CommentBubble(comment: $child, isLinkActive: $isLinkActive, conversation: $conversation)
                         .buttonStyle(PlainButtonStyle())
                 }
             }
@@ -201,7 +205,10 @@ struct CommentBubble: View {
             if !comment.userOwned {
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    postVM.startConversation(comment: comment, dataManager: dataManager)
+                    postVM.startConversation(comment: comment, dataManager: dataManager) { success in
+                        conversation = success
+                        isLinkActive = true
+                    }
                 } label: {
                     Image(systemName: "paperplane")
                 }
@@ -239,11 +246,5 @@ struct CommentBubble: View {
                 }
             }
         }
-    }
-}
-
-struct CommentBubble_Previews: PreviewProvider {
-    static var previews: some View {
-        CommentBubble(comment: .constant(defaultComment))
     }
 }

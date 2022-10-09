@@ -6,6 +6,11 @@ enum SettingsActiveAlert {
     case unblockAll, signOut, deleteAccount
 }
 
+struct Settings {
+    struct Request: Encodable { let enabled: Bool }
+    struct Success: Decodable {}
+}
+
 class SettingsViewModel: ObservableObject {
     @AppStorage("displayMode") var displayMode = DisplayMode.system
     @Published var numberReferred : Int = 0
@@ -35,18 +40,9 @@ class SettingsViewModel: ObservableObject {
     }
     
     func changeNotifications(setTo: Bool) {
-        if (setTo) {
-            NetworkManager.networkManager.emptyRequest(route: "notifications/enable/", method: .post) { successResponse, errorResponse in
-                if let successResponse = successResponse {
-                    debugPrint(successResponse)
-                }
-            }
-        }
-        else {
-            NetworkManager.networkManager.emptyRequest(route: "notifications/disable", method: .post) { successResponse, errorResponse in
-                if let successResponse = successResponse {
-                    debugPrint(successResponse)
-                }
+        NetworkManager.networkManager.request(route: "notifications/settingshandler/", method: .post, body: Settings.Request(enabled: setTo), successType: Settings.Success.self) { successResponse, errorResponse in
+            if let successResponse = successResponse {
+                debugPrint(successResponse)
             }
         }
     }
@@ -59,6 +55,13 @@ class SettingsViewModel: ObservableObject {
         }
     }
     
+    func resetDefaults() {
+        let defaults = UserDefaults.standard
+        let dictionary = defaults.dictionaryRepresentation()
+        dictionary.keys.forEach { key in
+            defaults.removeObject(forKey: key)
+        }
+    }
 }
 
 

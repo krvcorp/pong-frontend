@@ -15,8 +15,8 @@ struct MarketplaceBubble: View {
         NavigationLink(destination: MarketplaceItemView(marketplaceItem: $marketplaceItem)) {
             ZStack {
                 // MARK: Image
-                if let imageUrl = marketplaceItem.image {
-                    KFImage(URL(string: "\(imageUrl)")!)
+                if let index = self.marketplaceItem.images.firstIndex(where: {$0.featured}) {
+                    KFImage(URL(string: "\(marketplaceItem.images[index].image)")!)
                         .resizable()
                         .scaledToFit()
                         .aspectRatio(contentMode: .fill)
@@ -30,7 +30,7 @@ struct MarketplaceBubble: View {
                         
                         VStack {
                             HStack {
-                                Text("\(marketplaceItem.title)")
+                                Text("\(marketplaceItem.name)")
                                 Spacer()
                             }
                             

@@ -10,11 +10,16 @@ struct PostView: View {
     
     @Binding var post : Post
     @StateObject var postVM = PostViewModel()
+    @ObservedObject private var notificationsManager = NotificationsManager.notificationsManager
     
     @State private var text = ""
     @State var sheet = false
     @State private var showScore = false
     @FocusState private var textIsFocused : Bool
+    
+    // MARK: Conversation
+    @State var isLinkActive = false
+    @State var conversation = defaultConversation
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -28,7 +33,7 @@ struct PostView: View {
                 
                 LazyVStack {
                     ForEach($postVM.comments, id: \.self) { $comment in
-                        CommentBubble(comment: $comment)
+                        CommentBubble(comment: $comment, isLinkActive: $isLinkActive, conversation: $conversation)
                             .buttonStyle(PlainButtonStyle())
                     }
                 }
@@ -70,7 +75,7 @@ struct PostView: View {
                         self.presentationMode.wrappedValue.dismiss()
                         
                         // THIS IS IF DELETED
-//                        dataManager.removePostLocally(post: post, message: "Post doesn't exist!")
+                        dataManager.removePostLocally(post: post, message: "Post doesn't exist!")
                     }
                 }
                 
@@ -162,9 +167,20 @@ struct PostView: View {
                     },
                     secondaryButton: .cancel()
                 )
+            case .pushNotifications:
+                return Alert(
+                    title: Text("Notifications Setup"),
+                    message: Text("Enable push notifications? You can always change this later in settings."),
+                    primaryButton: .destructive(
+                        Text("Don't Enable"),
+                        action: NotificationsManager.notificationsManager.dontEnableNotifs
+                    ),
+                    secondaryButton: .default(
+                        Text("Enable"),
+                        action: NotificationsManager.notificationsManager.registerForNotifications
+                    )
+                )
             }
-
-            
         }
         .toast(isPresenting: $dataManager.removedComment) {
             AlertToast(displayMode: .banner(.slide), type: .regular, title: dataManager.removedCommentMessage)
@@ -193,7 +209,6 @@ struct PostView: View {
                 
                 // MARK: Image
                 if let imageUrl = post.image {
-//                    let _ = debugPrint("DEBUG POST: ", post)
                     KFImage(URL(string: "\(imageUrl)")!)
                         .resizable()
                         .scaledToFit()
@@ -202,7 +217,7 @@ struct PostView: View {
                 }
                 
                 // MARK: Poll
-                if post.poll != nil {
+                if post.poll != nil && post.image == nil {
                     PollView(post: $post)
                 }
                 
@@ -211,11 +226,6 @@ struct PostView: View {
             .font(.system(size: 18).bold())
             .padding()
             .background(Color(UIColor.systemBackground))
-
-//            Text("\(post.numComments) Comments")
-//                .font(.caption)
-//                .background(Color(UIColor.secondarySystemBackground))
-//                .frame(maxWidth: .infinity)
         }
         .background(Color(UIColor.secondarySystemBackground))
     }
@@ -223,10 +233,16 @@ struct PostView: View {
     var bottomRow: some View {
         HStack {
             Spacer()
+            
             if !post.userOwned {
+                NavigationLink(destination: MessageView(conversation: $conversation), isActive: $isLinkActive) { EmptyView().opacity(0) }.opacity(0)
+                
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    postVM.startConversation(post: post, dataManager: dataManager)
+                    postVM.startConversation(post: post, dataManager: dataManager) { success in
+                        conversation = success
+                        isLinkActive = true
+                    }
                 } label: {
                     Image(systemName: "paperplane")
                 }
@@ -392,7 +408,6 @@ struct PostView: View {
     // MARK: Overlay component to create a comment or reply
     var MessagingComponent: some View {
         VStack(spacing: 0) {
-            
             // MARK: Messaging Component
             VStack {
                 // MARK: Reply to Component
@@ -425,9 +440,9 @@ struct PostView: View {
                     Button {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         if postVM.replyToComment == defaultComment {
-                            postVM.createComment(comment: text, dataManager: dataManager)
+                            postVM.createComment(comment: text, dataManager: dataManager, notificationsManager: notificationsManager)
                         } else {
-                            postVM.commentReply(comment: text, dataManager: dataManager)
+                            postVM.commentReply(comment: text, dataManager: dataManager, notificationsManager: notificationsManager)
                             postVM.replyToComment = defaultComment
                         }
                         text = ""
@@ -437,7 +452,6 @@ struct PostView: View {
                         }
                     } label: {
                         ZStack {
-//                            LinearGradient(gradient: Gradient(colors: [SchoolManager.shared.schoolPrimaryColor(), Color.black]), startPoint: .topTrailing, endPoint: .bottomLeading)
                             Image(systemName: "paperplane")
                                 .imageScale(.small)
                                 .foregroundColor(Color(UIColor.label))

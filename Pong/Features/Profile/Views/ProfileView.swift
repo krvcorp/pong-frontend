@@ -21,13 +21,11 @@ struct ProfileView: View {
                     }
                     .background(Color(UIColor.secondarySystemBackground))
                 }
-                .background(Color(UIColor.systemGroupedBackground))
+                .background(Color.pongSystemBackground)
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-
-
             }
             // Navigation bar
-            .navigationTitle("Your Profile")
+            .navigationTitle("Profile")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem {
@@ -38,6 +36,7 @@ struct ProfileView: View {
                     }
                 }
             }
+            .background(Color.pongSystemBackground)
         }
         .accentColor(Color(UIColor.label))
         .navigationViewStyle(StackNavigationViewStyle())
@@ -141,10 +140,10 @@ struct ProfileView: View {
                 if dataManager.profilePosts != [] {
                     ForEach($dataManager.profilePosts, id: \.id) { $post in
                         
-                        PostBubble(post: $post)
+                        PostBubble(post: $post, isLinkActive: .constant(false), conversation: .constant(defaultConversation))
                             .buttonStyle(PlainButtonStyle())
                             .listRowSeparator(.hidden)
-                            .listRowBackground(Color(UIColor.systemBackground))
+                            .listRowBackground(Color.pongSystemBackground)
                         
                         CustomListDivider()
                     }
@@ -187,7 +186,7 @@ struct ProfileView: View {
                             .buttonStyle(PlainButtonStyle())
                             .environmentObject(dataManager)
                             .listRowSeparator(.hidden)
-                            .listRowBackground(Color(UIColor.systemBackground))
+                            .listRowBackground(Color.pongSystemBackground)
                         
                         CustomListDivider()
                         
@@ -228,10 +227,11 @@ struct ProfileView: View {
                 if dataManager.profileSavedPosts != [] {
                     ForEach($dataManager.profileSavedPosts, id: \.id) { $post in
                         Section {
-                            PostBubble(post: $post)
+                            PostBubble(post: $post, isLinkActive: .constant(false), conversation: .constant(defaultConversation))
                                 .buttonStyle(PlainButtonStyle())
                                 .listRowSeparator(.hidden)
-                                .listRowBackground(Color(UIColor.systemBackground))
+                                .listRowBackground(Color.pongSystemBackground
+                                )
                             CustomListDivider()
                             
                         }
@@ -263,7 +263,6 @@ struct ProfileView: View {
                             Spacer()
                         }
                     }
-//                    .listRowBackground(Color(UIColor.secondarySystemBackground))
                     .listRowSeparator(.hidden)
                 }
             }

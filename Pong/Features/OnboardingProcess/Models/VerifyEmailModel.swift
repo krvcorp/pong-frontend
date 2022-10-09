@@ -20,5 +20,6 @@ struct VerifyEmailModel {
         let dateJoined: String?
         let referralCode: String?
         let onboarded: Bool?
+        let referred: Bool?
     }
 }
