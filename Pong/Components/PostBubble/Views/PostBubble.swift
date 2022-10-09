@@ -18,87 +18,10 @@ struct PostBubble: View {
     
     var body: some View {
         VStack {
-            postBubbleMain
+            PostBubbleMain
                 .padding(.bottom)
             
-            HStack {
-                
-                VoteComponent
-                
-                Spacer()
-                
-                HStack {
-                    Image(systemName: "bubble.left")
-                        .foregroundColor(Color(UIColor.gray))
-                    Text("\(post.numComments)")
-                        .bold()
-                        .foregroundColor(Color(UIColor.gray))
-                }
-                
-                Spacer()
-                    
-                
-                if !post.userOwned {
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        postBubbleVM.post = post
-                        postBubbleVM.startConversation(post: post, dataManager: dataManager) { success in
-                            conversation = success
-                            isLinkActive = true
-                        }
-                    } label: {
-                        Image(systemName: "envelope")
-                            .foregroundColor(Color(UIColor.gray))
-                    }
-                    
-                    if post.saved {
-                        Button {
-                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                            postBubbleVM.post = post
-                            postBubbleVM.unsavePost(post: post, dataManager: dataManager)
-                        } label: {
-                            Image(systemName: "bookmark.fill")
-                                .foregroundColor(Color(UIColor.gray))
-                        }
-                    } else if !post.saved {
-                        Button {
-                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                            postBubbleVM.post = post
-                            postBubbleVM.savePost(post: post, dataManager: dataManager)
-                        } label: {
-                            Image(systemName: "bookmark")
-                                .foregroundColor(Color(UIColor.gray))
-                        }
-                    }
-                }
-                
-                Button {
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    self.image = handleShare()
-                    sheet.toggle()
-                } label: {
-                    Image(systemName: "square.and.arrow.up")
-                        .foregroundColor(Color(UIColor.gray))
-                }
-                .sheet(isPresented: $sheet) {
-                    ShareSheet(items: [self.image])
-                }
-                
-                // MARK: Delete or More Button
-                if post.userOwned {
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        DispatchQueue.main.async {
-                            postBubbleVM.post = post
-                            postBubbleVM.activeAlert = .delete
-                            postBubbleVM.showConfirmation = true
-                        }
-                    } label: {
-                        Image(systemName: "trash")
-                            .foregroundColor(Color(UIColor.gray))
-                    }
-                }
-            }
+            PostBubbleBottomRow
         }
         .font(.system(size: 18).bold())
         .padding(.top, 10)
@@ -150,7 +73,7 @@ struct PostBubble: View {
         }
     }
     
-    var postBubbleMain: some View {
+    var PostBubbleMain: some View {
         ZStack {
             NavigationLink(destination: PostView(post: $post)) {
                 EmptyView()
@@ -213,7 +136,86 @@ struct PostBubble: View {
                 if post.poll != nil && post.image == nil {
                     PollView(post: $post)
                 }
+            }
+        }
+    }
+    
+    var PostBubbleBottomRow: some View {
+        HStack {
+            
+            VoteComponent
+            
+            Spacer()
+            
+            HStack {
+                Image(systemName: "bubble.left")
+                    .foregroundColor(Color(UIColor.gray))
+                Text("\(post.numComments)")
+                    .bold()
+                    .foregroundColor(Color(UIColor.gray))
+            }
+            
+            Spacer()
+            
+            if !post.userOwned {
+                Button {
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                    postBubbleVM.post = post
+                    postBubbleVM.startConversation(post: post, dataManager: dataManager) { success in
+                        conversation = success
+                        isLinkActive = true
+                    }
+                } label: {
+                    Image(systemName: "envelope")
+                        .foregroundColor(Color(UIColor.gray))
+                }
                 
+                if post.saved {
+                    Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        postBubbleVM.post = post
+                        postBubbleVM.unsavePost(post: post, dataManager: dataManager)
+                    } label: {
+                        Image(systemName: "bookmark.fill")
+                            .foregroundColor(Color(UIColor.gray))
+                    }
+                } else if !post.saved {
+                    Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        postBubbleVM.post = post
+                        postBubbleVM.savePost(post: post, dataManager: dataManager)
+                    } label: {
+                        Image(systemName: "bookmark")
+                            .foregroundColor(Color(UIColor.gray))
+                    }
+                }
+            }
+            
+            Button {
+                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                self.image = handleShare()
+                sheet.toggle()
+            } label: {
+                Image(systemName: "square.and.arrow.up")
+                    .foregroundColor(Color(UIColor.gray))
+            }
+            .sheet(isPresented: $sheet) {
+                ShareSheet(items: [self.image])
+            }
+            
+            // MARK: Delete or More Button
+            if post.userOwned {
+                Button {
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                    DispatchQueue.main.async {
+                        postBubbleVM.post = post
+                        postBubbleVM.activeAlert = .delete
+                        postBubbleVM.showConfirmation = true
+                    }
+                } label: {
+                    Image(systemName: "trash")
+                        .foregroundColor(Color(UIColor.gray))
+                }
             }
         }
     }
@@ -284,7 +286,7 @@ struct PostBubble: View {
     
     func handleShare() -> UIImage {
         let imageSize: CGSize = CGSize(width: 500, height: 800)
-        let highresImage = postBubbleMain.asImage(size: imageSize)
+        let highresImage = PostBubbleMain.asImage(size: imageSize)
         return highresImage
     }
 }

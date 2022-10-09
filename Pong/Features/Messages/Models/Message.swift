@@ -1,5 +1,4 @@
 import Foundation
-import MessageKit
 
 struct Message: Hashable, Codable, Equatable {
     var id : String

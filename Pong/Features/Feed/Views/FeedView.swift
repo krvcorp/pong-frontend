@@ -31,7 +31,7 @@ struct FeedView: View {
             .navigationBarTitleDisplayMode(.inline)
             // MARK: Toolbar
             .toolbar {
-//                ToolbarItem(placement: .navigationBarLeading) {
+//                ToolbarItem(placement: .navixgationBarLeading) {
 //                    Button {
 //                        withAnimation {
 //                            showMenu.toggle()
@@ -186,13 +186,7 @@ struct FeedView: View {
                             .listRowBackground(Color(UIColor.systemBackground))
                             .padding(.bottom, 5)
 
-                        Rectangle()
-                            .fill(Color(UIColor.gray))
-                            .frame(maxHeight: 1)
-                            .listRowBackground(Color(UIColor.systemBackground).edgesIgnoringSafeArea([.leading, .trailing]))
-                            .listRowSeparator(.hidden)
-                            .padding(0)
-                            .listRowInsets(EdgeInsets())
+                        CustomListDivider()
                     }
                     .listRowInsets(EdgeInsets())
                     
@@ -221,13 +215,7 @@ struct FeedView: View {
                             .listRowBackground(Color(UIColor.systemBackground))
                             .padding(.bottom, 5)
 
-                        Rectangle()
-                            .fill(Color(UIColor.gray))
-                            .frame(maxHeight: 1)
-                            .listRowBackground(Color(UIColor.systemBackground).edgesIgnoringSafeArea([.leading, .trailing]))
-                            .listRowSeparator(.hidden)
-                            .padding(0)
-                            .listRowInsets(EdgeInsets())
+                        CustomListDivider()
                     }
                     .listRowInsets(EdgeInsets())
                     if !feedVM.finishedHot {
@@ -256,13 +244,7 @@ struct FeedView: View {
                             .listRowBackground(Color(UIColor.systemBackground))
                             .padding(.bottom, 5)
 
-                        Rectangle()
-                            .fill(Color(UIColor.gray))
-                            .frame(maxHeight: 1)
-                            .listRowBackground(Color(UIColor.systemBackground).edgesIgnoringSafeArea([.leading, .trailing]))
-                            .listRowSeparator(.hidden)
-                            .padding(0)
-                            .listRowInsets(EdgeInsets())
+                        CustomListDivider()
                     }
                     .listRowInsets(EdgeInsets())
                     if !feedVM.finishedRecent {

@@ -321,14 +321,4 @@ class PostViewModel: ObservableObject {
             }
         }
     }
-    
-//    func startConversation(comment: Comment, dataManager: DataManager) {
-//        let parameters = CreateConversation.RequestComment(commentId: comment.id)
-//        
-//        NetworkManager.networkManager.request(route: "conversations/", method: .post, body: parameters, successType: Conversation.self) { successResponse, errorResponse in
-//            if successResponse != nil {
-//                self.openConversations = true
-//            }
-//        }
-//    }
 }

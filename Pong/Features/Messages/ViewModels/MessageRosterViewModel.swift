@@ -5,7 +5,6 @@
 //  Created by Khoi Nguyen on 9/11/22.
 //
 
-import MessageKit
 import SwiftUI
 import Foundation
 
