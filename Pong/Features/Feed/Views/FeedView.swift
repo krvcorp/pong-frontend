@@ -53,13 +53,13 @@ struct FeedView: View {
                         NavigationLink(destination: MessageRosterView(), isActive: $mainTabVM.openConversationsDetected) {
                             if dataManager.conversations.contains(where: {!$0.read}) {
                                 ZStack(alignment: .bottomTrailing) {
-                                    Image(systemName: "paperplane")
+                                    Image(systemName: "envelope")
                                     Circle()
                                         .fill(.red)
                                         .frame(width: 7, height: 7)
                                 }
                             } else {
-                                Image(systemName: "paperplane")
+                                Image(systemName: "envelope")
                             }
                         }
                     }
@@ -184,10 +184,17 @@ struct FeedView: View {
                             }
                             .listRowSeparator(.hidden)
                             .listRowBackground(Color(UIColor.systemBackground))
+                            .padding(.bottom, 5)
 
-                        CustomListDivider()
-
+                        Rectangle()
+                            .fill(Color(UIColor.gray))
+                            .frame(maxHeight: 1)
+                            .listRowBackground(Color(UIColor.systemBackground).edgesIgnoringSafeArea([.leading, .trailing]))
+                            .listRowSeparator(.hidden)
+                            .padding(0)
+                            .listRowInsets(EdgeInsets())
                     }
+                    .listRowInsets(EdgeInsets())
                     
                     if !feedVM.finishedTop {
                         CustomListDivider()
@@ -212,9 +219,17 @@ struct FeedView: View {
                             }
                             .listRowSeparator(.hidden)
                             .listRowBackground(Color(UIColor.systemBackground))
+                            .padding(.bottom, 5)
 
-                        CustomListDivider()
+                        Rectangle()
+                            .fill(Color(UIColor.gray))
+                            .frame(maxHeight: 1)
+                            .listRowBackground(Color(UIColor.systemBackground).edgesIgnoringSafeArea([.leading, .trailing]))
+                            .listRowSeparator(.hidden)
+                            .padding(0)
+                            .listRowInsets(EdgeInsets())
                     }
+                    .listRowInsets(EdgeInsets())
                     if !feedVM.finishedHot {
                         CustomListDivider()
                         
@@ -228,6 +243,7 @@ struct FeedView: View {
                         }
                     }
                 }
+                
                 // MARK: RECENT
                 else if tab == .recent {
                     ForEach($dataManager.recentPosts, id: \.id) { $post in
@@ -238,9 +254,17 @@ struct FeedView: View {
                             }
                             .listRowSeparator(.hidden)
                             .listRowBackground(Color(UIColor.systemBackground))
+                            .padding(.bottom, 5)
 
-                        CustomListDivider()
+                        Rectangle()
+                            .fill(Color(UIColor.gray))
+                            .frame(maxHeight: 1)
+                            .listRowBackground(Color(UIColor.systemBackground).edgesIgnoringSafeArea([.leading, .trailing]))
+                            .listRowSeparator(.hidden)
+                            .padding(0)
+                            .listRowInsets(EdgeInsets())
                     }
+                    .listRowInsets(EdgeInsets())
                     if !feedVM.finishedRecent {
                         CustomListDivider()
                         Button {
