@@ -10,7 +10,6 @@ struct SettingsView: View {
     
     var body: some View {
         List {
-            
             Section("ACCOUNT") {
                 
                 // MARK: Referrals View
@@ -57,9 +56,6 @@ struct SettingsView: View {
             .listRowBackground(Color.pongSystemBackground)
             .listRowSeparator(.hidden)
             
-//            Divider()
-//                .listRowSeparator(.hidden)
-            
             Section("ABOUT") {
                 // MARK: Contact Us
                 HStack {
@@ -77,7 +73,6 @@ struct SettingsView: View {
                     }
                 }
                 .frame(minHeight: 30)
-                
                 
                 // MARK: Privacy Policy
                 HStack() {
@@ -107,10 +102,6 @@ struct SettingsView: View {
             .listRowBackground(Color.pongSystemBackground)
             .listRowSeparator(.hidden)
             
-//            Divider()
-//                .listRowSeparator(.hidden)
-//                .padding(0)
-            
             Section("PREFERENCES") {
                 
                 // MARK: Dark Mode
@@ -133,21 +124,23 @@ struct SettingsView: View {
                 }
                 .frame(minHeight: 30)
                 
-                
                 // MARK: Notifications
-                Toggle(isOn: $notificationsManager.notificationsPreference, label: {
-                    HStack {
-                        Image(systemName: "bell").font(Font.body.weight(.bold))
-                            .frame(width: 20)
-                        VStack {
-                            HStack {
-                                Text("Notifications")
-                                    .bold()
-                                Spacer()
-                            }
+                HStack {
+                    Image(systemName: "bell").font(Font.body.weight(.bold))
+                        .frame(width: 20)
+                    VStack {
+                        HStack {
+                            Text("Notifications")
+                                .bold()
+                            Spacer()
                         }
                     }
-                })
+                    Spacer()
+                    Text(notificationsManager.notificationsPreference)
+                        .onAppear() {
+                            notificationsManager.notificationsState()
+                        }
+                }
                 .frame(minHeight: 30)
                 
             }
@@ -222,7 +215,6 @@ struct SettingsView: View {
         }
     }
 }
-
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {

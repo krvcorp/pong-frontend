@@ -73,27 +73,13 @@ struct FeedView: View {
                 self.presentationMode.wrappedValue.dismiss()
                 feedVM.selectedFeedFilter = .recent
                 feedVM.paginatePostsReset(selectedFeedFilter: .recent, dataManager: dataManager)
-                notificationsManager.triggerNotification()
+                NotificationsManager.notificationsManager.registerForNotifications()
             }
         })
         .navigationViewStyle(StackNavigationViewStyle())
         .accentColor(Color(UIColor.label))
         .toast(isPresenting: $dataManager.removedPost){
             AlertToast(displayMode: .hud, type: .regular, title: dataManager.removedPostMessage)
-        }
-        .alert(isPresented: $notificationsManager.pushNotification) {
-            Alert(
-                title: Text("Notifications Setup"),
-                message: Text("Enable push notifications? You can always change this later in settings."),
-                primaryButton: .destructive(
-                    Text("Don't Enable"),
-                    action: NotificationsManager.notificationsManager.dontEnableNotifs
-                ),
-                secondaryButton: .default(
-                    Text("Enable"),
-                    action: NotificationsManager.notificationsManager.registerForNotifications
-                )
-            )
         }
     }
     

@@ -16,7 +16,6 @@ class SettingsViewModel: ObservableObject {
     @Published var numberReferred : Int = 0
     @Published var activeAlert : Bool = false
     @Published var activeAlertType : SettingsActiveAlert = .unblockAll
-    
     @Published var enableStagingServer = false {
         didSet {
             NetworkManager.networkManager.baseURL = enableStagingServer ? "https://staging.posh.vip" : "https://posh.vip"

@@ -6,8 +6,6 @@ class NotificationsManager: ObservableObject {
     
     static let notificationsManager = NotificationsManager()
     
-    @Published var pushNotification : Bool = false
-    
     let defaults = UserDefaults.standard
     
     struct Registration {
@@ -20,53 +18,52 @@ class NotificationsManager: ObservableObject {
         struct Success: Decodable {}
     }
     
-    func triggerNotification() {
-        if !self.hasEnabledNotificationsOnce {
-            pushNotification = true
-        }
-    }
+    var notificationsPreference : String = ""
     
     func registerForNotifications() {
-        Messaging.messaging().token { token, error in
-            if let token = token {
-                let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-                UNUserNotificationCenter.current().requestAuthorization(options: authOptions) { _, _ in
-                    NetworkManager.networkManager.emptyRequest(route: "notifications/register/", method: .post, body: Registration.Request(fcm_token: token)) { success, error in
-                        print("success")
-                        self.hasEnabledNotificationsOnce = true
-                        self.notificationsPreference = true
+        let current = UNUserNotificationCenter.current()
+
+        current.getNotificationSettings(completionHandler: { (settings) in
+            if settings.authorizationStatus == .notDetermined {
+                // Notification permission has not been asked yet, go for it!
+                Messaging.messaging().token { token, error in
+                    if let token = token {
+                        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+                        UNUserNotificationCenter.current().requestAuthorization(options: authOptions) { _, _ in
+                            NetworkManager.networkManager.emptyRequest(route: "notifications/register/", method: .post, body: Registration.Request(fcm_token: token)) { success, error in
+                                print("DEBUG: Notifications Registered")
+                            }
+                        }
+                        UIApplication.shared.registerForRemoteNotifications()
                     }
                 }
-                UIApplication.shared.registerForRemoteNotifications()
+            } else if settings.authorizationStatus == .denied {
+                // Notification permission was previously denied, go to settings & privacy to re-enable
+                print("DEBUG: Notifications Denied")
+            } else if settings.authorizationStatus == .authorized {
+                // Notification permission was already granted
+                print("DEBUG: Notifications Authorized")
             }
-        }
+        })
     }
     
-    func dontEnableNotifs() {
-        print("DEBUG DONT ENABLE NOTIFICATIONS")
-        defaults.set(false, forKey: "notificationsPreference")
-    }
-    
-    @Published var notificationsPreference: Bool = false {
-        didSet {
-            defaults.set(notificationsPreference, forKey: "notificationsPreference")
-            NetworkManager.networkManager.request(route: "notifications/settingshandler/", method: .post, body: Settings.Request(enabled: notificationsPreference), successType: Settings.Success.self) { success, error in
-                if success != nil {
-                    print("success")
-                    self.defaults.set(self.notificationsPreference, forKey: "notificationsPreference")
-                }
+    func notificationsState() {
+        let current = UNUserNotificationCenter.current()
+
+        current.getNotificationSettings(completionHandler: { (settings) in
+            if settings.authorizationStatus == .notDetermined {
+                // Notification permission has not been asked yet, go for it!
+                print("DEBUG: Not Determined")
+                self.notificationsPreference = "Not determined"
+            } else if settings.authorizationStatus == .denied {
+                // Notification permission was previously denied, go to settings & privacy to re-enable
+                print("DEBUG: Denied")
+                self.notificationsPreference = "Denied"
+            } else if settings.authorizationStatus == .authorized {
+                // Notification permission was already granted
+                print("DEBUG: Authorized")
+                self.notificationsPreference = "Authorized"
             }
-        }
-    }
-    
-    @Published var hasEnabledNotificationsOnce: Bool = false {
-        didSet {
-            defaults.set(hasEnabledNotificationsOnce, forKey: "hasEnabledNotificationsOnce")
-        }
-    }
-    
-    init() {
-        hasEnabledNotificationsOnce = defaults.bool(forKey: "hasEnabledNotificationsOnce")
-        notificationsPreference = defaults.bool(forKey: "notificationsPreference")
+        })
     }
 }
