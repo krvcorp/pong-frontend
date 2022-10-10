@@ -183,7 +183,6 @@ struct SettingsView: View {
         .navigationTitle("Settings")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
-            print("DEBUG: onAppear SettingsView")
             UITableView.appearance().showsVerticalScrollIndicator = false
             notificationsManager.updateNotificationsPreferences()
         }

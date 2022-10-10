@@ -7,7 +7,6 @@ struct AccountActionsView: View {
     
     var body: some View {
         List {
-            
             Section("ACTIONS") {
                 // MARK: Unblock All
                 Button {
