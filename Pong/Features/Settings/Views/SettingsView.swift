@@ -7,6 +7,7 @@ struct SettingsView: View {
     @State private var shareSheet = false
     @ObservedObject private var notificationsManager = NotificationsManager.notificationsManager
     @Environment(\.colorScheme) var colorScheme: ColorScheme
+    @Environment(\.scenePhase) private var scenePhase
     
     var body: some View {
         List {
@@ -125,24 +126,34 @@ struct SettingsView: View {
                 .frame(minHeight: 30)
                 
                 // MARK: Notifications
-                HStack {
-                    Image(systemName: "bell").font(Font.body.weight(.bold))
-                        .frame(width: 20)
+                if !notificationsManager.notificationsPreference {
                     VStack {
+                        Text("Your push notifications are turned off!")
+                            .bold()
+                        
+                        Text("To get notifications on your phone or device, visit your device's settings.")
+                            .padding(.bottom)
+                        
                         HStack {
-                            Text("Notifications")
-                                .bold()
+                            Image(systemName: "bell").font(Font.body.weight(.bold))
+                                .frame(width: 20)
+                            
+                            HStack {
+                                Button {
+                                    settingsVM.openNotifications()
+                                } label: {
+                                    Text("Turn On Notifications")
+                                        .bold()
+                                }
+                                
+                                Spacer()
+                            }
+                            .frame(minHeight: 30)
+                            
                             Spacer()
                         }
                     }
-                    Spacer()
-                    Text(notificationsManager.notificationsPreference)
-                        .onAppear() {
-                            notificationsManager.notificationsState()
-                        }
                 }
-                .frame(minHeight: 30)
-                
             }
             .listRowBackground(Color.pongSystemBackground)
             .listRowSeparator(.hidden)
@@ -172,7 +183,15 @@ struct SettingsView: View {
         .navigationTitle("Settings")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
+            print("DEBUG: onAppear SettingsView")
             UITableView.appearance().showsVerticalScrollIndicator = false
+            notificationsManager.updateNotificationsPreferences()
+        }
+        .onChange(of: scenePhase) { phase in
+            if phase == .active {
+                print("DEBUG: Active")
+                notificationsManager.updateNotificationsPreferences()
+            }
         }
         .alert(isPresented: $settingsVM.activeAlert) {
             switch settingsVM.activeAlertType {

@@ -18,7 +18,21 @@ class NotificationsManager: ObservableObject {
         struct Success: Decodable {}
     }
     
-    var notificationsPreference : String = ""
+    @Published var notificationsPreference: Bool = false
+    
+    init() {
+        let current = UNUserNotificationCenter.current()
+
+        current.getNotificationSettings(completionHandler: { (settings) in
+            if settings.authorizationStatus == .authorized {
+                // Notification permission was already granted
+                print("DEBUG: INIT Authorized")
+                self.notificationsPreference = true
+            } else {
+                self.notificationsPreference = false
+            }
+        })
+    }
     
     func registerForNotifications() {
         let current = UNUserNotificationCenter.current()
@@ -47,22 +61,16 @@ class NotificationsManager: ObservableObject {
         })
     }
     
-    func notificationsState() {
+    func updateNotificationsPreferences() {
         let current = UNUserNotificationCenter.current()
 
         current.getNotificationSettings(completionHandler: { (settings) in
-            if settings.authorizationStatus == .notDetermined {
-                // Notification permission has not been asked yet, go for it!
-                print("DEBUG: Not Determined")
-                self.notificationsPreference = "Not determined"
-            } else if settings.authorizationStatus == .denied {
-                // Notification permission was previously denied, go to settings & privacy to re-enable
-                print("DEBUG: Denied")
-                self.notificationsPreference = "Denied"
-            } else if settings.authorizationStatus == .authorized {
+            if settings.authorizationStatus == .authorized {
                 // Notification permission was already granted
-                print("DEBUG: Authorized")
-                self.notificationsPreference = "Authorized"
+                print("DEBUG: INIT Authorized")
+                self.notificationsPreference = true
+            } else {
+                self.notificationsPreference = false
             }
         })
     }
