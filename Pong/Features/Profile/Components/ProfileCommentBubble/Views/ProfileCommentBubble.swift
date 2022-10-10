@@ -19,7 +19,7 @@ struct ProfileCommentBubble: View {
             HStack {
                 
                 ZStack {
-                    Navigationask(destination: PostView(post: $profileCommentBubbleVM.parentPost)) {
+                    NavigationLink(destination: PostView(post: $profileCommentBubbleVM.parentPost)) {
                         EmptyView()
                     }
                     .opacity(0.0)
