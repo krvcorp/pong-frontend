@@ -4,9 +4,26 @@ import AlertToast
 class AppState: ObservableObject {
     static let shared = AppState()
     @Published var pageToNavigationTo : String?
+    @Published var post : Post = defaultPost
+    
+    func readPost(url : String) {
+        NetworkManager.networkManager.request(route: "posts/\(url)/", method: .get, successType: Post.self) { successResponse, errorResponse in
+            if let successResponse = successResponse {
+                DispatchQueue.main.async {
+                    print("DEBUG: \(successResponse)")
+                    self.post = successResponse
+                }
+            }
+            
+            if errorResponse != nil {
+                print("DEBUG: error")
+            }
+        }
+    }
 }
 
 struct ContentView: View {
+    @StateObject private var dataManager = DataManager()
     @ObservedObject var appState = AppState.shared
     @ObservedObject private var authManager = AuthManager.authManager
     @State var showMenu = false
@@ -22,7 +39,9 @@ struct ContentView: View {
         .init { () -> Bool in
             appState.pageToNavigationTo != nil
         } set: { (newValue) in
-            if !newValue { appState.pageToNavigationTo = nil }
+            if !newValue {
+                appState.pageToNavigationTo = nil
+            }
         }
     }
     
@@ -79,10 +98,12 @@ struct ContentView: View {
             }
             .navigationBarHidden(true)
             .edgesIgnoringSafeArea([.top, .bottom])
-            .overlay(NavigationLink(destination: PostView(post: .constant(defaultPost)),
-                                    isActive: pushNavigationBinding) {
+            .overlay(NavigationLink(destination: PostView(post: $appState.post), isActive: pushNavigationBinding) {
                 EmptyView()
             })
         }
+        .environmentObject(MainTabViewModel(initialIndex: 1, customItemIndex: 3))
+        .environmentObject(dataManager)
+        .accentColor(Color(UIColor.label))
     }
 }

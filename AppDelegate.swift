@@ -44,7 +44,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         // ...
 
         // Print full message.
-        print(userInfo)
+//        print("DEBUG: first function")
+//        print("DEBUG: \(userInfo)")
 
         // Change this to your preferred presentation option
         return [[.alert, .sound]]
@@ -60,7 +61,16 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         // Messaging.messaging().appDidReceiveMessage(userInfo)
 
         // Print full message.
-        print(userInfo)
+//        print("DEBUG: second function")
+//        print("DEBUG: \(userInfo)")
+        
+//        print("DEBUG: \(String(describing: userInfo["url"]))")
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//            print("Dispatch")
+            AppState.shared.pageToNavigationTo = String(describing: userInfo["url"]!)
+            AppState.shared.readPost(url: String(describing: userInfo["url"]!))
+        }
     }
     
     // MARK: Enabling Notifications

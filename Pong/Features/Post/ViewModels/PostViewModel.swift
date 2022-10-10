@@ -33,7 +33,8 @@ class PostViewModel: ObservableObject {
     
     @Published var openConversations = false
     
-    func postVote(direction: Int, dataManager: DataManager) -> Void {
+    func postVote(post: Post, direction: Int, dataManager: DataManager) -> Void {
+        self.post = post
         var voteToSend = 0
         let temp = self.post.voteStatus
         
@@ -66,6 +67,7 @@ class PostViewModel: ObservableObject {
     }
     
     func getComments() -> Void {
+        print("DEBUG: postVM.getComments \(self.post)")
         NetworkManager.networkManager.request(route: "comments/?post_id=\(post.id)", method: .get, successType: CommentListModel.Response.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
@@ -131,13 +133,15 @@ class PostViewModel: ObservableObject {
     }
     
     // MARK: ReadPost
-    func readPost(dataManager : DataManager, completion: @escaping (Bool) -> Void) {
+    func readPost(post: Post, dataManager : DataManager, completion: @escaping (Bool) -> Void) {
+        print("DEBUG: postVM.readPost \(post)")
         NetworkManager.networkManager.request(route: "posts/\(post.id)/", method: .get, successType: Post.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
                     // replace the local post
                     self.post = successResponse
-//                    self.postUpdateTrigger.toggle()
+                    completion(true)
+                    return
                 }
             }
             
@@ -145,6 +149,7 @@ class PostViewModel: ObservableObject {
                 DispatchQueue.main.async {
                     dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't read post")
                     completion(false)
+                    return
                 }
             }
         }
