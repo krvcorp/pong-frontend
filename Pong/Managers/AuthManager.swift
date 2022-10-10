@@ -34,6 +34,7 @@ class AuthManager: ObservableObject {
     func signout() {
         DispatchQueue.main.async {
             withAnimation {
+                self.resetDefaults()
                 AuthManager.authManager.isSignedIn = false
                 AuthManager.authManager.onboarded = false
                 DAKeychain.shared["userId"] = nil
@@ -45,6 +46,14 @@ class AuthManager: ObservableObject {
                 DAKeychain.shared["referred"] = nil
                 self.signedOutAlert = true
             }
+        }
+    }
+    
+    func resetDefaults() {
+        let defaults = UserDefaults.standard
+        let dictionary = defaults.dictionaryRepresentation()
+        dictionary.keys.forEach { key in
+            defaults.removeObject(forKey: key)
         }
     }
 }

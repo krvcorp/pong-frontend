@@ -170,19 +170,6 @@ struct PostView: View {
                     },
                     secondaryButton: .cancel()
                 )
-            case .pushNotifications:
-                return Alert(
-                    title: Text("Notifications Setup"),
-                    message: Text("Enable push notifications? You can always change this later in settings."),
-                    primaryButton: .destructive(
-                        Text("Don't Enable"),
-                        action: NotificationsManager.notificationsManager.dontEnableNotifs
-                    ),
-                    secondaryButton: .default(
-                        Text("Enable"),
-                        action: NotificationsManager.notificationsManager.registerForNotifications
-                    )
-                )
             }
         }
         .toast(isPresenting: $dataManager.removedComment) {

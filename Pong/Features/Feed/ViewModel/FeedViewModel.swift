@@ -93,6 +93,8 @@ class FeedViewModel: ObservableObject {
     }
     
     func paginatePosts(selectedFeedFilter: FeedFilter, dataManager: DataManager) {
+        print("DEBUG: paginatePosts")
+        
         var urlToUse = ""
         
         if selectedFeedFilter == .top {

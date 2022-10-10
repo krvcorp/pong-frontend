@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 enum PostViewActiveAlert {
-    case postDelete, postReport, postBlock, commentDelete, commentReport, commentBlock, pushNotifications
+    case postDelete, postReport, postBlock, commentDelete, commentReport, commentBlock
 }
 
 class PostViewModel: ObservableObject {
@@ -84,10 +84,7 @@ class PostViewModel: ObservableObject {
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
                     withAnimation {
-                        if !notificationsManager.hasEnabledNotificationsOnce {
-                            self.activeAlert = .pushNotifications
-                            self.showConfirmation = true
-                        }
+                        NotificationsManager.notificationsManager.registerForNotifications()
                         self.comments.append(successResponse)
                         self.post.numComments = self.post.numComments + 1
                         self.commentUpdateTrigger.toggle()
@@ -105,10 +102,7 @@ class PostViewModel: ObservableObject {
             // MARK: Success
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
-                    if !notificationsManager.hasEnabledNotificationsOnce {
-                        self.activeAlert = .pushNotifications
-                        self.showConfirmation = true
-                    }
+                    NotificationsManager.notificationsManager.registerForNotifications()
                     for (index, comment) in self.comments.enumerated() {
                         if successResponse.parent == comment.id {
                             withAnimation {

@@ -17,12 +17,6 @@ class SettingsViewModel: ObservableObject {
     @Published var activeAlert : Bool = false
     @Published var activeAlertType : SettingsActiveAlert = .unblockAll
     
-    @Published var enableStagingServer = false {
-        didSet {
-            NetworkManager.networkManager.baseURL = enableStagingServer ? "https://staging.posh.vip" : "https://posh.vip"
-        }
-    }
-    
     func deleteAccount() {
         NetworkManager.networkManager.emptyRequest(route: "users/\(AuthManager.authManager.userId)/", method: .delete) { successResponse, errorResponse in
             DispatchQueue.main.async {
@@ -62,9 +56,15 @@ class SettingsViewModel: ObservableObject {
             defaults.removeObject(forKey: key)
         }
     }
+    
+    func openNotifications() {
+        // Create the URL that deep links to your app's custom settings.
+        if let url = URL(string: UIApplication.openSettingsURLString) {
+            // Ask the system to open that URL.
+            UIApplication.shared.open(url)
+        }
+    }
 }
-
-
 
 enum DisplayMode: Int {
     case system, dark, light
