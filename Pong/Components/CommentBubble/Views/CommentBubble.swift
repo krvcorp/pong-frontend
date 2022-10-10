@@ -6,7 +6,6 @@ struct CommentBubble: View {
     @EnvironmentObject var postVM : PostViewModel
     @EnvironmentObject var dataManager : DataManager
     
-    @State private var showScore = false
     
     // MARK: Conversation
     @Binding var isLinkActive : Bool
@@ -90,92 +89,61 @@ struct CommentBubble: View {
     
     var VoteComponent: some View {
         VStack {
-            if !showScore {
-                // MARK: if not upvoted or downvoted
-                if comment.voteStatus == 0 {
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        commentBubbleVM.commentVote(direction: 1, dataManager: dataManager)
-                    } label: {
-                        Image(systemName: "chevron.up")
-                    }
-                    
-                    Text("\(comment.score)")
-                    
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        commentBubbleVM.commentVote(direction: -1, dataManager: dataManager)
-                    } label: {
-                        Image(systemName: "chevron.down")
-                    }
-                }
-                // MARK: if upvoted
-                else if comment.voteStatus == 1 {
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        commentBubbleVM.commentVote(direction: 1, dataManager: dataManager)
-                    } label: {
-                        Image(systemName: "chevron.up")
-                            .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
-                    }
-                    
-                    Text("\(comment.score + 1)")
-                    
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        commentBubbleVM.commentVote(direction: -1, dataManager: dataManager)
-                    } label: {
-                        Image(systemName: "chevron.down")
-                    }
-                }
-                // MARK: if downvoted
-                else if comment.voteStatus == -1 {
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        commentBubbleVM.commentVote(direction: 1, dataManager: dataManager)
-                    } label: {
-                        Image(systemName: "chevron.up")
-                    }
-                    
-                    Text("\(comment.score - 1)")
-                    
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        commentBubbleVM.commentVote(direction: -1, dataManager: dataManager)
-                    } label: {
-                        Image(systemName: "chevron.down")
-                            .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
-                    }
-                }
-            }
-            // MARK: Show score
-            else {
+            
+            // MARK: if not upvoted or downvoted
+            if comment.voteStatus == 0 {
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    withAnimation {
-                        showScore.toggle()
-                    }
+                    commentBubbleVM.commentVote(direction: 1, dataManager: dataManager)
                 } label: {
-                    VStack {
-                        if comment.voteStatus == 1 {
-                            Text("\(comment.numUpvotes + 1)")
-                                .foregroundColor(.green)
-                            Text("\(comment.numDownvotes)")
-                                .foregroundColor(.red)
-                        }
-                        else if comment.voteStatus == -1 {
-                            Text("\(comment.numUpvotes)")
-                                .foregroundColor(.green)
-                            Text("\(comment.numDownvotes + 1)")
-                                .foregroundColor(.red)
-                        }
-                        else if comment.voteStatus == 0 {
-                            Text("\(comment.numUpvotes)")
-                                .foregroundColor(.green)
-                            Text("\(comment.numDownvotes)")
-                                .foregroundColor(.red)
-                        }
-                    }
+                    Image(systemName: "chevron.up")
+                }
+                
+                Text("\(comment.score)")
+                
+                Button {
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                    commentBubbleVM.commentVote(direction: -1, dataManager: dataManager)
+                } label: {
+                    Image(systemName: "chevron.down")
+                }
+            }
+            // MARK: if upvoted
+            else if comment.voteStatus == 1 {
+                Button {
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                    commentBubbleVM.commentVote(direction: 1, dataManager: dataManager)
+                } label: {
+                    Image(systemName: "chevron.up")
+                        .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
+                }
+                
+                Text("\(comment.score + 1)")
+                
+                Button {
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                    commentBubbleVM.commentVote(direction: -1, dataManager: dataManager)
+                } label: {
+                    Image(systemName: "chevron.down")
+                }
+            }
+            // MARK: if downvoted
+            else if comment.voteStatus == -1 {
+                Button {
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                    commentBubbleVM.commentVote(direction: 1, dataManager: dataManager)
+                } label: {
+                    Image(systemName: "chevron.up")
+                }
+                
+                Text("\(comment.score - 1)")
+                
+                Button {
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                    commentBubbleVM.commentVote(direction: -1, dataManager: dataManager)
+                } label: {
+                    Image(systemName: "chevron.down")
+                        .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
                 }
             }
         }

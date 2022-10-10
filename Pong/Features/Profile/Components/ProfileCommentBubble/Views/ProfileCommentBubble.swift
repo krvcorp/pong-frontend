@@ -7,7 +7,6 @@ struct ProfileCommentBubble: View {
     @EnvironmentObject var dataManager : DataManager
     
     // MARK: Some local view logic
-    @State private var showScore = false
     @State private var sheet = false
     @State private var image = UIImage()
     
@@ -20,7 +19,7 @@ struct ProfileCommentBubble: View {
             HStack {
                 
                 ZStack {
-                    NavigationLink(destination: PostView(post: $profileCommentBubbleVM.parentPost)) {
+                    Navigationask(destination: PostView(post: $profileCommentBubbleVM.parentPost)) {
                         EmptyView()
                     }
                     .opacity(0.0)
@@ -62,21 +61,28 @@ struct ProfileCommentBubble: View {
         .font(.system(size: 18).bold())
         .padding(0)
         .padding(.top, 10)
-        
-        
-        // MARK: Delete Confirmation
         .alert(isPresented: $profileCommentBubbleVM.showDeleteConfirmationView) {
             Alert(
                 title: Text("Delete comment"),
                 message: Text("Are you sure you want to delete \"\(comment.comment)\""),
                 primaryButton: .destructive(Text("Delete")) {
-                    profileCommentBubbleVM.deleteComment(comment: self.comment, dataManager: dataManager)
+                    profileCommentBubbleVM.deleteComment(dataManager: dataManager)
                 },
                 secondaryButton: .cancel()
             )
         }
         .onAppear {
-            profileCommentBubbleVM.getParentPost(comment: comment)
+            DispatchQueue.main.async {
+                profileCommentBubbleVM.comment = self.comment
+                profileCommentBubbleVM.getParentPost()
+            }
+        }
+        .onChange(of: profileCommentBubbleVM.commentUpdateTrigger) { change in
+            print("DEBUG: old onChange self.comment.voteStatus \(self.comment.voteStatus)")
+            print("DEBUG: new onChange VM.comment.voteStatus \(profileCommentBubbleVM.comment.voteStatus)")
+            DispatchQueue.main.async {
+                self.comment = profileCommentBubbleVM.comment
+            }
         }
     }
     
@@ -101,128 +107,75 @@ struct ProfileCommentBubble: View {
                 
                 Spacer()
                 
-//                VoteComponent
+                VoteComponent
             }
         }
     }
     
-//    var VoteComponent: some View {
-//        VStack {
-//            if !showScore {
-//                // if not upvoted or downvoted
-//                if post.voteStatus == 0 {
-//                    Button {
-//                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-//                        postBubbleVM.postVote(direction: 1, post: post)
-//                    } label: {
-//                        Image(systemName: "arrow.up")
-//                    }
-//
-//                    Button {
-//                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-//                        withAnimation {
-//                            showScore.toggle()
-//                        }
-//
-//                    } label: {
-//                        Text("\(post.score)")
-//                    }
-//
-//                    Button {
-//                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-//                        postBubbleVM.postVote(direction: -1, post: post)
-//                    } label: {
-//                        Image(systemName: "arrow.down")
-//                    }
-//                } else if post.voteStatus == 1 {
-//                    // if upvoted
-//                    Button {
-//                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-//                        postBubbleVM.postVote(direction: 1, post: post)
-//                    } label: {
-//                        Image(systemName: "arrow.up")
-//                            .foregroundColor(Color(UIColor(named: "PongPrimary")!))
-//                    }
-//
-//                    Button {
-//                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-//                        withAnimation {
-//                            showScore.toggle()
-//                        }
-//
-//                    } label: {
-//                        Text("\(post.score + 1)")
-//                    }
-//
-//                    Button {
-//                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-//                        postBubbleVM.postVote(direction: -1, post: post)
-//                    } label: {
-//                        Image(systemName: "arrow.down")
-//                    }
-//                }
-//                // IF POST BUBBLE IS DOWNVOTES
-//                else if post.voteStatus == -1 {
-//                    // upvote
-//                    Button {
-//                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-//                        postBubbleVM.postVote(direction: 1, post: post)
-//                    } label: {
-//                        Image(systemName: "arrow.up")
-//                    }
-//
-//                    // score
-//                    Button {
-//                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-//                        withAnimation {
-//                            showScore.toggle()
-//                        }
-//                    } label: {
-//                        Text("\(post.score - 1)")
-//                    }
-//
-//                    // downvote
-//                    Button {
-//                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-//                        postBubbleVM.postVote(direction: -1, post: post)
-//                    } label: {
-//                        Image(systemName: "arrow.down")
-//                            .foregroundColor(Color(UIColor(named: "PongPrimary")!))
-//                    }
-//                }
-//            } else {
-//                Button {
-//                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-//                    withAnimation {
-//                        showScore.toggle()
-//                    }
-//
-//                } label: {
-//                    VStack {
-//                        if post.voteStatus == 1 {
-//                            Text("\(post.numUpvotes + 1)")
-//                                .foregroundColor(.green)
-//                            Text("\(post.numDownvotes)")
-//                                .foregroundColor(.red)
-//                        }
-//                        else if post.voteStatus == -1 {
-//                            Text("\(post.numUpvotes)")
-//                                .foregroundColor(.green)
-//                            Text("\(post.numDownvotes + 1)")
-//                                .foregroundColor(.red)
-//                        }
-//                        else if post.voteStatus == 0 {
-//                            Text("\(post.numUpvotes)")
-//                                .foregroundColor(.green)
-//                            Text("\(post.numDownvotes)")
-//                                .foregroundColor(.red)
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//        .frame(width: 25, height: 50)
-//    }
+    var VoteComponent: some View {
+        HStack {
+            if comment.voteStatus == 0 {
+                Button {
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                    profileCommentBubbleVM.commentVote(direction: 1, dataManager: dataManager)
+                } label: {
+                    Image(systemName: "chevron.up")
+                        .foregroundColor(Color(UIColor.gray))
+                }
+                
+                Text("\(comment.score)")
+                    .foregroundColor(Color(UIColor.gray))
+                
+                Button {
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                    profileCommentBubbleVM.commentVote(direction: -1, dataManager: dataManager)
+                } label: {
+                    Image(systemName: "chevron.down")
+                        .foregroundColor(Color(UIColor.gray))
+                }
+            } else if comment.voteStatus == 1 {
+                Button {
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                    profileCommentBubbleVM.commentVote(direction: 1, dataManager: dataManager)
+                } label: {
+                    Image(systemName: "chevron.up")
+                        .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
+                }
+                
+                Text("\(comment.score + 1)")
+                    .foregroundColor(Color(UIColor.gray))
+                
+                Button {
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                    profileCommentBubbleVM.commentVote(direction: -1, dataManager: dataManager)
+                } label: {
+                    Image(systemName: "chevron.down")
+                        .foregroundColor(Color(UIColor.gray))
+                }
+            }
+            else if comment.voteStatus == -1 {
+                Button {
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                    profileCommentBubbleVM.commentVote(direction: 1, dataManager: dataManager)
+                } label: {
+                    Image(systemName: "chevron.up")
+                        .foregroundColor(Color(UIColor.gray))
+                }
+                
+                Text("\(comment.score - 1)")
+                    .foregroundColor(Color(UIColor.gray))
+                
+                Button {
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                    profileCommentBubbleVM.commentVote(direction: -1, dataManager: dataManager)
+                } label: {
+                    Image(systemName: "chevron.down")
+                        .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
+                }
+            }
+        }
+    }
+
     
     func handleShare() -> UIImage {
         let imageSize: CGSize = CGSize(width: 500, height: 800)
