@@ -161,7 +161,9 @@ class PostViewModel: ObservableObject {
             self.post = post
             self.post.saved = true
             self.savedPostConfirmation = true
-            self.postUpdateTrigger.toggle()
+            withAnimation {
+                self.postUpdateTrigger.toggle()
+            }
         }
         
         NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/save/", method: .post) { successResponse, errorResponse in
@@ -182,13 +184,17 @@ class PostViewModel: ObservableObject {
         DispatchQueue.main.async {
             self.post = post
             self.post.saved = false
-            self.postUpdateTrigger.toggle()
+            withAnimation {
+                self.postUpdateTrigger.toggle()
+            }
         }
         
         NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/save/", method: .delete) { successResponse, errorResponse in
             if successResponse != nil {
                 
-            } else if errorResponse != nil {
+            }
+            
+            if errorResponse != nil {
                 DispatchQueue.main.async {
                     self.post = post
                     self.post.saved = true

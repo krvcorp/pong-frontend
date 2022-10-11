@@ -47,7 +47,6 @@ struct PostView: View {
                 .padding(.bottom, 150)
             }
             .onTapGesture {
-                print("DEBUG: onTap detected")
                 hideKeyboard()
                 self.postVM.textIsFocused = false
                 self.textIsFocused = false
@@ -93,6 +92,12 @@ struct PostView: View {
                 postVM.getComments()
             }
         }
+        .onChange(of: self.post.id, perform: { newValue in
+            DispatchQueue.main.async {
+                postVM.post = self.post
+                postVM.getComments()
+            }
+        })
         .onChange(of: postVM.postUpdateTrigger) { newValue in
             DispatchQueue.main.async {
                 if postVM.post.id != "default" {
@@ -263,7 +268,6 @@ struct PostView: View {
             }
             
             Spacer()
-                
             
             if !post.userOwned {
                 NavigationLink(destination: MessageView(conversation: $conversation), isActive: $isLinkActive) { EmptyView().opacity(0) }.opacity(0)
