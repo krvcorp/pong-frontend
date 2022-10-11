@@ -44,8 +44,6 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         // ...
 
         // Print full message.
-//        print("DEBUG: first function")
-//        print("DEBUG: \(userInfo)")
 
         // Change this to your preferred presentation option
         return [[.alert, .sound]]
@@ -61,15 +59,25 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         // Messaging.messaging().appDidReceiveMessage(userInfo)
 
         // Print full message.
-//        print("DEBUG: second function")
-//        print("DEBUG: \(userInfo)")
+        print("DEBUG: second function")
+        print("DEBUG: \(userInfo)")
         
-//        print("DEBUG: \(String(describing: userInfo["url"]))")
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//            print("Dispatch")
-            AppState.shared.pageToNavigationTo = String(describing: userInfo["url"]!)
-            AppState.shared.readPost(url: String(describing: userInfo["url"]!))
+        if String(describing: userInfo["type"]!) == "hot" || String(describing: userInfo["type"]!) == "upvote" || String(describing: userInfo["type"]!) == "comment" || String(describing: userInfo["type"]!) == "top" || String(describing: userInfo["type"]!) == "reply" {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                AppState.shared.postToNavigateTo = String(describing: userInfo["url"]!)
+                AppState.shared.readPost(url: String(describing: userInfo["url"]!))
+            }
+        } else if String(describing: userInfo["type"]!) == "leader" {
+            print("DEBUG: leaderboard")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                AppState.shared.leaderboard = true
+            }
+        } else if String(describing: userInfo["type"]!) == "message" {
+            print("DEBUG: message")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                AppState.shared.conversationToNavigateTo = String(describing: userInfo["url"]!)
+                AppState.shared.readConversation(url: String(describing: userInfo["url"]!))
+            }
         }
     }
     

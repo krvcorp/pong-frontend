@@ -22,6 +22,12 @@ struct PostView: View {
     @State var isLinkActive = false
     @State var conversation = defaultConversation
     
+    @State var didAppear = false
+    @State var appearCount = 0
+    
+    
+    
+    
     var body: some View {
         ZStack(alignment: .bottom) {
             RefreshableScrollView {
@@ -36,7 +42,6 @@ struct PostView: View {
                 } else {
                     ActivityIndicatorView(isVisible: $dataManager.isAppLoading, type: .equalizer(count: 8))
                 }
-
                 
                 LazyVStack {
                     ForEach($postVM.comments, id: \.self) { $comment in
@@ -52,10 +57,7 @@ struct PostView: View {
                 self.textIsFocused = false
             }
             .refreshable {
-                print("DEBUG: PostView refresh")
-                
                 postVM.readPost(post: self.post, dataManager: dataManager) { result in
-                    print("DEBUG: refreshable postVM.readPost completion \(self.post)")
                     if !result {
                         self.presentationMode.wrappedValue.dismiss()
                     }
@@ -71,8 +73,8 @@ struct PostView: View {
         .background(Color(UIColor.systemBackground))
         .environmentObject(postVM)
         .onAppear {
-            print("DEBUG: PostView.onAppear")
             DispatchQueue.main.async {
+                print("DEBUG: PostView.onAppear")
                 // take binding and insert into VM
                 postVM.post = self.post
                 
@@ -94,6 +96,7 @@ struct PostView: View {
         }
         .onChange(of: self.post.id, perform: { newValue in
             DispatchQueue.main.async {
+                print("DEBUG: self.post.id.onChange")
                 postVM.post = self.post
                 postVM.getComments()
             }
@@ -101,6 +104,7 @@ struct PostView: View {
         .onChange(of: postVM.postUpdateTrigger) { newValue in
             DispatchQueue.main.async {
                 if postVM.post.id != "default" {
+                    print("DEBUG: postVM.postUpdateTrigger.onChange")
                     self.post = postVM.post
                     dataManager.updatePostLocally(post: postVM.post)
                 }
@@ -137,7 +141,6 @@ struct PostView: View {
                     },
                     secondaryButton: .cancel()
                 )
-
             case .postReport:
                 return Alert(
                     title: Text("Report post"),
@@ -147,7 +150,6 @@ struct PostView: View {
                     },
                     secondaryButton: .cancel()
                 )
-
             case .postBlock:
                 return Alert(
                     title: Text("Block post and user"),

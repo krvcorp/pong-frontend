@@ -48,6 +48,12 @@ struct MessageView: View {
         .onAppear {
             self.messageVM.conversation = conversation
         }
+        .onChange(of: self.conversation.id, perform: { newValue in
+            DispatchQueue.main.async {
+                print("DEBUG: self.conversation.id.onChange")
+                messageVM.conversation = self.conversation
+            }
+        })
         .navigationBarTitle("\(conversation.re)", displayMode: .inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {

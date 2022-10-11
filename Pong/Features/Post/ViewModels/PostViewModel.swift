@@ -24,7 +24,7 @@ class PostViewModel: ObservableObject {
     
     @Published var savedPostConfirmation : Bool = false
     
-    @Published var commentsLoaded = false
+//    @Published var commentsLoaded = false
     
     @Published var postUpdateTrigger = false
     @Published var commentUpdateTrigger = false
@@ -67,13 +67,17 @@ class PostViewModel: ObservableObject {
     }
     
     func getComments() -> Void {
-        print("DEBUG: postVM.getComments \(self.post)")
+        print("DEBUG: postVM.getComments")
         NetworkManager.networkManager.request(route: "comments/?post_id=\(post.id)", method: .get, successType: CommentListModel.Response.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
-                    self.comments = successResponse.results
-                    self.commentsLoaded = true
-                    self.commentUpdateTrigger.toggle()
+                    if self.comments != successResponse.results {
+                        print("DEBUG: postVM.getComments success")
+                        withAnimation {
+                            self.comments = successResponse.results
+                            self.commentUpdateTrigger.toggle()
+                        }
+                    }
                 }
             }
         }
@@ -134,7 +138,6 @@ class PostViewModel: ObservableObject {
     
     // MARK: ReadPost
     func readPost(post: Post, dataManager : DataManager, completion: @escaping (Bool) -> Void) {
-        print("DEBUG: postVM.readPost \(post)")
         NetworkManager.networkManager.request(route: "posts/\(post.id)/", method: .get, successType: Post.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
                 DispatchQueue.main.async {

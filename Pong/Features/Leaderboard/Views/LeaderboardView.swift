@@ -4,7 +4,7 @@ import AlertToast
 struct LeaderboardView: View {
     @Environment(\.presentationMode) var presentationMode
     @StateObject private var leaderboardVM = LeaderboardViewModel()
-    @EnvironmentObject var dataManager : DataManager
+    @StateObject var dataManager = DataManager.shared
     @State private var newPost = false
     
     @State var timeRemaining = 10

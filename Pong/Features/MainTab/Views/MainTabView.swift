@@ -3,8 +3,9 @@ import AlertToast
 import ActivityIndicatorView
 
 struct MainTabView: View {
-    @ObservedObject private var mainTabVM = MainTabViewModel(initialIndex: 1, customItemIndex: 3)
-    @EnvironmentObject var dataManager : DataManager
+    @EnvironmentObject var appState : AppState
+    @StateObject var dataManager = DataManager()
+    @EnvironmentObject private var mainTabVM : MainTabViewModel
     @Binding var showMenu : Bool
     
     var handler: Binding<Int> { Binding(
@@ -77,17 +78,9 @@ struct MainTabView: View {
                         Image(systemName: "chart.bar.xaxis")
                     }
                     .tag(2)
-                
-//                // MARK: Marketplace
-//                MarketplaceView()
-//                    .tabItem {
-//                        Image(systemName: "cart")
-//                    }
-//                    .tag(2)
-
 
                 // MARK: NewPostView
-                NewPostView(mainTabVM: MainTabViewModel(initialIndex: 1, customItemIndex: 1))
+                NewPostView(mainTabVM: MainTabViewModel(initialIndex: 0, customItemIndex: 0))
                     .tabItem {
                         Image(systemName: "arrowshape.bounce.right.fill")
                     }
@@ -108,13 +101,12 @@ struct MainTabView: View {
                     }
                     .tag(5)
             }
+            .environmentObject(dataManager)
             .accentColor(SchoolManager.shared.schoolPrimaryColor())
             // MARK: New Post Sheet
             .sheet(isPresented: $mainTabVM.isCustomItemSelected) {
                 NewPostView(mainTabVM: mainTabVM)
             }
-            .environmentObject(dataManager)
-            .environmentObject(mainTabVM)
             .toast(isPresenting: $dataManager.errorDetected){
                 AlertToast(displayMode: .hud, type: .error(Color.red), title: dataManager.errorDetectedMessage, subTitle: dataManager.errorDetectedSubMessage)
             }

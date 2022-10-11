@@ -1,29 +1,7 @@
 import SwiftUI
 import AlertToast
 
-class AppState: ObservableObject {
-    static let shared = AppState()
-    @Published var pageToNavigationTo : String?
-    @Published var post : Post = defaultPost
-    
-    func readPost(url : String) {
-        NetworkManager.networkManager.request(route: "posts/\(url)/", method: .get, successType: Post.self) { successResponse, errorResponse in
-            if let successResponse = successResponse {
-                DispatchQueue.main.async {
-                    print("DEBUG: \(successResponse)")
-                    self.post = successResponse
-                }
-            }
-            
-            if errorResponse != nil {
-                print("DEBUG: error")
-            }
-        }
-    }
-}
-
 struct ContentView: View {
-    @StateObject private var dataManager = DataManager()
     @ObservedObject var appState = AppState.shared
     @ObservedObject private var authManager = AuthManager.authManager
     @State var showMenu = false
@@ -33,14 +11,32 @@ struct ContentView: View {
         UITableView.appearance().showsVerticalScrollIndicator = false
     }
     
-    @State var navigate = false
-    
-    var pushNavigationBinding : Binding<Bool> {
+    var postPushNavigationBinding : Binding<Bool> {
         .init { () -> Bool in
-            appState.pageToNavigationTo != nil
+            appState.postToNavigateTo != nil
         } set: { (newValue) in
             if !newValue {
-                appState.pageToNavigationTo = nil
+                appState.postToNavigateTo = nil
+            }
+        }
+    }
+    
+    var leaderboardPushNavigationBinding : Binding<Bool> {
+        .init { () -> Bool in
+            appState.leaderboard != nil
+        } set: { (newValue) in
+            if !newValue {
+                appState.leaderboard = nil
+            }
+        }
+    }
+    
+    var conversationPushNavigationBinding : Binding<Bool> {
+        .init { () -> Bool in
+            appState.conversationToNavigateTo != nil
+        } set: { (newValue) in
+            if !newValue {
+                appState.conversationToNavigateTo = nil
             }
         }
     }
@@ -98,12 +94,18 @@ struct ContentView: View {
             }
             .navigationBarHidden(true)
             .edgesIgnoringSafeArea([.top, .bottom])
-            .overlay(NavigationLink(destination: PostView(post: $appState.post), isActive: pushNavigationBinding) {
+            .overlay(NavigationLink(destination: PostView(post: $appState.post), isActive: postPushNavigationBinding) {
+                EmptyView()
+            })
+            .overlay(NavigationLink(destination: LeaderboardNotificationView(), isActive: leaderboardPushNavigationBinding) {
+                EmptyView()
+            })
+            .overlay(NavigationLink(destination: MessageView(conversation: $appState.conversation), isActive: conversationPushNavigationBinding) {
                 EmptyView()
             })
         }
         .environmentObject(MainTabViewModel(initialIndex: 1, customItemIndex: 3))
-        .environmentObject(dataManager)
+        .environmentObject(appState)
         .accentColor(Color(UIColor.label))
     }
 }

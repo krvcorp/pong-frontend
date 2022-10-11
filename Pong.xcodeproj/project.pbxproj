@@ -120,6 +120,8 @@
 		6A7E109928AED83500CE3CFD /* PollVoteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A7E109828AED83500CE3CFD /* PollVoteModel.swift */; };
 		6A832ED628A6C29300F4EBEF /* CommentCreateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A832ED528A6C29300F4EBEF /* CommentCreateModel.swift */; };
 		6A8F68DC28E3B57300246D5A /* UpdateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8F68DB28E3B57300246D5A /* UpdateModel.swift */; };
+		6AE360F428F517CE00A5E115 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE360F328F517CE00A5E115 /* AppState.swift */; };
+		6AE360F628F6108900A5E115 /* LeaderboardNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE360F528F6108900A5E115 /* LeaderboardNotificationView.swift */; };
 		6AEE15D428AC4AC600EEF1E6 /* Poll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEE15D328AC4AC600EEF1E6 /* Poll.swift */; };
 		82AEE06828AEDF2A00738EB5 /* LeaderboardAwardCoin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AEE06728AEDF2A00738EB5 /* LeaderboardAwardCoin.swift */; };
 		82AEE06B28AEE03400738EB5 /* LeaderboardTopThree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AEE06A28AEE03400738EB5 /* LeaderboardTopThree.swift */; };
@@ -249,6 +251,8 @@
 		6A7E109828AED83500CE3CFD /* PollVoteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollVoteModel.swift; sourceTree = "<group>"; };
 		6A832ED528A6C29300F4EBEF /* CommentCreateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCreateModel.swift; sourceTree = "<group>"; };
 		6A8F68DB28E3B57300246D5A /* UpdateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateModel.swift; sourceTree = "<group>"; };
+		6AE360F328F517CE00A5E115 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		6AE360F528F6108900A5E115 /* LeaderboardNotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardNotificationView.swift; sourceTree = "<group>"; };
 		6AEE15D328AC4AC600EEF1E6 /* Poll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Poll.swift; sourceTree = "<group>"; };
 		82AEE06728AEDF2A00738EB5 /* LeaderboardAwardCoin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardAwardCoin.swift; sourceTree = "<group>"; };
 		82AEE06A28AEE03400738EB5 /* LeaderboardTopThree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardTopThree.swift; sourceTree = "<group>"; };
@@ -340,6 +344,7 @@
 				6A449BBF2896F4320015826A /* AuthManager.swift */,
 				28CC02D528BEC26400C10262 /* NotificationsManager.swift */,
 				6A449BBE2896F4320015826A /* NetworkManager.swift */,
+				6AE360F328F517CE00A5E115 /* AppState.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -469,6 +474,7 @@
 			isa = PBXGroup;
 			children = (
 				6A449C012896F4320015826A /* LeaderboardView.swift */,
+				6AE360F528F6108900A5E115 /* LeaderboardNotificationView.swift */,
 				82AEE06728AEDF2A00738EB5 /* LeaderboardAwardCoin.swift */,
 				82AEE06A28AEE03400738EB5 /* LeaderboardTopThree.swift */,
 			);
@@ -1368,6 +1374,7 @@
 				6A449CC52896F4330015826A /* PollViewModel.swift in Sources */,
 				6A6F2D4F28BCE9470091CFE4 /* CommentListModel.swift in Sources */,
 				6A449C962896F4330015826A /* PongApp.swift in Sources */,
+				6AE360F428F517CE00A5E115 /* AppState.swift in Sources */,
 				6A449CB12896F4330015826A /* NewPoll.swift in Sources */,
 				6A7E109928AED83500CE3CFD /* PollVoteModel.swift in Sources */,
 				6A449C922896F4320015826A /* NewPostViewModel.swift in Sources */,
@@ -1402,6 +1409,7 @@
 				6A449C892896F4320015826A /* LeaderboardViewModel.swift in Sources */,
 				6A449CCF2897A5BD0015826A /* CommentBubbleViewModel.swift in Sources */,
 				6A449CD42898B1D00015826A /* ErrorResponseBody.swift in Sources */,
+				6AE360F628F6108900A5E115 /* LeaderboardNotificationView.swift in Sources */,
 				6A4BD72728B1772C004EFE4A /* PaginatePostsModel.swift in Sources */,
 				6A6F2D6128C0290F0091CFE4 /* InformationView.swift in Sources */,
 				6A61D05528E0FDAB003188EE /* NewMarketplaceItemViewModel.swift in Sources */,
