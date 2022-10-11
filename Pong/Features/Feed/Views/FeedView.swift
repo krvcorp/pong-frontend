@@ -73,7 +73,6 @@ struct FeedView: View {
                 self.presentationMode.wrappedValue.dismiss()
                 feedVM.selectedFeedFilter = .recent
                 feedVM.paginatePostsReset(selectedFeedFilter: .recent, dataManager: dataManager)
-                NotificationsManager.notificationsManager.registerForNotifications()
             }
         })
         .navigationViewStyle(StackNavigationViewStyle())

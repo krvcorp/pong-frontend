@@ -159,7 +159,7 @@ struct MessageView: View {
                             print("DEBUG SEND MESSAGE")
                             messageVM.sendMessage(message: text)
                             text = ""
-                            
+                            NotificationsManager.notificationsManager.registerForNotifications()
                         } label: {
                             ZStack {
                                 Image(systemName: "paperplane")

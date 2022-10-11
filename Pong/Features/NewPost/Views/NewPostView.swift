@@ -141,6 +141,7 @@ struct NewPostView: View {
                                         newPostVM.newPostLoading = true
                                     }
                                     newPostVM.newPost(mainTabVM: mainTabVM, dataManager: dataManager)
+                                    NotificationsManager.notificationsManager.registerForNotifications()
                                 } label: {
                                     Text("Post")
                                         .frame(minWidth: 100, maxWidth: 150)
