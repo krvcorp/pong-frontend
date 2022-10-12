@@ -2,7 +2,7 @@
 //  NewPostViewModel.swift
 //  Pong
 //
-//  Created by Khoi Nguyen on 7/2/22.
+//  Created by Khoi Nguyen on 7/2/22.   
 //
 
 import Foundation

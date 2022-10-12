@@ -33,6 +33,16 @@ struct PostView: View {
                     .padding(.top, 10)
                     .padding(.leading, 15)
                     .padding(.trailing, 15)
+                    .padding(.bottom, 20)
+                    .font(.system(size: 18).bold())
+                
+                bottomRow
+                    .padding(.leading, 15)
+                    .padding(.trailing, 15)
+                
+                CustomListDivider()
+                    .padding(.leading, 15)
+                    .padding(.trailing, 15)
                 
                 LazyVStack {
                     ForEach($postVM.comments, id: \.self) { $comment in
@@ -60,11 +70,10 @@ struct PostView: View {
                 // api call to fetch comments to display
                 postVM.getComments()
             }
-            .background(Color(UIColor.secondarySystemBackground))
             
             MessagingComponent
         }
-        .background(Color(UIColor.systemBackground))
+        .background(Color.pongSystemBackground)
         .environmentObject(postVM)
         .onAppear {
             DispatchQueue.main.async {
@@ -233,8 +242,6 @@ struct PostView: View {
             if post.poll != nil && post.image == nil {
                 PollView(post: $post)
             }
-            
-            bottomRow
         }
     }
     
