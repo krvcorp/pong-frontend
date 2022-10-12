@@ -26,15 +26,20 @@ struct PostView: View {
 //            NavigationLink(destination: MessageRosterView(), isActive: $postVM.openConversations) { EmptyView() }
             
             RefreshableScrollView {
-                mainPost
-                    .toast(isPresenting: $postVM.savedPostConfirmation) {
-                        AlertToast(type: .regular, title: "Post saved!")
-                    }
-                    .padding(.top, 10)
-                    .padding(.leading, 15)
-                    .padding(.trailing, 15)
-                    .padding(.bottom, 20)
-                    .font(.system(size: 18).bold())
+                HStack {
+                    mainPost
+                        .toast(isPresenting: $postVM.savedPostConfirmation) {
+                            AlertToast(type: .regular, title: "Post saved!")
+                        }
+                        .padding(.top, 10)
+                        .padding(.leading, 15)
+                        .padding(.trailing, 15)
+                        .padding(.bottom, 20)
+                        .font(.system(size: 18).bold())
+                        
+                    VoteComponent
+                        .padding(.trailing, 15)
+                }
                 
                 bottomRow
                     .padding(.leading, 15)
@@ -194,32 +199,6 @@ struct PostView: View {
                     .foregroundColor(Color(UIColor.systemGray))
                     .padding(.bottom, 3)
                 Spacer()
-                if !post.userOwned {
-                    Menu {
-                        Button {
-                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                            postVM.post = post
-                            postVM.activeAlert = .postBlock
-                            postVM.showConfirmation = true
-                        } label: {
-                            Label("Block user", systemImage: "x.circle")
-                        }
-                        
-                        Button {
-                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                            postVM.post = post
-                            postVM.activeAlert = .postReport
-                            postVM.showConfirmation = true
-                        } label: {
-                            Label("Report", systemImage: "flag")
-                        }
-                    } label: {
-                        Image(systemName: "ellipsis")
-                            .frame(width: 30, height: 30)
-                    }
-                    .frame(width: 25, height: 25)
-                    .foregroundColor(Color(UIColor.gray))
-                }
             }
             HStack() {
                 Text(post.title)
@@ -247,8 +226,32 @@ struct PostView: View {
     
     var bottomRow: some View {
         HStack {
-            
-            VoteComponent
+            if !post.userOwned {
+                Menu {
+                    Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        postVM.post = post
+                        postVM.activeAlert = .postBlock
+                        postVM.showConfirmation = true
+                    } label: {
+                        Label("Block user", systemImage: "x.circle")
+                    }
+                    
+                    Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        postVM.post = post
+                        postVM.activeAlert = .postReport
+                        postVM.showConfirmation = true
+                    } label: {
+                        Label("Report", systemImage: "flag")
+                    }
+                } label: {
+                    Image(systemName: "ellipsis")
+                        .frame(width: 30, height: 30)
+                }
+                .frame(width: 25, height: 25)
+                .foregroundColor(Color(UIColor.gray))
+            }
             
             Spacer()
             
@@ -264,9 +267,13 @@ struct PostView: View {
                 } label: {
                     HStack {
                         Image(systemName: "envelope")
+                            .font(.headline.bold())
                         Text("DM")
+                            .bold()
+                            .padding(.leading, -5)
                     }
                     .foregroundColor(Color(UIColor.gray))
+                    
                 }
             }
             else {
@@ -280,6 +287,7 @@ struct PostView: View {
                 } label: {
                     Image(systemName: "trash")
                         .foregroundColor(Color(UIColor.gray))
+                        .font(.headline.bold())
                 }
             }
             
@@ -294,6 +302,7 @@ struct PostView: View {
                         postVM.unsavePost(post: post, dataManager: dataManager)
                     } label: {
                         Image(systemName: "bookmark.fill")
+                            .font(.headline.bold())
                             .foregroundColor(Color(UIColor.gray))
                     }
                 } else if !post.saved {
@@ -303,6 +312,7 @@ struct PostView: View {
                         postVM.savePost(post: post, dataManager: dataManager)
                     } label: {
                         Image(systemName: "bookmark")
+                            .font(.headline.bold())
                             .foregroundColor(Color(UIColor.gray))
                     }
                 }
@@ -325,7 +335,7 @@ struct PostView: View {
     }
     
     var VoteComponent: some View {
-        HStack {
+        VStack {
             if post.voteStatus == 0 {
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
@@ -333,6 +343,7 @@ struct PostView: View {
                 } label: {
                     Image(systemName: "chevron.up")
                         .foregroundColor(Color(UIColor.gray))
+                        .font(.headline)
                 }
                 
                 Text("\(post.score)")
@@ -346,6 +357,7 @@ struct PostView: View {
                 } label: {
                     Image(systemName: "chevron.down")
                         .foregroundColor(Color(UIColor.gray))
+                        .font(.headline)
                 }
             } else if post.voteStatus == 1 {
                 Button {
@@ -354,6 +366,7 @@ struct PostView: View {
                 } label: {
                     Image(systemName: "chevron.up")
                         .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
+                        .font(.headline.bold())
                 }
                 
                 Text("\(post.score + 1)")
@@ -367,6 +380,7 @@ struct PostView: View {
                 } label: {
                     Image(systemName: "chevron.down")
                         .foregroundColor(Color(UIColor.gray))
+                        .font(.headline)
                 }
             }
             else if post.voteStatus == -1 {
@@ -376,6 +390,7 @@ struct PostView: View {
                 } label: {
                     Image(systemName: "chevron.up")
                         .foregroundColor(Color(UIColor.gray))
+                        .font(.headline)
                 }
                 
                 Text("\(post.score - 1)")
@@ -389,9 +404,11 @@ struct PostView: View {
                 } label: {
                     Image(systemName: "chevron.down")
                         .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
+                        .font(.headline.bold())
                 }
             }
         }
+        .frame(width: 25, height: 80)
 
     }
     
