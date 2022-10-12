@@ -3,7 +3,7 @@ import AlertToast
 import MapKit
 import Kingfisher
 
-struct PostView: View {
+struct PostView: View {    
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var mainTabVM : MainTabViewModel
     @EnvironmentObject var dataManager: DataManager
@@ -252,17 +252,6 @@ struct PostView: View {
             
             Spacer()
             
-            HStack {
-                Image(systemName: "bubble.left")
-                    .foregroundColor(Color(UIColor.gray))
-                Text("\(post.numComments)")
-                    .bold()
-                    .foregroundColor(Color(UIColor.gray))
-            }
-            
-            Spacer()
-                
-            
             if !post.userOwned {
                 NavigationLink(destination: MessageView(conversation: $conversation), isActive: $isLinkActive) { EmptyView().opacity(0) }.opacity(0)
                 
@@ -273,10 +262,31 @@ struct PostView: View {
                         isLinkActive = true
                     }
                 } label: {
-                    Image(systemName: "envelope")
+                    HStack {
+                        Image(systemName: "envelope")
+                        Text("DM")
+                    }
+                    .foregroundColor(Color(UIColor.gray))
+                }
+            }
+            else {
+                Button {
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                    DispatchQueue.main.async {
+                        postVM.post = post
+                        postVM.activeAlert = .postDelete
+                        postVM.showConfirmation = true
+                    }
+                } label: {
+                    Image(systemName: "trash")
                         .foregroundColor(Color(UIColor.gray))
                 }
+            }
+            
+            Spacer()
                 
+            
+            if !post.userOwned {
                 if post.saved {
                     Button {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
@@ -298,32 +308,19 @@ struct PostView: View {
                 }
             }
             
-            Button {
-                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+//            Button {
+//                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
 //                self.image = handleShare()
 //                sheet.toggle()
-            } label: {
-                Image(systemName: "square.and.arrow.up")
-                    .foregroundColor(Color(UIColor.gray))
-            }
+//            } label: {
+//                Image(systemName: "square.and.arrow.up")
+//                    .foregroundColor(Color(UIColor.gray))
+//            }
 //            .sheet(isPresented: $sheet) {
 //                ShareSheet(items: [self.image])
 //            }
             
-            // MARK: Delete or More Button
-            if post.userOwned {
-                Button {
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    DispatchQueue.main.async {
-                        postVM.post = post
-                        postVM.activeAlert = .postDelete
-                        postVM.showConfirmation = true
-                    }
-                } label: {
-                    Image(systemName: "trash")
-                        .foregroundColor(Color(UIColor.gray))
-                }
-            }
+            
         }
     }
     
@@ -339,6 +336,8 @@ struct PostView: View {
                 }
                 
                 Text("\(post.score)")
+                    .bold()
+                    .font(.system(size: 18).bold())
                     .foregroundColor(Color(UIColor.gray))
                 
                 Button {
@@ -358,6 +357,8 @@ struct PostView: View {
                 }
                 
                 Text("\(post.score + 1)")
+                    .bold()
+                    .font(.system(size: 18).bold())
                     .foregroundColor(Color(UIColor.gray))
                 
                 Button {
@@ -378,6 +379,8 @@ struct PostView: View {
                 }
                 
                 Text("\(post.score - 1)")
+                    .bold()
+                    .font(.system(size: 18).bold())
                     .foregroundColor(Color(UIColor.gray))
                 
                 Button {

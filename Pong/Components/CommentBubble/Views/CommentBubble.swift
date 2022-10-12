@@ -22,9 +22,7 @@ struct CommentBubble: View {
                 CommentBottomRow
             }
             .padding(.leading, 15)
-            .padding(.trailing, 15)
             .frame(minWidth: 0, maxWidth: UIScreen.main.bounds.size.width)
-            .font(.system(size: 18).bold())
             
             // MARK: Recursive replies
             ForEach($comment.children, id: \.self) { $child in
@@ -58,46 +56,20 @@ struct CommentBubble: View {
     var CommentBody: some View {
         VStack(alignment: .leading) {
             HStack {
-                Text("\(comment.numberOnPost)")
-                    .font(.headline.bold())
-                    .padding(.bottom, 4)
+                Text("#\(comment.numberOnPost)")
+                    .font(.caption)
                 
                 if let receiving = comment.numberReplyingTo {
                     Image(systemName: "arrow.right")
-                        .scaledToFit()
+                        .font(.caption)
                     
-                    Text("\(receiving)")
-                        .font(.headline.bold())
-                        .padding(.bottom, 4)
+                    Text("#\(receiving)")
+                        .font(.caption)
                 }
-                
-                Text("\(comment.timeSincePosted)")
-                    .font(.caption)
-                    .padding(.bottom, 4)
                 
                 Spacer()
-                
-                if !comment.userOwned {
-                    Menu {
-                        Button {
-                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                            postVM.blockComment(comment: comment)
-                        } label: {
-                            Label("Block user", systemImage: "x.circle")
-                        }
-                        
-                        Button {
-                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                            postVM.reportComment(comment: comment)
-                        } label: {
-                            Label("Report", systemImage: "flag")
-                        }
-                    } label: {
-                        Image(systemName: "ellipsis")
-                            .frame(width: 30, height: 30)
-                    }
-                }
             }
+            .foregroundColor(Color(UIColor.gray))
                                    
             Text(comment.comment)
                 .multilineTextAlignment(.leading)
@@ -107,7 +79,6 @@ struct CommentBubble: View {
     
     var VoteComponent: some View {
         HStack {
-            // MARK: if not upvoted or downvoted
             if comment.voteStatus == 0 {
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
@@ -126,7 +97,6 @@ struct CommentBubble: View {
                     Image(systemName: "chevron.down")
                 }
             }
-            // MARK: if upvoted
             else if comment.voteStatus == 1 {
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
@@ -145,7 +115,6 @@ struct CommentBubble: View {
                     Image(systemName: "chevron.down")
                 }
             }
-            // MARK: if downvoted
             else if comment.voteStatus == -1 {
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
@@ -169,23 +138,20 @@ struct CommentBubble: View {
     }
     
     var CommentBottomRow: some View {
-        HStack(spacing: 10) {
+        HStack() {
+            Text("\(comment.timeSincePosted)")
             
+            Button {
+                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                postVM.setCommentReply(comment: comment)
+            } label: {
+                Text("Reply")
+                    .bold()
+            }
             
             Spacer()
-
-            if !comment.userOwned {
-                Button {
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    postVM.startConversation(comment: comment, dataManager: dataManager) { success in
-                        conversation = success
-                        isLinkActive = true
-                    }
-                } label: {
-                    Image(systemName: "paperplane")
-                }
-            }
-            else {
+            
+            if comment.userOwned {
                 Button {
                     DispatchQueue.main.async {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
@@ -195,24 +161,42 @@ struct CommentBubble: View {
                 } label: {
                     Image(systemName: "trash")
                 }
-            }
-        
-            
-            Button {
-                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                postVM.setCommentReply(comment: comment)
-            } label: {
-                HStack {
-                    Image(systemName: "arrowshape.turn.up.left")
-                        .padding(3)
-                        .foregroundColor(Color(UIColor.label))
-                        .cornerRadius(6)
-                        .frame(width: 15, height: 15)
+            } else {
+                Menu {
+                    Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        postVM.blockComment(comment: comment)
+                    } label: {
+                        Label("Block user", systemImage: "x.circle")
+                    }
+                    
+                    Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        postVM.reportComment(comment: comment)
+                    } label: {
+                        Label("Report", systemImage: "flag")
+                    }
+                    
+                    if !comment.userOwned {
+                        Button {
+                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                            postVM.startConversation(comment: comment, dataManager: dataManager) { success in
+                                conversation = success
+                                isLinkActive = true
+                            }
+                        } label: {
+                            Label("Start DM", systemImage: "paperplane")
+                        }
+                    }
+                } label: {
+                    Image(systemName: "ellipsis")
                 }
-                .background(Color(UIColor.systemBackground))
             }
             
             VoteComponent
         }
+        .foregroundColor(Color.gray)
+        .font(.footnote)
+        .padding(.top, 1)
     }
 }
