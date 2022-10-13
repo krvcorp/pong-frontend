@@ -2,13 +2,24 @@ import Foundation
 
 
 class NotificationsViewModel: ObservableObject {
-    @Published var notificationHistory: [NotificationsModel] = []
+    @Published var notificationHistoryWeek: [NotificationsModel] = []
+    @Published var notificationHistoryPrevious: [NotificationsModel] = []
     @Published var post: Post = defaultPost
     
-    func getNotificationHistory() {
-        NetworkManager.networkManager.request(route: "notifications/", method: .get, successType: [NotificationsModel].self) { successResponse, errorResponse in
+    func getNotificationHistoryWeek() {
+        NetworkManager.networkManager.request(route: "notifications/?sort=week", method: .get, successType: [NotificationsModel].self) { successResponse, errorResponse in
             if let successResponse = successResponse {
-                self.notificationHistory = successResponse
+                self.notificationHistoryWeek = successResponse
+            } else {
+                print(errorResponse?.error ?? "")
+            }
+        }
+    }
+    
+    func getNotificationHistoryPrevious() {
+        NetworkManager.networkManager.request(route: "notifications/?sort=previous", method: .get, successType: [NotificationsModel].self) { successResponse, errorResponse in
+            if let successResponse = successResponse {
+                self.notificationHistoryPrevious = successResponse
             } else {
                 print(errorResponse?.error ?? "")
             }
@@ -29,12 +40,12 @@ class NotificationsViewModel: ObservableObject {
     }
     
     // a function to mark a notification as read
-    func markNotificationAsRead(id: String) {
+    func markNotificationAsReadWeek(id: String) {
         NetworkManager.networkManager.emptyRequest(route: "notifications/\(id)/read/", method: .post) { successResponse, errorResponse in
             if successResponse != nil {
                 // find the notification in the array and mark it as read
-                if let index = self.notificationHistory.firstIndex(where: { $0.id == id }) {
-                    self.notificationHistory[index].data.read = true
+                if let index = self.notificationHistoryWeek.firstIndex(where: { $0.id == id }) {
+                    self.notificationHistoryWeek[index].data.read = true
                 }
             }
             if errorResponse != nil {
@@ -47,8 +58,11 @@ class NotificationsViewModel: ObservableObject {
         NetworkManager.networkManager.emptyRequest(route: "notifications/readall/", method: .post) { successResponse, errorResponse in
             if successResponse != nil {
                 // iterate through all notifications and mark them as read
-                for i in 0..<self.notificationHistory.count {
-                    self.notificationHistory[i].data.read = true
+                for i in 0..<self.notificationHistoryWeek.count {
+                    self.notificationHistoryWeek[i].data.read = true
+                }
+                for i in 0..<self.notificationHistoryPrevious.count {
+                    self.notificationHistoryPrevious[i].data.read = true
                 }
             }
             if errorResponse != nil {
@@ -56,6 +70,22 @@ class NotificationsViewModel: ObservableObject {
             }
         }
     }
+    
+    // a function to mark a notification as read
+    func markNotificationAsReadPrevious(id: String) {
+        NetworkManager.networkManager.emptyRequest(route: "notifications/\(id)/read/", method: .post) { successResponse, errorResponse in
+            if successResponse != nil {
+                // find the notification in the array and mark it as read
+                if let index = self.notificationHistoryPrevious.firstIndex(where: { $0.id == id }) {
+                    self.notificationHistoryPrevious[index].data.read = true
+                }
+            }
+            if errorResponse != nil {
+                debugPrint("Error marking notification as read")
+            }
+        }
+    }
+    
     
     
 }

@@ -25,9 +25,9 @@ struct PostView: View {
     @State var didAppear = false
     @State var appearCount = 0
     
+    @State var uiTabarController: UITabBarController?
     
-    
-    
+
     var body: some View {
         ZStack(alignment: .bottom) {
             RefreshableScrollView {
@@ -470,35 +470,37 @@ struct PostView: View {
                 }
                 // MARK: TextArea and Button Component
                 HStack {
-                    TextField("Enter your message here", text: $text)
+                    TextField("Add a comment", text: $text)
                         .font(.headline)
                         .focused($textIsFocused)
                         .onChange(of: postVM.textIsFocused) {
                             self.textIsFocused = $0
                         }
                         
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        if postVM.replyToComment == defaultComment {
-                            postVM.createComment(comment: text, dataManager: dataManager, notificationsManager: notificationsManager)
-                        } else {
-                            postVM.commentReply(comment: text, dataManager: dataManager, notificationsManager: notificationsManager)
-                            postVM.replyToComment = defaultComment
+                    if text != "" {
+                        Button {
+                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                            if postVM.replyToComment == defaultComment {
+                                postVM.createComment(comment: text, dataManager: dataManager, notificationsManager: notificationsManager)
+                            } else {
+                                postVM.commentReply(comment: text, dataManager: dataManager, notificationsManager: notificationsManager)
+                                postVM.replyToComment = defaultComment
+                            }
+                            text = ""
+                            withAnimation {
+                                textIsFocused = false
+                                postVM.textIsFocused = false
+                            }
+                        } label: {
+                            ZStack {
+                                Image(systemName: "paperplane")
+                                    .imageScale(.small)
+                                    .foregroundColor(Color(UIColor.label))
+                                    .font(.largeTitle)
+                            }
+                            .frame(width: 40, height: 40, alignment: .center)
+                            .cornerRadius(10)
                         }
-                        text = ""
-                        withAnimation {
-                            textIsFocused = false
-                            postVM.textIsFocused = false
-                        }
-                    } label: {
-                        ZStack {
-                            Image(systemName: "paperplane")
-                                .imageScale(.small)
-                                .foregroundColor(Color(UIColor.label))
-                                .font(.largeTitle)
-                        }
-                        .frame(width: 40, height: 40, alignment: .center)
-                        .cornerRadius(10)
                     }
                 }
                 .padding(.horizontal)
