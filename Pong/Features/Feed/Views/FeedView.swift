@@ -169,7 +169,7 @@ struct FeedView: View {
                                 feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab, dataManager: dataManager)
                             }
                             .listRowSeparator(.hidden)
-                            .listRowBackground(Color(UIColor.systemBackground))
+                            .listRowBackground(Color.pongSystemBackground)
                             .padding(.bottom, 5)
 
                         CustomListDivider()
@@ -198,7 +198,7 @@ struct FeedView: View {
                                 feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab, dataManager: dataManager)
                             }
                             .listRowSeparator(.hidden)
-                            .listRowBackground(Color(UIColor.systemBackground))
+                            .listRowBackground(Color.pongSystemBackground)
                             .padding(.bottom, 5)
 
                         CustomListDivider()
@@ -227,7 +227,7 @@ struct FeedView: View {
                                 feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab, dataManager: dataManager)
                             }
                             .listRowSeparator(.hidden)
-                            .listRowBackground(Color(UIColor.systemBackground))
+                            .listRowBackground(Color.pongSystemBackground)
                             .padding(.bottom, 5)
 
                         CustomListDivider()
