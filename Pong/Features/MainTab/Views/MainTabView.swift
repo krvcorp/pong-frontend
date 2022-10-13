@@ -106,6 +106,7 @@ struct MainTabView: View {
             // MARK: New Post Sheet
             .sheet(isPresented: $mainTabVM.isCustomItemSelected) {
                 NewPostView(mainTabVM: mainTabVM)
+                    .environmentObject(dataManager)
             }
             .toast(isPresenting: $dataManager.errorDetected){
                 AlertToast(displayMode: .hud, type: .error(Color.red), title: dataManager.errorDetectedMessage, subTitle: dataManager.errorDetectedSubMessage)

@@ -17,6 +17,26 @@ struct NewPostModel: Codable {
     }
 }
 
+// MARK: TagEnum
+enum Tags: String, CaseIterable, Identifiable {
+    case none, rant, confession, question, event, meme, w, rip, course
+    var id: Self { self }
+    
+    var title: String {
+        switch self {
+        case .none: return "None"
+        case .rant: return "Rant"
+        case .confession: return "Confession"
+        case .question: return "Question"
+        case .event: return "Event"
+        case .meme: return "Meme"
+        case .w: return "W"
+        case .rip: return "RIP"
+        case .course: return "Class"
+        }
+    }
+}
+
 class NewPostViewModel: ObservableObject {
     let characterLimit = 280
     @Published var title : String = "" {

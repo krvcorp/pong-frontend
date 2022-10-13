@@ -11,6 +11,9 @@ struct NewPostView: View {
     @State private var showSheet = false
     @State private var showNewPoll = false
     
+    @State private var selectedFilter: Tags = .none
+    @Namespace var animation
+    
     var body: some View {
         ZStack {
             ZStack (alignment: .bottom) {
@@ -28,14 +31,10 @@ struct NewPostView: View {
 
                             Spacer()
                         }
-
-//                        let prompts = ["What's on your mind?", "What's upsetting you right now?", "Who do you hate?", "Seen anything interesting lately?", "How's your day going?"]
-                        // MARK: TextArea
-                        let prompts = ["What's on your mind?"]
                         
                         ZStack(alignment: .topLeading) {
                             if $newPostVM.title.wrappedValue == "" {
-                                Text(prompts.randomElement()!)
+                                Text("What's on your mind?")
                                     .foregroundColor(Color(.placeholderText))
                                     .padding(.horizontal)
                                     .padding(.vertical, 12)
@@ -84,195 +83,7 @@ struct NewPostView: View {
                     
                     Spacer()
                     
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack {
-                            // create 4 rounded ovals, with different border colors, that can be selected
-                            // when selected, change the color of the oval to the color of the selected color
-                            // the ovals should have the words "rant", "confession", "event", and "question" in them
-                            
-                            Spacer()
-                                .frame(maxWidth: 10)
-                            
-                            Button {
-                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                                if newPostVM.tag != "rant" {
-                                    newPostVM.tag = "rant"
-                                }
-                                else {
-                                    newPostVM.tag = nil
-                                }
-                            } label: {
-                                ZStack {
-                                    RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                        .fill(newPostVM.tag == "rant" ? Color(UIColor.red) : Color(UIColor.clear))
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                                .stroke(Color(UIColor.red), lineWidth: 2)
-                                        )
-                                    
-                                    Text("Rant")
-                                        .font(.system(size: 16))
-                                        .foregroundColor(newPostVM.tag == "rant" ? Color(UIColor.white) : Color(UIColor.red))
-                                }
-                            }
-                            Button {
-                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                                if newPostVM.tag != "confession" {
-                                    newPostVM.tag = "confession"
-                                }
-                                else {
-                                    newPostVM.tag = nil
-                                }
-                            } label: {
-                                ZStack {
-                                    RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                        .fill(newPostVM.tag == "confession" ? Color(UIColor.yellow) : Color(UIColor.clear))
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                                .stroke(Color(UIColor.yellow), lineWidth: 2)
-                                        )
-                                    
-                                    Text("Confession")
-                                        .font(.system(size: 16))
-                                        .foregroundColor(newPostVM.tag == "confession" ? Color(UIColor.white) : Color(UIColor.yellow))
-                                }
-                            }
-                            Button {
-                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                                if newPostVM.tag != "question" {
-                                    newPostVM.tag = "question"
-                                }
-                                else {
-                                    newPostVM.tag = nil
-                                }
-                            } label: {
-                                ZStack {
-                                    RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                        .fill(newPostVM.tag == "question" ? Color(UIColor.blue) : Color(UIColor.clear))
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                                .stroke(Color(UIColor.blue), lineWidth: 2)
-                                        )
-                                    
-                                    Text("Question")
-                                        .font(.system(size: 16))
-                                        .foregroundColor(newPostVM.tag == "question" ? Color(UIColor.white) : Color(UIColor.blue))
-                                }
-                            }
-                            Button {
-                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                                if newPostVM.tag != "event" {
-                                    newPostVM.tag = "event"
-                                }
-                                else {
-                                    newPostVM.tag = nil
-                                }
-                            } label: {
-                                ZStack {
-                                    RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                        .fill(newPostVM.tag == "event" ? Color(UIColor.systemPink) : Color(UIColor.clear))
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                                .stroke(Color(UIColor.systemPink), lineWidth: 2)
-                                        )
-                                    
-                                    Text("Event")
-                                        .font(.system(size: 16))
-                                        .foregroundColor(newPostVM.tag == "event" ? Color(UIColor.white) : Color(UIColor.systemPink))
-                                }
-                            }
-                            Button {
-                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                                if newPostVM.tag != "meme" {
-                                    newPostVM.tag = "meme"
-                                }
-                                else {
-                                    newPostVM.tag = nil
-                                }
-                            } label: {
-                                ZStack {
-                                    RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                        .fill(newPostVM.tag == "meme" ? Color(UIColor.purple) : Color(UIColor.clear))
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                                .stroke(Color(UIColor.purple), lineWidth: 2)
-                                        )
-                                    
-                                    Text("Meme")
-                                        .font(.system(size: 16))
-                                        .foregroundColor(newPostVM.tag == "meme" ? Color(UIColor.white) : Color(UIColor.purple))
-                                }
-                            }
-                            Button {
-                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                                if newPostVM.tag != "w" {
-                                    newPostVM.tag = "w"
-                                }
-                                else {
-                                    newPostVM.tag = nil
-                                }
-                            } label: {
-                                ZStack {
-                                    RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                        .fill(newPostVM.tag == "w" ? Color(UIColor.blue) : Color(UIColor.clear))
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                                .stroke(Color(UIColor.blue), lineWidth: 2)
-                                        )
-                                    
-                                    Text("W")
-                                        .font(.system(size: 16))
-                                        .foregroundColor(newPostVM.tag == "w" ? Color(UIColor.white) : Color(UIColor.blue))
-                                }
-                            }
-                            Button {
-                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                                if newPostVM.tag != "rip" {
-                                    newPostVM.tag = "rip"
-                                }
-                                else {
-                                    newPostVM.tag = nil
-                                }
-                            } label: {
-                                ZStack {
-                                    RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                        .fill(newPostVM.tag == "rip" ? Color(UIColor.black) : Color(UIColor.clear))
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                                .stroke(Color(UIColor.black), lineWidth: 2)
-                                        )
-                                    
-                                    Text("RIP")
-                                        .font(.system(size: 16))
-                                        .foregroundColor(newPostVM.tag == "rip" ? Color(UIColor.white) : Color(UIColor.black))
-                                }
-                            }
-                            Button {
-                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                                if newPostVM.tag != "class" {
-                                    newPostVM.tag = "class"
-                                }
-                                else {
-                                    newPostVM.tag = nil
-                                }
-                            } label: {
-                                ZStack {
-                                    RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                        .fill(newPostVM.tag == "class" ? Color(UIColor.brown) : Color(UIColor.clear))
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                                .stroke(Color(UIColor.brown), lineWidth: 2)
-                                        )
-                                    
-                                    Text("Class")
-                                        .font(.system(size: 16))
-                                        .foregroundColor(newPostVM.tag == "class" ? Color(UIColor.white) : Color(UIColor.brown))
-                                }
-                            }
-                            Spacer()
-                        }
-                    }
-                    .frame(height: 25)
+                    TagBar
                     
                     ZStack {
                         VStack {
@@ -333,10 +144,7 @@ struct NewPostView: View {
                                         .font(.system(size: 18).bold())
                                         .padding()
                                         .foregroundColor(Color(UIColor.systemBackground))
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 5)
-                                                .stroke(Color.primary, lineWidth: 2)
-                                    )
+                                        .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.primary, lineWidth: 2))
                                 }
                                 .background(Color(UIColor.label)) // If you have this
                                 .cornerRadius(20)         // You also need the cornerRadius here
@@ -367,6 +175,39 @@ struct NewPostView: View {
         }
         .toast(isPresenting: $newPostVM.error) {
             AlertToast(type: .error(.red), title: newPostVM.errorMessage)
+        }
+    }
+    
+    var TagBar: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            ScrollViewReader { scrollReader in
+                HStack() {
+                    ForEach(Tags.allCases, id: \.rawValue) { item in
+                        if item != .none {
+                            Text(item.title)
+                                .padding()
+                                .foregroundColor(Color(UIColor.label))
+                                .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color(UIColor.red), lineWidth: 2))
+                                .background(item == selectedFilter ? Color(UIColor.red) : Color(UIColor.clear)) // If you have this
+                                .cornerRadius(5)         // You also need the cornerRadius here
+                                .padding(.bottom)
+                                .onTapGesture {
+                                    withAnimation(.easeInOut) {
+                                        self.selectedFilter = item
+                                    }
+                                }
+                        }
+                    }
+                }
+                .overlay(Divider().offset(x: 0, y: 16))
+                .onChange(of: selectedFilter, perform: { value in
+                    print("DEBUG: selectedFilter Changed")
+                    print("DEBUG: \(value)")
+                    withAnimation{
+                        scrollReader.scrollTo(value.rawValue, anchor: .center)
+                    }
+                })
+            }
         }
     }
 }

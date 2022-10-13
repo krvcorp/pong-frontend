@@ -9,7 +9,7 @@ import SwiftUI
 import Alamofire
 import Combine
 
-// MARK: FeelFilter
+// MARK: FeedFilter
 enum FeedFilter: String, CaseIterable, Identifiable {
     case top, hot, recent
     var id: Self { self }
