@@ -545,7 +545,7 @@ struct PostView: View {
                                 if postVM.replyToComment == defaultComment {
                                     postVM.createComment(post: post, comment: text, dataManager: dataManager, notificationsManager: notificationsManager)
                                 } else {
-                                    postVM.commentReply(comment: text, dataManager: dataManager, notificationsManager: notificationsManager)
+                                    postVM.commentReply(post: post, comment: text, dataManager: dataManager, notificationsManager: notificationsManager)
                                     postVM.replyToComment = defaultComment
                                 }
                                 text = ""

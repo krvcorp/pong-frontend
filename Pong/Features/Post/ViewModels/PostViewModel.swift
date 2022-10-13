@@ -103,16 +103,19 @@ class PostViewModel: ObservableObject {
                 multipartFormData.append(imgData, withName: "image", fileName: "file.jpg", mimeType: "image/jpg")
                 multipartFormData.append(comment.data(using: String.Encoding.utf8)!, withName: "comment")
             }, to: "\(NetworkManager.networkManager.baseURL)comments/", method: .post, headers: httpHeaders)
-                .responseDecodable(of: Comment.self) { successResponse in
+                .responseDecodable(of: Comment.self) { (successResponse) in
                     print("DEBUG: PostVM. success \(successResponse)")
-                    DispatchQueue.main.async {
-                        withAnimation {
-                            NotificationsManager.notificationsManager.registerForNotifications()
-//                            KHOI, FIX THIS COMMENTS AREA
-//                            self.comments.append(successResponse)
-                            self.post.numComments = self.post.numComments + 1
-                            self.commentUpdateTrigger.toggle()
-                            dataManager.initProfile()
+                    if let successResponse = successResponse.value {
+                        DispatchQueue.main.async {
+                            withAnimation {
+                                NotificationsManager.notificationsManager.registerForNotifications()
+                                if let index = dataManager.postComments.firstIndex(where: {$0.0 == post.id}) {
+                                    dataManager.postComments[index].1.append(successResponse)
+                                }
+                                self.post.numComments = self.post.numComments + 1
+                                self.commentUpdateTrigger.toggle()
+                                dataManager.initProfile()
+                            }
                         }
                     }
                 }
@@ -124,7 +127,9 @@ class PostViewModel: ObservableObject {
                     DispatchQueue.main.async {
                         withAnimation {
                             NotificationsManager.notificationsManager.registerForNotifications()
-                            self.comments.append(successResponse)
+                            if let index = dataManager.postComments.firstIndex(where: {$0.0 == post.id}) {
+                                dataManager.postComments[index].1.append(successResponse)
+                            }
                             self.post.numComments = self.post.numComments + 1
                             self.commentUpdateTrigger.toggle()
                             dataManager.initProfile()
@@ -135,7 +140,7 @@ class PostViewModel: ObservableObject {
         }
     }
     
-    func commentReply(comment: String, dataManager: DataManager, notificationsManager: NotificationsManager) -> Void {
+    func commentReply(post: Post, comment: String, dataManager: DataManager, notificationsManager: NotificationsManager) -> Void {
         let parameters = CommentReplyModel.Request(postId: post.id, replyingId: replyToComment.id, comment: comment)
         
         NetworkManager.networkManager.request(route: "comments/", method: .post, body: parameters, successType: Comment.self) { successResponse, errorResponse in
@@ -143,13 +148,15 @@ class PostViewModel: ObservableObject {
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
                     NotificationsManager.notificationsManager.registerForNotifications()
-                    for (index, comment) in self.comments.enumerated() {
-                        if successResponse.parent == comment.id {
+                    
+                    if let index1 = dataManager.postComments.firstIndex(where: {$0.0 == post.id}) {
+                        if let index2 = dataManager.postComments[index1].1.firstIndex(where: {$0.id == successResponse.parent}) {
                             withAnimation {
-                                self.comments[index].children.append(successResponse)
+                                dataManager.postComments[index1].1[index2].children.append(successResponse)
                             }
                         }
                     }
+                    
                     self.post.numComments = self.post.numComments + 1
                 }
             } else if errorResponse != nil {
