@@ -32,16 +32,16 @@ struct NewPostView: View {
                         }
                         
                         ZStack(alignment: .topLeading) {
-                            if $newPostVM.title.wrappedValue == "" {
-                                Text("What's on your mind?")
-                                    .foregroundColor(Color(.placeholderText))
-                                    .padding(.horizontal)
-                                    .padding(.vertical, 12)
-                            }
-                            
                             TextEditor(text: $newPostVM.title)
                                 .focused($textIsFocused)
                                 .padding(4)
+                            
+                            if $newPostVM.title.wrappedValue == "" {
+                                Text("What's on your mind?")
+                                    .foregroundColor(Color.gray)
+                                    .padding(.horizontal)
+                                    .padding(.vertical, 12)
+                            }
                         }
                         .font(.title)
                         .frame(maxHeight: .infinity)

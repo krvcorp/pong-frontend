@@ -8,6 +8,7 @@ class NetworkManager: ObservableObject {
     // MARK: BaseURL
     #if DEBUG
         var baseURL = "http://localhost:8005/api/"
+//        var baseURL = "https://www.pong.college/api/"
     #else
         var baseURL = "https://www.pong.college/api/"
     #endif

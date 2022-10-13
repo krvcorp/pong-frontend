@@ -16,7 +16,7 @@ struct NotificationsView: View {
                 
                 List {
                     Section() {
-                        ForEach(notificationsVM.notificationHistory) { notificationModel in
+                        ForEach(notificationsVM.notificationHistoryWeek) { notificationModel in
                             if notificationModel.data.type == .upvote || notificationModel.data.type == .comment || notificationModel.data.type == .hot || notificationModel.data.type == .top || notificationModel.data.type == .reply {
                                 
                                 Button {
@@ -25,17 +25,13 @@ struct NotificationsView: View {
                                             post = success
                                             isLinkActive = true
                                         }
-                                        notificationsVM.markNotificationAsRead(id: notificationModel.id)
+                                        notificationsVM.markNotificationAsReadWeek(id: notificationModel.id)
                                     }
                                 } label: {
                                     getNotificationText(notificationModel: notificationModel)
                                 }
                                 .listRowSeparator(.hidden)
                                 
-//                                NavigationLink(destination: PostView(post: $post)) {
-//                                    EmptyView()
-//                                }
-//                                .listRowBackground(notificationModel.data.read ? Color.pongSystemBackground : Color.notificationUnread)
                             }
                             else if notificationModel.data.type == .leader {
                                 Button {
@@ -43,7 +39,7 @@ struct NotificationsView: View {
                                         mainTabVM.isCustomItemSelected = false
                                         mainTabVM.itemSelected = 2
                                     }
-                                    notificationsVM.markNotificationAsRead(id: notificationModel.id)
+                                    notificationsVM.markNotificationAsReadWeek(id: notificationModel.id)
                                 } label: {
                                     getNotificationText(notificationModel: notificationModel)
                                 }
@@ -65,17 +61,63 @@ struct NotificationsView: View {
                             }
                         }
                     }
+                    Section() {
+                        ForEach(notificationsVM.notificationHistoryPrevious) { notificationModel in
+                            if notificationModel.data.type == .upvote || notificationModel.data.type == .comment || notificationModel.data.type == .hot || notificationModel.data.type == .top || notificationModel.data.type == .reply {
+                                
+                                Button {
+                                    DispatchQueue.main.async {
+                                        notificationsVM.getPost(url: notificationModel.data.url!) { success in
+                                            post = success
+                                            isLinkActive = true
+                                        }
+                                        notificationsVM.markNotificationAsReadPrevious(id: notificationModel.id)
+                                    }
+                                } label: {
+                                    getNotificationText(notificationModel: notificationModel)
+                                }
+                                .listRowSeparator(.hidden)
+                                
+//                                NavigationLink(destination: PostView(post: $post)) {
+//                                    EmptyView()
+//                                }
+//                                .listRowBackground(notificationModel.data.read ? Color.pongSystemBackground : Color.notificationUnread)
+                            }
+                            else if notificationModel.data.type == .leader {
+                                Button {
+                                    DispatchQueue.main.async {
+                                        mainTabVM.isCustomItemSelected = false
+                                        mainTabVM.itemSelected = 2
+                                    }
+                                    notificationsVM.markNotificationAsReadPrevious(id: notificationModel.id)
+                                } label: {
+                                    getNotificationText(notificationModel: notificationModel)
+                                }
+//                                .listRowBackground(notificationModel.data.read ? Color.pongSystemBackground : Color.notificationUnread)
+                                .listRowSeparator(.hidden)
+                            }
+                        }
+                    } header: {
+                        HStack {
+                            Text("Previous")
+                                .fontWeight(.heavy)
+                                .foregroundColor(colorScheme == .light ? Color.black : Color.white)
+                                .padding(.bottom, 4)
+                        }
+                    }
                 }
                 .refreshable() {
                     print("DEBUG: REFRESH")
-                    notificationsVM.getNotificationHistory()
+                    notificationsVM.getNotificationHistoryWeek()
+                    notificationsVM.getNotificationHistoryPrevious()
                 }
                 .listStyle(PlainListStyle())
             }
             .background(Color.pongSystemBackground)
             .onAppear {
                 UITableView.appearance().showsVerticalScrollIndicator = false
-                notificationsVM.getNotificationHistory()
+                notificationsVM.getNotificationHistoryWeek()
+                notificationsVM.getNotificationHistoryPrevious()
             }
             .navigationTitle("Activity")
             .navigationBarTitleDisplayMode(.inline)
