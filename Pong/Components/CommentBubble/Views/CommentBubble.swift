@@ -43,13 +43,9 @@ struct CommentBubble: View {
             }
         }
         .onChange(of: commentBubbleVM.commentUpdateTrigger) { change in
-            print("DEBUG: old onChange self.comment.voteStatus \(self.comment.voteStatus)")
-            print("DEBUG: new onChange VM.comment.voteStatus \(commentBubbleVM.comment.voteStatus)")
-            // on change should be running twice when there's no internet?
             DispatchQueue.main.async {
                 self.comment = commentBubbleVM.comment
             }
-//            postVM.updateCommentLocally(comment: commentBubbleVM.comment)
         }
     }
     
@@ -58,13 +54,16 @@ struct CommentBubble: View {
             HStack {
                 Text("#\(comment.numberOnPost)")
                     .font(.caption)
+                    .padding(.bottom, 1)
                 
                 if let receiving = comment.numberReplyingTo {
                     Image(systemName: "arrow.right")
                         .font(.caption)
+                        .padding(.bottom, 1)
                     
                     Text("#\(receiving)")
                         .font(.caption)
+                        .padding(.bottom, 1)
                 }
                 
                 Spacer()
@@ -72,7 +71,10 @@ struct CommentBubble: View {
             .foregroundColor(Color(UIColor.gray))
                                    
             Text(comment.comment)
+                .bold()
                 .multilineTextAlignment(.leading)
+                .fixedSize(horizontal: false, vertical: true)
+                
         }
         .background(Color.pongSystemBackground)
     }
@@ -185,7 +187,7 @@ struct CommentBubble: View {
                                 isLinkActive = true
                             }
                         } label: {
-                            Label("Start DM", systemImage: "paperplane")
+                            Label("Start DM", systemImage: "envelope")
                         }
                     }
                 } label: {

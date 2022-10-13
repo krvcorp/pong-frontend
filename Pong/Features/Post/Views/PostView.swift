@@ -36,9 +36,6 @@ struct PostView: View {
                         .padding(.trailing, 15)
                         .padding(.bottom, 20)
                         .font(.system(size: 18).bold())
-                        
-                    VoteComponent
-                        .padding(.trailing, 15)
                 }
                 
                 bottomRow
@@ -46,8 +43,8 @@ struct PostView: View {
                     .padding(.trailing, 15)
                 
                 CustomListDivider()
-                    .padding(.leading, 15)
-                    .padding(.trailing, 15)
+//                    .padding(.leading, 15)
+//                    .padding(.trailing, 15)
                 
                 LazyVStack {
                     ForEach($postVM.comments, id: \.self) { $comment in
@@ -194,18 +191,23 @@ struct PostView: View {
     var mainPost: some View {
         VStack {
             HStack {
-                Text("\(post.timeSincePosted) ago")
-                    .font(.caption)
-                    .foregroundColor(Color(UIColor.systemGray))
-                    .padding(.bottom, 3)
-                Spacer()
-            }
-            HStack() {
-                Text(post.title)
-                    .bold()
-                    .fixedSize(horizontal: false, vertical: true)
-                    
-                Spacer()
+                VStack {
+                    HStack {
+                        Text("\(post.timeSincePosted) ago")
+                            .font(.caption)
+                            .foregroundColor(Color(UIColor.systemGray))
+                            .padding(.bottom, 3)
+                        Spacer()
+                    }
+                    HStack() {
+                        Text(post.title)
+                            .bold()
+                            .fixedSize(horizontal: false, vertical: true)
+                        
+                        Spacer()
+                    }
+                }
+                VoteComponent
             }
             
             // MARK: Image

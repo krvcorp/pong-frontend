@@ -11,7 +11,19 @@ struct SettingsView: View {
     
     var body: some View {
         List {
-            Section("ACCOUNT") {
+            Section(header: HStack {
+                Text("ACCOUNT")
+                    .padding()
+
+                    Spacer()
+            }
+            .background(Color.pongSystemBackground)
+            .listRowInsets(EdgeInsets(
+                top: 0,
+                leading: 0,
+                bottom: 0,
+                trailing: 0))
+            ) {
                 
                 // MARK: Referrals View
                 NavigationLink(destination: ReferralsView()){
@@ -57,7 +69,19 @@ struct SettingsView: View {
             .listRowBackground(Color.pongSystemBackground)
             .listRowSeparator(.hidden)
             
-            Section("ABOUT") {
+            Section(header: HStack {
+                Text("ABOUT")
+                    .padding()
+
+                    Spacer()
+            }
+            .background(Color.pongSystemBackground)
+            .listRowInsets(EdgeInsets(
+                top: 0,
+                leading: 0,
+                bottom: 0,
+                trailing: 0))
+            ) {
                 // MARK: Contact Us
                 HStack {
                     Button {
@@ -103,7 +127,19 @@ struct SettingsView: View {
             .listRowBackground(Color.pongSystemBackground)
             .listRowSeparator(.hidden)
             
-            Section("PREFERENCES") {
+            Section(header: HStack {
+                Text("HEADER")
+                    .padding()
+
+                    Spacer()
+            }
+            .background(Color.pongSystemBackground)
+            .listRowInsets(EdgeInsets(
+                top: 0,
+                leading: 0,
+                bottom: 0,
+                trailing: 0))
+            ) {
                 
                 // MARK: Dark Mode
                 HStack {
@@ -173,11 +209,11 @@ struct SettingsView: View {
                 .foregroundColor(Color.gray)
                 .padding(.top, 100)
             }
+            .background(Color.pongSystemBackground)
             .listRowBackground(Color.pongSystemBackground)
             .listRowSeparator(.hidden)
         }
         .environment(\.defaultMinListRowHeight, 0)
-        .background(Color.pongSystemBackground)
         .listStyle(PlainListStyle())
         .frame(maxWidth: .infinity)
         .navigationTitle("Settings")
