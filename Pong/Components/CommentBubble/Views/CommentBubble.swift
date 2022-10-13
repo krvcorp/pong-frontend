@@ -6,7 +6,6 @@ struct CommentBubble: View {
     @EnvironmentObject var postVM : PostViewModel
     @EnvironmentObject var dataManager : DataManager
     
-    @State private var showScore = false
     
     // MARK: Conversation
     @Binding var isLinkActive : Bool
@@ -80,6 +79,7 @@ struct CommentBubble: View {
     }
     
     var VoteComponent: some View {
+
         HStack {
             if comment.voteStatus == 0 {
                 Button {
@@ -88,8 +88,7 @@ struct CommentBubble: View {
                 } label: {
                     Image(systemName: "chevron.up")
                 }
-                
-                
+
                 Text("\(comment.score)")
                 
                 Button {
@@ -99,6 +98,7 @@ struct CommentBubble: View {
                     Image(systemName: "chevron.down")
                 }
             }
+
             else if comment.voteStatus == 1 {
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
@@ -117,6 +117,7 @@ struct CommentBubble: View {
                     Image(systemName: "chevron.down")
                 }
             }
+
             else if comment.voteStatus == -1 {
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()

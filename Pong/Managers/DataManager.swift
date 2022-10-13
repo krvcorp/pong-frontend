@@ -4,12 +4,14 @@
 //
 //  Created by Khoi Nguyen on 8/21/22.
 //
-// init in maintabview
 
 import Foundation
 import SwiftUI
 
 class DataManager : ObservableObject {
+    
+    static let shared = DataManager()
+    
     // feed
     @Published var topPosts : [Post] = []
     @Published var hotPosts : [Post] = []

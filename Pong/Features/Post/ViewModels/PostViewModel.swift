@@ -24,7 +24,7 @@ class PostViewModel: ObservableObject {
     
     @Published var savedPostConfirmation : Bool = false
     
-    @Published var commentsLoaded = false
+//    @Published var commentsLoaded = false
     
     @Published var postUpdateTrigger = false
     @Published var commentUpdateTrigger = false
@@ -33,7 +33,8 @@ class PostViewModel: ObservableObject {
     
     @Published var openConversations = false
     
-    func postVote(direction: Int, dataManager: DataManager) -> Void {
+    func postVote(post: Post, direction: Int, dataManager: DataManager) -> Void {
+        self.post = post
         var voteToSend = 0
         let temp = self.post.voteStatus
         
@@ -66,12 +67,17 @@ class PostViewModel: ObservableObject {
     }
     
     func getComments() -> Void {
+        print("DEBUG: postVM.getComments")
         NetworkManager.networkManager.request(route: "comments/?post_id=\(post.id)", method: .get, successType: CommentListModel.Response.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
-                    self.comments = successResponse.results
-                    self.commentsLoaded = true
-                    self.commentUpdateTrigger.toggle()
+                    if self.comments != successResponse.results {
+                        print("DEBUG: postVM.getComments success")
+                        withAnimation {
+                            self.comments = successResponse.results
+                            self.commentUpdateTrigger.toggle()
+                        }
+                    }
                 }
             }
         }
@@ -131,13 +137,14 @@ class PostViewModel: ObservableObject {
     }
     
     // MARK: ReadPost
-    func readPost(dataManager : DataManager, completion: @escaping (Bool) -> Void) {
+    func readPost(post: Post, dataManager : DataManager, completion: @escaping (Bool) -> Void) {
         NetworkManager.networkManager.request(route: "posts/\(post.id)/", method: .get, successType: Post.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
                     // replace the local post
                     self.post = successResponse
-//                    self.postUpdateTrigger.toggle()
+                    completion(true)
+                    return
                 }
             }
             
@@ -145,6 +152,7 @@ class PostViewModel: ObservableObject {
                 DispatchQueue.main.async {
                     dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't read post")
                     completion(false)
+                    return
                 }
             }
         }
@@ -156,7 +164,9 @@ class PostViewModel: ObservableObject {
             self.post = post
             self.post.saved = true
             self.savedPostConfirmation = true
-            self.postUpdateTrigger.toggle()
+            withAnimation {
+                self.postUpdateTrigger.toggle()
+            }
         }
         
         NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/save/", method: .post) { successResponse, errorResponse in
@@ -177,13 +187,17 @@ class PostViewModel: ObservableObject {
         DispatchQueue.main.async {
             self.post = post
             self.post.saved = false
-            self.postUpdateTrigger.toggle()
+            withAnimation {
+                self.postUpdateTrigger.toggle()
+            }
         }
         
         NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/save/", method: .delete) { successResponse, errorResponse in
             if successResponse != nil {
                 
-            } else if errorResponse != nil {
+            }
+            
+            if errorResponse != nil {
                 DispatchQueue.main.async {
                     self.post = post
                     self.post.saved = true

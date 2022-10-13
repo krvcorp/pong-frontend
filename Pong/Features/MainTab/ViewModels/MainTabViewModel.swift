@@ -19,9 +19,14 @@ class MainTabViewModel: ObservableObject {
     
     @Published var scrollToTop : Bool = false
     
+    init(initialIndex: Int = 1, customItemIndex: Int) {
+        self.customActiontemindex = customItemIndex
+        self.itemSelected = initialIndex
+        self.previousItem = initialIndex
+    }
+    
     /// This is the index of the item that fires a custom action
     let customActiontemindex: Int
-
 
     var previousItem: Int
 
@@ -37,12 +42,6 @@ class MainTabViewModel: ObservableObject {
 
     func reset() {
         itemSelected = previousItem
-    }
-
-    init(initialIndex: Int = 1, customItemIndex: Int) {
-        self.customActiontemindex = customItemIndex
-        self.itemSelected = initialIndex
-        self.previousItem = initialIndex
     }
     
     func newPost() {

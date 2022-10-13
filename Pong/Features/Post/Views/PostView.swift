@@ -2,6 +2,7 @@ import SwiftUI
 import AlertToast
 import MapKit
 import Kingfisher
+import ActivityIndicatorView
 
 struct PostView: View {    
     @Environment(\.presentationMode) var presentationMode
@@ -21,10 +22,14 @@ struct PostView: View {
     @State var isLinkActive = false
     @State var conversation = defaultConversation
     
+    @State var didAppear = false
+    @State var appearCount = 0
+    
+    
+    
+    
     var body: some View {
         ZStack(alignment: .bottom) {
-//            NavigationLink(destination: MessageRosterView(), isActive: $postVM.openConversations) { EmptyView() }
-            
             RefreshableScrollView {
                 HStack {
                     mainPost
@@ -55,15 +60,12 @@ struct PostView: View {
                 .padding(.bottom, 150)
             }
             .onTapGesture {
-                print("DEBUG: onTap detected")
                 hideKeyboard()
                 self.postVM.textIsFocused = false
                 self.textIsFocused = false
             }
             .refreshable {
-                print("DEBUG: PostView refresh")
-                // api call to refresh local data
-                postVM.readPost(dataManager: dataManager) { result in
+                postVM.readPost(post: self.post, dataManager: dataManager) { result in
                     if !result {
                         self.presentationMode.wrappedValue.dismiss()
                     }
@@ -79,13 +81,15 @@ struct PostView: View {
         .environmentObject(postVM)
         .onAppear {
             DispatchQueue.main.async {
+                print("DEBUG: PostView.onAppear")
                 // take binding and insert into VM
                 postVM.post = self.post
                 
                 // api call to refresh local data
-                postVM.readPost(dataManager: dataManager) { result in
+                postVM.readPost(post: self.post, dataManager: dataManager) { result in
                     if !result {
                         print("DEBUG: READ ERROR SHOULD DISMISS")
+                        
                         self.presentationMode.wrappedValue.dismiss()
                         
                         // THIS IS IF DELETED
@@ -97,17 +101,27 @@ struct PostView: View {
                 postVM.getComments()
             }
         }
-        .onChange(of: postVM.postUpdateTrigger) { newValue in
-            print("DEBUG: old onChange self.post.voteStatus \(self.post.voteStatus)")
-            print("DEBUG: new onChange VM.post.voteStatus \(postVM.post.voteStatus)")
+        .onChange(of: self.post.id, perform: { newValue in
             DispatchQueue.main.async {
-                self.post = postVM.post
+                print("DEBUG: self.post.id.onChange")
+                postVM.post = self.post
+                postVM.getComments()
             }
-            dataManager.updatePostLocally(post: postVM.post)
+        })
+        .onChange(of: postVM.postUpdateTrigger) { newValue in
+            DispatchQueue.main.async {
+                if postVM.post.id != "default" {
+                    print("DEBUG: postVM.postUpdateTrigger.onChange")
+                    self.post = postVM.post
+                    dataManager.updatePostLocally(post: postVM.post)
+                }
+            }
         }
         .onChange(of: postVM.commentUpdateTrigger) { newValue in
             DispatchQueue.main.async {
-                self.post = postVM.post
+                if postVM.post.id != "default" {
+                    self.post = postVM.post
+                }
             }
             dataManager.updatePostLocally(post: postVM.post)
         }
@@ -134,7 +148,6 @@ struct PostView: View {
                     },
                     secondaryButton: .cancel()
                 )
-
             case .postReport:
                 return Alert(
                     title: Text("Report post"),
@@ -144,7 +157,6 @@ struct PostView: View {
                     },
                     secondaryButton: .cancel()
                 )
-
             case .postBlock:
                 return Alert(
                     title: Text("Block post and user"),
@@ -341,7 +353,7 @@ struct PostView: View {
             if post.voteStatus == 0 {
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    postVM.postVote(direction: 1, dataManager: dataManager)
+                    postVM.postVote(post: post, direction: 1, dataManager: dataManager)
                 } label: {
                     Image(systemName: "chevron.up")
                         .foregroundColor(Color(UIColor.gray))
@@ -355,7 +367,7 @@ struct PostView: View {
                 
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    postVM.postVote(direction: -1, dataManager: dataManager)
+                    postVM.postVote(post: post, direction: -1, dataManager: dataManager)
                 } label: {
                     Image(systemName: "chevron.down")
                         .foregroundColor(Color(UIColor.gray))
@@ -364,7 +376,7 @@ struct PostView: View {
             } else if post.voteStatus == 1 {
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    postVM.postVote(direction: 1, dataManager: dataManager)
+                    postVM.postVote(post: post, direction: 1, dataManager: dataManager)
                 } label: {
                     Image(systemName: "chevron.up")
                         .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
@@ -378,7 +390,7 @@ struct PostView: View {
                 
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    postVM.postVote(direction: -1, dataManager: dataManager)
+                    postVM.postVote(post: post, direction: -1, dataManager: dataManager)
                 } label: {
                     Image(systemName: "chevron.down")
                         .foregroundColor(Color(UIColor.gray))
@@ -388,7 +400,7 @@ struct PostView: View {
             else if post.voteStatus == -1 {
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    postVM.postVote(direction: 1, dataManager: dataManager)
+                    postVM.postVote(post: post, direction: 1, dataManager: dataManager)
                 } label: {
                     Image(systemName: "chevron.up")
                         .foregroundColor(Color(UIColor.gray))
@@ -402,7 +414,7 @@ struct PostView: View {
                 
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    postVM.postVote(direction: -1, dataManager: dataManager)
+                    postVM.postVote(post: post, direction: -1, dataManager: dataManager)
                 } label: {
                     Image(systemName: "chevron.down")
                         .foregroundColor(SchoolManager.shared.schoolPrimaryColor())

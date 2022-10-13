@@ -121,6 +121,7 @@ struct FlippedUpsideDown: ViewModifier {
         .scaleEffect(x: -1, y: 1, anchor: .center)
     }
 }
+
 extension View{
     func flippedUpsideDown() -> some View{
         self.modifier(FlippedUpsideDown())
