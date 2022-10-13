@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import Alamofire
+import SwiftUI
 
 struct NewPostModel: Codable {
     struct Request : Encodable {
@@ -18,21 +19,35 @@ struct NewPostModel: Codable {
 }
 
 // MARK: TagEnum
-enum Tags: String, CaseIterable, Identifiable {
+enum Tag: String, CaseIterable, Identifiable {
     case none, rant, confession, question, event, meme, w, rip, course
     var id: Self { self }
     
-    var title: String {
+    var title: String? {
         switch self {
-        case .none: return "None"
-        case .rant: return "Rant"
-        case .confession: return "Confession"
-        case .question: return "Question"
-        case .event: return "Event"
-        case .meme: return "Meme"
+        case .none: return nil
+        case .rant: return "RANT"
+        case .confession: return "CONFESSION"
+        case .question: return "QUESTION"
+        case .event: return "EVENT"
+        case .meme: return "MEME"
         case .w: return "W"
         case .rip: return "RIP"
-        case .course: return "Class"
+        case .course: return "CLASS"
+        }
+    }
+    
+    var color: Color {
+        switch self {
+        case .none: return Color(UIColor.clear)
+        case .rant: return Color(.red)
+        case .confession: return Color(.blue)
+        case .question: return Color(.orange)
+        case .event: return Color(.green)
+        case .meme: return Color.earlyPeriod1
+        case .w: return Color.poshGold
+        case .rip: return Color(.black)
+        case .course: return Color.poshDarkRed
         }
     }
 }
@@ -46,7 +61,7 @@ class NewPostViewModel: ObservableObject {
             }
         }
     }
-    @Published var tag : String? = nil
+    @Published var selectedTag : Tag = .none
     @Published var image : UIImage? = nil
     @Published var newPollVM : NewPollViewModel = NewPollViewModel()
     @Published var error = false
@@ -70,7 +85,7 @@ class NewPostViewModel: ObservableObject {
             AF.upload(multipartFormData: { multipartFormData in
                 multipartFormData.append(self.title.data(using: String.Encoding.utf8)!, withName: "title")
                 multipartFormData.append(imgData, withName: "image",fileName: "file.jpg", mimeType: "image/jpg")
-                multipartFormData.append(self.tag!.data(using: String.Encoding.utf8)!, withName: "tag")
+                multipartFormData.append(self.selectedTag.title!.data(using: String.Encoding.utf8)!, withName: "tag")
             }, to: "\(NetworkManager.networkManager.baseURL)posts/", method: .post, headers: httpHeaders)
                 .responseDecodable(of: Post.self) { successResponse in
                     print("DEBUG: newPostVM.newPost success \(successResponse)")
@@ -88,7 +103,7 @@ class NewPostViewModel: ObservableObject {
                 pollOptions.append("skipkhoicunt")
             }
             
-            let parameters = NewPostModel.Request(title: self.title, pollOptions: pollOptions, tag: self.tag)
+            let parameters = NewPostModel.Request(title: self.title, pollOptions: pollOptions, tag: self.selectedTag.title)
             
             // validate newPoll doesn't have invalid entries
             if newPollVM.validate() {
