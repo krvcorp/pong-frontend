@@ -11,7 +11,6 @@ struct NewPostView: View {
     @State private var showSheet = false
     @State private var showNewPoll = false
     
-    @State private var selectedFilter: Tags = .none
     @Namespace var animation
     
     var body: some View {
@@ -144,10 +143,10 @@ struct NewPostView: View {
                                         .font(.system(size: 18).bold())
                                         .padding()
                                         .foregroundColor(Color(UIColor.systemBackground))
-                                        .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.primary, lineWidth: 2))
+                                        .overlay(RoundedRectangle(cornerRadius: 15).stroke(Color.primary, lineWidth: 2))
                                 }
                                 .background(Color(UIColor.label)) // If you have this
-                                .cornerRadius(20)         // You also need the cornerRadius here
+                                .cornerRadius(15)         // You also need the cornerRadius here
                                 .padding(.bottom)
                             } else {
                                 Button {
@@ -181,32 +180,46 @@ struct NewPostView: View {
     var TagBar: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             ScrollViewReader { scrollReader in
-                HStack() {
-                    ForEach(Tags.allCases, id: \.rawValue) { item in
+                HStack {
+                    ForEach(Tag.allCases, id: \.rawValue) { item in
                         if item != .none {
-                            Text(item.title)
-                                .padding()
-                                .foregroundColor(Color(UIColor.label))
-                                .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color(UIColor.red), lineWidth: 2))
-                                .background(item == selectedFilter ? Color(UIColor.red) : Color(UIColor.clear)) // If you have this
-                                .cornerRadius(5)         // You also need the cornerRadius here
-                                .padding(.bottom)
-                                .onTapGesture {
-                                    withAnimation(.easeInOut) {
-                                        self.selectedFilter = item
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 20, style: .continuous)
+                                    .fill(item == newPostVM.selectedTag ? item.color : Color(UIColor.systemBackground))
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 20, style: .continuous)
+                                            .stroke(item.color, lineWidth: 2)
+                                    )
+                                    .padding(.vertical, 2)
+                                    .onTapGesture {
+                                        withAnimation(.easeInOut) {
+                                            if self.newPostVM.selectedTag == item {
+                                                self.newPostVM.selectedTag = .none
+                                            } else {
+                                                self.newPostVM.selectedTag = item
+                                            }
+                                        }
                                     }
-                                }
+                                
+                                Text(item.title!)
+                                    .font(.subheadline.bold())
+                                    .padding(5)
+                                    .padding(.horizontal, 5)
+                                    .foregroundColor(item == newPostVM.selectedTag ? Color(UIColor.systemBackground) : item.color)
+                            }
+                            .frame(height: 40)
+                            .frame(minWidth: UIScreen.screenWidth / 8)
                         }
                     }
                 }
-                .overlay(Divider().offset(x: 0, y: 16))
-                .onChange(of: selectedFilter, perform: { value in
-                    print("DEBUG: selectedFilter Changed")
-                    print("DEBUG: \(value)")
+                .onChange(of: newPostVM.selectedTag, perform: { value in
                     withAnimation{
-                        scrollReader.scrollTo(value.rawValue, anchor: .center)
+                        if value != .none {
+                            scrollReader.scrollTo(value.rawValue, anchor: .center)
+                        }
                     }
                 })
+                .padding(.horizontal)
             }
         }
     }
