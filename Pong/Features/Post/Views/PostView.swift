@@ -18,6 +18,9 @@ struct PostView: View {
     @State private var showScore = false
     @FocusState private var textIsFocused : Bool
     
+//    images for comments
+    @State private var showSheet = false
+    
     // MARK: Conversation
     @State var isLinkActive = false
     @State var conversation = defaultConversation
@@ -469,39 +472,86 @@ struct PostView: View {
                     .padding(.top, 2)
                 }
                 // MARK: TextArea and Button Component
-                HStack {
-                    TextField("Add a comment", text: $text)
-                        .font(.headline)
-                        .focused($textIsFocused)
-                        .onChange(of: postVM.textIsFocused) {
-                            self.textIsFocused = $0
+                VStack {
+                    HStack {
+                        if postVM.commentImage != nil {
+                            ZStack(alignment: .topLeading) {
+                                
+                                Image(uiImage: self.postVM.commentImage!)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
+                                
+                                Button {
+                                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                                    postVM.commentImage = nil
+                                } label: {
+                                    Image(systemName: "trash")
+                                }
+                                .frame(width: 35, height: 35)
+                                .foregroundColor(.white)
+                                .background(Circle().fill(.black).opacity(0.6))
+                                .padding()
+                            }
+                            .frame(maxWidth: UIScreen.screenWidth / 1.25)
+                            .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
+                            .padding()
                         }
+                        Spacer()
+                    }
+                    HStack {
+                        TextField("Add a comment", text: $text)
+                            .font(.headline)
+                            .focused($textIsFocused)
+                            .onChange(of: postVM.textIsFocused) {
+                                self.textIsFocused = $0
+                            }
                         
-                    if text != "" {
                         Button {
                             UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                            if postVM.replyToComment == defaultComment {
-                                postVM.createComment(comment: text, dataManager: dataManager, notificationsManager: notificationsManager)
-                            } else {
-                                postVM.commentReply(comment: text, dataManager: dataManager, notificationsManager: notificationsManager)
-                                postVM.replyToComment = defaultComment
-                            }
-                            text = ""
-                            withAnimation {
-                                textIsFocused = false
-                                postVM.textIsFocused = false
-                            }
+                            showSheet = true
                         } label: {
                             ZStack {
-                                Image(systemName: "paperplane")
+                                Image(systemName: "photo")
                                     .imageScale(.small)
                                     .foregroundColor(Color(UIColor.label))
                                     .font(.largeTitle)
                             }
-                            .frame(width: 40, height: 40, alignment: .center)
+                            .frame(width: 30, height: 40, alignment: .center)
                             .cornerRadius(10)
                         }
+                        .sheet(isPresented: $showSheet) {
+                            ImagePicker(sourceType: .photoLibrary, selectedImage: self.$postVM.commentImage)
+                        }
+                        .padding(.trailing)
+                            
+                        if text != "" || postVM.commentImage != nil {
+                            Button {
+                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                                if postVM.replyToComment == defaultComment {
+                                    postVM.createComment(post: post, comment: text, dataManager: dataManager, notificationsManager: notificationsManager)
+                                } else {
+                                    postVM.commentReply(comment: text, dataManager: dataManager, notificationsManager: notificationsManager)
+                                    postVM.replyToComment = defaultComment
+                                }
+                                text = ""
+                                withAnimation {
+                                    textIsFocused = false
+                                    postVM.textIsFocused = false
+                                }
+                            } label: {
+                                ZStack {
+                                    Image(systemName: "paperplane")
+                                        .imageScale(.small)
+                                        .foregroundColor(Color(UIColor.label))
+                                        .font(.largeTitle)
+                                }
+                                .frame(width: 30, height: 40, alignment: .center)
+                                .cornerRadius(10)
+                            }
+                        }
                     }
+                    
                 }
                 .padding(.horizontal)
                 .padding(.vertical, 3)

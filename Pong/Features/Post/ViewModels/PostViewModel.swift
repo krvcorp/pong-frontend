@@ -7,6 +7,8 @@
 
 import Foundation
 import SwiftUI
+import UIKit
+import Alamofire
 
 enum PostViewActiveAlert {
     case postDelete, postReport, postBlock, commentDelete, commentReport, commentBlock
@@ -18,6 +20,8 @@ class PostViewModel: ObservableObject {
     
     @Published var showConfirmation : Bool = false
     @Published var activeAlert : PostViewActiveAlert = .postDelete
+    
+    @Published var commentImage : UIImage? = nil
     
     @Published var commentToDelete : Comment = defaultComment
     @Published var replyToComment : Comment = defaultComment
@@ -80,18 +84,51 @@ class PostViewModel: ObservableObject {
         }
     }
     
-    func createComment(comment: String, dataManager: DataManager, notificationsManager: NotificationsManager) -> Void {
-        let parameters = CommentCreateModel.Request(postId: self.post.id, comment: comment)
+    func createComment(post: Post, comment: String, dataManager: DataManager, notificationsManager: NotificationsManager) -> Void {
+        let parameters = CommentCreateModel.Request(postId: post.id, comment: comment)
         
-        NetworkManager.networkManager.request(route: "comments/", method: .post, body: parameters, successType: Comment.self) { successResponse, errorResponse in
-            if let successResponse = successResponse {
-                DispatchQueue.main.async {
-                    withAnimation {
-                        NotificationsManager.notificationsManager.registerForNotifications()
-                        self.comments.append(successResponse)
-                        self.post.numComments = self.post.numComments + 1
-                        self.commentUpdateTrigger.toggle()
-                        dataManager.initProfile()
+        if self.commentImage != nil {
+            let imgData = (commentImage!).jpegData(compressionQuality: 0.2)!
+
+            var httpHeaders: HTTPHeaders = []
+
+            if let token = DAKeychain.shared["token"] {
+                httpHeaders = [
+                    "Authorization": "Token \(token)"
+                ]
+            }
+
+            AF.upload(multipartFormData: { multipartFormData in
+                multipartFormData.append(post.id.data(using: String.Encoding.utf8)!, withName: "post_id")
+                multipartFormData.append(imgData, withName: "image", fileName: "file.jpg", mimeType: "image/jpg")
+                multipartFormData.append(comment.data(using: String.Encoding.utf8)!, withName: "comment")
+            }, to: "\(NetworkManager.networkManager.baseURL)comments/", method: .post, headers: httpHeaders)
+                .responseDecodable(of: Comment.self) { successResponse in
+                    print("DEBUG: PostVM. success \(successResponse)")
+                    DispatchQueue.main.async {
+                        withAnimation {
+                            NotificationsManager.notificationsManager.registerForNotifications()
+//                            KHOI, FIX THIS COMMENTS AREA
+//                            self.comments.append(successResponse)
+                            self.post.numComments = self.post.numComments + 1
+                            self.commentUpdateTrigger.toggle()
+                            dataManager.initProfile()
+                        }
+                    }
+                }
+        }
+        // MARK: else use network manager
+        else {
+            NetworkManager.networkManager.request(route: "comments/", method: .post, body: parameters, successType: Comment.self) { successResponse, errorResponse in
+                if let successResponse = successResponse {
+                    DispatchQueue.main.async {
+                        withAnimation {
+                            NotificationsManager.notificationsManager.registerForNotifications()
+                            self.comments.append(successResponse)
+                            self.post.numComments = self.post.numComments + 1
+                            self.commentUpdateTrigger.toggle()
+                            dataManager.initProfile()
+                        }
                     }
                 }
             }
