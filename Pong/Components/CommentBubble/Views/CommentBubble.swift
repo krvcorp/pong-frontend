@@ -14,27 +14,20 @@ struct CommentBubble: View {
     var body: some View {
         VStack {
             VStack {
-                HStack(alignment: .top) {
+                HStack {
                     CommentBody
-                    
                     Spacer()
-                    
-                    VoteComponent
                 }
-
-                // MARK: Bottom row
                 CommentBottomRow
             }
-            .padding()
+            .padding(.leading, 15)
             .frame(minWidth: 0, maxWidth: UIScreen.main.bounds.size.width)
-            .font(.system(size: 18).bold())
-            .foregroundColor(Color(UIColor.label))
             
             // MARK: Recursive replies
             ForEach($comment.children, id: \.self) { $child in
                 HStack {
                     Rectangle()
-                        .fill(Color(UIColor.systemBackground))
+                        .fill(Color.pongSystemBackground)
                         .frame(width: 20)
                     Spacer()
                     CommentBubble(comment: $child, isLinkActive: $isLinkActive, conversation: $conversation)
@@ -42,55 +35,52 @@ struct CommentBubble: View {
                 }
             }
         }
-        .background(Color(UIColor.systemBackground))
+        .background(Color.pongSystemBackground)
         .onAppear() {
             DispatchQueue.main.async {
                 commentBubbleVM.comment = self.comment
             }
         }
         .onChange(of: commentBubbleVM.commentUpdateTrigger) { change in
-            print("DEBUG: old onChange self.comment.voteStatus \(self.comment.voteStatus)")
-            print("DEBUG: new onChange VM.comment.voteStatus \(commentBubbleVM.comment.voteStatus)")
-            // on change should be running twice when there's no internet?
             DispatchQueue.main.async {
                 self.comment = commentBubbleVM.comment
             }
-//            postVM.updateCommentLocally(comment: commentBubbleVM.comment)
         }
     }
     
     var CommentBody: some View {
         VStack(alignment: .leading) {
             HStack {
-                Text("\(comment.numberOnPost)")
-                    .font(.headline.bold())
-                    .padding(.bottom, 4)
+                Text("#\(comment.numberOnPost)")
+                    .font(.caption)
+                    .padding(.bottom, 1)
                 
                 if let receiving = comment.numberReplyingTo {
                     Image(systemName: "arrow.right")
-                        .scaledToFit()
+                        .font(.caption)
+                        .padding(.bottom, 1)
                     
-                    Text("\(receiving)")
-                        .font(.headline.bold())
-                        .padding(.bottom, 4)
+                    Text("#\(receiving)")
+                        .font(.caption)
+                        .padding(.bottom, 1)
                 }
                 
-                Text("\(comment.timeSincePosted)")
-                    .font(.caption)
-                    .padding(.bottom, 4)
+                Spacer()
             }
+            .foregroundColor(Color(UIColor.gray))
                                    
             Text(comment.comment)
+                .bold()
                 .multilineTextAlignment(.leading)
+                .fixedSize(horizontal: false, vertical: true)
+                
         }
-        .padding(.bottom)
-        .background(Color(UIColor.systemBackground))
+        .background(Color.pongSystemBackground)
     }
     
     var VoteComponent: some View {
-        VStack {
-            
-            // MARK: if not upvoted or downvoted
+
+        HStack {
             if comment.voteStatus == 0 {
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
@@ -98,7 +88,7 @@ struct CommentBubble: View {
                 } label: {
                     Image(systemName: "chevron.up")
                 }
-                
+
                 Text("\(comment.score)")
                 
                 Button {
@@ -108,7 +98,7 @@ struct CommentBubble: View {
                     Image(systemName: "chevron.down")
                 }
             }
-            // MARK: if upvoted
+
             else if comment.voteStatus == 1 {
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
@@ -127,7 +117,7 @@ struct CommentBubble: View {
                     Image(systemName: "chevron.down")
                 }
             }
-            // MARK: if downvoted
+
             else if comment.voteStatus == -1 {
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
@@ -147,42 +137,23 @@ struct CommentBubble: View {
                 }
             }
         }
-        .frame(width: 25, height: 50)
+        .frame(width: 100)
     }
     
     var CommentBottomRow: some View {
-        HStack(spacing: 10) {
+        HStack() {
+            Text("\(comment.timeSincePosted)")
             
             Button {
                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                 postVM.setCommentReply(comment: comment)
             } label: {
-                HStack {
-                    Image(systemName: "arrowshape.turn.up.left")
-                        .padding(3)
-                        .foregroundColor(Color(UIColor.label))
-                        .background(Color(UIColor.systemBackground))
-                        .cornerRadius(6)
-                        .frame(width: 15, height: 15)
-                }
-                .background(Color(UIColor.systemBackground))
+                Text("Reply")
+                    .bold()
             }
             
             Spacer()
-
-            if !comment.userOwned {
-                Button {
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    postVM.startConversation(comment: comment, dataManager: dataManager) { success in
-                        conversation = success
-                        isLinkActive = true
-                    }
-                } label: {
-                    Image(systemName: "paperplane")
-                }
-            }
             
-            // MARK: Delete or More Button
             if comment.userOwned {
                 Button {
                     DispatchQueue.main.async {
@@ -208,11 +179,27 @@ struct CommentBubble: View {
                     } label: {
                         Label("Report", systemImage: "flag")
                     }
+                    
+                    if !comment.userOwned {
+                        Button {
+                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                            postVM.startConversation(comment: comment, dataManager: dataManager) { success in
+                                conversation = success
+                                isLinkActive = true
+                            }
+                        } label: {
+                            Label("Start DM", systemImage: "envelope")
+                        }
+                    }
                 } label: {
                     Image(systemName: "ellipsis")
-                        .frame(width: 30, height: 30)
                 }
             }
+            
+            VoteComponent
         }
+        .foregroundColor(Color.gray)
+        .font(.footnote)
+        .padding(.top, 1)
     }
 }

@@ -11,7 +11,19 @@ struct SettingsView: View {
     
     var body: some View {
         List {
-            Section("ACCOUNT") {
+            Section(header: HStack {
+                Text("ACCOUNT")
+                    .padding()
+
+                    Spacer()
+            }
+            .background(Color.pongSystemBackground)
+            .listRowInsets(EdgeInsets(
+                top: 0,
+                leading: 0,
+                bottom: 0,
+                trailing: 0))
+            ) {
                 
                 // MARK: Referrals View
                 NavigationLink(destination: ReferralsView()){
@@ -57,7 +69,19 @@ struct SettingsView: View {
             .listRowBackground(Color.pongSystemBackground)
             .listRowSeparator(.hidden)
             
-            Section("ABOUT") {
+            Section(header: HStack {
+                Text("ABOUT")
+                    .padding()
+
+                    Spacer()
+            }
+            .background(Color.pongSystemBackground)
+            .listRowInsets(EdgeInsets(
+                top: 0,
+                leading: 0,
+                bottom: 0,
+                trailing: 0))
+            ) {
                 // MARK: Contact Us
                 HStack {
                     Button {
@@ -103,7 +127,21 @@ struct SettingsView: View {
             .listRowBackground(Color.pongSystemBackground)
             .listRowSeparator(.hidden)
             
-            Section("PREFERENCES") {
+            Section(header: HStack {
+                Text("PREFERENCES")
+                    .padding()
+                    .listRowBackground(Color.pongSystemBackground)
+                    .listRowSeparator(.hidden)
+
+                    Spacer()
+            }
+            .background(Color.pongSystemBackground)
+            .listRowInsets(EdgeInsets(
+                top: 0,
+                leading: 0,
+                bottom: 0,
+                trailing: 0))
+            ) {
                 
                 // MARK: Dark Mode
                 HStack {
@@ -128,29 +166,33 @@ struct SettingsView: View {
                 // MARK: Notifications
                 if !notificationsManager.notificationsPreference {
                     VStack {
-                        Text("Your push notifications are turned off!")
-                            .bold()
                         
-                        Text("To get notifications on your phone or device, visit your device's settings.")
-                            .padding(.bottom)
-                        
-                        HStack {
-                            Image(systemName: "bell").font(Font.body.weight(.bold))
-                                .frame(width: 20)
-                            
+                        VStack {
                             HStack {
-                                Button {
-                                    settingsVM.openNotifications()
-                                } label: {
-                                    Text("Turn On Notifications")
-                                        .bold()
+                                Image(systemName: "bell").font(Font.body.weight(.bold))
+                                    .frame(width: 20)
+                                
+                                HStack {
+                                    Button {
+                                        settingsVM.openNotifications()
+                                    } label: {
+                                        Text("Turn On Notifications")
+                                            .bold()
+                                    }
+                                    
+                                    Spacer()
                                 }
+                                .frame(minHeight: 30)
                                 
                                 Spacer()
                             }
-                            .frame(minHeight: 30)
-                            
-                            Spacer()
+                            HStack {
+                                Text("Your push notifications are turned off! You'll only receive notifications in-app.")
+                                    .bold()
+                                    .font(.caption)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                Spacer()
+                            }
                         }
                     }
                 }
@@ -171,19 +213,24 @@ struct SettingsView: View {
                         .frame(maxWidth: .infinity, alignment: .center)
                 }
                 .foregroundColor(Color.gray)
-                .padding(.top, 100)
+                .padding(.top, 10)
             }
+            .background(Color.pongSystemBackground)
             .listRowBackground(Color.pongSystemBackground)
             .listRowSeparator(.hidden)
         }
         .environment(\.defaultMinListRowHeight, 0)
+        .listStyle(GroupedListStyle())
         .background(Color.pongSystemBackground)
-        .listStyle(PlainListStyle())
         .frame(maxWidth: .infinity)
         .navigationTitle("Settings")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             UITableView.appearance().showsVerticalScrollIndicator = false
+//          THE BELOW CODE IS SETTING THE ENTIRE APP'S LIST SEPARATOR. IF YOU WANT TO CHANGE THIS, ADD A .ONDISAPPEAR BELOW
+            UITableView.appearance().separatorStyle = .none
+            UITableViewCell.appearance().backgroundColor = UIColor(Color.pongSystemBackground)
+            UITableView.appearance().backgroundColor = UIColor(Color.pongSystemBackground)
             notificationsManager.updateNotificationsPreferences()
         }
         .onChange(of: scenePhase) { phase in

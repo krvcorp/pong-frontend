@@ -23,8 +23,16 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         if #available(iOS 15, *) {
             let appearance = UINavigationBarAppearance()
             appearance.configureWithOpaqueBackground()
+            appearance.shadowColor = .clear
+            appearance.backgroundColor = UIColor(Color.pongSystemBackground)
             UINavigationBar.appearance().standardAppearance = appearance
+            UINavigationBar.appearance().compactAppearance = appearance
             UINavigationBar.appearance().scrollEdgeAppearance = appearance
+            
+            UITabBar.appearance().shadowImage = UIImage()
+            UITabBar.appearance().backgroundImage = UIImage()
+            UITabBar.appearance().isTranslucent = true
+            UITabBar.appearance().backgroundColor = UIColor(Color.pongSystemBackground)
         }
         
         hyperCriticalRulesExample()

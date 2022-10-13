@@ -2,7 +2,7 @@
 //  NewPostViewModel.swift
 //  Pong
 //
-//  Created by Khoi Nguyen on 7/2/22.
+//  Created by Khoi Nguyen on 7/2/22.   
 //
 
 import Foundation
@@ -13,6 +13,7 @@ struct NewPostModel: Codable {
     struct Request : Encodable {
         let title: String
         let pollOptions: [String]
+        let tag: String?
     }
 }
 
@@ -25,6 +26,7 @@ class NewPostViewModel: ObservableObject {
             }
         }
     }
+    @Published var tag : String? = nil
     @Published var image : UIImage? = nil
     @Published var newPollVM : NewPollViewModel = NewPollViewModel()
     @Published var error = false
@@ -48,6 +50,7 @@ class NewPostViewModel: ObservableObject {
             AF.upload(multipartFormData: { multipartFormData in
                 multipartFormData.append(self.title.data(using: String.Encoding.utf8)!, withName: "title")
                 multipartFormData.append(imgData, withName: "image",fileName: "file.jpg", mimeType: "image/jpg")
+                multipartFormData.append(self.tag!.data(using: String.Encoding.utf8)!, withName: "tag")
             }, to: "\(NetworkManager.networkManager.baseURL)posts/", method: .post, headers: httpHeaders)
                 .responseDecodable(of: Post.self) { successResponse in
                     print("DEBUG: newPostVM.newPost success \(successResponse)")
@@ -65,7 +68,7 @@ class NewPostViewModel: ObservableObject {
                 pollOptions.append("skipkhoicunt")
             }
             
-            let parameters = NewPostModel.Request(title: self.title, pollOptions: pollOptions)
+            let parameters = NewPostModel.Request(title: self.title, pollOptions: pollOptions, tag: self.tag)
             
             // validate newPoll doesn't have invalid entries
             if newPollVM.validate() {
