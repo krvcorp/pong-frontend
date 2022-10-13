@@ -93,19 +93,18 @@ struct FeedView: View {
                 } label: {
                     if feedVM.selectedFeedFilter == filter {
                         HStack(spacing: 5) {
-                            Image(systemName: filter.filledImageName)
+//                            Image(systemName: filter.filledImageName)
                             Text(filter.title)
                                 .font(.subheadline.bold())
                         }
-                        .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
 
                     } else {
                         HStack(spacing: 5) {
-                            Image(systemName: filter.imageName)
+//                            Image(systemName: filter.imageName)
                             Text(filter.title)
                                 .font(.subheadline.bold())
                         }
-                        .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
+                        .foregroundColor(Color.gray)
                     }
                 }
             }
@@ -143,9 +142,9 @@ struct FeedView: View {
                                     .font(.subheadline.bold())
                                     .padding(.vertical, 5)
                                     .padding(.horizontal, 30)
-                                    .foregroundColor(feedVM.selectedTopFilter == filter ? Color(UIColor.systemBackground) : Color(UIColor.label))
+                                    .foregroundColor(feedVM.selectedTopFilter == filter ? Color.pongSystemBackground : Color(UIColor.label))
                                     .overlay(RoundedRectangle(cornerRadius: 15).stroke().foregroundColor(Color(UIColor.label)))
-                                    .background(feedVM.selectedTopFilter == filter ? Color(UIColor.label) : Color(UIColor.systemBackground))
+                                    .background(feedVM.selectedTopFilter == filter ? Color(UIColor.label) : Color.pongSystemBackground)
                                     .cornerRadius(15)
                             }
                         }
@@ -153,7 +152,7 @@ struct FeedView: View {
                         Spacer()
                     }
                     .buttonStyle(PlainButtonStyle())
-                    .listRowBackground(Color(UIColor.systemBackground))
+                    .listRowBackground(Color.pongSystemBackground)
                     .listRowSeparator(.hidden)
                     .onChange(of: feedVM.selectedTopFilter) { newValue in
                         feedVM.paginatePostsReset(selectedFeedFilter: .top, dataManager: dataManager)
@@ -245,6 +244,7 @@ struct FeedView: View {
                     }
                 }
             }
+            .background(Color.pongSystemBackground)
             .environment(\.defaultMinListRowHeight, 0)
             .onChange(of: mainTabVM.scrollToTop, perform: { newValue in
                 withAnimation {

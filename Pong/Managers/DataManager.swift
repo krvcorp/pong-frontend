@@ -17,6 +17,8 @@ class DataManager : ObservableObject {
     @Published var hotPosts : [Post] = []
     @Published var recentPosts : [Post] = []
     
+    @Published var postComments : [(String, [Comment])] = []
+    
     var topCurrentPage = "posts/?sort=top"
     var hotCurrentPage = "posts/?sort=hot"
     var recentCurrentPage = "posts/?sort=new"

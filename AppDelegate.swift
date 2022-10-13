@@ -29,10 +29,16 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             UINavigationBar.appearance().compactAppearance = appearance
             UINavigationBar.appearance().scrollEdgeAppearance = appearance
             
+            // THE BELOW CODE CHANGES THE NAVBAR
             UITabBar.appearance().shadowImage = UIImage()
             UITabBar.appearance().backgroundImage = UIImage()
             UITabBar.appearance().isTranslucent = true
             UITabBar.appearance().backgroundColor = UIColor(Color.pongSystemBackground)
+            
+//          THE BELOW CODE IS SETTING THE ENTIRE APP'S LIST SEPARATOR. IF YOU WANT TO CHANGE THIS, ADD A .ONDISAPPEAR BELOW
+            UITableView.appearance().separatorStyle = .none
+            UITableViewCell.appearance().backgroundColor = UIColor(Color.pongSystemBackground)
+            UITableView.appearance().backgroundColor = UIColor(Color.pongSystemBackground)
         }
         
         hyperCriticalRulesExample()

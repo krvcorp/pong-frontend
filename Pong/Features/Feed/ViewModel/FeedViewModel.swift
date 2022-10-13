@@ -16,9 +16,9 @@ enum FeedFilter: String, CaseIterable, Identifiable {
     
     var title: String {
         switch self {
-        case .top: return "Top"
-        case .hot: return "Hot"
-        case .recent: return "New"
+        case .top: return "TOP"
+        case .hot: return "HOT"
+        case .recent: return "NEW"
         }
     }
     

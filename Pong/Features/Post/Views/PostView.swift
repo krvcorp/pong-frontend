@@ -52,9 +52,11 @@ struct PostView: View {
 //                    .padding(.trailing, 15)
                 
                 LazyVStack {
-                    ForEach($postVM.comments, id: \.self) { $comment in
-                        CommentBubble(comment: $comment, isLinkActive: $isLinkActive, conversation: $conversation)
-                            .buttonStyle(PlainButtonStyle())
+                    if let index = dataManager.postComments.firstIndex(where: {$0.0 == post.id}) {
+                        ForEach($dataManager.postComments[index].1, id: \.self) { $comment in
+                            CommentBubble(comment: $comment, isLinkActive: $isLinkActive, conversation: $conversation)
+                                .buttonStyle(PlainButtonStyle())
+                        }
                     }
                 }
                 .padding(.bottom, 150)
@@ -65,14 +67,20 @@ struct PostView: View {
                 self.textIsFocused = false
             }
             .refreshable {
-                postVM.readPost(post: self.post, dataManager: dataManager) { result in
+                print("DEBUG: PostView refresh")
+                // api call to refresh local data
+                postVM.readPost(post: post, dataManager: dataManager) { result in
                     if !result {
                         self.presentationMode.wrappedValue.dismiss()
                     }
                 }
                 
                 // api call to fetch comments to display
-                postVM.getComments()
+                postVM.getComments() { successResponse in
+                    if let index = dataManager.postComments.firstIndex(where: {$0.0 == post.id}) {
+                        dataManager.postComments[index] = (post.id, successResponse)
+                    }
+                }
             }
             
             MessagingComponent
@@ -80,32 +88,43 @@ struct PostView: View {
         .background(Color.pongSystemBackground)
         .environmentObject(postVM)
         .onAppear {
-            DispatchQueue.main.async {
-                print("DEBUG: PostView.onAppear")
-                // take binding and insert into VM
-                postVM.post = self.post
-                
-                // api call to refresh local data
-                postVM.readPost(post: self.post, dataManager: dataManager) { result in
-                    if !result {
-                        print("DEBUG: READ ERROR SHOULD DISMISS")
-                        
-                        self.presentationMode.wrappedValue.dismiss()
-                        
-                        // THIS IS IF DELETED
-                        dataManager.removePostLocally(post: post, message: "Post doesn't exist!")
+            debugPrint("DEBUG: ", dataManager.postComments)
+            if dataManager.postComments.firstIndex(where: {$0.0 == post.id}) == nil {
+                DispatchQueue.main.async {
+                    // take binding and insert into VM
+                    postVM.post = self.post
+                    
+                    // api call to refresh local data
+                    //                postVM.readPost(dataManager: dataManager) { result in
+                    //                    if !result {
+                    //                        print("DEBUG: READ ERROR SHOULD DISMISS")
+                    //                        self.presentationMode.wrappedValue.dismiss()
+                    //
+                    //                        // THIS IS IF DELETED
+                    //                        dataManager.removePostLocally(post: post, message: "Post doesn't exist!")
+                    //                    }
+                    //                }
+                    
+                    // api call to fetch comments to display
+                    postVM.getComments() { successResponse in
+                        dataManager.postComments.append((post.id, successResponse))
                     }
                 }
-                
-                // api call to fetch comments to display
-                postVM.getComments()
             }
         }
         .onChange(of: self.post.id, perform: { newValue in
             DispatchQueue.main.async {
                 print("DEBUG: self.post.id.onChange")
                 postVM.post = self.post
-                postVM.getComments()
+                postVM.getComments() { successResponse in
+                    if dataManager.postComments.firstIndex(where: {$0.0 == post.id}) == nil {
+                        DispatchQueue.main.async {
+                            postVM.post = self.post
+                            dataManager.postComments.append((post.id, successResponse))
+                            
+                        }
+                    }
+                }
             }
         })
         .onChange(of: postVM.postUpdateTrigger) { newValue in

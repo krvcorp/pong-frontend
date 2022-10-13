@@ -227,10 +227,6 @@ struct SettingsView: View {
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             UITableView.appearance().showsVerticalScrollIndicator = false
-//          THE BELOW CODE IS SETTING THE ENTIRE APP'S LIST SEPARATOR. IF YOU WANT TO CHANGE THIS, ADD A .ONDISAPPEAR BELOW
-            UITableView.appearance().separatorStyle = .none
-            UITableViewCell.appearance().backgroundColor = UIColor(Color.pongSystemBackground)
-            UITableView.appearance().backgroundColor = UIColor(Color.pongSystemBackground)
             notificationsManager.updateNotificationsPreferences()
         }
         .onChange(of: scenePhase) { phase in

@@ -35,6 +35,7 @@ class PostViewModel: ObservableObject {
     
     func postVote(post: Post, direction: Int, dataManager: DataManager) -> Void {
         self.post = post
+
         var voteToSend = 0
         let temp = self.post.voteStatus
         
@@ -66,18 +67,14 @@ class PostViewModel: ObservableObject {
         }
     }
     
-    func getComments() -> Void {
-        print("DEBUG: postVM.getComments")
+
+    func getComments(completion: @escaping ([Comment]) -> Void) {
         NetworkManager.networkManager.request(route: "comments/?post_id=\(post.id)", method: .get, successType: CommentListModel.Response.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
-                    if self.comments != successResponse.results {
-                        print("DEBUG: postVM.getComments success")
-                        withAnimation {
-                            self.comments = successResponse.results
-                            self.commentUpdateTrigger.toggle()
-                        }
-                    }
+                    self.comments = successResponse.results
+                    self.commentUpdateTrigger.toggle()
+                    completion(self.comments)
                 }
             }
         }
@@ -137,7 +134,9 @@ class PostViewModel: ObservableObject {
     }
     
     // MARK: ReadPost
-    func readPost(post: Post, dataManager : DataManager, completion: @escaping (Bool) -> Void) {
+
+    func readPost(post : Post, dataManager : DataManager, completion: @escaping (Bool) -> Void) {
+        self.post = post
         NetworkManager.networkManager.request(route: "posts/\(post.id)/", method: .get, successType: Post.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
