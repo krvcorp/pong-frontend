@@ -1,11 +1,20 @@
 import SwiftUI
 import AlertToast
+import Combine
 
 struct LeaderboardView: View {
     @Environment(\.presentationMode) var presentationMode
     @StateObject private var leaderboardVM = LeaderboardViewModel()
     @StateObject var dataManager = DataManager.shared
     @State private var newPost = false
+    
+    let textLimit = 20
+    
+    func limitText(_ upper: Int) {
+        if nickname.count > upper {
+            nickname = String(nickname.prefix(upper))
+        }
+    }
     
 //    @State var timeRemaining = 10
 //    @State var timer = Timer.publish(every: 1, on: .current, in: .common).autoconnect()
@@ -18,21 +27,21 @@ struct LeaderboardView: View {
             VStack {
                 VStack {
                     List {
-                        HStack {
-                            Text("Powered by [Guayaki Yerba Mate](https://guayaki.com/)")
-                                .bold()
-                            
-                            Spacer()
-                            
-                            Button {
-                                print("DEBUG: info")
-                            } label: {
-                                Image(systemName: "info.circle")
-                            }
-                        }
+//                        HStack {
+//                            Text("Powered by [Guayaki Yerba Mate](https://guayaki.com/)")
+//                                .bold()
+//
+//                            Spacer()
+//
+//                            Button {
+//                                print("DEBUG: info")
+//                            } label: {
+//                                Image(systemName: "info.circle")
+//                            }
+//                        }
                         
                         karmaInfo
-                            .padding([.leading, .top, .trailing])
+//                            .padding([.leading, .top, .trailing])
                             .listRowSeparator(.hidden)
                         
                         LeaderboardTopThree(
@@ -53,8 +62,73 @@ struct LeaderboardView: View {
                             ]
                         )
                         
+                        HStack(alignment: .center) {
+                            HStack() {
+                                Spacer()
+                                Text("Rank")
+                                    .font(.headline)
+                                    .bold()
+                                Spacer()
+                            }
+                            .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
+                            
+                        
+                            HStack() {
+                                Spacer()
+                                Text("Nickname")
+                                    .font(.headline)
+                                    .bold()
+                                Spacer()
+                            }
+                            .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
+                        
+                        
+                            HStack() {
+                                Spacer()
+                                Text("Karma")
+                                    .font(.headline)
+                                    .bold()
+                                Spacer()
+                            }
+                            .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
+                        }
+                        .listRowSeparator(.visible)
+                        
+                        ForEach(lblist) { entry in
+                            if !["1", "2", "3"].contains(entry.place) {
+                                HStack(alignment: .center) {
+                                    
+                                    HStack() {
+                                        Spacer()
+                                        Text(entry.place)
+                                        Spacer()
+                                    }
+                                    .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
+                                
+                                    HStack() {
+                                        Spacer()
+                                        Text(entry.nickname != "" ? entry.nickname : "---")
+                                        Spacer()
+                                    }
+                                    .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
+                                
+                                    HStack() {
+                                        Spacer()
+                                        Text("\(entry.score)")
+                                        Spacer()
+                                    }
+                                    .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
+                                }
+                                .listRowSeparator(.hidden)
+                            }
+                        }
+
+                        
                         HStack {
-                            TextField(dataManager.nickname == "" ? "Nickname" : "\(dataManager.nickname)", text: $nickname)
+                            TextField(dataManager.nickname == "" ? "Pick a nickname" : "\(dataManager.nickname)", text: $nickname)
+                                .onReceive(Just(nickname)) { _ in limitText(textLimit) }
+                            
+                            
                             
                             Button {
                                 leaderboardVM.updateNickname(dataManager: dataManager, nickname: nickname) { _ in
@@ -68,70 +142,7 @@ struct LeaderboardView: View {
                             .buttonStyle(PlainButtonStyle())
                         }
                         
-                        if (lblist.count > 3) {
-                            Section(header: Text("Leaderboard")) {
-                                HStack(alignment: .center) {
-                                    HStack() {
-                                        Spacer()
-                                        Text("Rank")
-                                            .font(.headline)
-                                            .bold()
-                                        Spacer()
-                                    }
-                                    .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
-                                    
-                                
-                                    HStack() {
-                                        Spacer()
-                                        Text("Nickname")
-                                            .font(.headline)
-                                            .bold()
-                                        Spacer()
-                                    }
-                                    .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
-                                
-                                
-                                    HStack() {
-                                        Spacer()
-                                        Text("Karma")
-                                            .font(.headline)
-                                            .bold()
-                                        Spacer()
-                                    }
-                                    .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
-                                }
-                                .listRowSeparator(.visible)
-                                
-                                ForEach(lblist) { entry in
-                                    if !["1", "2", "3"].contains(entry.place) {
-                                        HStack(alignment: .center) {
-                                            
-                                            HStack() {
-                                                Spacer()
-                                                Text(entry.place)
-                                                Spacer()
-                                            }
-                                            .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
-                                        
-                                            HStack() {
-                                                Spacer()
-                                                Text(entry.nickname != "" ? entry.nickname : "---")
-                                                Spacer()
-                                            }
-                                            .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
-                                        
-                                            HStack() {
-                                                Spacer()
-                                                Text("\(entry.score)")
-                                                Spacer()
-                                            }
-                                            .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
-                                        }
-                                        .listRowSeparator(.hidden)
-                                    }
-                                }
-                            }
-                        }
+                        
                     }
                     .refreshable{
                         leaderboardVM.getLeaderboard(dataManager: dataManager)
@@ -144,7 +155,7 @@ struct LeaderboardView: View {
                     leaderboardVM.getLoggedInUserInfo(dataManager: dataManager)
                 }
             }
-            .navigationTitle("Stats")
+            .navigationTitle("Leaderboard")
             .navigationBarTitleDisplayMode(.inline)
 //            .toolbar {
 //                Text("\(timeRemaining)")
@@ -164,7 +175,7 @@ struct LeaderboardView: View {
                 hideKeyboard()
             }
         }
-        
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .toast(isPresenting: $leaderboardVM.savedNicknameAlert) {
             AlertToast(displayMode: .hud, type: .regular,  title: "Nickname saved!")
         }
@@ -180,7 +191,7 @@ struct LeaderboardView: View {
         
     
     var karmaInfo: some View {
-        HStack(alignment: .center) {
+        HStack() {
             HStack() {
                 Spacer()
                 VStack(alignment: .center) {
