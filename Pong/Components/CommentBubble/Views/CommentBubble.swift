@@ -1,4 +1,5 @@
 import SwiftUI
+import Kingfisher
 
 struct CommentBubble: View {
     @Binding var comment : Comment
@@ -73,6 +74,14 @@ struct CommentBubble: View {
                 .bold()
                 .multilineTextAlignment(.leading)
                 .fixedSize(horizontal: false, vertical: true)
+            
+            if let imageUrl = comment.image {
+                KFImage(URL(string: "\(imageUrl)")!)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(idealWidth: abs(UIScreen.screenWidth / 1.1), idealHeight: abs(CGFloat(comment.imageHeight!) * (UIScreen.screenWidth / 1.1) / CGFloat(comment.imageWidth!)), maxHeight: abs(CGFloat(150)))
+                    .cornerRadius(15)
+            }
                 
         }
         .background(Color.pongSystemBackground)

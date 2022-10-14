@@ -37,7 +37,9 @@ var defaultComment = Comment(id: "default",
                              userOwned: true,
                              voteStatus: 0,
                              numUpvotes: 0,
-                             numDownvotes: 0)
+                             numDownvotes: 0,
+                             imageHeight: 0,
+                             imageWidth: 0)
 
 var defaultProfileComment = ProfileComment(id: "default",
                                            re: "default",

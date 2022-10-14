@@ -24,8 +24,8 @@ struct NotificationsView: View {
                                         notificationsVM.getPost(url: notificationModel.data.url!) { success in
                                             post = success
                                             isLinkActive = true
+                                            notificationsVM.markNotificationAsReadWeek(id: notificationModel.id)
                                         }
-                                        notificationsVM.markNotificationAsReadWeek(id: notificationModel.id)
                                     }
                                 } label: {
                                     getNotificationText(notificationModel: notificationModel)
@@ -38,8 +38,8 @@ struct NotificationsView: View {
                                     DispatchQueue.main.async {
                                         mainTabVM.isCustomItemSelected = false
                                         mainTabVM.itemSelected = 2
+                                        notificationsVM.markNotificationAsReadWeek(id: notificationModel.id)
                                     }
-                                    notificationsVM.markNotificationAsReadWeek(id: notificationModel.id)
                                 } label: {
                                     getNotificationText(notificationModel: notificationModel)
                                 }
@@ -70,8 +70,9 @@ struct NotificationsView: View {
                                         notificationsVM.getPost(url: notificationModel.data.url!) { success in
                                             post = success
                                             isLinkActive = true
+                                            notificationsVM.markNotificationAsReadPrevious(id: notificationModel.id)
                                         }
-                                        notificationsVM.markNotificationAsReadPrevious(id: notificationModel.id)
+                                        
                                     }
                                 } label: {
                                     getNotificationText(notificationModel: notificationModel)
@@ -88,8 +89,8 @@ struct NotificationsView: View {
                                     DispatchQueue.main.async {
                                         mainTabVM.isCustomItemSelected = false
                                         mainTabVM.itemSelected = 2
+                                        notificationsVM.markNotificationAsReadPrevious(id: notificationModel.id)
                                     }
-                                    notificationsVM.markNotificationAsReadPrevious(id: notificationModel.id)
                                 } label: {
                                     getNotificationText(notificationModel: notificationModel)
                                 }

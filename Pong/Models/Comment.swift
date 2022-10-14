@@ -17,4 +17,6 @@ struct Comment: Hashable, Identifiable, Codable {
     var numDownvotes: Int
     var numberReplyingTo: Int?
     var image: String?
+    var imageHeight: Int?
+    var imageWidth: Int?
 }
