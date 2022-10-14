@@ -133,6 +133,10 @@ struct LeaderboardView: View {
                             }
                         }
                     }
+                    .refreshable{
+                        leaderboardVM.getLeaderboard(dataManager: dataManager)
+                        leaderboardVM.getLoggedInUserInfo(dataManager: dataManager)
+                    }
                     .listStyle(InsetGroupedListStyle())
                 }
                 .onAppear {
@@ -160,9 +164,11 @@ struct LeaderboardView: View {
                 hideKeyboard()
             }
         }
+        
         .toast(isPresenting: $leaderboardVM.savedNicknameAlert) {
             AlertToast(displayMode: .hud, type: .regular,  title: "Nickname saved!")
         }
+        
 //        .onAppear {
 //            self.timer = Timer.publish (every: 1, on: .current, in: .common).autoconnect()
 ////            self.nickname = leaderboardVM.nickname
