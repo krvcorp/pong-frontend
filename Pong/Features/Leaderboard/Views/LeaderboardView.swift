@@ -7,8 +7,8 @@ struct LeaderboardView: View {
     @StateObject var dataManager = DataManager.shared
     @State private var newPost = false
     
-    @State var timeRemaining = 10
-    @State var timer = Timer.publish(every: 1, on: .current, in: .common).autoconnect()
+//    @State var timeRemaining = 10
+//    @State var timer = Timer.publish(every: 1, on: .current, in: .common).autoconnect()
     
     @State var nickname: String = ""
     
@@ -142,19 +142,19 @@ struct LeaderboardView: View {
             }
             .navigationTitle("Stats")
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                Text("\(timeRemaining)")
-                    .onReceive(timer) { _ in
-                        if timeRemaining > 0 {
-                            timeRemaining -= 1
-                        }
-                        else {
-                            leaderboardVM.getLeaderboard(dataManager: dataManager)
-                            leaderboardVM.getLoggedInUserInfo(dataManager: dataManager)
-                            timeRemaining = 10
-                        }
-                    }
-            }
+//            .toolbar {
+//                Text("\(timeRemaining)")
+//                    .onReceive(timer) { _ in
+//                        if timeRemaining > 0 {
+//                            timeRemaining -= 1
+//                        }
+//                        else {
+//                            leaderboardVM.getLeaderboard(dataManager: dataManager)
+//                            leaderboardVM.getLoggedInUserInfo(dataManager: dataManager)
+//                            timeRemaining = 10
+//                        }
+//                    }
+//            }
             .onTapGesture {
                 print("DEBUG: onTap detected")
                 hideKeyboard()
@@ -163,13 +163,13 @@ struct LeaderboardView: View {
         .toast(isPresenting: $leaderboardVM.savedNicknameAlert) {
             AlertToast(displayMode: .hud, type: .regular,  title: "Nickname saved!")
         }
-        .onAppear {
-            self.timer = Timer.publish (every: 1, on: .current, in: .common).autoconnect()
-//            self.nickname = leaderboardVM.nickname
-        }
-        .onDisappear {
-            self.timer.upstream.connect().cancel()
-        }
+//        .onAppear {
+//            self.timer = Timer.publish (every: 1, on: .current, in: .common).autoconnect()
+////            self.nickname = leaderboardVM.nickname
+//        }
+//        .onDisappear {
+//            self.timer.upstream.connect().cancel()
+//        }
     }
         
     
