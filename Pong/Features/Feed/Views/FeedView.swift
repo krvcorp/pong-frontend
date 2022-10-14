@@ -31,7 +31,18 @@ struct FeedView: View {
             .navigationBarTitleDisplayMode(.inline)
             // MARK: Toolbar
             .toolbar {
-//                ToolbarItem(placement: .navixgationBarLeading) {
+                ToolbarItem (placement: .navigationBarLeading) {
+                    Button() {
+                        
+                    }
+                    label: {
+                        Text("BU")
+                            .bold()
+                            .font(.title3)
+                    }
+                }
+                
+//                ToolbarItem(placement: .navigationBarLeading) {
 //                    Button {
 //                        withAnimation {
 //                            showMenu.toggle()
