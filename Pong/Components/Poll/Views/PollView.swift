@@ -18,6 +18,15 @@ struct PollView: View {
             }
     }
     
+    func minDivision(first: CGFloat, second: CGFloat) -> CGFloat {
+        if first / second > 0.09 {
+            return first/second
+        }
+        else {
+            return 0.09
+        }
+    }
+    
     var PollOptionContainer: some View {
         VStack {
             ForEach(post.poll!.options, id: \.self) { option in
@@ -28,11 +37,11 @@ struct PollView: View {
                             
                             RoundedRectangle(cornerRadius: 20)
                                 .fill(post.poll!.votedFor == option.id ? SchoolManager.shared.schoolPrimaryColor() : Color(UIColor.secondarySystemBackground))
-                                .frame(width: CGFloat(UIScreen.screenWidth - 20) * (CGFloat(option.numVotes) / CGFloat(pollVM.sumVotes(poll: post.poll!))))
+                                .frame(width: CGFloat(UIScreen.screenWidth - 20) * minDivision(first: CGFloat(option.numVotes), second: CGFloat(pollVM.sumVotes(poll: post.poll!))))
                             
                             RoundedRectangle(cornerRadius: 20)
                                 .fill(Color(UIColor.systemGray5))
-                                .frame(width: CGFloat(UIScreen.screenWidth - 20) * (CGFloat(option.numVotes) / CGFloat(pollVM.sumVotes(poll: post.poll!))))
+                                .frame(width: CGFloat(UIScreen.screenWidth - 20) * minDivision(first: CGFloat(option.numVotes), second: CGFloat(pollVM.sumVotes(poll: post.poll!))))
                                 .opacity(0.5)
                             
                             HStack {
