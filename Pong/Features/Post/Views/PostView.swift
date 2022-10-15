@@ -89,22 +89,10 @@ struct PostView: View {
         .background(Color.pongSystemBackground)
         .environmentObject(postVM)
         .onAppear {
-            debugPrint("DEBUG: ", dataManager.postComments)
             if dataManager.postComments.firstIndex(where: {$0.0 == post.id}) == nil {
                 DispatchQueue.main.async {
                     // take binding and insert into VM
                     postVM.post = self.post
-                    
-                    // api call to refresh local data
-                    //                postVM.readPost(dataManager: dataManager) { result in
-                    //                    if !result {
-                    //                        print("DEBUG: READ ERROR SHOULD DISMISS")
-                    //                        self.presentationMode.wrappedValue.dismiss()
-                    //
-                    //                        // THIS IS IF DELETED
-                    //                        dataManager.removePostLocally(post: post, message: "Post doesn't exist!")
-                    //                    }
-                    //                }
                     
                     // api call to fetch comments to display
                     postVM.getComments() { successResponse in
@@ -191,7 +179,7 @@ struct PostView: View {
                     title: Text("Delete comment"),
                     message: Text("Are you sure you want to delete \"\(postVM.commentToDelete.comment)\""),
                     primaryButton: .destructive(Text("Delete")) {
-                        postVM.deleteCommentConfirm(dataManager: dataManager)
+                        postVM.deleteCommentConfirm(post: post, dataManager: dataManager)
                     },
                     secondaryButton: .cancel()
                 )
@@ -200,7 +188,7 @@ struct PostView: View {
                     title: Text("Report comment"),
                     message: Text("Are you sure you want to report \"\(postVM.commentToDelete.comment)\""),
                     primaryButton: .destructive(Text("Report")) {
-                        postVM.deleteCommentConfirm(dataManager: dataManager)
+                        postVM.deleteCommentConfirm(post: post, dataManager: dataManager)
                     },
                     secondaryButton: .cancel()
                 )
@@ -209,7 +197,7 @@ struct PostView: View {
                     title: Text("Block comment"),
                     message: Text("Are you sure you want to block content from this user?"),
                     primaryButton: .destructive(Text("Block")) {
-                        postVM.deleteCommentConfirm(dataManager: dataManager)
+                        postVM.deleteCommentConfirm(post: post, dataManager: dataManager)
                     },
                     secondaryButton: .cancel()
                 )

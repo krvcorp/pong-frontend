@@ -52,7 +52,6 @@ class CommentBubbleViewModel: ObservableObject {
     func saveComment() {
         NetworkManager.networkManager.emptyRequest(route: "comments/\(comment.id)/save/", method: .post) { successResponse, errorResponse in
             DispatchQueue.main.async {
-//                self.commentUpdateTrigger.toggle()
                 print("DEBUG: ")
             }
         }

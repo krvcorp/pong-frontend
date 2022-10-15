@@ -16,7 +16,6 @@ enum PostViewActiveAlert {
 
 class PostViewModel: ObservableObject {
     @Published var post : Post = defaultPost
-    @Published var comments : [Comment] = []
     
     @Published var showConfirmation : Bool = false
     @Published var activeAlert : PostViewActiveAlert = .postDelete
@@ -37,6 +36,7 @@ class PostViewModel: ObservableObject {
     
     @Published var openConversations = false
     
+    // MARK: PostVote
     func postVote(post: Post, direction: Int, dataManager: DataManager) -> Void {
         self.post = post
 
@@ -72,18 +72,19 @@ class PostViewModel: ObservableObject {
     }
     
 
+    // MARK: GetComments
     func getComments(completion: @escaping ([Comment]) -> Void) {
         NetworkManager.networkManager.request(route: "comments/?post_id=\(post.id)", method: .get, successType: CommentListModel.Response.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
-                    self.comments = successResponse.results
                     self.commentUpdateTrigger.toggle()
-                    completion(self.comments)
+                    completion(successResponse.results)
                 }
             }
         }
     }
     
+    // MARK: CreateComment
     func createComment(post: Post, comment: String, dataManager: DataManager, notificationsManager: NotificationsManager) -> Void {
         let parameters = CommentCreateModel.Request(postId: post.id, comment: comment)
         
@@ -140,6 +141,7 @@ class PostViewModel: ObservableObject {
         }
     }
     
+    // MARK: CommentReply
     func commentReply(post: Post, comment: String, dataManager: DataManager, notificationsManager: NotificationsManager) -> Void {
         let parameters = CommentReplyModel.Request(postId: post.id, replyingId: replyToComment.id, comment: comment)
         
@@ -220,7 +222,6 @@ class PostViewModel: ObservableObject {
     }
     
     // MARK: ReadPost
-
     func readPost(post : Post, dataManager : DataManager, completion: @escaping (Bool) -> Void) {
         self.post = post
         NetworkManager.networkManager.request(route: "posts/\(post.id)/", method: .get, successType: Post.self) { successResponse, errorResponse in
@@ -327,24 +328,31 @@ class PostViewModel: ObservableObject {
         }
     }
     
-    func deleteCommentConfirm(dataManager: DataManager) {
+    // MARK: DeleteCommentConfirm
+    func deleteCommentConfirm(post: Post, dataManager: DataManager) {
         NetworkManager.networkManager.emptyRequest(route: "comments/\(self.commentToDelete.id)/", method: .delete) { successResponse, errorResponse in
             if successResponse != nil {
                 DispatchQueue.main.async {
                     withAnimation {
-                        if (self.commentToDelete.parent != nil){
-                            if let index = self.comments.firstIndex(where: {$0.id == self.commentToDelete.parent!}) {
-                                if let toDeleteIndex = self.comments[index].children.firstIndex(where: {$0.id == self.commentToDelete.id}) {
-                                    self.comments[index].children.remove(at: toDeleteIndex)
+                        if (self.commentToDelete.parent != nil) {
+                            if let index1 = dataManager.postComments.firstIndex(where: {$0.0 == post.id}) {
+                                if let index2 = dataManager.postComments[index1].1.firstIndex(where: {$0.id == self.commentToDelete.parent}) {
+                                    if let index3 = dataManager.postComments[index1].1[index2].children.firstIndex(where: {$0.id == self.commentToDelete.id}) {
+                                        dataManager.postComments[index1].1[index2].children.remove(at: index3)
+                                    }
                                 }
                             }
                         }
                         else {
-                            if let index = self.comments.firstIndex(of: self.commentToDelete) {
-                                self.comments.remove(at: index)
+                            if let index1 = dataManager.postComments.firstIndex(where: {$0.0 == post.id}) {
+                                if let index2 = dataManager.postComments[index1].1.firstIndex(where: {$0.id == self.commentToDelete.id}) {
+                                    dataManager.postComments[index1].1.remove(at: index2)
+                                }
                             }
                         }
                     }
+                    
+                    // alerts
                     if self.activeAlert == .commentReport {
                         dataManager.removedCommentMessage = "Comment reported!"
                     } else if self.activeAlert == .commentBlock {
@@ -383,14 +391,6 @@ class PostViewModel: ObservableObject {
                 self.postUpdateTrigger.toggle()
             } else if errorResponse != nil {
                 dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't report post")
-            }
-        }
-    }
-    
-    func updateCommentLocally(comment: Comment) {
-        DispatchQueue.main.async {
-            if let index = self.comments.firstIndex(where: {$0.id == comment.id}) {
-                self.comments[index] = comment
             }
         }
     }
