@@ -122,32 +122,32 @@ struct MessageRosterView: View {
             }
             .navigationTitle("Messages")
             .searchable(text: $searchText)
-            .onReceive(messageRosterVM.timer) { _ in
-                if messageRosterVM.timePassed % 5 != 0 {
-                    messageRosterVM.timePassed += 1
-                }
-                else {
-                    messageRosterVM.getConversations(dataManager: dataManager)
-                    messageRosterVM.timePassed += 1
-                }
-            }
-            .onAppear {
-                messageRosterVM.getConversations(dataManager: dataManager)
-                self.messageRosterVM.timer = Timer.publish (every: 1, on: .current, in: .common).autoconnect()
-            }
-            .onDisappear {
-                self.messageRosterVM.timer.upstream.connect().cancel()
-            }
+//            .onReceive(messageRosterVM.timer) { _ in
+//                if messageRosterVM.timePassed % 5 != 0 {
+//                    messageRosterVM.timePassed += 1
+//                }
+//                else {
+//                    messageRosterVM.getConversations(dataManager: dataManager)
+//                    messageRosterVM.timePassed += 1
+//                }
+//            }
+//            .onAppear {
+//                messageRosterVM.getConversations(dataManager: dataManager)
+//                self.messageRosterVM.timer = Timer.publish (every: 1, on: .current, in: .common).autoconnect()
+//            }
+//            .onDisappear {
+//                self.messageRosterVM.timer.upstream.connect().cancel()
+//            }
         }
     }
-    
-    func dontEnableNotifs() {
-        
-    }
-    
-    func enableNotifs() {
-        
-    }
+//
+//    func dontEnableNotifs() {
+//
+//    }
+//
+//    func enableNotifs() {
+//
+//    }
 }
 
 struct MessagesView_Previews: PreviewProvider {
