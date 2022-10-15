@@ -26,6 +26,7 @@ struct AdminFeedView: View {
                             }
                         }
                     }
+                    .listStyle(PlainListStyle())
                     .refreshable {
                         print("DEBUG: Refresh")
                     }

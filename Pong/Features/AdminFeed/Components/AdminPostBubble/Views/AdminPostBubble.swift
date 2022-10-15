@@ -28,11 +28,16 @@ struct AdminPostBubble: View {
                             .multilineTextAlignment(.leading)
                         
                         // MARK: Image
+                        if let image = post.image {
+                            AsyncImage(url: URL(string: image)!,
+                                       placeholder: {ProgressView()},
+                                       image: { Image(uiImage: $0).resizable() })
+                        }
                         
-                        AsyncImage(url: URL(string: post.image!)!,
-                                   placeholder: {ProgressView()},
-                                   image: { Image(uiImage: $0).resizable() })
-                        
+                        // MARK: Poll
+                        if post.poll != nil && post.image == nil {
+                            PollView(post: $post)
+                        }
                     }
                     .padding(.bottom)
                     Spacer()
@@ -88,13 +93,7 @@ struct AdminPostBubble: View {
                 .frame(width: 25, height: 25)
             }
         }
-        .frame(minWidth: 0, maxWidth: UIScreen.main.bounds.size.width - 50)
         .font(.system(size: 18).bold())
-        .padding()
-        .foregroundColor(Color(UIColor.label))
-        .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color(UIColor.tertiarySystemBackground), lineWidth: 5))
-        .background(Color(UIColor.tertiarySystemBackground))
-        .cornerRadius(10)
         .onAppear {
             adminPostBubbleVM.post = self.post
         }
