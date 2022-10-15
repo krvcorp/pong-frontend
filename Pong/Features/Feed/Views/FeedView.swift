@@ -63,7 +63,7 @@ struct FeedView: View {
                         
                         NavigationLink(destination: MessageRosterView(), isActive: $mainTabVM.openConversationsDetected) {
                             if dataManager.conversations.contains(where: {!$0.read}) {
-                                ZStack(alignment: .bottomTrailing) {
+                                ZStack(alignment: .topTrailing) {
                                     Image(systemName: "envelope")
                                     Circle()
                                         .fill(.red)
