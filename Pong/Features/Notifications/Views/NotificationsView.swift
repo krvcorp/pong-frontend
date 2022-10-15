@@ -30,6 +30,7 @@ struct NotificationsView: View {
                                 } label: {
                                     getNotificationText(notificationModel: notificationModel)
                                 }
+                                .listRowBackground(Color.pongSystemBackground)
                                 .listRowSeparator(.hidden)
                                 
                             }
@@ -43,7 +44,7 @@ struct NotificationsView: View {
                                 } label: {
                                     getNotificationText(notificationModel: notificationModel)
                                 }
-//                                .listRowBackground(notificationModel.data.read ? Color.pongSystemBackground : Color.notificationUnread)
+                                .listRowBackground(Color.pongSystemBackground)
                                 .listRowSeparator(.hidden)
                             }
                         }

@@ -1,5 +1,6 @@
 import SwiftUI
 import AlertToast
+import Combine
 
 struct LeaderboardNotificationView: View {
     @Environment(\.presentationMode) var presentationMode
@@ -7,172 +8,190 @@ struct LeaderboardNotificationView: View {
     @StateObject var dataManager = DataManager.shared
     @State private var newPost = false
     
-    @State var timeRemaining = 10
-    @State var timer = Timer.publish(every: 1, on: .current, in: .common).autoconnect()
+    let textLimit = 20
+    
+    func limitText(_ upper: Int) {
+        if nickname.count > upper {
+            nickname = String(nickname.prefix(upper))
+        }
+    }
+    
+//    @State var timeRemaining = 10
+//    @State var timer = Timer.publish(every: 1, on: .current, in: .common).autoconnect()
     
     @State var nickname: String = ""
     
     var body: some View {
         let lblist = dataManager.leaderboardList
-        VStack {
+        NavigationView {
             VStack {
-                List {
-                    HStack {
-                        Text("Powered by [Guayaki Yerba Mate](https://guayaki.com/)")
-                            .bold()
+                VStack {
+                    List {
+//                        HStack {
+//                            Text("Powered by [Guayaki Yerba Mate](https://guayaki.com/)")
+//                                .bold()
+//
+//                            Spacer()
+//
+//                            Button {
+//                                print("DEBUG: info")
+//                            } label: {
+//                                Image(systemName: "info.circle")
+//                            }
+//                        }
                         
-                        Spacer()
+                        karmaInfo
+//                            .padding([.leading, .top, .trailing])
+                            .listRowSeparator(.hidden)
                         
-                        Button {
-                            print("DEBUG: info")
-                        } label: {
-                            Image(systemName: "info.circle")
-                        }
-                    }
-                    
-                    karmaInfo
-                        .padding([.leading, .top, .trailing])
-                        .listRowSeparator(.hidden)
-                    
-                    LeaderboardTopThree(
-                        hasTopThree: [
-                            lblist.count >= 1,
-                            lblist.count >= 2,
-                            lblist.count >= 3,
-                        ],
-                        topThreeScores: [
-                            lblist.count >= 1 ? lblist[0].score : 0,
-                            lblist.count >= 2 ? lblist[1].score : 0,
-                            lblist.count >= 3 ? lblist[2].score : 0,
-                        ],
-                        topThreeNicknames: [
-                            lblist.count >= 1 ? (lblist[0].nickname == "" ? "---" : lblist[0].nickname) : "---",
-                            lblist.count >= 2 ? (lblist[1].nickname == "" ? "---" : lblist[0].nickname) : "---",
-                            lblist.count >= 3 ? (lblist[2].nickname == "" ? "---" : lblist[0].nickname) : "---",
-                        ]
-                    )
-                    
-                    HStack {
-                        TextField(dataManager.nickname == "" ? "Nickname" : "\(dataManager.nickname)", text: $nickname)
+                        LeaderboardTopThree(
+                            hasTopThree: [
+                                lblist.count >= 1,
+                                lblist.count >= 2,
+                                lblist.count >= 3,
+                            ],
+                            topThreeScores: [
+                                lblist.count >= 1 ? lblist[0].score : 0,
+                                lblist.count >= 2 ? lblist[1].score : 0,
+                                lblist.count >= 3 ? lblist[2].score : 0,
+                            ],
+                            topThreeNicknames: [
+                                lblist.count >= 1 ? (lblist[0].nickname == "" ? "---" : lblist[0].nickname) : "---",
+                                lblist.count >= 2 ? (lblist[1].nickname == "" ? "---" : lblist[0].nickname) : "---",
+                                lblist.count >= 3 ? (lblist[2].nickname == "" ? "---" : lblist[0].nickname) : "---",
+                            ]
+                        )
                         
-                        Button {
-                            leaderboardVM.updateNickname(dataManager: dataManager, nickname: nickname) { _ in
-                                self.nickname = ""
+                        HStack(alignment: .center) {
+                            HStack() {
+                                Spacer()
+                                Text("Rank")
+                                    .font(.headline)
+                                    .bold()
+                                Spacer()
                             }
-                            leaderboardVM.getLeaderboard(dataManager: dataManager)
-                            leaderboardVM.getLoggedInUserInfo(dataManager: dataManager)
-                        } label: {
-                            Label("Save", systemImage: "pencil")
-                        }
-                        .buttonStyle(PlainButtonStyle())
-                    }
-                    
-                    if (lblist.count > 3) {
-                        Section(header: Text("Leaderboard")) {
-                            HStack(alignment: .center) {
-                                HStack() {
-                                    Spacer()
-                                    Text("Rank")
-                                        .font(.headline)
-                                        .bold()
-                                    Spacer()
-                                }
-                                .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
-                                
+                            .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
                             
-                                HStack() {
-                                    Spacer()
-                                    Text("Nickname")
-                                        .font(.headline)
-                                        .bold()
-                                    Spacer()
-                                }
-                                .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
-                            
-                            
-                                HStack() {
-                                    Spacer()
-                                    Text("Karma")
-                                        .font(.headline)
-                                        .bold()
-                                    Spacer()
-                                }
-                                .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
+                        
+                            HStack() {
+                                Spacer()
+                                Text("Nickname")
+                                    .font(.headline)
+                                    .bold()
+                                Spacer()
                             }
-                            .listRowSeparator(.visible)
-                            
-                            ForEach(lblist) { entry in
-                                if !["1", "2", "3"].contains(entry.place) {
-                                    HStack(alignment: .center) {
-                                        
-                                        HStack() {
-                                            Spacer()
-                                            Text(entry.place)
-                                            Spacer()
-                                        }
-                                        .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
+                            .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
+                        
+                        
+                            HStack() {
+                                Spacer()
+                                Text("Karma")
+                                    .font(.headline)
+                                    .bold()
+                                Spacer()
+                            }
+                            .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
+                        }
+                        .listRowSeparator(.visible)
+                        
+                        ForEach(lblist) { entry in
+                            if !["1", "2", "3"].contains(entry.place) {
+                                HStack(alignment: .center) {
                                     
-                                        HStack() {
-                                            Spacer()
-                                            Text(entry.nickname != "" ? entry.nickname : "---")
-                                            Spacer()
-                                        }
-                                        .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
-                                    
-                                        HStack() {
-                                            Spacer()
-                                            Text("\(entry.score)")
-                                            Spacer()
-                                        }
-                                        .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
+                                    HStack() {
+                                        Spacer()
+                                        Text(entry.place)
+                                        Spacer()
                                     }
-                                    .listRowSeparator(.hidden)
+                                    .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
+                                
+                                    HStack() {
+                                        Spacer()
+                                        Text(entry.nickname != "" ? entry.nickname : "---")
+                                        Spacer()
+                                    }
+                                    .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
+                                
+                                    HStack() {
+                                        Spacer()
+                                        Text("\(entry.score)")
+                                        Spacer()
+                                    }
+                                    .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
                                 }
+                                .listRowSeparator(.hidden)
                             }
                         }
+
+                        
+                        HStack {
+                            TextField(dataManager.nickname == "" ? "Pick a nickname" : "\(dataManager.nickname)", text: $nickname)
+                                .onReceive(Just(nickname)) { _ in limitText(textLimit) }
+                            
+                            
+                            
+                            Button {
+                                leaderboardVM.updateNickname(dataManager: dataManager, nickname: nickname) { _ in
+                                    self.nickname = ""
+                                }
+                                leaderboardVM.getLeaderboard(dataManager: dataManager)
+                                leaderboardVM.getLoggedInUserInfo(dataManager: dataManager)
+                            } label: {
+                                Label("Save", systemImage: "pencil")
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                        }
+                        
+                        
                     }
-                }
-                .listStyle(InsetGroupedListStyle())
-            }
-            .onAppear {
-                leaderboardVM.getLeaderboard(dataManager: dataManager)
-                leaderboardVM.getLoggedInUserInfo(dataManager: dataManager)
-            }
-        }
-        .navigationTitle("Stats")
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            Text("\(timeRemaining)")
-                .onReceive(timer) { _ in
-                    if timeRemaining > 0 {
-                        timeRemaining -= 1
-                    }
-                    else {
+                    .refreshable{
                         leaderboardVM.getLeaderboard(dataManager: dataManager)
                         leaderboardVM.getLoggedInUserInfo(dataManager: dataManager)
-                        timeRemaining = 10
                     }
+                    .listStyle(InsetGroupedListStyle())
                 }
+                .onAppear {
+                    leaderboardVM.getLeaderboard(dataManager: dataManager)
+                    leaderboardVM.getLoggedInUserInfo(dataManager: dataManager)
+                }
+            }
+            .navigationTitle("Leaderboard")
+            .navigationBarTitleDisplayMode(.inline)
+//            .toolbar {
+//                Text("\(timeRemaining)")
+//                    .onReceive(timer) { _ in
+//                        if timeRemaining > 0 {
+//                            timeRemaining -= 1
+//                        }
+//                        else {
+//                            leaderboardVM.getLeaderboard(dataManager: dataManager)
+//                            leaderboardVM.getLoggedInUserInfo(dataManager: dataManager)
+//                            timeRemaining = 10
+//                        }
+//                    }
+//            }
+            .onTapGesture {
+                print("DEBUG: onTap detected")
+                hideKeyboard()
+            }
         }
-        .onTapGesture {
-            print("DEBUG: onTap detected")
-            hideKeyboard()
-        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .toast(isPresenting: $leaderboardVM.savedNicknameAlert) {
             AlertToast(displayMode: .hud, type: .regular,  title: "Nickname saved!")
         }
-        .onAppear {
-            self.timer = Timer.publish (every: 1, on: .current, in: .common).autoconnect()
-//            self.nickname = leaderboardVM.nickname
-        }
-        .onDisappear {
-            self.timer.upstream.connect().cancel()
-        }
+        
+//        .onAppear {
+//            self.timer = Timer.publish (every: 1, on: .current, in: .common).autoconnect()
+////            self.nickname = leaderboardVM.nickname
+//        }
+//        .onDisappear {
+//            self.timer.upstream.connect().cancel()
+//        }
     }
         
     
     var karmaInfo: some View {
-        HStack(alignment: .center) {
+        HStack() {
             HStack() {
                 Spacer()
                 VStack(alignment: .center) {
