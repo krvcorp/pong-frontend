@@ -36,7 +36,7 @@ struct ProfileCommentBubble: View {
                 
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    self.image = handleShare()
+//                    self.image = handleShare()
                     sheet.toggle()
                 } label: {
                     Image(systemName: "square.and.arrow.up")
@@ -174,12 +174,5 @@ struct ProfileCommentBubble: View {
                 }
             }
         }
-    }
-
-    
-    func handleShare() -> UIImage {
-        let imageSize: CGSize = CGSize(width: 500, height: 800)
-        let highresImage = commentBubbleMain.asImage(size: imageSize)
-        return highresImage
     }
 }

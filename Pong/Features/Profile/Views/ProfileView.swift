@@ -149,16 +149,16 @@ struct ProfileView: View {
                     }
                 } else {
                     VStack(alignment: .center, spacing: 15) {
-//                        HStack(alignment: .center) {
-//                            Spacer()
-//
-//                            Image("pong_transparent_logo")
-//                                .resizable()
-//                                .scaledToFit()
-//                                .frame(maxWidth: UIScreen.screenWidth / 2)
-//
-//                            Spacer()
-//                        }
+                        HStack(alignment: .center) {
+                            Spacer()
+
+                            Image("PongTransparentLogo")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(maxWidth: UIScreen.screenWidth / 2)
+
+                            Spacer()
+                        }
                         
                         HStack(alignment: .center) {
                             Spacer()
@@ -174,7 +174,7 @@ struct ProfileView: View {
                             Spacer()
                         }
                     }
-//                    .listRowBackground(Color(UIColor.secondarySystemBackground))
+                    .listRowBackground(Color.pongSystemBackground)
                     .listRowSeparator(.hidden)
                 }
             }
@@ -193,16 +193,16 @@ struct ProfileView: View {
                     }
                 } else {
                     VStack(alignment: .center, spacing: 15) {
-//                        HStack(alignment: .center) {
-//                            Spacer()
-//
-//                            Image("pong_transparent_logo")
-//                                .resizable()
-//                                .scaledToFit()
-//                                .frame(maxWidth: UIScreen.screenWidth / 2)
-//
-//                            Spacer()
-//                        }
+                        HStack(alignment: .center) {
+                            Spacer()
+
+                            Image("PongTransparentLogo")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(maxWidth: UIScreen.screenWidth / 2)
+
+                            Spacer()
+                        }
                         
                         HStack(alignment: .center) {
                             Spacer()
@@ -218,8 +218,7 @@ struct ProfileView: View {
                             Spacer()
                         }
                     }
-//                    .listRowBackground(Color(UIColor.secondarySystemBackground))
-                    
+                    .listRowBackground(Color.pongSystemBackground)
                     .listRowSeparator(.hidden)
                 }
             }
@@ -238,16 +237,16 @@ struct ProfileView: View {
                     }
                 } else {
                     VStack(alignment: .center, spacing: 15) {
-//                        HStack(alignment: .center) {
-//                            Spacer()
-//
-//                            Image("pong_transparent_logo")
-//                                .resizable()
-//                                .scaledToFit()
-//                                .frame(maxWidth: UIScreen.screenWidth / 2)
-//
-//                            Spacer()
-//                        }
+                        HStack(alignment: .center) {
+                            Spacer()
+
+                            Image("PongTransparentLogo")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(maxWidth: UIScreen.screenWidth / 2)
+
+                            Spacer()
+                        }
                         
                         HStack(alignment: .center) {
                             Spacer()
@@ -263,6 +262,7 @@ struct ProfileView: View {
                             Spacer()
                         }
                     }
+                    .listRowBackground(Color.pongSystemBackground)
                     .listRowSeparator(.hidden)
                 }
             }

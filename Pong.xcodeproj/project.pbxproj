@@ -122,6 +122,7 @@
 		6A8F68DC28E3B57300246D5A /* UpdateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8F68DB28E3B57300246D5A /* UpdateModel.swift */; };
 		6AE360F428F517CE00A5E115 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE360F328F517CE00A5E115 /* AppState.swift */; };
 		6AE360F628F6108900A5E115 /* LeaderboardNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE360F528F6108900A5E115 /* LeaderboardNotificationView.swift */; };
+		6AE360F928F9249000A5E115 /* SwiftyImage in Frameworks */ = {isa = PBXBuildFile; productRef = 6AE360F828F9249000A5E115 /* SwiftyImage */; };
 		6AEE15D428AC4AC600EEF1E6 /* Poll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEE15D328AC4AC600EEF1E6 /* Poll.swift */; };
 		82AEE06828AEDF2A00738EB5 /* LeaderboardAwardCoin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AEE06728AEDF2A00738EB5 /* LeaderboardAwardCoin.swift */; };
 		82AEE06B28AEE03400738EB5 /* LeaderboardTopThree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AEE06A28AEE03400738EB5 /* LeaderboardTopThree.swift */; };
@@ -288,6 +289,7 @@
 			files = (
 				6A6F2D5F28BEF2740091CFE4 /* Kingfisher in Frameworks */,
 				289CC86628999135009C1DCE /* FirebaseMessaging in Frameworks */,
+				6AE360F928F9249000A5E115 /* SwiftyImage in Frameworks */,
 				28E7C32A2895E302002C186A /* Alamofire in Frameworks */,
 				D396186C28D2695D000418B1 /* ActivityIndicatorView in Frameworks */,
 				6A4BD72A28B18405004EFE4A /* AlertToast in Frameworks */,
@@ -1217,6 +1219,7 @@
 				D396186B28D2695D000418B1 /* ActivityIndicatorView */,
 				6A61D02128E0A2CC003188EE /* Resolver */,
 				D303B88028E5DA3300B36775 /* Siren */,
+				6AE360F828F9249000A5E115 /* SwiftyImage */,
 			);
 			productName = pong;
 			productReference = 6A5DF0E32851321000F28A06 /* Pong.app */;
@@ -1260,6 +1263,7 @@
 				D396186A28D2695D000418B1 /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */,
 				6A61D02028E0A2CC003188EE /* XCRemoteSwiftPackageReference "Resolver" */,
 				D303B87F28E5DA3300B36775 /* XCRemoteSwiftPackageReference "Siren" */,
+				6AE360F728F9249000A5E115 /* XCRemoteSwiftPackageReference "SwiftyImage" */,
 			);
 			productRefGroup = 6A5DF0E42851321000F28A06 /* Products */;
 			projectDirPath = "";
@@ -1727,6 +1731,14 @@
 				kind = branch;
 			};
 		};
+		6AE360F728F9249000A5E115 /* XCRemoteSwiftPackageReference "SwiftyImage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/devxoul/SwiftyImage.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		D303B87F28E5DA3300B36775 /* XCRemoteSwiftPackageReference "Siren" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ArtSabintsev/Siren";
@@ -1795,6 +1807,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 6A6F2D5D28BEF2740091CFE4 /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
+		};
+		6AE360F828F9249000A5E115 /* SwiftyImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6AE360F728F9249000A5E115 /* XCRemoteSwiftPackageReference "SwiftyImage" */;
+			productName = SwiftyImage;
 		};
 		D303B88028E5DA3300B36775 /* Siren */ = {
 			isa = XCSwiftPackageProductDependency;

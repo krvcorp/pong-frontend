@@ -1,6 +1,7 @@
 import SwiftUI
 import AlertToast
 import Kingfisher
+import SwiftyImage
 
 struct PostBubble: View {
     @Binding var post : Post
@@ -209,7 +210,7 @@ struct PostBubble: View {
             
             Button {
                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                self.image = handleShare()
+                self.image = textToImage(drawText: post.title, atPoint: CGPointMake(0, 0))
                 sheet.toggle()
             } label: {
                 Image(systemName: "square.and.arrow.up")
@@ -298,11 +299,5 @@ struct PostBubble: View {
                 }
             }
         }
-    }
-    
-    func handleShare() -> UIImage {
-        let imageSize: CGSize = CGSize(width: 500, height: 800)
-        let highresImage = PostBubbleMain.asImage(size: imageSize)
-        return highresImage
     }
 }
