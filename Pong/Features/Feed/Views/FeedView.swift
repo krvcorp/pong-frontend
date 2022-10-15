@@ -63,7 +63,7 @@ struct FeedView: View {
                         
                         NavigationLink(destination: MessageRosterView(), isActive: $mainTabVM.openConversationsDetected) {
                             if dataManager.conversations.contains(where: {!$0.read}) {
-                                ZStack(alignment: .bottomTrailing) {
+                                ZStack(alignment: .topTrailing) {
                                     Image(systemName: "envelope")
                                     Circle()
                                         .fill(.red)
@@ -279,6 +279,22 @@ struct FeedView: View {
                     proxy.scrollTo(dataManager.recentPosts[0].id, anchor: .bottom)
                 }
             })
+            .onReceive(feedVM.timer) { _ in
+                if feedVM.timePassed % 5 != 0 {
+                    feedVM.timePassed += 1
+                }
+                else {
+                    feedVM.getConversations(dataManager: dataManager)
+                    feedVM.timePassed += 1
+                }
+            }
+            .onAppear {
+                feedVM.getConversations(dataManager: dataManager)
+                self.feedVM.timer = Timer.publish (every: 1, on: .current, in: .common).autoconnect()
+            }
+            .onDisappear {
+                self.feedVM.timer.upstream.connect().cancel()
+            }
             .refreshable{
                 feedVM.paginatePostsReset(selectedFeedFilter: feedVM.selectedFeedFilter, dataManager: dataManager)
             }

@@ -19,7 +19,7 @@ struct ProfileView: View {
                         customProfileStack(filter: profileVM.selectedProfileFilter, tab: tab)
                             .tag(tab)
                     }
-                    .background(Color(UIColor.secondarySystemBackground))
+                    .background(Color.pongSystemBackground)
                 }
                 .background(Color.pongSystemBackground)
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
@@ -40,6 +40,7 @@ struct ProfileView: View {
         }
         .accentColor(Color(UIColor.label))
         .navigationViewStyle(StackNavigationViewStyle())
+        .background(Color.pongSystemBackground)
         .toast(isPresenting: $dataManager.removedPost) {
             AlertToast(displayMode: .hud, type: .regular, title: dataManager.removedPostMessage)
         }

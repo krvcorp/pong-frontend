@@ -9,8 +9,8 @@ import SwiftUI
 import Foundation
 
 class MessageRosterViewModel: ObservableObject {
-    var timePassed = 0
-    var timer = Timer.publish(every: 1, on: .current, in: .common).autoconnect()
+//    var timePassed = 0
+//    var timer = Timer.publish(every: 1, on: .current, in: .common).autoconnect()
     
     // MARK: Polling here
     func getConversations(dataManager : DataManager) {

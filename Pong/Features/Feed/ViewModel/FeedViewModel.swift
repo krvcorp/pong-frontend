@@ -64,6 +64,10 @@ class FeedViewModel: ObservableObject {
     @Published var finishedHot = false
     @Published var finishedRecent = false
     
+    // messaging timer
+    var timePassed = 0
+    var timer = Timer.publish(every: 1, on: .current, in: .common).autoconnect()
+    
     //MARK: Pagination
     var topCurrentPage = "posts/?sort=top&range=all"
     
@@ -212,6 +216,20 @@ class FeedViewModel: ObservableObject {
             return "&range=week"
         } else {
             return "neverHit"
+        }
+    }
+    
+    // MARK: Polling here
+    func getConversations(dataManager : DataManager) {
+        NetworkManager.networkManager.request(route: "conversations/", method: .get, successType: [Conversation].self) { successResponse, errorResponse in
+            if let successResponse = successResponse {
+                DispatchQueue.main.async {
+                    if dataManager.conversations != successResponse {
+                        print("DEBUG: replace conversations")
+                        dataManager.conversations = successResponse
+                    }
+                }
+            }
         }
     }
 }
