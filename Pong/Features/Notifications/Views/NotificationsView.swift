@@ -15,98 +15,123 @@ struct NotificationsView: View {
                 NavigationLink(destination: PostView(post: $post), isActive: $isLinkActive) { EmptyView() }
                 
                 List {
-                    Section() {
-                        ForEach(notificationsVM.notificationHistoryWeek) { notificationModel in
-                            if notificationModel.data.type == .upvote || notificationModel.data.type == .comment || notificationModel.data.type == .hot || notificationModel.data.type == .top || notificationModel.data.type == .reply {
-                                
-                                Button {
-                                    DispatchQueue.main.async {
-                                        notificationsVM.getPost(url: notificationModel.data.url!) { success in
-                                            post = success
-                                            isLinkActive = true
+                    if notificationsVM.notificationHistoryPrevious == [] && notificationsVM.notificationHistoryWeek == [] {
+                        VStack(alignment: .center, spacing: 15) {
+                            HStack(alignment: .center) {
+                                Spacer()
+
+                                Image("PongTransparentLogo")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(maxWidth: UIScreen.screenWidth / 2)
+
+                                Spacer()
+                            }
+                            
+                            HStack(alignment: .center) {
+                                Spacer()
+                                Text("No notifications yet!")
+                                    .font(.title.bold())
+                                Spacer()
+                            }
+                        }
+                        .listRowBackground(Color.pongSystemBackground)
+                        .listRowSeparator(.hidden)
+                    } else {
+                        Section() {
+                            ForEach(notificationsVM.notificationHistoryWeek) { notificationModel in
+                                if notificationModel.data.type == .upvote || notificationModel.data.type == .comment || notificationModel.data.type == .hot || notificationModel.data.type == .top || notificationModel.data.type == .reply {
+                                    
+                                    Button {
+                                        DispatchQueue.main.async {
+                                            notificationsVM.getPost(url: notificationModel.data.url!) { success in
+                                                post = success
+                                                isLinkActive = true
+                                                notificationsVM.markNotificationAsReadWeek(id: notificationModel.id)
+                                            }
+                                        }
+                                    } label: {
+                                        getNotificationText(notificationModel: notificationModel)
+                                    }
+                                    .listRowBackground(Color.pongSystemBackground)
+                                    .listRowSeparator(.hidden)
+                                    
+                                }
+                                else if notificationModel.data.type == .leader {
+                                    Button {
+                                        DispatchQueue.main.async {
+                                            mainTabVM.isCustomItemSelected = false
+                                            mainTabVM.itemSelected = 2
                                             notificationsVM.markNotificationAsReadWeek(id: notificationModel.id)
                                         }
+                                    } label: {
+                                        getNotificationText(notificationModel: notificationModel)
                                     }
-                                } label: {
-                                    getNotificationText(notificationModel: notificationModel)
+                                    .listRowBackground(Color.pongSystemBackground)
+                                    .listRowSeparator(.hidden)
                                 }
-                                .listRowBackground(Color.pongSystemBackground)
-                                .listRowSeparator(.hidden)
-                                
                             }
-                            else if notificationModel.data.type == .leader {
+                        } header: {
+                            HStack {
+                                Text("This Week")
+                                    .fontWeight(.heavy)
+                                    .foregroundColor(colorScheme == .light ? Color.black : Color.white)
+                                    .padding(.bottom, 4)
+                                Spacer()
                                 Button {
-                                    DispatchQueue.main.async {
-                                        mainTabVM.isCustomItemSelected = false
-                                        mainTabVM.itemSelected = 2
-                                        notificationsVM.markNotificationAsReadWeek(id: notificationModel.id)
-                                    }
+                                    notificationsVM.markAllAsRead()
                                 } label: {
-                                    getNotificationText(notificationModel: notificationModel)
+                                    Image(systemName: "checkmark.circle.fill")
                                 }
-                                .listRowBackground(Color.pongSystemBackground)
-                                .listRowSeparator(.hidden)
                             }
                         }
-                    } header: {
-                        HStack {
-                            Text("This Week")
-                                .fontWeight(.heavy)
-                                .foregroundColor(colorScheme == .light ? Color.black : Color.white)
-                                .padding(.bottom, 4)
-                            Spacer()
-                            Button {
-                                notificationsVM.markAllAsRead()
-                            } label: {
-                                Image(systemName: "checkmark.circle.fill")
-                            }
-                        }
-                    }
-                    Section() {
-                        ForEach(notificationsVM.notificationHistoryPrevious) { notificationModel in
-                            if notificationModel.data.type == .upvote || notificationModel.data.type == .comment || notificationModel.data.type == .hot || notificationModel.data.type == .top || notificationModel.data.type == .reply {
-                                
-                                Button {
-                                    DispatchQueue.main.async {
-                                        notificationsVM.getPost(url: notificationModel.data.url!) { success in
-                                            post = success
-                                            isLinkActive = true
+                        Section() {
+                            ForEach(notificationsVM.notificationHistoryPrevious) { notificationModel in
+                                if notificationModel.data.type == .upvote || notificationModel.data.type == .comment || notificationModel.data.type == .hot || notificationModel.data.type == .top || notificationModel.data.type == .reply {
+                                    
+                                    Button {
+                                        DispatchQueue.main.async {
+                                            notificationsVM.getPost(url: notificationModel.data.url!) { success in
+                                                post = success
+                                                isLinkActive = true
+                                                notificationsVM.markNotificationAsReadPrevious(id: notificationModel.id)
+                                            }
+                                            
+                                        }
+                                    } label: {
+                                        getNotificationText(notificationModel: notificationModel)
+                                    }
+                                    .listRowSeparator(.hidden)
+                                    
+    //                                NavigationLink(destination: PostView(post: $post)) {
+    //                                    EmptyView()
+    //                                }
+    //                                .listRowBackground(notificationModel.data.read ? Color.pongSystemBackground : Color.notificationUnread)
+                                }
+                                else if notificationModel.data.type == .leader {
+                                    Button {
+                                        DispatchQueue.main.async {
+                                            mainTabVM.isCustomItemSelected = false
+                                            mainTabVM.itemSelected = 2
                                             notificationsVM.markNotificationAsReadPrevious(id: notificationModel.id)
                                         }
-                                        
+                                    } label: {
+                                        getNotificationText(notificationModel: notificationModel)
                                     }
-                                } label: {
-                                    getNotificationText(notificationModel: notificationModel)
+    //                                .listRowBackground(notificationModel.data.read ? Color.pongSystemBackground : Color.notificationUnread)
+                                    .listRowSeparator(.hidden)
                                 }
-                                .listRowSeparator(.hidden)
-                                
-//                                NavigationLink(destination: PostView(post: $post)) {
-//                                    EmptyView()
-//                                }
-//                                .listRowBackground(notificationModel.data.read ? Color.pongSystemBackground : Color.notificationUnread)
                             }
-                            else if notificationModel.data.type == .leader {
-                                Button {
-                                    DispatchQueue.main.async {
-                                        mainTabVM.isCustomItemSelected = false
-                                        mainTabVM.itemSelected = 2
-                                        notificationsVM.markNotificationAsReadPrevious(id: notificationModel.id)
-                                    }
-                                } label: {
-                                    getNotificationText(notificationModel: notificationModel)
-                                }
-//                                .listRowBackground(notificationModel.data.read ? Color.pongSystemBackground : Color.notificationUnread)
-                                .listRowSeparator(.hidden)
+                        } header: {
+                            HStack {
+                                Text("Previous")
+                                    .fontWeight(.heavy)
+                                    .foregroundColor(colorScheme == .light ? Color.black : Color.white)
+                                    .padding(.bottom, 4)
                             }
-                        }
-                    } header: {
-                        HStack {
-                            Text("Previous")
-                                .fontWeight(.heavy)
-                                .foregroundColor(colorScheme == .light ? Color.black : Color.white)
-                                .padding(.bottom, 4)
                         }
                     }
+
                 }
                 .refreshable() {
                     print("DEBUG: REFRESH")

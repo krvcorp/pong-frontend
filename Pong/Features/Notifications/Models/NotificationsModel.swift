@@ -1,21 +1,23 @@
 import Foundation
 
-struct NotificationsModel: Decodable, Identifiable {
+struct NotificationsModel: Decodable, Identifiable, Equatable {
     var id: String { data.id }
     var notification: Notification
-    struct Notification: Decodable {
+    struct Notification: Decodable, Equatable {
         var title: String
         var body: String
     }
+    
     var data: Data
-    struct Data: Decodable {
+    
+    struct Data: Decodable, Equatable {
         var id: String
         var timestamp: String
         var url: String?
         var type: NotificationType
         var read: Bool
         var timeSincePosted: String
-        enum NotificationType: String, Decodable {
+        enum NotificationType: String, Decodable, Equatable {
             case upvote
             case comment
             case hot
