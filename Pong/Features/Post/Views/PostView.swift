@@ -26,6 +26,7 @@ struct PostView: View {
     
     @State var uiTabarController: UITabBarController?
 
+    // MARK: Body
     var body: some View {
         ZStack(alignment: .bottom) {
             RefreshableScrollView {
@@ -462,7 +463,6 @@ struct PostView: View {
                     HStack {
                         if postVM.commentImage != nil {
                             ZStack(alignment: .topLeading) {
-                                
                                 Image(uiImage: self.postVM.commentImage!)
                                     .resizable()
                                     .scaledToFit()
@@ -483,6 +483,7 @@ struct PostView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
                             .padding()
                         }
+                        
                         Spacer()
                     }
                     HStack {
@@ -520,6 +521,7 @@ struct PostView: View {
                                     postVM.commentReply(post: post, comment: text, dataManager: dataManager, notificationsManager: notificationsManager)
                                     postVM.replyToComment = defaultComment
                                 }
+                                postVM.commentImage = nil
                                 text = ""
                                 withAnimation {
                                     textIsFocused = false
