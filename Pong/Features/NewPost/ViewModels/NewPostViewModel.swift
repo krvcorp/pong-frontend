@@ -85,7 +85,9 @@ class NewPostViewModel: ObservableObject {
             AF.upload(multipartFormData: { multipartFormData in
                 multipartFormData.append(self.title.data(using: String.Encoding.utf8)!, withName: "title")
                 multipartFormData.append(imgData, withName: "image",fileName: "file.jpg", mimeType: "image/jpg")
-                multipartFormData.append(self.selectedTag.title!.data(using: String.Encoding.utf8)!, withName: "tag")
+                if let tag = self.selectedTag.title {
+                    multipartFormData.append(tag.data(using: String.Encoding.utf8)!, withName: "tag")
+                }
             }, to: "\(NetworkManager.networkManager.baseURL)posts/", method: .post, headers: httpHeaders)
                 .responseDecodable(of: Post.self) { successResponse in
                     print("DEBUG: newPostVM.newPost success \(successResponse)")
