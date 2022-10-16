@@ -8,7 +8,5 @@ struct ProfileComment: Hashable, Identifiable, Codable {
     var score: Int
     var timeSincePosted: String
     var voteStatus: Int
-    var numUpvotes: Int
-    var numDownvotes: Int
     var image: String?
 }

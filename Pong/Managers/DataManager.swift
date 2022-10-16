@@ -286,8 +286,6 @@ class DataManager : ObservableObject {
         DispatchQueue.main.async {
             if let index = self.profileComments.firstIndex(where: {$0.id == comment.id}) {
                 self.profileComments[index].score = comment.score
-                self.profileComments[index].numUpvotes = comment.numUpvotes
-                self.profileComments[index].numDownvotes = comment.numDownvotes
             }
         }
     }

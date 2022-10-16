@@ -180,6 +180,8 @@ struct FeedView: View {
                             .listRowSeparator(.hidden)
                             .listRowBackground(Color.pongSystemBackground)
                             .padding(.bottom, 5)
+                            .padding(.leading, 15)
+                            .padding(.trailing, 15)
 
                         CustomListDivider()
                     }
@@ -209,6 +211,8 @@ struct FeedView: View {
                             .listRowSeparator(.hidden)
                             .listRowBackground(Color.pongSystemBackground)
                             .padding(.bottom, 5)
+                            .padding(.leading, 15)
+                            .padding(.trailing, 15)
 
                         CustomListDivider()
                     }
@@ -238,6 +242,8 @@ struct FeedView: View {
                             .listRowSeparator(.hidden)
                             .listRowBackground(Color.pongSystemBackground)
                             .padding(.bottom, 5)
+                            .padding(.leading, 15)
+                            .padding(.trailing, 15)
 
                         CustomListDivider()
                     }

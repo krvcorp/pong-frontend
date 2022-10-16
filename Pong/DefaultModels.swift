@@ -34,8 +34,6 @@ var defaultComment = Comment(id: "default",
                              numberOnPost: 0,
                              userOwned: true,
                              voteStatus: 0,
-                             numUpvotes: 0,
-                             numDownvotes: 0,
                              imageHeight: 0,
                              imageWidth: 0)
 
@@ -45,9 +43,7 @@ var defaultProfileComment = ProfileComment(id: "default",
                                            comment: "default",
                                            score: 0,
                                            timeSincePosted: "default",
-                                           voteStatus: 0,
-                                           numUpvotes: 0,
-                                           numDownvotes: 0)
+                                           voteStatus: 0)
 
 var defaultPoll = Poll(id: "default",
                        userHasVoted: false,

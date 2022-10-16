@@ -26,8 +26,8 @@ struct PostBubble: View {
         }
         .font(.system(size: 18).bold())
         .padding(.top, 10)
-        .padding(.leading, 15)
-        .padding(.trailing, 15)
+//        .padding(.leading, 15)
+//        .padding(.trailing, 15)
         
         // MARK: Binds the values of postVM.post and the binding Post passed down from Feed
         .onChange(of: postBubbleVM.updateTrigger) { newValue in
