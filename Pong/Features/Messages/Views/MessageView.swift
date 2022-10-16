@@ -6,9 +6,15 @@ struct MessageView: View {
     @StateObject var messageVM : MessageViewModel = MessageViewModel()
     @EnvironmentObject var dataManager : DataManager
     @Environment(\.presentationMode) var presentationMode
+    @State var isLinkActive = false
+    @State private var post = defaultPost
 
+    // MARK: Body
     var body: some View {
-        ZStack(alignment: .bottom) {
+        ZStack() {
+            // hidden postview
+            NavigationLink(destination: PostView(post: $post), isActive: $isLinkActive) { EmptyView() }
+            // MARK: Actual content of the conversation's messages
             ScrollViewReader { proxy in
                 List {
                     Rectangle()
@@ -41,7 +47,31 @@ struct MessageView: View {
                 .listStyle(PlainListStyle())
             }
             
-            MessageComponent
+            // MARK: OverLay of Post and Messaging Component
+            VStack {
+                Button {
+                    DispatchQueue.main.async {
+                        messageVM.getPost(postId: conversation.postId!) { success in
+                            print("DEBUG: success")
+                            post = success
+                            isLinkActive = true
+                        }
+                    }
+                } label: {
+                    PostComponent
+                        .background(Color.pongSystemBackground)
+                        .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(PlainButtonStyle())
+                .onAppear() {
+                    messageVM.readPost(postId: conversation.postId!)
+                }
+                
+                Spacer()
+                
+                MessageComponent
+            }
+
         }
         .background(Color.clear)
         // onAppear load binding conversation into viewmodel
@@ -107,6 +137,7 @@ struct MessageView: View {
         }
     }
     
+    // MARK: ChatBubble
     @ViewBuilder
     func chatBubble(userOwned: Bool, message: Message) -> some View {
         HStack {
@@ -130,6 +161,7 @@ struct MessageView: View {
         }
     }
     
+    // MARK: MessageComponent
     var MessageComponent : some View {
         VStack(spacing: 0) {
             
@@ -180,5 +212,34 @@ struct MessageView: View {
             .background(Color.pongSystemBackground)
         }
         .mask(Rectangle().padding(.top, -20))
+    }
+    
+    // MARK: PostComponent
+    var PostComponent: some View {
+        HStack {
+            HStack {
+                VStack {
+                    HStack {
+                        Text("\(messageVM.post.title)")
+                            .font(.subheadline)
+                        Spacer()
+                    }
+                    
+                    HStack {
+                        Text("\(messageVM.post.timeSincePosted) ago")
+                            .font(.caption)
+                        Spacer()
+                    }
+                }
+                .padding(5)
+            }
+            .foregroundColor(Color(UIColor.label))
+            .background(Color(UIColor.quaternaryLabel))
+            .cornerRadius(10)
+            .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color(UIColor.quaternaryLabel), lineWidth: 1))
+            .padding(5)
+        }
+        .background(Color.pongSystemBackground)
+        .frame(maxWidth: .infinity)
     }
 }

@@ -13,8 +13,6 @@ struct Post: Hashable, Codable, Identifiable, Equatable {
     var saved: Bool
     var flagged: Bool
     var blocked: Bool
-    var numUpvotes: Int
-    var numDownvotes: Int
     var userOwned: Bool
     var poll: Poll?
     var imageHeight: Int?

@@ -19,8 +19,6 @@ var defaultPost = Post(id: "default",
                        saved: false,
                        flagged: false,
                        blocked: false,
-                       numUpvotes: 0,
-                       numDownvotes: 0,
                        userOwned: true,
                        poll: nil)
 
@@ -50,8 +48,6 @@ var defaultProfileComment = ProfileComment(id: "default",
                                            voteStatus: 0,
                                            numUpvotes: 0,
                                            numDownvotes: 0)
-
-//var defaultTotalScore = TotalScore(score: 1, place:"1")
 
 var defaultPoll = Poll(id: "default",
                        userHasVoted: false,

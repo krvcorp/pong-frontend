@@ -96,17 +96,11 @@ struct NotificationsView: View {
                                                 isLinkActive = true
                                                 notificationsVM.markNotificationAsReadPrevious(id: notificationModel.id)
                                             }
-                                            
                                         }
                                     } label: {
                                         getNotificationText(notificationModel: notificationModel)
                                     }
                                     .listRowSeparator(.hidden)
-                                    
-    //                                NavigationLink(destination: PostView(post: $post)) {
-    //                                    EmptyView()
-    //                                }
-    //                                .listRowBackground(notificationModel.data.read ? Color.pongSystemBackground : Color.notificationUnread)
                                 }
                                 else if notificationModel.data.type == .leader {
                                     Button {

@@ -27,7 +27,6 @@ class NotificationsViewModel: ObservableObject {
     }
     
     func getPost(url: String, completionHandler: @escaping (Post) -> Void) {
-        print("DEBUG: \(url)")
         NetworkManager.networkManager.request(route: "\(url)", method: .get, successType: Post.self) { successResponse, errorResponse in
             if successResponse != nil {
                 self.post = successResponse!

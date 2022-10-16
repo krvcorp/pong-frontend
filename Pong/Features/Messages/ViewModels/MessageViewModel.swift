@@ -3,6 +3,7 @@ import Foundation
 
 class MessageViewModel: ObservableObject {
     @Published var conversation : Conversation = defaultConversation
+    @Published var post : Post = defaultPost
     @Published var messageUpdateTrigger : Bool = false
     @Published var showBlockConfirmationView : Bool = false
     var timePassed = 0
@@ -59,6 +60,28 @@ class MessageViewModel: ObservableObject {
             
             if errorResponse != nil {
                 
+            }
+        }
+    }
+    
+    func getPost(postId: String, completionHandler: @escaping (Post) -> Void) {
+        NetworkManager.networkManager.request(route: "posts/\(postId)/", method: .get, successType: Post.self) { successResponse, errorResponse in
+            if successResponse != nil {
+                completionHandler(successResponse!)
+            }
+            if errorResponse != nil {
+                debugPrint("This post was probably deleted")
+            }
+        }
+    }
+    
+    func readPost(postId: String) {
+        NetworkManager.networkManager.request(route: "posts/\(postId)/", method: .get, successType: Post.self) { successResponse, errorResponse in
+            if successResponse != nil {
+                self.post = successResponse!
+            }
+            if errorResponse != nil {
+                debugPrint("This post was probably deleted")
             }
         }
     }
