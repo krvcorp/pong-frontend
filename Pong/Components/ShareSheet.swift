@@ -19,4 +19,8 @@ struct ShareSheet : UIViewControllerRepresentable {
     func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {
         
     }
+    
+    func getText(post_id: String) -> String{
+        return("https://www.pong.college/post/\(post_id)/")
+    }
 }

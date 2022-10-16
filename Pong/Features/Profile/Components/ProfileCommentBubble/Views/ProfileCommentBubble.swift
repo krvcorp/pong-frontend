@@ -34,16 +34,16 @@ struct ProfileCommentBubble: View {
                 }
 
                 
-                Button {
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+//                Button {
+//                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
 //                    self.image = handleShare()
-                    sheet.toggle()
-                } label: {
-                    Image(systemName: "square.and.arrow.up")
-                }
-                .sheet(isPresented: $sheet) {
-                    ShareSheet(items: [self.image])
-                }
+//                    sheet.toggle()
+//                } label: {
+//                    Image(systemName: "square.and.arrow.up")
+//                }
+//                .sheet(isPresented: $sheet) {
+//                    ShareSheet(items: ["\(NetworkManager.networkManager.rootURL)post/\(profileCommentBubbleVM.parentPost.id)/"])
+//                }
                 
                 // MARK: Delete or More Button
                  

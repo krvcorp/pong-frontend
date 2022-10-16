@@ -217,7 +217,7 @@ struct PostBubble: View {
                     .foregroundColor(Color(UIColor.gray))
             }
             .sheet(isPresented: $sheet) {
-                ShareSheet(items: [self.image])
+                ShareSheet(items: ["\(NetworkManager.networkManager.rootURL)post/\(post.id)/"])
             }
             
             // MARK: Delete or More Button
