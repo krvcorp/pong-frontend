@@ -13,8 +13,6 @@ struct Comment: Hashable, Identifiable, Codable {
     var numberOnPost: Int
     var userOwned: Bool
     var voteStatus: Int
-    var numUpvotes: Int
-    var numDownvotes: Int
     var numberReplyingTo: Int?
     var image: String?
     var imageHeight: Int?
