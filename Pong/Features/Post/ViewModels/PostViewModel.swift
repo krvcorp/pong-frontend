@@ -121,7 +121,6 @@ class PostViewModel: ObservableObject {
                     }
                 }
         }
-        // MARK: else use network manager
         else {
             NetworkManager.networkManager.request(route: "comments/", method: .post, body: parameters, successType: Comment.self) { successResponse, errorResponse in
                 if let successResponse = successResponse {
@@ -183,9 +182,7 @@ class PostViewModel: ObservableObject {
                     }
                 }
         } else {
-
             NetworkManager.networkManager.request(route: "comments/", method: .post, body: parameters, successType: Comment.self) { successResponse, errorResponse in
-                // MARK: Success
                 if let successResponse = successResponse {
                     DispatchQueue.main.async {
                         NotificationsManager.notificationsManager.registerForNotifications()
@@ -269,6 +266,7 @@ class PostViewModel: ObservableObject {
         }
     }
     
+    // MARK: Unsave Post
     func unsavePost(post: Post, dataManager: DataManager) {
         DispatchQueue.main.async {
             self.post = post
@@ -294,11 +292,38 @@ class PostViewModel: ObservableObject {
         }
     }
     
+    // MARK: DeletePost
     func deletePost(post: Post, dataManager: DataManager) {
         NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/", method: .delete) { successResponse, errorResponse in
             if successResponse != nil {
                 dataManager.removePostLocally(post: post, message: "Deleted post!")
                 self.postUpdateTrigger.toggle()
+            } else if errorResponse != nil {
+                dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't delete post")
+            }
+        }
+    }
+    
+    // MARK: BlockPost
+    func blockPost(post: Post, dataManager: DataManager) {
+        NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/block/", method: .post) { successResponse, errorResponse in
+            if successResponse != nil {
+                dataManager.removePostLocally(post: post, message: "Blocked user!")
+                self.postUpdateTrigger.toggle()
+            } else if errorResponse != nil {
+                dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't block post")
+            }
+        }
+    }
+    
+    // MARK: ReportPost
+    func reportPost(post: Post, dataManager: DataManager) {
+        NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/report/", method: .post) { successResponse, errorResponse in
+            if successResponse != nil {
+                dataManager.removePostLocally(post: post, message: "Reported post!")
+                self.postUpdateTrigger.toggle()
+            } else if errorResponse != nil {
+                dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't report post")
             }
         }
     }
@@ -328,44 +353,20 @@ class PostViewModel: ObservableObject {
         }
     }
     
+    // MARK: Removing Comment Stuff
+    
     // MARK: DeleteCommentConfirm
     func deleteCommentConfirm(post: Post, dataManager: DataManager) {
         NetworkManager.networkManager.emptyRequest(route: "comments/\(self.commentToDelete.id)/", method: .delete) { successResponse, errorResponse in
             if successResponse != nil {
                 DispatchQueue.main.async {
-                    withAnimation {
-                        if (self.commentToDelete.parent != nil) {
-                            if let index1 = dataManager.postComments.firstIndex(where: {$0.0 == post.id}) {
-                                if let index2 = dataManager.postComments[index1].1.firstIndex(where: {$0.id == self.commentToDelete.parent}) {
-                                    if let index3 = dataManager.postComments[index1].1[index2].children.firstIndex(where: {$0.id == self.commentToDelete.id}) {
-                                        dataManager.postComments[index1].1[index2].children.remove(at: index3)
-                                    }
-                                }
-                            }
-                        }
-                        else {
-                            if let index1 = dataManager.postComments.firstIndex(where: {$0.0 == post.id}) {
-                                if let index2 = dataManager.postComments[index1].1.firstIndex(where: {$0.id == self.commentToDelete.id}) {
-                                    dataManager.postComments[index1].1.remove(at: index2)
-                                }
-                            }
-                        }
-                    }
-                    
-                    // alerts
-                    if self.activeAlert == .commentReport {
-                        dataManager.removedCommentMessage = "Comment reported!"
-                    } else if self.activeAlert == .commentBlock {
-                        dataManager.removedCommentMessage = "User blocked!"
-                    } else if self.activeAlert == .commentDelete {
-                        dataManager.removedCommentMessage = "Comment deleted!"
-                    } else {
-                        dataManager.removedCommentMessage = "Comment removed!"
-                    }
-                    dataManager.removedComment = true
-                    self.post.numComments -= 1
+                    self.removeCommentLocally(post: post, dataManager: dataManager)
                     self.commentUpdateTrigger.toggle()
                     dataManager.removeCommentLocally(commentId: self.commentToDelete.id, message: "Deleted comment")
+                    
+                    // ALERTS
+                    dataManager.removedCommentMessage = "Comment deleted!"
+                    dataManager.removedComment = true
                 }
             } else if errorResponse != nil {
                 dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't delete post")
@@ -373,28 +374,67 @@ class PostViewModel: ObservableObject {
         }
     }
     
-    func blockPost(post: Post, dataManager: DataManager) {
-        NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/block/", method: .post) { successResponse, errorResponse in
+    // MARK: ReportCommentConfirm
+    func reportCommentConfirm(post: Post, dataManager: DataManager) {
+        NetworkManager.networkManager.emptyRequest(route: "comments/\(self.commentToDelete.id)/report/", method: .delete) { successResponse, errorResponse in
             if successResponse != nil {
-                dataManager.removePostLocally(post: post, message: "Blocked user!")
-                self.postUpdateTrigger.toggle()
+                DispatchQueue.main.async {
+                    self.removeCommentLocally(post: post, dataManager: dataManager)
+                    self.commentUpdateTrigger.toggle()
+                    dataManager.removeCommentLocally(commentId: self.commentToDelete.id, message: "Reported comment")
+                    
+                    // ALERTS
+                    dataManager.removedCommentMessage = "Comment reported!"
+                    dataManager.removedComment = true
+                }
             } else if errorResponse != nil {
-                dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't block post")
+                dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't delete post")
             }
         }
     }
     
-    func reportPost(post: Post, dataManager: DataManager) {
-        NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/report/", method: .post) { successResponse, errorResponse in
+    // MARK: BlockCommentConfirm
+    func blockCommentConfirm(post: Post, dataManager: DataManager) {
+        NetworkManager.networkManager.emptyRequest(route: "comments/\(self.commentToDelete.id)/block/", method: .delete) { successResponse, errorResponse in
             if successResponse != nil {
-                dataManager.removePostLocally(post: post, message: "Reported post!")
-                self.postUpdateTrigger.toggle()
+                DispatchQueue.main.async {
+                    self.removeCommentLocally(post: post, dataManager: dataManager)
+                    self.commentUpdateTrigger.toggle()
+                    dataManager.removeCommentLocally(commentId: self.commentToDelete.id, message: "Blocked comment")
+                    
+                    // ALERTS
+                    dataManager.removedCommentMessage = "Comment blocked!"
+                    dataManager.removedComment = true
+                }
             } else if errorResponse != nil {
-                dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't report post")
+                dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't delete post")
             }
         }
     }
     
+    // MARK: RemoveCommentLocally Helper Function
+    func removeCommentLocally(post: Post, dataManager: DataManager) {
+        withAnimation {
+            if (self.commentToDelete.parent != nil) {
+                if let index1 = dataManager.postComments.firstIndex(where: {$0.0 == post.id}) {
+                    if let index2 = dataManager.postComments[index1].1.firstIndex(where: {$0.id == self.commentToDelete.parent}) {
+                        if let index3 = dataManager.postComments[index1].1[index2].children.firstIndex(where: {$0.id == self.commentToDelete.id}) {
+                            dataManager.postComments[index1].1[index2].children.remove(at: index3)
+                        }
+                    }
+                }
+            }
+            else {
+                if let index1 = dataManager.postComments.firstIndex(where: {$0.0 == post.id}) {
+                    if let index2 = dataManager.postComments[index1].1.firstIndex(where: {$0.id == self.commentToDelete.id}) {
+                        dataManager.postComments[index1].1.remove(at: index2)
+                    }
+                }
+            }
+        }
+    }
+    
+    // MARK: StartConversation via Post
     func startConversation(post: Post, dataManager: DataManager, completion: @escaping (Conversation) -> Void) {
         let parameters = CreateConversation.RequestPost(postId: post.id)
         
@@ -405,6 +445,7 @@ class PostViewModel: ObservableObject {
         }
     }
     
+    // MARK: StartConversation via Comment
     func startConversation(comment: Comment, dataManager: DataManager, completion: @escaping (Conversation) -> Void) {
         let parameters = CreateConversation.RequestComment(commentId: comment.id)
         

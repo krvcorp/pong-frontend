@@ -4,7 +4,7 @@ import MapKit
 import Kingfisher
 import ActivityIndicatorView
 
-struct PostView: View {    
+struct PostView: View {
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var mainTabVM : MainTabViewModel
     @EnvironmentObject var dataManager: DataManager
@@ -13,23 +13,18 @@ struct PostView: View {
     @StateObject var postVM = PostViewModel()
     @ObservedObject private var notificationsManager = NotificationsManager.notificationsManager
     
+    // local variables
     @State private var text = ""
     @State var sheet = false
     @State private var showScore = false
     @FocusState private var textIsFocused : Bool
-    
-//    images for comments
     @State private var showSheet = false
     
-    // MARK: Conversation
+    // conversation
     @State var isLinkActive = false
     @State var conversation = defaultConversation
     
-    @State var didAppear = false
-    @State var appearCount = 0
-    
     @State var uiTabarController: UITabBarController?
-    
 
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -101,6 +96,7 @@ struct PostView: View {
                 }
             }
         }
+        // MARK: OnChange Stuff
         .onChange(of: self.post.id, perform: { newValue in
             DispatchQueue.main.async {
                 print("DEBUG: self.post.id.onChange")
@@ -188,7 +184,7 @@ struct PostView: View {
                     title: Text("Report comment"),
                     message: Text("Are you sure you want to report \"\(postVM.commentToDelete.comment)\""),
                     primaryButton: .destructive(Text("Report")) {
-                        postVM.deleteCommentConfirm(post: post, dataManager: dataManager)
+                        postVM.reportCommentConfirm(post: post, dataManager: dataManager)
                     },
                     secondaryButton: .cancel()
                 )
@@ -197,7 +193,7 @@ struct PostView: View {
                     title: Text("Block comment"),
                     message: Text("Are you sure you want to block content from this user?"),
                     primaryButton: .destructive(Text("Block")) {
-                        postVM.deleteCommentConfirm(post: post, dataManager: dataManager)
+                        postVM.blockCommentConfirm(post: post, dataManager: dataManager)
                     },
                     secondaryButton: .cancel()
                 )
@@ -208,6 +204,7 @@ struct PostView: View {
         }
     }
     
+    // MARK: MainPost
     var mainPost: some View {
         VStack {
             HStack {
@@ -355,23 +352,10 @@ struct PostView: View {
                     }
                 }
             }
-            
-//            Button {
-//                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-//                self.image = handleShare()
-//                sheet.toggle()
-//            } label: {
-//                Image(systemName: "square.and.arrow.up")
-//                    .foregroundColor(Color(UIColor.gray))
-//            }
-//            .sheet(isPresented: $sheet) {
-//                ShareSheet(items: [self.image])
-//            }
-            
-            
         }
     }
     
+    // MARK: VoteComponent
     var VoteComponent: some View {
         VStack {
             if post.voteStatus == 0 {

@@ -112,6 +112,7 @@ class NetworkManager: ObservableObject {
                 }
         }
     }
+    
     // MARK: Empty Response Network Handler
     // EmptyResponse type is arbitrary. Just needs some datatype to indicate completion was successful and return non-nil data
     public func emptyRequest(route: String, method: Alamofire.HTTPMethod, completionHandler: @escaping (EmptyResponse?, ErrorResponse?) -> Void) {
@@ -135,7 +136,7 @@ class NetworkManager: ObservableObject {
                         if httpStatusCode == 401 {
                             print("NETWORK: 401 Error")
                             AuthManager.authManager.signout()
-                        } else if httpStatusCode == 204 || httpStatusCode == 200 || httpStatusCode == 201 {
+                        } else if httpStatusCode == 204 || httpStatusCode == 200 || httpStatusCode == 201 || httpStatusCode == 405 {
                             completionHandler(EmptyResponse(success: "204"), nil)
                         }
                     }
@@ -160,7 +161,7 @@ class NetworkManager: ObservableObject {
                         if httpStatusCode == 401 {
                             print("NETWORK: 401 Error")
                             AuthManager.authManager.signout()
-                        } else if httpStatusCode == 204 || httpStatusCode == 200 || httpStatusCode == 201 {
+                        } else if httpStatusCode == 204 || httpStatusCode == 200 || httpStatusCode == 201 || httpStatusCode == 405 {
                             completionHandler(EmptyResponse(success: "204"), nil)
                         } else {
                             print("NETWORK: OTHER NETWORK \(httpStatusCode)")
@@ -183,5 +184,3 @@ class NetworkManager: ObservableObject {
         }
     }
 }
-
-

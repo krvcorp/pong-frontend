@@ -59,6 +59,7 @@ class DataManager : ObservableObject {
     @Published var conversations : [Conversation] = []
     @Published var isAppLoading = true
     
+    // MARK: LoadStartupState
     func loadStartupState() {
         self.initTopPosts()
         self.initHotPosts()
@@ -68,21 +69,25 @@ class DataManager : ObservableObject {
         self.getConversations()
     }
     
+    // MARK: InitTopPosts
     func initTopPosts() {
         let selectedFeedFilter : FeedFilter = .top
         initSelectionPosts(selectedFeedFilter: selectedFeedFilter)
     }
     
+    // MARK: InitHotPosts
     func initHotPosts() {
         let selectedFeedFilter : FeedFilter = .hot
         initSelectionPosts(selectedFeedFilter: selectedFeedFilter)
     }
     
+    // MARK: InitRecentPosts
     func initRecentPosts() {
         let selectedFeedFilter : FeedFilter = .recent
         initSelectionPosts(selectedFeedFilter: selectedFeedFilter)
     }
     
+    // MARK: InitSelectionPosts
     func initSelectionPosts(selectedFeedFilter : FeedFilter) {
         var url_to_use = ""
         
@@ -125,6 +130,7 @@ class DataManager : ObservableObject {
         }
     }
     
+    // MARK: InitLeaderboard
     func initLeaderboard() {
         NetworkManager.networkManager.request(route: "users/leaderboard/", method: .get, successType: [LeaderboardUser].self) { successResponse, errorResponse in
             if let successResponse = successResponse {
@@ -144,6 +150,7 @@ class DataManager : ObservableObject {
         }
     }
     
+    // MARK: InitProfile
     func initProfile(){
         self.initProfilePosts()
         self.initProfileComments()
@@ -152,6 +159,7 @@ class DataManager : ObservableObject {
         self.initUserInformation()
     }
     
+    // MARK: InitProfilePosts
     func initProfilePosts() {
         NetworkManager.networkManager.request(route: "posts/?sort=profile", method: .get, successType: PaginatePostsModel.Response.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
@@ -167,6 +175,7 @@ class DataManager : ObservableObject {
         }
     }
     
+    // MARK: InitProfileComments
     func initProfileComments() {
         NetworkManager.networkManager.request(route: "comments/?sort=profile", method: .get, successType: PaginateProfileCommentsModel.Response.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
@@ -182,10 +191,12 @@ class DataManager : ObservableObject {
         }
     }
     
+    // MARK: InitAwards
     func initAwards() {
         
     }
     
+    // MARK: InitProfileSavedPosts
     func initProfileSavedPosts() {
         NetworkManager.networkManager.request(route: "posts/?sort=saved", method: .get, successType: PaginatePostsModel.Response.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
@@ -199,6 +210,7 @@ class DataManager : ObservableObject {
         }
     }
     
+    // MARK: InitUserInformation
     func initUserInformation() {
         NetworkManager.networkManager.request(route: "users/\(AuthManager.authManager.userId)/", method: .get, successType: User.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
@@ -236,6 +248,7 @@ class DataManager : ObservableObject {
         }
     }
     
+    // MARK: RemoveCommentLocally
     func removeCommentLocally(commentId: String, message: String) {
         DispatchQueue.main.async {
             withAnimation {
@@ -288,6 +301,7 @@ class DataManager : ObservableObject {
         }
     }
     
+    // MARK: GetConversations
     func getConversations() {
         NetworkManager.networkManager.request(route: "conversations/", method: .get, successType: [Conversation].self) { successResponse, errorResponse in
             if let successResponse = successResponse {
@@ -300,6 +314,7 @@ class DataManager : ObservableObject {
         }
     }
     
+    // MARK: DeleteConversationLocally
     func deleteConversationLocally(conversationId : String) {
         DispatchQueue.main.async {
             withAnimation {
