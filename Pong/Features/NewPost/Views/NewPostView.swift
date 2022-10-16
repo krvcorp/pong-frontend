@@ -23,10 +23,14 @@ struct NewPostView: View {
                                 self.presentationMode.wrappedValue.dismiss()
                             } label: {
                                 Image(systemName: "xmark")
+                                    .resizable()
                                     .foregroundColor(Color(UIColor.label))
+                                    .scaledToFit()
+
                             }
                             .padding(.top)
                             .padding(.horizontal)
+                            .frame(width: 65)
 
                             Spacer()
                         }
@@ -53,7 +57,6 @@ struct NewPostView: View {
                         
                         if newPostVM.image != nil {
                             ZStack(alignment: .topLeading) {
-
                                 Image(uiImage: self.newPostVM.image!)
                                     .resizable()
                                     .scaledToFit()
@@ -177,6 +180,7 @@ struct NewPostView: View {
         }
     }
     
+    // MARK: TagBar
     var TagBar: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             ScrollViewReader { scrollReader in
