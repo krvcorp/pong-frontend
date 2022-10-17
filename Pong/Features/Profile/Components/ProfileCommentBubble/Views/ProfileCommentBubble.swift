@@ -32,18 +32,6 @@ struct ProfileCommentBubble: View {
                         Spacer()
                     }
                 }
-
-                
-//                Button {
-//                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-//                    self.image = handleShare()
-//                    sheet.toggle()
-//                } label: {
-//                    Image(systemName: "square.and.arrow.up")
-//                }
-//                .sheet(isPresented: $sheet) {
-//                    ShareSheet(items: ["\(NetworkManager.networkManager.rootURL)post/\(profileCommentBubbleVM.parentPost.id)/"])
-//                }
                 
                 // MARK: Delete or More Button
                  
@@ -113,7 +101,7 @@ struct ProfileCommentBubble: View {
     }
     
     var VoteComponent: some View {
-        HStack {
+        VStack {
             if comment.voteStatus == 0 {
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
@@ -174,5 +162,6 @@ struct ProfileCommentBubble: View {
                 }
             }
         }
+        .frame(width: 40, height: 80)
     }
 }

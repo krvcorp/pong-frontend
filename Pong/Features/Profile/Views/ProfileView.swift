@@ -175,6 +175,7 @@ struct ProfileView: View {
                             Spacer()
                         }
                     }
+                    .padding(.top, 20)
                     .listRowBackground(Color.pongSystemBackground)
                     .listRowSeparator(.hidden)
                 }
