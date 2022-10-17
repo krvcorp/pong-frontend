@@ -34,20 +34,16 @@ class AdminFeedViewModel: ObservableObject {
     @Published var selectedFilter : AdminFilter = .posts
 
     func getPosts() {
-        print("DEBUG: get flagged posts")
         NetworkManager.networkManager.request(route: "posts/?sort=flagged", method: .get, successType: PaginatePostsModel.Response.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
-                print("DEBUG: \(successResponse)")
                 self.flaggedPosts = successResponse.results
             }
         }
     }
     
     func getComments() {
-        print("DEBUG: get flagged comments")
         NetworkManager.networkManager.request(route: "comments/?sort=flagged", method: .get, successType: PaginateCommentsModel.Response.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
-                print("DEBUG: \(successResponse)")
                 self.flaggedComments = successResponse.results
             }
         }

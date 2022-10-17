@@ -15,9 +15,7 @@ class AdminCommentBubbleViewModel: ObservableObject {
         NetworkManager.networkManager.emptyRequest(route: "comments/\(comment.id)/timeout/", method: .post, body: parameters) { successResponse, errorResponse in
             DispatchQueue.main.async {
                 if let index = adminFeedVM.flaggedComments.firstIndex(of: self.comment) {
-                    print("DEBUG: Removing post \(adminFeedVM.flaggedComments)")
                     adminFeedVM.flaggedComments.remove(at: index)
-                    print("DEBUG: Removed post \(adminFeedVM.flaggedComments)")
                 }
             }
         }
@@ -28,9 +26,7 @@ class AdminCommentBubbleViewModel: ObservableObject {
         NetworkManager.networkManager.emptyRequest(route: "comments/\(comment.id)/approve/", method: .post) { successResponse, errorResponse in
             DispatchQueue.main.async {
                 if let index = adminFeedVM.flaggedComments.firstIndex(of: self.comment) {
-                    print("DEBUG: Removing post \(adminFeedVM.flaggedComments)")
                     adminFeedVM.flaggedComments.remove(at: index)
-                    print("DEBUG: Removed post \(adminFeedVM.flaggedComments)")
                 }
             }
         }

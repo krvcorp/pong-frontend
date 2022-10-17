@@ -28,7 +28,11 @@ struct AdminFeedView: View {
                     }
                     .listStyle(PlainListStyle())
                     .refreshable {
-                        print("DEBUG: Refresh")
+                        if adminFeedVM.selectedFilter == .posts {
+                            adminFeedVM.getPosts()
+                        } else if adminFeedVM.selectedFilter == .comments {
+                            adminFeedVM.getComments()
+                        }
                     }
                 }
                 .background(Color(UIColor.secondarySystemBackground))

@@ -16,8 +16,15 @@ struct AdminPostBubble: View {
     @State private var alertIdentifier: AlertIdentifier?
     
     var body: some View {
-        VStack {
+        ZStack {
             NavigationLink(destination: PostView(post: $post)) {
+                EmptyView()
+            }
+            .opacity(0.0)
+            .buttonStyle(PlainButtonStyle())
+            
+            // MARK: Main
+            VStack {
                 HStack(alignment: .top) {
                     VStack(alignment: .leading) {
                         Text("\(adminPostBubbleVM.post.timeSincePosted)")
@@ -39,8 +46,10 @@ struct AdminPostBubble: View {
                             PollView(post: $post)
                         }
                     }
-                    .padding(.bottom)
+                    .padding()
+                    
                     Spacer()
+                    
                     VStack {
                         Text("\(adminPostBubbleVM.post.score)")
                     }
@@ -48,49 +57,48 @@ struct AdminPostBubble: View {
                 }
                 .background(Color(UIColor.tertiarySystemBackground))
 
-            }
+                Color.black.frame(height:CGFloat(1) / UIScreen.main.scale)
 
-            Color.black.frame(height:CGFloat(1) / UIScreen.main.scale)
-
-            HStack {
-                // MARK: Delete or More Button
-                Menu {
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        DispatchQueue.main.async {
-                            adminPostBubbleVM.post = adminPostBubbleVM.post
-                            self.alertIdentifier = AlertIdentifier(id: .timeoutDay)
+                HStack {
+                    // MARK: Delete or More Button
+                    Menu {
+                        Button {
+                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                            DispatchQueue.main.async {
+                                adminPostBubbleVM.post = adminPostBubbleVM.post
+                                self.alertIdentifier = AlertIdentifier(id: .timeoutDay)
+                            }
                         }
-                    }
-                    label: {
-                        Label("Apply 1 Day Timeout", systemImage: "exclamationmark.square")
-                    }
-                    
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        DispatchQueue.main.async {
-                            adminPostBubbleVM.post = adminPostBubbleVM.post
-                            self.alertIdentifier = AlertIdentifier(id: .timeoutWeek)
+                        label: {
+                            Label("Apply 1 Day Timeout", systemImage: "exclamationmark.square")
                         }
+                        
+                        Button {
+                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                            DispatchQueue.main.async {
+                                adminPostBubbleVM.post = adminPostBubbleVM.post
+                                self.alertIdentifier = AlertIdentifier(id: .timeoutWeek)
+                            }
+                        } label: {
+                            Label("Apply 1 Week Timeout", systemImage: "exclamationmark.square")
+                        }
+                        
+                        Button {
+                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                            DispatchQueue.main.async {
+                                adminPostBubbleVM.post = adminPostBubbleVM.post
+                                self.alertIdentifier = AlertIdentifier(id: .unflag)
+                            }
+                        } label: {
+                            Label("Unflag Post", systemImage: "flag.slash")
+                        }
+                        
                     } label: {
-                        Label("Apply 1 Week Timeout", systemImage: "exclamationmark.square")
+                        Image(systemName: "ellipsis")
+                            .frame(width: 30, height: 30)
                     }
-                    
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        DispatchQueue.main.async {
-                            adminPostBubbleVM.post = adminPostBubbleVM.post
-                            self.alertIdentifier = AlertIdentifier(id: .unflag)
-                        }
-                    } label: {
-                        Label("Unflag Post", systemImage: "flag.slash")
-                    }
-                    
-                } label: {
-                    Image(systemName: "ellipsis")
-                        .frame(width: 30, height: 30)
+                    .frame(width: 25, height: 25)
                 }
-                .frame(width: 25, height: 25)
             }
         }
         .font(.system(size: 18).bold())
@@ -134,6 +142,7 @@ struct AdminPostBubble: View {
         }
     }
     
+    // MARK: CustomAlert
     func customAlert(title: String, message: String, secondaryButtonText: String, secondaryButtonAction: @escaping () -> Void) -> Alert {
         return Alert(
             title: Text(title),
