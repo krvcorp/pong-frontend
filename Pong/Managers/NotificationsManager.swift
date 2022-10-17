@@ -65,8 +65,6 @@ class NotificationsManager: ObservableObject {
 
         current.getNotificationSettings(completionHandler: { (settings) in
             if settings.authorizationStatus == .authorized {
-                // Notification permission was already granted
-                print("DEBUG: INIT Authorized")
                 self.notificationsPreference = true
             } else {
                 self.notificationsPreference = false

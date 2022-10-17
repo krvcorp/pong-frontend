@@ -103,6 +103,16 @@ struct ContentView: View {
             .overlay(NavigationLink(destination: MessageView(conversation: $appState.conversation), isActive: conversationPushNavigationBinding) {
                 EmptyView()
             })
+            // MARK: Someone send external link
+            .onOpenURL { url in
+                print("DEBUG: \(url.absoluteString)")
+                let parts = url.absoluteString.split(separator: "/")
+                print("DEBUG: \(parts)")
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
+                    AppState.shared.postToNavigateTo = String(describing: parts[3])
+                    AppState.shared.readPost(url: String(describing: parts[3]))
+                }
+            }
         }
         .environmentObject(MainTabViewModel(initialIndex: 1, customItemIndex: 3))
         .environmentObject(appState)

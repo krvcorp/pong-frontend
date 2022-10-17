@@ -7,7 +7,8 @@ import ActivityIndicatorView
 struct PostView: View {
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var mainTabVM : MainTabViewModel
-    @EnvironmentObject var dataManager: DataManager
+//    @EnvironmentObject var dataManager: DataManager
+    @StateObject var dataManager = DataManager.shared
     
     @Binding var post : Post
     @StateObject var postVM = PostViewModel()

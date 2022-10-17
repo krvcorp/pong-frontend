@@ -20,7 +20,10 @@ class AppState: ObservableObject {
     @Published var conversation : Conversation = defaultConversation
     
     func readPost(url : String) {
+        print("DEBUG: AppState.readPost \(url)")
         NetworkManager.networkManager.request(route: "posts/\(url)/", method: .get, successType: Post.self) { successResponse, errorResponse in
+            print("DEBUG: some completion")
+            
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
                     print("DEBUG: \(successResponse)")

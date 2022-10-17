@@ -7,9 +7,10 @@ class NetworkManager: ObservableObject {
     
     // MARK: BaseURL
     #if DEBUG
-        var baseURL = "http://localhost:8005/api/"
-        var rootURL = "http://localhost:8005/"
-//        var baseURL = "https://www.pong.college/api/"
+//        var baseURL = "http://localhost:8005/api/"
+//        var rootURL = "http://localhost:8005/"
+        var baseURL = "https://www.pong.college/api/"
+        var rootURL = "https://www.pong.college/"
     #else
         var baseURL = "https://www.pong.college/api/"
         var rootURL = "https://www.pong.college/"
@@ -67,20 +68,27 @@ class NetworkManager: ObservableObject {
                     guard let success = response.value else {
                         return
                     }
+                    print("NETWORK: \(route)")
+                    print("NETWORK: .responseDecodable Success")
                     completionHandler(success, nil)
                 }
                 .responseDecodable(of: ErrorResponse.self, decoder: decoder) { (response) in
                     guard let error = response.value else {
                         return
                     }
+                    print("NETWORK: \(route)")
+                    print("NETWORK: .responseDecodable Error")
                     completionHandler(nil, error)
                 }
                 .responseJSON() { (response) in
                     switch response.result {
                     case .success:
+                        print("NETWORK: \(route)")
+                        print("NETWORK: .responseJSON Success")
                         break
                     case let .failure(error):
-                        print("NETWORK: \(error.localizedDescription)")
+//                        print("NETWORK: \(route)")
+//                        print("NETWORK: .responseJSON Error \(error.localizedDescription)")
                         completionHandler(nil, ErrorResponse(error: "Something went wrong!"))
                     }
                 }
@@ -108,7 +116,8 @@ class NetworkManager: ObservableObject {
                     switch response.result {
                     case .success:
                         break
-                    case .failure(_):
+                    case let .failure(error):
+                        print("NETWORK: \(error.localizedDescription)")
                         completionHandler(nil, ErrorResponse(error: "Something went wrong!"))
                     }
                 }
@@ -151,7 +160,8 @@ class NetworkManager: ObservableObject {
                     switch response.result {
                     case .success:
                         break
-                    case .failure(_):
+                    case let .failure(error):
+                        print("NETWORK: \(error.localizedDescription)")
                         completionHandler(nil, ErrorResponse(error: "Something went wrong!"))
                         break
                     }
@@ -178,7 +188,8 @@ class NetworkManager: ObservableObject {
                     switch response.result {
                     case .success:
                         break
-                    case .failure(_):
+                    case let .failure(error):
+                        print("NETWORK: \(error.localizedDescription)")
                         completionHandler(nil, ErrorResponse(error: "Something went wrong!"))
                         break
                     }
