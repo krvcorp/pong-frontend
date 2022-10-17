@@ -16,160 +16,25 @@ struct LeaderboardView: View {
         }
     }
     
-//    @State var timeRemaining = 10
-//    @State var timer = Timer.publish(every: 1, on: .current, in: .common).autoconnect()
-    
     @State var nickname: String = ""
     
+    // MARK: Body
     var body: some View {
-        let lblist = dataManager.leaderboardList
         NavigationView {
-            VStack {
-                VStack {
-                    List {
-//                        HStack {
-//                            Text("Powered by [Guayaki Yerba Mate](https://guayaki.com/)")
-//                                .bold()
-//
-//                            Spacer()
-//
-//                            Button {
-//                                print("DEBUG: info")
-//                            } label: {
-//                                Image(systemName: "info.circle")
-//                            }
-//                        }
-                        
-                        karmaInfo
-//                            .padding([.leading, .top, .trailing])
-                            .listRowSeparator(.hidden)
-                        
-                        LeaderboardTopThree(
-                            hasTopThree: [
-                                lblist.count >= 1,
-                                lblist.count >= 2,
-                                lblist.count >= 3,
-                            ],
-                            topThreeScores: [
-                                lblist.count >= 1 ? lblist[0].score : 0,
-                                lblist.count >= 2 ? lblist[1].score : 0,
-                                lblist.count >= 3 ? lblist[2].score : 0,
-                            ],
-                            topThreeNicknames: [
-                                lblist.count >= 1 ? (lblist[0].nickname == "" ? "---" : lblist[0].nickname) : "---",
-                                lblist.count >= 2 ? (lblist[1].nickname == "" ? "---" : lblist[0].nickname) : "---",
-                                lblist.count >= 3 ? (lblist[2].nickname == "" ? "---" : lblist[0].nickname) : "---",
-                            ]
-                        )
-                        
-                        HStack(alignment: .center) {
-                            HStack() {
-                                Spacer()
-                                Text("Rank")
-                                    .font(.headline)
-                                    .bold()
-                                Spacer()
-                            }
-                            .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
-                            
-                        
-                            HStack() {
-                                Spacer()
-                                Text("Nickname")
-                                    .font(.headline)
-                                    .bold()
-                                Spacer()
-                            }
-                            .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
-                        
-                        
-                            HStack() {
-                                Spacer()
-                                Text("Karma")
-                                    .font(.headline)
-                                    .bold()
-                                Spacer()
-                            }
-                            .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
-                        }
-                        .listRowSeparator(.visible)
-                        
-                        ForEach(lblist) { entry in
-                            if !["1", "2", "3"].contains(entry.place) {
-                                HStack(alignment: .center) {
-                                    
-                                    HStack() {
-                                        Spacer()
-                                        Text(entry.place)
-                                        Spacer()
-                                    }
-                                    .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
-                                
-                                    HStack() {
-                                        Spacer()
-                                        Text(entry.nickname != "" ? entry.nickname : "---")
-                                        Spacer()
-                                    }
-                                    .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
-                                
-                                    HStack() {
-                                        Spacer()
-                                        Text("\(entry.score)")
-                                        Spacer()
-                                    }
-                                    .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
-                                }
-                                .listRowSeparator(.hidden)
-                            }
-                        }
-
-                        
-                        HStack {
-                            TextField(dataManager.nickname == "" ? "Pick a nickname" : "\(dataManager.nickname)", text: $nickname)
-                                .onReceive(Just(nickname)) { _ in limitText(textLimit) }
-                            
-                            
-                            
-                            Button {
-                                leaderboardVM.updateNickname(dataManager: dataManager, nickname: nickname) { _ in
-                                    self.nickname = ""
-                                }
-                                leaderboardVM.getLeaderboard(dataManager: dataManager)
-                                leaderboardVM.getLoggedInUserInfo(dataManager: dataManager)
-                            } label: {
-                                Label("Save", systemImage: "pencil")
-                            }
-                            .buttonStyle(PlainButtonStyle())
-                        }
-                        
-                        
-                    }
-                    .refreshable{
-                        leaderboardVM.getLeaderboard(dataManager: dataManager)
-                        leaderboardVM.getLoggedInUserInfo(dataManager: dataManager)
-                    }
-                    .listStyle(InsetGroupedListStyle())
-                }
-                .onAppear {
-                    leaderboardVM.getLeaderboard(dataManager: dataManager)
-                    leaderboardVM.getLoggedInUserInfo(dataManager: dataManager)
-                }
+            VStack(spacing: 0) {
+                karmaInfo
+                    .padding([.leading, .top, .trailing])
+                    .listRowSeparator(.hidden)
+                    .background(Color.pongSystemBackground)
+                
+                LeaderboardList
+            }
+            .onAppear {
+                leaderboardVM.getLeaderboard(dataManager: dataManager)
+                leaderboardVM.getLoggedInUserInfo(dataManager: dataManager)
             }
             .navigationTitle("Leaderboard")
             .navigationBarTitleDisplayMode(.inline)
-//            .toolbar {
-//                Text("\(timeRemaining)")
-//                    .onReceive(timer) { _ in
-//                        if timeRemaining > 0 {
-//                            timeRemaining -= 1
-//                        }
-//                        else {
-//                            leaderboardVM.getLeaderboard(dataManager: dataManager)
-//                            leaderboardVM.getLoggedInUserInfo(dataManager: dataManager)
-//                            timeRemaining = 10
-//                        }
-//                    }
-//            }
             .onTapGesture {
                 print("DEBUG: onTap detected")
                 hideKeyboard()
@@ -179,61 +44,211 @@ struct LeaderboardView: View {
         .toast(isPresenting: $leaderboardVM.savedNicknameAlert) {
             AlertToast(displayMode: .hud, type: .regular,  title: "Nickname saved!")
         }
-        
-//        .onAppear {
-//            self.timer = Timer.publish (every: 1, on: .current, in: .common).autoconnect()
-////            self.nickname = leaderboardVM.nickname
-//        }
-//        .onDisappear {
-//            self.timer.upstream.connect().cancel()
-//        }
     }
         
-    
+    // MARK: KarmaInfo
     var karmaInfo: some View {
-        HStack() {
-            HStack() {
+        VStack(spacing: 5) {
+            // nickname part
+            HStack {
+                Image(systemName: "person.fill")
+                
+                Text("Nickname")
+                    .font(.subheadline.bold())
+                
                 Spacer()
-                VStack(alignment: .center) {
-                    Text("Total")
-                        .font(.subheadline.bold())
-                    Text(String(dataManager.totalKarma))
-                        .font(.title2)
-                        .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
+                
+                TextField(dataManager.nickname == "" ? "Pick a nickname" : "\(dataManager.nickname)", text: $nickname)
+                    .onReceive(Just(nickname)) { _ in limitText(textLimit) }
+                
+                Button {
+                    leaderboardVM.updateNickname(dataManager: dataManager, nickname: nickname) { _ in
+                        self.nickname = ""
+                    }
+                    leaderboardVM.getLeaderboard(dataManager: dataManager)
+                    leaderboardVM.getLoggedInUserInfo(dataManager: dataManager)
+                } label: {
+                    Label("Save", systemImage: "pencil")
                 }
-                Spacer()
+                .buttonStyle(PlainButtonStyle())
             }
-            .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
+            .padding()
             
-        
-            HStack() {
-                Spacer()
-                VStack(alignment: .center) {
-                    Text("Post")
-                        .font(.subheadline.bold())
-                    Text(String(dataManager.postKarma))
-                        .font(.title2)
-                        .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
+            // MARK: User Information
+            HStack {
+                HStack() {
+                    Spacer()
+                    VStack(alignment: .center) {
+                        Text("Total")
+                            .font(.subheadline.bold())
+                        Text(String(dataManager.totalKarma))
+                            .font(.title2)
+                            .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
+                    }
+                    Spacer()
                 }
-                Spacer()
-            }
-            .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
-        
-        
-            HStack() {
-                Spacer()
-                VStack(alignment: .center) {
-                    Text("Comment")
-                        .font(.subheadline.bold())
-                    Text(String(dataManager.commentKarma))
-                        .font(.title2)
-                        .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
+                .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
+                
+            
+                HStack {
+                    Spacer()
+                    VStack(alignment: .center) {
+                        Text("Post")
+                            .font(.subheadline.bold())
+                        Text(String(dataManager.postKarma))
+                            .font(.title2)
+                            .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
+                    }
+                    Spacer()
                 }
+                .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
+            
+            
+                HStack {
+                    Spacer()
+                    VStack(alignment: .center) {
+                        Text("Comment")
+                            .font(.subheadline.bold())
+                        Text(String(dataManager.commentKarma))
+                            .font(.title2)
+                            .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
+                    }
 
-                Spacer()
+                    Spacer()
+                }
+                .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
             }
-            .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
+            
+            // MARK: Kahoot
+            HStack {
+                Group {
+                    Text("You're in")
+                        .font(.subheadline.bold())
+                    +
+                    Text(" 7th ")
+                        .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
+                        .font(.subheadline.bold())
+                    +
+                    Text("place!")
+                        .font(.subheadline.bold())
+                }
+            }
+            
+            HStack {
+                Group {
+                    Text("20")
+                        .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
+                        .font(.subheadline.bold())
+                    +
+                    Text(" points behind ")
+                        .font(.subheadline.bold())
+                    +
+                    Text("Anon")
+                        .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
+                        .font(.subheadline.bold())
+                }
+            }
         }
+        .background(Color.pongSystemBackground)
+    }
+    
+    // MARK: LeaderboardList
+    var LeaderboardList : some View {
+        List {
+            let lblist = dataManager.leaderboardList
+            
+            //MARK: Top three
+            LeaderboardTopThree(
+                hasTopThree: [
+                    lblist.count >= 1,
+                    lblist.count >= 2,
+                    lblist.count >= 3,
+                ],
+                topThreeScores: [
+                    lblist.count >= 1 ? lblist[0].score : 0,
+                    lblist.count >= 2 ? lblist[1].score : 0,
+                    lblist.count >= 3 ? lblist[2].score : 0,
+                ],
+                topThreeNicknames: [
+                    lblist.count >= 1 ? (lblist[0].nickname == "" ? "---" : lblist[0].nickname) : "---",
+                    lblist.count >= 2 ? (lblist[1].nickname == "" ? "---" : lblist[0].nickname) : "---",
+                    lblist.count >= 3 ? (lblist[2].nickname == "" ? "---" : lblist[0].nickname) : "---",
+                ]
+            )
+            .listRowBackground(Color(UIColor.systemGroupedBackground))
+            
+            // MARK: Rest of the LeaderBoard List
+            // MARK: Header
+            Section() {
+                HStack(alignment: .center) {
+                    HStack() {
+                        Spacer()
+                        Text("Rank")
+                            .font(.headline)
+                            .bold()
+                        Spacer()
+                    }
+                    .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
+                
+                    HStack() {
+                        Spacer()
+                        Text("Nickname")
+                            .font(.headline)
+                            .bold()
+                        Spacer()
+                    }
+                    .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
+                
+                
+                    HStack() {
+                        Spacer()
+                        Text("Karma")
+                            .font(.headline)
+                            .bold()
+                        Spacer()
+                    }
+                    .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
+                }
+                .listRowSeparator(.visible)
+                .listRowBackground(Color(UIColor.systemGroupedBackground))
+                
+                //MARK: Contents
+                ForEach(lblist) { entry in
+                    if !["1", "2", "3"].contains(entry.place) {
+                        HStack(alignment: .center) {
+                            
+                            HStack() {
+                                Spacer()
+                                Text(entry.place)
+                                Spacer()
+                            }
+                            .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
+                        
+                            HStack() {
+                                Spacer()
+                                Text(entry.nickname != "" ? entry.nickname : "---")
+                                Spacer()
+                            }
+                            .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
+                        
+                            HStack() {
+                                Spacer()
+                                Text("\(entry.score)")
+                                Spacer()
+                            }
+                            .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
+                        }
+                        .listRowSeparator(.hidden)
+                        .listRowBackground(Color(UIColor.systemGroupedBackground))
+                    }
+                }
+            }
+        }
+        .refreshable{
+            leaderboardVM.getLeaderboard(dataManager: dataManager)
+            leaderboardVM.getLoggedInUserInfo(dataManager: dataManager)
+        }
+        .listStyle(InsetGroupedListStyle())
     }
 }
 

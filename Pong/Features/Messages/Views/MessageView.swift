@@ -11,67 +11,72 @@ struct MessageView: View {
 
     // MARK: Body
     var body: some View {
-        ZStack() {
-            // hidden postview
-            NavigationLink(destination: PostView(post: $post), isActive: $isLinkActive) { EmptyView() }
-            // MARK: Actual content of the conversation's messages
-            ScrollViewReader { proxy in
-                List {
-                    Rectangle()
-                        .fill(Color.pongSystemBackground)
-                        .frame(height: 50)
-                        .listRowBackground(Color.pongSystemBackground)
-                        .listRowSeparator(.hidden)
-                        .id("bottom")
-                    
-                    ForEach(messageVM.conversation.messages.reversed(), id: \.id) { message in
-                        chatBubble(userOwned: message.userOwned, message: message)
-                            .flippedUpsideDown()
-                            .listRowBackground(Color.pongSystemBackground)
-                            .listRowSeparator(.hidden)
+        VStack(spacing: 0) {
+            // MARK: Navigate to PostView Component
+            Button {
+                DispatchQueue.main.async {
+                    messageVM.getPost(postId: conversation.postId!) { success in
+                        print("DEBUG: success")
+                        post = success
+                        isLinkActive = true
                     }
                 }
-                .flippedUpsideDown()
-                .onChange(of: conversation.messages, perform: { newValue in
-                    withAnimation {
-                        proxy.scrollTo("bottom", anchor: .top)
-                    }
-
-                })
-                .onAppear() {
-                    withAnimation {
-                        proxy.scrollTo("bottom", anchor: .top)
-                    }
-                }
-                .background(Color.pongSystemBackground)
-                .listStyle(PlainListStyle())
+            } label: {
+                PostComponent
+                    .background(Color.pongSystemBackground)
+                    .frame(maxWidth: .infinity)
+            }
+            .buttonStyle(PlainButtonStyle())
+            .onAppear() {
+                messageVM.readPost(postId: conversation.postId!)
             }
             
-            // MARK: OverLay of Post and Messaging Component
-            VStack {
-                Button {
-                    DispatchQueue.main.async {
-                        messageVM.getPost(postId: conversation.postId!) { success in
-                            print("DEBUG: success")
-                            post = success
-                            isLinkActive = true
+            // MARK: Rest of the messaging
+            ZStack() {
+                // hidden postview
+                NavigationLink(destination: PostView(post: $post), isActive: $isLinkActive) { EmptyView() }
+                // MARK: Actual content of the conversation's messages
+                ScrollViewReader { proxy in
+                    List {
+                        Rectangle()
+                            .fill(Color.pongSystemBackground)
+                            .frame(height: 50)
+                            .listRowBackground(Color.pongSystemBackground)
+                            .listRowSeparator(.hidden)
+                            .id("bottom")
+                        
+                        ForEach(messageVM.conversation.messages.reversed(), id: \.id) { message in
+                            chatBubble(userOwned: message.userOwned, message: message)
+                                .flippedUpsideDown()
+                                .listRowBackground(Color.pongSystemBackground)
+                                .listRowSeparator(.hidden)
                         }
                     }
-                } label: {
-                    PostComponent
-                        .background(Color.pongSystemBackground)
-                        .frame(maxWidth: .infinity)
-                }
-                .buttonStyle(PlainButtonStyle())
-                .onAppear() {
-                    messageVM.readPost(postId: conversation.postId!)
-                }
-                
-                Spacer()
-                
-                MessageComponent
-            }
+                    .flippedUpsideDown()
+                    .onChange(of: conversation.messages, perform: { newValue in
+                        withAnimation {
+                            proxy.scrollTo("bottom", anchor: .top)
+                        }
 
+                    })
+                    .onAppear() {
+                        withAnimation {
+                            proxy.scrollTo("bottom", anchor: .top)
+                        }
+                    }
+                    .background(Color.pongSystemBackground)
+                    .listStyle(PlainListStyle())
+                }
+                
+                // MARK: OverLay of MessagingComponent
+                VStack {
+                    
+                    Spacer()
+                    
+                    MessageComponent
+                }
+
+            }
         }
         .background(Color.clear)
         // onAppear load binding conversation into viewmodel
