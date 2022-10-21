@@ -54,6 +54,7 @@ struct PostView: View {
                         ForEach($dataManager.postComments[index].1, id: \.self) { $comment in
                             CommentBubble(comment: $comment, isLinkActive: $isLinkActive, conversation: $conversation)
                                 .buttonStyle(PlainButtonStyle())
+                                .padding(.bottom, 10)
                         }
                     }
                 }
@@ -546,8 +547,8 @@ struct PostView: View {
                 .padding(.vertical, 3)
                 .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color(UIColor.secondarySystemBackground), lineWidth: 2))
             }
-            .background(Color(UIColor.secondarySystemBackground))
-            .cornerRadius(20, corners: [.topLeft, .topRight])
+            .background(Color(UIColor.tertiarySystemBackground))
+            .cornerRadius(20)
         }
         .shadow(color: Color(.black).opacity(0.3), radius: 10, x: 0, y: 0)
         .mask(Rectangle().padding(.top, -20))
