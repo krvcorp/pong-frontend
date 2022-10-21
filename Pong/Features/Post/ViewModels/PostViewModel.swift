@@ -372,7 +372,7 @@ class PostViewModel: ObservableObject {
     
     // MARK: ReportCommentConfirm
     func reportCommentConfirm(post: Post, dataManager: DataManager) {
-        NetworkManager.networkManager.emptyRequest(route: "comments/\(self.commentToDelete.id)/report/", method: .delete) { successResponse, errorResponse in
+        NetworkManager.networkManager.emptyRequest(route: "comments/\(self.commentToDelete.id)/report/", method: .post) { successResponse, errorResponse in
             if successResponse != nil {
                 DispatchQueue.main.async {
                     self.removeCommentLocally(post: post, dataManager: dataManager)

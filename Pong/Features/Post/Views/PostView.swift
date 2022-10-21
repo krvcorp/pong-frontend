@@ -545,10 +545,10 @@ struct PostView: View {
                 }
                 .padding(.horizontal)
                 .padding(.vertical, 3)
-                .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color(UIColor.secondarySystemBackground), lineWidth: 2))
+//                .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color(UIColor.secondarySystemBackground), lineWidth: 2))    
             }
-            .background(Color(UIColor.tertiarySystemBackground))
-            .cornerRadius(20)
+            .background(Color(UIColor.secondarySystemBackground))
+            .cornerRadius(20, corners: [.topLeft, .topRight])
         }
         .shadow(color: Color(.black).opacity(0.3), radius: 10, x: 0, y: 0)
         .mask(Rectangle().padding(.top, -20))
