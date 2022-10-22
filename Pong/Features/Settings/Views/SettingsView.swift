@@ -111,7 +111,7 @@ struct SettingsView: View {
                 }
                 .frame(minHeight: 30)
                 
-                // MARK: Terms of SERVICE
+                // MARK: Terms of Service
                 HStack() {
                     Image(systemName: "newspaper").font(Font.body.weight(.bold))
                         .frame(width: 20)
@@ -143,7 +143,7 @@ struct SettingsView: View {
                 trailing: 0))
             ) {
                 
-                // MARK: Dark Mode
+                // MARK: Dark Mode Preferences
                 HStack {
                     Image(systemName: "moon").font(Font.body.weight(.bold))
                         .frame(width: 20)

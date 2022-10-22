@@ -17,6 +17,8 @@ class SettingsViewModel: ObservableObject {
     @Published var activeAlert : Bool = false
     @Published var activeAlertType : SettingsActiveAlert = .unblockAll
     
+    static let shared = SettingsViewModel()
+    
     func deleteAccount() {
         NetworkManager.networkManager.emptyRequest(route: "users/\(AuthManager.authManager.userId)/", method: .delete) { successResponse, errorResponse in
             DispatchQueue.main.async {

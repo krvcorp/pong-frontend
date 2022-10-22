@@ -9,6 +9,9 @@ struct Pong: App {
         WindowGroup {
             ContentView()
                 .dynamicTypeSize(.medium ... .medium)
+                .onAppear() {
+                    SettingsViewModel().displayMode.setAppDisplayMode()
+                }
         }
     }
 }
