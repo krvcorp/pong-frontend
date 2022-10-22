@@ -145,7 +145,7 @@ struct ReferralsView: View {
         }
         .navigationBarTitle("Invite Friends")
         .navigationBarTitleDisplayMode(.inline)
-        .toast(isPresenting: $dataManager.errorDetected){
+        .toast(isPresenting: $dataManager.errorDetected) {
             AlertToast(displayMode: .hud, type: .error(Color.red), title: dataManager.errorDetectedMessage, subTitle: dataManager.errorDetectedSubMessage)
         }
     }

@@ -5,7 +5,7 @@ import AlertToast
 struct FeedView: View {
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var mainTabVM : MainTabViewModel
-    @EnvironmentObject var dataManager : DataManager
+    @StateObject var dataManager = DataManager.shared
     @Environment(\.presentationMode) var presentationMode
     @StateObject var feedVM = FeedViewModel()
     @ObservedObject private var notificationsManager = NotificationsManager.notificationsManager
@@ -90,6 +90,9 @@ struct FeedView: View {
         .accentColor(Color(UIColor.label))
         .toast(isPresenting: $dataManager.removedPost){
             AlertToast(displayMode: .hud, type: .regular, title: dataManager.removedPostMessage)
+        }
+        .toast(isPresenting: $dataManager.errorDetected) {
+            AlertToast(displayMode: .hud, type: .error(Color.red), title: dataManager.errorDetectedMessage, subTitle: dataManager.errorDetectedSubMessage)
         }
     }
     

@@ -27,8 +27,6 @@ class PostViewModel: ObservableObject {
     
     @Published var savedPostConfirmation : Bool = false
     
-//    @Published var commentsLoaded = false
-    
     @Published var postUpdateTrigger = false
     @Published var commentUpdateTrigger = false
     
@@ -107,6 +105,24 @@ class PostViewModel: ObservableObject {
                 multipartFormData.append(imgData, withName: "image", fileName: "file.jpg", mimeType: "image/jpg")
                 multipartFormData.append(comment.data(using: String.Encoding.utf8)!, withName: "comment")
             }, to: "\(NetworkManager.networkManager.baseURL)comments/", method: .post, headers: httpHeaders)
+                // tracking http errors
+                .response() { (response) in
+                    if let httpStatusCode = response.response?.statusCode {
+                        // AUTHENTICATION ERROR
+                        if httpStatusCode == 401 {
+                            print("NETWORK: 401 Error")
+                            AuthManager.authManager.signout()
+                        }
+                        // RANDOM ERRORS
+                        else if httpStatusCode == 405 || httpStatusCode == 400 || httpStatusCode == 500 {
+                            print("NETWORK: \(httpStatusCode) error")
+                            DispatchQueue.main.async {
+                                dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't create comment reply")
+                            }
+                        }
+                    }
+                }
+                // specific success response
                 .responseDecodable(of: Comment.self) { (successResponse) in
                     print("DEBUG: PostVM.success \(successResponse)")
                     if let successResponse = successResponse.value {
@@ -118,10 +134,20 @@ class PostViewModel: ObservableObject {
                             self.commentImage = nil
                             self.commentUpdateTrigger.toggle()
                             dataManager.initProfile()
+                            self.post.numComments += 1
                             completion(true)
                         }
                     }
                 }
+                // specific error response
+                .responseDecodable(of: ErrorResponseBody.self) { (errorResponse) in
+                    if errorResponse.value != nil {
+                        DispatchQueue.main.async {
+                            dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't create comment reply")
+                        }
+                    }
+                }
+            
         }
         // NO IMAGE
         else {
@@ -134,8 +160,13 @@ class PostViewModel: ObservableObject {
                         }
                         self.commentUpdateTrigger.toggle()
                         dataManager.initProfile()
+                        self.post.numComments += 1
                         completion(true)
                     }
+                }
+                
+                if errorResponse != nil {
+                    dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't create a  comment")
                 }
             }
         }
@@ -163,9 +194,25 @@ class PostViewModel: ObservableObject {
                 multipartFormData.append(comment.data(using: String.Encoding.utf8)!, withName: "comment")
                 multipartFormData.append(imgData, withName: "image", fileName: "file.jpg", mimeType: "image/jpg")
             }, to: "\(NetworkManager.networkManager.baseURL)comments/", method: .post, headers: httpHeaders)
+                // tracking http errors
+                .response() { (response) in
+                    if let httpStatusCode = response.response?.statusCode {
+                        // AUTHENTICATION ERROR
+                        if httpStatusCode == 401 {
+                            print("NETWORK: 401 Error")
+                            AuthManager.authManager.signout()
+                        }
+                        // RANDOM ERRORS
+                        else if httpStatusCode == 405 || httpStatusCode == 400 || httpStatusCode == 500 {
+                            print("NETWORK: \(httpStatusCode) error")
+                            DispatchQueue.main.async {
+                                dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't create comment reply")
+                            }
+                        }
+                    }
+                }
+                // success response
                 .responseDecodable(of: Comment.self) { (successResponse) in
-                    
-                    print("DEBUG: PostVM.success \(successResponse)")
                     if let successResponse = successResponse.value {
                         DispatchQueue.main.async {
                             NotificationsManager.notificationsManager.registerForNotifications()
@@ -178,10 +225,12 @@ class PostViewModel: ObservableObject {
                             self.commentUpdateTrigger.toggle()
                             dataManager.initProfile()
                             self.replyToComment = defaultComment
+                            self.post.numComments += 1
                             completion(true)
                         }
                     }
                 }
+                // specific error response
                 .responseDecodable(of: ErrorResponseBody.self) { (errorResponse) in
                     if errorResponse.value != nil {
                         DispatchQueue.main.async {
@@ -202,15 +251,16 @@ class PostViewModel: ObservableObject {
                                 dataManager.postComments[index1].1[index2].children.insert(successResponse, at: 0)
                             }
                         }
+                        self.post.numComments += 1
                         self.replyToComment = defaultComment
                         self.commentUpdateTrigger.toggle()
                         dataManager.initProfile()
                         completion(true)
                     }
-                } else if errorResponse != nil {
-                    DispatchQueue.main.async {
-                        dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't create comment reply")
-                    }
+                }
+                
+                if errorResponse != nil {
+                    dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't create a  comment")
                 }
             }
         }

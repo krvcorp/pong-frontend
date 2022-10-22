@@ -31,6 +31,7 @@ struct PostView: View {
         ZStack(alignment: .bottom) {
             ScrollViewReader { proxy in
                 List {
+                    // MARK: Post itself
                     VStack {
                         mainPost
                             .toast(isPresenting: $postVM.savedPostConfirmation) {
@@ -50,22 +51,39 @@ struct PostView: View {
                     .listRowSeparator(.hidden)
                     .listRowBackground(Color.pongSystemBackground)
                     .listRowInsets(EdgeInsets())
+                    .buttonStyle(PlainButtonStyle())
                     
                     CustomListDivider()
                         .listRowBackground(Color.pongSystemBackground)
                         .listRowInsets(EdgeInsets())
                     
+                    // MARK: Comments
                     if let index = dataManager.postComments.firstIndex(where: {$0.0 == post.id}) {
-                        ForEach($dataManager.postComments[index].1, id: \.self) { $comment in
-                            CommentBubble(comment: $comment, isLinkActive: $isLinkActive, conversation: $conversation)
-                                .buttonStyle(PlainButtonStyle())
-                                .padding(.bottom, 10)
-                                .listRowSeparator(.hidden)
-                                .listRowBackground(Color.pongSystemBackground)
+                        if dataManager.postComments[index].1 != [] {
+                            ForEach($dataManager.postComments[index].1, id: \.id) { $comment in
+                                CommentBubble(comment: $comment, isLinkActive: $isLinkActive, conversation: $conversation)
+                                    .buttonStyle(PlainButtonStyle())
+                                    .padding(.bottom, 10)
+                                    .listRowSeparator(.hidden)
+                                    .listRowBackground(Color.pongSystemBackground)
+                                
+                                CustomListDivider()
+                            }
+                            .listRowInsets(EdgeInsets())
+                        } else {
+                            HStack {
+                                Spacer()
+                                
+                                Text("Start the discussion")
+                                    .font(.title.bold())
+                                
+                                Spacer()
+                            }
+                            .listRowSeparator(.hidden)
+                            .listRowBackground(Color.pongSystemBackground)
                             
-                            CustomListDivider()
+                            
                         }
-                        .listRowInsets(EdgeInsets())
                     }
                 }
                 .background(Color.pongSystemBackground)
@@ -76,15 +94,15 @@ struct PostView: View {
                     self.textIsFocused = false
                 }
                 .refreshable {
-                    print("DEBUG: PostView refresh")
-                    // api call to refresh local data
+                    
+                    // API call to refresh local data
                     postVM.readPost(post: post, dataManager: dataManager) { result in
                         if !result {
                             self.presentationMode.wrappedValue.dismiss()
                         }
                     }
                     
-                    // api call to fetch comments to display
+                    // API call to fetch comments to display
                     postVM.getComments() { successResponse in
                         if let index = dataManager.postComments.firstIndex(where: {$0.0 == post.id}) {
                             dataManager.postComments[index] = (post.id, successResponse)
@@ -104,7 +122,7 @@ struct PostView: View {
                     // take binding and insert into VM
                     postVM.post = self.post
                     
-                    // api call to fetch comments to display
+                    // API call to append post.id, comment tuple into DataManager.postComments
                     postVM.getComments() { successResponse in
                         dataManager.postComments.append((post.id, successResponse))
                     }
@@ -327,7 +345,33 @@ struct PostView: View {
                     .foregroundColor(Color(UIColor.gray))
                     
                 }
+                
+                if post.saved {
+                    Button {
+                        print("DEBUG: button tap")
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        postVM.post = post
+                        postVM.unsavePost(post: post, dataManager: dataManager)
+                    } label: {
+                        Image(systemName: "bookmark.fill")
+                            .font(.headline.bold())
+                            .foregroundColor(Color(UIColor.gray))
+                    }
+                } else if !post.saved {
+                    Button {
+                        print("DEBUG: button tap")
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        postVM.post = post
+                        postVM.savePost(post: post, dataManager: dataManager)
+                    } label: {
+                        Image(systemName: "bookmark")
+                            .font(.headline.bold())
+                            .foregroundColor(Color(UIColor.gray))
+                    }
+                }
             }
+            
+            // MARK: Delete button
             else {
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
@@ -340,33 +384,6 @@ struct PostView: View {
                     Image(systemName: "trash")
                         .foregroundColor(Color(UIColor.gray))
                         .font(.headline.bold())
-                }
-            }
-            
-            Spacer()
-                
-            
-            if !post.userOwned {
-                if post.saved {
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        postVM.post = post
-                        postVM.unsavePost(post: post, dataManager: dataManager)
-                    } label: {
-                        Image(systemName: "bookmark.fill")
-                            .font(.headline.bold())
-                            .foregroundColor(Color(UIColor.gray))
-                    }
-                } else if !post.saved {
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        postVM.post = post
-                        postVM.savePost(post: post, dataManager: dataManager)
-                    } label: {
-                        Image(systemName: "bookmark")
-                            .font(.headline.bold())
-                            .foregroundColor(Color(UIColor.gray))
-                    }
                 }
             }
         }

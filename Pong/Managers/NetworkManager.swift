@@ -58,9 +58,15 @@ class NetworkManager: ObservableObject {
             AF.request(self.baseURL+route, method: method, headers: httpHeaders)
                 .response() { (response) in
                     if let httpStatusCode = response.response?.statusCode {
+                        // AUTHENTICATION ERROR
                         if httpStatusCode == 401 {
                             print("NETWORK: 401 Error")
                             AuthManager.authManager.signout()
+                        }
+                        // RANDOM ERRORS
+                        else if httpStatusCode == 405 || httpStatusCode == 400 || httpStatusCode == 500 {
+                            print("NETWORK: \(httpStatusCode) error")
+                            completionHandler(nil, ErrorResponse(error: "Something went wrong!"))
                         }
                     }
                 }
@@ -96,11 +102,15 @@ class NetworkManager: ObservableObject {
             AF.request(self.baseURL+route, method: method, parameters: body, encoder: parameterEncoder, headers: httpHeaders)
                 .response() { (response) in
                     if let httpStatusCode = response.response?.statusCode {
+                        // AUTHENTICATION ERROR
                         if httpStatusCode == 401 {
                             print("NETWORK: 401 Error")
                             AuthManager.authManager.signout()
-                        } else if httpStatusCode == 204 {
-//                            print("NETWORK: 204 Empty")
+                        }
+                        // RANDOM ERRORS
+                        else if httpStatusCode == 405 || httpStatusCode == 400 || httpStatusCode == 500 {
+                            print("NETWORK: \(httpStatusCode) error")
+                            completionHandler(nil, ErrorResponse(error: "Something went wrong!"))
                         }
                     }
                 }
@@ -144,10 +154,18 @@ class NetworkManager: ObservableObject {
             AF.request(self.baseURL+route, method: method, headers: httpHeaders)
                 .response() { (response) in
                     if let httpStatusCode = response.response?.statusCode {
+                        // AUTHENTICATION ERROR
                         if httpStatusCode == 401 {
                             print("NETWORK: 401 Error")
                             AuthManager.authManager.signout()
-                        } else if httpStatusCode == 204 || httpStatusCode == 200 || httpStatusCode == 201 || httpStatusCode == 405 {
+                        }
+                        // RANDOM ERRORS
+                        else if httpStatusCode == 405 || httpStatusCode == 400 || httpStatusCode == 500 {
+                            print("NETWORK: \(httpStatusCode) error")
+                            completionHandler(nil, ErrorResponse(error: "Something went wrong!"))
+                        }
+                        // DESIRED OUTCOME
+                        else if httpStatusCode == 204 || httpStatusCode == 200 || httpStatusCode == 201 {
                             completionHandler(EmptyResponse(success: "204"), nil)
                         }
                     }
@@ -170,13 +188,19 @@ class NetworkManager: ObservableObject {
             AF.request(self.baseURL+route, method: method, parameters: body, encoder: parameterEncoder, headers: httpHeaders)
                 .response() { (response) in
                     if let httpStatusCode = response.response?.statusCode {
+                        // AUTHENTICATION ERROR
                         if httpStatusCode == 401 {
                             print("NETWORK: 401 Error")
                             AuthManager.authManager.signout()
-                        } else if httpStatusCode == 204 || httpStatusCode == 200 || httpStatusCode == 201 || httpStatusCode == 405 {
+                        }
+                        // RANDOM ERRORS
+                        else if httpStatusCode == 405 || httpStatusCode == 400 || httpStatusCode == 500 {
+                            print("NETWORK: \(httpStatusCode) error")
+                            completionHandler(nil, ErrorResponse(error: "Something went wrong!"))
+                        }
+                        // DESIRED OUTCOME
+                        else if httpStatusCode == 204 || httpStatusCode == 200 || httpStatusCode == 201 {
                             completionHandler(EmptyResponse(success: "204"), nil)
-                        } else {
-                            print("NETWORK: OTHER NETWORK \(httpStatusCode)")
                         }
                     }
                 }
