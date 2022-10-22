@@ -139,7 +139,7 @@ struct FeedView: View {
     func customFeedStack(filter: FeedFilter, tab : FeedFilter) -> some View {
         ScrollViewReader { proxy in
             List {
-                // MARK: Top
+                // MARK: TOP
                 if tab == .top {
                     HStack {
                         Spacer()
@@ -170,8 +170,6 @@ struct FeedView: View {
                     }
                     
                     ForEach($dataManager.topPosts, id: \.id) { $post in
-                        // custom divider
-                        
                         PostBubble(post: $post, isLinkActive: $isLinkActive, conversation: $conversation)
                             .buttonStyle(PlainButtonStyle())
                             .onAppear {
@@ -217,6 +215,7 @@ struct FeedView: View {
                         CustomListDivider()
                     }
                     .listRowInsets(EdgeInsets())
+                    
                     if !feedVM.finishedHot {
                         CustomListDivider()
                         
@@ -250,6 +249,7 @@ struct FeedView: View {
                     .listRowInsets(EdgeInsets())
                     if !feedVM.finishedRecent {
                         CustomListDivider()
+                        
                         Button {
                             feedVM.paginatePosts(selectedFeedFilter: tab, dataManager: dataManager)
                         } label: {

@@ -12,7 +12,7 @@ struct CustomListDivider: View {
         Rectangle()
             .fill(Color(UIColor.gray))
             .frame(maxHeight: 1)
-            .listRowBackground(Color(UIColor.systemBackground).edgesIgnoringSafeArea([.leading, .trailing]))
+            .listRowBackground(Color.pongSystemBackground.edgesIgnoringSafeArea([.leading, .trailing]))
             .listRowSeparator(.hidden)
             .padding(0)
             .listRowInsets(EdgeInsets())

@@ -85,11 +85,11 @@ class PostViewModel: ObservableObject {
     }
     
     // MARK: CreateComment
-    func createComment(post: Post, comment: String, dataManager: DataManager, notificationsManager: NotificationsManager) -> Void {
+    func createComment(post: Post, comment: String, dataManager: DataManager, notificationsManager: NotificationsManager, completion: @escaping (Bool) -> Void) {
         print("DEBUG: createComment is called")
         let parameters = CommentCreateModel.Request(postId: post.id, comment: comment)
         
-        // with image
+        // WITH IMAGE
         if self.commentImage != nil {
             print("DEBUG: image detected")
             let imgData = (commentImage!).jpegData(compressionQuality: 0.2)!
@@ -113,26 +113,28 @@ class PostViewModel: ObservableObject {
                         DispatchQueue.main.async {
                             NotificationsManager.notificationsManager.registerForNotifications()
                             if let index = dataManager.postComments.firstIndex(where: {$0.0 == post.id}) {
-                                dataManager.postComments[index].1.append(successResponse)
+                                dataManager.postComments[index].1.insert(successResponse, at: 0)
                             }
                             self.commentImage = nil
                             self.commentUpdateTrigger.toggle()
                             dataManager.initProfile()
+                            completion(true)
                         }
                     }
                 }
         }
-        // no image
+        // NO IMAGE
         else {
             NetworkManager.networkManager.request(route: "comments/", method: .post, body: parameters, successType: Comment.self) { successResponse, errorResponse in
                 if let successResponse = successResponse {
                     DispatchQueue.main.async {
                         NotificationsManager.notificationsManager.registerForNotifications()
                         if let index = dataManager.postComments.firstIndex(where: {$0.0 == post.id}) {
-                            dataManager.postComments[index].1.append(successResponse)
+                            dataManager.postComments[index].1.insert(successResponse, at: 0)
                         }
                         self.commentUpdateTrigger.toggle()
                         dataManager.initProfile()
+                        completion(true)
                     }
                 }
             }
@@ -140,10 +142,10 @@ class PostViewModel: ObservableObject {
     }
     
     // MARK: CommentReply
-    func commentReply(post: Post, comment: String, dataManager: DataManager, notificationsManager: NotificationsManager) -> Void {
+    func commentReply(post: Post, comment: String, dataManager: DataManager, notificationsManager: NotificationsManager, completion: @escaping (Bool) -> Void) {
         let parameters = CommentReplyModel.Request(postId: post.id, replyingId: replyToComment.id, comment: comment)
         
-        // with image
+        // WITH IMAGE
         if self.commentImage != nil {
             let imgData = (commentImage!).jpegData(compressionQuality: 0.2)!
 
@@ -162,23 +164,33 @@ class PostViewModel: ObservableObject {
                 multipartFormData.append(imgData, withName: "image", fileName: "file.jpg", mimeType: "image/jpg")
             }, to: "\(NetworkManager.networkManager.baseURL)comments/", method: .post, headers: httpHeaders)
                 .responseDecodable(of: Comment.self) { (successResponse) in
-                    print("DEBUG: PostVM. success \(successResponse)")
+                    
+                    print("DEBUG: PostVM.success \(successResponse)")
                     if let successResponse = successResponse.value {
                         DispatchQueue.main.async {
                             NotificationsManager.notificationsManager.registerForNotifications()
                             if let index1 = dataManager.postComments.firstIndex(where: {$0.0 == post.id}) {
                                 if let index2 = dataManager.postComments[index1].1.firstIndex(where: {$0.id == successResponse.parent}) {
-                                        dataManager.postComments[index1].1[index2].children.append(successResponse)
+                                        dataManager.postComments[index1].1[index2].children.insert(successResponse, at: 0)
                                 }
                             }
                             self.commentImage = nil
                             self.commentUpdateTrigger.toggle()
                             dataManager.initProfile()
+                            self.replyToComment = defaultComment
+                            completion(true)
+                        }
+                    }
+                }
+                .responseDecodable(of: ErrorResponseBody.self) { (errorResponse) in
+                    if errorResponse.value != nil {
+                        DispatchQueue.main.async {
+                            dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't create comment reply")
                         }
                     }
                 }
         }
-        // no image
+        // NO IMAGE
         else {
             NetworkManager.networkManager.request(route: "comments/", method: .post, body: parameters, successType: Comment.self) { successResponse, errorResponse in
                 if let successResponse = successResponse {
@@ -187,13 +199,13 @@ class PostViewModel: ObservableObject {
                         
                         if let index1 = dataManager.postComments.firstIndex(where: {$0.0 == post.id}) {
                             if let index2 = dataManager.postComments[index1].1.firstIndex(where: {$0.id == successResponse.parent}) {
-                                dataManager.postComments[index1].1[index2].children.append(successResponse)
+                                dataManager.postComments[index1].1[index2].children.insert(successResponse, at: 0)
                             }
                         }
-                        
-                        self.post.numComments = self.post.numComments + 1
+                        self.replyToComment = defaultComment
                         self.commentUpdateTrigger.toggle()
                         dataManager.initProfile()
+                        completion(true)
                     }
                 } else if errorResponse != nil {
                     DispatchQueue.main.async {
@@ -204,6 +216,7 @@ class PostViewModel: ObservableObject {
         }
     }
     
+    // MARK: SetCommentReply
     func setCommentReply(comment: Comment) {
         if self.replyToComment != comment {
             self.textIsFocused = true

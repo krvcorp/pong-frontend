@@ -7,7 +7,6 @@ import ActivityIndicatorView
 struct PostView: View {
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var mainTabVM : MainTabViewModel
-//    @EnvironmentObject var dataManager: DataManager
     @StateObject var dataManager = DataManager.shared
     
     @Binding var post : Post
@@ -30,59 +29,72 @@ struct PostView: View {
     // MARK: Body
     var body: some View {
         ZStack(alignment: .bottom) {
-            RefreshableScrollView {
-                HStack {
-                    mainPost
-                        .toast(isPresenting: $postVM.savedPostConfirmation) {
-                            AlertToast(type: .regular, title: "Post saved!")
-                        }
-                        .padding(.top, 10)
-                        .padding(.leading, 15)
-                        .padding(.trailing, 15)
-                        .padding(.bottom, 20)
-                        .font(.system(size: 18).bold())
-                }
-                
-                bottomRow
-                    .padding(.leading, 15)
-                    .padding(.trailing, 15)
-                
-                CustomListDivider()
-                
-                LazyVStack {
+            ScrollViewReader { proxy in
+                List {
+                    VStack {
+                        mainPost
+                            .toast(isPresenting: $postVM.savedPostConfirmation) {
+                                AlertToast(type: .regular, title: "Post saved!")
+                            }
+                            .padding(.top, 10)
+                            .padding(.leading, 15)
+                            .padding(.trailing, 15)
+                            .padding(.bottom, 20)
+                            .font(.system(size: 18).bold())
+                        
+                        bottomRow
+                            .padding(.leading, 15)
+                            .padding(.trailing, 15)
+                    }
+                    .id("top")
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.pongSystemBackground)
+                    .listRowInsets(EdgeInsets())
+                    
+                    CustomListDivider()
+                        .listRowBackground(Color.pongSystemBackground)
+                        .listRowInsets(EdgeInsets())
+                    
                     if let index = dataManager.postComments.firstIndex(where: {$0.0 == post.id}) {
                         ForEach($dataManager.postComments[index].1, id: \.self) { $comment in
                             CommentBubble(comment: $comment, isLinkActive: $isLinkActive, conversation: $conversation)
                                 .buttonStyle(PlainButtonStyle())
                                 .padding(.bottom, 10)
+                                .listRowSeparator(.hidden)
+                                .listRowBackground(Color.pongSystemBackground)
+                            
+                            CustomListDivider()
+                        }
+                        .listRowInsets(EdgeInsets())
+                    }
+                }
+                .background(Color.pongSystemBackground)
+                .listStyle(PlainListStyle())
+                .onTapGesture {
+                    hideKeyboard()
+                    self.postVM.textIsFocused = false
+                    self.textIsFocused = false
+                }
+                .refreshable {
+                    print("DEBUG: PostView refresh")
+                    // api call to refresh local data
+                    postVM.readPost(post: post, dataManager: dataManager) { result in
+                        if !result {
+                            self.presentationMode.wrappedValue.dismiss()
+                        }
+                    }
+                    
+                    // api call to fetch comments to display
+                    postVM.getComments() { successResponse in
+                        if let index = dataManager.postComments.firstIndex(where: {$0.0 == post.id}) {
+                            dataManager.postComments[index] = (post.id, successResponse)
                         }
                     }
                 }
-                .padding(.bottom, 150)
-            }
-            .onTapGesture {
-                hideKeyboard()
-                self.postVM.textIsFocused = false
-                self.textIsFocused = false
-            }
-            .refreshable {
-                print("DEBUG: PostView refresh")
-                // api call to refresh local data
-                postVM.readPost(post: post, dataManager: dataManager) { result in
-                    if !result {
-                        self.presentationMode.wrappedValue.dismiss()
-                    }
-                }
                 
-                // api call to fetch comments to display
-                postVM.getComments() { successResponse in
-                    if let index = dataManager.postComments.firstIndex(where: {$0.0 == post.id}) {
-                        dataManager.postComments[index] = (post.id, successResponse)
-                    }
-                }
+                // MARK: MessagingComponent
+                messagingComponent(proxy: proxy)
             }
-            
-            MessagingComponent
         }
         .background(Color.pongSystemBackground)
         .environmentObject(postVM)
@@ -243,7 +255,8 @@ struct PostView: View {
                         Spacer()
                     }
                 }
-                VoteComponent
+                
+                voteComponent
             }
             
             // MARK: Image
@@ -262,6 +275,7 @@ struct PostView: View {
         }
     }
     
+    // MARK: BottomRow
     var bottomRow: some View {
         HStack {
             if !post.userOwned {
@@ -359,7 +373,7 @@ struct PostView: View {
     }
     
     // MARK: VoteComponent
-    var VoteComponent: some View {
+    var voteComponent: some View {
         VStack {
             if post.voteStatus == 0 {
                 Button {
@@ -438,7 +452,8 @@ struct PostView: View {
     }
     
     // MARK: Overlay component to create a comment or reply
-    var MessagingComponent: some View {
+    @ViewBuilder
+    func messagingComponent(proxy: ScrollViewProxy) -> some View {
         VStack(spacing: 0) {
             // MARK: Messaging Component
             VStack {
@@ -514,21 +529,37 @@ struct PostView: View {
                         }
                         .padding(.trailing)
                             
+                        // MARK: Button to send a comment/reply
                         if text != "" || postVM.commentImage != nil {
                             Button {
                                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                                 if postVM.replyToComment == defaultComment {
-                                    postVM.createComment(post: post, comment: text, dataManager: dataManager, notificationsManager: notificationsManager)
+                                    postVM.createComment(post: post, comment: text, dataManager: dataManager, notificationsManager: notificationsManager) { success in
+                                        // resets stuff
+                                        postVM.commentImage = nil
+                                        text = ""
+                                        withAnimation {
+                                            textIsFocused = false
+                                            postVM.textIsFocused = false
+                                        }
+                                        
+                                        // add scroll to bottom here
+                                        withAnimation {
+                                            proxy.scrollTo("top", anchor: .bottom)
+                                        }
+                                    }
                                 } else {
-                                    postVM.commentReply(post: post, comment: text, dataManager: dataManager, notificationsManager: notificationsManager)
-                                    postVM.replyToComment = defaultComment
+                                    postVM.commentReply(post: post, comment: text, dataManager: dataManager, notificationsManager: notificationsManager) { success in
+                                        // resets stuff
+                                        postVM.commentImage = nil
+                                        text = ""
+                                        withAnimation {
+                                            textIsFocused = false
+                                            postVM.textIsFocused = false
+                                        }
+                                    }
                                 }
-                                postVM.commentImage = nil
-                                text = ""
-                                withAnimation {
-                                    textIsFocused = false
-                                    postVM.textIsFocused = false
-                                }
+
                             } label: {
                                 ZStack {
                                     Image(systemName: "paperplane")
@@ -544,8 +575,7 @@ struct PostView: View {
                     
                 }
                 .padding(.horizontal)
-                .padding(.vertical, 3)
-//                .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color(UIColor.secondarySystemBackground), lineWidth: 2))    
+                .padding(.vertical, 3)    
             }
             .background(Color(UIColor.secondarySystemBackground))
             .cornerRadius(20, corners: [.topLeft, .topRight])
