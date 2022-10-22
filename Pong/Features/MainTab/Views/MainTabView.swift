@@ -33,11 +33,13 @@ struct MainTabView: View {
                 
                 VStack {
                     if !dataManager.errorDetected {
-                        ActivityIndicatorView(isVisible: $dataManager.isAppLoading, type: .equalizer(count: 8))
-                            .frame(width: 50.0, height: 50.0)
+//                        ActivityIndicatorView(isVisible: $dataManager.isAppLoading, type: .equalizer(count: 8))
+                        pongTextLogo()
+//                            .frame(width: 50.0, height: 50.0)
                             .onAppear {
                                 dataManager.loadStartupState()
                             }
+                        
                     } else {
                         Button {
                             dataManager.loadStartupState()

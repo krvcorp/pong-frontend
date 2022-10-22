@@ -113,7 +113,7 @@ struct PostBubble: View {
                                 .frame(width: 30, height: 30)
                         }
                         .frame(width: 25, height: 25)
-                        .foregroundColor(Color(UIColor.gray))
+                        .foregroundColor(Color("pongSecondaryText"))
                     }
                 }
                 
@@ -166,10 +166,10 @@ struct PostBubble: View {
             
             HStack {
                 Image(systemName: "bubble.left")
-                    .foregroundColor(Color(UIColor.gray))
+                    .foregroundColor(Color("pongSecondaryText"))
                 Text("\(post.numComments)")
                     .bold()
-                    .foregroundColor(Color(UIColor.gray))
+                    .foregroundColor(Color("pongSecondaryText"))
             }
             
             Spacer()
@@ -184,7 +184,7 @@ struct PostBubble: View {
                     }
                 } label: {
                     Image(systemName: "envelope")
-                        .foregroundColor(Color(UIColor.gray))
+                        .foregroundColor(Color("pongSecondaryText"))
                 }
                 
                 if post.saved {
@@ -194,7 +194,7 @@ struct PostBubble: View {
                         postBubbleVM.unsavePost(post: post, dataManager: dataManager)
                     } label: {
                         Image(systemName: "bookmark.fill")
-                            .foregroundColor(Color(UIColor.gray))
+                            .foregroundColor(Color("pongSecondaryText"))
                     }
                 } else if !post.saved {
                     Button {
@@ -203,7 +203,7 @@ struct PostBubble: View {
                         postBubbleVM.savePost(post: post, dataManager: dataManager)
                     } label: {
                         Image(systemName: "bookmark")
-                            .foregroundColor(Color(UIColor.gray))
+                            .foregroundColor(Color("pongSecondaryText"))
                     }
                 }
             }
@@ -214,7 +214,7 @@ struct PostBubble: View {
                 sheet.toggle()
             } label: {
                 Image(systemName: "square.and.arrow.up")
-                    .foregroundColor(Color(UIColor.gray))
+                    .foregroundColor(Color("pongSecondaryText"))
             }
             .sheet(isPresented: $sheet) {
                 ShareSheet(items: ["\(NetworkManager.networkManager.rootURL)post/\(post.id)/"])
@@ -231,7 +231,7 @@ struct PostBubble: View {
                     }
                 } label: {
                     Image(systemName: "trash")
-                        .foregroundColor(Color(UIColor.gray))
+                        .foregroundColor(Color("pongSecondaryText"))
                 }
             }
         }
@@ -245,18 +245,18 @@ struct PostBubble: View {
                     postBubbleVM.postVote(direction: 1, post: post, dataManager: dataManager)
                 } label: {
                     Image(systemName: "chevron.up")
-                        .foregroundColor(Color(UIColor.gray))
+                        .foregroundColor(Color("pongSecondaryText"))
                 }
                 
                 Text("\(post.score)")
-                    .foregroundColor(Color(UIColor.gray))
+                    .foregroundColor(Color("pongSecondaryText"))
                 
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     postBubbleVM.postVote(direction: -1, post: post, dataManager: dataManager)
                 } label: {
                     Image(systemName: "chevron.down")
-                        .foregroundColor(Color(UIColor.gray))
+                        .foregroundColor(Color("pongSecondaryText"))
                 }
             } else if post.voteStatus == 1 {
                 Button {
@@ -268,14 +268,14 @@ struct PostBubble: View {
                 }
                 
                 Text("\(post.score + 1)")
-                    .foregroundColor(Color(UIColor.gray))
+                    .foregroundColor(Color("pongSecondaryText"))
                 
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     postBubbleVM.postVote(direction: -1, post: post, dataManager: dataManager)
                 } label: {
                     Image(systemName: "chevron.down")
-                        .foregroundColor(Color(UIColor.gray))
+                        .foregroundColor(Color("pongSecondaryText"))
                 }
             }
             else if post.voteStatus == -1 {
@@ -284,11 +284,11 @@ struct PostBubble: View {
                     postBubbleVM.postVote(direction: 1, post: post, dataManager: dataManager)
                 } label: {
                     Image(systemName: "chevron.up")
-                        .foregroundColor(Color(UIColor.gray))
+                        .foregroundColor(Color("pongSecondaryText"))
                 }
                 
                 Text("\(post.score - 1)")
-                    .foregroundColor(Color(UIColor.gray))
+                    .foregroundColor(Color("pongSecondaryText"))
                 
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()

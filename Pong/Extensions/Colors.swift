@@ -341,6 +341,10 @@ extension Color {
     public static var notificationUnread : Color {
         return Color(UIColor(named: "notificationUnread")!)
     }
+    
+    public static var pongSecondaryText : Color {
+        return Color(UIColor(named: "pongSecondaryText")!)
+    }
 }
 
 

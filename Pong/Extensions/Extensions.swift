@@ -126,4 +126,17 @@ extension View {
     func flippedUpsideDown() -> some View{
         self.modifier(FlippedUpsideDown())
     }
+    
+    // function to return PongTextLogoLightMode if light mode, PongTextLogoDarkMode if dark mode
+    func pongTextLogo() -> some View {
+        if #available(iOS 14.0, *) {
+            if UITraitCollection.current.userInterfaceStyle == .dark {
+                return Image("PongTextLogoDarkMode")
+            } else {
+                return Image("PongTextLogoLightMode")
+            }
+        } else {
+            return Image("PongTextLogoLightMode")
+        }
+    }
 }
