@@ -19,6 +19,7 @@ struct CommentBubble: View {
                     CommentBody
                     Spacer()
                 }
+                
                 CommentBottomRow
             }
             .padding(.leading, 15)
@@ -36,6 +37,7 @@ struct CommentBubble: View {
                 }
             }
         }
+        .padding(.top, 5)
         .background(Color.pongSystemBackground)
         .onAppear() {
             DispatchQueue.main.async {
@@ -49,6 +51,7 @@ struct CommentBubble: View {
         }
     }
     
+    // MARK: CommentBody
     var CommentBody: some View {
         VStack(alignment: .leading) {
             HStack {
@@ -149,6 +152,7 @@ struct CommentBubble: View {
         .frame(width: 100)
     }
     
+    //MARK: CommentBottomRow
     var CommentBottomRow: some View {
         HStack() {
             Text("\(comment.timeSincePosted)")
@@ -208,7 +212,7 @@ struct CommentBubble: View {
             VoteComponent
         }
         .foregroundColor(Color.gray)
-        .font(.footnote)
+        .font(.headline)
         .padding(.top, 1)
     }
 }

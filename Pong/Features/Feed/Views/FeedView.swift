@@ -5,7 +5,7 @@ import AlertToast
 struct FeedView: View {
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var mainTabVM : MainTabViewModel
-    @StateObject var dataManager = DataManager.shared
+    @EnvironmentObject var dataManager : DataManager
     @Environment(\.presentationMode) var presentationMode
     @StateObject var feedVM = FeedViewModel()
     @ObservedObject private var notificationsManager = NotificationsManager.notificationsManager

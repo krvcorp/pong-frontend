@@ -26,6 +26,8 @@ struct PostView: View {
     
     @State var uiTabarController: UITabBarController?
 
+    @State var scrollToTop = false
+    
     // MARK: Body
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -37,10 +39,7 @@ struct PostView: View {
                             .toast(isPresenting: $postVM.savedPostConfirmation) {
                                 AlertToast(type: .regular, title: "Post saved!")
                             }
-                            .padding(.top, 10)
-                            .padding(.leading, 15)
-                            .padding(.trailing, 15)
-                            .padding(.bottom, 20)
+                            .padding()
                             .font(.system(size: 18).bold())
                         
                         bottomRow
@@ -53,48 +52,49 @@ struct PostView: View {
                     .listRowInsets(EdgeInsets())
                     .buttonStyle(PlainButtonStyle())
                     
-                    CustomListDivider()
-                        .listRowBackground(Color.pongSystemBackground)
-                        .listRowInsets(EdgeInsets())
-                    
                     // MARK: Comments
                     if let index = dataManager.postComments.firstIndex(where: {$0.0 == post.id}) {
                         if dataManager.postComments[index].1 != [] {
                             ForEach($dataManager.postComments[index].1, id: \.id) { $comment in
+                                CustomListDivider()
+                                
                                 CommentBubble(comment: $comment, isLinkActive: $isLinkActive, conversation: $conversation)
                                     .buttonStyle(PlainButtonStyle())
                                     .padding(.bottom, 10)
                                     .listRowSeparator(.hidden)
                                     .listRowBackground(Color.pongSystemBackground)
-                                
-                                CustomListDivider()
                             }
                             .listRowInsets(EdgeInsets())
                         } else {
-                            HStack {
-                                Spacer()
-                                
-                                Text("Start the discussion")
-                                    .font(.title.bold())
-                                
-                                Spacer()
+                            Button {
+                                self.textIsFocused = true
+                            } label: {
+                                HStack {
+                                    Spacer()
+                                    
+                                    Text("Start the discussion")
+                                        .font(.title.bold())
+                                    
+                                    Spacer()
+                                }
+                                .listRowSeparator(.hidden)
+                                .listRowBackground(Color.pongSystemBackground)
+                                .frame(minHeight: 100)
                             }
-                            .listRowSeparator(.hidden)
-                            .listRowBackground(Color.pongSystemBackground)
-                            
-                            
+                            .buttonStyle(PlainButtonStyle())
                         }
                     }
+                    
+                    Rectangle()
+                        .fill(Color.pongSystemBackground)
+                        .listRowBackground(Color.pongSystemBackground)
+                        .frame(minHeight: 150)
+                        .listRowSeparator(.hidden)
                 }
+                .environment(\.defaultMinListRowHeight, 0)
                 .background(Color.pongSystemBackground)
                 .listStyle(PlainListStyle())
-                .onTapGesture {
-                    hideKeyboard()
-                    self.postVM.textIsFocused = false
-                    self.textIsFocused = false
-                }
                 .refreshable {
-                    
                     // API call to refresh local data
                     postVM.readPost(post: post, dataManager: dataManager) { result in
                         if !result {
@@ -109,10 +109,20 @@ struct PostView: View {
                         }
                     }
                 }
-                
-                // MARK: MessagingComponent
-                messagingComponent(proxy: proxy)
+                .onTapGesture {
+                    hideKeyboard()
+                    self.postVM.textIsFocused = false
+                    self.textIsFocused = false
+                }
+                .onChange(of: scrollToTop) { newValue in
+                    withAnimation {
+                        proxy.scrollTo("top")
+                    }
+                }
             }
+            
+            // MARK: MessagingComponent
+            messagingComponent()
         }
         .background(Color.pongSystemBackground)
         .environmentObject(postVM)
@@ -470,7 +480,7 @@ struct PostView: View {
     
     // MARK: Overlay component to create a comment or reply
     @ViewBuilder
-    func messagingComponent(proxy: ScrollViewProxy) -> some View {
+    func messagingComponent() -> some View {
         VStack(spacing: 0) {
             // MARK: Messaging Component
             VStack {
@@ -561,9 +571,7 @@ struct PostView: View {
                                         }
                                         
                                         // add scroll to bottom here
-                                        withAnimation {
-                                            proxy.scrollTo("top", anchor: .bottom)
-                                        }
+                                        scrollToTop.toggle()
                                     }
                                 } else {
                                     postVM.commentReply(post: post, comment: text, dataManager: dataManager, notificationsManager: notificationsManager) { success in
