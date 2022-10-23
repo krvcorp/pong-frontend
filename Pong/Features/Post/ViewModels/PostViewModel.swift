@@ -84,12 +84,10 @@ class PostViewModel: ObservableObject {
     
     // MARK: CreateComment
     func createComment(post: Post, comment: String, dataManager: DataManager, notificationsManager: NotificationsManager, completion: @escaping (Bool) -> Void) {
-        print("DEBUG: createComment is called")
         let parameters = CommentCreateModel.Request(postId: post.id, comment: comment)
         
         // WITH IMAGE
         if self.commentImage != nil {
-            print("DEBUG: image detected")
             let imgData = (commentImage!).jpegData(compressionQuality: 0.2)!
 
             var httpHeaders: HTTPHeaders = []
@@ -100,31 +98,19 @@ class PostViewModel: ObservableObject {
                 ]
             }
             
+            let decoder: JSONDecoder = {
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                return decoder
+            }()
+            
             AF.upload(multipartFormData: { multipartFormData in
                 multipartFormData.append(post.id.data(using: String.Encoding.utf8)!, withName: "post_id")
                 multipartFormData.append(imgData, withName: "image", fileName: "file.jpg", mimeType: "image/jpg")
                 multipartFormData.append(comment.data(using: String.Encoding.utf8)!, withName: "comment")
             }, to: "\(NetworkManager.networkManager.baseURL)comments/", method: .post, headers: httpHeaders)
-                // tracking http errors
-                .response() { (response) in
-                    if let httpStatusCode = response.response?.statusCode {
-                        // AUTHENTICATION ERROR
-                        if httpStatusCode == 401 {
-                            print("NETWORK: 401 Error")
-                            AuthManager.authManager.signout()
-                        }
-                        // RANDOM ERRORS
-                        else if httpStatusCode == 405 || httpStatusCode == 400 || httpStatusCode == 500 {
-                            print("NETWORK: \(httpStatusCode) error")
-                            DispatchQueue.main.async {
-                                dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't create comment reply")
-                            }
-                        }
-                    }
-                }
                 // specific success response
-                .responseDecodable(of: Comment.self) { (successResponse) in
-                    print("DEBUG: PostVM.success \(successResponse)")
+                .responseDecodable(of: Comment.self, decoder: decoder) { (successResponse) in
                     if let successResponse = successResponse.value {
                         DispatchQueue.main.async {
                             NotificationsManager.notificationsManager.registerForNotifications()
@@ -140,7 +126,7 @@ class PostViewModel: ObservableObject {
                     }
                 }
                 // specific error response
-                .responseDecodable(of: ErrorResponseBody.self) { (errorResponse) in
+                .responseDecodable(of: ErrorResponseBody.self, decoder: decoder) { (errorResponse) in
                     if errorResponse.value != nil {
                         DispatchQueue.main.async {
                             dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't create comment reply")
@@ -187,7 +173,13 @@ class PostViewModel: ObservableObject {
                     "Authorization": "Token \(token)"
                 ]
             }
-
+            
+            let decoder: JSONDecoder = {
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                return decoder
+            }()
+            
             AF.upload(multipartFormData: { multipartFormData in
                 multipartFormData.append(post.id.data(using: String.Encoding.utf8)!, withName: "post_id")
                 multipartFormData.append(self.replyToComment.id.data(using: String.Encoding.utf8)!, withName: "replying_id")
@@ -212,7 +204,7 @@ class PostViewModel: ObservableObject {
                     }
                 }
                 // success response
-                .responseDecodable(of: Comment.self) { (successResponse) in
+                .responseDecodable(of: Comment.self, decoder: decoder) { (successResponse) in
                     if let successResponse = successResponse.value {
                         DispatchQueue.main.async {
                             NotificationsManager.notificationsManager.registerForNotifications()
@@ -231,7 +223,7 @@ class PostViewModel: ObservableObject {
                     }
                 }
                 // specific error response
-                .responseDecodable(of: ErrorResponseBody.self) { (errorResponse) in
+                .responseDecodable(of: ErrorResponseBody.self, decoder: decoder) { (errorResponse) in
                     if errorResponse.value != nil {
                         DispatchQueue.main.async {
                             dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't create comment reply")

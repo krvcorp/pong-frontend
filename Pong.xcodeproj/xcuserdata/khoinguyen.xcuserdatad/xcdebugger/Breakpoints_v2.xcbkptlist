@@ -14,8 +14,8 @@
             filePath = "Pong/Features/Post/ViewModels/PostViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "140"
-            endingLineNumber = "140"
+            startingLineNumber = "126"
+            endingLineNumber = "126"
             landmarkName = "createComment(post:comment:dataManager:notificationsManager:completion:)"
             landmarkType = "7">
          </BreakpointContent>

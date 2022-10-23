@@ -78,6 +78,7 @@ struct CommentBubble: View {
                 .multilineTextAlignment(.leading)
                 .fixedSize(horizontal: false, vertical: true)
             
+            // MARK: Image
             if let imageUrl = comment.image {
                 KFImage(URL(string: "\(imageUrl)")!)
                     .resizable()
