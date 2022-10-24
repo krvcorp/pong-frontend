@@ -52,6 +52,9 @@ struct MessageView: View {
                                 .listRowSeparator(.hidden)
                         }
                     }
+                    .scrollContentBackgroundCompat(.hidden)
+                    .background(Color.pongSystemBackground)
+                    .listStyle(PlainListStyle())
                     .flippedUpsideDown()
                     .onChange(of: conversation.messages, perform: { newValue in
                         withAnimation {
@@ -64,8 +67,6 @@ struct MessageView: View {
                             proxy.scrollTo("bottom", anchor: .top)
                         }
                     }
-                    .background(Color.pongSystemBackground)
-                    .listStyle(PlainListStyle())
                 }
                 
                 // MARK: OverLay of MessagingComponent

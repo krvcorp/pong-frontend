@@ -97,7 +97,7 @@ struct ContentView: View {
             .overlay(NavigationLink(destination: PostView(post: $appState.post), isActive: postPushNavigationBinding) {
                 EmptyView()
             })
-            .overlay(NavigationLink(destination: LeaderboardNotificationView(), isActive: leaderboardPushNavigationBinding) {
+            .overlay(NavigationLink(destination: LeaderboardView(), isActive: leaderboardPushNavigationBinding) {
                 EmptyView()
             })
             .overlay(NavigationLink(destination: MessageView(conversation: $appState.conversation), isActive: conversationPushNavigationBinding) {

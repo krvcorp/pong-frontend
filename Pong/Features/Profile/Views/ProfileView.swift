@@ -18,12 +18,13 @@ struct ProfileView: View {
                     ForEach(ProfileFilter.allCases, id: \.self) { tab in
                         customProfileStack(filter: profileVM.selectedProfileFilter, tab: tab)
                             .tag(tab)
+                            .background(Color.pongSystemBackground)
                     }
-                    .background(Color.pongSystemBackground)
                 }
                 .background(Color.pongSystemBackground)
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             }
+            .background(Color.pongSystemBackground)
             // Navigation bar
             .navigationTitle("Profile")
             .navigationBarTitleDisplayMode(.inline)
@@ -36,11 +37,10 @@ struct ProfileView: View {
                     }
                 }
             }
-            .background(Color.pongSystemBackground)
         }
+        .background(Color.pongSystemBackground)
         .accentColor(Color(UIColor.label))
         .navigationViewStyle(StackNavigationViewStyle())
-        .background(Color.pongSystemBackground)
         .toast(isPresenting: $dataManager.removedPost) {
             AlertToast(displayMode: .hud, type: .regular, title: dataManager.removedPostMessage)
         }
@@ -140,7 +140,6 @@ struct ProfileView: View {
             if tab == .posts {
                 if dataManager.profilePosts != [] {
                     ForEach($dataManager.profilePosts, id: \.id) { $post in
-                        
                         PostBubble(post: $post, isLinkActive: .constant(false), conversation: .constant(defaultConversation))
                             .buttonStyle(PlainButtonStyle())
                             .listRowSeparator(.hidden)
@@ -269,6 +268,8 @@ struct ProfileView: View {
                 }
             }
         }
+        .scrollContentBackgroundCompat(.hidden)
+        .background(Color.pongSystemBackground)
         .environment(\.defaultMinListRowHeight, 0)
         .listStyle(PlainListStyle())
         .refreshable{

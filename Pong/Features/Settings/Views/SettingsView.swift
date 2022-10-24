@@ -219,9 +219,10 @@ struct SettingsView: View {
             .listRowBackground(Color.pongSystemBackground)
             .listRowSeparator(.hidden)
         }
+        .scrollContentBackgroundCompat(.hidden)
+        .background(Color.pongSystemBackground)
         .environment(\.defaultMinListRowHeight, 0)
         .listStyle(GroupedListStyle())
-        .background(Color.pongSystemBackground)
         .frame(maxWidth: .infinity)
         .navigationTitle("Settings")
         .navigationBarTitleDisplayMode(.inline)

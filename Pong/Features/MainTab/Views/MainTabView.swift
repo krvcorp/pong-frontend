@@ -75,7 +75,7 @@ struct MainTabView: View {
                     .tag(1)
                 
                 // MARK: Stats and Leaderboard
-                LeaderboardView()
+                LeaderboardTabView()
                     .tabItem{
                         Image(systemName: "chart.bar.xaxis")
                     }

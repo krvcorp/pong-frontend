@@ -140,3 +140,12 @@ extension View {
         }
     }
 }
+
+extension List {
+    @ViewBuilder
+    func scrollContentBackgroundCompat(_ visibility: Visibility) -> some View {
+        if #available(iOS 16.0, *) {
+            self.scrollContentBackground(visibility)
+        }
+    }
+}

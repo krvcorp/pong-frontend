@@ -91,8 +91,9 @@ struct PostView: View {
                         .frame(minHeight: 150)
                         .listRowSeparator(.hidden)
                 }
-                .environment(\.defaultMinListRowHeight, 0)
+                .scrollContentBackgroundCompat(.hidden)
                 .background(Color.pongSystemBackground)
+                .environment(\.defaultMinListRowHeight, 0)
                 .listStyle(PlainListStyle())
                 .refreshable {
                     // API call to refresh local data

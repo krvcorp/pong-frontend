@@ -26,25 +26,30 @@ class NotificationsViewModel: ObservableObject {
         }
     }
     
-    func getPost(url: String, completionHandler: @escaping (Post) -> Void) {
+    func getPost(url: String, id: String, completionHandler: @escaping (Post) -> Void) {
         NetworkManager.networkManager.request(route: "\(url)", method: .get, successType: Post.self) { successResponse, errorResponse in
             if successResponse != nil {
                 self.post = successResponse!
                 completionHandler(self.post)
             }
+            
             if errorResponse != nil {
-                debugPrint("This post was probably deleted")
+                self.markNotificationAsRead(id: id)
+                DataManager.shared.errorDetected(message: "Something went wrong!", subMessage: "This post was probably deleted.")
             }
         }
     }
     
     // a function to mark a notification as read
-    func markNotificationAsReadWeek(id: String) {
+    func markNotificationAsRead(id: String) {
         NetworkManager.networkManager.emptyRequest(route: "notifications/\(id)/read/", method: .post) { successResponse, errorResponse in
             if successResponse != nil {
                 // find the notification in the array and mark it as read
                 if let index = self.notificationHistoryWeek.firstIndex(where: { $0.id == id }) {
                     self.notificationHistoryWeek[index].data.read = true
+                }
+                if let index = self.notificationHistoryPrevious.firstIndex(where: { $0.id == id }) {
+                    self.notificationHistoryPrevious[index].data.read = true
                 }
             }
             if errorResponse != nil {
@@ -69,22 +74,4 @@ class NotificationsViewModel: ObservableObject {
             }
         }
     }
-    
-    // a function to mark a notification as read
-    func markNotificationAsReadPrevious(id: String) {
-        NetworkManager.networkManager.emptyRequest(route: "notifications/\(id)/read/", method: .post) { successResponse, errorResponse in
-            if successResponse != nil {
-                // find the notification in the array and mark it as read
-                if let index = self.notificationHistoryPrevious.firstIndex(where: { $0.id == id }) {
-                    self.notificationHistoryPrevious[index].data.read = true
-                }
-            }
-            if errorResponse != nil {
-                debugPrint("Error marking notification as read")
-            }
-        }
-    }
-    
-    
-    
 }

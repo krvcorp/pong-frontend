@@ -1,19 +1,26 @@
 import SwiftUI
+import AlertToast
 
 struct NotificationsView: View {
     @StateObject private var notificationsVM = NotificationsViewModel()
+    @ObservedObject private var dataManager = DataManager.shared
     @ObservedObject private var notificationsManager = NotificationsManager.notificationsManager
     @EnvironmentObject var mainTabVM : MainTabViewModel
     @State private var showAlert = false
-    @State var isLinkActive = false
     @Environment(\.colorScheme) var colorScheme: ColorScheme
     @State var post = defaultPost
     
+    @State var postIsLinkActive = false
+    @State var leaderboardIsLinkActive = false
+    
+    //MARK: Body
     var body: some View {
         NavigationView {
             VStack {
-                NavigationLink(destination: PostView(post: $post), isActive: $isLinkActive) { EmptyView() }
+                NavigationLink(destination: PostView(post: $post), isActive: $postIsLinkActive) { EmptyView() }
+                NavigationLink(destination: LeaderboardView(), isActive: $leaderboardIsLinkActive) { EmptyView() }
                 
+                // MARK: List
                 List {
                     if notificationsVM.notificationHistoryPrevious == [] && notificationsVM.notificationHistoryWeek == [] {
                         VStack(alignment: .center, spacing: 15) {
@@ -38,16 +45,18 @@ struct NotificationsView: View {
                         .listRowBackground(Color.pongSystemBackground)
                         .listRowSeparator(.hidden)
                     } else {
+                        // MARK: Notifications
                         Section() {
                             ForEach(notificationsVM.notificationHistoryWeek) { notificationModel in
+                                // MARK: Notifications for post/comments
                                 if notificationModel.data.type == .upvote || notificationModel.data.type == .comment || notificationModel.data.type == .hot || notificationModel.data.type == .top || notificationModel.data.type == .reply {
                                     
                                     Button {
                                         DispatchQueue.main.async {
-                                            notificationsVM.getPost(url: notificationModel.data.url!) { success in
+                                            notificationsVM.getPost(url: notificationModel.data.url!, id: notificationModel.id) { success in
                                                 post = success
-                                                isLinkActive = true
-                                                notificationsVM.markNotificationAsReadWeek(id: notificationModel.id)
+                                                postIsLinkActive = true
+                                                notificationsVM.markNotificationAsRead(id: notificationModel.id)
                                             }
                                         }
                                     } label: {
@@ -57,12 +66,12 @@ struct NotificationsView: View {
                                     .listRowSeparator(.hidden)
                                     
                                 }
+                                // MARK: Notifications for leaderboard
                                 else if notificationModel.data.type == .leader {
                                     Button {
                                         DispatchQueue.main.async {
-                                            mainTabVM.isCustomItemSelected = false
-                                            mainTabVM.itemSelected = 2
-                                            notificationsVM.markNotificationAsReadWeek(id: notificationModel.id)
+                                            leaderboardIsLinkActive = true
+                                            notificationsVM.markNotificationAsRead(id: notificationModel.id)
                                         }
                                     } label: {
                                         getNotificationText(notificationModel: notificationModel)
@@ -85,16 +94,17 @@ struct NotificationsView: View {
                                 }
                             }
                         }
+                        // MARK: Notifications from further in history
                         Section() {
                             ForEach(notificationsVM.notificationHistoryPrevious) { notificationModel in
                                 if notificationModel.data.type == .upvote || notificationModel.data.type == .comment || notificationModel.data.type == .hot || notificationModel.data.type == .top || notificationModel.data.type == .reply {
                                     
                                     Button {
                                         DispatchQueue.main.async {
-                                            notificationsVM.getPost(url: notificationModel.data.url!) { success in
+                                            notificationsVM.getPost(url: notificationModel.data.url!, id: notificationModel.id) { success in
                                                 post = success
-                                                isLinkActive = true
-                                                notificationsVM.markNotificationAsReadPrevious(id: notificationModel.id)
+                                                postIsLinkActive = true
+                                                notificationsVM.markNotificationAsRead(id: notificationModel.id)
                                             }
                                         }
                                     } label: {
@@ -105,14 +115,12 @@ struct NotificationsView: View {
                                 else if notificationModel.data.type == .leader {
                                     Button {
                                         DispatchQueue.main.async {
-                                            mainTabVM.isCustomItemSelected = false
-                                            mainTabVM.itemSelected = 2
-                                            notificationsVM.markNotificationAsReadPrevious(id: notificationModel.id)
+                                            leaderboardIsLinkActive = true
+                                            notificationsVM.markNotificationAsRead(id: notificationModel.id)
                                         }
                                     } label: {
                                         getNotificationText(notificationModel: notificationModel)
                                     }
-    //                                .listRowBackground(notificationModel.data.read ? Color.pongSystemBackground : Color.notificationUnread)
                                     .listRowSeparator(.hidden)
                                 }
                             }
@@ -144,6 +152,9 @@ struct NotificationsView: View {
             .navigationBarTitleDisplayMode(.inline)
             .accentColor(Color(UIColor.label))
             .navigationViewStyle(StackNavigationViewStyle())
+        }
+        .toast(isPresenting: $dataManager.errorDetected) {
+            AlertToast(displayMode: .hud, type: .error(Color.red), title: dataManager.errorDetectedMessage, subTitle: dataManager.errorDetectedSubMessage)
         }
     }
     

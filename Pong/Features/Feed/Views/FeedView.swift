@@ -264,6 +264,7 @@ struct FeedView: View {
                     }
                 }
             }
+            .scrollContentBackgroundCompat(.hidden)
             .background(Color.pongSystemBackground)
             .environment(\.defaultMinListRowHeight, 0)
             .onChange(of: mainTabVM.scrollToTop, perform: { newValue in

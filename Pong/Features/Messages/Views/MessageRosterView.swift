@@ -139,38 +139,15 @@ struct MessageRosterView: View {
                     }
                 }
             }
+            .scrollContentBackgroundCompat(.hidden)
+            .background(Color.pongSystemBackground)
             .listStyle(GroupedListStyle())
             .onAppear {
                 UITableView.appearance().showsVerticalScrollIndicator = false
             }
             .navigationTitle("Messages")
-//            .searchable(text: $searchText)
-//            .onReceive(messageRosterVM.timer) { _ in
-//                if messageRosterVM.timePassed % 5 != 0 {
-//                    messageRosterVM.timePassed += 1
-//                }
-//                else {
-//                    messageRosterVM.getConversations(dataManager: dataManager)
-//                    messageRosterVM.timePassed += 1
-//                }
-//            }
-//            .onAppear {
-//                messageRosterVM.getConversations(dataManager: dataManager)
-//                self.messageRosterVM.timer = Timer.publish (every: 1, on: .current, in: .common).autoconnect()
-//            }
-//            .onDisappear {
-//                self.messageRosterVM.timer.upstream.connect().cancel()
-//            }
         }
     }
-//
-//    func dontEnableNotifs() {
-//
-//    }
-//
-//    func enableNotifs() {
-//
-//    }
 }
 
 struct MessagesView_Previews: PreviewProvider {

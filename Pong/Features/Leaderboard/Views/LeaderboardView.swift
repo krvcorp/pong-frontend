@@ -20,25 +20,23 @@ struct LeaderboardView: View {
     
     // MARK: Body
     var body: some View {
-        NavigationView {
-            VStack(spacing: 0) {
-                karmaInfo
-                    .padding([.leading, .top, .trailing])
-                    .listRowSeparator(.hidden)
-                    .background(Color.pongSystemBackground)
-                
-                LeaderboardList
-            }
-            .onAppear {
-                leaderboardVM.getLeaderboard(dataManager: dataManager)
-                leaderboardVM.getLoggedInUserInfo(dataManager: dataManager)
-            }
-            .navigationTitle("Leaderboard")
-            .navigationBarTitleDisplayMode(.inline)
-            .onTapGesture {
-                print("DEBUG: onTap detected")
-                hideKeyboard()
-            }
+        VStack(spacing: 0) {
+            karmaInfo
+                .padding([.leading, .top, .trailing])
+                .listRowSeparator(.hidden)
+                .background(Color.pongSystemBackground)
+            
+            LeaderboardList
+        }
+        .onAppear {
+            leaderboardVM.getLeaderboard(dataManager: dataManager)
+            leaderboardVM.getLoggedInUserInfo(dataManager: dataManager)
+        }
+        .navigationTitle("Leaderboard")
+        .navigationBarTitleDisplayMode(.inline)
+        .onTapGesture {
+            print("DEBUG: onTap detected")
+            hideKeyboard()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .toast(isPresenting: $leaderboardVM.savedNicknameAlert) {
@@ -251,11 +249,3 @@ struct LeaderboardView: View {
         .listStyle(InsetGroupedListStyle())
     }
 }
-
-struct LeaderboardView_Previews: PreviewProvider {
-    static var previews: some View {
-        LeaderboardView()
-            .previewInterfaceOrientation(.portrait)
-    }
-}
-
