@@ -10,143 +10,194 @@ struct ReferralsView: View {
     
     @State var referralCode: String = ""
     
+    // MARK: Body
     var body: some View {
         List {
-            Section() {
-                HStack() {
-                    Spacer()
-                    
-                    VStack(alignment: .center) {
-                        Text("\(referralsVM.numberReferred)")
-                            .font(.title.bold())
-                            .foregroundColor(.green)
-                        Text("Referrals")
-                    }
-                    
+            VStack(spacing: 15) {
+                HStack {
+                    Text("Refer a friend")
+                        .font(.title2)
+                        .fontWeight(.heavy)
                     Spacer()
                 }
-            }
-            
-            Section() {
-                VStack {
-                    Text("Want to win $100?")
-                        .font(.title).bold()
-                        .padding()
-                    
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text("Each referral is a chance to win!")
-                                .font(.title3).bold()
-                                .padding(.bottom)
-                            
-                            Text("Venmo, CashApp, Zelle, or Bitcoin - we don't discriminate.")
-                                .font(.caption)
-                            
-                            Text("Promotion ends 9/30/22")
-                                .font(.caption)
-                        }
-                        .padding()
-                        
-                        Image(systemName: "person.3.fill")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: UIScreen.screenWidth / 4)
-                            .padding()
-                    }
+                
+                HStack {
+                    Text("And you can make $15")
+                        .font(.headline)
+                    Spacer()
                 }
-                .listRowInsets(EdgeInsets())
+
             }
+            .background(Color.pongSystemBackground)
+            .listRowBackground(Color.pongSystemBackground)
+            .listRowSeparator(.hidden)
             
-            Section(header: Text("Get Referred")) {
-                if !referralsVM.referred {
+            HStack(spacing: 10) {
+                Image(systemName: "info.circle")
+                
+                Text("How it works")
+                
+                Spacer()
+            }
+            .font(.headline.bold())
+            .background(Color.pongSystemBackground)
+            .listRowBackground(Color.pongSystemBackground)
+            .listRowSeparator(.hidden)
+            
+            // MARK: VStack of steps
+            VStack(spacing: 25) {
+                instructionComponent(number: "1", title: "Invite your friends", subTitle: "Just share your link")
+                instructionComponent(number: "2", title: "They download the app", subTitle: "Share funny content")
+                instructionComponent(number: "3", title: "You make $$$", subTitle: "5 referrals for $15!")
+            }
+            .background(Color.pongSystemBackground)
+            .listRowBackground(Color.pongSystemBackground)
+            .listRowSeparator(.hidden)
+            
+            
+            // MARK: Copy Code + Share App Link
+            VStack {
+                
+                // MARK: Referral Code
+                HStack {
                     HStack {
-                        TextField("Enter Code", text: $referralCode)
-                            .font(.title.bold())
-                        
-                        Button(action: {
-                            referralsVM.setReferrer(referralCode: referralCode, dataManager: dataManager)
-                        }) {
-                            Image(systemName: "person.fill.checkmark")
-                                .font(.system(size: 18).bold())
-                                .padding()
-                                .foregroundColor(Color(UIColor.systemBackground))
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 5)
-                                        .stroke(Color(UIColor.label), lineWidth: 2)
-                            )
-                        }
-                        .background(Color(UIColor.label))
-                        .cornerRadius(20)
-                    }
-                } else {
-                    HStack {
-                        Text(referralCode == "" ? "Referred!" : referralCode)
-                            .font(.title.bold())
+                        let referralCode = DAKeychain.shared["referralCode"]!
+                        Text("www.pong.college/refer/\(referralCode)")
+                            .font(.subheadline)
                         
                         Spacer()
                         
-                        Button(action: {
-                            referralsVM.setReferrer(referralCode: referralCode, dataManager: dataManager)
-                        }) {
-                            Image(systemName: "person.fill.checkmark")
-                                .font(.system(size: 18).bold())
-                                .padding()
-                                .foregroundColor(Color(UIColor.systemBackground))
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 5)
-                                        .stroke(Color(UIColor.systemGreen), lineWidth: 2)
-                            )
+                        Button {
+                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                            sheet.toggle()
+                        } label: {
+                            Text("share")
+                                .font(.subheadline)
+                                .fontWeight(.heavy)
                         }
-                        .disabled(true)
-                        .background(Color(UIColor.systemGreen))
-                        .cornerRadius(20)
+                        .buttonStyle(PlainButtonStyle())
+                        .sheet(isPresented: $sheet) {
+                            let referralCode = DAKeychain.shared["referralCode"]!
+                            let url = URL(string: "https://www.pong.college/refer/\(referralCode)")
+                            ShareSheet(items: [url!])
+                        }
                     }
+                    .padding(15)
+                }
+                .background(Color(UIColor.secondarySystemBackground))
+                .cornerRadius(10)
+                
+                
+                // MARK: Enter Referral Code
+                if !referralsVM.referred {
+                    HStack {
+                        HStack {
+                            TextField("Enter Code", text: $referralCode)
+                                .font(.subheadline)
+                            
+                            Spacer()
+                            
+                            if referralCode == "" {
+                                Button(action: {
+                                    referralsVM.setReferrer(referralCode: referralCode, dataManager: dataManager)
+                                }) {
+                                    Text("enter")
+                                        .foregroundColor(Color(UIColor.quaternaryLabel))
+                                        .font(.subheadline)
+                                        .fontWeight(.heavy)
+                                }
+                                .buttonStyle(PlainButtonStyle())
+                                .disabled(true)
+                            } else {
+                                Button(action: {
+                                    referralsVM.setReferrer(referralCode: referralCode, dataManager: dataManager)
+                                }) {
+                                    Text("enter")
+                                        .font(.subheadline)
+                                        .fontWeight(.heavy)
+                                }
+                                .buttonStyle(PlainButtonStyle())
+                            }
+                        }
+                        .padding(15)
+                    }
+                    .background(Color(UIColor.secondarySystemBackground))
+                    .cornerRadius(10)
+                }
+                // MARK: Already been referred
+                else {
+                    HStack {
+                        HStack {
+                            Text(referralCode == "" ? "you've been referred!" : referralCode)
+                                .font(.subheadline)
+                                .fontWeight(.bold)
+                            
+                            Spacer()
+                            
+                            Button(action: {
+                                referralsVM.setReferrer(referralCode: referralCode, dataManager: dataManager)
+                            }) {
+                                Text("enter")
+                                    .foregroundColor(Color(UIColor.quaternaryLabel))
+                                    .font(.subheadline)
+                                    .fontWeight(.heavy)
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                            .disabled(true)
+                        }
+                        .padding(15)
+                    }
+                    .background(Color(UIColor.systemGreen))
+                    .cornerRadius(10)
                 }
             }
-            
-            Section(header: Text("Your Referral Code")) {
-                HStack {
-                    let referralCode = DAKeychain.shared["referralCode"]!
-                    Text("\(referralCode)")
-                        .font(.title.bold())
-                        .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
-                    
-                    Spacer()
-                    
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        sheet.toggle()
-                    } label: {
-                        Image(systemName: "square.and.arrow.up")
-                    }
-                    .sheet(isPresented: $sheet) {
-                        let referralCode = DAKeychain.shared["referralCode"]!
-                        let url = URL(string: "https://www.pong.college/\(referralCode)")
-                        ShareSheet(items: [url!])
-                    }
-                }
-            }
-            
-            Section() {
-                VStack {
-                    Image(systemName: "dollarsign.circle")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: UIScreen.screenWidth / 4)
-                    
-                    Text("Tap the share button to share the app link and your referral code and earn cash.")
-                }
-                .foregroundColor(.gray)
-                .listRowBackground(Color(UIColor.systemGroupedBackground))
-            }
+            .background(Color.pongSystemBackground)
+            .listRowBackground(Color.pongSystemBackground)
+            .listRowSeparator(.hidden)
+
         }
+        .scrollContentBackgroundCompat()
+        .background(Color.pongSystemBackground)
+        .listStyle(PlainListStyle())
         .onAppear{
             referralsVM.getNumReferred()
         }
-        .navigationBarTitle("Invite Friends")
+        .navigationBarTitle("Referrals")
         .navigationBarTitleDisplayMode(.inline)
         .toast(isPresenting: $dataManager.errorDetected) {
             AlertToast(displayMode: .hud, type: .error(Color.red), title: dataManager.errorDetectedMessage, subTitle: dataManager.errorDetectedSubMessage)
+        }
+    }
+    
+    // MARK: InstructionComponent
+    @ViewBuilder
+    func instructionComponent(number: String, title : String, subTitle: String) -> some View {
+        HStack(spacing: 15) {
+            ZStack {
+                Circle()
+                    .fill(Color(UIColor.secondarySystemBackground))
+                
+                Text("\(number)")
+                    .font(.title3)
+                    .fontWeight(.heavy)
+                    .foregroundColor(number != "3" ? Color(UIColor.label) : Color(UIColor.systemGreen))
+            }
+            .frame(width: 50, height: 50)
+            .shadow(color: Color(UIColor.lightGray).opacity(0.5), radius: 5, x: 0, y: 0)
+            
+            VStack(spacing: 5) {
+                HStack {
+                    Text("\(title)")
+                        .font(.subheadline.bold())
+                    Spacer()
+                }
+                
+                HStack {
+                    Text("\(subTitle)")
+                        .font(.subheadline)
+                    Spacer()
+                }
+            }
         }
     }
 }

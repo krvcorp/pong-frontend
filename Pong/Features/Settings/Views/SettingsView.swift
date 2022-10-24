@@ -219,7 +219,7 @@ struct SettingsView: View {
             .listRowBackground(Color.pongSystemBackground)
             .listRowSeparator(.hidden)
         }
-        .scrollContentBackgroundCompat(.hidden)
+        .scrollContentBackgroundCompat()
         .background(Color.pongSystemBackground)
         .environment(\.defaultMinListRowHeight, 0)
         .listStyle(GroupedListStyle())

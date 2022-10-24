@@ -139,7 +139,7 @@ struct MessageRosterView: View {
                     }
                 }
             }
-            .scrollContentBackgroundCompat(.hidden)
+            .scrollContentBackgroundCompat()
             .background(Color.pongSystemBackground)
             .listStyle(GroupedListStyle())
             .onAppear {

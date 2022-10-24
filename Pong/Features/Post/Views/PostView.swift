@@ -91,7 +91,7 @@ struct PostView: View {
                         .frame(minHeight: 150)
                         .listRowSeparator(.hidden)
                 }
-                .scrollContentBackgroundCompat(.hidden)
+                .scrollContentBackgroundCompat()
                 .background(Color.pongSystemBackground)
                 .environment(\.defaultMinListRowHeight, 0)
                 .listStyle(PlainListStyle())

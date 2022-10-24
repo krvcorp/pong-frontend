@@ -30,7 +30,6 @@ struct NewPostView: View {
                             }
                             .padding(.top)
                             .padding(.horizontal)
-                            .frame(width: 65)
 
                             Spacer()
                         }

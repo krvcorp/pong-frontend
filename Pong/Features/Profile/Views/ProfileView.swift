@@ -268,7 +268,7 @@ struct ProfileView: View {
                 }
             }
         }
-        .scrollContentBackgroundCompat(.hidden)
+        .scrollContentBackgroundCompat()
         .background(Color.pongSystemBackground)
         .environment(\.defaultMinListRowHeight, 0)
         .listStyle(PlainListStyle())

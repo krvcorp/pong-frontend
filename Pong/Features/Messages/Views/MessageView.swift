@@ -52,7 +52,7 @@ struct MessageView: View {
                                 .listRowSeparator(.hidden)
                         }
                     }
-                    .scrollContentBackgroundCompat(.hidden)
+                    .scrollContentBackgroundCompat()
                     .background(Color.pongSystemBackground)
                     .listStyle(PlainListStyle())
                     .flippedUpsideDown()

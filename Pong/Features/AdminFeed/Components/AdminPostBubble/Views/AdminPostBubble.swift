@@ -1,4 +1,5 @@
 import SwiftUI
+import Kingfisher
 
 struct AdminPostBubble: View {
     @Binding var post : Post
@@ -35,10 +36,12 @@ struct AdminPostBubble: View {
                             .multilineTextAlignment(.leading)
                         
                         // MARK: Image
-                        if let image = post.image {
-                            AsyncImage(url: URL(string: image)!,
-                                       placeholder: {ProgressView()},
-                                       image: { Image(uiImage: $0).resizable() })
+                        if let imageUrl = post.image {
+                            KFImage(URL(string: "\(imageUrl)")!)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(idealWidth: abs(UIScreen.screenWidth / 1.1), idealHeight: abs(CGFloat(post.imageHeight!) * (UIScreen.screenWidth / 1.1) / CGFloat(post.imageWidth!)), maxHeight: abs(CGFloat(150)))
+                                .cornerRadius(15)
                         }
                         
                         // MARK: Poll
