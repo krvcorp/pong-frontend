@@ -128,14 +128,14 @@ extension View {
     }
     
     // function to return PongTextLogoLightMode if light mode, PongTextLogoDarkMode if dark mode
-    func pongTextLogo() -> some View {
-        if #available(iOS 14.0, *) {
-            if SettingsViewModel.shared.displayMode == DisplayMode.dark {
-                return Image("PongTextLogoDarkMode")
-            } else {
-                return Image("PongTextLogoLightMode")
-            }
+    func pongTextLogo() -> Image {
+        @Environment(\.colorScheme) var colorScheme: ColorScheme
+        
+        if colorScheme == .dark {
+            debugPrint("dark")
+            return Image("PongTextLogoDarkMode")
         } else {
+            debugPrint("light")
             return Image("PongTextLogoLightMode")
         }
     }
