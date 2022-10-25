@@ -102,7 +102,7 @@ struct MainTabView: View {
                     .tag(5)
             }
             .environmentObject(dataManager)
-            .accentColor(SchoolManager.shared.schoolPrimaryColor())
+            .accentColor(Color(UIColor.label))
             // MARK: New Post Sheet
             .sheet(isPresented: $mainTabVM.isCustomItemSelected) {
                 NewPostView(mainTabVM: mainTabVM)
