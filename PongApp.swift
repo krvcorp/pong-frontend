@@ -10,7 +10,7 @@ struct Pong: App {
             ContentView()
                 .dynamicTypeSize(.medium ... .medium)
                 .onAppear() {
-                    SettingsViewModel().displayMode.setAppDisplayMode()
+                    SettingsViewModel.shared.displayMode.setAppDisplayMode()
                 }
         }
     }

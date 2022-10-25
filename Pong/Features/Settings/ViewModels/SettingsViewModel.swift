@@ -73,6 +73,7 @@ enum DisplayMode: Int {
     
     func setAppDisplayMode() {
         var userInterfaceStyle: UIUserInterfaceStyle
+        
         switch self {
             case .system: userInterfaceStyle = .unspecified
             case .dark: userInterfaceStyle = .dark

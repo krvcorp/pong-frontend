@@ -126,19 +126,6 @@ extension View {
     func flippedUpsideDown() -> some View{
         self.modifier(FlippedUpsideDown())
     }
-    
-    // function to return PongTextLogoLightMode if light mode, PongTextLogoDarkMode if dark mode
-    func pongTextLogo() -> Image {
-        @Environment(\.colorScheme) var colorScheme: ColorScheme
-        
-        if colorScheme == .dark {
-            debugPrint("dark")
-            return Image("PongTextLogoDarkMode")
-        } else {
-            debugPrint("light")
-            return Image("PongTextLogoLightMode")
-        }
-    }
 }
 
 extension List {
