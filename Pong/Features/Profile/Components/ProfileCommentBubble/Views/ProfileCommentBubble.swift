@@ -1,5 +1,6 @@
 import SwiftUI
 import AlertToast
+import Kingfisher
 
 struct ProfileCommentBubble: View {
     @Binding var comment : ProfileComment
@@ -47,7 +48,6 @@ struct ProfileCommentBubble: View {
             }
         }
         .font(.system(size: 18).bold())
-        .padding(0)
         .padding(.top, 10)
         .alert(isPresented: $profileCommentBubbleVM.showDeleteConfirmationView) {
             Alert(
@@ -89,7 +89,16 @@ struct ProfileCommentBubble: View {
                         .padding(.bottom, 4)
       
                     Text(comment.comment)
-                        .multilineTextAlignment(.leading)
+                        .fixedSize(horizontal: false, vertical: true)
+                    
+                    // MARK: Image
+                    if let imageUrl = comment.image {
+                        KFImage(URL(string: "\(imageUrl)")!)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(idealWidth: abs(UIScreen.screenWidth / 1.1), idealHeight: abs(CGFloat(comment.imageHeight!) * (UIScreen.screenWidth / 1.1) / CGFloat(comment.imageWidth!)), maxHeight: abs(CGFloat(150)))
+                            .cornerRadius(15)
+                    }
                 }
                 .padding(.bottom)
                 

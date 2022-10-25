@@ -18,6 +18,7 @@ struct LeaderboardView: View {
     }
     
     @State var nickname: String = ""
+    @State private var text: String = ""
     
     // MARK: Body
     var body: some View {
@@ -43,7 +44,7 @@ struct LeaderboardView: View {
         
     // MARK: KarmaInfo
     var karmaInfo: some View {
-        VStack(spacing: 5) {
+        VStack(alignment: .leading) {
             // MARK: HEADER
             
             HStack {
@@ -51,7 +52,7 @@ struct LeaderboardView: View {
                     Image("PongTextLogo")
                         .resizable()
                         .scaledToFit()
-                        .frame(maxHeight: 50)
+                        .frame(maxHeight: 35)
                     
                     
                     
@@ -60,60 +61,61 @@ struct LeaderboardView: View {
                         .font(.callout)
                 }
                 Spacer()
-                VStack {
-                    HStack{
-                        Spacer()
-                        Text("🏓")
-                            .font(.title)
-                    }
-                }
+//                VStack {
+//                    HStack{
+//                        Spacer()
+//                        Text("🏓")
+//                            .font(.title)
+//                    }
+//                }
+//                EmojiTextField(text: $text, placeholder: "Enter emoji")
             }
             
             
             // MARK: User Information
-            HStack {
-                HStack() {
-                    Spacer()
-                    VStack(alignment: .center) {
-                        Text("Total")
-                            .font(.subheadline.bold())
-                        Text(String(dataManager.totalKarma))
-                            .font(.title2)
-                            .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
-                    }
-                    Spacer()
-                }
-                .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
-                
-            
-                HStack {
-                    Spacer()
-                    VStack(alignment: .center) {
-                        Text("Post")
-                            .font(.subheadline.bold())
-                        Text(String(dataManager.postKarma))
-                            .font(.title2)
-                            .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
-                    }
-                    Spacer()
-                }
-                .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
-            
-            
-                HStack {
-                    Spacer()
-                    VStack(alignment: .center) {
-                        Text("Comment")
-                            .font(.subheadline.bold())
-                        Text(String(dataManager.commentKarma))
-                            .font(.title2)
-                            .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
-                    }
-
-                    Spacer()
-                }
-                .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
-            }
+//            HStack {
+//                HStack() {
+//                    Spacer()
+//                    VStack(alignment: .center) {
+//                        Text("Total")
+//                            .font(.subheadline.bold())
+//                        Text(String(dataManager.totalKarma))
+//                            .font(.title2)
+//                            .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
+//                    }
+//                    Spacer()
+//                }
+//                .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
+//
+//
+//                HStack {
+//                    Spacer()
+//                    VStack(alignment: .center) {
+//                        Text("Post")
+//                            .font(.subheadline.bold())
+//                        Text(String(dataManager.postKarma))
+//                            .font(.title2)
+//                            .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
+//                    }
+//                    Spacer()
+//                }
+//                .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
+//
+//
+//                HStack {
+//                    Spacer()
+//                    VStack(alignment: .center) {
+//                        Text("Comment")
+//                            .font(.subheadline.bold())
+//                        Text(String(dataManager.commentKarma))
+//                            .font(.title2)
+//                            .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
+//                    }
+//
+//                    Spacer()
+//                }
+//                .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
+//            }
             
             // MARK: Kahoot
 //            HStack {
@@ -218,6 +220,8 @@ struct LeaderboardView: View {
                     .frame(maxWidth: UIScreen.screenWidth / 6, alignment: .leading)
                     
                     HStack {
+//                        Text("🏓")
+//                            .font(.title)
                         VStack {
                             HStack {
                                 Text(entry.nickname != "" ? entry.nickname : "---")
@@ -229,7 +233,7 @@ struct LeaderboardView: View {
                                 Text("Boston University")
                                     .bold()
                                     .foregroundColor(Color.gray)
-                                    .font(.subheadline)
+                                    .font(.system(size: 10))
                                 Spacer()
                             }
                         }

@@ -9,4 +9,6 @@ struct ProfileComment: Hashable, Identifiable, Codable {
     var timeSincePosted: String
     var voteStatus: Int
     var image: String?
+    var imageHeight: Int?
+    var imageWidth: Int?
 }
