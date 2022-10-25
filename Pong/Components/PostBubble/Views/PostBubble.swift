@@ -19,10 +19,10 @@ struct PostBubble: View {
     
     var body: some View {
         VStack {
-            PostBubbleMain
+            postBubbleMain
                 .padding(.bottom)
             
-            PostBubbleBottomRow
+            postBubbleBottomRow
         }
         .font(.system(size: 18).bold())
         .padding(.top, 10)
@@ -74,7 +74,8 @@ struct PostBubble: View {
         }
     }
     
-    var PostBubbleMain: some View {
+    // MARK: PostBubbleMain
+    var postBubbleMain: some View {
         ZStack {
             NavigationLink(destination: PostView(post: $post)) {
                 EmptyView()
@@ -157,12 +158,12 @@ struct PostBubble: View {
         }
     }
     
-    var PostBubbleBottomRow: some View {
-        HStack {
+    // MARK: PostBubbleBottomRow
+    var postBubbleBottomRow: some View {
+        HStack(spacing: 0) {
             
-            VoteComponent
-            
-            Spacer()
+            voteComponent
+                .frame(minWidth: 0, maxWidth: .infinity)
             
             HStack {
                 Image(systemName: "bubble.left")
@@ -171,73 +172,78 @@ struct PostBubble: View {
                     .bold()
                     .foregroundColor(Color("pongSecondaryText"))
             }
+            .frame(minWidth: 0, maxWidth: .infinity)
             
-            Spacer()
             
-            if !post.userOwned {
-                Button {
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    postBubbleVM.post = post
-                    postBubbleVM.startConversation(post: post, dataManager: dataManager) { success in
-                        conversation = success
-                        isLinkActive = true
+            HStack {
+                Spacer()
+                if !post.userOwned {
+                    Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        postBubbleVM.post = post
+                        postBubbleVM.startConversation(post: post, dataManager: dataManager) { success in
+                            conversation = success
+                            isLinkActive = true
+                        }
+                    } label: {
+                        Image(systemName: "envelope")
+                            .foregroundColor(Color("pongSecondaryText"))
                     }
-                } label: {
-                    Image(systemName: "envelope")
-                        .foregroundColor(Color("pongSecondaryText"))
+                    
+                    if post.saved {
+                        Button {
+                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                            postBubbleVM.post = post
+                            postBubbleVM.unsavePost(post: post, dataManager: dataManager)
+                        } label: {
+                            Image(systemName: "bookmark.fill")
+                                .foregroundColor(Color("pongSecondaryText"))
+                        }
+                    } else if !post.saved {
+                        Button {
+                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                            postBubbleVM.post = post
+                            postBubbleVM.savePost(post: post, dataManager: dataManager)
+                        } label: {
+                            Image(systemName: "bookmark")
+                                .foregroundColor(Color("pongSecondaryText"))
+                        }
+                    }
                 }
                 
-                if post.saved {
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        postBubbleVM.post = post
-                        postBubbleVM.unsavePost(post: post, dataManager: dataManager)
-                    } label: {
-                        Image(systemName: "bookmark.fill")
-                            .foregroundColor(Color("pongSecondaryText"))
-                    }
-                } else if !post.saved {
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        postBubbleVM.post = post
-                        postBubbleVM.savePost(post: post, dataManager: dataManager)
-                    } label: {
-                        Image(systemName: "bookmark")
-                            .foregroundColor(Color("pongSecondaryText"))
-                    }
-                }
-            }
-            
-            Button {
-                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                self.image = textToImage(drawText: post.title, atPoint: CGPointMake(0, 0))
-                sheet.toggle()
-            } label: {
-                Image(systemName: "square.and.arrow.up")
-                    .foregroundColor(Color("pongSecondaryText"))
-            }
-            .sheet(isPresented: $sheet) {
-                ShareSheet(items: ["\(NetworkManager.networkManager.rootURL)post/\(post.id)/"])
-            }
-            
-            // MARK: Delete or More Button
-            if post.userOwned {
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    DispatchQueue.main.async {
-                        postBubbleVM.post = post
-                        postBubbleVM.activeAlert = .delete
-                        postBubbleVM.showConfirmation = true
-                    }
+                    self.image = textToImage(drawText: post.title, atPoint: CGPointMake(0, 0))
+                    sheet.toggle()
                 } label: {
-                    Image(systemName: "trash")
+                    Image(systemName: "square.and.arrow.up")
                         .foregroundColor(Color("pongSecondaryText"))
                 }
+                .sheet(isPresented: $sheet) {
+                    ShareSheet(items: ["\(NetworkManager.networkManager.rootURL)post/\(post.id)/"])
+                }
+                
+                // MARK: Delete or More Button
+                if post.userOwned {
+                    Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        DispatchQueue.main.async {
+                            postBubbleVM.post = post
+                            postBubbleVM.activeAlert = .delete
+                            postBubbleVM.showConfirmation = true
+                        }
+                    } label: {
+                        Image(systemName: "trash")
+                            .foregroundColor(Color("pongSecondaryText"))
+                    }
+                }
             }
+            .frame(minWidth: 0, maxWidth: .infinity)
         }
     }
     
-    var VoteComponent: some View {
+    // MARK: VoteComponent
+    var voteComponent: some View {
         HStack {
             if post.voteStatus == 0 {
                 Button {
@@ -298,6 +304,8 @@ struct PostBubble: View {
                         .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
                 }
             }
+            
+            Spacer()
         }
     }
 }
