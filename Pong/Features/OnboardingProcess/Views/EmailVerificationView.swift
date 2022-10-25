@@ -11,11 +11,7 @@ struct EmailVerificationView: View {
         VStack {
             Spacer()
             
-            if colorScheme == .dark {
-                Image("PongTextLogoDarkMode")
-            } else {
-                Image("PongTextLogoLightMode")
-            }
+            Image("PongTextLogo")
             
             Text("Bounce your ideas")
                 .font(.system(size: 20, weight: .medium))

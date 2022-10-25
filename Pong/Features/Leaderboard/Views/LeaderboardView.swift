@@ -48,17 +48,11 @@ struct LeaderboardView: View {
             
             HStack {
                 VStack(alignment: .leading) {
-                    if colorScheme == .dark {
-                        Image("PongTextLogoDarkMode")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(maxHeight: 50)
-                    } else {
-                        Image("PongTextLogoLightMode")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(maxHeight: 50)
-                    }
+                    Image("PongTextLogo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(maxHeight: 50)
+                    
                     
                     
                     Text("LEADERBOARD")
