@@ -8,6 +8,7 @@ struct AdminFeedView: View {
         VStack {
             toolbarPickerComponent
                 .padding(.vertical)
+                .background(Color.pongSystemBackground)
             
             TabView(selection: $adminFeedVM.selectedFilter) {
                 ForEach(AdminFilter.allCases, id: \.self) { tab in
@@ -35,12 +36,13 @@ struct AdminFeedView: View {
                         }
                     }
                 }
-                .background(Color(UIColor.secondarySystemBackground))
+                .background(Color.pongSystemBackground)
             }
-            .background(Color(UIColor.systemGroupedBackground))
+            .background(Color.pongSystemBackground)
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             
         }
+        .background(Color.pongSystemBackground)
         .onAppear {
             adminFeedVM.getPosts()
             adminFeedVM.getComments()
@@ -62,7 +64,6 @@ struct AdminFeedView: View {
                             Text(filter.title)
                                 .bold()
                         }
-//                        .shadow(color: SchoolManager.shared.schoolPrimaryColor(), radius: 10, x: 0, y: 0)
                         .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
 
                     } else {
@@ -73,8 +74,10 @@ struct AdminFeedView: View {
                         .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
                     }
                 }
+                .background(Color.pongSystemBackground)
             }
         }
+        .background(Color.pongSystemBackground)
     }
 }
 
