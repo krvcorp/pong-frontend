@@ -72,16 +72,18 @@ struct PostView: View {
                                 HStack {
                                     Spacer()
                                     
-                                    Text("Start the discussion")
-                                        .font(.title.bold())
+                                    Text("No comments yet. Let the world know what you think.")
+                                        .bold()
+                                        .font(.system(size: 10))
+                                        .foregroundColor(Color.gray)
                                     
                                     Spacer()
                                 }
-                                .listRowSeparator(.hidden)
-                                .listRowBackground(Color.pongSystemBackground)
                                 .frame(minHeight: 100)
                             }
                             .buttonStyle(PlainButtonStyle())
+                            .listRowSeparator(.hidden)
+                            .listRowBackground(Color.pongSystemBackground)
                         }
                     }
                     
