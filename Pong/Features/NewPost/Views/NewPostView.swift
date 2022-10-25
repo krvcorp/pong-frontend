@@ -13,6 +13,7 @@ struct NewPostView: View {
     
     @Namespace var animation
     
+    // MARK: Body
     var body: some View {
         ZStack {
             ZStack (alignment: .bottom) {
@@ -30,6 +31,7 @@ struct NewPostView: View {
                             }
                             .padding(.top)
                             .padding(.horizontal)
+                            .frame(minHeight: 25, maxHeight: 50)
 
                             Spacer()
                         }
