@@ -50,15 +50,16 @@ struct LeaderboardAwardCoin: View {
             .frame(width: 96, height: 96)
             
             VStack {
-                Text(place != nil ? "\(score!)" : " ")
-                    .fontWeight(.semibold)
-                    .italic()
-                    .frame(maxWidth: 96)
-                
                 Text(place != nil ? "\(nickname!)" : " ")
                     .fontWeight(.semibold)
                     .italic()
                     .frame(maxWidth: 96)
+                
+                Text(place != nil ? "\(score!)" : " ")
+                    .font(.title2)
+                    .italic()
+                    .frame(maxWidth: 96)
+                
             }
         }
     }

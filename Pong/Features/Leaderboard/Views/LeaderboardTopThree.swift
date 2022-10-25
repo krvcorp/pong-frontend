@@ -27,11 +27,10 @@ struct LeaderboardTopThree: View {
             HStack {
                 Spacer()
                 LeaderboardAwardCoin(score: topThreeScores[0], nickname: topThreeNicknames[0], place: hasTopThree[0] ? 1 : nil)
-                    .padding(EdgeInsets(top: 48, leading: 0, bottom: 0, trailing: 0))
+                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 48, trailing: 0))
                 Spacer()
             }
         }
-        .padding(.bottom)
     }
 }
 
