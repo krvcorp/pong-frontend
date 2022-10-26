@@ -117,18 +117,18 @@ struct ProfileCommentBubble: View {
                     profileCommentBubbleVM.commentVote(direction: 1, dataManager: dataManager)
                 } label: {
                     Image(systemName: "chevron.up")
-                        .foregroundColor(Color(UIColor.gray))
+                        .foregroundColor(Color.pongSecondaryText)
                 }
                 
                 Text("\(comment.score)")
-                    .foregroundColor(Color(UIColor.gray))
+                    .foregroundColor(Color.pongSecondaryText)
                 
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     profileCommentBubbleVM.commentVote(direction: -1, dataManager: dataManager)
                 } label: {
                     Image(systemName: "chevron.down")
-                        .foregroundColor(Color(UIColor.gray))
+                        .foregroundColor(Color.pongSecondaryText)
                 }
             } else if comment.voteStatus == 1 {
                 Button {
@@ -140,14 +140,14 @@ struct ProfileCommentBubble: View {
                 }
                 
                 Text("\(comment.score + 1)")
-                    .foregroundColor(Color(UIColor.gray))
+                    .foregroundColor(Color.pongSecondaryText)
                 
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     profileCommentBubbleVM.commentVote(direction: -1, dataManager: dataManager)
                 } label: {
                     Image(systemName: "chevron.down")
-                        .foregroundColor(Color(UIColor.gray))
+                        .foregroundColor(Color.pongSecondaryText)
                 }
             }
             else if comment.voteStatus == -1 {
@@ -156,11 +156,11 @@ struct ProfileCommentBubble: View {
                     profileCommentBubbleVM.commentVote(direction: 1, dataManager: dataManager)
                 } label: {
                     Image(systemName: "chevron.up")
-                        .foregroundColor(Color(UIColor.gray))
+                        .foregroundColor(Color.pongSecondaryText)
                 }
                 
                 Text("\(comment.score - 1)")
-                    .foregroundColor(Color(UIColor.gray))
+                    .foregroundColor(Color.pongSecondaryText)
                 
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()

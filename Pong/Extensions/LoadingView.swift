@@ -23,7 +23,7 @@ struct LoadingView<Content>: View where Content: View {
         GeometryReader { geometry in
             ZStack(alignment: .center) {
                 self.content()
-                Color.tintedGray
+                Color.pongSecondaryText
                     .edgesIgnoringSafeArea(.all)
                     .opacity(self.isShowing ? (self.isEnabled ? 0.69 : 0) : 0)
                 ProgressView()

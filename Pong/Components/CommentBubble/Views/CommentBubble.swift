@@ -71,7 +71,7 @@ struct CommentBubble: View {
                 
                 Spacer()
             }
-            .foregroundColor(Color(UIColor.gray))
+            .foregroundColor(Color.pongSecondaryText)
                                    
             Text(comment.comment)
                 .bold()
@@ -211,7 +211,7 @@ struct CommentBubble: View {
             
             VoteComponent
         }
-        .foregroundColor(Color.gray)
+        .foregroundColor(Color.pongSecondaryText)
         .font(.headline)
         .padding(.top, 1)
     }

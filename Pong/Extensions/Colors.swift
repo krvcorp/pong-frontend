@@ -60,58 +60,8 @@ extension Color {
         return Color(red: 255/255, green: 204/255, blue: 0/255)
     }
     
-    public static var poshLightGold: Color {
-        return Color(red: 255/255, green: 226/255, blue: 0/255)
-    }
-    
-    public static var poshLightGreen: Color {
-        return Color(red: 151/255, green: 255/255, blue: 138/255)
-    }
-    
-    public static var poshDarkGreen: Color {
-        return Color(red: 15/255, green: 163/255, blue: 30/255)
-    }
     public static var poshDarkRed: Color {
         return Color(red: 176/255, green: 14/255, blue: 14/255)
-    }
-    public static var poshDarkPurple: Color {
-        return Color(red: 111/255, green: 15/255, blue: 178/255)
-    }
-    
-    public static var poshDarkGray: Color {
-        return Color(red: 0/255, green: 0/255, blue: 0/255)
-    }
-    
-    public static var poshLightGray: Color {
-        return Color(red: 0/255, green: 0/255, blue: 0/255)
-    }
-    
-    public static var poshLighterGray: Color {
-        return Color(red: 29/255, green: 30/255, blue: 32/255)
-    }
-    
-    public static var poshGlowGray: Color {
-        return Color(red: 69/255, green: 69/255, blue: 69/255)
-    }
-    
-    public static var tintedGray: Color {
-        return Color(red: 29/255, green: 30/255, blue: 32/255)
-    }
-    
-    public static var tintedDarkGray: Color {
-        return Color(red: 14/255, green: 15/255, blue: 16/255)
-    }
-    
-    public static var instagramPink: Color {
-        return Color(red: 255/255, green: 64/255, blue: 129/255)
-    }
-    
-    public static var poshPink: Color {
-        return Color(red: 255/255, green: 0/255, blue: 251/255)
-    }
-    
-    public static var poshBlue: Color {
-        return Color(red: 0/255, green: 0/255, blue: 255/255)
     }
     
     public static var imagePickerGradient: Color {

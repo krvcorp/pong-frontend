@@ -43,7 +43,7 @@ struct NewPostView: View {
                             
                             if $newPostVM.title.wrappedValue == "" {
                                 Text("What's on your mind?")
-                                    .foregroundColor(Color.gray)
+                                    .foregroundColor(Color.pongSecondaryText)
                                     .padding(.horizontal)
                                     .padding(.vertical, 12)
                             }

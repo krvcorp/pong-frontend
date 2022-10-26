@@ -47,7 +47,7 @@ struct NewMarketplaceItemView: View {
                 // MARK: Add media
                 HStack {
                     Text("Add photos")
-                        .foregroundColor(Color(UIColor.lightGray))
+                        .foregroundColor(Color.pongSecondaryText)
                     Spacer()
                 }
                 

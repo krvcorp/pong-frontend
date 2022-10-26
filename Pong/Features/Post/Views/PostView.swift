@@ -75,7 +75,7 @@ struct PostView: View {
                                     Text("No comments yet. Let the world know what you think.")
                                         .bold()
                                         .font(.system(size: 10))
-                                        .foregroundColor(Color.gray)
+                                        .foregroundColor(Color.pongSecondaryText)
                                     
                                     Spacer()
                                 }
@@ -258,7 +258,7 @@ struct PostView: View {
                     HStack {
                         Text("\(post.timeSincePosted) ago")
                             .font(.caption)
-                            .foregroundColor(Color(UIColor.systemGray))
+                            .foregroundColor(Color.pongSecondaryText)
                             .padding(.bottom, 3)
                         Spacer()
                     }
@@ -333,7 +333,7 @@ struct PostView: View {
                         .frame(width: 30, height: 30)
                 }
                 .frame(width: 25, height: 25)
-                .foregroundColor(Color(UIColor.gray))
+                .foregroundColor(Color.pongSecondaryText)
             }
             
             Spacer()
@@ -355,7 +355,7 @@ struct PostView: View {
                             .bold()
                             .padding(.leading, -5)
                     }
-                    .foregroundColor(Color(UIColor.gray))
+                    .foregroundColor(Color.pongSecondaryText)
                     
                 }
                 
@@ -368,7 +368,7 @@ struct PostView: View {
                     } label: {
                         Image(systemName: "bookmark.fill")
                             .font(.headline.bold())
-                            .foregroundColor(Color(UIColor.gray))
+                            .foregroundColor(Color.pongSecondaryText)
                     }
                 } else if !post.saved {
                     Button {
@@ -379,7 +379,7 @@ struct PostView: View {
                     } label: {
                         Image(systemName: "bookmark")
                             .font(.headline.bold())
-                            .foregroundColor(Color(UIColor.gray))
+                            .foregroundColor(Color.pongSecondaryText)
                     }
                 }
             }
@@ -395,7 +395,7 @@ struct PostView: View {
                     }
                 } label: {
                     Image(systemName: "trash")
-                        .foregroundColor(Color(UIColor.gray))
+                        .foregroundColor(Color.pongSecondaryText)
                         .font(.headline.bold())
                 }
             }
@@ -411,21 +411,21 @@ struct PostView: View {
                     postVM.postVote(post: post, direction: 1, dataManager: dataManager)
                 } label: {
                     Image(systemName: "chevron.up")
-                        .foregroundColor(Color(UIColor.gray))
+                        .foregroundColor(Color.pongSecondaryText)
                         .font(.headline)
                 }
                 
                 Text("\(post.score)")
                     .bold()
                     .font(.system(size: 18).bold())
-                    .foregroundColor(Color(UIColor.gray))
+                    .foregroundColor(Color.pongSecondaryText)
                 
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     postVM.postVote(post: post, direction: -1, dataManager: dataManager)
                 } label: {
                     Image(systemName: "chevron.down")
-                        .foregroundColor(Color(UIColor.gray))
+                        .foregroundColor(Color.pongSecondaryText)
                         .font(.headline)
                 }
             } else if post.voteStatus == 1 {
@@ -441,14 +441,14 @@ struct PostView: View {
                 Text("\(post.score + 1)")
                     .bold()
                     .font(.system(size: 18).bold())
-                    .foregroundColor(Color(UIColor.gray))
+                    .foregroundColor(Color.pongSecondaryText)
                 
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     postVM.postVote(post: post, direction: -1, dataManager: dataManager)
                 } label: {
                     Image(systemName: "chevron.down")
-                        .foregroundColor(Color(UIColor.gray))
+                        .foregroundColor(Color.pongSecondaryText)
                         .font(.headline)
                 }
             }
@@ -458,14 +458,14 @@ struct PostView: View {
                     postVM.postVote(post: post, direction: 1, dataManager: dataManager)
                 } label: {
                     Image(systemName: "chevron.up")
-                        .foregroundColor(Color(UIColor.gray))
+                        .foregroundColor(Color.pongSecondaryText)
                         .font(.headline)
                 }
                 
                 Text("\(post.score - 1)")
                     .bold()
                     .font(.system(size: 18).bold())
-                    .foregroundColor(Color(UIColor.gray))
+                    .foregroundColor(Color.pongSecondaryText)
                 
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()

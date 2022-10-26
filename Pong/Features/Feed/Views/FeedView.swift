@@ -118,7 +118,7 @@ struct FeedView: View {
                             Text(filter.title)
                                 .font(.subheadline.bold())
                         }
-                        .foregroundColor(Color.gray)
+                        .foregroundColor(Color.pongSecondaryText)
                     }
                 }
             }

@@ -170,7 +170,7 @@ struct LeaderboardView: View {
                     HStack {
                         Text("RANK")
                             .font(.caption)
-                            .foregroundColor(Color.gray)
+                            .foregroundColor(Color.pongSecondaryText)
                             .bold()
                         Spacer()
                     }
@@ -179,7 +179,7 @@ struct LeaderboardView: View {
                     HStack {
                         Text("KARMA")
                             .font(.caption)
-                            .foregroundColor(Color.gray)
+                            .foregroundColor(Color.pongSecondaryText)
                             .bold()
                         Spacer()
                     }
@@ -188,7 +188,7 @@ struct LeaderboardView: View {
                     HStack {
                         Text("NICKNAME / SCHOOL")
                             .font(.caption)
-                            .foregroundColor(Color.gray)
+                            .foregroundColor(Color.pongSecondaryText)
                             .bold()
                         Spacer()
                     }
@@ -214,7 +214,7 @@ struct LeaderboardView: View {
                     HStack {
                         Text("\(entry.score)")
                             .font(.headline)
-                            .foregroundColor(Color.gray)
+                            .foregroundColor(Color.pongSecondaryText)
                         Spacer()
                     }
                     .frame(maxWidth: UIScreen.screenWidth / 6, alignment: .leading)
@@ -232,7 +232,7 @@ struct LeaderboardView: View {
                             HStack {
                                 Text("Boston University")
                                     .bold()
-                                    .foregroundColor(Color.gray)
+                                    .foregroundColor(Color.pongSecondaryText)
                                     .font(.system(size: 10))
                                 Spacer()
                             }
