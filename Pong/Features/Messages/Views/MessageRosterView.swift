@@ -74,7 +74,7 @@ struct MessageRosterView: View {
                                                     Text(conversation.messages.last!.message)
                                                         .font(.subheadline)
                                                         .lineLimit(1)
-                                                        .foregroundColor(.gray)
+                                                        .foregroundColor(Color.pongSecondaryText)
                                                     
                                                     Spacer()
                                                     
@@ -121,7 +121,7 @@ struct MessageRosterView: View {
                                                         .bold()
                                                         .foregroundColor(Color(UIColor.label))
                                                         .lineLimit(1)
-                                                        .foregroundColor(.gray)
+                                                        .foregroundColor(Color.pongSecondaryText)
 
                                                     Spacer()
                                                     

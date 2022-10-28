@@ -10,7 +10,7 @@ import SwiftUI
 struct CustomListDivider: View {
     var body: some View {
         Rectangle()
-            .fill(Color(UIColor.gray))
+            .fill(Color.pongSecondaryText)
             .frame(maxHeight: 1)
             .listRowBackground(Color.pongSystemBackground.edgesIgnoringSafeArea([.leading, .trailing]))
             .listRowSeparator(.hidden)

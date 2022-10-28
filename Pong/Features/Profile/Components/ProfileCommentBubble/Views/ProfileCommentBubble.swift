@@ -1,5 +1,6 @@
 import SwiftUI
 import AlertToast
+import Kingfisher
 
 struct ProfileCommentBubble: View {
     @Binding var comment : ProfileComment
@@ -47,7 +48,6 @@ struct ProfileCommentBubble: View {
             }
         }
         .font(.system(size: 18).bold())
-        .padding(0)
         .padding(.top, 10)
         .alert(isPresented: $profileCommentBubbleVM.showDeleteConfirmationView) {
             Alert(
@@ -89,7 +89,16 @@ struct ProfileCommentBubble: View {
                         .padding(.bottom, 4)
       
                     Text(comment.comment)
-                        .multilineTextAlignment(.leading)
+                        .fixedSize(horizontal: false, vertical: true)
+                    
+                    // MARK: Image
+                    if let imageUrl = comment.image {
+                        KFImage(URL(string: "\(imageUrl)")!)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(idealWidth: abs(UIScreen.screenWidth / 1.1), idealHeight: abs(CGFloat(comment.imageHeight!) * (UIScreen.screenWidth / 1.1) / CGFloat(comment.imageWidth!)), maxHeight: abs(CGFloat(150)))
+                            .cornerRadius(15)
+                    }
                 }
                 .padding(.bottom)
                 
@@ -108,18 +117,18 @@ struct ProfileCommentBubble: View {
                     profileCommentBubbleVM.commentVote(direction: 1, dataManager: dataManager)
                 } label: {
                     Image(systemName: "chevron.up")
-                        .foregroundColor(Color(UIColor.gray))
+                        .foregroundColor(Color.pongSecondaryText)
                 }
                 
                 Text("\(comment.score)")
-                    .foregroundColor(Color(UIColor.gray))
+                    .foregroundColor(Color.pongSecondaryText)
                 
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     profileCommentBubbleVM.commentVote(direction: -1, dataManager: dataManager)
                 } label: {
                     Image(systemName: "chevron.down")
-                        .foregroundColor(Color(UIColor.gray))
+                        .foregroundColor(Color.pongSecondaryText)
                 }
             } else if comment.voteStatus == 1 {
                 Button {
@@ -131,14 +140,14 @@ struct ProfileCommentBubble: View {
                 }
                 
                 Text("\(comment.score + 1)")
-                    .foregroundColor(Color(UIColor.gray))
+                    .foregroundColor(Color.pongSecondaryText)
                 
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     profileCommentBubbleVM.commentVote(direction: -1, dataManager: dataManager)
                 } label: {
                     Image(systemName: "chevron.down")
-                        .foregroundColor(Color(UIColor.gray))
+                        .foregroundColor(Color.pongSecondaryText)
                 }
             }
             else if comment.voteStatus == -1 {
@@ -147,11 +156,11 @@ struct ProfileCommentBubble: View {
                     profileCommentBubbleVM.commentVote(direction: 1, dataManager: dataManager)
                 } label: {
                     Image(systemName: "chevron.up")
-                        .foregroundColor(Color(UIColor.gray))
+                        .foregroundColor(Color.pongSecondaryText)
                 }
                 
                 Text("\(comment.score - 1)")
-                    .foregroundColor(Color(UIColor.gray))
+                    .foregroundColor(Color.pongSecondaryText)
                 
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()

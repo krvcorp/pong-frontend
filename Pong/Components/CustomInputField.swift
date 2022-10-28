@@ -13,7 +13,7 @@ struct CustomInputField: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 20, height: 20)
-                    .foregroundColor(Color(.darkGray))
+                    .foregroundColor(Color.pongSecondaryText)
                 
                 if isSecureField ?? false {
                     SecureField(placeholderText, text: $text)
@@ -24,7 +24,7 @@ struct CustomInputField: View {
                 
             }
             Divider()
-                .background(Color(.darkGray))
+                .background(Color.pongSecondaryText)
         }
     }
 }

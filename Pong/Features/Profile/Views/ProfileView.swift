@@ -68,7 +68,7 @@ struct ProfileView: View {
                         
                         Text("Post Karma")
                             .font(.caption.bold())
-                            .foregroundColor(Color(UIColor.systemGray))
+                            .foregroundColor(Color.pongSecondaryText)
                     }
                 }
                 
@@ -89,7 +89,7 @@ struct ProfileView: View {
                         
                         Text("Comment Karma")
                             .font(.caption.bold())
-                            .foregroundColor(Color(UIColor.systemGray))
+                            .foregroundColor(Color.pongSecondaryText)
                     }
                 }
 

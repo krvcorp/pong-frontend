@@ -87,7 +87,7 @@ struct PostBubble: View {
                 HStack {
                     Text("\(post.timeSincePosted) ago")
                         .font(.caption)
-                        .foregroundColor(Color(UIColor.systemGray))
+                        .foregroundColor(Color.pongSecondaryText)
                         .padding(.bottom, 3)
                     Spacer()
                     if !post.userOwned {

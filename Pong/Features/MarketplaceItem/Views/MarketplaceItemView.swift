@@ -89,7 +89,7 @@ struct MarketplaceItemView: View {
                     .padding()
                     .frame(minWidth: 0, maxWidth: .infinity)
                     .background(Color(UIColor.systemBackground))
-                    .foregroundColor(Color(UIColor.lightGray))
+                    .foregroundColor(Color.pongSecondaryText)
                     .cornerRadius(10)
 
                 }

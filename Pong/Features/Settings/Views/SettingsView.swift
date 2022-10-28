@@ -212,7 +212,7 @@ struct SettingsView: View {
                         .font(.system(Font.TextStyle.caption2, design: .rounded))
                         .frame(maxWidth: .infinity, alignment: .center)
                 }
-                .foregroundColor(Color.gray)
+                .foregroundColor(Color.pongSecondaryText)
                 .padding(.top, 10)
             }
             .background(Color.pongSystemBackground)
