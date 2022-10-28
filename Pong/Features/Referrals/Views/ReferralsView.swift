@@ -45,7 +45,7 @@ struct ReferralsView: View {
             .listRowSeparator(.hidden)
             
             // MARK: VStack of steps
-            VStack(spacing: 25) {
+            VStack(spacing: 35) {
                 instructionComponent(number: "1", title: "Invite your friends", subTitle: "Just share your link")
                 instructionComponent(number: "2", title: "They download the app", subTitle: "Share funny content")
                 instructionComponent(number: "3", title: "You make $$$", subTitle: "5 referrals for $15!")
