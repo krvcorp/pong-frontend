@@ -250,7 +250,7 @@ struct PostBubble: View {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     postBubbleVM.postVote(direction: 1, post: post, dataManager: dataManager)
                 } label: {
-                    Image(systemName: "chevron.up")
+                    Image(systemName: "arrow.up")
                         .foregroundColor(Color("pongSecondaryText"))
                 }
                 
@@ -261,7 +261,7 @@ struct PostBubble: View {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     postBubbleVM.postVote(direction: -1, post: post, dataManager: dataManager)
                 } label: {
-                    Image(systemName: "chevron.down")
+                    Image(systemName: "arrow.down")
                         .foregroundColor(Color("pongSecondaryText"))
                 }
             } else if post.voteStatus == 1 {
@@ -269,7 +269,7 @@ struct PostBubble: View {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     postBubbleVM.postVote(direction: 1, post: post, dataManager: dataManager)
                 } label: {
-                    Image(systemName: "chevron.up")
+                    Image(systemName: "arrow.up")
                         .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
                 }
                 
@@ -280,7 +280,7 @@ struct PostBubble: View {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     postBubbleVM.postVote(direction: -1, post: post, dataManager: dataManager)
                 } label: {
-                    Image(systemName: "chevron.down")
+                    Image(systemName: "arrow.down")
                         .foregroundColor(Color("pongSecondaryText"))
                 }
             }
@@ -289,7 +289,7 @@ struct PostBubble: View {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     postBubbleVM.postVote(direction: 1, post: post, dataManager: dataManager)
                 } label: {
-                    Image(systemName: "chevron.up")
+                    Image(systemName: "arrow.up")
                         .foregroundColor(Color("pongSecondaryText"))
                 }
                 
@@ -300,7 +300,7 @@ struct PostBubble: View {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     postBubbleVM.postVote(direction: -1, post: post, dataManager: dataManager)
                 } label: {
-                    Image(systemName: "chevron.down")
+                    Image(systemName: "arrow.down")
                         .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
                 }
             }

@@ -410,7 +410,7 @@ struct PostView: View {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     postVM.postVote(post: post, direction: 1, dataManager: dataManager)
                 } label: {
-                    Image(systemName: "chevron.up")
+                    Image(systemName: "arrow.up")
                         .foregroundColor(Color.pongSecondaryText)
                         .font(.headline)
                 }
@@ -424,7 +424,7 @@ struct PostView: View {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     postVM.postVote(post: post, direction: -1, dataManager: dataManager)
                 } label: {
-                    Image(systemName: "chevron.down")
+                    Image(systemName: "arrow.down")
                         .foregroundColor(Color.pongSecondaryText)
                         .font(.headline)
                 }
@@ -433,7 +433,7 @@ struct PostView: View {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     postVM.postVote(post: post, direction: 1, dataManager: dataManager)
                 } label: {
-                    Image(systemName: "chevron.up")
+                    Image(systemName: "arrow.up")
                         .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
                         .font(.headline.bold())
                 }
@@ -447,7 +447,7 @@ struct PostView: View {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     postVM.postVote(post: post, direction: -1, dataManager: dataManager)
                 } label: {
-                    Image(systemName: "chevron.down")
+                    Image(systemName: "arrow.down")
                         .foregroundColor(Color.pongSecondaryText)
                         .font(.headline)
                 }
@@ -457,7 +457,7 @@ struct PostView: View {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     postVM.postVote(post: post, direction: 1, dataManager: dataManager)
                 } label: {
-                    Image(systemName: "chevron.up")
+                    Image(systemName: "arrow.up")
                         .foregroundColor(Color.pongSecondaryText)
                         .font(.headline)
                 }
@@ -471,7 +471,7 @@ struct PostView: View {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     postVM.postVote(post: post, direction: -1, dataManager: dataManager)
                 } label: {
-                    Image(systemName: "chevron.down")
+                    Image(systemName: "arrow.down")
                         .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
                         .font(.headline.bold())
                 }
