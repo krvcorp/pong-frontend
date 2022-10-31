@@ -135,6 +135,7 @@ struct NotificationsView: View {
                     }
 
                 }
+                .scrollContentBackgroundCompat()
                 .refreshable() {
                     print("DEBUG: REFRESH")
                     notificationsVM.getNotificationHistoryWeek()
