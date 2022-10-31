@@ -33,6 +33,7 @@ class NotificationsManager: ObservableObject {
         })
     }
     
+    // MARK: RegisterForNotifications
     func registerForNotifications() {
         let current = UNUserNotificationCenter.current()
 
@@ -60,14 +61,17 @@ class NotificationsManager: ObservableObject {
         })
     }
     
+    // MARK: UpdateNotificationsPreferences
     func updateNotificationsPreferences() {
         let current = UNUserNotificationCenter.current()
 
         current.getNotificationSettings(completionHandler: { (settings) in
-            if settings.authorizationStatus == .authorized {
-                self.notificationsPreference = true
-            } else {
-                self.notificationsPreference = false
+            DispatchQueue.main.async {
+                if settings.authorizationStatus == .authorized {
+                    self.notificationsPreference = true
+                } else {
+                    self.notificationsPreference = false
+                }
             }
         })
     }
