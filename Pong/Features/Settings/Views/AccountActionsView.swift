@@ -8,6 +8,7 @@ struct AccountActionsView: View {
     var body: some View {
         List {
             Section("ACTIONS") {
+                
                 // MARK: Unblock All
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
@@ -23,8 +24,9 @@ struct AccountActionsView: View {
                     }
                 }
                 .frame(minHeight: 30)
-                
-                Divider()
+                .background(Color.pongSystemBackground)
+                .listRowBackground(Color.pongSystemBackground)
+                .listRowSeparator(.hidden)
                 
                 // MARK: Delete Account
                 Button {
@@ -41,6 +43,9 @@ struct AccountActionsView: View {
                     }
                 }
                 .frame(minHeight: 30)
+                .background(Color.pongSystemBackground)
+                .listRowBackground(Color.pongSystemBackground)
+                .listRowSeparator(.hidden)
                 
                 
                 HStack {
@@ -67,17 +72,17 @@ struct AccountActionsView: View {
                     .padding(.top, 30)
                     Spacer()
                 }
+                .background(Color.pongSystemBackground)
+                .listRowBackground(Color.pongSystemBackground)
+                .listRowSeparator(.hidden)
             }
-            .listRowBackground(Color.pongSystemBackground)
-            .listRowSeparator(.hidden)
-            
         }
-        .environment(\.defaultMinListRowHeight, 0)
+        .scrollContentBackgroundCompat()
         .background(Color.pongSystemBackground)
-        .listStyle(PlainListStyle())
-        .frame(maxWidth: .infinity)
+        .environment(\.defaultMinListRowHeight, 0)
         .navigationTitle("Account Actions")
         .navigationBarTitleDisplayMode(.inline)
+        .listStyle(PlainListStyle())
         .onAppear {
             UITableView.appearance().showsVerticalScrollIndicator = false
         }

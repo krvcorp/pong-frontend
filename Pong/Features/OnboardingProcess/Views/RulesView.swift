@@ -27,6 +27,7 @@ struct RulesView: View {
             
             Spacer()
         }
+        .background(Color.pongSystemBackground)
         .padding()
     }
 }

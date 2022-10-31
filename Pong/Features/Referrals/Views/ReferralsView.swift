@@ -13,6 +13,7 @@ struct ReferralsView: View {
     // MARK: Body
     var body: some View {
         List {
+            // MARK: Title
             VStack(spacing: 15) {
                 HStack {
                     Text("Refer a friend")
@@ -32,6 +33,21 @@ struct ReferralsView: View {
             .listRowBackground(Color.pongSystemBackground)
             .listRowSeparator(.hidden)
             
+            // MARK: ReferralPageImage
+            HStack {
+                Spacer()
+                Image("ReferralPageImage")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(maxWidth: UIScreen.screenWidth / 2)
+                Spacer()
+            }
+            .background(Color.pongSystemBackground)
+            .listRowBackground(Color.pongSystemBackground)
+            .listRowSeparator(.hidden)
+
+            
+            // MARK: Instructions
             HStack(spacing: 10) {
                 Image(systemName: "info.circle")
                 
@@ -45,7 +61,7 @@ struct ReferralsView: View {
             .listRowSeparator(.hidden)
             
             // MARK: VStack of steps
-            VStack(spacing: 35) {
+            VStack(spacing: 15) {
                 instructionComponent(number: "1", title: "Invite your friends", subTitle: "Just share your link")
                 instructionComponent(number: "2", title: "They download the app", subTitle: "Share funny content")
                 instructionComponent(number: "3", title: "You make $$$", subTitle: "5 referrals for $15!")
@@ -154,7 +170,6 @@ struct ReferralsView: View {
             .background(Color.pongSystemBackground)
             .listRowBackground(Color.pongSystemBackground)
             .listRowSeparator(.hidden)
-
         }
         .scrollContentBackgroundCompat()
         .background(Color.pongSystemBackground)
@@ -164,6 +179,9 @@ struct ReferralsView: View {
         }
         .navigationBarTitle("Referrals")
         .navigationBarTitleDisplayMode(.inline)
+        .onTapGesture {
+            hideKeyboard()
+        }
         .toast(isPresenting: $dataManager.errorDetected) {
             AlertToast(displayMode: .hud, type: .error(Color.red), title: dataManager.errorDetectedMessage, subTitle: dataManager.errorDetectedSubMessage)
         }

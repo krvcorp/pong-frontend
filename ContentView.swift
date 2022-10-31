@@ -50,6 +50,7 @@ struct ContentView: View {
                     }
                 }
             }
+        
         NavigationView {
             Group {
                 if (!AuthManager.authManager.isSignedIn) {

@@ -28,6 +28,7 @@ struct InformationView: View {
             
             Spacer()
         }
+        .background(Color.pongSystemBackground)
         .padding()
     }
 }

@@ -26,6 +26,9 @@ struct OnboardingView: View {
                     ReferralOnboardingView()
                         .tag(4)
                 }
+                .onChange(of: selectedTab, perform: { newValue in
+                    hideKeyboard()
+                })
                 .tabViewStyle(PageTabViewStyle())
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
@@ -71,6 +74,7 @@ struct OnboardingView: View {
                 }
 
             }
+            .background(Color.pongSystemBackground)
             .navigationBarTitleDisplayMode(.inline)
         }
         .environmentObject(onboardingVM)

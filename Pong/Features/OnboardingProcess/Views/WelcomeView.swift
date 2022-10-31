@@ -4,7 +4,7 @@ struct WelcomeView: View {
     @EnvironmentObject var onboardingVM : OnboardingViewModel
     
     var body: some View {
-        VStack{
+        VStack {
             VStack(alignment: .leading, spacing: 20) {
                 Text("Connect with your college community, anonymously.")
                     .font(.title).bold()
@@ -19,10 +19,12 @@ struct WelcomeView: View {
                 Spacer()
                 
                 Text("By using Pong, you understand our [Terms of Service](https://www.pong.blog/legal) and [Privacy Policy](https://www.pong.blog/legal)")
+                    .accentColor(Color(UIColor.systemBlue))
 
             }
             .padding(15)
         }
+        .background(Color.pongSystemBackground)
         .padding()
         .padding(.bottom, 20)
     }
