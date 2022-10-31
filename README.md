@@ -4,7 +4,7 @@
 
 ### Main
 
-Main is the branch that is currently in production on the app store. The current version on the app store is 1.0.2 Build 5. (Need to figure out where to store version information)
+Main is the branch that is currently in production on the App Store. Please make a release on what versions are released to the App Store.
 
 ### Development
 
