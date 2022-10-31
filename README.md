@@ -1,17 +1,48 @@
 # Pong iOS
+
 ## Project Organization
 
 ### Main
+
 Main is the branch that is currently in production on the app store. The current version on the app store is 1.0.2 Build 5. (Need to figure out where to store version information)
 
 ### Development
+
 Development is the branch where all work and changes will be pushed into before a final push into the prod version. Major changes SHOULD NOT go onto development unless they are changes that we want to push onto prod soon.
 
 ### Feature Branches
+
 If major features are being worked on (marketplace for example), you should create a separate branch to work on it.
 
 
 ## Notifications
+
+The following notifications are examples of notifications that the user can interact with.
+
+### Messaging / Conversations
+
+A message / conversation notification should take the user to a `MessageView`. The following command will simulate a message notification. Note that the `id` of the conversation should go into the `-u` flag.
+
+```
+heroku run -a pong-college python3 manage.py sim_notif -b “Someone sent you a message\!” -t message -u “1bb177cb-9fa1-42bf-bbef-bf35e0d37416”
+```
+
+### Leaderboard
+
+A leaderboard notification should take the user to the `LeaderboardView`. The following command will simulate a leaderboard notification.
+
+```
+heroku run -a pong-college python3 manage.py sim_notif -b "You're on the leaderboard\!" -t leader
+```
+
+### Post
+
+A post notification should take the user to the `PostView`. This may include that the post was upvoted, commented on, etc. . The following command will simulate a post notification. Note that the `id` of the post should go into the `-u` flag
+
+```
+heroku run -a pong-college python3 manage.py sim_notif -b "Your post is hot\!" -t hot -u "a5f155d5-8595-4fcc-b1fa-80f8967ea48d" 
+```
+
 ### Registration
 
 Throughout the app, a user may be suggested to enable notifications. Once the user enables notifications, an FCM token will be generated for that user. At the point of enabling notifications, the iOS app will send a `POST` request to `/api/notifications/register`, with the following body schema:
