@@ -17,7 +17,7 @@ If major features are being worked on (marketplace for example), you should crea
 
 ## Notifications
 
-The following notifications are examples of notifications that the user can interact with.
+The following notifications are examples of notifications that the user can interact with, and the TL;DR for how to test and develop notifications.
 
 ### Messaging / Conversations
 
@@ -42,6 +42,8 @@ A post notification should take the user to the `PostView`. This may include tha
 ```
 heroku run -a pong-college python3 manage.py sim_notif -b "Your post is hot\!" -t hot -u "a5f155d5-8595-4fcc-b1fa-80f8967ea48d" 
 ```
+
+## Other Notification Docs
 
 ### Registration
 
