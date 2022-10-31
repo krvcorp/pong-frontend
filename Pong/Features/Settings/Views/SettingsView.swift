@@ -82,6 +82,19 @@ struct SettingsView: View {
                 bottom: 0,
                 trailing: 0))
             ) {
+                // MARK: About Us
+                NavigationLink(destination: AboutUsView()){
+                    HStack {
+                        Image(systemName: "checkmark.shield").font(Font.body.weight(.bold))
+                            .frame(width: 20)
+                        Text("About Us").foregroundColor(Color(uiColor: UIColor.label))
+                            .bold()
+                        Spacer()
+                        
+                    }
+                }
+                .frame(minHeight: 30)
+                
                 // MARK: Contact Us
                 HStack {
                     Button {
@@ -122,7 +135,6 @@ struct SettingsView: View {
                     Spacer()
                 }
                 .frame(minHeight: 30)
-                
             }
             .listRowBackground(Color.pongSystemBackground)
             .listRowSeparator(.hidden)
