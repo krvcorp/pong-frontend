@@ -7,7 +7,6 @@ struct CommentBubble: View {
     @EnvironmentObject var postVM : PostViewModel
     @EnvironmentObject var dataManager : DataManager
     
-    
     // MARK: Conversation
     @Binding var isLinkActive : Bool
     @Binding var conversation : Conversation
@@ -196,7 +195,7 @@ struct CommentBubble: View {
                     if comment.saved {
                         Button {
                             UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                            postVM.saveComment(comment: comment)
+//                            postVM.saveComment(comment: comment, dataManager: dataManager)
                         } label: {
                             Label("Report", systemImage: "flag")
                         }
