@@ -12,39 +12,71 @@ struct ProfileCommentBubble: View {
     @State private var image = UIImage()
     
     var body: some View {
-        VStack {
-            commentBubbleMain
-
-            Color.black.frame(height:CGFloat(1) / UIScreen.main.scale)
+        ZStack {
+            NavigationLink(destination: PostView(post: $profileCommentBubbleVM.parentPost)) {
+                EmptyView()
+            }
+            .opacity(0.0)
+            .buttonStyle(PlainButtonStyle())
             
-            HStack {
-                
-                ZStack {
-                    NavigationLink(destination: PostView(post: $profileCommentBubbleVM.parentPost)) {
-                        EmptyView()
-                    }
-                    .opacity(0.0)
-                    .buttonStyle(PlainButtonStyle())
-                    
+            VStack(alignment: .leading) {
+                VStack(alignment: .leading) {
                     HStack {
-                        Text("Re: \(comment.re)")
-                            .font(.subheadline).bold()
-
+                        Text("\(comment.timeSincePosted) ago • On: \(comment.re)")
+                            .font(.caption)
+                            .lineLimit(1)
+                            .foregroundColor(Color.pongSecondaryText)
+                        
                         Spacer()
                     }
-                }
-                
-                // MARK: Delete or More Button
-                 
-                Button {
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    DispatchQueue.main.async {
-                        profileCommentBubbleVM.showDeleteConfirmationView.toggle()
+                    .padding(.bottom, 2)
+                    
+                    Text(comment.comment)
+                        .lineLimit(2)
+                    
+                    HStack {
+                        if let imageUrl = comment.image {
+                            KFImage(URL(string: "\(imageUrl)")!)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(idealWidth: abs(UIScreen.screenWidth / 1.1), idealHeight: abs(CGFloat(comment.imageHeight!) * (UIScreen.screenWidth / 1.1) / CGFloat(comment.imageWidth!)), maxHeight: abs(CGFloat(150)))
+                                .padding(.top)
+                        }
                     }
-                } label: {
-                    Image(systemName: "trash")
                 }
+                .padding(.bottom)
                 
+                HStack(spacing: 0) {
+                    voteComponent
+                        .frame(minWidth: 0, maxWidth: .infinity)
+                    
+                    HStack {
+                        Spacer()
+                        
+//                        Button {
+//                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+//                            self.image = textToImage(drawText: post.title, atPoint: CGPointMake(0, 0))
+//                            sheet.toggle()
+//                        } label: {
+//                            Image(systemName: "square.and.arrow.up")
+//                                .foregroundColor(Color("pongSecondaryText"))
+//                        }
+//                        .sheet(isPresented: $sheet) {
+//                            ShareSheet(items: ["\(NetworkManager.networkManager.rootURL)post/\(post.id)/"])
+//                        }
+                        
+                        // MARK: Delete or More Button
+                        Button {
+                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                            DispatchQueue.main.async {
+                                profileCommentBubbleVM.showDeleteConfirmationView.toggle()
+                            }
+                        } label: {
+                            Image(systemName: "trash")
+                                .foregroundColor(Color("pongSecondaryText"))
+                        }
+                    }
+                }
             }
         }
         .font(.system(size: 18).bold())
@@ -74,80 +106,45 @@ struct ProfileCommentBubble: View {
         }
     }
     
-    var commentBubbleMain: some View {
-        ZStack {
-            NavigationLink(destination: PostView(post: $profileCommentBubbleVM.parentPost)) {
-                EmptyView()
-            }
-            .opacity(0.0)
-            .buttonStyle(PlainButtonStyle())
-            
-            HStack(alignment: .top) {
-                VStack(alignment: .leading) {
-                    Text("\(comment.timeSincePosted)")
-                        .font(.caption)
-                        .padding(.bottom, 4)
-      
-                    Text(comment.comment)
-                        .fixedSize(horizontal: false, vertical: true)
-                    
-                    // MARK: Image
-                    if let imageUrl = comment.image {
-                        KFImage(URL(string: "\(imageUrl)")!)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(idealWidth: abs(UIScreen.screenWidth / 1.1), idealHeight: abs(CGFloat(comment.imageHeight!) * (UIScreen.screenWidth / 1.1) / CGFloat(comment.imageWidth!)), maxHeight: abs(CGFloat(150)))
-                            .cornerRadius(15)
-                    }
-                }
-                .padding(.bottom)
-                
-                Spacer()
-                
-                VoteComponent
-            }
-        }
-    }
-    
-    var VoteComponent: some View {
-        VStack {
+    var voteComponent: some View {
+        HStack {
             if comment.voteStatus == 0 {
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     profileCommentBubbleVM.commentVote(direction: 1, dataManager: dataManager)
                 } label: {
-                    Image(systemName: "chevron.up")
-                        .foregroundColor(Color.pongSecondaryText)
+                    Image(systemName: "arrow.up")
+                        .foregroundColor(Color("pongSecondaryText"))
                 }
                 
                 Text("\(comment.score)")
-                    .foregroundColor(Color.pongSecondaryText)
+                    .foregroundColor(Color("pongSecondaryText"))
                 
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     profileCommentBubbleVM.commentVote(direction: -1, dataManager: dataManager)
                 } label: {
-                    Image(systemName: "chevron.down")
-                        .foregroundColor(Color.pongSecondaryText)
+                    Image(systemName: "arrow.down")
+                        .foregroundColor(Color("pongSecondaryText"))
                 }
             } else if comment.voteStatus == 1 {
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     profileCommentBubbleVM.commentVote(direction: 1, dataManager: dataManager)
                 } label: {
-                    Image(systemName: "chevron.up")
+                    Image(systemName: "arrow.up")
                         .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
                 }
                 
                 Text("\(comment.score + 1)")
-                    .foregroundColor(Color.pongSecondaryText)
+                    .foregroundColor(Color("pongSecondaryText"))
                 
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    profileCommentBubbleVM.commentVote(direction: -1, dataManager: dataManager)
+                    profileCommentBubbleVM.commentVote(direction: -1,  dataManager: dataManager)
                 } label: {
-                    Image(systemName: "chevron.down")
-                        .foregroundColor(Color.pongSecondaryText)
+                    Image(systemName: "arrow.down")
+                        .foregroundColor(Color("pongSecondaryText"))
                 }
             }
             else if comment.voteStatus == -1 {
@@ -155,22 +152,25 @@ struct ProfileCommentBubble: View {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     profileCommentBubbleVM.commentVote(direction: 1, dataManager: dataManager)
                 } label: {
-                    Image(systemName: "chevron.up")
-                        .foregroundColor(Color.pongSecondaryText)
+                    Image(systemName: "arrow.up")
+                        .foregroundColor(Color("pongSecondaryText"))
                 }
                 
                 Text("\(comment.score - 1)")
-                    .foregroundColor(Color.pongSecondaryText)
+                    .foregroundColor(Color("pongSecondaryText"))
                 
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     profileCommentBubbleVM.commentVote(direction: -1, dataManager: dataManager)
                 } label: {
-                    Image(systemName: "chevron.down")
+                    Image(systemName: "arrow.down")
                         .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
                 }
             }
+            
+            Spacer()
         }
-        .frame(width: 40, height: 80)
     }
 }
+
+
