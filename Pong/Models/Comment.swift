@@ -14,6 +14,7 @@ struct Comment: Hashable, Identifiable, Codable {
     var userOwned: Bool
     var voteStatus: Int
     var numberReplyingTo: Int?
+    var saved: Bool
     var image: String?
     var imageHeight: Int?
     var imageWidth: Int?

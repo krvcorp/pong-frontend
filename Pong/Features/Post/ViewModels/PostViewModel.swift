@@ -343,6 +343,57 @@ class PostViewModel: ObservableObject {
         }
     }
     
+    // MARK: Save Comment
+    func saveComment(comment: Comment, dataManager: DataManager) {
+        DispatchQueue.main.async {
+            self.post = post
+            self.post.saved = true
+            self.savedPostConfirmation = true
+            withAnimation {
+                self.postUpdateTrigger.toggle()
+            }
+        }
+        
+        NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/save/", method: .post) { successResponse, errorResponse in
+            if successResponse != nil {
+                
+            } else if errorResponse != nil {
+                DispatchQueue.main.async {
+                    self.post = post
+                    self.post.saved = false
+                    self.postUpdateTrigger.toggle()
+                    dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't save post")
+                }
+            }
+        }
+    }
+    
+    // MARK: Unsave Comment
+    func unsavePost(post: Post, dataManager: DataManager) {
+        DispatchQueue.main.async {
+            self.post = post
+            self.post.saved = false
+            withAnimation {
+                self.postUpdateTrigger.toggle()
+            }
+        }
+        
+        NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/save/", method: .delete) { successResponse, errorResponse in
+            if successResponse != nil {
+                
+            }
+            
+            if errorResponse != nil {
+                DispatchQueue.main.async {
+                    self.post = post
+                    self.post.saved = true
+                    self.postUpdateTrigger.toggle()
+                    dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't unsave post")
+                }
+            }
+        }
+    }
+    
     // MARK: DeletePost
     func deletePost(post: Post, dataManager: DataManager) {
         NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/", method: .delete) { successResponse, errorResponse in
