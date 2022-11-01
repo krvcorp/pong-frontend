@@ -34,6 +34,7 @@ var defaultComment = Comment(id: "default",
                              numberOnPost: 0,
                              userOwned: true,
                              voteStatus: 0,
+                             saved: false,
                              imageHeight: 0,
                              imageWidth: 0)
 

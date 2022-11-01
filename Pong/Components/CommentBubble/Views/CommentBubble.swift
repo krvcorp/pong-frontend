@@ -193,6 +193,24 @@ struct CommentBubble: View {
                         Label("Report", systemImage: "flag")
                     }
                     
+                    if comment.saved {
+                        Button {
+                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                            postVM.saveComment(comment: comment)
+                        } label: {
+                            Label("Report", systemImage: "flag")
+                        }
+                    }
+                    else {
+                        Button {
+                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                            postVM.reportComment(comment: comment)
+                        } label: {
+                            Label("Report", systemImage: "flag")
+                        }
+                        
+                    }
+                    
                     if !comment.userOwned {
                         Button {
                             UIImpactFeedbackGenerator(style: .medium).impactOccurred()

@@ -180,6 +180,7 @@ struct ProfileView: View {
                 }
             }
             else if tab == .comments {
+                let _ = debugPrint("DEBUG: \(dataManager.profileComments)")
                 if dataManager.profileComments != [] {
                     ForEach($dataManager.profileComments, id: \.id) { $comment in
 

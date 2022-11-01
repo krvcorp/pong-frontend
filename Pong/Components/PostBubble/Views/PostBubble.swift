@@ -83,12 +83,12 @@ struct PostBubble: View {
             .opacity(0.0)
             .buttonStyle(PlainButtonStyle())
             
-            VStack {
+            VStack (alignment: .leading) {
                 HStack {
                     Text("\(post.timeSincePosted) ago")
                         .font(.caption)
                         .foregroundColor(Color.pongSecondaryText)
-                        .padding(.bottom, 3)
+                        .padding(.bottom, 2)
                     Spacer()
                     if !post.userOwned {
                         Menu {
@@ -137,8 +137,6 @@ struct PostBubble: View {
                     Text(post.title)
                         .bold()
                         .fixedSize(horizontal: false, vertical: true)
-                        
-                    Spacer()
                 }
                 
                 // MARK: Image
@@ -213,7 +211,7 @@ struct PostBubble: View {
                 
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    self.image = textToImage(drawText: post.title, atPoint: CGPointMake(0, 0))
+//                    self.image = textToImage(drawText: post.title, atPoint: CGPointMake(0, 0))
                     sheet.toggle()
                 } label: {
                     Image(systemName: "square.and.arrow.up")
