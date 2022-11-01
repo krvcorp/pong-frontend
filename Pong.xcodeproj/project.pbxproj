@@ -120,7 +120,7 @@
 		6A832ED628A6C29300F4EBEF /* CommentCreateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A832ED528A6C29300F4EBEF /* CommentCreateModel.swift */; };
 		6A8F68DC28E3B57300246D5A /* UpdateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8F68DB28E3B57300246D5A /* UpdateModel.swift */; };
 		6AB2F8DE29103683002C7AF4 /* AboutUsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB2F8DD29103683002C7AF4 /* AboutUsView.swift */; };
-		6AE360F428F517CE00A5E115 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE360F328F517CE00A5E115 /* AppState.swift */; };
+		6AB2F8E02910AB1C002C7AF4 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB2F8DF2910AB1C002C7AF4 /* AppState.swift */; };
 		6AE360F628F6108900A5E115 /* LeaderboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE360F528F6108900A5E115 /* LeaderboardView.swift */; };
 		6AE360F928F9249000A5E115 /* SwiftyImage in Frameworks */ = {isa = PBXBuildFile; productRef = 6AE360F828F9249000A5E115 /* SwiftyImage */; };
 		6AEE15D428AC4AC600EEF1E6 /* Poll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEE15D328AC4AC600EEF1E6 /* Poll.swift */; };
@@ -253,7 +253,7 @@
 		6A832ED528A6C29300F4EBEF /* CommentCreateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCreateModel.swift; sourceTree = "<group>"; };
 		6A8F68DB28E3B57300246D5A /* UpdateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateModel.swift; sourceTree = "<group>"; };
 		6AB2F8DD29103683002C7AF4 /* AboutUsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutUsView.swift; sourceTree = "<group>"; };
-		6AE360F328F517CE00A5E115 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		6AB2F8DF2910AB1C002C7AF4 /* AppState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		6AE360F528F6108900A5E115 /* LeaderboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardView.swift; sourceTree = "<group>"; };
 		6AEE15D328AC4AC600EEF1E6 /* Poll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Poll.swift; sourceTree = "<group>"; };
 		82AEE06728AEDF2A00738EB5 /* LeaderboardAwardCoin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardAwardCoin.swift; sourceTree = "<group>"; };
@@ -343,12 +343,12 @@
 		6A449BBD2896F4320015826A /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				6AB2F8DF2910AB1C002C7AF4 /* AppState.swift */,
 				D3FF841228BC6B96003C8B06 /* DataManager.swift */,
 				6A6F2D5928BE73080091CFE4 /* SchoolManager.swift */,
 				6A449BBF2896F4320015826A /* AuthManager.swift */,
 				28CC02D528BEC26400C10262 /* NotificationsManager.swift */,
 				6A449BBE2896F4320015826A /* NetworkManager.swift */,
-				6AE360F328F517CE00A5E115 /* AppState.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -1331,6 +1331,7 @@
 				D339621828BC1A41003AC841 /* Onboard.swift in Sources */,
 				6A449C662896F4320015826A /* AuthManager.swift in Sources */,
 				28CC02D628BEC26400C10262 /* NotificationsManager.swift in Sources */,
+				6AB2F8E02910AB1C002C7AF4 /* AppState.swift in Sources */,
 				6A449C912896F4320015826A /* MainTabView.swift in Sources */,
 				6A61D04D28E0FAC2003188EE /* MarketplaceItemViewModel.swift in Sources */,
 				D32D0B3028EB8F9A00EF548E /* AccountActionsView.swift in Sources */,
@@ -1383,7 +1384,6 @@
 				6A449CC52896F4330015826A /* PollViewModel.swift in Sources */,
 				6A6F2D4F28BCE9470091CFE4 /* CommentListModel.swift in Sources */,
 				6A449C962896F4330015826A /* PongApp.swift in Sources */,
-				6AE360F428F517CE00A5E115 /* AppState.swift in Sources */,
 				6A449CB12896F4330015826A /* NewPoll.swift in Sources */,
 				6A7E109928AED83500CE3CFD /* PollVoteModel.swift in Sources */,
 				6A449C922896F4320015826A /* NewPostViewModel.swift in Sources */,

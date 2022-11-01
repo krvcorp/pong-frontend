@@ -113,7 +113,7 @@ class PostViewModel: ObservableObject {
                 .responseDecodable(of: Comment.self, decoder: decoder) { (successResponse) in
                     if let successResponse = successResponse.value {
                         DispatchQueue.main.async {
-                            NotificationsManager.notificationsManager.registerForNotifications()
+                            NotificationsManager.shared.registerForNotifications(forceRegister: false)
                             if let index = dataManager.postComments.firstIndex(where: {$0.0 == post.id}) {
                                 dataManager.postComments[index].1.insert(successResponse, at: 0)
                             }
@@ -140,7 +140,7 @@ class PostViewModel: ObservableObject {
             NetworkManager.networkManager.request(route: "comments/", method: .post, body: parameters, successType: Comment.self) { successResponse, errorResponse in
                 if let successResponse = successResponse {
                     DispatchQueue.main.async {
-                        NotificationsManager.notificationsManager.registerForNotifications()
+                        NotificationsManager.shared.registerForNotifications(forceRegister: false)
                         if let index = dataManager.postComments.firstIndex(where: {$0.0 == post.id}) {
                             dataManager.postComments[index].1.insert(successResponse, at: 0)
                         }
@@ -207,7 +207,7 @@ class PostViewModel: ObservableObject {
                 .responseDecodable(of: Comment.self, decoder: decoder) { (successResponse) in
                     if let successResponse = successResponse.value {
                         DispatchQueue.main.async {
-                            NotificationsManager.notificationsManager.registerForNotifications()
+                            NotificationsManager.shared.registerForNotifications(forceRegister: false)
                             if let index1 = dataManager.postComments.firstIndex(where: {$0.0 == post.id}) {
                                 if let index2 = dataManager.postComments[index1].1.firstIndex(where: {$0.id == successResponse.parent}) {
                                         dataManager.postComments[index1].1[index2].children.insert(successResponse, at: 0)
@@ -236,7 +236,7 @@ class PostViewModel: ObservableObject {
             NetworkManager.networkManager.request(route: "comments/", method: .post, body: parameters, successType: Comment.self) { successResponse, errorResponse in
                 if let successResponse = successResponse {
                     DispatchQueue.main.async {
-                        NotificationsManager.notificationsManager.registerForNotifications()
+                        NotificationsManager.shared.registerForNotifications(forceRegister: false)
                         
                         if let index1 = dataManager.postComments.firstIndex(where: {$0.0 == post.id}) {
                             if let index2 = dataManager.postComments[index1].1.firstIndex(where: {$0.id == successResponse.parent}) {

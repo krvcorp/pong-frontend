@@ -4,7 +4,7 @@ import AlertToast
 struct NotificationsView: View {
     @StateObject private var notificationsVM = NotificationsViewModel()
     @ObservedObject private var dataManager = DataManager.shared
-    @ObservedObject private var notificationsManager = NotificationsManager.notificationsManager
+    @ObservedObject private var notificationsManager = NotificationsManager.shared
     @EnvironmentObject var mainTabVM : MainTabViewModel
     @State private var showAlert = false
     @Environment(\.colorScheme) var colorScheme: ColorScheme
@@ -137,7 +137,6 @@ struct NotificationsView: View {
                 }
                 .scrollContentBackgroundCompat()
                 .refreshable() {
-                    print("DEBUG: REFRESH")
                     notificationsVM.getNotificationHistoryWeek()
                     notificationsVM.getNotificationHistoryPrevious()
                 }
@@ -148,6 +147,7 @@ struct NotificationsView: View {
                 UITableView.appearance().showsVerticalScrollIndicator = false
                 notificationsVM.getNotificationHistoryWeek()
                 notificationsVM.getNotificationHistoryPrevious()
+                UIApplication.shared.applicationIconBadgeNumber = 0
             }
             .navigationTitle("Activity")
             .navigationBarTitleDisplayMode(.inline)

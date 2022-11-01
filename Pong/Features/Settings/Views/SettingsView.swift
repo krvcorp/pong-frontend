@@ -5,7 +5,7 @@ import UniformTypeIdentifiers
 struct SettingsView: View {
     @StateObject private var settingsVM = SettingsViewModel()
     @State private var shareSheet = false
-    @ObservedObject private var notificationsManager = NotificationsManager.notificationsManager
+    @ObservedObject private var notificationsManager = NotificationsManager.shared
     @Environment(\.colorScheme) var colorScheme: ColorScheme
     @Environment(\.scenePhase) private var scenePhase
     
@@ -178,7 +178,6 @@ struct SettingsView: View {
                 // MARK: Notifications
                 if !notificationsManager.notificationsPreference {
                     VStack {
-                        
                         VStack {
                             HStack {
                                 Image(systemName: "bell").font(Font.body.weight(.bold))
@@ -208,6 +207,24 @@ struct SettingsView: View {
                         }
                     }
                 }
+                
+                // MARK: Register For Notifications
+                #if DEBUG
+                HStack {
+                    Button {
+                        NotificationsManager.shared.registerForNotifications(forceRegister: true)
+                    } label: {
+                        HStack{
+                            Image(systemName: "bell").font(Font.body.weight(.bold))
+                                .frame(width: 20)
+                            Text("Register for FCM Token")
+                                .bold()
+                            Spacer()
+                        }
+                    }
+                }
+                .frame(minHeight: 30)
+                #endif
             }
             .listRowBackground(Color.pongSystemBackground)
             .listRowSeparator(.hidden)

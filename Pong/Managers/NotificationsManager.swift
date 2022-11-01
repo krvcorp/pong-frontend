@@ -4,7 +4,7 @@ import SwiftUI
 
 class NotificationsManager: ObservableObject {
     
-    static let notificationsManager = NotificationsManager()
+    static let shared = NotificationsManager()
     
     let defaults = UserDefaults.standard
     
@@ -34,19 +34,23 @@ class NotificationsManager: ObservableObject {
     }
     
     // MARK: RegisterForNotifications
-    func registerForNotifications() {
+    func registerForNotifications(forceRegister: Bool) {
         let current = UNUserNotificationCenter.current()
 
         current.getNotificationSettings(completionHandler: { (settings) in
-            if settings.authorizationStatus == .notDetermined {
+            if settings.authorizationStatus == .notDetermined || forceRegister {
                 // Notification permission has not been asked yet, go for it!
                 Messaging.messaging().token { token, error in
                     if let token = token {
+                        // send fcm token
+                        NetworkManager.networkManager.emptyRequest(route: "notifications/register/", method: .post, body: Registration.Request(fcm_token: token)) { success, error in
+                            print("DEBUG: Notifications Registered")
+                        }
+                        
+                        // ask for permission
                         let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
                         UNUserNotificationCenter.current().requestAuthorization(options: authOptions) { _, _ in
-                            NetworkManager.networkManager.emptyRequest(route: "notifications/register/", method: .post, body: Registration.Request(fcm_token: token)) { success, error in
-                                print("DEBUG: Notifications Registered")
-                            }
+
                         }
                         UIApplication.shared.registerForRemoteNotifications()
                     }

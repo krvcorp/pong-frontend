@@ -11,7 +11,7 @@ struct PostView: View {
     
     @Binding var post : Post
     @StateObject var postVM = PostViewModel()
-    @ObservedObject private var notificationsManager = NotificationsManager.notificationsManager
+    @ObservedObject private var notificationsManager = NotificationsManager.shared
     
     // local variables
     @State private var text = ""

@@ -3,7 +3,7 @@ import AlertToast
 
 struct ProfileView: View {
     @Environment(\.colorScheme) var colorScheme
-    @EnvironmentObject var dataManager : DataManager
+    @ObservedObject var dataManager = DataManager.shared
     @StateObject private var profileVM = ProfileViewModel()
     
     var body: some View {

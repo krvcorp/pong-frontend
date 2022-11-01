@@ -5,7 +5,7 @@ import AlertToast
 
 struct ReferralsView: View {
     @StateObject var referralsVM = ReferralsViewModel()
-    @EnvironmentObject var dataManager : DataManager
+    @ObservedObject var dataManager = DataManager.shared
     @State private var sheet : Bool = false
     
     @State var referralCode: String = ""
@@ -179,9 +179,6 @@ struct ReferralsView: View {
         }
         .navigationBarTitle("Referrals")
         .navigationBarTitleDisplayMode(.inline)
-        .onTapGesture {
-            hideKeyboard()
-        }
         .toast(isPresenting: $dataManager.errorDetected) {
             AlertToast(displayMode: .hud, type: .error(Color.red), title: dataManager.errorDetectedMessage, subTitle: dataManager.errorDetectedSubMessage)
         }

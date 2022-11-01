@@ -60,6 +60,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         // Print full message.
 
         // Change this to your preferred presentation option
+        
+//        if signed in return the alert and sound, else, return nothing
         return [[.alert, .sound]]
     }
     

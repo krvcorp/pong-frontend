@@ -8,7 +8,7 @@ struct FeedView: View {
     @EnvironmentObject var dataManager : DataManager
     @Environment(\.presentationMode) var presentationMode
     @StateObject var feedVM = FeedViewModel()
-    @ObservedObject private var notificationsManager = NotificationsManager.notificationsManager
+    @ObservedObject private var notificationsManager = NotificationsManager.shared
     @Binding var showMenu : Bool
     
     // MARK: Conversation
