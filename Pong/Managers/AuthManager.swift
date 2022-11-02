@@ -14,6 +14,7 @@ class AuthManager: ObservableObject {
     @Published var signedOutAlert : Bool = false
     
     // MARK: LOAD CURRENT STATE
+    /// Determines if the user is signed in by checking the keychain for a userId and a token.
     func loadCurrentState() {
         withAnimation {
             self.isSignedIn = (DAKeychain.shared["userId"] != nil && DAKeychain.shared["token"] != nil)
@@ -30,7 +31,8 @@ class AuthManager: ObservableObject {
         }
     }
     
-    // MARK: signout: set keychain nil
+    // MARK: Signout
+    /// Signs out the user. It will reset UserDefaults and remove all entries stored in the keychain.
     func signout() {
         DispatchQueue.main.async {
             withAnimation {
@@ -45,10 +47,14 @@ class AuthManager: ObservableObject {
                 DAKeychain.shared["onboarded"] = nil
                 DAKeychain.shared["referred"] = nil
                 self.signedOutAlert = true
+                
+                NotificationsManager().removeFCMToken()
             }
         }
     }
     
+    // MARK: ResetDefaults
+    /// Helper function to remove all entries in UserDefaults
     func resetDefaults() {
         let defaults = UserDefaults.standard
         let dictionary = defaults.dictionaryRepresentation()

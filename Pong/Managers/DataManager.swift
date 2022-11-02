@@ -124,7 +124,7 @@ class DataManager : ObservableObject {
                 }
             }
             
-            if let errorResponse = errorResponse {
+            if errorResponse != nil {
                 self.errorDetected(message: "Something went wrong!", subMessage: "Couldn't load app")
             }
         }

@@ -10,6 +10,7 @@ class EmailVerificationViewModel: ObservableObject {
     @Published var loginErrorMessage: String = "error"
 
     // MARK: Google OAuth2.0
+    /// Sign in via Google. Gives the user a popup to sign in with their Google account
     let signInConfig = GIDConfiguration(clientID: "43678979560-6ah9oj1h0cvvd5is4al3lmkmdmd1tdqd.apps.googleusercontent.com")
 
     func signinWithGoogle() {
@@ -37,6 +38,7 @@ class EmailVerificationViewModel: ObservableObject {
     }
     
     // MARK: Microsoft MSAL
+    /// Sign in via MSAL. Gives the user a popup to sign in with their Microsoft account
     func signInWithMicrosoft() {
         let scenes = UIApplication.shared.connectedScenes
         let windowScene = scenes.first as? UIWindowScene
@@ -71,7 +73,8 @@ class EmailVerificationViewModel: ObservableObject {
         }
     }
 
-    // MARK: VerifyEmail, set keychain
+    // MARK: VerifyEmail
+    /// Verifies email and logs in the user if successful. Otherwise it prompts the user that they're unable to sign in
     private func verifyEmail(idToken: String, loginType: String) {
         let parameters = VerifyEmailModel.Request(idToken: idToken, loginType: loginType)
         
@@ -109,6 +112,7 @@ class EmailVerificationViewModel: ObservableObject {
                         
                         AuthManager.authManager.loadCurrentState()
                     }
+                    
                     if let errorResponse = errorResponse {
                         self.loginErrorMessage = errorResponse.error
                         self.loginError = true

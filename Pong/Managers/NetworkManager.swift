@@ -86,18 +86,6 @@ class NetworkManager: ObservableObject {
                     print("NETWORK: .responseDecodable Error")
                     completionHandler(nil, error)
                 }
-                .responseJSON() { (response) in
-                    switch response.result {
-                    case .success:
-                        print("NETWORK: \(route)")
-                        print("NETWORK: .responseJSON Success")
-                        break
-                    case let .failure(error):
-//                        print("NETWORK: \(route)")
-//                        print("NETWORK: .responseJSON Error \(error.localizedDescription)")
-                        completionHandler(nil, ErrorResponse(error: "Something went wrong!"))
-                    }
-                }
         } else {
             AF.request(self.baseURL+route, method: method, parameters: body, encoder: parameterEncoder, headers: httpHeaders)
                 .response() { (response) in
@@ -121,15 +109,6 @@ class NetworkManager: ObservableObject {
                 .responseDecodable(of: ErrorResponse.self, decoder: decoder) { (response) in
                     guard let error = response.value else { return }
                     completionHandler(nil, error)
-                }
-                .responseJSON() { (response) in
-                    switch response.result {
-                    case .success:
-                        break
-                    case let .failure(error):
-                        print("NETWORK: \(error.localizedDescription)")
-                        completionHandler(nil, ErrorResponse(error: "Something went wrong!"))
-                    }
                 }
         }
     }

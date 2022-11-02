@@ -1,11 +1,13 @@
 import Foundation
-
+import UIKit
 
 class NotificationsViewModel: ObservableObject {
     @Published var notificationHistoryWeek: [NotificationsModel] = []
     @Published var notificationHistoryPrevious: [NotificationsModel] = []
     @Published var post: Post = defaultPost
     
+    // MARK: GetNotificationsHistoryWeek
+    /// Gets the notifications from within the current week timeframe
     func getNotificationHistoryWeek() {
         NetworkManager.networkManager.request(route: "notifications/?sort=week", method: .get, successType: [NotificationsModel].self) { successResponse, errorResponse in
             if let successResponse = successResponse {
@@ -16,6 +18,8 @@ class NotificationsViewModel: ObservableObject {
         }
     }
     
+    // MARK: GetNotificationsHistoryPrevious
+    /// Gets the notifications from history before the current week timeframe
     func getNotificationHistoryPrevious() {
         NetworkManager.networkManager.request(route: "notifications/?sort=previous", method: .get, successType: [NotificationsModel].self) { successResponse, errorResponse in
             if let successResponse = successResponse {
@@ -26,6 +30,8 @@ class NotificationsViewModel: ObservableObject {
         }
     }
     
+    // MARK: GetPost
+    /// Gets the post of a particular notification
     func getPost(url: String, id: String, completionHandler: @escaping (Post) -> Void) {
         NetworkManager.networkManager.request(route: "\(url)", method: .get, successType: Post.self) { successResponse, errorResponse in
             if successResponse != nil {
@@ -34,13 +40,14 @@ class NotificationsViewModel: ObservableObject {
             }
             
             if errorResponse != nil {
-                self.markNotificationAsRead(id: id)
                 DataManager.shared.errorDetected(message: "Something went wrong!", subMessage: "This post was probably deleted.")
             }
+            self.markNotificationAsRead(id: id)
         }
     }
     
-    // a function to mark a notification as read
+    // MARK: MarkNotificationAsRead
+    /// Marks a particular notification as read. Will decrement the badge number
     func markNotificationAsRead(id: String) {
         NetworkManager.networkManager.emptyRequest(route: "notifications/\(id)/read/", method: .post) { successResponse, errorResponse in
             if successResponse != nil {
@@ -51,6 +58,8 @@ class NotificationsViewModel: ObservableObject {
                 if let index = self.notificationHistoryPrevious.firstIndex(where: { $0.id == id }) {
                     self.notificationHistoryPrevious[index].data.read = true
                 }
+                // decrement badge count by 1
+                UIApplication.shared.applicationIconBadgeNumber -= 1
             }
             if errorResponse != nil {
                 debugPrint("Error marking notification as read")
@@ -58,6 +67,8 @@ class NotificationsViewModel: ObservableObject {
         }
     }
     
+    // MARK: MarkAllNotificationsAsRead
+    /// Marks all notifications as read. Will set the badge number as 0
     func markAllAsRead() {
         NetworkManager.networkManager.emptyRequest(route: "notifications/readall/", method: .post) { successResponse, errorResponse in
             if successResponse != nil {
@@ -68,6 +79,8 @@ class NotificationsViewModel: ObservableObject {
                 for i in 0..<self.notificationHistoryPrevious.count {
                     self.notificationHistoryPrevious[i].data.read = true
                 }
+                // set badge count to 0
+                UIApplication.shared.applicationIconBadgeNumber = 0
             }
             if errorResponse != nil {
                 debugPrint("Welp, something went wrong.")

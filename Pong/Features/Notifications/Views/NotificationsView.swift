@@ -147,7 +147,6 @@ struct NotificationsView: View {
                 UITableView.appearance().showsVerticalScrollIndicator = false
                 notificationsVM.getNotificationHistoryWeek()
                 notificationsVM.getNotificationHistoryPrevious()
-                UIApplication.shared.applicationIconBadgeNumber = 0
             }
             .navigationTitle("Activity")
             .navigationBarTitleDisplayMode(.inline)
@@ -159,6 +158,8 @@ struct NotificationsView: View {
         }
     }
     
+    // MARK: GetNotificationText
+    /// Returns the notifcation block based on the notification type
     func getNotificationText(notificationModel: NotificationsModel) -> some View {
         return
             HStack {
@@ -192,8 +193,8 @@ struct NotificationsView: View {
             }
     }
     
-    
-    
+    // MARK: GetImageNameFromType
+    /// Returns the image name based on the notification type
     func getImageNameFromType(type: NotificationsModel.Data.NotificationType) -> String {
         switch type {
         case .upvote:
@@ -215,6 +216,8 @@ struct NotificationsView: View {
         }
     }
     
+    // MARK: GetGradientColorsFromType
+    /// Returns the gradient colors based on the notification type
     func getGradientColorsFromType(type: NotificationsModel.Data.NotificationType) -> (Color, Color) {
         switch type {
         case .upvote:

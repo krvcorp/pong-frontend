@@ -34,6 +34,7 @@ class NotificationsManager: ObservableObject {
     }
     
     // MARK: RegisterForNotifications
+    /// Attempts to register for notifications. If the user hasn't registered for notifications before, it will prompt the user to turn on notifications. Once that has been set, the user will no longer be prompted to turn on notifications
     func registerForNotifications(forceRegister: Bool) {
         let current = UNUserNotificationCenter.current()
 
@@ -66,6 +67,7 @@ class NotificationsManager: ObservableObject {
     }
     
     // MARK: UpdateNotificationsPreferences
+    /// Determines if the user has notification settings on, and if it isn't, displays a CTA to turn on notifications
     func updateNotificationsPreferences() {
         let current = UNUserNotificationCenter.current()
 
@@ -78,5 +80,13 @@ class NotificationsManager: ObservableObject {
                 }
             }
         })
+    }
+    
+    // MARK: Remove FCM Token
+    /// Send a network request and sets the user's FCM token to be "". This will prevent notifications to be sent to the device the user just signed out of
+    func removeFCMToken() {
+        NetworkManager.networkManager.emptyRequest(route: "notifications/register/", method: .post, body: Registration.Request(fcm_token: "")) { success, error in
+            print("DEBUG: Notifications Removed")
+        }
     }
 }

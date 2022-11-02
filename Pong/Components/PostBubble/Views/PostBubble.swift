@@ -1,7 +1,6 @@
 import SwiftUI
 import AlertToast
 import Kingfisher
-import SwiftyImage
 
 struct PostBubble: View {
     @Binding var post : Post

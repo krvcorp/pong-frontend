@@ -19,6 +19,8 @@ class AppState: ObservableObject {
     @Published var conversationToNavigateTo : String?
     @Published var conversation : Conversation = defaultConversation
     
+    // MARK: ReadPost
+    /// Get a post based on the user tapping on a notification
     func readPost(url : String) {
         print("DEBUG: AppState.readPost \(url)")
         NetworkManager.networkManager.request(route: "posts/\(url)/", method: .get, successType: Post.self) { successResponse, errorResponse in
@@ -37,6 +39,8 @@ class AppState: ObservableObject {
         }
     }
     
+    // MARK: ReadConversation
+    /// Get a conversation based on the user tapping on a notification
     func readConversation(url : String) {
         print("DEBUG: appState.readConversation \(url)")
         NetworkManager.networkManager.request(route: "conversations/\(url)/", method: .get, successType: Conversation.self) { successResponse, errorResponse in

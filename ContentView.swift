@@ -95,6 +95,7 @@ struct ContentView: View {
             }
             .navigationBarHidden(true)
             .edgesIgnoringSafeArea([.top, .bottom])
+            // MARK: Overlays used for the user tapping on a notification / the user tapped on a shared link
             .overlay(NavigationLink(destination: PostView(post: $appState.post), isActive: postPushNavigationBinding) {
                 EmptyView()
             })
@@ -104,7 +105,7 @@ struct ContentView: View {
             .overlay(NavigationLink(destination: MessageView(conversation: $appState.conversation), isActive: conversationPushNavigationBinding) {
                 EmptyView()
             })
-            // MARK: Someone send external link
+            // MARK: Parsing the universal link the user clicked
             .onOpenURL { url in
                 print("DEBUG: \(url.absoluteString)")
                 let parts = url.absoluteString.split(separator: "/")

@@ -151,7 +151,6 @@
 		D3D7EA4828C15417002E75F0 /* CreateConversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D7EA4728C15417002E75F0 /* CreateConversation.swift */; };
 		D3FF841328BC6B96003C8B06 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3FF841228BC6B96003C8B06 /* DataManager.swift */; };
 		D3FF841628BC6BCA003C8B06 /* PaginateProfileCommentsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3FF841528BC6BCA003C8B06 /* PaginateProfileCommentsModel.swift */; };
-		D3FF841828BC6C4B003C8B06 /* ImageShare.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3FF841728BC6C4B003C8B06 /* ImageShare.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -281,7 +280,6 @@
 		D3D7EA4728C15417002E75F0 /* CreateConversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateConversation.swift; sourceTree = "<group>"; };
 		D3FF841228BC6B96003C8B06 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		D3FF841528BC6BCA003C8B06 /* PaginateProfileCommentsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginateProfileCommentsModel.swift; sourceTree = "<group>"; };
-		D3FF841728BC6C4B003C8B06 /* ImageShare.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageShare.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1026,7 +1024,6 @@
 			isa = PBXGroup;
 			children = (
 				6A449C332896F4320015826A /* Extensions.swift */,
-				D3FF841728BC6C4B003C8B06 /* ImageShare.swift */,
 				289CC871289C68D8009C1DCE /* LoadingView.swift */,
 				6A78FA5B28A1A82C00B75CC6 /* DAKeychain.swift */,
 				6A09D64628A59E9A005E5C23 /* ImagePicker.swift */,
@@ -1397,7 +1394,6 @@
 				6A449CAE2896F4330015826A /* Extensions.swift in Sources */,
 				6A449C782896F4320015826A /* MessageRosterView.swift in Sources */,
 				6A449C792896F4320015826A /* PostViewModel.swift in Sources */,
-				D3FF841828BC6C4B003C8B06 /* ImageShare.swift in Sources */,
 				6A61D02C28E0A453003188EE /* (null) in Sources */,
 				6A61D02E28E0A453003188EE /* (null) in Sources */,
 				6A449CBB2896F4330015826A /* ProfileCommentBubbleViewModel.swift in Sources */,
