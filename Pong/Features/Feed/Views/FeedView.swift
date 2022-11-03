@@ -15,6 +15,8 @@ struct FeedView: View {
     @State private var isLinkActive = false
     @State private var conversation = defaultConversation
     
+    @Namespace var namespace
+    
     var body: some View {
         NavigationView {
             TabView(selection: $feedVM.selectedFeedFilter) {
@@ -41,17 +43,6 @@ struct FeedView: View {
                             .font(.title3)
                     }
                 }
-                
-//                ToolbarItem(placement: .navigationBarLeading) {
-//                    Button {
-//                        withAnimation {
-//                            showMenu.toggle()
-//                        }
-//                    } label: {
-//                        Image(systemName: "line.horizontal.3")
-//                            .imageScale(.large)
-//                    }
-//                }
                 
                 ToolbarItem(placement: .principal) {
                     toolbarPickerComponent
@@ -98,34 +89,42 @@ struct FeedView: View {
     
     
     // MARK: ToolbarPickerComponent
+    /// The filter bar that allows the user to tap on top, hot, or recent
     var toolbarPickerComponent : some View {
-        HStack {
+        HStack(spacing: 15) {
             ForEach(FeedFilter.allCases, id: \.self) { filter in
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     feedVM.selectedFeedFilter = filter
                 } label: {
-                    if feedVM.selectedFeedFilter == filter {
-                        HStack(spacing: 5) {
-//                            Image(systemName: filter.filledImageName)
-                            Text(filter.title)
-                                .font(.subheadline.bold())
+                    VStack(spacing: 0) {
+                        Spacer()
+                        
+                        Text(filter.title)
+                            .font(.subheadline.bold())
+                            .foregroundColor(feedVM.selectedFeedFilter == filter ? Color.pongAccent : Color.pongSecondaryText)
+                        
+                        Spacer()
+                        
+                        if feedVM.selectedFeedFilter == filter {
+                            Color.pongAccent
+                                .frame(height: 2)
+                                .matchedGeometryEffect(id: "underline",
+                                                       in: namespace,
+                                                       properties: .frame)
+                        } else {
+                            Color.clear.frame(height: 2)
                         }
-
-                    } else {
-                        HStack(spacing: 5) {
-//                            Image(systemName: filter.imageName)
-                            Text(filter.title)
-                                .font(.subheadline.bold())
-                        }
-                        .foregroundColor(Color.pongSecondaryText)
                     }
+                    .animation(.spring(), value: feedVM.selectedFeedFilter)
                 }
             }
         }
+        .padding(0)
     }
     
-    // Component at the bottom of the list
+    // MARK: ReachedBottomComponent
+    /// If the user somehow reaches the bottom of the feed and the pagination doesn't fire, there is another component that triggers on appear to paginate and allows the user to tap on in order to paginate again
     var reachedBottomComponent : some View {
         HStack {
             Spacer()
@@ -144,6 +143,7 @@ struct FeedView: View {
             List {
                 // MARK: TOP
                 if tab == .top {
+                    //MARK: Top filter bar component
                     HStack {
                         Spacer()
                         
@@ -166,13 +166,15 @@ struct FeedView: View {
                         Spacer()
                     }
                     .buttonStyle(PlainButtonStyle())
-                    .listRowBackground(Color.pongSystemBackground)
+                    .listRowBackground(Color.pongSecondarySystemBackground)
                     .listRowSeparator(.hidden)
                     .onChange(of: feedVM.selectedTopFilter) { newValue in
                         feedVM.paginatePostsReset(selectedFeedFilter: .top, dataManager: dataManager)
                     }
                     
                     ForEach($dataManager.topPosts, id: \.id) { $post in
+                        CustomListDivider()
+                        
                         PostBubble(post: $post, isLinkActive: $isLinkActive, conversation: $conversation)
                             .buttonStyle(PlainButtonStyle())
                             .onAppear {
@@ -180,11 +182,6 @@ struct FeedView: View {
                             }
                             .listRowSeparator(.hidden)
                             .listRowBackground(Color.pongSystemBackground)
-                            .padding(.bottom, 5)
-                            .padding(.leading, 15)
-                            .padding(.trailing, 15)
-
-                        CustomListDivider()
                     }
                     .listRowInsets(EdgeInsets())
                     
@@ -204,6 +201,8 @@ struct FeedView: View {
                 // MARK: HOT
                 else if tab == .hot {
                     ForEach($dataManager.hotPosts, id: \.id) { $post in
+                        CustomListDivider()
+                        
                         PostBubble(post: $post, isLinkActive: $isLinkActive, conversation: $conversation)
                             .buttonStyle(PlainButtonStyle())
                             .onAppear {
@@ -211,11 +210,6 @@ struct FeedView: View {
                             }
                             .listRowSeparator(.hidden)
                             .listRowBackground(Color.pongSystemBackground)
-                            .padding(.bottom, 5)
-                            .padding(.leading, 15)
-                            .padding(.trailing, 15)
-
-                        CustomListDivider()
                     }
                     .listRowInsets(EdgeInsets())
                     
@@ -236,6 +230,8 @@ struct FeedView: View {
                 // MARK: RECENT
                 else if tab == .recent {
                     ForEach($dataManager.recentPosts, id: \.id) { $post in
+                        CustomListDivider()
+                        
                         PostBubble(post: $post, isLinkActive: $isLinkActive, conversation: $conversation)
                             .buttonStyle(PlainButtonStyle())
                             .onAppear {
@@ -243,11 +239,6 @@ struct FeedView: View {
                             }
                             .listRowSeparator(.hidden)
                             .listRowBackground(Color.pongSystemBackground)
-                            .padding(.bottom, 5)
-                            .padding(.leading, 15)
-                            .padding(.trailing, 15)
-
-                        CustomListDivider()
                     }
                     .listRowInsets(EdgeInsets())
                     if !feedVM.finishedRecent {
@@ -265,7 +256,7 @@ struct FeedView: View {
                 }
             }
             .scrollContentBackgroundCompat()
-            .background(Color.pongSystemBackground)
+            .background(Color.pongSecondarySystemBackground)
             .environment(\.defaultMinListRowHeight, 0)
             .onChange(of: mainTabVM.scrollToTop, perform: { newValue in
                 withAnimation {

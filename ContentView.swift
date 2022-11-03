@@ -118,6 +118,6 @@ struct ContentView: View {
         }
         .environmentObject(MainTabViewModel(initialIndex: 1, customItemIndex: 3))
         .environmentObject(appState)
-        .accentColor(Color(UIColor.label))
+        .accentColor(Color.pongAccent)
     }
 }

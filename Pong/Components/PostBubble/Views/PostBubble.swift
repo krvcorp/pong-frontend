@@ -17,16 +17,18 @@ struct PostBubble: View {
     @Binding var conversation : Conversation
     
     var body: some View {
-        VStack {
+        VStack() {
+            // need a top row, content row, and a bottom row
+            postBubbleTop
+                .padding(.horizontal)
+            
             postBubbleMain
-                .padding(.bottom)
             
             postBubbleBottomRow
+                .padding(.horizontal)
         }
         .font(.system(size: 18).bold())
-        .padding(.top, 10)
-//        .padding(.leading, 15)
-//        .padding(.trailing, 15)
+        .padding(.vertical, 10)
         
         // MARK: Binds the values of postVM.post and the binding Post passed down from Feed
         .onChange(of: postBubbleVM.updateTrigger) { newValue in
@@ -73,6 +75,91 @@ struct PostBubble: View {
         }
     }
     
+    // MARK: PostBubbleTop
+    var postBubbleTop: some View {
+        VStack {
+            HStack {
+                Text("\(post.timeSincePosted) ago")
+                    .font(.caption)
+                    .foregroundColor(Color.pongSecondaryText)
+                    .padding(.bottom, 2)
+                
+                Spacer()
+                
+                if !post.userOwned {
+                    Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        postBubbleVM.post = post
+                        postBubbleVM.startConversation(post: post, dataManager: dataManager) { success in
+                            conversation = success
+                            isLinkActive = true
+                        }
+                    } label: {
+                        HStack(spacing: 2) {
+                            Image(systemName: "bubble.left.fill")
+                            Text("Message")
+                        }
+                        .font(.caption.bold())
+                        .padding(.vertical, 5)
+                        .padding(.horizontal, 5)
+                        .foregroundColor(Color.white)
+                        .overlay(RoundedRectangle(cornerRadius: 15).stroke().foregroundColor(Color.pongAccent))
+                        .background(Color.pongAccent)
+                        .cornerRadius(15)
+                    }
+                    
+                    Menu {
+                        Button {
+                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                            postBubbleVM.post = post
+                            postBubbleVM.activeAlert = .block
+                            postBubbleVM.showConfirmation = true
+                        } label: {
+                            Label("Block user", systemImage: "x.circle")
+                        }
+                        
+                        Button {
+                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                            postBubbleVM.post = post
+                            postBubbleVM.activeAlert = .report
+                            postBubbleVM.showConfirmation = true
+                        } label: {
+                            Label("Report", systemImage: "flag")
+                        }
+                    } label: {
+                        Image(systemName: "ellipsis")
+                            .frame(width: 30, height: 30)
+                    }
+                    .frame(width: 25, height: 25)
+                    .foregroundColor(Color("pongSecondaryText"))
+                }
+            }
+            
+            if let tagName = post.tag {
+                HStack {
+                    Text(Tag(rawValue: tagName)!.title!)
+                        .padding(1)
+                        .padding(.horizontal)
+                        .foregroundColor(Color(UIColor.systemBackground))
+                        .overlay(RoundedRectangle(cornerRadius: 15).stroke(Tag(rawValue: tagName)!.color, lineWidth: 2))
+                        .background(Tag(rawValue: tagName)!.color)
+                        .cornerRadius(15)         // You also need the cornerRadius here
+                        .padding(.bottom)
+                    Spacer()
+                }
+                .padding(0)
+            }
+            
+            HStack() {
+                Text(post.title)
+                    .bold()
+                    .fixedSize(horizontal: false, vertical: true)
+                
+                Spacer()
+            }
+        }
+    }
+    
     // MARK: PostBubbleMain
     var postBubbleMain: some View {
         ZStack {
@@ -83,68 +170,11 @@ struct PostBubble: View {
             .buttonStyle(PlainButtonStyle())
             
             VStack (alignment: .leading) {
-                HStack {
-                    Text("\(post.timeSincePosted) ago")
-                        .font(.caption)
-                        .foregroundColor(Color.pongSecondaryText)
-                        .padding(.bottom, 2)
-                    Spacer()
-                    if !post.userOwned {
-                        Menu {
-                            Button {
-                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                                postBubbleVM.post = post
-                                postBubbleVM.activeAlert = .block
-                                postBubbleVM.showConfirmation = true
-                            } label: {
-                                Label("Block user", systemImage: "x.circle")
-                            }
-                            
-                            Button {
-                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                                postBubbleVM.post = post
-                                postBubbleVM.activeAlert = .report
-                                postBubbleVM.showConfirmation = true
-                            } label: {
-                                Label("Report", systemImage: "flag")
-                            }
-                        } label: {
-                            Image(systemName: "ellipsis")
-                                .frame(width: 30, height: 30)
-                        }
-                        .frame(width: 25, height: 25)
-                        .foregroundColor(Color("pongSecondaryText"))
-                    }
-                }
-                
-                if let tagName = post.tag {
-                    HStack {
-                        Text(Tag(rawValue: tagName)!.title!)
-                            .padding(1)
-                            .padding(.horizontal)
-                            .foregroundColor(Color(UIColor.systemBackground))
-                            .overlay(RoundedRectangle(cornerRadius: 15).stroke(Tag(rawValue: tagName)!.color, lineWidth: 2))
-                            .background(Tag(rawValue: tagName)!.color)
-                            .cornerRadius(15)         // You also need the cornerRadius here
-                            .padding(.bottom)
-                        Spacer()
-                    }
-                    .padding(0)
-                }
-                
-                HStack() {
-                    Text(post.title)
-                        .bold()
-                        .fixedSize(horizontal: false, vertical: true)
-                }
-                
                 // MARK: Image
                 if let imageUrl = post.image {
                     KFImage(URL(string: "\(imageUrl)")!)
                         .resizable()
                         .scaledToFit()
-                        .frame(idealWidth: abs(UIScreen.screenWidth / 1.1), idealHeight: abs(CGFloat(post.imageHeight!) * (UIScreen.screenWidth / 1.1) / CGFloat(post.imageWidth!)), maxHeight: abs(CGFloat(150)))
-                        .cornerRadius(15)
                 }
                 
                 // MARK: Poll
@@ -175,17 +205,6 @@ struct PostBubble: View {
             HStack {
                 Spacer()
                 if !post.userOwned {
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        postBubbleVM.post = post
-                        postBubbleVM.startConversation(post: post, dataManager: dataManager) { success in
-                            conversation = success
-                            isLinkActive = true
-                        }
-                    } label: {
-                        Image(systemName: "envelope")
-                            .foregroundColor(Color("pongSecondaryText"))
-                    }
                     
                     if post.saved {
                         Button {
@@ -210,7 +229,6 @@ struct PostBubble: View {
                 
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-//                    self.image = textToImage(drawText: post.title, atPoint: CGPointMake(0, 0))
                     sheet.toggle()
                 } label: {
                     Image(systemName: "square.and.arrow.up")
@@ -242,64 +260,23 @@ struct PostBubble: View {
     // MARK: VoteComponent
     var voteComponent: some View {
         HStack {
-            if post.voteStatus == 0 {
-                Button {
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    postBubbleVM.postVote(direction: 1, post: post, dataManager: dataManager)
-                } label: {
-                    Image(systemName: "arrow.up")
-                        .foregroundColor(Color("pongSecondaryText"))
-                }
-                
-                Text("\(post.score)")
-                    .foregroundColor(Color("pongSecondaryText"))
-                
-                Button {
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    postBubbleVM.postVote(direction: -1, post: post, dataManager: dataManager)
-                } label: {
-                    Image(systemName: "arrow.down")
-                        .foregroundColor(Color("pongSecondaryText"))
-                }
-            } else if post.voteStatus == 1 {
-                Button {
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    postBubbleVM.postVote(direction: 1, post: post, dataManager: dataManager)
-                } label: {
-                    Image(systemName: "arrow.up")
-                        .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
-                }
-                
-                Text("\(post.score + 1)")
-                    .foregroundColor(Color("pongSecondaryText"))
-                
-                Button {
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    postBubbleVM.postVote(direction: -1, post: post, dataManager: dataManager)
-                } label: {
-                    Image(systemName: "arrow.down")
-                        .foregroundColor(Color("pongSecondaryText"))
-                }
+            Button {
+                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                postBubbleVM.postVote(direction: 1, post: post, dataManager: dataManager)
+            } label: {
+                Image(systemName: "arrow.up")
+                    .foregroundColor(post.voteStatus == 1 ? Color.pongAccent : Color.pongSecondaryText)
             }
-            else if post.voteStatus == -1 {
-                Button {
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    postBubbleVM.postVote(direction: 1, post: post, dataManager: dataManager)
-                } label: {
-                    Image(systemName: "arrow.up")
-                        .foregroundColor(Color("pongSecondaryText"))
-                }
-                
-                Text("\(post.score - 1)")
-                    .foregroundColor(Color("pongSecondaryText"))
-                
-                Button {
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    postBubbleVM.postVote(direction: -1, post: post, dataManager: dataManager)
-                } label: {
-                    Image(systemName: "arrow.down")
-                        .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
-                }
+            
+            Text("\(post.score + post.voteStatus)")
+                .foregroundColor(Color("pongSecondaryText"))
+            
+            Button {
+                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                postBubbleVM.postVote(direction: -1, post: post, dataManager: dataManager)
+            } label: {
+                Image(systemName: "arrow.down")
+                    .foregroundColor(post.voteStatus == -1 ? Color.pongAccent : Color.pongSecondaryText)
             }
             
             Spacer()

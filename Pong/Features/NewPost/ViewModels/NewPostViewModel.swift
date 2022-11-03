@@ -44,10 +44,10 @@ enum Tag: String, CaseIterable, Identifiable {
         case .confession: return Color(.blue)
         case .question: return Color(.orange)
         case .event: return Color(.green)
-        case .meme: return Color.earlyPeriod1
-        case .w: return Color.poshGold
+        case .meme: return Color(.red)
+        case .w: return Color(.red)
         case .rip: return Color(.black)
-        case .course: return Color.poshDarkRed
+        case .course: return Color(.red)
         }
     }
 }

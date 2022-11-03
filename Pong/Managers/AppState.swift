@@ -24,11 +24,8 @@ class AppState: ObservableObject {
     func readPost(url : String) {
         print("DEBUG: AppState.readPost \(url)")
         NetworkManager.networkManager.request(route: "posts/\(url)/", method: .get, successType: Post.self) { successResponse, errorResponse in
-            print("DEBUG: some completion")
-            
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
-                    print("DEBUG: \(successResponse)")
                     self.post = successResponse
                 }
             }
@@ -45,13 +42,11 @@ class AppState: ObservableObject {
         print("DEBUG: appState.readConversation \(url)")
         NetworkManager.networkManager.request(route: "conversations/\(url)/", method: .get, successType: Conversation.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
-                print("DEBUG: appState.readConvesation success")
                 self.conversation = successResponse
             }
             
-            if let errorResponse = errorResponse {
-                print("DEBUG: \(errorResponse)")
-                
+            if errorResponse != nil {
+                print("DEBUG: error")
             }
         }
     }

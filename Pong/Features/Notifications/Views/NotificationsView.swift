@@ -221,19 +221,19 @@ struct NotificationsView: View {
     func getGradientColorsFromType(type: NotificationsModel.Data.NotificationType) -> (Color, Color) {
         switch type {
         case .upvote:
-            return (.earlyPeriod1, .earlyPeriod2)
+            return (.red, .red)
         case .comment:
-            return (.organicSearch1, .organicSearch2)
+            return (.red, .red)
         case .hot:
-            return (.sunburn1, .sunburn2)
+            return (.red, .red)
         case .leader:
-            return (.scientificLie1, .scientificLie2)
+            return (.red, .red)
         case .reply:
-            return (.codeLecture1, .codeLecture2)
+            return (.red, .red)
         case .violation:
             return (.red, .red)
         default:
-            return (.viewEventsGradient2, .viewEventsGradient1)
+            return (.red, .red)
         }
     }
 }
