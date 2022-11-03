@@ -55,14 +55,16 @@ struct PollView: View {
                             
                             // color on color piece
                             ZStack(alignment: .leading) {
+                                // background gray
                                 RoundedRectangle(cornerRadius: 20)
                                     .fill(Color.pongSecondarySystemBackground)
-                                    .frame(minWidth: 0, maxWidth: pollOptionFrame)
+                                    .frame(width: pollOptionFrame)
                                     .opacity(0.5)
                                 
+                                // overlay color
                                 RoundedRectangle(cornerRadius: 20)
                                     .fill(post.poll!.votedFor == option.id ? Color.green : Color.pongAccent)
-                                    .frame(width: CGFloat(UIScreen.screenWidth - 50) * minDivision(first: CGFloat(option.numVotes), second: CGFloat(pollVM.sumVotes(poll: post.poll!))))
+                                    .frame(width: pollOptionFrame * minDivision(first: CGFloat(option.numVotes), second: CGFloat(pollVM.sumVotes(poll: post.poll!))))
                             }
                             .padding(.top, 5)
                             .frame(height: 15)
