@@ -17,8 +17,6 @@ struct MainTabView: View {
             if $0 == self.mainTabVM.itemSelected {
                 if self.mainTabVM.itemSelected == 1 {
                     self.mainTabVM.scrollToTop.toggle()
-                } else {
-                    print("DEBUG: not feed")
                 }
             }
             self.mainTabVM.itemSelected = $0

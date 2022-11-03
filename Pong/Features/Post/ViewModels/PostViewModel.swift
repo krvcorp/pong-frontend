@@ -35,7 +35,7 @@ class PostViewModel: ObservableObject {
     @Published var openConversations = false
     
     // MARK: PostVote
-    func postVote(post: Post, direction: Int, dataManager: DataManager) -> Void {
+    func postVote(direction: Int, post: Post, dataManager: DataManager) -> Void {
         self.post = post
 
         var voteToSend = 0

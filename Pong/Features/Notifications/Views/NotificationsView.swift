@@ -22,6 +22,7 @@ struct NotificationsView: View {
                 
                 // MARK: List
                 List {
+                    // MARK: If No Notifications
                     if notificationsVM.notificationHistoryPrevious == [] && notificationsVM.notificationHistoryWeek == [] {
                         VStack(alignment: .center, spacing: 15) {
                             HStack(alignment: .center) {
@@ -44,8 +45,10 @@ struct NotificationsView: View {
                         }
                         .listRowBackground(Color.pongSystemBackground)
                         .listRowSeparator(.hidden)
-                    } else {
-                        // MARK: Notifications
+                        
+                    }
+                    // MARK: Notifications
+                    else {
                         Section() {
                             ForEach(notificationsVM.notificationHistoryWeek) { notificationModel in
                                 // MARK: Notifications for post/comments
@@ -53,7 +56,9 @@ struct NotificationsView: View {
                                     
                                     Button {
                                         DispatchQueue.main.async {
+                                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                                             notificationsVM.getPost(url: notificationModel.data.url!, id: notificationModel.id) { success in
+                                                print("DEBUG: Success")
                                                 post = success
                                                 postIsLinkActive = true
                                                 notificationsVM.markNotificationAsRead(id: notificationModel.id)
@@ -62,7 +67,7 @@ struct NotificationsView: View {
                                     } label: {
                                         getNotificationText(notificationModel: notificationModel)
                                     }
-                                    .listRowBackground(Color.pongSystemBackground)
+                                    .listRowBackground(!notificationModel.data.read ? Color.pongAccent.opacity(0.1) : Color.pongSystemBackground)
                                     .listRowSeparator(.hidden)
                                     
                                 }
@@ -70,13 +75,14 @@ struct NotificationsView: View {
                                 else if notificationModel.data.type == .leader {
                                     Button {
                                         DispatchQueue.main.async {
+                                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                                             leaderboardIsLinkActive = true
                                             notificationsVM.markNotificationAsRead(id: notificationModel.id)
                                         }
                                     } label: {
                                         getNotificationText(notificationModel: notificationModel)
                                     }
-                                    .listRowBackground(Color.pongSystemBackground)
+                                    .listRowBackground(!notificationModel.data.read ? Color.pongAccent.opacity(0.1) : Color.pongSystemBackground)
                                     .listRowSeparator(.hidden)
                                 }
                             }
@@ -84,14 +90,9 @@ struct NotificationsView: View {
                             HStack {
                                 Text("This Week")
                                     .fontWeight(.heavy)
-                                    .foregroundColor(colorScheme == .light ? Color.black : Color.white)
+                                    .foregroundColor(Color.pongLabel)
                                     .padding(.bottom, 4)
                                 Spacer()
-                                Button {
-                                    notificationsVM.markAllAsRead()
-                                } label: {
-                                    Image(systemName: "checkmark.circle.fill")
-                                }
                             }
                         }
                         // MARK: Notifications from further in history
@@ -101,6 +102,7 @@ struct NotificationsView: View {
                                     
                                     Button {
                                         DispatchQueue.main.async {
+                                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                                             notificationsVM.getPost(url: notificationModel.data.url!, id: notificationModel.id) { success in
                                                 post = success
                                                 postIsLinkActive = true
@@ -110,6 +112,7 @@ struct NotificationsView: View {
                                     } label: {
                                         getNotificationText(notificationModel: notificationModel)
                                     }
+                                    .listRowBackground(!notificationModel.data.read ? Color.pongAccent.opacity(0.1) : Color.pongSystemBackground)
                                     .listRowSeparator(.hidden)
                                 }
                                 else if notificationModel.data.type == .leader {
@@ -121,6 +124,7 @@ struct NotificationsView: View {
                                     } label: {
                                         getNotificationText(notificationModel: notificationModel)
                                     }
+                                    .listRowBackground(!notificationModel.data.read ? Color.pongAccent.opacity(0.1) : Color.pongSystemBackground)
                                     .listRowSeparator(.hidden)
                                 }
                             }
@@ -128,7 +132,7 @@ struct NotificationsView: View {
                             HStack {
                                 Text("Previous")
                                     .fontWeight(.heavy)
-                                    .foregroundColor(colorScheme == .light ? Color.black : Color.white)
+                                    .foregroundColor(Color.pongLabel)
                                     .padding(.bottom, 4)
                             }
                         }
@@ -148,10 +152,21 @@ struct NotificationsView: View {
                 notificationsVM.getNotificationHistoryWeek()
                 notificationsVM.getNotificationHistoryPrevious()
             }
-            .navigationTitle("Activity")
+            .navigationTitle("Notifications")
             .navigationBarTitleDisplayMode(.inline)
-            .accentColor(Color(UIColor.label))
             .navigationViewStyle(StackNavigationViewStyle())
+            .accentColor(Color.pongLabel)
+            .toolbar() {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        notificationsVM.markAllAsRead()
+                    } label: {
+                        Text("Mark all Read")
+                            .foregroundColor(Color.pongAccent)
+                            .bold()
+                    }
+                }
+            }
         }
         .toast(isPresenting: $dataManager.errorDetected) {
             AlertToast(displayMode: .hud, type: .error(Color.red), title: dataManager.errorDetectedMessage, subTitle: dataManager.errorDetectedSubMessage)
@@ -161,37 +176,27 @@ struct NotificationsView: View {
     // MARK: GetNotificationText
     /// Returns the notifcation block based on the notification type
     func getNotificationText(notificationModel: NotificationsModel) -> some View {
-        return
-            HStack {
-                ZStack {
-                    LinearGradient(gradient: Gradient(colors: [getGradientColorsFromType(type: notificationModel.data.type).0, getGradientColorsFromType(type: notificationModel.data.type).1]), startPoint: .bottomLeading, endPoint: .topTrailing)
-                    Image(systemName: getImageNameFromType(type: notificationModel.data.type))
-                        .imageScale(.small)
-                        .foregroundColor(.white)
-                        .font(.title2)
-                }
-                .frame(width: 30, height: 30, alignment: .center)
-                .cornerRadius(6)
-                .padding(.trailing, 4)
-                
-                VStack (alignment: .leading, spacing: 6) {
-                    Text(notificationModel.notification.body)
-                        .lineLimit(2)
-                        .font(.headline)
-                }
-                .padding(.vertical, 1)
-
-                // if notification is unread, show a dot on the right side, otherwise, show nothing
-                if !notificationModel.data.read {
-                    Spacer()
-                    Circle()
-                        .frame(width: 8, height: 8, alignment: .center)
-                        .foregroundColor(Color.lesleyUniversityPrimary)
-                }
-                
-                
+        HStack {
+            ZStack {
+                Image(systemName: getImageNameFromType(type: notificationModel.data.type))
+                    .imageScale(.small)
+                    .foregroundColor(getColor(type: notificationModel.data.type))
+                    .font(.title2)
             }
+            .frame(width: 30, height: 30, alignment: .center)
+            .cornerRadius(6)
+            .padding(.trailing, 4)
+            
+            VStack (alignment: .leading, spacing: 6) {
+                Text(notificationModel.notification.body)
+                    .lineLimit(2)
+                    .font(.headline)
+            }
+            .padding(.vertical, 1)
+        }
     }
+    
+    // this stuff could just be a thing of the enum
     
     // MARK: GetImageNameFromType
     /// Returns the image name based on the notification type
@@ -200,9 +205,9 @@ struct NotificationsView: View {
         case .upvote:
             return "arrow.up"
         case .comment:
-            return "text.bubble"
+            return "text.bubble.fill"
         case .hot:
-            return "flame"
+            return "flame.fill"
         case .leader:
             return "list.number"
         case .reply:
@@ -210,30 +215,30 @@ struct NotificationsView: View {
         case .violation:
             return "exclamationmark.triangle"
         case .generic:
-            return "newspaper"
+            return "newspaper.fill"
         default:
-            return "heart"
+            return "heart.fill"
         }
     }
     
     // MARK: GetGradientColorsFromType
     /// Returns the gradient colors based on the notification type
-    func getGradientColorsFromType(type: NotificationsModel.Data.NotificationType) -> (Color, Color) {
+    func getColor(type: NotificationsModel.Data.NotificationType) -> Color {
         switch type {
         case .upvote:
-            return (.red, .red)
+            return .red
         case .comment:
-            return (.red, .red)
+            return .blue
         case .hot:
-            return (.red, .red)
+            return .orange
         case .leader:
-            return (.red, .red)
+            return .yellow
         case .reply:
-            return (.red, .red)
+            return .purple
         case .violation:
-            return (.red, .red)
+            return .red
         default:
-            return (.red, .red)
+            return Color.pongAccent
         }
     }
 }

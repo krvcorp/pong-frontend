@@ -35,22 +35,22 @@ struct PostView: View {
                 List {
                     // MARK: Post itself
                     VStack {
+                        postMainTop
+                            .padding(.horizontal)
+                        
                         mainPost
-                            .toast(isPresenting: $postVM.savedPostConfirmation) {
-                                AlertToast(type: .regular, title: "Post saved!")
-                            }
-                            .padding()
-                            .font(.system(size: 18).bold())
                         
                         bottomRow
-                            .padding(.leading, 15)
-                            .padding(.trailing, 15)
+                            .padding(.horizontal)
                     }
                     .id("top")
                     .listRowSeparator(.hidden)
                     .listRowBackground(Color.pongSystemBackground)
                     .listRowInsets(EdgeInsets())
                     .buttonStyle(PlainButtonStyle())
+                    .toast(isPresenting: $postVM.savedPostConfirmation) {
+                        AlertToast(type: .regular, title: "Post saved!")
+                    }
                     
                     // MARK: Comments
                     if let index = dataManager.postComments.firstIndex(where: {$0.0 == post.id}) {
@@ -253,50 +253,11 @@ struct PostView: View {
     // MARK: MainPost
     var mainPost: some View {
         VStack {
-            HStack {
-                VStack {
-                    HStack {
-                        Text("\(post.timeSincePosted) ago")
-                            .font(.caption)
-                            .foregroundColor(Color.pongSecondaryText)
-                            .padding(.bottom, 3)
-                        Spacer()
-                    }
-                    
-                    if let tagName = post.tag {
-                        HStack {
-                            Text(Tag(rawValue: tagName)!.title!)
-                                .padding(1)
-                                .padding(.horizontal)
-                                .foregroundColor(Color(UIColor.systemBackground))
-                                .overlay(RoundedRectangle(cornerRadius: 15).stroke(Tag(rawValue: tagName)!.color, lineWidth: 2))
-                                .background(Tag(rawValue: tagName)!.color)
-                                .cornerRadius(15)         // You also need the cornerRadius here
-                                .padding(.bottom)
-                            Spacer()
-                        }
-                        .padding(0)
-                    }
-
-                    HStack() {
-                        Text(post.title)
-                            .bold()
-                            .fixedSize(horizontal: false, vertical: true)
-                        
-                        Spacer()
-                    }
-                }
-                
-                voteComponent
-            }
-            
             // MARK: Image
             if let imageUrl = post.image {
                 KFImage(URL(string: "\(imageUrl)")!)
                     .resizable()
                     .scaledToFit()
-                    .frame(idealWidth: abs(UIScreen.screenWidth / 1.1), idealHeight: abs(CGFloat(post.imageHeight!) * (UIScreen.screenWidth / 1.1) / CGFloat(post.imageWidth!)), maxHeight: abs(CGFloat(150)))
-                    .cornerRadius(15)
             }
             
             // MARK: Poll
@@ -306,179 +267,164 @@ struct PostView: View {
         }
     }
     
+    // MARK: PostMainTop
+    /// Top row of the post
+    var postMainTop: some View {
+        VStack {
+            HStack {
+                Text("\(post.timeSincePosted) ago")
+                    .font(.caption)
+                    .foregroundColor(Color.pongSecondaryText)
+                    .padding(.bottom, 2)
+                
+                Spacer()
+                
+                if !post.userOwned {
+                    Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        postVM.post = post
+                        postVM.startConversation(post: post, dataManager: dataManager) { success in
+                            conversation = success
+                            isLinkActive = true
+                        }
+                    } label: {
+                        HStack(spacing: 2) {
+                            Image(systemName: "bubble.left.fill")
+                            Text("Message")
+                        }
+                        .font(.caption.bold())
+                        .padding(.vertical, 5)
+                        .padding(.horizontal, 5)
+                        .foregroundColor(Color.white)
+                        .overlay(RoundedRectangle(cornerRadius: 15).stroke().foregroundColor(Color.pongAccent))
+                        .background(Color.pongAccent)
+                        .cornerRadius(15)
+                    }
+                }
+            }
+            
+            if let tagName = post.tag {
+                HStack {
+                    Text(Tag(rawValue: tagName)!.title!)
+                        .padding(1)
+                        .padding(.horizontal)
+                        .foregroundColor(Color(UIColor.systemBackground))
+                        .overlay(RoundedRectangle(cornerRadius: 15).stroke(Tag(rawValue: tagName)!.color, lineWidth: 2))
+                        .background(Tag(rawValue: tagName)!.color)
+                        .cornerRadius(15)         // You also need the cornerRadius here
+                        .padding(.bottom)
+                    Spacer()
+                }
+                .padding(0)
+            }
+            
+            HStack() {
+                Text(post.title)
+                    .font(.system(size: 20))
+                    .fontWeight(.semibold)
+                    .fixedSize(horizontal: false, vertical: true)
+                
+                Spacer()
+            }
+        }
+    }
+    
     // MARK: BottomRow
     var bottomRow: some View {
-        HStack {
-            if !post.userOwned {
-                Menu {
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        postVM.post = post
-                        postVM.activeAlert = .postBlock
-                        postVM.showConfirmation = true
-                    } label: {
-                        Label("Block user", systemImage: "x.circle")
-                    }
-                    
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        postVM.post = post
-                        postVM.activeAlert = .postReport
-                        postVM.showConfirmation = true
-                    } label: {
-                        Label("Report", systemImage: "flag")
-                    }
-                } label: {
-                    Image(systemName: "ellipsis")
-                        .frame(width: 30, height: 30)
-                }
-                .frame(width: 25, height: 25)
-                .foregroundColor(Color.pongSecondaryText)
+        HStack(spacing: 0) {
+            
+            voteComponent
+                .frame(minWidth: 0, maxWidth: .infinity)
+            
+            HStack {
+                Image(systemName: "bubble.left")
+                    .foregroundColor(Color("pongSecondaryText"))
+                Text("\(post.numComments)")
+                    .bold()
+                    .foregroundColor(Color("pongSecondaryText"))
             }
+            .frame(minWidth: 0, maxWidth: .infinity)
             
-            Spacer()
             
-            if !post.userOwned {
-                NavigationLink(destination: MessageView(conversation: $conversation), isActive: $isLinkActive) { EmptyView().opacity(0) }.opacity(0)
+            HStack {
+                Spacer()
+                if !post.userOwned {
+                    
+                    if post.saved {
+                        Button {
+                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                            postVM.post = post
+                            postVM.unsavePost(post: post, dataManager: dataManager)
+                        } label: {
+                            Image(systemName: "bookmark.fill")
+                                .foregroundColor(Color("pongSecondaryText"))
+                        }
+                    } else if !post.saved {
+                        Button {
+                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                            postVM.post = post
+                            postVM.savePost(post: post, dataManager: dataManager)
+                        } label: {
+                            Image(systemName: "bookmark")
+                                .foregroundColor(Color("pongSecondaryText"))
+                        }
+                    }
+                }
                 
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    postVM.startConversation(post: post, dataManager: dataManager) { success in
-                        conversation = success
-                        isLinkActive = true
-                    }
+                    sheet.toggle()
                 } label: {
-                    HStack {
-                        Image(systemName: "envelope")
-                            .font(.headline.bold())
-                        Text("DM")
-                            .bold()
-                            .padding(.leading, -5)
-                    }
-                    .foregroundColor(Color.pongSecondaryText)
-                    
+                    Image(systemName: "square.and.arrow.up")
+                        .foregroundColor(Color("pongSecondaryText"))
+                }
+                .sheet(isPresented: $sheet) {
+                    ShareSheet(items: ["\(NetworkManager.networkManager.rootURL)post/\(post.id)/"])
                 }
                 
-                if post.saved {
+                // MARK: Delete or More Button
+                if post.userOwned {
                     Button {
-                        print("DEBUG: button tap")
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        postVM.post = post
-                        postVM.unsavePost(post: post, dataManager: dataManager)
+                        DispatchQueue.main.async {
+                            postVM.post = post
+                            postVM.activeAlert = .postDelete
+                            postVM.showConfirmation = true
+                        }
                     } label: {
-                        Image(systemName: "bookmark.fill")
-                            .font(.headline.bold())
-                            .foregroundColor(Color.pongSecondaryText)
-                    }
-                } else if !post.saved {
-                    Button {
-                        print("DEBUG: button tap")
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        postVM.post = post
-                        postVM.savePost(post: post, dataManager: dataManager)
-                    } label: {
-                        Image(systemName: "bookmark")
-                            .font(.headline.bold())
-                            .foregroundColor(Color.pongSecondaryText)
+                        Image(systemName: "trash")
+                            .foregroundColor(Color("pongSecondaryText"))
                     }
                 }
             }
-            
-            // MARK: Delete button
-            else {
-                Button {
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    DispatchQueue.main.async {
-                        postVM.post = post
-                        postVM.activeAlert = .postDelete
-                        postVM.showConfirmation = true
-                    }
-                } label: {
-                    Image(systemName: "trash")
-                        .foregroundColor(Color.pongSecondaryText)
-                        .font(.headline.bold())
-                }
-            }
+            .frame(minWidth: 0, maxWidth: .infinity)
         }
     }
     
     // MARK: VoteComponent
     var voteComponent: some View {
-        VStack {
-            if post.voteStatus == 0 {
-                Button {
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    postVM.postVote(post: post, direction: 1, dataManager: dataManager)
-                } label: {
-                    Image(systemName: "arrow.up")
-                        .foregroundColor(Color.pongSecondaryText)
-                        .font(.headline)
-                }
-                
-                Text("\(post.score)")
-                    .bold()
-                    .font(.system(size: 18).bold())
-                    .foregroundColor(Color.pongSecondaryText)
-                
-                Button {
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    postVM.postVote(post: post, direction: -1, dataManager: dataManager)
-                } label: {
-                    Image(systemName: "arrow.down")
-                        .foregroundColor(Color.pongSecondaryText)
-                        .font(.headline)
-                }
-            } else if post.voteStatus == 1 {
-                Button {
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    postVM.postVote(post: post, direction: 1, dataManager: dataManager)
-                } label: {
-                    Image(systemName: "arrow.up")
-                        .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
-                        .font(.headline.bold())
-                }
-                
-                Text("\(post.score + 1)")
-                    .bold()
-                    .font(.system(size: 18).bold())
-                    .foregroundColor(Color.pongSecondaryText)
-                
-                Button {
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    postVM.postVote(post: post, direction: -1, dataManager: dataManager)
-                } label: {
-                    Image(systemName: "arrow.down")
-                        .foregroundColor(Color.pongSecondaryText)
-                        .font(.headline)
-                }
+        HStack {
+            Button {
+                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                postVM.postVote(direction: 1, post: post, dataManager: dataManager)
+            } label: {
+                Image(systemName: "arrow.up")
+                    .foregroundColor(post.voteStatus == 1 ? Color.pongAccent : Color.pongSecondaryText)
             }
-            else if post.voteStatus == -1 {
-                Button {
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    postVM.postVote(post: post, direction: 1, dataManager: dataManager)
-                } label: {
-                    Image(systemName: "arrow.up")
-                        .foregroundColor(Color.pongSecondaryText)
-                        .font(.headline)
-                }
-                
-                Text("\(post.score - 1)")
-                    .bold()
-                    .font(.system(size: 18).bold())
-                    .foregroundColor(Color.pongSecondaryText)
-                
-                Button {
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    postVM.postVote(post: post, direction: -1, dataManager: dataManager)
-                } label: {
-                    Image(systemName: "arrow.down")
-                        .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
-                        .font(.headline.bold())
-                }
+            
+            Text("\(post.score + post.voteStatus)")
+                .foregroundColor(Color("pongSecondaryText"))
+            
+            Button {
+                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                postVM.postVote(direction: -1, post: post, dataManager: dataManager)
+            } label: {
+                Image(systemName: "arrow.down")
+                    .foregroundColor(post.voteStatus == -1 ? Color.pongAccent : Color.pongSecondaryText)
             }
+            
+            Spacer()
         }
-        .frame(width: 25, height: 80)
-
     }
     
     // MARK: Overlay component to create a comment or reply
@@ -635,11 +581,5 @@ struct PostView: View {
         }
         .shadow(color: Color(.black).opacity(0.3), radius: 10, x: 0, y: 0)
         .mask(Rectangle().padding(.top, -20))
-    }
-}
-
-struct PostView_Previews: PreviewProvider {
-    static var previews: some View {
-        PostView(post: .constant(defaultPost))
     }
 }

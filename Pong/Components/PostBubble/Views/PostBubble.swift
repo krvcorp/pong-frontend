@@ -18,7 +18,6 @@ struct PostBubble: View {
     
     var body: some View {
         VStack() {
-            // need a top row, content row, and a bottom row
             postBubbleTop
                 .padding(.horizontal)
             
@@ -27,7 +26,6 @@ struct PostBubble: View {
             postBubbleBottomRow
                 .padding(.horizontal)
         }
-        .font(.system(size: 18).bold())
         .padding(.vertical, 10)
         
         // MARK: Binds the values of postVM.post and the binding Post passed down from Feed
@@ -152,7 +150,8 @@ struct PostBubble: View {
             
             HStack() {
                 Text(post.title)
-                    .bold()
+                    .font(.system(size: 20))
+                    .fontWeight(.semibold)
                     .fixedSize(horizontal: false, vertical: true)
                 
                 Spacer()

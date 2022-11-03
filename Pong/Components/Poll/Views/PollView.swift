@@ -65,6 +65,7 @@ struct PollView: View {
                                     .frame(width: CGFloat(UIScreen.screenWidth - 50) * minDivision(first: CGFloat(option.numVotes), second: CGFloat(pollVM.sumVotes(poll: post.poll!))))
                             }
                             .padding(.top, 5)
+                            .frame(height: 15)
                         }
                         .padding(5)
                         .overlay(RoundedRectangle(cornerRadius: 5).stroke(post.poll!.votedFor == option.id ? Color.green : Color.clear, lineWidth: 1))
@@ -91,13 +92,13 @@ struct PollView: View {
                             .padding(.horizontal, 10)
                             .frame(width: pollOptionFrame)
                             .foregroundColor(Color(UIColor.label))
+                            .background(
+                                // rectangle with corner radius 5 and shadow with opacity .5
+                                RoundedRectangle(cornerRadius: 5)
+                                    .fill(Color.pongSystemBackground)
+                                    .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 0)
+                                )
                         }
-                        .background(
-                            // rectangle with corner radius 5 and shadow with opacity .5
-                            RoundedRectangle(cornerRadius: 5)
-                                .fill(Color.pongSystemBackground)
-                                .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 0)
-                            )
                     }
                 }
             }
