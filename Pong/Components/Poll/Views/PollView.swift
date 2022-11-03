@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct PollView: View {
+    let pollOptionFrame : CGFloat = CGFloat(UIScreen.screenWidth - 25)
     @Binding var post : Post
     @StateObject var pollVM = PollViewModel()
     
+    // MARK: Body
     var body: some View {
         PollOptionContainer
             .onChange(of: pollVM.poll) {
@@ -18,6 +20,8 @@ struct PollView: View {
             }
     }
     
+    // MARK: MinDivision
+    /// Calculates the minimum length of the colored poll bar
     func minDivision(first: CGFloat, second: CGFloat) -> CGFloat {
         if first / second > 0.09 {
             return first/second
@@ -27,23 +31,15 @@ struct PollView: View {
         }
     }
     
+    // MARK: PollOptionContainer
     var PollOptionContainer: some View {
         VStack {
             ForEach(post.poll!.options, id: \.self) { option in
                 // MARK: User has voted
                 if post.poll!.userHasVoted {
+                    // do not display skip button as an option
                     if option.title != "skipkhoicunt" {
-                        ZStack(alignment: .leading) {
-                            
-                            RoundedRectangle(cornerRadius: 20)
-                                .fill(post.poll!.votedFor == option.id ? SchoolManager.shared.schoolPrimaryColor() : Color(UIColor.secondarySystemBackground))
-                                .frame(width: CGFloat(UIScreen.screenWidth - 20) * minDivision(first: CGFloat(option.numVotes), second: CGFloat(pollVM.sumVotes(poll: post.poll!))))
-                            
-                            RoundedRectangle(cornerRadius: 20)
-                                .fill(Color(UIColor.systemGray5))
-                                .frame(width: CGFloat(UIScreen.screenWidth - 20) * minDivision(first: CGFloat(option.numVotes), second: CGFloat(pollVM.sumVotes(poll: post.poll!))))
-                                .opacity(0.5)
-                            
+                        VStack(spacing: 0) {
                             HStack {
                                 Text("\(option.title)")
                                     .font(.headline)
@@ -54,53 +50,63 @@ struct PollView: View {
                                 Text("\(option.numVotes) votes")
                                     .font(.caption)
                             }
-                            .padding(5)
-                            .padding(.horizontal, 10)
-                            .frame(width: CGFloat(UIScreen.screenWidth - 20))
+                            .frame(width: pollOptionFrame)
                             .foregroundColor(Color(UIColor.label))
+                            
+                            // color on color piece
+                            ZStack(alignment: .leading) {
+                                RoundedRectangle(cornerRadius: 20)
+                                    .fill(Color.pongSecondarySystemBackground)
+                                    .frame(minWidth: 0, maxWidth: pollOptionFrame)
+                                    .opacity(0.5)
+                                
+                                RoundedRectangle(cornerRadius: 20)
+                                    .fill(post.poll!.votedFor == option.id ? Color.green : Color.pongAccent)
+                                    .frame(width: CGFloat(UIScreen.screenWidth - 50) * minDivision(first: CGFloat(option.numVotes), second: CGFloat(pollVM.sumVotes(poll: post.poll!))))
+                            }
+                            .padding(.top, 5)
                         }
-                        .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color(UIColor.darkGray), lineWidth: 1))
-                        .frame(minWidth: 0, maxWidth: .infinity)
-                        .padding(.top, 5)
+                        .padding(5)
+                        .overlay(RoundedRectangle(cornerRadius: 5).stroke(post.poll!.votedFor == option.id ? Color.green : Color.clear, lineWidth: 1))
                     }
                 }
-                // MARK: User has not voted, can still vote
+                
+                // MARK: User has not voted
                 else {
+                    // do not display skip button as an option
                     if option.title != "skipkhoicunt" {
                         Button {
                             UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                            print("DEBUG: Tap to vote \(option.title)")
                             pollVM.pollVote(id: option.id, postId: post.id)
                         } label: {
-                            ZStack(alignment: .leading) {
+                            HStack {
+                                Text("\(option.title)")
+                                    .font(.headline)
+                                    .padding(4)
                                 
-                                RoundedRectangle(cornerRadius: 20)
-                                    .fill(Color(UIColor.secondarySystemBackground))
-                                    .frame(width: CGFloat(UIScreen.screenWidth - 20))
-                                    .opacity(0.5)
+                                Spacer()
                                 
-                                HStack {
-                                    Text("\(option.title)")
-                                        .font(.headline)
-                                        .padding(4)
-                                    
-                                    Spacer()
-                                }
-                                .padding(5)
-                                .padding(.horizontal, 10)
-                                .frame(width: CGFloat(UIScreen.screenWidth - 20))
-                                .foregroundColor(Color(UIColor.label))
                             }
-                            .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color(UIColor.darkGray), lineWidth: 1))
-                            .frame(minWidth: 0, maxWidth: .infinity)
-                            .padding(.top, 5)
+                            .padding(5)
+                            .padding(.horizontal, 10)
+                            .frame(width: pollOptionFrame)
+                            .foregroundColor(Color(UIColor.label))
                         }
+                        .background(
+                            // rectangle with corner radius 5 and shadow with opacity .5
+                            RoundedRectangle(cornerRadius: 5)
+                                .fill(Color.pongSystemBackground)
+                                .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 0)
+                            )
                     }
                 }
             }
             
+            // MARK: The bottom of the thing
             HStack {
+                // check if the user hasn't voted
                 if !post.poll!.userHasVoted {
+                    // add skip button if it exists
                     if let skipOption = post.poll!.options.first(where: {$0.title == "skipkhoicunt"}) {
                         Button {
                             pollVM.pollVote(id: skipOption.id, postId: post.id)
@@ -108,8 +114,12 @@ struct PollView: View {
                             Text("Skip voting")
                                 .font(.caption.bold())
                         }
+                        .foregroundColor(Color.pongAccent)
                     }
-                } else {
+                }
+                // if user has voted
+                else {
+                    // display skipped number if it exists
                     if let skipOption = post.poll!.options.first(where: {$0.title == "skipkhoicunt"}) {
                         Text("\(skipOption.numVotes) skipped voting")
                             .font(.caption.bold())
@@ -121,14 +131,7 @@ struct PollView: View {
                 Text("\(pollVM.sumVotes(poll: post.poll!)) votes")
                     .font(.caption)
             }
-            .padding(.top, 2)
-            .padding(.bottom)
+            .padding()
         }
-    }
-}
-
-struct PollView_Previews: PreviewProvider {
-    static var previews: some View {
-        PollView(post: .constant(defaultPost))
     }
 }
