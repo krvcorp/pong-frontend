@@ -19,7 +19,7 @@ struct WelcomeView: View {
                 Spacer()
                 
                 Text("By using Pong, you understand our [Terms of Service](https://www.pong.blog/legal) and [Privacy Policy](https://www.pong.blog/legal)")
-                    .accentColor(Color(UIColor.systemBlue))
+                    .accentColor(Color.pongAccent)
 
             }
             .padding(15)

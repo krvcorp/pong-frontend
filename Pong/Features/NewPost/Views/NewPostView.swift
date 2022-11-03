@@ -15,39 +15,28 @@ struct NewPostView: View {
     
     // MARK: Body
     var body: some View {
-        ZStack {
+        NavigationView {
             ZStack (alignment: .bottom) {
                 VStack {
                     VStack {
-                        HStack {
-                            Button {
-                                self.presentationMode.wrappedValue.dismiss()
-                            } label: {
-                                Image(systemName: "xmark")
-                                    .resizable()
-                                    .foregroundColor(Color(UIColor.label))
-                                    .scaledToFit()
-
-                            }
-                            .padding(.top)
-                            .padding(.horizontal)
-                            .frame(minHeight: 25, maxHeight: 50)
-
-                            Spacer()
-                        }
-                        
                         ZStack(alignment: .topLeading) {
                             TextEditor(text: $newPostVM.title)
+                                .background(Color.pongSystemBackground)
                                 .focused($textIsFocused)
                                 .padding(4)
+                                .onAppear() {
+                                    UITextView.appearance().backgroundColor = .clear
+                                }
                             
                             if $newPostVM.title.wrappedValue == "" {
                                 Text("What's on your mind?")
                                     .foregroundColor(Color.pongSecondaryText)
+                                    .background(Color.pongSystemBackground)
                                     .padding(.horizontal)
                                     .padding(.vertical, 12)
                             }
                         }
+                        .background(Color.pongSystemBackground)
                         .font(.title)
                         .frame(maxHeight: .infinity)
                         .onAppear() {
@@ -83,6 +72,7 @@ struct NewPostView: View {
                             NewPoll(showNewPoll: $showNewPoll, newPollVM: newPostVM.newPollVM)
                         }
                     }
+                    .background(Color.pongSystemBackground)
                     
                     Spacer()
                     
@@ -101,7 +91,7 @@ struct NewPostView: View {
                                     Image(systemName: "photo")
                                         .resizable()
                                         .scaledToFit()
-                                        .foregroundColor(.secondary)
+                                        .foregroundColor(Color.pongAccent)
                                 }
                                 .sheet(isPresented: $showSheet) {
                                     ImagePicker(sourceType: .photoLibrary, selectedImage: self.$newPostVM.image)
@@ -121,57 +111,57 @@ struct NewPostView: View {
                                     Image(systemName: "chart.bar")
                                         .resizable()
                                         .scaledToFit()
-                                        .foregroundColor(.secondary)
+                                        .foregroundColor(Color.pongAccent)
                                 }
-
                                 
                                 Spacer()
                                 Text("\(newPostVM.characterLimit - newPostVM.title.count)")
                                     .foregroundColor(newPostVM.characterLimit - newPostVM.title.count <= 30 ? .red : Color(UIColor.label))
                             }
                             .padding()
-                            .frame(minHeight: 25, maxHeight: 60)
-
-                            // MARK: On success of newPost, NewPostView needs to dismiss to reset data in NewPost
-                            if !newPostVM.newPostLoading {
-                                Button {
-                                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                                    DispatchQueue.main.async {
-                                        newPostVM.newPostLoading = true
-                                    }
-                                    newPostVM.newPost(mainTabVM: mainTabVM, dataManager: dataManager)
-                                    NotificationsManager.shared.registerForNotifications(forceRegister: false)
-                                } label: {
-                                    Text("Post")
-                                        .frame(minWidth: 100, maxWidth: 150)
-                                        .font(.system(size: 18).bold())
-                                        .padding()
-                                        .foregroundColor(Color(UIColor.systemBackground))
-                                        .overlay(RoundedRectangle(cornerRadius: 15).stroke(Color.primary, lineWidth: 2))
-                                }
-                                .background(Color(UIColor.label)) // If you have this
-                                .cornerRadius(15)         // You also need the cornerRadius here
-                                .padding(.bottom)
-                            } else {
-                                Button {
-                                    
-                                } label: {
-                                    ProgressView()
-                                        .progressViewStyle(CircularProgressViewStyle(tint: Color(UIColor.systemBackground)))
-                                        .frame(minWidth: 100, maxWidth: 150)
-                                        .font(.system(size: 18).bold())
-                                        .padding()
-                                        .foregroundColor(Color(UIColor.systemBackground))
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 5)
-                                                .stroke(Color.primary, lineWidth: 2)
-                                        )
-                                }
-                                .background(Color(UIColor.label)) // If you have this
-                                .cornerRadius(20)         // You also need the cornerRadius here
-                                .padding(.bottom)
-                            }
+                            .frame(minHeight: 25, maxHeight: 55)
                         }
+                    }
+                }
+                .background(Color.pongSystemBackground)
+            }
+            .navigationBarTitle("Create Post")
+            .navigationBarTitleDisplayMode(.inline)
+            // MARK: Toolbar
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button() {
+                        self.presentationMode.wrappedValue.dismiss()
+                    }
+                    label: {
+                        Image(systemName: "xmark")
+                    }
+                }
+                
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    // MARK: On success of newPost, NewPostView needs to dismiss to reset data in NewPost
+                    if !newPostVM.newPostLoading {
+                        Button {
+                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                            DispatchQueue.main.async {
+                                newPostVM.newPostLoading = true
+                            }
+                            newPostVM.newPost(mainTabVM: mainTabVM, dataManager: dataManager)
+                            NotificationsManager.shared.registerForNotifications(forceRegister: false)
+                        } label: {
+                            Text("Post")
+                                .bold()
+                                .foregroundColor(Color.pongAccent)
+                        }
+                    } else {
+                        Button {
+                            print("DEBUG: NewPostIsLoading")
+                        } label: {
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle(tint: Color(UIColor.systemBackground)))
+                                .foregroundColor(Color.pongAccent)
+                        }
+                        .disabled(true)
                     }
                 }
             }
@@ -179,6 +169,7 @@ struct NewPostView: View {
         .toast(isPresenting: $newPostVM.error) {
             AlertToast(type: .error(.red), title: newPostVM.errorMessage)
         }
+        .accentColor(Color.pongAccent)
     }
     
     // MARK: TagBar
@@ -190,10 +181,10 @@ struct NewPostView: View {
                         if item != .none {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 20, style: .continuous)
-                                    .fill(item == newPostVM.selectedTag ? item.color : Color(UIColor.systemBackground))
+                                    .fill(item == newPostVM.selectedTag ? item.color : Color.pongSystemBackground)
                                     .overlay(
                                         RoundedRectangle(cornerRadius: 20, style: .continuous)
-                                            .stroke(item.color, lineWidth: 2)
+                                            .stroke(item.color, lineWidth: 1)
                                     )
                                     .padding(.vertical, 2)
                                     .onTapGesture {
@@ -207,12 +198,12 @@ struct NewPostView: View {
                                     }
                                 
                                 Text(item.title!)
-                                    .font(.subheadline.bold())
+                                    .bold()
                                     .padding(5)
                                     .padding(.horizontal, 5)
-                                    .foregroundColor(item == newPostVM.selectedTag ? Color(UIColor.systemBackground) : item.color)
+                                    .foregroundColor(item == newPostVM.selectedTag ? Color.pongSystemBackground : item.color)
                             }
-                            .frame(height: 40)
+                            .frame(height: 35)
                             .frame(minWidth: UIScreen.screenWidth / 8)
                         }
                     }

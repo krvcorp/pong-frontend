@@ -78,7 +78,7 @@ struct FeedView: View {
             }
         })
         .navigationViewStyle(StackNavigationViewStyle())
-        .accentColor(Color(UIColor.label))
+        .accentColor(Color.pongLabel)
         .toast(isPresenting: $dataManager.removedPost){
             AlertToast(displayMode: .hud, type: .regular, title: dataManager.removedPostMessage)
         }

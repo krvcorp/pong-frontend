@@ -102,7 +102,7 @@ struct MainTabView: View {
                     .tag(5)
             }
             .environmentObject(dataManager)
-            .accentColor(Color(UIColor.label))
+            .accentColor(Color.pongLabel)
             // MARK: New Post Sheet
             .sheet(isPresented: $mainTabVM.isCustomItemSelected) {
                 NewPostView(mainTabVM: mainTabVM)

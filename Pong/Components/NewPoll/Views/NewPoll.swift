@@ -50,7 +50,7 @@ struct NewPoll: View {
                         })
                         .font(.title3)
                         .padding(5)
-                        .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color(UIColor.systemGray), lineWidth: 2))
+                        .overlay(RoundedRectangle(cornerRadius: 15).stroke(Color.pongLabel, lineWidth: 1))
                     
                     Spacer()
                     
@@ -64,26 +64,32 @@ struct NewPoll: View {
                         }
                     }
                 }
-                .padding(.top, 5)
+                .padding(.top, 8)
             }
             
             if newPollVM.pollOptions.count < 6 {
-                Button {
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    newPollVM.pollOptions.append("")
-                } label: {
-                    Text("Add")
-                        .foregroundColor(.green)
+                HStack {
+                    Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        newPollVM.pollOptions.append("")
+                    } label: {
+                        HStack {
+                            Image(systemName: "plus")
+                            
+                            Text("Add Option")
+                        }
+                        .padding(5)
+                        .overlay(RoundedRectangle(cornerRadius: 15).stroke(Color.pongAccent, lineWidth: 1))
+                        .foregroundColor(Color.pongAccent)
+                    }
+                    
+                    Spacer()
                 }
+                .padding(.top, 8)
             }
         }
         .frame(minWidth: 0, maxWidth: .infinity)
         .font(.system(size: 18).bold())
-        .padding()
-        .foregroundColor(Color(UIColor.label))
-        .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color(UIColor.systemGray), lineWidth: 5))
-        .background(Color(UIColor.systemBackground)) // If you have this
-        .cornerRadius(10)         // You also need the cornerRadius here
     }
 }
 

@@ -10,6 +10,7 @@ import Alamofire
 import Combine
 
 // MARK: FeedFilter
+/// Feed filter is just top, hot, or recent
 enum FeedFilter: String, CaseIterable, Identifiable {
     case top, hot, recent
     var id: Self { self }
@@ -39,6 +40,11 @@ enum FeedFilter: String, CaseIterable, Identifiable {
     }
 }
 
+// MARK: Timer
+/// Timer for polling of conversations / messages
+var timePassed = 0
+var timer = Timer.publish(every: 1, on: .current, in: .common).autoconnect()
+
 // MARK: TopFilter
 enum TopFilter: String, CaseIterable, Identifiable, Equatable {
     case all, month, week
@@ -64,10 +70,6 @@ class FeedViewModel: ObservableObject {
     @Published var finishedHot = false
     @Published var finishedRecent = false
     
-    // messaging timer
-    var timePassed = 0
-    var timer = Timer.publish(every: 1, on: .current, in: .common).autoconnect()
-    
     //MARK: Pagination
     var topCurrentPage = "posts/?sort=top&range=all"
     
@@ -75,6 +77,8 @@ class FeedViewModel: ObservableObject {
     
     var recentCurrentPage = "posts/?sort=new"
     
+    // MARK: PaginatePostsIfNeeded
+    /// Checks if the list has scrolled to a particular offset
     func paginatePostsIfNeeded(post: Post, selectedFeedFilter: FeedFilter, dataManager: DataManager) {
         let offsetBy = -15
 
@@ -96,6 +100,8 @@ class FeedViewModel: ObservableObject {
         }
     }
     
+    // MARK: PaginatePosts
+    /// Gets the next page of posts based on the filter
     func paginatePosts(selectedFeedFilter: FeedFilter, dataManager: DataManager) {
         
         var urlToUse = ""
@@ -158,6 +164,8 @@ class FeedViewModel: ObservableObject {
         }
     }
     
+    // MARK: PaginatePostsReset
+    /// Gets the first page of a particular filter and replaces whatever is stored
     func paginatePostsReset(selectedFeedFilter: FeedFilter, dataManager: DataManager) {
         var url_to_use = ""
         
@@ -206,6 +214,8 @@ class FeedViewModel: ObservableObject {
         }
     }
     
+    // MARK: CheckTopFilter
+    /// not sure what this does right now
     func checkTopFilter(filter : TopFilter) -> String {
         if filter == .all {
             return "&range=all"
@@ -218,7 +228,8 @@ class FeedViewModel: ObservableObject {
         }
     }
     
-    // MARK: Polling here
+    // MARK: GetConversations
+    /// Gets the latest conversations
     func getConversations(dataManager : DataManager) {
         NetworkManager.networkManager.request(route: "conversations/", method: .get, successType: [Conversation].self) { successResponse, errorResponse in
             if let successResponse = successResponse {
