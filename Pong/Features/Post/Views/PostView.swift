@@ -39,9 +39,11 @@ struct PostView: View {
                             .padding(.horizontal)
                         
                         mainPost
+                            .frame(width: UIScreen.screenWidth)
                         
                         bottomRow
                             .padding(.horizontal)
+                            .padding(.top)
                     }
                     .id("top")
                     .listRowSeparator(.hidden)
@@ -51,6 +53,7 @@ struct PostView: View {
                     .toast(isPresenting: $postVM.savedPostConfirmation) {
                         AlertToast(type: .regular, title: "Post saved!")
                     }
+                    .padding(.vertical, 5)
                     
                     // MARK: Comments
                     if let index = dataManager.postComments.firstIndex(where: {$0.0 == post.id}) {
@@ -83,18 +86,20 @@ struct PostView: View {
                             }
                             .buttonStyle(PlainButtonStyle())
                             .listRowSeparator(.hidden)
-                            .listRowBackground(Color.pongSystemBackground)
+                            .listRowBackground(Color.pongSecondarySystemBackground)
                         }
                     }
                     
+                    
+                    // MARK: Rectangle to allow for more scrolling space
                     Rectangle()
-                        .fill(Color.pongSystemBackground)
-                        .listRowBackground(Color.pongSystemBackground)
+                        .fill(Color.pongSecondarySystemBackground)
+                        .listRowBackground(Color.pongSecondarySystemBackground)
                         .frame(minHeight: 150)
                         .listRowSeparator(.hidden)
                 }
                 .scrollContentBackgroundCompat()
-                .background(Color.pongSystemBackground)
+                .background(Color.pongSecondarySystemBackground)
                 .environment(\.defaultMinListRowHeight, 0)
                 .listStyle(PlainListStyle())
                 .refreshable {
@@ -252,12 +257,13 @@ struct PostView: View {
     
     // MARK: MainPost
     var mainPost: some View {
-        VStack {
+        VStack (alignment: .leading) {
             // MARK: Image
             if let imageUrl = post.image {
                 KFImage(URL(string: "\(imageUrl)")!)
                     .resizable()
                     .scaledToFit()
+                    .frame(idealWidth: abs(UIScreen.screenWidth), idealHeight: abs(CGFloat(post.imageHeight!) * (UIScreen.screenWidth) / CGFloat(post.imageWidth!)), maxHeight: abs(CGFloat(300)))
             }
             
             // MARK: Poll
@@ -300,6 +306,31 @@ struct PostView: View {
                         .background(Color.pongAccent)
                         .cornerRadius(15)
                     }
+                    
+                    Menu {
+                        Button {
+                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                            postVM.post = post
+                            postVM.activeAlert = .postBlock
+                            postVM.showConfirmation = true
+                        } label: {
+                            Label("Block user", systemImage: "x.circle")
+                        }
+                        
+                        Button {
+                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                            postVM.post = post
+                            postVM.activeAlert = .postReport
+                            postVM.showConfirmation = true
+                        } label: {
+                            Label("Report", systemImage: "flag")
+                        }
+                    } label: {
+                        Image(systemName: "ellipsis")
+                            .frame(width: 30, height: 30)
+                    }
+                    .frame(width: 25, height: 25)
+                    .foregroundColor(Color.pongSecondaryText)
                 }
             }
             

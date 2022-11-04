@@ -11,17 +11,18 @@ struct CommentBubble: View {
     @Binding var isLinkActive : Bool
     @Binding var conversation : Conversation
     
+    // MARK: Body
     var body: some View {
         VStack {
-            VStack {
-                HStack {
-                    CommentBody
-                    Spacer()
-                }
+            VStack(spacing: 10) {
+                commentTopRow
+                    .padding(.horizontal)
                 
-                CommentBottomRow
+                commentBody
+                
+                commentBottomRow
+                    .padding(.horizontal)
             }
-            .padding(.leading, 15)
             .frame(minWidth: 0, maxWidth: UIScreen.main.bounds.size.width)
             
             // MARK: Recursive replies
@@ -50,111 +51,110 @@ struct CommentBubble: View {
         }
     }
     
-    // MARK: CommentBody
-    var CommentBody: some View {
-        VStack(alignment: .leading) {
-            HStack {
-                Text("#\(comment.numberOnPost)")
-                    .font(.caption)
-                    .padding(.bottom, 1)
-                
-                if let receiving = comment.numberReplyingTo {
-                    Image(systemName: "arrow.right")
-                        .font(.caption)
-                        .padding(.bottom, 1)
+    // MARK: CommentTopRow
+    var commentTopRow: some View {
+        VStack(spacing: 5) {
+            VStack(spacing: 0) {
+                HStack {
+                    Text("#\(comment.numberOnPost)")
                     
-                    Text("#\(receiving)")
-                        .font(.caption)
-                        .padding(.bottom, 1)
+                    if let receiving = comment.numberReplyingTo {
+                        Image(systemName: "arrow.right")
+                        
+                        Text("#\(receiving)")
+                    }
+                    
+                    Spacer()
+                    
+                    Menu {
+                        Button {
+                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                            postVM.blockComment(comment: comment)
+                        } label: {
+                            Label("Block user", systemImage: "x.circle")
+                        }
+                        
+                        Button {
+                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                            postVM.reportComment(comment: comment)
+                        } label: {
+                            Label("Report", systemImage: "flag")
+                        }
+                        
+                        if comment.saved {
+                            Button {
+                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+        //                            postVM.saveComment(comment: comment, dataManager: dataManager)
+                            } label: {
+                                Label("Report", systemImage: "flag")
+                            }
+                        }
+                        else {
+                            Button {
+                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                                postVM.reportComment(comment: comment)
+                            } label: {
+                                Label("Report", systemImage: "flag")
+                            }
+                            
+                        }
+                        
+                        if !comment.userOwned {
+                            Button {
+                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                                postVM.startConversation(comment: comment, dataManager: dataManager) { success in
+                                    conversation = success
+                                    isLinkActive = true
+                                }
+                            } label: {
+                                Label("Start DM", systemImage: "envelope")
+                            }
+                        }
+                    } label: {
+                        Image(systemName: "ellipsis")
+                    }
                 }
+                .font(.subheadline)
+                .foregroundColor(Color.pongLabel)
+                
+                HStack {
+                    Text("\(comment.timeSincePosted) ago")
+                        .font(.caption)
+                        .foregroundColor(Color.pongSecondaryText)
+                    
+                    Spacer()
+                }
+            }
+            
+            HStack {
+                Text(comment.comment)
+                    .bold()
+                    .multilineTextAlignment(.leading)
+                    .fixedSize(horizontal: false, vertical: true)
                 
                 Spacer()
             }
-            .foregroundColor(Color.pongSecondaryText)
-                                   
-            Text(comment.comment)
-                .bold()
-                .multilineTextAlignment(.leading)
-                .fixedSize(horizontal: false, vertical: true)
+        }
+    }
+    
+    // MARK: CommentBody
+    var commentBody: some View {
+        VStack(alignment: .leading) {
             
             // MARK: Image
             if let imageUrl = comment.image {
                 KFImage(URL(string: "\(imageUrl)")!)
                     .resizable()
                     .scaledToFit()
-                    .cornerRadius(15)
             }
-                
         }
         .background(Color.pongSystemBackground)
     }
     
-    var VoteComponent: some View {
-
-        HStack {
-            if comment.voteStatus == 0 {
-                Button {
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    commentBubbleVM.commentVote(direction: 1, dataManager: dataManager)
-                } label: {
-                    Image(systemName: "chevron.up")
-                }
-
-                Text("\(comment.score)")
-                
-                Button {
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    commentBubbleVM.commentVote(direction: -1, dataManager: dataManager)
-                } label: {
-                    Image(systemName: "chevron.down")
-                }
-            }
-
-            else if comment.voteStatus == 1 {
-                Button {
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    commentBubbleVM.commentVote(direction: 1, dataManager: dataManager)
-                } label: {
-                    Image(systemName: "chevron.up")
-                        .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
-                }
-                
-                Text("\(comment.score + 1)")
-                
-                Button {
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    commentBubbleVM.commentVote(direction: -1, dataManager: dataManager)
-                } label: {
-                    Image(systemName: "chevron.down")
-                }
-            }
-
-            else if comment.voteStatus == -1 {
-                Button {
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    commentBubbleVM.commentVote(direction: 1, dataManager: dataManager)
-                } label: {
-                    Image(systemName: "chevron.up")
-                }
-                
-                Text("\(comment.score - 1)")
-                
-                Button {
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    commentBubbleVM.commentVote(direction: -1, dataManager: dataManager)
-                } label: {
-                    Image(systemName: "chevron.down")
-                        .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
-                }
-            }
-        }
-        .frame(width: 100)
-    }
-    
-    //MARK: CommentBottomRow
-    var CommentBottomRow: some View {
-        HStack() {
-            Text("\(comment.timeSincePosted)")
+    // MARK: CommentBottomRow
+    var commentBottomRow: some View {
+        HStack(spacing: 20) {
+            voteComponent
             
             Button {
                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
@@ -174,62 +174,36 @@ struct CommentBubble: View {
                     }
 
                 } label: {
-                    Image(systemName: "trash")
-                }
-            } else {
-                Menu {
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        postVM.blockComment(comment: comment)
-                    } label: {
-                        Label("Block user", systemImage: "x.circle")
-                    }
-                    
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        postVM.reportComment(comment: comment)
-                    } label: {
-                        Label("Report", systemImage: "flag")
-                    }
-                    
-                    if comment.saved {
-                        Button {
-                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-//                            postVM.saveComment(comment: comment, dataManager: dataManager)
-                        } label: {
-                            Label("Report", systemImage: "flag")
-                        }
-                    }
-                    else {
-                        Button {
-                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                            postVM.reportComment(comment: comment)
-                        } label: {
-                            Label("Report", systemImage: "flag")
-                        }
-                        
-                    }
-                    
-                    if !comment.userOwned {
-                        Button {
-                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                            postVM.startConversation(comment: comment, dataManager: dataManager) { success in
-                                conversation = success
-                                isLinkActive = true
-                            }
-                        } label: {
-                            Label("Start DM", systemImage: "envelope")
-                        }
-                    }
-                } label: {
-                    Image(systemName: "ellipsis")
+                    Text("Delete")
                 }
             }
-            
-            VoteComponent
         }
+        .font(.subheadline)
         .foregroundColor(Color.pongSecondaryText)
-        .font(.headline)
         .padding(.top, 1)
+    }
+    
+    // MARK: VoteComponent
+    var voteComponent: some View {
+        HStack {
+            Button {
+                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                commentBubbleVM.commentVote(direction: 1, dataManager: dataManager)
+            } label: {
+                Image(systemName: "arrow.up")
+                    .foregroundColor(comment.voteStatus == 1 ? Color.pongAccent : Color.pongSecondaryText)
+            }
+            
+            Text("\(comment.score + comment.voteStatus)")
+                .foregroundColor(Color("pongSecondaryText"))
+            
+            Button {
+                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                commentBubbleVM.commentVote(direction: -1, dataManager: dataManager)
+            } label: {
+                Image(systemName: "arrow.down")
+                    .foregroundColor(comment.voteStatus == -1 ? Color.pongAccent : Color.pongSecondaryText)
+            }
+        }
     }
 }

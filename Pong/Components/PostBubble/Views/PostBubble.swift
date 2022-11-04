@@ -22,6 +22,7 @@ struct PostBubble: View {
                 .padding(.horizontal)
             
             postBubbleMain
+                .frame(width: UIScreen.screenWidth)
             
             postBubbleBottomRow
                 .padding(.horizontal)
@@ -174,6 +175,7 @@ struct PostBubble: View {
                     KFImage(URL(string: "\(imageUrl)")!)
                         .resizable()
                         .scaledToFit()
+                        .frame(idealWidth: abs(UIScreen.screenWidth), idealHeight: abs(CGFloat(post.imageHeight!) * (UIScreen.screenWidth) / CGFloat(post.imageWidth!)), maxHeight: abs(CGFloat(300)))
                 }
                 
                 // MARK: Poll

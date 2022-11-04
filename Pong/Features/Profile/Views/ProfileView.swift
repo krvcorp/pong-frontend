@@ -219,7 +219,7 @@ struct ProfileView: View {
                             Spacer()
                         }
                     }
-                    .listRowBackground(Color.pongSystemBackground)
+                    .listRowBackground(Color.pongSecondarySystemBackground)
                     .listRowSeparator(.hidden)
                 }
             }
