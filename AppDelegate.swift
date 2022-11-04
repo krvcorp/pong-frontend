@@ -42,6 +42,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             UITableView.appearance().separatorStyle = .none
             UITableViewCell.appearance().backgroundColor = UIColor(Color.pongSystemBackground)
             UITableView.appearance().backgroundColor = UIColor(Color.pongSystemBackground)
+            
+            // Dismiss keyboard on scroll
+            UIScrollView.appearance().keyboardDismissMode = .onDrag
         }
         
         // MARK: HyperCriticalRulesExample
