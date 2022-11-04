@@ -55,13 +55,13 @@ struct FeedView: View {
                         NavigationLink(destination: MessageRosterView(), isActive: $mainTabVM.openConversationsDetected) {
                             if dataManager.conversations.contains(where: {$0.unreadCount > 0}) {
                                 ZStack(alignment: .topTrailing) {
-                                    Image(systemName: "envelope")
+                                    Image(systemName: "paperplane.fill")
                                     Circle()
                                         .fill(.red)
                                         .frame(width: 7, height: 7)
                                 }
                             } else {
-                                Image(systemName: "envelope")
+                                Image(systemName: "paperplane.fill")
                             }
                         }
                     }
