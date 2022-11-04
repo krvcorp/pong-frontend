@@ -166,7 +166,6 @@ struct PostView: View {
         .onChange(of: postVM.postUpdateTrigger) { newValue in
             DispatchQueue.main.async {
                 if postVM.post.id != "default" {
-                    print("DEBUG: postVM.postUpdateTrigger.onChange")
                     self.post = postVM.post
                     dataManager.updatePostLocally(post: postVM.post)
                 }

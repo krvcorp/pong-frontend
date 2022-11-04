@@ -168,7 +168,7 @@ struct MessageView: View {
                     .padding(.vertical, 8)
                     .padding(.horizontal, 15)
             }
-            .foregroundColor(userOwned ? Color.white: Color.pongLabel)
+            .foregroundColor(userOwned ? Color.white: Color.black)
             .background(userOwned ? Color.pongAccent : Color.pongGray)
             .cornerRadius(20)
             .overlay(RoundedRectangle(cornerRadius: 20).stroke(userOwned ? Color.pongAccent : Color.pongGray, lineWidth: 1))
@@ -177,7 +177,6 @@ struct MessageView: View {
                 Spacer()
             }
         }
-
     }
     
     // MARK: MessageComponent

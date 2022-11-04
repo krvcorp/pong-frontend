@@ -33,7 +33,7 @@ class NotificationsViewModel: ObservableObject {
     // MARK: GetPost
     /// Gets the post of a particular notification
     func getPost(url: String, id: String, completionHandler: @escaping (Post) -> Void) {
-        NetworkManager.networkManager.request(route: "posts/\(url)/", method: .get, successType: Post.self) { successResponse, errorResponse in
+        NetworkManager.networkManager.request(route: "\(url)", method: .get, successType: Post.self) { successResponse, errorResponse in
             if successResponse != nil {
                 self.post = successResponse!
                 completionHandler(self.post)
