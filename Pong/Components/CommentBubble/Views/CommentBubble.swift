@@ -86,7 +86,7 @@ struct CommentBubble: View {
                                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         //                            postVM.saveComment(comment: comment, dataManager: dataManager)
                             } label: {
-                                Label("Report", systemImage: "flag")
+                                Label("Save", systemImage: "flag")
                             }
                         }
                         else {
@@ -94,7 +94,7 @@ struct CommentBubble: View {
                                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                                 postVM.reportComment(comment: comment)
                             } label: {
-                                Label("Report", systemImage: "flag")
+                                Label("Unsave", systemImage: "flag.fill")
                             }
                             
                         }

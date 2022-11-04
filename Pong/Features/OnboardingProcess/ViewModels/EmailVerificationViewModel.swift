@@ -2,6 +2,7 @@ import Foundation
 import GoogleSignIn
 import MSAL
 import SwiftUI
+import FirebaseMessaging
 
 
 class EmailVerificationViewModel: ObservableObject {
@@ -77,7 +78,6 @@ class EmailVerificationViewModel: ObservableObject {
     /// Verifies email and logs in the user if successful. Otherwise it prompts the user that they're unable to sign in
     private func verifyEmail(idToken: String, loginType: String) {
         let parameters = VerifyEmailModel.Request(idToken: idToken, loginType: loginType)
-        
         NetworkManager.networkManager.request(route: "login/", method: .post, body: parameters, successType: VerifyEmailModel.Response.self) { successResponse, errorResponse in
             DispatchQueue.main.async {
                 withAnimation {
@@ -107,6 +107,14 @@ class EmailVerificationViewModel: ObservableObject {
                         if let referred = successResponse.referred {
                             if referred {
                                 DAKeychain.shared["referred"] = "true"
+                            }
+                        }
+                        
+                        // store FCM token
+                        Messaging.messaging().token { token, error in
+                            if let token = token {
+                                // send fcm token
+                                DAKeychain.shared["fcm"] = token
                             }
                         }
                         

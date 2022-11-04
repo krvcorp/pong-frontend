@@ -11,13 +11,16 @@ class MessageViewModel: ObservableObject {
     
     @Published var scrolledToBottom = false
     
-    // send a message
+    // MARK: SendMessage
+    /// Sends a message to a conversation
+    /// - Parameters:
+    ///   - message: The message string
+    /// - Returns: On completion calls getConversations and triggers scroll to bottom
     func sendMessage(message: String) {
         // send message
         NetworkManager.networkManager.emptyRequest(route: "messages/", method: .post, body: Message.Request(conversationId: conversation.id, message: message)) { successResponse, errorResponse in
             if successResponse != nil {
                 DispatchQueue.main.async {
-                    print("DEBUG: sendMessage success")
                     self.getConversation()
                     self.scrolledToBottom = false
                 }
@@ -25,8 +28,9 @@ class MessageViewModel: ObservableObject {
         }
     }
     
+    // MARK: GetConversation
+    /// Gets all conversations the user is a part of
     func getConversation() {
-        print("DEBUG: getConversation")
         NetworkManager.networkManager.request(route: "conversations/\(self.conversation.id)/", method: .get, successType: Conversation.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
                 self.conversation = successResponse
@@ -40,18 +44,20 @@ class MessageViewModel: ObservableObject {
         }
     }
     
+    // MARK: ReadConversation
+    /// Marks the conversation as read
     func readConversation() {
-        // send message
         NetworkManager.networkManager.emptyRequest(route: "conversations/\(self.conversation.id)/read/", method: .post) { successResponse, errorResponse in
             if successResponse != nil {
-                print("DEBUG: readMessage success")
                 self.getConversation()
+                self.conversation.unreadCount = 0
             }
         }
     }
     
+    // MARK: BlockUser
+    /// Blocks the user of the conversation
     func blockUser(completionHandler: @escaping (Bool) -> Void) {
-        // send message
         NetworkManager.networkManager.emptyRequest(route: "conversations/\(self.conversation.id)/block/", method: .post) { successResponse, errorResponse in
             if successResponse != nil {
                 print("DEBUG: blockUser success")
@@ -64,6 +70,9 @@ class MessageViewModel: ObservableObject {
         }
     }
     
+    // don't know why the bottom two functions exist at the moment
+    // MARK: GetPost
+    /// Gets the post for the conversation and opens the post object on completion
     func getPost(postId: String, completionHandler: @escaping (Post) -> Void) {
         NetworkManager.networkManager.request(route: "posts/\(postId)/", method: .get, successType: Post.self) { successResponse, errorResponse in
             if successResponse != nil {
@@ -75,6 +84,8 @@ class MessageViewModel: ObservableObject {
         }
     }
     
+    // MARK: ReadPost
+    /// Reads the post information
     func readPost(postId: String) {
         NetworkManager.networkManager.request(route: "posts/\(postId)/", method: .get, successType: Post.self) { successResponse, errorResponse in
             if successResponse != nil {

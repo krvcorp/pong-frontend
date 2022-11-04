@@ -65,6 +65,10 @@ extension Color {
     public static var pongSecondaryText : Color {
         return Color(UIColor(named: "pongSecondaryText")!)
     }
+
+    public static var pongGray: Color {
+        return Color(red: 217/255, green: 218/255, blue: 219/255)
+    }
 }
 
 

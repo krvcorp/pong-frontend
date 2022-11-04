@@ -16,7 +16,6 @@ struct MessageView: View {
             Button {
                 DispatchQueue.main.async {
                     messageVM.getPost(postId: conversation.postId!) { success in
-                        print("DEBUG: success")
                         post = success
                         isLinkActive = true
                     }
@@ -84,21 +83,33 @@ struct MessageView: View {
         .onAppear {
             self.messageVM.conversation = conversation
         }
-        .onChange(of: self.conversation.id, perform: { newValue in
+        .onChange(of: self.conversation.id) { newValue in
             DispatchQueue.main.async {
-                print("DEBUG: self.conversation.id.onChange")
                 messageVM.conversation = self.conversation
             }
-        })
-        .navigationBarTitle("\(conversation.re)", displayMode: .inline)
+        }
+        .navigationBarTitle("Chat", displayMode: .inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button {
-                    messageVM.showBlockConfirmationView = true
+                Menu {
+                    Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        messageVM.showBlockConfirmationView = true
+                    } label: {
+                        Label("Block user", systemImage: "x.circle")
+                    }
+                    
+                    Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        messageVM.showBlockConfirmationView = true
+                    } label: {
+                        Label("Report", systemImage: "flag")
+                    }
                 } label: {
-                    Image(systemName: "person.fill.badge.minus")
-                        .foregroundColor(Color(UIColor.label))
+                    Image(systemName: "ellipsis")
+                        .frame(width: 30, height: 30)
                 }
+                .foregroundColor(Color.pongLabel)
             }
         }
         // MARK: Delete Confirmation
@@ -125,20 +136,20 @@ struct MessageView: View {
             }
         }
         .onAppear {
-            self.messageVM.conversation.read = true
+            self.conversation.unreadCount = 0
             self.messageVM.readConversation()
-            self.messageVM.timer = Timer.publish (every: 1, on: .current, in: .common).autoconnect()
+            // timer for polling
+//            self.messageVM.timer = Timer.publish (every: 1, on: .current, in: .common).autoconnect()
         }
         .onDisappear {
-            self.messageVM.timer.upstream.connect().cancel()
+            // timer for polling
+//            self.messageVM.timer.upstream.connect().cancel()
         }
         // action to do on update of conversation model
         .onChange(of: messageVM.messageUpdateTrigger) { newValue in
             if self.conversation.messages != messageVM.conversation.messages {
-                print("DEBUG: message written")
                 self.messageVM.scrolledToBottom = false
                 self.conversation.messages = messageVM.conversation.messages
-                print("DEBUG: \(self.conversation.messages)")
             }
         }
     }
@@ -154,17 +165,19 @@ struct MessageView: View {
             HStack {
                 Text("\(message.message)")
                     .font(.headline)
-                    .padding()
+                    .padding(.vertical, 8)
+                    .padding(.horizontal, 15)
             }
-            .foregroundColor(Color(UIColor.label))
-            .background(userOwned ? Color.pongSystemBackground : Color(UIColor.quaternaryLabel))
+            .foregroundColor(userOwned ? Color.white: Color.pongLabel)
+            .background(userOwned ? Color.pongAccent : Color.pongGray)
             .cornerRadius(20)
-            .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color(UIColor.quaternaryLabel), lineWidth: 1))
+            .overlay(RoundedRectangle(cornerRadius: 20).stroke(userOwned ? Color.pongAccent : Color.pongGray, lineWidth: 1))
             
             if !userOwned {
                 Spacer()
             }
         }
+
     }
     
     // MARK: MessageComponent
@@ -194,7 +207,6 @@ struct MessageView: View {
                     } else {
                         Button {
                             UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                            print("DEBUG SEND MESSAGE")
                             messageVM.sendMessage(message: text)
                             text = ""
                             NotificationsManager.shared.registerForNotifications(forceRegister: false)
@@ -226,14 +238,8 @@ struct MessageView: View {
             HStack {
                 VStack {
                     HStack {
-                        Text("\(messageVM.post.title)")
+                        Text("\(conversation.re)")
                             .font(.subheadline)
-                        Spacer()
-                    }
-                    
-                    HStack {
-                        Text("\(messageVM.post.timeSincePosted) ago")
-                            .font(.caption)
                         Spacer()
                     }
                 }

@@ -43,6 +43,9 @@ class NotificationsManager: ObservableObject {
                 // Notification permission has not been asked yet, go for it!
                 Messaging.messaging().token { token, error in
                     if let token = token {
+                        // save fcm token
+                        DAKeychain.shared["fcm"] = token
+                        
                         // send fcm token
                         NetworkManager.networkManager.emptyRequest(route: "notifications/register/", method: .post, body: Registration.Request(fcm_token: token)) { success, error in
                             print("DEBUG: Notifications Registered")
@@ -83,10 +86,22 @@ class NotificationsManager: ObservableObject {
     }
     
     // MARK: Remove FCM Token
-    /// Send a network request and sets the user's FCM token to be "". This will prevent notifications to be sent to the device the user just signed out of
-    func removeFCMToken() {
-        NetworkManager.networkManager.emptyRequest(route: "notifications/register/", method: .post, body: Registration.Request(fcm_token: "")) { success, error in
-            print("DEBUG: Notifications Removed")
+    /// Send a network request to delete the user's FCM token. This will prevent notifications to be sent to the device the user just signed out of
+    func removeFCMToken(completion: @escaping (Bool) -> Void) {
+        Messaging.messaging().token { token, error in
+            if let token = token {
+                // send fcm token
+                NetworkManager.networkManager.emptyRequest(route: "notifications/register/", method: .delete, body: Registration.Request(fcm_token: token)) { successResponse, errorResponse in
+                    
+                    if successResponse != nil {
+                        completion(true)
+                    }
+                    
+                    if errorResponse != nil {
+                        print("DEBUG: unable to remove fcm token")
+                    }
+                }
+            }
         }
     }
 }

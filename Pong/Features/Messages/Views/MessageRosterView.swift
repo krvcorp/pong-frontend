@@ -16,6 +16,7 @@ struct MessageRosterView: View {
     var body: some View {
         LoadingView(isShowing: .constant(false)) {
             List {
+                // MARK: If there are no messages
                 if dataManager.conversations == [] {
                     VStack(alignment: .center, spacing: 15) {
                         HStack(alignment: .center) {
@@ -38,114 +39,79 @@ struct MessageRosterView: View {
                     }
                     .listRowBackground(Color.pongSystemBackground)
                     .listRowSeparator(.hidden)
-                } else {
-                    // MARK: Messages
-                    Section(header: Text("Messages")) {
+                }
+                // MARK: Messages
+                else {
+                    Section() {
                         ForEach($dataManager.conversations.filter { searchText.isEmpty || $0.re.wrappedValue.contains(searchText)}, id: \.id) { $conversation in
-                            NavigationLink(destination: MessageView(conversation: $conversation)) {
-                                if conversation.read {
-                                    // if read
-                                    HStack {
-                                        VStack (alignment: .leading, spacing: 6) {
-                                            HStack {
-                                                if conversation.re == "" {
-                                                    Text("Untitled Post")
-                                                        .font(.subheadline)
-                                                        .lineLimit(1)
-                                                } else {
-                                                    Text(conversation.re)
-                                                        .font(.subheadline)
-                                                        .lineLimit(1)
-                                                }
-                                                
-                                                Spacer()
-                                                
-                                                if conversation.messages != [] {
-                                                    Text(messageRosterVM.stringToDateToString(dateString: conversation.messages.last!.createdAt))
-                                                        .font(.subheadline)
-                                                        .foregroundColor(Color(UIColor.label))
-                                                        .lineLimit(1)
-                                                        
-                                                }
+                            ZStack {
+                                NavigationLink(destination: MessageView(conversation: $conversation)) {
+                                    EmptyView()
+                                }
+                                .opacity(0)
+                                .buttonStyle(PlainButtonStyle())
+                                
+                                HStack {
+                                    VStack (alignment: .leading, spacing: 6) {
+                                        HStack {
+                                            if conversation.re == "" {
+                                                Text("Untitled Post")
+                                                    .lineLimit(1)
+                                            } else {
+                                                Text(conversation.re)
+                                                    .lineLimit(1)
                                             }
                                             
+                                            Spacer()
+                                            
                                             if conversation.messages != [] {
-                                                HStack {
-                                                    Text(conversation.messages.last!.message)
-                                                        .font(.subheadline)
-                                                        .lineLimit(1)
-                                                        .foregroundColor(Color.pongSecondaryText)
+                                                Text(messageRosterVM.stringToDateToString(dateString: conversation.messages.last!.createdAt))
+                                                    .foregroundColor(Color(UIColor.label))
+                                                    .lineLimit(1)
                                                     
-                                                    Spacer()
-                                                    
-                                                    Circle()
-                                                        .fill(.clear)
-                                                        .frame(width: 7, height: 7)
-                                                }
                                             }
                                         }
-                                    }
-                                    .padding(.vertical, 10)
-                                } else {
-                                    // if unread
-                                    HStack {
-                                        VStack (alignment: .leading, spacing: 6) {
+                                        
+                                        if conversation.messages != [] {
                                             HStack {
-                                                if conversation.re == "" {
-                                                    Text("Untitled Post")
-                                                        .font(.subheadline)
-                                                        .bold()
-                                                        .lineLimit(1)
-                                                } else {
-                                                    Text(conversation.re)
-                                                        .font(.subheadline)
-                                                        .bold()
-                                                        .lineLimit(1)
-                                                }
+                                                Text(conversation.messages.last!.message)
+                                                    .lineLimit(1)
+                                                    .foregroundColor(Color.pongSecondaryText)
                                                 
                                                 Spacer()
                                                 
-                                                if conversation.messages != [] {
-                                                    Text(messageRosterVM.stringToDateToString(dateString: conversation.messages.last!.createdAt))
+                                                // put the number of unread messages in a circle
+                                                if conversation.unreadCount > 0 {
+                                                    Text("\(conversation.unreadCount)")
                                                         .font(.subheadline)
-                                                        .bold()
-                                                        .foregroundColor(Color(UIColor.label))
-                                                        .lineLimit(1)
-
-                                                }
-                                            }
-                                            if conversation.messages != [] {
-                                                HStack {
-                                                    Text(conversation.messages.last!.message)
-                                                        .font(.subheadline)
-                                                        .bold()
-                                                        .foregroundColor(Color(UIColor.label))
-                                                        .lineLimit(1)
-                                                        .foregroundColor(Color.pongSecondaryText)
-
-                                                    Spacer()
-                                                    
-                                                    Circle()
-                                                        .fill(Color(UIColor.systemBlue))
-                                                        .frame(width: 7, height: 7)
+                                                        .foregroundColor(Color.white)
+                                                        .padding(5)
+                                                        .background(Color.pongAccent)
+                                                        .clipShape(Circle())
                                                 }
                                             }
                                         }
                                     }
-                                    .padding(.vertical, 10)
                                 }
+                                .padding(.vertical, 10)
+                                .font(conversation.unreadCount == 0 ? .subheadline : .subheadline.bold())
                             }
+                            .listRowBackground(Color.pongSystemBackground)
                         }
                     }
                 }
             }
             .scrollContentBackgroundCompat()
+            .searchable(text: $searchText)
             .background(Color.pongSystemBackground)
             .listStyle(GroupedListStyle())
             .onAppear {
                 UITableView.appearance().showsVerticalScrollIndicator = false
             }
             .navigationTitle("Messages")
+        }
+        .onAppear() {
+            messageRosterVM.getConversations(dataManager: dataManager)
         }
     }
 }

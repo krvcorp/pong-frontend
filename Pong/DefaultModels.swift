@@ -51,12 +51,13 @@ var defaultPoll = Poll(id: "default",
                        votedFor: "default",
                        options: [])
 
-var defaultConversation = Conversation(id: "default",
-                                       messages: [defaultMessage],
-                                       re: "default",
-                                       read: true)
-
 var defaultMessage = Message(id: "default",
                              message: "default",
                              createdAt: "now",
                              userOwned: true)
+
+var defaultConversation = Conversation(id: "default",
+                                       messages: [defaultMessage],
+                                       re: "default",
+                                       unreadCount: 1,
+                                       postId: "default")
