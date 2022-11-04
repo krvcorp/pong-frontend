@@ -102,7 +102,7 @@ struct SettingsView: View {
                         EmailController().sendEmail()
                     } label: {
                         HStack{
-                            Image(systemName: "envelope").font(Font.body.weight(.bold))
+                            Image(systemName: "paperplane.fill").font(Font.body.weight(.bold))
                                 .frame(width: 20)
                             Text("Contact Us")
                                 .bold()
