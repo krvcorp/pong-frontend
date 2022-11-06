@@ -18,53 +18,51 @@ struct FeedView: View {
     @Namespace var namespace
     
     var body: some View {
-        NavigationView {
-            TabView(selection: $feedVM.selectedFeedFilter) {
-                ForEach(FeedFilter.allCases, id: \.self) { tab in
-                    customFeedStack(filter: feedVM.selectedFeedFilter, tab: tab)
-                        .tag(tab)
-                }
-                .background(Color(UIColor.secondarySystemBackground))
+        TabView(selection: $feedVM.selectedFeedFilter) {
+            ForEach(FeedFilter.allCases, id: \.self) { tab in
+                customFeedStack(filter: feedVM.selectedFeedFilter, tab: tab)
+                    .tag(tab)
             }
             .background(Color(UIColor.secondarySystemBackground))
-            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-            // Hide navbar
-            .navigationBarTitle("\(feedVM.school)")
-            .navigationBarTitleDisplayMode(.inline)
-            // MARK: Toolbar
-            .toolbar {
-                ToolbarItem (placement: .navigationBarLeading) {
-                    Button() {
-                        
-                    }
-                    label: {
-                        Text("BU")
-                            .bold()
-                            .font(.title3)
-                    }
+        }
+        .background(Color(UIColor.secondarySystemBackground))
+        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+        // Hide navbar
+        .navigationBarTitle("\(feedVM.school)")
+        .navigationBarTitleDisplayMode(.inline)
+        // MARK: Toolbar
+        .toolbar {
+            ToolbarItem (placement: .navigationBarLeading) {
+                Button() {
+                    
                 }
-                
-                ToolbarItem(placement: .principal) {
-                    toolbarPickerComponent
+                label: {
+                    Text("BU")
+                        .bold()
+                        .font(.title3)
                 }
-                
-                ToolbarItem {
-                    HStack(spacing: 0) {
-                        NavigationLink(destination: MessageView(conversation: $conversation), isActive: $isLinkActive) { EmptyView().opacity(0) }.opacity(0)
-                        
-                        NavigationLink(destination: MessageRosterView(), isActive: $mainTabVM.openConversationsDetected) {
-                            if dataManager.conversations.contains(where: {$0.unreadCount > 0}) {
-                                ZStack(alignment: .topTrailing) {
-                                    Image("chat-dots")
-                                        .font(Font.system(size: 36, weight: .regular))
-                                    Circle()
-                                        .fill(.red)
-                                        .frame(width: 7, height: 7)
-                                }
-                            } else {
+            }
+            
+            ToolbarItem(placement: .principal) {
+                toolbarPickerComponent
+            }
+            
+            ToolbarItem {
+                HStack(spacing: 0) {
+                    NavigationLink(destination: MessageView(conversation: $conversation), isActive: $isLinkActive) { EmptyView().opacity(0) }.opacity(0)
+                    
+                    NavigationLink(destination: MessageRosterView(), isActive: $mainTabVM.openConversationsDetected) {
+                        if dataManager.conversations.contains(where: {$0.unreadCount > 0}) {
+                            ZStack(alignment: .topTrailing) {
                                 Image("chat-dots")
                                     .font(Font.system(size: 36, weight: .regular))
+                                Circle()
+                                    .fill(.red)
+                                    .frame(width: 7, height: 7)
                             }
+                        } else {
+                            Image("chat-dots")
+                                .font(Font.system(size: 36, weight: .regular))
                         }
                     }
                 }

@@ -30,7 +30,7 @@ class MainTabViewModel: ObservableObject {
 
     var previousItem: Int
 
-    var itemSelected: Int {
+    @Published var itemSelected: Int {
         didSet {
             if itemSelected == customActiontemindex {
                 previousItem = oldValue

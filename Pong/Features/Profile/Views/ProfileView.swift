@@ -7,34 +7,32 @@ struct ProfileView: View {
     @StateObject private var profileVM = ProfileViewModel()
     
     var body: some View {
-        NavigationView {
-            VStack {
-                karmaComponent
-                    .frame(maxWidth: .infinity)
-                
-                toolbarPickerComponent
-                
-                TabView(selection: $profileVM.selectedProfileFilter) {
-                    ForEach(ProfileFilter.allCases, id: \.self) { tab in
-                        customProfileStack(filter: profileVM.selectedProfileFilter, tab: tab)
-                            .tag(tab)
-                            .background(Color.pongSystemBackground)
-                    }
+        VStack {
+            karmaComponent
+                .frame(maxWidth: .infinity)
+            
+            toolbarPickerComponent
+            
+            TabView(selection: $profileVM.selectedProfileFilter) {
+                ForEach(ProfileFilter.allCases, id: \.self) { tab in
+                    customProfileStack(filter: profileVM.selectedProfileFilter, tab: tab)
+                        .tag(tab)
+                        .background(Color.pongSystemBackground)
                 }
-                .background(Color.pongSystemBackground)
-                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             }
             .background(Color.pongSystemBackground)
-            // Navigation bar
-            .navigationTitle("Profile")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem {
-                    NavigationLink {
-                        SettingsView()
-                    } label: {
-                        Image(systemName: "gearshape")
-                    }
+            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+        }
+        .background(Color.pongSystemBackground)
+        // Navigation bar
+        .navigationTitle("Profile")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem {
+                NavigationLink {
+                    SettingsView()
+                } label: {
+                    Image(systemName: "gearshape")
                 }
             }
         }

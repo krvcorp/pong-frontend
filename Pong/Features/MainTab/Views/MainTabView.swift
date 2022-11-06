@@ -62,45 +62,100 @@ struct MainTabView: View {
         }
         // MARK: If app is loaded
         else {
-            TabView(selection: handler) {
-                // MARK: FeedView
-                FeedView(showMenu: $showMenu)
-                    .tabItem{
-                        Image(systemName: "house")
+            NavigationView {
+                // create a custom tab view with a custom tab bar using a zstack
+                ZStack(alignment: .bottom) {
+                    // if statements to check what selection is on to show a specific view
+                    if mainTabVM.itemSelected == 1 {
+                        FeedView(showMenu: $showMenu)
+                    } else if mainTabVM.itemSelected == 2 {
+                        LeaderboardTabView()
+                    } else if mainTabVM.itemSelected == 3 {
+                        NewPostView(mainTabVM: mainTabVM)
+                    } else if mainTabVM.itemSelected == 4 {
+                        NotificationsView()
+                    } else if mainTabVM.itemSelected == 5 {
+                        ProfileView()
                     }
-                    .tag(1)
-                
-                // MARK: Stats and Leaderboard
-                LeaderboardTabView()
-                    .tabItem{
-                        Image(systemName: "chart.bar.xaxis")
-                    }
-                    .tag(2)
+                    
+                    
+                    // create an hstack with five buttons to represent the five tabs
+                    HStack {
+                        // MARK: FeedView
+                        Button(action: {
+                            DispatchQueue.main.async {
+                                mainTabVM.itemSelected = 1
+                            }
 
-                // MARK: NewPostView
-                NewPostView(mainTabVM: MainTabViewModel(initialIndex: 0, customItemIndex: 0))
-                    .tabItem {
-                        Image(systemName: "arrowshape.bounce.right.fill")
+                        }) {
+                            VStack {
+                                Image("home")
+                                    .font(.system(size: 40))
+                                    .foregroundColor(mainTabVM.itemSelected == 1 ? Color.pongAccent : Color(UIColor.secondaryLabel))
+                            }
+                        }
+                        .frame(width: UIScreen.screenWidth / 5)
+                        
+                        // MARK: Stats and Leaderboard
+                        Button(action: {
+                            DispatchQueue.main.async {
+                                mainTabVM.itemSelected = 2
+                            }
+                        }) {
+                            VStack {
+                                Image("trophy")
+                                    .font(.system(size: 40))
+                                    .foregroundColor(mainTabVM.itemSelected == 2 ? Color.pongAccent : Color(UIColor.secondaryLabel))
+                            }
+                        }
+                        .frame(width: UIScreen.screenWidth / 5)
+                        
+                        // MARK: NewPostView which is a red circle with a white plus sign
+                        Button(action: {
+                            DispatchQueue.main.async {
+                                mainTabVM.itemSelected = 3
+                            }
+                        }) {
+                            Image(systemName: "plus.circle.fill")
+                                .font(.system(size: 40))
+                                .foregroundColor(Color.pongAccent)
+                        }
+                        
+                        //MARK: Notifications
+                        Button(action: {
+                            DispatchQueue.main.async {
+                                mainTabVM.itemSelected = 4
+                            }
+                        }) {
+                            VStack {
+                                Image("bell")
+                                    .font(.system(size: 40))
+                                    .foregroundColor(mainTabVM.itemSelected == 4 ? Color.pongAccent : Color(UIColor.secondaryLabel))
+                            }
+                        }
+                        .frame(width: UIScreen.screenWidth / 5)
+                        
+                        //MARK: Profile
+                        Button(action: {
+                            DispatchQueue.main.async {
+                                mainTabVM.itemSelected = 5
+                            }
+                        }) {
+                            VStack {
+                                Image("person")
+                                    .font(.system(size: 40))
+                                    .foregroundColor(mainTabVM.itemSelected == 5 ? Color.pongAccent : Color(UIColor.secondaryLabel))
+                            }
+                        }
+                        .frame(width: UIScreen.screenWidth / 5)
                     }
-                    .tag(3)
-                
-                //MARK: Notifications
-                NotificationsView()
-                    .tabItem{
-                        Image(systemName: "bell")
-                    }
-                    .tag(4)
-                
-
-                // MARK: ProfileView
-                ProfileView()
-                    .tabItem{
-                        Image(systemName: "person")
-                    }
-                    .tag(5)
+                    .frame(width: UIScreen.screenWidth, height: 60)
+                    .background(Color(UIColor.systemBackground))
+                    .ignoresSafeArea(.all, edges: .bottom)
+                }
             }
             .environmentObject(dataManager)
-            .accentColor(Color.pongLabel)
+            .accentColor(Color.pongAccent)
             // MARK: New Post Sheet
             .sheet(isPresented: $mainTabVM.isCustomItemSelected) {
                 NewPostView(mainTabVM: mainTabVM)
