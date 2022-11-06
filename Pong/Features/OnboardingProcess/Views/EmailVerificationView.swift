@@ -13,8 +13,9 @@ struct EmailVerificationView: View {
             
             Image("PongTextLogo")
             
-            Text("Bounce your ideas")
-                .font(.system(size: 20, weight: .medium))
+            Text("Your college community.")
+                .font(.title)
+                .fontWeight(.bold)
             
             Spacer()
 
@@ -39,9 +40,9 @@ struct EmailVerificationView: View {
                 .cornerRadius(12)
                 .frame(maxWidth: .infinity, minHeight: 44)
                 .padding([.leading, .trailing], 30)
-                .shadow(color: Color(white: 0.1, opacity: 0.3), radius: 12, x: 0, y: 6)
+                .shadow(color: Color(white: 0.1, opacity: 0.4), radius: 4, x: 0, y: 6)
             }
-            .padding(.bottom, 16)
+            .padding(.bottom, 8)
             
             Button {
                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
@@ -63,7 +64,7 @@ struct EmailVerificationView: View {
                 .cornerRadius(12)
                 .frame(maxWidth: .infinity, minHeight: 44)
                 .padding([.leading, .trailing], 30)
-                .shadow(color: Color(white: 0.1, opacity: 0.3), radius: 12, x: 0, y: 6)
+                .shadow(color: Color(white: 0.1, opacity: 0.4), radius: 4, x: 0, y: 6)
             }
             .padding(.bottom, 32)
         }

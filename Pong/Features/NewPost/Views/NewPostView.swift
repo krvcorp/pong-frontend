@@ -88,7 +88,7 @@ struct NewPostView: View {
                                     showNewPoll = false
                                     newPostVM.newPollVM.reset()
                                 } label: {
-                                    Image(systemName: "photo")
+                                    Image("gallery-add")
                                         .resizable()
                                         .scaledToFit()
                                         .foregroundColor(Color.pongAccent)
@@ -108,7 +108,7 @@ struct NewPostView: View {
                                         newPostVM.newPollVM.instantiate()
                                     }
                                 } label: {
-                                    Image(systemName: "chart.bar")
+                                    Image("poll")
                                         .resizable()
                                         .scaledToFit()
                                         .foregroundColor(Color.pongAccent)
@@ -119,7 +119,7 @@ struct NewPostView: View {
                                     .foregroundColor(newPostVM.characterLimit - newPostVM.title.count <= 30 ? .red : Color(UIColor.label))
                             }
                             .padding()
-                            .frame(minHeight: 25, maxHeight: 55)
+                            .frame(minHeight: 25, maxHeight: 65)
                         }
                     }
                 }

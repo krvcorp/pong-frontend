@@ -11,7 +11,7 @@ struct InformationView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
             
-            Text("Self-expression")
+            Text("Be yourself with just a few [rules](https://www.pong.blog/). Basically, don't be an asshole")
                 .font(.title.bold())
                 .padding(.horizontal)
             
@@ -19,12 +19,6 @@ struct InformationView: View {
                 .resizable()
                 .scaledToFit()
                 .frame(width: UIScreen.screenWidth / 1.1)
-            
-            Text("Anonymity helps us express ourselves in honest ways.")
-                .font(.title3)
-            
-            Text("Hot takes, memes, confessions. We really don't care.")
-                .font(.title3)
             
             Spacer()
         }

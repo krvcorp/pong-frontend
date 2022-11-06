@@ -74,13 +74,13 @@ struct NewPoll: View {
                         newPollVM.pollOptions.append("")
                     } label: {
                         HStack {
-                            Image(systemName: "plus")
-                            
-                            Text("Add Option")
+                            Text("+ Add Option")
                         }
-                        .padding(5)
+                        .padding(8)
                         .overlay(RoundedRectangle(cornerRadius: 15).stroke(Color.pongAccent, lineWidth: 1))
-                        .foregroundColor(Color.pongAccent)
+                        .foregroundColor(Color.white)
+                        .background(Color.pongAccent)
+                        .cornerRadius(15)
                     }
                     
                     Spacer()

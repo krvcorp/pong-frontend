@@ -293,8 +293,11 @@ struct PostView: View {
                             isLinkActive = true
                         }
                     } label: {
-                        HStack(spacing: 2) {
-                            Image(systemName: "bubble.left.fill")
+                        HStack(spacing: 3) {
+                            Image("chat-dots")
+                                .font(Font.system(size: 20, weight: .regular))
+                                .imageScale(.large)
+                            
                             Text("Message")
                         }
                         .font(.caption.bold())
@@ -368,10 +371,10 @@ struct PostView: View {
             
             HStack {
                 Image(systemName: "bubble.left")
-                    .foregroundColor(Color("pongSecondaryText"))
+                    .foregroundColor(Color.pongSecondaryText)
                 Text("\(post.numComments)")
                     .bold()
-                    .foregroundColor(Color("pongSecondaryText"))
+                    .foregroundColor(Color.pongSecondaryText)
             }
             .frame(minWidth: 0, maxWidth: .infinity)
             
@@ -386,8 +389,9 @@ struct PostView: View {
                             postVM.post = post
                             postVM.unsavePost(post: post, dataManager: dataManager)
                         } label: {
-                            Image(systemName: "bookmark.fill")
-                                .foregroundColor(Color("pongSecondaryText"))
+                            Image("save.fill")
+                                .font(Font.system(size: 36, weight: .regular))
+                                .foregroundColor(Color.pongSecondaryText)
                         }
                     } else if !post.saved {
                         Button {
@@ -395,8 +399,9 @@ struct PostView: View {
                             postVM.post = post
                             postVM.savePost(post: post, dataManager: dataManager)
                         } label: {
-                            Image(systemName: "bookmark")
-                                .foregroundColor(Color("pongSecondaryText"))
+                            Image("save")
+                                .font(Font.system(size: 36, weight: .regular))
+                                .foregroundColor(Color.pongSecondaryText)
                         }
                     }
                 }
@@ -405,8 +410,9 @@ struct PostView: View {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     sheet.toggle()
                 } label: {
-                    Image(systemName: "square.and.arrow.up")
-                        .foregroundColor(Color("pongSecondaryText"))
+                    Image("share")
+                        .font(Font.system(size: 36, weight: .regular))
+                        .foregroundColor(Color.pongSecondaryText)
                 }
                 .sheet(isPresented: $sheet) {
                     ShareSheet(items: ["\(NetworkManager.networkManager.rootURL)post/\(post.id)/"])
@@ -423,7 +429,7 @@ struct PostView: View {
                         }
                     } label: {
                         Image(systemName: "trash")
-                            .foregroundColor(Color("pongSecondaryText"))
+                            .foregroundColor(Color.pongSecondaryText)
                     }
                 }
             }
@@ -443,7 +449,7 @@ struct PostView: View {
             }
             
             Text("\(post.score + post.voteStatus)")
-                .foregroundColor(Color("pongSecondaryText"))
+                .foregroundColor(Color.pongSecondaryText)
             
             Button {
                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()

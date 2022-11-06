@@ -6,7 +6,7 @@ struct OnboardingView: View {
     @State private var selectedTab = 1
     
     init() {
-        UIPageControl.appearance().currentPageIndicatorTintColor = .red
+        UIPageControl.appearance().currentPageIndicatorTintColor = UIColor(Color.pongAccent)
         UIPageControl.appearance().pageIndicatorTintColor = UIColor.label
     }
     
@@ -20,11 +20,11 @@ struct OnboardingView: View {
                     InformationView()
                         .tag(2)
                     
-                    RulesView()
-                        .tag(3)
+//                    RulesView()
+//                        .tag(3)
                     
                     ReferralOnboardingView()
-                        .tag(4)
+                        .tag(3)
                 }
                 .onChange(of: selectedTab, perform: { newValue in
                     hideKeyboard()
@@ -41,7 +41,7 @@ struct OnboardingView: View {
                     }
                 }
                 
-                if selectedTab != 4 {
+                if selectedTab != 3 {
                     Button {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         withAnimation {
@@ -52,9 +52,9 @@ struct OnboardingView: View {
                             .fontWeight(.medium)
                             .padding([.top, .bottom], 15)
                             .padding([.leading, .trailing], 90)
-                            .background(Color.red)
+                            .background(Color.pongAccent)
                             .foregroundColor(.white)
-                            .cornerRadius(15)
+                            .cornerRadius(25)
                     }
                     .padding(.bottom)
                 } else {
@@ -62,13 +62,13 @@ struct OnboardingView: View {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         onboardingVM.onboard()
                     } label: {
-                        Text("Continue")
+                        Text("Next")
                             .fontWeight(.medium)
                             .padding([.top, .bottom], 15)
                             .padding([.leading, .trailing], 90)
-                            .background(Color.red)
+                            .background(Color.pongAccent)
                             .foregroundColor(.white)
-                            .cornerRadius(15)
+                            .cornerRadius(25)
                     }
                     .padding(.bottom)
                 }

@@ -9,11 +9,8 @@ struct ReferralOnboardingView: View {
         VStack {
             VStack(alignment: .leading, spacing: 20) {
                 
-                Text("One last question.")
+                Text("One last question. Were your referred by a friend?")
                     .font(.title).bold()
-                
-                Text("Were you referred by a friend?")
-                    .font(.title2).bold()
                 
                 // MARK: ReferralPageImage
                 HStack {

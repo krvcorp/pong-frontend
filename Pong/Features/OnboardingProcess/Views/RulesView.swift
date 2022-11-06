@@ -11,7 +11,7 @@ struct RulesView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
             
-            Text("Rules!")
+            Text("")
                 .font(.title.bold())
             
             Image("OnboardRulesImage")

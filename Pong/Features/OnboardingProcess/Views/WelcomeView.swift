@@ -18,7 +18,7 @@ struct WelcomeView: View {
                 
                 Spacer()
                 
-                Text("By using Pong, you understand our [Terms of Service](https://www.pong.blog/legal) and [Privacy Policy](https://www.pong.blog/legal)")
+                Text("By using Pong, you understand and agree to our [Terms of Service](https://www.pong.blog/legal) and [Privacy Policy](https://www.pong.blog/legal)")
                     .accentColor(Color.pongAccent)
 
             }
