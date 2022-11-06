@@ -18,6 +18,9 @@ class MainTabViewModel: ObservableObject {
     @Published var openConversation: Conversation = defaultConversation
     
     @Published var scrollToTop : Bool = false
+
+    // variable to track if user is scrolling
+    @Published var isScrolling: Bool = false
     
     init(initialIndex: Int = 1, customItemIndex: Int) {
         self.customActiontemindex = customItemIndex

@@ -8,21 +8,6 @@ struct MainTabView: View {
     @EnvironmentObject private var mainTabVM : MainTabViewModel
     @Binding var showMenu : Bool
     
-    var handler: Binding<Int> { Binding(
-        get: {
-            self.mainTabVM.itemSelected
-        },
-        set: {
-            // add logic to trigger scroll to top
-            if $0 == self.mainTabVM.itemSelected {
-                if self.mainTabVM.itemSelected == 1 {
-                    self.mainTabVM.scrollToTop.toggle()
-                }
-            }
-            self.mainTabVM.itemSelected = $0
-        }
-    )}
-    
     var body: some View {
         // MARK: If app is loading
         if dataManager.isAppLoading {
@@ -78,23 +63,31 @@ struct MainTabView: View {
                         ProfileView()
                     }
                     
-                    
-                    // create an hstack with five buttons to represent the five tabs
-                    HStack {
+                    let columns = [
+                        GridItem(.flexible()),
+                        GridItem(.flexible()),
+                        GridItem(.flexible()),
+                        GridItem(.flexible()),
+                        GridItem(.flexible())
+                    ]
+
+                    LazyVGrid(columns: columns, spacing: 20) {
                         // MARK: FeedView
                         Button(action: {
                             DispatchQueue.main.async {
-                                mainTabVM.itemSelected = 1
+                                if mainTabVM.itemSelected == 1 {
+                                    mainTabVM.scrollToTop.toggle()
+                                } else {
+                                    mainTabVM.itemSelected = 1
+                                }
                             }
-
                         }) {
                             VStack {
                                 Image("home")
-                                    .font(.system(size: 40))
+                                    .font(.system(size: 50))
                                     .foregroundColor(mainTabVM.itemSelected == 1 ? Color.pongAccent : Color(UIColor.secondaryLabel))
                             }
                         }
-                        .frame(width: UIScreen.screenWidth / 5)
                         
                         // MARK: Stats and Leaderboard
                         Button(action: {
@@ -104,11 +97,10 @@ struct MainTabView: View {
                         }) {
                             VStack {
                                 Image("trophy")
-                                    .font(.system(size: 40))
+                                    .font(.system(size: 50))
                                     .foregroundColor(mainTabVM.itemSelected == 2 ? Color.pongAccent : Color(UIColor.secondaryLabel))
                             }
                         }
-                        .frame(width: UIScreen.screenWidth / 5)
                         
                         // MARK: NewPostView which is a red circle with a white plus sign
                         Button(action: {
@@ -117,9 +109,11 @@ struct MainTabView: View {
                             }
                         }) {
                             Image(systemName: "plus.circle.fill")
-                                .font(.system(size: 40))
-                                .foregroundColor(Color.pongAccent)
+                                .font(.system(size: 80))
+                                .foregroundStyle(Color.pongSystemWhite, Color.pongAccent)
                         }
+                        .buttonStyle(PlainButtonStyle())
+                        .padding(.bottom)
                         
                         //MARK: Notifications
                         Button(action: {
@@ -129,11 +123,10 @@ struct MainTabView: View {
                         }) {
                             VStack {
                                 Image("bell")
-                                    .font(.system(size: 40))
+                                    .font(.system(size: 50))
                                     .foregroundColor(mainTabVM.itemSelected == 4 ? Color.pongAccent : Color(UIColor.secondaryLabel))
                             }
                         }
-                        .frame(width: UIScreen.screenWidth / 5)
                         
                         //MARK: Profile
                         Button(action: {
@@ -143,19 +136,19 @@ struct MainTabView: View {
                         }) {
                             VStack {
                                 Image("person")
-                                    .font(.system(size: 40))
+                                    .font(.system(size: 50))
                                     .foregroundColor(mainTabVM.itemSelected == 5 ? Color.pongAccent : Color(UIColor.secondaryLabel))
                             }
                         }
-                        .frame(width: UIScreen.screenWidth / 5)
                     }
-                    .frame(width: UIScreen.screenWidth, height: 60)
-                    .background(Color(UIColor.systemBackground))
+                    .frame(width: UIScreen.screenWidth, height: 50)
+                    .background(Color.pongSystemBackground)
                     .ignoresSafeArea(.all, edges: .bottom)
+                    .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: -5)
                 }
             }
             .environmentObject(dataManager)
-            .accentColor(Color.pongAccent)
+            .accentColor(Color.pongLabel)
             // MARK: New Post Sheet
             .sheet(isPresented: $mainTabVM.isCustomItemSelected) {
                 NewPostView(mainTabVM: mainTabVM)
