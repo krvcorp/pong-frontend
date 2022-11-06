@@ -54,7 +54,7 @@ struct MainTabView: View {
                     if mainTabVM.itemSelected == 1 {
                         FeedView(showMenu: $showMenu)
                     } else if mainTabVM.itemSelected == 2 {
-                        LeaderboardTabView()
+                        LeaderboardView()
                     } else if mainTabVM.itemSelected == 3 {
                         NewPostView(mainTabVM: mainTabVM)
                     } else if mainTabVM.itemSelected == 4 {
@@ -109,7 +109,7 @@ struct MainTabView: View {
                             }
                         }) {
                             Image(systemName: "plus.circle.fill")
-                                .font(.system(size: 80))
+                                .font(.system(size: 70))
                                 .foregroundStyle(Color.pongSystemWhite, Color.pongAccent)
                         }
                         .buttonStyle(PlainButtonStyle())

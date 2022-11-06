@@ -73,6 +73,10 @@ extension Color {
     public static var pongSystemWhite: Color {
         return Color(UIColor(named: "pongSystemWhite")!)
     }
+    
+    public static var pongLightGray : Color {
+        return Color(UIColor(named: "pongLightGray")!)
+    }
 
 }
 

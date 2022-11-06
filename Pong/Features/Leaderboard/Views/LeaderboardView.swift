@@ -30,8 +30,8 @@ struct LeaderboardView: View {
             leaderboardVM.getLeaderboard(dataManager: dataManager)
             leaderboardVM.getLoggedInUserInfo(dataManager: dataManager)
         }
-        .navigationBarTitle("")
-//        .navigationBarHidden(true)
+        .navigationBarTitle("Leaderboard")
+        .navigationBarTitleDisplayMode(.inline)
         .onTapGesture {
             print("DEBUG: onTap detected")
             hideKeyboard()
@@ -44,108 +44,157 @@ struct LeaderboardView: View {
         
     // MARK: KarmaInfo
     var karmaInfo: some View {
-        VStack(alignment: .leading) {
-            // MARK: HEADER
-            
-            HStack {
-                VStack(alignment: .leading) {
-                    Image("PongTextLogo")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(maxHeight: 35)
-                    
-                    
-                    
-                    Text("LEADERBOARD")
-                        .bold()
-                        .font(.callout)
+        VStack(alignment: .leading, spacing: 30) {
+            VStack {
+                HStack {
+                    Text("STATS")
+                        .font(.caption)
+                        .fontWeight(.heavy)
+                        .foregroundColor(Color.pongLabel)
+                    Spacer()
                 }
-                Spacer()
-//                VStack {
-//                    HStack{
-//                        Spacer()
-//                        Text("🏓")
-//                            .font(.title)
-//                    }
-//                }
-//                EmojiTextField(text: $text, placeholder: "Enter emoji")
+                
+                // MARK: First HSTACK of info
+                HStack {
+                    HStack {
+                        Image(systemName: "globe")
+                            .imageScale(.large)
+                        
+                        VStack {
+                            HStack {
+                                Text("COMMUNITY RANK")
+                                    .font(.caption)
+                                    .fontWeight(.heavy)
+                                    .foregroundColor(Color.pongLightGray)
+                                Spacer()
+                            }
+                            
+                            HStack {
+                                // MARK: Karma
+                                Text("\(dataManager.totalKarma)")
+                                    .font(.subheadline)
+                                    .fontWeight(.heavy)
+                                    .foregroundColor(Color.pongLabel)
+                                
+                                Spacer()
+                            }
+                        }
+                    }
+                    .frame(maxWidth: UIScreen.screenWidth / 2)
+                    .padding(2)
+                    .padding(.vertical, 10)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 15)
+                            .stroke(Color.pongLightGray, lineWidth: 1)
+                    )
+                    
+                    HStack {
+                        Image(systemName: "star")
+                            .imageScale(.large)
+                        
+                        VStack {
+                            HStack {
+                                Text("KARMA")
+                                    .font(.caption)
+                                    .fontWeight(.heavy)
+                                    .foregroundColor(Color.pongLightGray)
+                                Spacer()
+                            }
+                            
+                            HStack {
+                                // MARK: Karma
+                                Text("\(dataManager.totalKarma)")
+                                    .font(.subheadline)
+                                    .fontWeight(.heavy)
+                                    .foregroundColor(Color.pongLabel)
+                                
+                                Spacer()
+                            }
+                        }
+                    }
+                    .frame(maxWidth: UIScreen.screenWidth / 2)
+                    .padding(2)
+                    .padding(.vertical, 10)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 15)
+                            .stroke(Color.pongLightGray, lineWidth: 1)
+                    )
+                }
             }
             
+            // MARK: Kahoot Component
+            HStack {
+                Spacer()
+                Image(systemName: "bookmark")
+                
+                Group {
+                    Text("400").fontWeight(.heavy) + Text(" points behind ") + Text("3rd").fontWeight(.heavy) + Text(" place")
+                }
+                Spacer()
+            }
+            .font(.title3)
+            .foregroundColor(Color.pongAccent)
             
-            // MARK: User Information
-//            HStack {
-//                HStack() {
-//                    Spacer()
-//                    VStack(alignment: .center) {
-//                        Text("Total")
-//                            .font(.subheadline.bold())
-//                        Text(String(dataManager.totalKarma))
-//                            .font(.title2)
-//                            .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
-//                    }
-//                    Spacer()
-//                }
-//                .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
-//
-//
-//                HStack {
-//                    Spacer()
-//                    VStack(alignment: .center) {
-//                        Text("Post")
-//                            .font(.subheadline.bold())
-//                        Text(String(dataManager.postKarma))
-//                            .font(.title2)
-//                            .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
-//                    }
-//                    Spacer()
-//                }
-//                .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
-//
-//
-//                HStack {
-//                    Spacer()
-//                    VStack(alignment: .center) {
-//                        Text("Comment")
-//                            .font(.subheadline.bold())
-//                        Text(String(dataManager.commentKarma))
-//                            .font(.title2)
-//                            .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
-//                    }
-//
-//                    Spacer()
-//                }
-//                .frame(maxWidth: UIScreen.screenWidth / 3, alignment: .leading)
-//            }
-            
-            // MARK: Kahoot
-//            HStack {
-//                Group {
-//                    Text("You're in")
-//                        .font(.subheadline.bold())
-//                    +
-//                    Text(" 7th ")
-//                        .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
-//                        .font(.subheadline.bold())
-//                    +
-//                    Text("place!")
-//                        .font(.subheadline.bold())
-//                }
-//            }
-//
-//            HStack {
-//                Group {
-//                    Text("20")
-//                        .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
-//                        .font(.subheadline.bold())
-//                    +
-//                    Text(" points behind ")
-//                        .font(.subheadline.bold())
-//                    +
-//                    Text("Anon")
-//                        .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
-//                        .font(.subheadline.bold())
-//                }
-//            }
+            // MARK: Editables
+            HStack(spacing: 10) {
+                VStack(spacing: 5) {
+                    HStack {
+                        Text("NICKNAME")
+                            .font(.caption)
+                            .fontWeight(.heavy)
+                            .foregroundColor(Color.pongLabel)
+                        Spacer()
+                    }
+
+                    
+                    HStack {
+                        HStack {
+                            Image(systemName: "person")
+                            
+                            TextField("Select a nickname", text: $nickname, onEditingChanged: { _ in
+                                limitText(textLimit)
+                            })
+                            .accentColor(Color.pongSystemWhite)
+                            
+                            Spacer()
+                        }
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 8)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 25)
+                                .stroke(Color.pongAccent, lineWidth: 1)
+                        )
+                        .background(Color.pongAccent)
+                        .cornerRadius(25)
+                        .foregroundColor(Color.pongSystemWhite)
+                        
+                        Spacer()
+                    }
+                }
+                
+                VStack(alignment: .leading, spacing: 5) {
+                    Text("EMOJI")
+                        .font(.caption)
+                        .fontWeight(.heavy)
+                        .foregroundColor(Color.pongLabel)
+
+                    HStack {
+                        Image(systemName: "eye")
+                        
+                        Text("🏓")
+                            .padding(.horizontal)
+                    }
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 8)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 25)
+                            .stroke(Color.pongAccent, lineWidth: 1)
+                    )
+                    .background(Color.pongAccent)
+                    .cornerRadius(25)
+                    .foregroundColor(Color.pongSystemWhite)
+                }
+            }
         }
         .background(Color.pongSystemBackground)
     }
@@ -159,80 +208,39 @@ struct LeaderboardView: View {
                 .listRowSeparator(.hidden)
                 .listRowBackground(Color.pongSystemBackground)
             
-            
-            
-            CustomListDivider()
-            
-            
-            //MARK: Contents
-            Section {
-                HStack {
-                    HStack {
-                        Text("RANK")
-                            .font(.caption)
-                            .foregroundColor(Color.pongSecondaryText)
-                            .bold()
-                        Spacer()
-                    }
-                    .frame(maxWidth: UIScreen.screenWidth / 6, alignment: .leading)
-                    
-                    HStack {
-                        Text("KARMA")
-                            .font(.caption)
-                            .foregroundColor(Color.pongSecondaryText)
-                            .bold()
-                        Spacer()
-                    }
-                    .frame(maxWidth: UIScreen.screenWidth / 6, alignment: .leading)
-                    
-                    HStack {
-                        Text("NICKNAME / SCHOOL")
-                            .font(.caption)
-                            .foregroundColor(Color.pongSecondaryText)
-                            .bold()
-                        Spacer()
-                    }
-                    .frame(maxWidth: (UIScreen.screenWidth / 6) * 4, alignment: .leading)
-                }
-                .listRowSeparator(.hidden)
+            // MARK: Actual Leaderboard
+            Text("LEADERBOARD")
+                .font(.caption)
+                .fontWeight(.heavy)
+                .foregroundColor(Color.pongLabel)
+                .background(Color.pongSystemBackground)
                 .listRowBackground(Color.pongSystemBackground)
-            }
-            .padding(.leading, 30)
+            
             
             ForEach(lblist) { entry in
-//                if !["1", "2", "3"].contains(entry.place) {
                 HStack {
-                    
                     HStack {
-                        Text(entry.place)
-                            .bold()
-                            .font(.title2)
+                        Text("😛")
+                            .font(.title)
+                        
                         Spacer()
                     }
                     .frame(maxWidth: UIScreen.screenWidth / 6, alignment: .leading)
                     
                     HStack {
-                        Text("\(entry.score)")
-                            .font(.headline)
-                            .foregroundColor(Color.pongSecondaryText)
-                        Spacer()
-                    }
-                    .frame(maxWidth: UIScreen.screenWidth / 6, alignment: .leading)
-                    
-                    HStack {
-//                        Text("🏓")
-//                            .font(.title)
                         VStack {
                             HStack {
                                 Text(entry.nickname != "" ? entry.nickname : "---")
                                     .bold()
-                                    .foregroundColor(Color.red)
+                                    .font(.title2)
+                                    .foregroundColor(Color.pongLabel)
                                 Spacer()
                             }
+                            
                             HStack {
-                                Text("Boston University")
+                                Text("\(entry.score) karma")
                                     .bold()
-                                    .foregroundColor(Color.pongSecondaryText)
+                                    .foregroundColor(Color.pongLightGray)
                                     .font(.system(size: 10))
                                 Spacer()
                             }
@@ -240,11 +248,20 @@ struct LeaderboardView: View {
                         Spacer()
                     }
                     .frame(maxWidth: (UIScreen.screenWidth / 6) * 4, alignment: .leading)
+                    
+                    HStack {
+                        Spacer()
+                        
+                        Text(entry.place)
+                            .bold()
+                            .font(.title2)
+                            
+                    }
+                    .frame(maxWidth: UIScreen.screenWidth / 6, alignment: .leading)
                 }
                 .listRowSeparator(.hidden)
                 .listRowBackground(Color.pongSystemBackground)
                 .padding(.leading, 30)
-//                }
             }
         }
         .scrollContentBackgroundCompat()
