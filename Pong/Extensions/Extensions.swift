@@ -89,15 +89,18 @@ struct NavigationConfigurator: UIViewControllerRepresentable {
 }
 
 
-// screen width/height extension
+// MARK: UIScreen
+/// Allows us to access the screenSize of the user's device
 extension UIScreen{
    static let screenWidth = UIScreen.main.bounds.size.width
    static let screenHeight = UIScreen.main.bounds.size.height
    static let screenSize = UIScreen.main.bounds.size
 }
 
-// hashable remove dupe
+
 public extension Array where Element: Hashable {
+    // MARK: uniqued
+    /// Function that allows the removal of duplicate items with the hashable protocol
     func uniqued() -> [Element] {
         var seen = Set<Element>()
         return filter{ seen.insert($0).inserted }
@@ -123,12 +126,16 @@ struct FlippedUpsideDown: ViewModifier {
 }
 
 extension View {
+    // MARK: flippedUpsideDown
+    /// Modifier that allows flips content. This is used in MessageView to allow content to populate bottom first
     func flippedUpsideDown() -> some View{
         self.modifier(FlippedUpsideDown())
     }
 }
 
 extension List {
+    // MARK: scrollContentBackgroundCompat
+    /// Modifier that allows editing of list background color in both iOS 16 and prior iOS versions
     @ViewBuilder
     func scrollContentBackgroundCompat() -> some View {
         if #available(iOS 16.0, *) {
@@ -140,6 +147,8 @@ extension List {
 }
 
 extension View {
+    // MARK: placeholder
+    /// Placeholder modifier that allows us to modify the color of placeholder text in a textfield
     func placeholder<Content: View>(
         when shouldShow: Bool,
         alignment: Alignment = .leading,
