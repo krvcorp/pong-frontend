@@ -60,6 +60,7 @@ struct LeaderboardView: View {
                         Image(systemName: "globe")
                             .imageScale(.large)
                         
+                        // MARK: Community Rank
                         VStack {
                             HStack {
                                 Text("COMMUNITY RANK")
@@ -70,7 +71,6 @@ struct LeaderboardView: View {
                             }
                             
                             HStack {
-                                // MARK: Karma
                                 Text("\(dataManager.totalKarma)")
                                     .font(.subheadline)
                                     .fontWeight(.heavy)
@@ -81,13 +81,14 @@ struct LeaderboardView: View {
                         }
                     }
                     .frame(maxWidth: UIScreen.screenWidth / 2)
-                    .padding(2)
+                    .padding(.horizontal, 4)
                     .padding(.vertical, 10)
                     .overlay(
                         RoundedRectangle(cornerRadius: 15)
                             .stroke(Color.pongLightGray, lineWidth: 1)
                     )
                     
+                    // MARK: User Karma
                     HStack {
                         Image(systemName: "star")
                             .imageScale(.large)
@@ -102,7 +103,6 @@ struct LeaderboardView: View {
                             }
                             
                             HStack {
-                                // MARK: Karma
                                 Text("\(dataManager.totalKarma)")
                                     .font(.subheadline)
                                     .fontWeight(.heavy)
@@ -113,7 +113,7 @@ struct LeaderboardView: View {
                         }
                     }
                     .frame(maxWidth: UIScreen.screenWidth / 2)
-                    .padding(2)
+                    .padding(.horizontal, 4)
                     .padding(.vertical, 10)
                     .overlay(
                         RoundedRectangle(cornerRadius: 15)
