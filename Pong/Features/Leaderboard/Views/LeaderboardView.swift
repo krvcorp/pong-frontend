@@ -151,10 +151,11 @@ struct LeaderboardView: View {
                         HStack {
                             Image(systemName: "person")
                             
-                            TextField("Select a nickname", text: $nickname, onEditingChanged: { _ in
-                                limitText(textLimit)
-                            })
-                            .accentColor(Color.pongSystemWhite)
+                            TextField("", text: $nickname)
+                                .onReceive(Just(nickname)) { _ in limitText(textLimit) }
+                                .placeholder(when: nickname.isEmpty) {
+                                    Text("Select a nickname").foregroundColor(Color.pongSystemWhite)
+                                }
                             
                             Spacer()
                         }
