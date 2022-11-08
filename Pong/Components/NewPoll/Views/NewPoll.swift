@@ -75,6 +75,7 @@ struct NewPoll: View {
                     } label: {
                         HStack {
                             Text("ADD OPTION")
+                                .font(.subheadline.bold())
                         }
                         .padding(8)
                         .foregroundColor(Color.pongAccent)

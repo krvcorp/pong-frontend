@@ -72,7 +72,7 @@ struct LeaderboardView: View {
                             
                             HStack {
                                 Text("\(dataManager.totalKarma)")
-                                    .font(.subheadline)
+                                    .font(.title3)
                                     .fontWeight(.heavy)
                                     .foregroundColor(Color.pongLabel)
                                 
@@ -104,7 +104,7 @@ struct LeaderboardView: View {
                             
                             HStack {
                                 Text("\(dataManager.totalKarma)")
-                                    .font(.subheadline)
+                                    .font(.title3)
                                     .fontWeight(.heavy)
                                     .foregroundColor(Color.pongLabel)
                                 
@@ -145,7 +145,6 @@ struct LeaderboardView: View {
                             .foregroundColor(Color.pongLabel)
                         Spacer()
                     }
-
                     
                     HStack {
                         HStack {

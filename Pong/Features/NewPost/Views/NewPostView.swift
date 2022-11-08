@@ -34,6 +34,9 @@ struct NewPostView: View {
                                     .background(Color.pongSystemBackground)
                                     .padding(.horizontal)
                                     .padding(.vertical, 12)
+                                    .onTapGesture {
+                                        textIsFocused = true
+                                    }
                             }
                         }
                         .background(Color.pongSystemBackground)

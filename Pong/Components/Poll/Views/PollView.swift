@@ -47,7 +47,7 @@ struct PollView: View {
                             Spacer()
                             
                             Text("\(option.numVotes) votes")
-                                .font(.caption)
+                                .font(.subheadline)
                         }
                         .frame(width: pollOptionFrame)
                         .foregroundColor(Color(UIColor.label))
@@ -112,8 +112,8 @@ struct PollView: View {
                         Button {
                             pollVM.pollVote(id: skip.id, postId: post.id)
                         } label: {
-                            Text("Skip voting")
-                                .font(.caption.bold())
+                            Text("SKIP VOTING")
+                                .font(.subheadline.bold())
                         }
                         .foregroundColor(Color.pongAccent)
                     }
@@ -122,8 +122,9 @@ struct PollView: View {
                 else {
                     // display skipped number if it exists
                     if let skip = post.poll!.skip {
-                        Text("\(skip.numVotes) skipped voting")
-                            .font(.caption.bold())
+                        Text("\(skip.numVotes) SKIPPED")
+                            .font(.subheadline.bold())
+                            .foregroundColor(Color.pongAccent)
                     }
                 }
 
