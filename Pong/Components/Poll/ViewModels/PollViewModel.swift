@@ -10,6 +10,7 @@ import Foundation
 class PollViewModel : ObservableObject {
     @Published var poll: Poll = defaultPoll
     
+    // MARK: SumVotes
     func sumVotes(poll: Poll) -> Int {
         
         var sum = 0
@@ -21,6 +22,7 @@ class PollViewModel : ObservableObject {
         return sum
     }
     
+    // MARK: PollVote
     func pollVote(id: String, postId: String) -> Void {
         let parameters = PollVoteModel.Request(pollOptionId: id)
 

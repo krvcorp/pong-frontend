@@ -105,12 +105,15 @@ class NewPostViewModel: ObservableObject {
                 pollOptions.append("skipkhoicunt")
             }
             
+            print("DEBUG: \(pollOptions)")
             let parameters = NewPostModel.Request(title: self.title, pollOptions: pollOptions, tag: self.selectedTag.title)
             
             // validate newPoll doesn't have invalid entries
             if newPollVM.validate() {
                 NetworkManager.networkManager.request(route: "posts/", method: .post, body: parameters, successType: Post.self) { successResponse, errorResponse in
                     if successResponse != nil {
+                        print("DEBUG: newPostVM.newPost success \(successResponse)")
+                        
                         DispatchQueue.main.async {
                             mainTabVM.newPost()
                             dataManager.initProfile()

@@ -37,41 +37,39 @@ struct PollView: View {
             ForEach(post.poll!.options, id: \.self) { option in
                 // MARK: User has voted
                 if post.poll!.userHasVoted {
-                    // do not display skip button as an option
-                    if option.title != "skipkhoicunt" {
-                        VStack(spacing: 0) {
-                            HStack {
-                                Text("\(option.title)")
-                                    .font(.headline)
-                                    .padding(4)
-                                
-                                Spacer()
-                                
-                                Text("\(option.numVotes) votes")
-                                    .font(.caption)
-                            }
-                            .frame(width: pollOptionFrame)
-                            .foregroundColor(Color(UIColor.label))
+                // do not display skip button as an option
+                    VStack(spacing: 0) {
+                        HStack {
+                            Text("\(option.title)")
+                                .font(.headline)
+                                .padding(4)
                             
-                            // color on color piece
-                            ZStack(alignment: .leading) {
-                                // background gray
-                                RoundedRectangle(cornerRadius: 20)
-                                    .fill(Color.pongSecondarySystemBackground)
-                                    .frame(width: pollOptionFrame)
-                                    .opacity(0.5)
-                                
-                                // overlay color
-                                RoundedRectangle(cornerRadius: 20)
-                                    .fill(post.poll!.votedFor == option.id ? Color.green : Color.pongAccent)
-                                    .frame(width: pollOptionFrame * minDivision(first: CGFloat(option.numVotes), second: CGFloat(pollVM.sumVotes(poll: post.poll!))))
-                            }
-                            .padding(.top, 5)
-                            .frame(height: 15)
+                            Spacer()
+                            
+                            Text("\(option.numVotes) votes")
+                                .font(.caption)
                         }
-                        .padding(5)
-                        .overlay(RoundedRectangle(cornerRadius: 5).stroke(post.poll!.votedFor == option.id ? Color.green : Color.clear, lineWidth: 1))
+                        .frame(width: pollOptionFrame)
+                        .foregroundColor(Color(UIColor.label))
+                        
+                        // color on color piece
+                        ZStack(alignment: .leading) {
+                            // background gray
+                            RoundedRectangle(cornerRadius: 20)
+                                .fill(Color.pongSecondarySystemBackground)
+                                .frame(width: pollOptionFrame)
+                                .opacity(0.5)
+                            
+                            // overlay color
+                            RoundedRectangle(cornerRadius: 20)
+                                .fill(post.poll!.votedFor == option.id ? Color.green : Color.pongAccent)
+                                .frame(width: pollOptionFrame * minDivision(first: CGFloat(option.numVotes), second: CGFloat(pollVM.sumVotes(poll: post.poll!))))
+                        }
+                        .padding(.top, 5)
+                        .frame(height: 15)
                     }
+                    .padding(5)
+                    .overlay(RoundedRectangle(cornerRadius: 5).stroke(post.poll!.votedFor == option.id ? Color.green : Color.clear, lineWidth: 1))
                 }
                 
                 // MARK: User has not voted
@@ -110,9 +108,9 @@ struct PollView: View {
                 // check if the user hasn't voted
                 if !post.poll!.userHasVoted {
                     // add skip button if it exists
-                    if let skipOption = post.poll!.options.first(where: {$0.title == "skipkhoicunt"}) {
+                    if let skip = post.poll!.skip {
                         Button {
-                            pollVM.pollVote(id: skipOption.id, postId: post.id)
+                            pollVM.pollVote(id: skip.id, postId: post.id)
                         } label: {
                             Text("Skip voting")
                                 .font(.caption.bold())
@@ -123,8 +121,8 @@ struct PollView: View {
                 // if user has voted
                 else {
                     // display skipped number if it exists
-                    if let skipOption = post.poll!.options.first(where: {$0.title == "skipkhoicunt"}) {
-                        Text("\(skipOption.numVotes) skipped voting")
+                    if let skip = post.poll!.skip {
+                        Text("\(skip.numVotes) skipped voting")
                             .font(.caption.bold())
                     }
                 }

@@ -12,10 +12,17 @@ struct Poll: Hashable, Codable {
     var userHasVoted: Bool
     var votedFor: String?
     var options: [Option]
+    var skip: Skip?
     
     struct Option: Hashable, Codable {
         var title: String
         var numVotes: Int
+        var id: String
+    }
+    
+    struct Skip: Hashable, Codable {
+        var enabled: Bool
+        var numVotes : Int
         var id: String
     }
 }

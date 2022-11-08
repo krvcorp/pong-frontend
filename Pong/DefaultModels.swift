@@ -49,7 +49,8 @@ var defaultProfileComment = ProfileComment(id: "default",
 var defaultPoll = Poll(id: "default",
                        userHasVoted: false,
                        votedFor: "default",
-                       options: [])
+                       options: [],
+                       skip: defaultSkip)
 
 var defaultMessage = Message(id: "default",
                              message: "default",
@@ -61,3 +62,5 @@ var defaultConversation = Conversation(id: "default",
                                        re: "default",
                                        unreadCount: 1,
                                        postId: "default")
+
+var defaultSkip = Poll.Skip(enabled: true, numVotes: 0, id: "default")

@@ -50,7 +50,7 @@ struct NewPoll: View {
                         })
                         .font(.title3)
                         .padding(5)
-                        .overlay(RoundedRectangle(cornerRadius: 15).stroke(Color.pongLabel, lineWidth: 1))
+                        .overlay(RoundedRectangle(cornerRadius: 15).stroke(Color.pongSecondaryText, lineWidth: 1))
                     
                     Spacer()
                     
@@ -74,13 +74,10 @@ struct NewPoll: View {
                         newPollVM.pollOptions.append("")
                     } label: {
                         HStack {
-                            Text("+ Add Option")
+                            Text("ADD OPTION")
                         }
                         .padding(8)
-                        .overlay(RoundedRectangle(cornerRadius: 15).stroke(Color.pongAccent, lineWidth: 1))
-                        .foregroundColor(Color.white)
-                        .background(Color.pongAccent)
-                        .cornerRadius(15)
+                        .foregroundColor(Color.pongAccent)
                     }
                     
                     Spacer()
