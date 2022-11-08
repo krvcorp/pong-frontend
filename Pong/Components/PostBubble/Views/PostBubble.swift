@@ -274,8 +274,9 @@ struct PostBubble: View {
                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                 postBubbleVM.postVote(direction: 1, post: post, dataManager: dataManager)
             } label: {
-                Image(systemName: "arrow.up")
+                Text(Image(systemName: "arrow.up"))
                     .foregroundColor(post.voteStatus == 1 ? Color.pongAccent : Color.pongSecondaryText)
+                    .fontWeight(.bold)
             }
             
             Text("\(post.score + post.voteStatus)")
@@ -285,8 +286,9 @@ struct PostBubble: View {
                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                 postBubbleVM.postVote(direction: -1, post: post, dataManager: dataManager)
             } label: {
-                Image(systemName: "arrow.down")
+                Text(Image(systemName: "arrow.down"))
                     .foregroundColor(post.voteStatus == -1 ? Color.pongAccent : Color.pongSecondaryText)
+                    .fontWeight(.bold)
             }
             
             Spacer()

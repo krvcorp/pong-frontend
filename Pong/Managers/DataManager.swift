@@ -116,7 +116,6 @@ class DataManager : ObservableObject {
                             self.hotCurrentPage = nextLink
                         }
                     } else if selectedFeedFilter == .recent {
-                        print("DEBUG: \(successResponse.results)")
                         self.recentPosts = successResponse.results
                         if let nextLink = successResponse.next {
                             self.recentCurrentPage = nextLink

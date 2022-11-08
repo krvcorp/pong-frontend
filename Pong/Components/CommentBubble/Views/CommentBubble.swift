@@ -190,20 +190,24 @@ struct CommentBubble: View {
                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                 commentBubbleVM.commentVote(direction: 1, dataManager: dataManager)
             } label: {
-                Image(systemName: "arrow.up")
+                Text(Image(systemName: "arrow.up"))
                     .foregroundColor(comment.voteStatus == 1 ? Color.pongAccent : Color.pongSecondaryText)
+                    .fontWeight(.bold)
             }
             
             Text("\(comment.score + comment.voteStatus)")
-                .foregroundColor(Color("pongSecondaryText"))
+                .foregroundColor(Color.pongSecondaryText)
             
             Button {
                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                 commentBubbleVM.commentVote(direction: -1, dataManager: dataManager)
             } label: {
-                Image(systemName: "arrow.down")
+                Text(Image(systemName: "arrow.down"))
                     .foregroundColor(comment.voteStatus == -1 ? Color.pongAccent : Color.pongSecondaryText)
+                    .fontWeight(.bold)
             }
+            
+            Spacer()
         }
     }
 }
