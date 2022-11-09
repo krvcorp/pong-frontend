@@ -8,30 +8,15 @@
 import Foundation
 
 enum ProfileFilter: String, CaseIterable, Identifiable {
-    case posts, comments, saved
+    case posts, comments, saved, about
     var id: Self { self }
     
     var title: String {
         switch self {
-        case .posts: return "Posts"
-        case .comments: return "Comments"
-        case .saved: return "Saved"
-        }
-    }
-    
-    var imageName: String {
-        switch self {
-        case .posts: return "square.grid.2x2"
-        case .comments: return "arrowshape.turn.up.left.2"
-        case .saved: return "bookmark"
-        }
-    }
-    
-    var filledImageName: String {
-        switch self {
-        case .posts: return "square.grid.2x2.fill"
-        case .comments: return "arrowshape.turn.up.left.2.fill"
-        case .saved: return "bookmark.fill"
+        case .posts: return "POSTS"
+        case .comments: return "COMMENTS"
+        case .saved: return "SAVED"
+        case .about: return "ABOUT"
         }
     }
 }

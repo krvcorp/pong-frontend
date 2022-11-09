@@ -6,15 +6,16 @@ struct ProfileView: View {
     @ObservedObject var dataManager = DataManager.shared
     @StateObject private var profileVM = ProfileViewModel()
     
+    @Namespace var namespace
+    
+    @State private var conversation = defaultConversation
+    
     var body: some View {
         VStack {
-            karmaComponent
-                .frame(maxWidth: .infinity)
-            
             toolbarPickerComponent
             
             TabView(selection: $profileVM.selectedProfileFilter) {
-                ForEach(ProfileFilter.allCases, id: \.self) { tab in
+                ForEach([ProfileFilter.posts, ProfileFilter.comments, ProfileFilter.about], id: \.self) { tab in
                     customProfileStack(filter: profileVM.selectedProfileFilter, tab: tab)
                         .tag(tab)
                         .background(Color.pongSystemBackground)
@@ -105,30 +106,35 @@ struct ProfileView: View {
     // component for toolbar picker
     var toolbarPickerComponent : some View {
         HStack(spacing: 30) {
-            ForEach(ProfileFilter.allCases, id: \.self) { filter in
+            ForEach([ProfileFilter.posts, ProfileFilter.comments, ProfileFilter.about], id: \.self) { filter in
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     profileVM.selectedProfileFilter = filter
                 } label: {
-                    if profileVM.selectedProfileFilter == filter {
-                        HStack(spacing: 5) {
-                            Image(systemName: filter.filledImageName)
-                            Text(filter.title)
-                                .bold()
+                    VStack(spacing: 0) {
+                        Spacer()
+                        
+                        Text(filter.title)
+                            .font(.subheadline.bold())
+                            .foregroundColor(profileVM.selectedProfileFilter == filter ? Color.pongAccent : Color.pongSecondaryText)
+                        
+                        Spacer()
+                        
+                        if profileVM.selectedProfileFilter == filter {
+                            Color.pongAccent
+                                .frame(height: 2)
+                                .matchedGeometryEffect(id: "underline",
+                                                       in: namespace,
+                                                       properties: .frame)
+                        } else {
+                            Color.clear.frame(height: 2)
                         }
-//                        .shadow(color: SchoolManager.shared.schoolPrimaryColor(), radius: 10, x: 0, y: 0)
-                        .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
-
-                    } else {
-                        HStack(spacing: 5) {
-                            Image(systemName: filter.imageName)
-                            Text(filter.title)
-                        }
-                        .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
                     }
+                    .animation(.spring(), value: profileVM.selectedProfileFilter)
                 }
             }
         }
+        .frame(maxHeight: 30)
     }
     
     // MARK: Custom Feed Stack
@@ -145,6 +151,7 @@ struct ProfileView: View {
                         
                         CustomListDivider()
                     }
+                    .listRowInsets(EdgeInsets())
                 } else {
                     VStack(alignment: .center, spacing: 15) {
                         HStack(alignment: .center) {
@@ -221,49 +228,14 @@ struct ProfileView: View {
                     .listRowSeparator(.hidden)
                 }
             }
-            else if tab == .saved {
-                if dataManager.profileSavedPosts != [] {
-                    ForEach($dataManager.profileSavedPosts, id: \.id) { $post in
-                        Section {
-                            PostBubble(post: $post, isLinkActive: .constant(false), conversation: .constant(defaultConversation))
-                                .buttonStyle(PlainButtonStyle())
-                                .listRowSeparator(.hidden)
-                                .listRowBackground(Color.pongSystemBackground
-                                )
-                            CustomListDivider()
-                            
-                        }
-                    }
-                } else {
-                    VStack(alignment: .center, spacing: 15) {
-                        HStack(alignment: .center) {
-                            Spacer()
-
-                            Image("PongTransparentLogo")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(maxWidth: UIScreen.screenWidth / 2)
-
-                            Spacer()
-                        }
-                        
-                        HStack(alignment: .center) {
-                            Spacer()
-                            Text("No saved posts yet!")
-                                .font(.title.bold())
-                            Spacer()
-                        }
-                        
-                        HStack(alignment: .center) {
-                            Spacer()
-                            Text("Go bookmark something!")
-                                .font(.caption)
-                            Spacer()
-                        }
-                    }
-                    .listRowBackground(Color.pongSystemBackground)
-                    .listRowSeparator(.hidden)
+            else if tab == .about {
+                // create a lazy v grid with two equally sized columns
+                LazyVGrid(columns: [GridItem(.fixed(UIScreen.screenWidth / 2)), GridItem(.fixed(UIScreen.screenWidth / 2))], spacing: 15) {
+                    aboutComponent(image: "bookmark", title: "KARMA", data: "100")
                 }
+                .listRowBackground(Color.pongSystemBackground)
+                .listRowSeparator(.hidden)
+                .listRowInsets(EdgeInsets())
             }
         }
         .scrollContentBackgroundCompat()
@@ -273,6 +245,40 @@ struct ProfileView: View {
         .refreshable{
             profileVM.triggerRefresh(tab: tab, dataManager: dataManager)
         }
+    }
+    
+    
+    // MARK: About Component
+    @ViewBuilder
+    func aboutComponent(image : String, title : String, data : String) -> some View {
+        HStack {
+            Image(systemName: "\(image)")
+            
+            VStack(alignment: .leading) {
+                HStack {
+                    Text("\(title)")
+                        .font(.subheadline.bold())
+                        .foregroundColor(Color.pongLightGray)
+                    
+                    Spacer()
+                }
+
+                
+                HStack {
+                    Text("\(data)")
+                        .font(.headline.bold())
+                        .foregroundColor(Color.pongLabel)
+                    
+                    Spacer()
+                }
+            }
+        }
+        .padding()
+        .overlay(
+            RoundedRectangle(cornerRadius: 15)
+                .stroke(Color.pongSecondarySystemBackground, lineWidth: 1)
+        )
+        .padding()
     }
 }
 
