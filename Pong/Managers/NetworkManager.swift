@@ -9,8 +9,6 @@ class NetworkManager: ObservableObject {
     #if DEBUG
         var baseURL = "http://localhost:8005/api/"
         var rootURL = "http://localhost:8005/"
-//        var baseURL = "https://pong.college/api/"
-//        var rootURL = "https://pong.college/"
     #else
         var baseURL = "https://pong.college/api/"
         var rootURL = "https://pong.college/"
@@ -54,6 +52,7 @@ class NetworkManager: ObservableObject {
             ]
         }
         
+        // MARK: Get
         if(method == .get) {
             AF.request(self.baseURL+route, method: method, headers: httpHeaders)
                 .response() { (response) in
@@ -86,7 +85,19 @@ class NetworkManager: ObservableObject {
                     print("NETWORK: .responseDecodable Error")
                     completionHandler(nil, error)
                 }
-        } else {
+                .responseData() { (response) in
+                    switch response.result {
+                    case .success:
+                        break
+                    case let .failure(error):
+                        print("NETWORK: \(error.localizedDescription)")
+                        completionHandler(nil, ErrorResponse(error: "Something went wrong!"))
+                        break
+                    }
+                }
+        }
+        // MARK: Not Get
+        else {
             AF.request(self.baseURL+route, method: method, parameters: body, encoder: parameterEncoder, headers: httpHeaders)
                 .response() { (response) in
                     if let httpStatusCode = response.response?.statusCode {
@@ -110,6 +121,16 @@ class NetworkManager: ObservableObject {
                     guard let error = response.value else { return }
                     completionHandler(nil, error)
                 }
+                .responseData() { (response) in
+                    switch response.result {
+                    case .success:
+                        break
+                    case let .failure(error):
+                        print("NETWORK: \(error.localizedDescription)")
+                        completionHandler(nil, ErrorResponse(error: "Something went wrong!"))
+                        break
+                    }
+                }
         }
     }
     
@@ -129,10 +150,12 @@ class NetworkManager: ObservableObject {
             ]
         }
         
+        // MARK: Get
         if(method == .get) {
             AF.request(self.baseURL+route, method: method, headers: httpHeaders)
                 .response() { (response) in
                     if let httpStatusCode = response.response?.statusCode {
+                        print("NETWORK: \(httpStatusCode)")
                         // AUTHENTICATION ERROR
                         if httpStatusCode == 401 {
                             print("NETWORK: 401 Error")
@@ -163,7 +186,9 @@ class NetworkManager: ObservableObject {
                         break
                     }
                 }
-        } else {
+        }
+        // MARK: Not Get
+        else {
             AF.request(self.baseURL+route, method: method, parameters: body, encoder: parameterEncoder, headers: httpHeaders)
                 .response() { (response) in
                     if let httpStatusCode = response.response?.statusCode {
