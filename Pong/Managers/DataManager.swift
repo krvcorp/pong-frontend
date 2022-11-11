@@ -323,4 +323,28 @@ class DataManager : ObservableObject {
             }
         }
     }
+
+    // MARK: Reset
+    func reset() {
+        self.topPosts = []
+        self.hotPosts = []
+        self.recentPosts = []
+        self.profilePosts = []
+        self.profileComments = []
+        self.profileSavedPosts = []
+        self.conversations = []
+        self.profilePostsCurrentPage = ""
+        self.profileSavedCurrentPage = ""
+        self.totalKarma = 0
+        self.commentKarma = 0
+        self.postKarma = 0
+        self.removedPost = false
+        self.removedPostMessage = ""
+        self.removedComment = false
+        self.removedCommentMessage = ""
+        self.errorDetected = false
+        self.errorDetectedMessage = ""
+        self.errorDetectedSubMessage = ""
+        self.removedConversation = false
+    }
 }

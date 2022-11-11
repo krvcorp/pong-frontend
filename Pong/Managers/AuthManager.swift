@@ -49,6 +49,9 @@ class AuthManager: ObservableObject {
                         DAKeychain.shared["onboarded"] = nil
                         DAKeychain.shared["referred"] = nil
                         self.signedOutAlert = true
+
+                        // reset datamanager 
+                        DataManager.shared.reset()
                     }
                 }
             }
