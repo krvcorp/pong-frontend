@@ -63,7 +63,7 @@ struct ReferralOnboardingView: View {
         .padding(.top, 10)
         .padding(.bottom, 60)
         .toast(isPresenting: $onboardingVM.wrongCodeError) {
-            AlertToast(type: .error(.red), title: "Wrong code!")
+            AlertToast(type: .error(.red), title: "Sorry, this code is invalid.")
         }
         .onTapGesture {
             hideKeyboard()
