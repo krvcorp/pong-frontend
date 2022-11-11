@@ -1,38 +1,30 @@
-//
-//  RulesView.swift
-//  Pong
-//
-//  Created by Khoi Nguyen on 8/31/22.
-//
-
 import SwiftUI
 
 struct RulesView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
             
-            Text("")
-                .font(.title.bold())
+            Text("Be yourself with just a few [rules](https://www.pong.college/rules/). Basically, don't be an asshole.")
+                .font(.largeTitle).bold()
+                .multilineTextAlignment(.leading)
+                .frame(maxWidth: .infinity, alignment: .leading)
             
-            Image("OnboardRulesImage")
+            Spacer()
+            Image("OnboardingRules")
                 .resizable()
                 .scaledToFit()
                 .frame(width: UIScreen.screenWidth / 1.1)
+                .padding(.bottom)
             
-            Text("Obviously there are special execptions.")
-                .font(.title3)
-            
-            Text("[Rules](https://www.pong.blog/) are common sense. Basic shit like no threats, doxxing, or harassment.")
-                .font(.title3)
-            
-            Spacer()
         }
         .background(Color.pongSystemBackground)
-        .padding()
+        .padding(.horizontal, 15)
+        .padding(.top, 40)
+        .padding(.bottom, 60)
     }
 }
 
-struct RulesView_Previews: PreviewProvider {
+struct InformationView_Previews: PreviewProvider {
     static var previews: some View {
         RulesView()
     }

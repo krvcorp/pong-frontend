@@ -30,6 +30,7 @@ extension Color {
         )
     }
     
+    
     public static var bone: Color {
         return Color(red: 215/255, green: 210/255, blue: 203/255)
     }

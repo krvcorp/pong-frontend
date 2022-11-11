@@ -1,31 +1,33 @@
 import SwiftUI
 
-struct WelcomeView: View {
-    @EnvironmentObject var onboardingVM : OnboardingViewModel
-    
+struct WelcomeView: View {    
     var body: some View {
-        VStack {
-            VStack(alignment: .leading, spacing: 20) {
-                Text("Connect with your college community, anonymously.")
-                    .font(.title).bold()
-                    .multilineTextAlignment(.center)
-                    .frame(maxWidth: .infinity, alignment: .center)
+        VStack(alignment: .leading, spacing: 20) {
+            Text("Connect with your college, completely anonymously.")
+                .font(.largeTitle).bold()
+                .multilineTextAlignment(.leading)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            
+            Spacer()
+            
+            Image("OnboardingInfo")
+                .resizable()
+                .scaledToFit()
+                .frame(width: UIScreen.screenWidth / 1.1)
+                .padding(.bottom)
+            
+            
+            Text("By clicking next and using Pong, you understand and agree to our [Terms of Service](https://pong.college/tos/) and [Privacy Policy](https://pong.college/privacy/).")
+                .font(.footnote)
+                .fontWeight(.medium)
+                .accentColor(Color.pongAccent)
+                .frame(maxWidth: .infinity, alignment: .center)
+                .padding(.top)
                 
-                Image("OnboardSchoolImage")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: UIScreen.screenWidth / 1.1)
-                
-                Spacer()
-                
-                Text("By using Pong, you understand and agree to our [Terms of Service](https://www.pong.blog/legal) and [Privacy Policy](https://www.pong.blog/legal)")
-                    .accentColor(Color.pongAccent)
 
-            }
-            .padding(15)
         }
+        .padding(.horizontal, 15)
         .background(Color.pongSystemBackground)
-        .padding()
-        .padding(.bottom, 20)
+        .padding(.vertical, 40)
     }
 }

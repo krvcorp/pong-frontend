@@ -17,11 +17,8 @@ struct OnboardingView: View {
                     WelcomeView()
                         .tag(1)
 
-                    InformationView()
+                    RulesView()
                         .tag(2)
-                    
-//                    RulesView()
-//                        .tag(3)
                     
                     ReferralOnboardingView()
                         .tag(3)
@@ -30,16 +27,16 @@ struct OnboardingView: View {
                     hideKeyboard()
                 })
                 .tabViewStyle(PageTabViewStyle())
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarLeading) {
-                        Button {
-                            onboardingVM.onboard()
-                        } label: {
-                            Image(systemName: "xmark")
-                                .foregroundColor(Color(UIColor.label))
-                        }
-                    }
-                }
+//                .toolbar {
+//                    ToolbarItem(placement: .navigationBarLeading) {
+//                        Button {
+//                            onboardingVM.onboard()
+//                        } label: {
+//                            Image(systemName: "xmark")
+//                                .foregroundColor(Color(UIColor.label))
+//                        }
+//                    }
+//                }
                 
                 if selectedTab != 3 {
                     Button {
@@ -76,6 +73,8 @@ struct OnboardingView: View {
             }
             .background(Color.pongSystemBackground)
             .navigationBarTitleDisplayMode(.inline)
+            .navigationBarTitle("")
+            .navigationBarHidden(true)
         }
         .environmentObject(onboardingVM)
     }
