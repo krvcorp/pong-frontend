@@ -4,18 +4,18 @@ import AlertToast
 
 struct FeedView: View {
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.presentationMode) var presentationMode
+    @Namespace var namespace
+    
     @EnvironmentObject var mainTabVM : MainTabViewModel
     @EnvironmentObject var dataManager : DataManager
-    @Environment(\.presentationMode) var presentationMode
-    @StateObject var feedVM = FeedViewModel()
-    @ObservedObject private var notificationsManager = NotificationsManager.shared
-    @Binding var showMenu : Bool
     
-    // MARK: Conversation
+    @StateObject var feedVM = FeedViewModel()
+    @StateObject var notificationsManager = NotificationsManager.shared
+    
+    @Binding var showMenu : Bool
     @State private var isLinkActive = false
     @State private var conversation = defaultConversation
-    
-    @Namespace var namespace
     
     var body: some View {
         TabView(selection: $feedVM.selectedFeedFilter) {
@@ -65,6 +65,7 @@ struct FeedView: View {
                                 .font(Font.system(size: 36, weight: .regular))
                         }
                     }
+                    .isDetailLink(false)
                 }
             }
         }
@@ -77,7 +78,6 @@ struct FeedView: View {
                 feedVM.paginatePostsReset(selectedFeedFilter: .recent, dataManager: dataManager)
             }
         })
-        .navigationViewStyle(StackNavigationViewStyle())
         .accentColor(Color.pongLabel)
         .toast(isPresenting: $dataManager.removedPost){
             AlertToast(displayMode: .hud, type: .regular, title: dataManager.removedPostMessage)

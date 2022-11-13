@@ -13,6 +13,7 @@ struct Conversation: Hashable, Codable, Identifiable, Equatable {
     var re: String
     var unreadCount: Int
     var postId: String?
+    var read: Bool
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)

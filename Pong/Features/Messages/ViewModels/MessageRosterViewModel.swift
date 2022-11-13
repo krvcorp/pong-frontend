@@ -18,7 +18,6 @@ class MessageRosterViewModel: ObservableObject {
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
                     if dataManager.conversations != successResponse {
-                        print("DEBUG: replace conversations")
                         dataManager.conversations = successResponse
                     }
                 }

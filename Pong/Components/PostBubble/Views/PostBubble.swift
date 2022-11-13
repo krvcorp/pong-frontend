@@ -4,6 +4,7 @@ import Kingfisher
 
 struct PostBubble: View {
     @Binding var post : Post
+    
     @EnvironmentObject var dataManager: DataManager
     @EnvironmentObject var mainTabVM: MainTabViewModel
     @StateObject var postBubbleVM = PostBubbleViewModel()

@@ -61,6 +61,7 @@ var defaultConversation = Conversation(id: "default",
                                        messages: [defaultMessage],
                                        re: "default",
                                        unreadCount: 1,
-                                       postId: "default")
+                                       postId: "default",
+                                       read: false)
 
 var defaultSkip = Poll.Skip(enabled: true, numVotes: 0, id: "default")

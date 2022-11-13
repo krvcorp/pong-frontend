@@ -146,6 +146,7 @@ struct MainTabView: View {
                     .ignoresSafeArea(.all, edges: .bottom)
                     .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: -5)
                 }
+                .navigationViewStyle(StackNavigationViewStyle())
             }
             .environmentObject(dataManager)
             .accentColor(Color.pongLabel)

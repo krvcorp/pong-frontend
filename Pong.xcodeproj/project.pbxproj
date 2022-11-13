@@ -404,8 +404,8 @@
 		6A449BDF2896F4320015826A /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				28B286E428B2ED760088B857 /* MessageView.swift */,
 				6A449BE02896F4320015826A /* MessageRosterView.swift */,
+				28B286E428B2ED760088B857 /* MessageView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";

@@ -10,4 +10,8 @@ struct Message: Hashable, Codable, Equatable {
         var conversationId : String
         var message : String
     }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
 }

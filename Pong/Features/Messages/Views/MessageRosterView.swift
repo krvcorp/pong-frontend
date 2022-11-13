@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct MessageRosterView: View {
-    @State private var searchText = ""
-    @State private var showAlert = false
     @StateObject var messageRosterVM = MessageRosterViewModel()
     @EnvironmentObject var dataManager : DataManager
+    
+    @State private var searchText = ""
+    @State private var showAlert = false
     
     var body: some View {
         LoadingView(isShowing: .constant(false)) {

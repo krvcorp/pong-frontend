@@ -57,6 +57,7 @@ class DataManager : ObservableObject {
     
     // messaging
     @Published var conversations : [Conversation] = []
+    
     @Published var isAppLoading = true
     
     // MARK: LoadStartupState

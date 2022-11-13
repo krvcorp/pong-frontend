@@ -1,13 +1,16 @@
 import SwiftUI
 
 struct MessageView: View {
-    @State private var text = ""
     @Binding var conversation: Conversation
+    
+    @Environment(\.presentationMode) var presentationMode
+    
     @StateObject var messageVM : MessageViewModel = MessageViewModel()
     @EnvironmentObject var dataManager : DataManager
-    @Environment(\.presentationMode) var presentationMode
+    
     @State var isLinkActive = false
     @State private var post = defaultPost
+    @State private var text = ""
 
     // MARK: Body
     var body: some View {
@@ -34,6 +37,7 @@ struct MessageView: View {
             ZStack() {
                 // hidden postview
                 NavigationLink(destination: PostView(post: $post), isActive: $isLinkActive) { EmptyView() }
+                    .isDetailLink(false)
                 // MARK: Actual content of the conversation's messages
                 ScrollViewReader { proxy in
                     List {

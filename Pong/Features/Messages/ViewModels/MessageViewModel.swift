@@ -79,7 +79,7 @@ class MessageViewModel: ObservableObject {
                 completionHandler(successResponse!)
             }
             if errorResponse != nil {
-                debugPrint("This post was probably deleted")
+                print("DEBUG: This post was probably deleted")
             }
         }
     }
@@ -88,11 +88,12 @@ class MessageViewModel: ObservableObject {
     /// Reads the post information
     func readPost(postId: String) {
         NetworkManager.networkManager.request(route: "posts/\(postId)/", method: .get, successType: Post.self) { successResponse, errorResponse in
-            if successResponse != nil {
-                self.post = successResponse!
+            if let successResponse = successResponse {
+                self.post = successResponse
             }
+            
             if errorResponse != nil {
-                debugPrint("This post was probably deleted")
+                print("DEBUG: This post was probably deleted")
             }
         }
     }
