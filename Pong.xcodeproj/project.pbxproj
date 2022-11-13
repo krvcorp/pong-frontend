@@ -12,7 +12,6 @@
 		289CC86A289993C9009C1DCE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289CC869289993C9009C1DCE /* AppDelegate.swift */; };
 		289CC86E289C6826009C1DCE /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289CC86D289C6826009C1DCE /* SettingsView.swift */; };
 		289CC870289C6846009C1DCE /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289CC86F289C6846009C1DCE /* SettingsViewModel.swift */; };
-		289CC872289C68D8009C1DCE /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289CC871289C68D8009C1DCE /* LoadingView.swift */; };
 		289CC874289C695F009C1DCE /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289CC873289C695F009C1DCE /* Colors.swift */; };
 		28B286E528B2ED760088B857 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B286E428B2ED760088B857 /* MessageView.swift */; };
 		28B2870428B2F0D70088B857 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 28B2870328B2F0D70088B857 /* Assets.xcassets */; };
@@ -152,7 +151,6 @@
 		289CC869289993C9009C1DCE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		289CC86D289C6826009C1DCE /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		289CC86F289C6846009C1DCE /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
-		289CC871289C68D8009C1DCE /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		289CC873289C695F009C1DCE /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		28B286E428B2ED760088B857 /* MessageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		28B2870328B2F0D70088B857 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -1011,7 +1009,6 @@
 			isa = PBXGroup;
 			children = (
 				6A449C332896F4320015826A /* Extensions.swift */,
-				289CC871289C68D8009C1DCE /* LoadingView.swift */,
 				6A78FA5B28A1A82C00B75CC6 /* DAKeychain.swift */,
 				6A09D64628A59E9A005E5C23 /* ImagePicker.swift */,
 				289CC873289C695F009C1DCE /* Colors.swift */,
@@ -1331,7 +1328,6 @@
 				6A78FA5728A19A0D00B75CC6 /* VerifyEmailModel.swift in Sources */,
 				6A449C7A2896F4320015826A /* PostView.swift in Sources */,
 				82CCCBB228B0F95600085E2D /* AdminFeedViewModel.swift in Sources */,
-				289CC872289C68D8009C1DCE /* LoadingView.swift in Sources */,
 				6A61D02F28E0A453003188EE /* (null) in Sources */,
 				6A78FA5C28A1A82C00B75CC6 /* DAKeychain.swift in Sources */,
 				6A449CBF2896F4330015826A /* PostBubble.swift in Sources */,

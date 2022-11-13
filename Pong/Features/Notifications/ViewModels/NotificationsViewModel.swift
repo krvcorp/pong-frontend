@@ -5,6 +5,7 @@ class NotificationsViewModel: ObservableObject {
     @Published var notificationHistoryWeek: [NotificationsModel] = []
     @Published var notificationHistoryPrevious: [NotificationsModel] = []
     @Published var post: Post = defaultPost
+    @Published var isDoneLoading = false
     
     // MARK: GetNotificationsHistoryWeek
     /// Gets the notifications from within the current week timeframe
@@ -24,6 +25,28 @@ class NotificationsViewModel: ObservableObject {
         NetworkManager.networkManager.request(route: "notifications/?sort=previous", method: .get, successType: [NotificationsModel].self) { successResponse, errorResponse in
             if let successResponse = successResponse {
                 self.notificationHistoryPrevious = successResponse
+            } else {
+                print(errorResponse?.error ?? "")
+            }
+        }
+    }
+
+    // MARK: Get Notifications
+    func getAllNotifications() {
+        NetworkManager.networkManager.request(route: "notifications/?sort=week", method: .get, successType: [NotificationsModel].self) { successResponse, errorResponse in
+            if let successResponse = successResponse {
+                self.notificationHistoryWeek = successResponse
+
+                // previous notifications
+                NetworkManager.networkManager.request(route: "notifications/?sort=previous", method: .get, successType: [NotificationsModel].self) { successResponse, errorResponse in
+                    if let successResponse = successResponse {
+                        self.notificationHistoryPrevious = successResponse
+                        self.isDoneLoading = true
+                    } else {
+                        print(errorResponse?.error ?? "")
+                    }
+                }
+
             } else {
                 print(errorResponse?.error ?? "")
             }
@@ -55,7 +78,7 @@ class NotificationsViewModel: ObservableObject {
                 if let index = self.notificationHistoryWeek.firstIndex(where: { $0.id == id }) {
                     self.notificationHistoryWeek[index].data.read = true
                 }
-                if let index = self.notificationHistoryPrevious.firstIndex(where: { $0.id == id }) {
+                else if let index = self.notificationHistoryPrevious.firstIndex(where: { $0.id == id }) {
                     self.notificationHistoryPrevious[index].data.read = true
                 }
                 // decrement badge count by 1
