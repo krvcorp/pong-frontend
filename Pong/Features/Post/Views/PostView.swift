@@ -533,22 +533,22 @@ struct PostView: View {
                     // MARK: Comment Overlay
                     HStack() {
                         // MARK: Image Button
-                        Button {
-                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                            showSheet = true
-                        } label: {
-                            ZStack {
-                                Image(systemName: "photo")
-                                    .imageScale(.small)
-                                    .foregroundColor(Color(UIColor.label))
-                                    .font(.largeTitle)
-                            }
-                            .frame(width: 30, height: 40, alignment: .center)
-                            .cornerRadius(10)
-                        }
-                        .sheet(isPresented: $showSheet) {
-                            ImagePicker(sourceType: .photoLibrary, selectedImage: self.$postVM.commentImage)
-                        }
+//                        Button {
+//                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+//                            showSheet = true
+//                        } label: {
+//                            ZStack {
+//                                Image(systemName: "photo")
+//                                    .imageScale(.small)
+//                                    .foregroundColor(Color(UIColor.label))
+//                                    .font(.largeTitle)
+//                            }
+//                            .frame(width: 30, height: 40, alignment: .center)
+//                            .cornerRadius(10)
+//                        }
+//                        .sheet(isPresented: $showSheet) {
+//                            ImagePicker(sourceType: .photoLibrary, selectedImage: self.$postVM.commentImage)
+//                        }
                         
                         // MARK: TextField
                         HStack {
