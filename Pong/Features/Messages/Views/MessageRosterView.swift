@@ -50,6 +50,7 @@ struct MessageRosterView: View {
                             NavigationLink(destination: MessageView(conversation: $conversation)) {
                                 EmptyView()
                             }
+                            .isDetailLink(false)
                             .opacity(0)
                             .buttonStyle(PlainButtonStyle())
                             
