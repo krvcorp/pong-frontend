@@ -347,5 +347,6 @@ class DataManager : ObservableObject {
         self.errorDetectedMessage = ""
         self.errorDetectedSubMessage = ""
         self.removedConversation = false
+        self.isAppLoading = true
     }
 }

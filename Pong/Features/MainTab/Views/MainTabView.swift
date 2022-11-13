@@ -3,10 +3,11 @@ import AlertToast
 import ActivityIndicatorView
 
 struct MainTabView: View {
+    @Binding var showMenu : Bool
+    
     @EnvironmentObject var appState : AppState
     @StateObject var dataManager = DataManager.shared
     @EnvironmentObject private var mainTabVM : MainTabViewModel
-    @Binding var showMenu : Bool
     
     var body: some View {
         // MARK: If app is loading
