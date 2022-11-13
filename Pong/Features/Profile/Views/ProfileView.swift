@@ -141,6 +141,7 @@ struct ProfileView: View {
     @ViewBuilder
     func customProfileStack(filter: ProfileFilter, tab : ProfileFilter) -> some View {
         List {
+            // MARK: Posts
             if tab == .posts {
                 if dataManager.profilePosts != [] {
                     ForEach($dataManager.profilePosts, id: \.id) { $post in
@@ -154,10 +155,11 @@ struct ProfileView: View {
                     .listRowInsets(EdgeInsets())
                 } else {
                     VStack(alignment: .center, spacing: 15) {
+
                         HStack(alignment: .center) {
                             Spacer()
 
-                            Image("PongTransparentLogo")
+                            Image("VoidImage")
                                 .resizable()
                                 .scaledToFit()
                                 .frame(maxWidth: UIScreen.screenWidth / 2)
@@ -167,7 +169,7 @@ struct ProfileView: View {
                         
                         HStack(alignment: .center) {
                             Spacer()
-                            Text("No posts yet!")
+                            Text("you have no posts")
                                 .font(.title.bold())
                             Spacer()
                         }
@@ -179,11 +181,12 @@ struct ProfileView: View {
                             Spacer()
                         }
                     }
-                    .padding(.top, 20)
                     .listRowBackground(Color.pongSystemBackground)
                     .listRowSeparator(.hidden)
+                    .frame(height: UIScreen.screenHeight / 2)
                 }
             }
+            // MARK: Comments
             else if tab == .comments {
                 if dataManager.profileComments != [] {
                     ForEach($dataManager.profileComments, id: \.id) { $comment in
@@ -199,10 +202,11 @@ struct ProfileView: View {
                     }
                 } else {
                     VStack(alignment: .center, spacing: 15) {
+
                         HStack(alignment: .center) {
                             Spacer()
 
-                            Image("PongTransparentLogo")
+                            Image("VoidImage")
                                 .resizable()
                                 .scaledToFit()
                                 .frame(maxWidth: UIScreen.screenWidth / 2)
@@ -212,26 +216,31 @@ struct ProfileView: View {
                         
                         HStack(alignment: .center) {
                             Spacer()
-                            Text("No comments yet!")
+                            Text("you have no comments")
                                 .font(.title.bold())
                             Spacer()
                         }
                         
                         HStack(alignment: .center) {
                             Spacer()
-                            Text("Share an opinion!")
+                            Text("Go make a comment!")
                                 .font(.caption)
                             Spacer()
                         }
                     }
-                    .listRowBackground(Color.pongSecondarySystemBackground)
+                    .listRowBackground(Color.pongSystemBackground)
                     .listRowSeparator(.hidden)
+                    .frame(height: UIScreen.screenHeight / 2)
                 }
             }
+            // MARK: About
             else if tab == .about {
                 // create a lazy v grid with two equally sized columns
-                LazyVGrid(columns: [GridItem(.fixed(UIScreen.screenWidth / 2)), GridItem(.fixed(UIScreen.screenWidth / 2))], spacing: 15) {
-                    aboutComponent(image: "bookmark", title: "KARMA", data: "100")
+                LazyVGrid(columns: [GridItem(.fixed((UIScreen.screenWidth - 20) / 2)), GridItem(.fixed((UIScreen.screenWidth - 20) / 2))], spacing: 15) {
+                    aboutComponent(image: "bookmark", title: "POST KARMA", data: "\(dataManager.postKarma)")
+                    aboutComponent(image: "bookmark", title: "COMMENT KARMA", data: "\(dataManager.commentKarma)")
+                    aboutComponent(image: "bookmark", title: "DATE JOINED", data: "\(String(describing: DAKeychain.shared["dateJoined"]!))")
+                    aboutComponent(image: "bookmark", title: "FRIENDS REFERRED", data: "100")
                 }
                 .listRowBackground(Color.pongSystemBackground)
                 .listRowSeparator(.hidden)
@@ -257,7 +266,7 @@ struct ProfileView: View {
             VStack(alignment: .leading) {
                 HStack {
                     Text("\(title)")
-                        .font(.subheadline.bold())
+                        .font(.caption.bold())
                         .foregroundColor(Color.pongLightGray)
                     
                     Spacer()
@@ -276,9 +285,9 @@ struct ProfileView: View {
         .padding()
         .overlay(
             RoundedRectangle(cornerRadius: 15)
-                .stroke(Color.pongSecondarySystemBackground, lineWidth: 1)
+                .stroke(Color.pongSecondarySystemBackground, lineWidth: 2)
         )
-        .padding()
+        .padding(3)
     }
 }
 

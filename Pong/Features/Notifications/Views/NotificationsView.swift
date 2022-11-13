@@ -21,13 +21,14 @@ struct NotificationsView: View {
             
             // MARK: List
             List {
-                // MARK: If No Notifications
+                // MARK: No Notifications
                 if notificationsVM.notificationHistoryPrevious == [] && notificationsVM.notificationHistoryWeek == [] {
                     VStack(alignment: .center, spacing: 15) {
+
                         HStack(alignment: .center) {
                             Spacer()
 
-                            Image("PongTransparentLogo")
+                            Image("VoidImage")
                                 .resizable()
                                 .scaledToFit()
                                 .frame(maxWidth: UIScreen.screenWidth / 2)
@@ -37,14 +38,14 @@ struct NotificationsView: View {
                         
                         HStack(alignment: .center) {
                             Spacer()
-                            Text("No notifications yet!")
+                            Text("you have no messages")
                                 .font(.title.bold())
                             Spacer()
                         }
                     }
                     .listRowBackground(Color.pongSystemBackground)
                     .listRowSeparator(.hidden)
-                    
+                    .frame(height: UIScreen.screenHeight / 2)
                 }
                 // MARK: Notifications
                 else {

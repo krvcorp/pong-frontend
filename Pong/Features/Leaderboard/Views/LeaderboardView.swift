@@ -57,8 +57,10 @@ struct LeaderboardView: View {
                 // MARK: First HSTACK of info
                 HStack {
                     HStack {
-                        Image(systemName: "globe")
-                            .imageScale(.large)
+                        Text(Image(systemName: "globe"))
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            
                         
                         // MARK: Community Rank
                         VStack {
@@ -90,8 +92,9 @@ struct LeaderboardView: View {
                     
                     // MARK: User Karma
                     HStack {
-                        Image(systemName: "star")
-                            .imageScale(.large)
+                        Text(Image(systemName: "star"))
+                            .font(.title2)
+                            .fontWeight(.bold)
                         
                         VStack {
                             HStack {
