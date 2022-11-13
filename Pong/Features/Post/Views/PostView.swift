@@ -135,6 +135,14 @@ struct PostView: View {
                 .ignoresSafeArea(.all, edges: .bottom)
         }
         .background(Color.pongSystemBackground)
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar() {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                NavigationLink(destination: MessageView(conversation: $conversation), isActive: $isLinkActive) { EmptyView().opacity(0) }
+                    .isDetailLink(false)
+                    .opacity(0)
+            }
+        }
         .environmentObject(postVM)
         .onAppear {
             if dataManager.postComments.firstIndex(where: {$0.0 == post.id}) == nil {
@@ -191,7 +199,6 @@ struct PostView: View {
                 self.presentationMode.wrappedValue.dismiss()
             }
         })
-        .navigationBarTitleDisplayMode(.inline)
         // MARK: Alerts and Toasts
         .alert(isPresented: $postVM.showConfirmation) {
             switch postVM.activeAlert {

@@ -49,7 +49,9 @@ struct FeedView: View {
             
             ToolbarItem {
                 HStack(spacing: 0) {
-                    NavigationLink(destination: MessageView(conversation: $conversation), isActive: $isLinkActive) { EmptyView().opacity(0) }.opacity(0)
+                    NavigationLink(destination: MessageView(conversation: $conversation), isActive: $isLinkActive) { EmptyView().opacity(0) }
+                        .isDetailLink(false)
+                        .opacity(0)
                     
                     NavigationLink(destination: MessageRosterView(), isActive: $mainTabVM.openConversationsDetected) {
                         if dataManager.conversations.contains(where: {$0.unreadCount > 0}) {
