@@ -24,6 +24,18 @@ struct SettingsView: View {
                 bottom: 0,
                 trailing: 0))
             ) {
+                // MARK: Saved View
+                NavigationLink(destination: SavedView()){
+                    HStack {
+                        Image("save.fill")
+                            .imageScale(.large)
+                            .frame(width: 20)
+                        Text("Saved")
+                            .bold()
+                        Spacer()
+                    }
+                }
+                .frame(minHeight: 30)
                 
                 // MARK: Referrals View
                 NavigationLink(destination: ReferralsView()){
