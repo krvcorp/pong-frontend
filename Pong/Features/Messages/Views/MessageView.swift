@@ -34,7 +34,7 @@ struct MessageView: View {
             }
             
             // MARK: Rest of the messaging
-            ZStack() {
+            ZStack(alignment: .bottom) {
                 // hidden postview
                 NavigationLink(destination: PostView(post: $post), isActive: $isLinkActive) { EmptyView() }
                     .isDetailLink(false)
@@ -73,13 +73,9 @@ struct MessageView: View {
                 }
                 
                 // MARK: OverLay of MessagingComponent
-                VStack {
-                    
-                    Spacer()
-                    
-                    MessageComponent
-                }
-
+                messagingComponent()
+                    .background(Color.pongSystemBackground)
+                    .ignoresSafeArea(.all, edges: .bottom)
             }
         }
         .background(Color.clear)
@@ -183,56 +179,64 @@ struct MessageView: View {
         }
     }
     
-    // MARK: MessageComponent
-    var MessageComponent : some View {
+    // MARK: Overlay component to create a comment or reply
+    @ViewBuilder
+    func messagingComponent() -> some View {
         VStack(spacing: 0) {
-            
-            // MARK: Messaging Component
             VStack {
-                // MARK: TextArea and Button Component
-                HStack {
-                    TextField("Message", text: $text)
-                        .font(.headline)
-                        .padding(5)
+                VStack {
+                    
+                    // MARK: Comment Overlay
+                    HStack {
+                        
+                        // MARK: TextField
+                        HStack {
+                            TextField("Message", text: $text)
+                                .font(.headline)
+                        }
+                        .padding(8)
                         .background(Color(UIColor.secondarySystemBackground))
                         .cornerRadius(20)
-                        
-                    // button component, should not be clickable if text empty
-                    if text == "" {
-                        ZStack {
-                            Image(systemName: "paperplane")
-                                .imageScale(.small)
-                                .foregroundColor(Color(UIColor.quaternaryLabel))
-                                .font(.largeTitle)
-                        }
-                        .frame(width: 40, height: 40, alignment: .center)
-                        .cornerRadius(10)
-                    } else {
-                        Button {
-                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                            messageVM.sendMessage(message: text)
-                            text = ""
-                            NotificationsManager.shared.registerForNotifications(forceRegister: false)
-                        } label: {
-                            ZStack {
-                                Image(systemName: "paperplane")
-                                    .imageScale(.small)
-                                    .foregroundColor(Color(UIColor.label))
-                                    .font(.largeTitle)
+                            
+                        // MARK: PaperPlane
+                        if text != "" {
+                            Button {
+                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                                messageVM.sendMessage(message: text)
+                                text = ""
+                                NotificationsManager.shared.registerForNotifications(forceRegister: false)
+                            } label: {
+                                ZStack {
+                                    Image("send")
+                                        .imageScale(.large)
+                                        .foregroundColor(Color.pongAccent)
+                                        .font(.largeTitle)
+                                }
+                                .frame(width: 30, height: 40, alignment: .center)
+                                .cornerRadius(10)
                             }
-                            .frame(width: 40, height: 40, alignment: .center)
-                            .cornerRadius(10)
+                        } else {
+                            Button {
+                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                            } label: {
+                                ZStack {
+                                    Image("send")
+                                        .imageScale(.large)
+                                        .foregroundColor(Color.pongAccent).opacity(0.25)
+                                        .font(.largeTitle)
+                                }
+                                .frame(width: 30, height: 40, alignment: .center)
+                                .cornerRadius(10)
+                            }
+                            .disabled(true)
                         }
                     }
-
                 }
                 .padding(.horizontal)
-                .padding(.vertical, 10)
-                .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.pongSystemBackground, lineWidth: 2))
+                .padding(.vertical, 3)
             }
-            .background(Color.pongSystemBackground)
         }
-        .mask(Rectangle().padding(.top, -20))
+        .padding(.top, 4)
     }
     
     // MARK: PostComponent

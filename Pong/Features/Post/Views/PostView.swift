@@ -131,6 +131,8 @@ struct PostView: View {
             
             // MARK: MessagingComponent
             messagingComponent()
+                .background(Color.pongSystemBackground)
+                .ignoresSafeArea(.all, edges: .bottom)
         }
         .background(Color.pongSystemBackground)
         .environmentObject(postVM)
@@ -487,7 +489,7 @@ struct PostView: View {
                         Spacer()
                     }
                     .padding(.horizontal)
-                    .padding(.top, 2)
+                    .padding(.top, 5)
                 }
                 // MARK: TextArea and Button Component
                 VStack {
@@ -522,102 +524,97 @@ struct PostView: View {
                     .padding(1)
                     
                     // MARK: Comment Overlay
-                    HStack {
+                    HStack() {
+                        // MARK: Image Button
+                        Button {
+                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                            showSheet = true
+                        } label: {
+                            ZStack {
+                                Image(systemName: "photo")
+                                    .imageScale(.small)
+                                    .foregroundColor(Color(UIColor.label))
+                                    .font(.largeTitle)
+                            }
+                            .frame(width: 30, height: 40, alignment: .center)
+                            .cornerRadius(10)
+                        }
+                        .sheet(isPresented: $showSheet) {
+                            ImagePicker(sourceType: .photoLibrary, selectedImage: self.$postVM.commentImage)
+                        }
+                        
+                        // MARK: TextField
                         HStack {
-                            // Textfield
-                            TextField("Add a comment", text: $text)
+                            TextField("Join the conversation...", text: $text)
                                 .font(.headline)
                                 .focused($textIsFocused)
                                 .onChange(of: postVM.textIsFocused) {
                                     self.textIsFocused = $0
                                 }
+                        }
+                        .padding(8)
+                        .background(Color(UIColor.secondarySystemBackground))
+                        .cornerRadius(20)
                             
-                            // Image Button
+                        // MARK: PaperPlane
+                        if text != "" || postVM.commentImage != nil {
                             Button {
                                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                                showSheet = true
+                                if postVM.replyToComment == defaultComment {
+                                    postVM.createComment(post: post, comment: text, dataManager: dataManager, notificationsManager: notificationsManager) { success in
+                                        // resets stuff
+                                        postVM.commentImage = nil
+                                        text = ""
+                                        withAnimation {
+                                            textIsFocused = false
+                                            postVM.textIsFocused = false
+                                        }
+                                        
+                                        // add scroll to bottom here
+                                        scrollToTop.toggle()
+                                    }
+                                } else {
+                                    postVM.commentReply(post: post, comment: text, dataManager: dataManager, notificationsManager: notificationsManager) { success in
+                                        // resets stuff
+                                        postVM.commentImage = nil
+                                        text = ""
+                                        withAnimation {
+                                            textIsFocused = false
+                                            postVM.textIsFocused = false
+                                        }
+                                    }
+                                }
+
                             } label: {
                                 ZStack {
-                                    Image(systemName: "photo")
-                                        .imageScale(.small)
-                                        .foregroundColor(Color(UIColor.label))
+                                    Image("send")
+                                        .imageScale(.large)
+                                        .foregroundColor(Color.pongAccent)
                                         .font(.largeTitle)
                                 }
                                 .frame(width: 30, height: 40, alignment: .center)
                                 .cornerRadius(10)
                             }
-                            .sheet(isPresented: $showSheet) {
-                                ImagePicker(sourceType: .photoLibrary, selectedImage: self.$postVM.commentImage)
-                            }
-                            .padding(.trailing)
-                                
-                            // Paperplane Button
-                            if text != "" || postVM.commentImage != nil {
-                                Button {
-                                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                                    if postVM.replyToComment == defaultComment {
-                                        postVM.createComment(post: post, comment: text, dataManager: dataManager, notificationsManager: notificationsManager) { success in
-                                            // resets stuff
-                                            postVM.commentImage = nil
-                                            text = ""
-                                            withAnimation {
-                                                textIsFocused = false
-                                                postVM.textIsFocused = false
-                                            }
-                                            
-                                            // add scroll to bottom here
-                                            scrollToTop.toggle()
-                                        }
-                                    } else {
-                                        postVM.commentReply(post: post, comment: text, dataManager: dataManager, notificationsManager: notificationsManager) { success in
-                                            // resets stuff
-                                            postVM.commentImage = nil
-                                            text = ""
-                                            withAnimation {
-                                                textIsFocused = false
-                                                postVM.textIsFocused = false
-                                            }
-                                        }
-                                    }
-
-                                } label: {
-                                    ZStack {
-                                        Image(systemName: "paperplane")
-                                            .imageScale(.small)
-                                            .foregroundColor(Color(UIColor.label))
-                                            .font(.largeTitle)
-                                    }
-                                    .frame(width: 30, height: 40, alignment: .center)
-                                    .cornerRadius(10)
+                        } else {
+                            Button {
+                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                            } label: {
+                                ZStack {
+                                    Image("send")
+                                        .imageScale(.large)
+                                        .foregroundColor(Color.pongAccent).opacity(0.25)
+                                        .font(.largeTitle)
                                 }
-                            } else {
-                                Button {
-                                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                                } label: {
-                                    ZStack {
-                                        Image(systemName: "paperplane")
-                                            .imageScale(.small)
-                                            .foregroundColor(Color(UIColor.quaternaryLabel))
-                                            .font(.largeTitle)
-                                    }
-                                    .frame(width: 30, height: 40, alignment: .center)
-                                    .cornerRadius(10)
-                                }
-                                .disabled(true)
+                                .frame(width: 30, height: 40, alignment: .center)
+                                .cornerRadius(10)
                             }
+                            .disabled(true)
                         }
-                        .padding(5)
                     }
-                    .background(Color(UIColor.secondarySystemBackground))
-                    .cornerRadius(20)
                 }
                 .padding(.horizontal)
                 .padding(.vertical, 3)    
             }
-            .background(Color.pongSystemBackground)
-            .cornerRadius(20, corners: [.topLeft, .topRight])
         }
-        .shadow(color: Color(.black).opacity(0.3), radius: 10, x: 0, y: 0)
-        .mask(Rectangle().padding(.top, -20))
     }
 }
