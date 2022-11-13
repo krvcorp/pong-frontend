@@ -4,6 +4,7 @@ import AlertToast
 struct ContentView: View {
     @ObservedObject var appState = AppState.shared
     @ObservedObject private var authManager = AuthManager.authManager
+    
     @State var showMenu = false
     
     init() {
@@ -11,6 +12,7 @@ struct ContentView: View {
         UITableView.appearance().showsVerticalScrollIndicator = false
     }
     
+    // MARK: PostPushNavigationBinding
     var postPushNavigationBinding : Binding<Bool> {
         .init { () -> Bool in
             appState.postToNavigateTo != nil
@@ -21,6 +23,7 @@ struct ContentView: View {
         }
     }
     
+    // MARK: LeaderboardPushNavigationBinding
     var leaderboardPushNavigationBinding : Binding<Bool> {
         .init { () -> Bool in
             appState.leaderboard != nil
@@ -31,6 +34,7 @@ struct ContentView: View {
         }
     }
     
+    // MARK: ConversationPushNavigationBinding
     var conversationPushNavigationBinding : Binding<Bool> {
         .init { () -> Bool in
             appState.conversationToNavigateTo != nil
@@ -41,6 +45,7 @@ struct ContentView: View {
         }
     }
     
+    // MARK: Body
     var body: some View {
         let drag = DragGesture()
             .onEnded {

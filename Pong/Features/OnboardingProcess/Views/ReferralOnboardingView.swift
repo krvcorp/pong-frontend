@@ -1,8 +1,10 @@
 import SwiftUI
 import AlertToast
+import Combine
 
 struct ReferralOnboardingView: View {
     @EnvironmentObject var onboardingVM : OnboardingViewModel
+    
     @State var referralCode: String = ""
     
     var body: some View {
@@ -22,16 +24,28 @@ struct ReferralOnboardingView: View {
             HStack {
                 HStack {
                     Image("person")
-                        .foregroundColor(Color.white)
+                        .foregroundColor(Color.pongSystemWhite)
                         .font(.system(size: 30))
                     
-                    TextField(text: $referralCode) {
-                        Text("Enter code")
-                            .foregroundColor(Color(hex:"FFFFFF"))
+                    if onboardingVM.onBoarded && DAKeychain.shared["referred"] == "true" {
+                        TextField(text: $referralCode) {
+                            Text("Enter code")
+                                .foregroundColor(Color.pongSystemWhite)
+                                .font(.headline)
+                                .fontWeight(.semibold)
+                        }
+                        .autocapitalization(.allCharacters)
+                        .onReceive(Just(referralCode)) { _ in limitText() }
+                        .disabled(!onboardingVM.onBoarded || DAKeychain.shared["referred"] != "true")
+                        .accentColor(Color.pongSystemWhite)
+                    } else {
+                        Text("Referred!")
+                            .foregroundColor(Color.pongSystemWhite)
                             .font(.headline)
                             .fontWeight(.semibold)
+                            .accentColor(Color.pongSystemWhite)
                     }
-                    .accentColor(Color.pongLabel)
+
 
                     Spacer()
                     
@@ -41,13 +55,14 @@ struct ReferralOnboardingView: View {
                         }
                     }) {
                         Text("enter")
-                            .foregroundColor(referralCode != "" ? Color.white : Color(hex: "777777"))
+                            .foregroundColor(Color.pongSystemWhite)
                             .font(.headline)
                             .fontWeight(.bold)
                     }
                     .buttonStyle(PlainButtonStyle())
-                    .disabled(referralCode != "" ? false : true)
+                    .disabled(referralCode == "" || onboardingVM.onBoarded || DAKeychain.shared["referred"] == "true")
                 }
+                .foregroundColor(Color.pongSystemWhite)
                 .padding(15)
             }
             .background(Color.pongAccent)
@@ -68,6 +83,14 @@ struct ReferralOnboardingView: View {
         }
         .onTapGesture {
             hideKeyboard()
+        }
+    }
+    
+    func limitText() {
+        let characterLimit = 6
+        
+        if referralCode.count > characterLimit {
+            referralCode = String(referralCode.prefix(characterLimit))
         }
     }
 }

@@ -3,6 +3,7 @@ import SwiftUI
 struct OnboardingView: View {
     @ObservedObject private var authManager = AuthManager.authManager
     @StateObject var onboardingVM = OnboardingViewModel()
+    
     @State private var selectedTab = 1
     
     init() {
@@ -27,16 +28,6 @@ struct OnboardingView: View {
                     hideKeyboard()
                 })
                 .tabViewStyle(PageTabViewStyle())
-//                .toolbar {
-//                    ToolbarItem(placement: .navigationBarLeading) {
-//                        Button {
-//                            onboardingVM.onboard()
-//                        } label: {
-//                            Image(systemName: "xmark")
-//                                .foregroundColor(Color(UIColor.label))
-//                        }
-//                    }
-//                }
                 
                 if selectedTab != 3 {
                     Button {

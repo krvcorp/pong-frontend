@@ -62,8 +62,8 @@ class DataManager : ObservableObject {
     
     // MARK: LoadStartupState
     func loadStartupState() {
-        self.initTopPosts()
         self.initHotPosts()
+        self.initTopPosts()
         self.initRecentPosts()
         self.initLeaderboard()
         self.initProfile()

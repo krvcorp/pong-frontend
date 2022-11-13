@@ -10,6 +10,7 @@ import Combine
 
 struct NewPoll: View {
     @Binding var showNewPoll : Bool
+    
     @ObservedObject var newPollVM : NewPollViewModel
     
     var body: some View {
@@ -67,6 +68,7 @@ struct NewPoll: View {
                 .padding(.top, 8)
             }
             
+            // MARK: Add Option
             if newPollVM.pollOptions.count < 6 {
                 HStack {
                     Button {
@@ -88,11 +90,5 @@ struct NewPoll: View {
         }
         .frame(minWidth: 0, maxWidth: .infinity)
         .font(.system(size: 18).bold())
-    }
-}
-
-struct NewPoll_Previews: PreviewProvider {
-    static var previews: some View {
-        NewPoll(showNewPoll: .constant(false), newPollVM: NewPollViewModel())
     }
 }
