@@ -37,15 +37,6 @@ struct AboutUsView: View {
             }
         
             Spacer()
-        
-            // MARK: Image Acknowledgements
-            VStack {
-                Text("Images during Onboarding and on ReferralView by FreePik")
-                    .font(.system(Font.TextStyle.caption2, design: .rounded))
-                    .frame(maxWidth: .infinity, alignment: .center)
-            }
-            .foregroundColor(Color.pongSecondaryText)
-            .padding(.top, 10)
             
             // MARK: KRV Corp.
             VStack {
