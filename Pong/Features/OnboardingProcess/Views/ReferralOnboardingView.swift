@@ -31,6 +31,7 @@ struct ReferralOnboardingView: View {
                             .font(.headline)
                             .fontWeight(.semibold)
                     }
+                    .accentColor(Color.pongLabel)
 
                     Spacer()
                     
