@@ -4,13 +4,14 @@ import Kingfisher
 
 struct ProfileCommentBubble: View {
     @Binding var comment : ProfileComment
+    
     @StateObject var profileCommentBubbleVM = ProfileCommentBubbleViewModel()
     @EnvironmentObject var dataManager : DataManager
     
-    // MARK: Some local view logic
     @State private var sheet = false
     @State private var image = UIImage()
     
+    // MARK: Body
     var body: some View {
         ZStack {
             NavigationLink(destination: PostView(post: $profileCommentBubbleVM.parentPost)) {
@@ -20,6 +21,7 @@ struct ProfileCommentBubble: View {
             .buttonStyle(PlainButtonStyle())
             
             VStack(alignment: .leading) {
+                // MARK: Body
                 VStack(alignment: .leading) {
                     HStack {
                         Text("\(comment.timeSincePosted) ago • On: \(comment.re)")
@@ -46,24 +48,13 @@ struct ProfileCommentBubble: View {
                 }
                 .padding(.bottom)
                 
+                // MARK: Bottom Row
                 HStack(spacing: 0) {
                     voteComponent
                         .frame(minWidth: 0, maxWidth: .infinity)
                     
                     HStack {
                         Spacer()
-                        
-//                        Button {
-//                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-//                            self.image = textToImage(drawText: post.title, atPoint: CGPointMake(0, 0))
-//                            sheet.toggle()
-//                        } label: {
-//                            Image(systemName: "square.and.arrow.up")
-//                                .foregroundColor(Color("pongSecondaryText"))
-//                        }
-//                        .sheet(isPresented: $sheet) {
-//                            ShareSheet(items: ["\(NetworkManager.networkManager.rootURL)post/\(post.id)/"])
-//                        }
                         
                         // MARK: Delete or More Button
                         Button {
@@ -106,66 +97,28 @@ struct ProfileCommentBubble: View {
         }
     }
     
+    // MARK: VoteComponent
     var voteComponent: some View {
         HStack {
-            if comment.voteStatus == 0 {
-                Button {
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    profileCommentBubbleVM.commentVote(direction: 1, dataManager: dataManager)
-                } label: {
-                    Image(systemName: "arrow.up")
-                        .foregroundColor(Color("pongSecondaryText"))
-                }
-                
-                Text("\(comment.score)")
-                    .foregroundColor(Color("pongSecondaryText"))
-                
-                Button {
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    profileCommentBubbleVM.commentVote(direction: -1, dataManager: dataManager)
-                } label: {
-                    Image(systemName: "arrow.down")
-                        .foregroundColor(Color("pongSecondaryText"))
-                }
-            } else if comment.voteStatus == 1 {
-                Button {
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    profileCommentBubbleVM.commentVote(direction: 1, dataManager: dataManager)
-                } label: {
-                    Image(systemName: "arrow.up")
-                        .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
-                }
-                
-                Text("\(comment.score + 1)")
-                    .foregroundColor(Color("pongSecondaryText"))
-                
-                Button {
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    profileCommentBubbleVM.commentVote(direction: -1,  dataManager: dataManager)
-                } label: {
-                    Image(systemName: "arrow.down")
-                        .foregroundColor(Color("pongSecondaryText"))
-                }
+            Button {
+                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                profileCommentBubbleVM.commentVote(direction: 1, dataManager: dataManager)
+            } label: {
+                Text(Image(systemName: "arrow.up"))
+                    .foregroundColor(comment.voteStatus == 1 ? Color.pongAccent : Color.pongSecondaryText)
+                    .fontWeight(.bold)
             }
-            else if comment.voteStatus == -1 {
-                Button {
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    profileCommentBubbleVM.commentVote(direction: 1, dataManager: dataManager)
-                } label: {
-                    Image(systemName: "arrow.up")
-                        .foregroundColor(Color("pongSecondaryText"))
-                }
-                
-                Text("\(comment.score - 1)")
-                    .foregroundColor(Color("pongSecondaryText"))
-                
-                Button {
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    profileCommentBubbleVM.commentVote(direction: -1, dataManager: dataManager)
-                } label: {
-                    Image(systemName: "arrow.down")
-                        .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
-                }
+            
+            Text("\(comment.score + comment.voteStatus)")
+                .foregroundColor(Color.pongSecondaryText)
+            
+            Button {
+                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                profileCommentBubbleVM.commentVote(direction: -1, dataManager: dataManager)
+            } label: {
+                Text(Image(systemName: "arrow.down"))
+                    .foregroundColor(comment.voteStatus == -1 ? Color.pongAccent : Color.pongSecondaryText)
+                    .fontWeight(.bold)
             }
             
             Spacer()
