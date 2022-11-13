@@ -14,7 +14,7 @@ class NetworkManager: ObservableObject {
         var rootURL = "https://pong.college/"
     #endif
     
-    
+    // MARK: Empty / Error Structs
     struct EmptyBody: Encodable {}
     struct EmptyResponse: Codable {
         var success: String
@@ -23,7 +23,7 @@ class NetworkManager: ObservableObject {
         var error: String
     }
     
-    // MARK: Encode/Decode to/from SnakeCase
+    // MARK: Encoder / Decoder
     let parameterEncoder: JSONParameterEncoder = {
         let encoder = JSONEncoder()
         encoder.keyEncodingStrategy = .convertToSnakeCase
