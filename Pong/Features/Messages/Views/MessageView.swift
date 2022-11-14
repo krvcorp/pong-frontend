@@ -125,27 +125,10 @@ struct MessageView: View {
                 secondaryButton: .cancel()
             )
         }
-        // logic to start/stop polling
-        .onReceive(messageVM.timer) { _ in
-            if messageVM.timePassed % 5 != 0 {
-                messageVM.timePassed += 1
-            }
-            else {
-                messageVM.getConversation()
-                messageVM.timePassed += 1
-            }
-        }
         .onAppear {
             self.conversation.unreadCount = 0
             self.messageVM.readConversation()
-            // timer for polling
-//            self.messageVM.timer = Timer.publish (every: 1, on: .current, in: .common).autoconnect()
         }
-        .onDisappear {
-            // timer for polling
-//            self.messageVM.timer.upstream.connect().cancel()
-        }
-        // action to do on update of conversation model
         .onChange(of: messageVM.messageUpdateTrigger) { newValue in
             if self.conversation.messages != messageVM.conversation.messages {
                 self.messageVM.scrolledToBottom = false

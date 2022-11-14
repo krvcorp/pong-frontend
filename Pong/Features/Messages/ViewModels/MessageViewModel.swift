@@ -6,8 +6,6 @@ class MessageViewModel: ObservableObject {
     @Published var post : Post = defaultPost
     @Published var messageUpdateTrigger : Bool = false
     @Published var showBlockConfirmationView : Bool = false
-    var timePassed = 0
-    var timer = Timer.publish(every: 1, on: .current, in: .common).autoconnect()
     
     @Published var scrolledToBottom = false
     
@@ -70,7 +68,6 @@ class MessageViewModel: ObservableObject {
         }
     }
     
-    // don't know why the bottom two functions exist at the moment
     // MARK: GetPost
     /// Gets the post for the conversation and opens the post object on completion
     func getPost(postId: String, completionHandler: @escaping (Post) -> Void) {

@@ -163,6 +163,19 @@ struct MainTabView: View {
             .toast(isPresenting: $dataManager.toastDetected) {
                 AlertToast(displayMode: .hud, type: .regular, title: "\(dataManager.toastMessage)")
             }
+            // MARK: Polling Logic
+            .onReceive(dataManager.timer) { _ in
+                if dataManager.timePassed % 5 != 0 {
+                    dataManager.timePassed += 1
+                }
+                else {
+                    dataManager.getConversations()
+                    dataManager.timePassed += 1
+                }
+            }
+            .onDisappear {
+                self.dataManager.timer.upstream.connect().cancel()
+            }
         }
     }
 }

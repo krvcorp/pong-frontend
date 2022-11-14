@@ -61,6 +61,8 @@ class DataManager : ObservableObject {
     
     // messaging
     @Published var conversations : [Conversation] = []
+    var timePassed = 0
+    var timer = Timer.publish(every: 1, on: .current, in: .common).autoconnect()
     
     @Published var isAppLoading = true
     
