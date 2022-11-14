@@ -86,6 +86,7 @@ struct ReferralOnboardingView: View {
         }
     }
     
+    // MARK: LimitText
     func limitText() {
         let characterLimit = 6
         
