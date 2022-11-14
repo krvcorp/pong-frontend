@@ -42,6 +42,7 @@ class DataManager : ObservableObject {
     @Published var commentKarma: Int = 0
     @Published var postKarma: Int = 0
     
+    // toasts and alerts controllers
     @Published var removedPost = false
     @Published var removedPostMessage = "Removed post!"
     
@@ -54,6 +55,9 @@ class DataManager : ObservableObject {
     @Published var errorDetected = false
     @Published var errorDetectedMessage = "Something went wrong!"
     @Published var errorDetectedSubMessage = "Unable to connect to network"
+    
+    @Published var toastDetected = false
+    @Published var toastMessage = "Success!"
     
     // messaging
     @Published var conversations : [Conversation] = []
@@ -219,6 +223,7 @@ class DataManager : ObservableObject {
                     self.totalKarma = successResponse.score
                     self.commentKarma = successResponse.commentScore
                     self.postKarma = successResponse.postScore
+                    self.nickname = successResponse.nickname
                 }
             }
         }
@@ -297,6 +302,14 @@ class DataManager : ObservableObject {
             self.errorDetectedMessage = message
             self.errorDetectedSubMessage = subMessage
             self.errorDetected = true
+        }
+    }
+    
+    // MARK: Abstract Normal Toast
+    func toastDetected(message: String) {
+        DispatchQueue.main.async {
+            self.toastDetected = true
+            self.toastMessage = message
         }
     }
     

@@ -72,6 +72,7 @@ struct MainTabView: View {
                         GridItem(.flexible())
                     ]
 
+                    // MARK: TabBar Overlay
                     LazyVGrid(columns: columns, spacing: 20) {
                         // MARK: FeedView
                         Button(action: {
@@ -144,10 +145,10 @@ struct MainTabView: View {
                     }
                     .frame(width: UIScreen.screenWidth, height: 50)
                     .background(Color.pongSystemBackground)
-                    .ignoresSafeArea(.all, edges: .bottom)
                     .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: -5)
                 }
                 .navigationViewStyle(StackNavigationViewStyle())
+                .ignoresSafeArea(.keyboard, edges: .bottom)
             }
             .environmentObject(dataManager)
             .accentColor(Color.pongLabel)
@@ -158,6 +159,9 @@ struct MainTabView: View {
             }
             .toast(isPresenting: $dataManager.errorDetected){
                 AlertToast(displayMode: .hud, type: .error(Color.red), title: dataManager.errorDetectedMessage, subTitle: dataManager.errorDetectedSubMessage)
+            }
+            .toast(isPresenting: $dataManager.toastDetected) {
+                AlertToast(displayMode: .hud, type: .regular, title: "\(dataManager.toastMessage)")
             }
         }
     }

@@ -33,44 +33,6 @@ struct ReferralsView: View {
             .listRowBackground(Color.pongSystemBackground)
             .listRowSeparator(.hidden)
             
-            // MARK: ReferralPageImage
-            HStack {
-                Spacer()
-                Image("ReferralPageImage")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(maxWidth: UIScreen.screenWidth / 2)
-                Spacer()
-            }
-            .background(Color.pongSystemBackground)
-            .listRowBackground(Color.pongSystemBackground)
-            .listRowSeparator(.hidden)
-
-            
-            // MARK: Instructions
-            HStack(spacing: 10) {
-                Image(systemName: "info.circle")
-                
-                Text("How it works")
-                
-                Spacer()
-            }
-            .font(.headline.bold())
-            .background(Color.pongSystemBackground)
-            .listRowBackground(Color.pongSystemBackground)
-            .listRowSeparator(.hidden)
-            
-            // MARK: VStack of steps
-            VStack(spacing: 15) {
-                instructionComponent(number: "1", title: "Invite your friends", subTitle: "Just share your link")
-                instructionComponent(number: "2", title: "They download the app", subTitle: "Share funny content")
-                instructionComponent(number: "3", title: "You make $$$", subTitle: "5 referrals for $15!")
-            }
-            .background(Color.pongSystemBackground)
-            .listRowBackground(Color.pongSystemBackground)
-            .listRowSeparator(.hidden)
-            
-            
             // MARK: Copy Code + Share App Link
             VStack {
                 
@@ -170,6 +132,50 @@ struct ReferralsView: View {
             .background(Color.pongSystemBackground)
             .listRowBackground(Color.pongSystemBackground)
             .listRowSeparator(.hidden)
+            
+            // MARK: ReferralPageImage
+            HStack {
+                Spacer()
+                Image("ReferralPageImage")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(maxWidth: UIScreen.screenWidth / 2)
+                Spacer()
+            }
+            .background(Color.pongSystemBackground)
+            .listRowBackground(Color.pongSystemBackground)
+            .listRowSeparator(.hidden)
+
+            
+            // MARK: Instructions
+            HStack(spacing: 10) {
+                Image(systemName: "info.circle")
+                
+                Text("How it works")
+                
+                Spacer()
+            }
+            .font(.headline.bold())
+            .background(Color.pongSystemBackground)
+            .listRowBackground(Color.pongSystemBackground)
+            .listRowSeparator(.hidden)
+            
+            // MARK: VStack of steps
+            VStack(spacing: 15) {
+                instructionComponent(number: "1", title: "Invite your friends", subTitle: "Just share your link")
+                instructionComponent(number: "2", title: "They download the app", subTitle: "Share funny content")
+                instructionComponent(number: "3", title: "You make $$$", subTitle: "5 referrals for $15!")
+            }
+            .background(Color.pongSystemBackground)
+            .listRowBackground(Color.pongSystemBackground)
+            .listRowSeparator(.hidden)
+            
+            // MARK: Rectangle to allow for more scrolling space
+            Rectangle()
+                .fill(Color.pongSystemBackground)
+                .listRowBackground(Color.pongSystemBackground)
+                .frame(minHeight: 300)
+                .listRowSeparator(.hidden)
         }
         .scrollContentBackgroundCompat()
         .background(Color.pongSystemBackground)

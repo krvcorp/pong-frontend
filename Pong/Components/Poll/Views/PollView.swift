@@ -95,8 +95,8 @@ struct PollView: View {
                             .background(
                                 // rectangle with corner radius 5 and shadow with opacity .5
                                 RoundedRectangle(cornerRadius: 5)
-                                    .fill(Color.pongSystemBackground)
-                                    .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 0)
+                                    .fill(Color.pongSecondarySystemBackground)
+                                    .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 0)
                                 )
                         }
                     }

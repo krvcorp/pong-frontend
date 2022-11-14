@@ -5,15 +5,17 @@ import Combine
 struct LeaderboardView: View {
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.colorScheme) var colorScheme: ColorScheme
+    
     @StateObject private var leaderboardVM = LeaderboardViewModel()
     @StateObject var dataManager = DataManager.shared
+    
     @State private var newPost = false
     
     let textLimit = 20
     
     func limitText(_ upper: Int) {
-        if nickname.count > upper {
-            nickname = String(nickname.prefix(upper))
+        if dataManager.nickname.count > upper {
+            dataManager.nickname = String(dataManager.nickname.prefix(upper))
         }
     }
     
@@ -37,9 +39,6 @@ struct LeaderboardView: View {
             hideKeyboard()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .toast(isPresenting: $leaderboardVM.savedNicknameAlert) {
-            AlertToast(displayMode: .hud, type: .regular,  title: "Nickname saved!")
-        }
     }
         
     // MARK: KarmaInfo
@@ -155,9 +154,24 @@ struct LeaderboardView: View {
                             Image(systemName: "person")
                             
                             TextField("", text: $nickname)
-                                .onReceive(Just(nickname)) { _ in limitText(textLimit) }
+                                .accentColor(Color.pongSystemWhite)
+                                .onReceive(Just(dataManager.nickname)) { _ in limitText(textLimit) }
                                 .placeholder(when: nickname.isEmpty) {
-                                    Text("Select a nickname").foregroundColor(Color.pongSystemWhite)
+                                    if dataManager.nickname == "" {
+                                        Text("Select a nickname")
+                                            .foregroundColor(Color.pongSystemWhite)
+                                    } else {
+                                        Text("\(dataManager.nickname)")
+                                            .foregroundColor(Color.pongSystemWhite)
+                                    }
+                                }
+                                .submitLabel(.done)
+                                .onSubmit {
+                                    if nickname != dataManager.nickname && nickname != "" {
+                                        leaderboardVM.updateNickname(dataManager: dataManager, nickname: nickname) { success in
+                                            nickname = ""
+                                        }
+                                    }
                                 }
                             
                             Spacer()

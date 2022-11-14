@@ -11,6 +11,7 @@ class LeaderboardViewModel: ObservableObject {
 //    @Published var nickname : String = ""
     @Published var savedNicknameAlert : Bool = false
     
+    // MARK: GetLeaderboard
     func getLeaderboard(dataManager: DataManager) {
         NetworkManager.networkManager.request(route: "users/leaderboard/", method: .get, successType: [LeaderboardUser].self) { successResponse, errorResponse in
             if let successResponse = successResponse {
@@ -30,18 +31,24 @@ class LeaderboardViewModel: ObservableObject {
         }
     }
     
+    // MARK: UpdateNickname
     func updateNickname(dataManager: DataManager, nickname: String, completion: @escaping (Bool) -> Void) {
         let parameters = Nickname.self(nickname: nickname)
         NetworkManager.networkManager.emptyRequest(route: "users/\(AuthManager.authManager.userId)/nickname/", method: .post, body: parameters) { successResponse, errorResponse in
             if successResponse != nil {
                 self.getLoggedInUserInfo(dataManager: dataManager)
                 self.getLeaderboard(dataManager: dataManager)
-                self.savedNicknameAlert = true
+                dataManager.toastDetected(message: "Nickname saved!")
                 completion(true)
+            }
+            
+            if errorResponse != nil {
+                print("DEBUG: leaderboardVM.updateNickname error")
             }
         }
     }
     
+    // MARK: GetLoggedInUserInfo
     func getLoggedInUserInfo(dataManager: DataManager) {
         NetworkManager.networkManager.request(route: "users/\(AuthManager.authManager.userId)/", method: .get, successType: User.self) { successResponse, errorResponse in
             if let successResponse = successResponse {

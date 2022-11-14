@@ -3,6 +3,7 @@ import Kingfisher
 
 struct CommentBubble: View {
     @Binding var comment : Comment
+    
     @StateObject var commentBubbleVM = CommentBubbleViewModel()
     @EnvironmentObject var postVM : PostViewModel
     @EnvironmentObject var dataManager : DataManager
@@ -66,6 +67,7 @@ struct CommentBubble: View {
                     
                     Spacer()
                     
+                    // MARK: Menu Options
                     Menu {
                         Button {
                             UIImpactFeedbackGenerator(style: .medium).impactOccurred()
@@ -81,23 +83,23 @@ struct CommentBubble: View {
                             Label("Report", systemImage: "flag")
                         }
                         
-                        if comment.saved {
-                            Button {
-                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-        //                            postVM.saveComment(comment: comment, dataManager: dataManager)
-                            } label: {
-                                Label("Save", systemImage: "flag")
-                            }
-                        }
-                        else {
-                            Button {
-                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                                postVM.reportComment(comment: comment)
-                            } label: {
-                                Label("Unsave", systemImage: "flag.fill")
-                            }
-                            
-                        }
+//                        if comment.saved {
+//                            Button {
+//                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+//        //                            postVM.saveComment(comment: comment, dataManager: dataManager)
+//                            } label: {
+//                                Label("Save", systemImage: "flag")
+//                            }
+//                        }
+//                        else {
+//                            Button {
+//                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+//                                postVM.reportComment(comment: comment)
+//                            } label: {
+//                                Label("Unsave", systemImage: "flag.fill")
+//                            }
+//
+//                        }
                         
                         if !comment.userOwned {
                             Button {
