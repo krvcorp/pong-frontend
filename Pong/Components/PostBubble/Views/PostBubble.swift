@@ -96,7 +96,7 @@ struct PostBubble: View {
                         }
                     } label: {
                         HStack(spacing: 3) {
-                            Image("chat-dots")
+                            Image("chat_dots")
                                 .font(Font.system(size: 20, weight: .regular))
                                 .imageScale(.large)
                             

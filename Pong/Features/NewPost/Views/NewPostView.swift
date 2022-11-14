@@ -91,7 +91,7 @@ struct NewPostView: View {
                                     showNewPoll = false
                                     newPostVM.newPollVM.reset()
                                 } label: {
-                                    Image("gallery-add")
+                                    Image("gallery_add")
                                         .resizable()
                                         .scaledToFit()
                                         .foregroundColor(Color.pongAccent)

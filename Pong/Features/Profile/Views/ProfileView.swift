@@ -238,10 +238,10 @@ struct ProfileView: View {
             else if tab == .about {
                 // create a lazy v grid with two equally sized columns
                 LazyVGrid(columns: [GridItem(.fixed((UIScreen.screenWidth - 20) / 2)), GridItem(.fixed((UIScreen.screenWidth - 20) / 2))], spacing: 15) {
-                    aboutComponent(image: "bookmark", title: "POST KARMA", data: "\(dataManager.postKarma)")
-                    aboutComponent(image: "bookmark", title: "COMMENT KARMA", data: "\(dataManager.commentKarma)")
-                    aboutComponent(image: "bookmark", title: "DATE JOINED", data: "\(String(describing: DAKeychain.shared["dateJoined"]!))")
-                    aboutComponent(image: "bookmark", title: "FRIENDS REFERRED", data: "100")
+                    aboutComponent(system: false, image: "chart", title: "POST KARMA", data: "\(dataManager.postKarma)")
+                    aboutComponent(system: true, image: "star", title: "COMMENT KARMA", data: "\(dataManager.commentKarma)")
+                    aboutComponent(system: false, image: "calendar", title: "DATE JOINED", data: "\(String(describing: DAKeychain.shared["dateJoined"]!))")
+                    aboutComponent(system: false, image: "friends_referred", title: "FRIENDS REFERRED", data: "100")
                 }
                 .listRowBackground(Color.pongSystemBackground)
                 .listRowSeparator(.hidden)
@@ -260,9 +260,15 @@ struct ProfileView: View {
     
     // MARK: About Component
     @ViewBuilder
-    func aboutComponent(image : String, title : String, data : String) -> some View {
+    func aboutComponent(system: Bool, image : String, title : String, data : String) -> some View {
         HStack {
-            Image(systemName: "\(image)")
+            if system {
+                Image(systemName: "\(image)")
+                    .imageScale(.large)
+            } else {
+                Text(Image("\(image)"))
+                    .font(Font.system(size: 28, weight: .regular))
+            }
             
             VStack(alignment: .leading) {
                 HStack {
@@ -283,12 +289,13 @@ struct ProfileView: View {
                 }
             }
         }
-        .padding()
+        .padding(.vertical)
+        .padding(.horizontal, 5)
         .overlay(
             RoundedRectangle(cornerRadius: 15)
                 .stroke(Color.pongSecondarySystemBackground, lineWidth: 2)
         )
-        .padding(3)
+        .padding(1)
     }
 }
 

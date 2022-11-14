@@ -128,7 +128,8 @@ struct LeaderboardView: View {
             // MARK: Kahoot Component
             HStack {
                 Spacer()
-                Image(systemName: "bookmark")
+                Text(Image("upvote_box"))
+                    .font(Font.system(size: 36, weight: .regular))
                 
                 Group {
                     Text("400").fontWeight(.heavy) + Text(" points behind ") + Text("3rd").fontWeight(.heavy) + Text(" place")
