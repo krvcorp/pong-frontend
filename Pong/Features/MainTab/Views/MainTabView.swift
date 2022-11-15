@@ -86,7 +86,7 @@ struct MainTabView: View {
                         }) {
                             VStack {
                                 Image("home")
-                                    .font(.system(size: 50))
+                                    .font(.system(size: 40))
                                     .foregroundColor(mainTabVM.itemSelected == 1 ? Color.pongAccent : Color(UIColor.secondaryLabel))
                             }
                         }
@@ -99,7 +99,7 @@ struct MainTabView: View {
                         }) {
                             VStack {
                                 Image("trophy")
-                                    .font(.system(size: 50))
+                                    .font(.system(size: 40))
                                     .foregroundColor(mainTabVM.itemSelected == 2 ? Color.pongAccent : Color(UIColor.secondaryLabel))
                             }
                         }
@@ -111,7 +111,7 @@ struct MainTabView: View {
                             }
                         }) {
                             Image(systemName: "plus.circle.fill")
-                                .font(.system(size: 70))
+                                .font(.system(size: 60))
                                 .foregroundStyle(Color.pongSystemWhite, Color.pongAccent)
                         }
                         .buttonStyle(PlainButtonStyle())
@@ -125,7 +125,7 @@ struct MainTabView: View {
                         }) {
                             VStack {
                                 Image("bell")
-                                    .font(.system(size: 50))
+                                    .font(.system(size: 40))
                                     .foregroundColor(mainTabVM.itemSelected == 4 ? Color.pongAccent : Color(UIColor.secondaryLabel))
                             }
                         }
@@ -138,7 +138,7 @@ struct MainTabView: View {
                         }) {
                             VStack {
                                 Image("person")
-                                    .font(.system(size: 50))
+                                    .font(.system(size: 40))
                                     .foregroundColor(mainTabVM.itemSelected == 5 ? Color.pongAccent : Color(UIColor.secondaryLabel))
                             }
                         }

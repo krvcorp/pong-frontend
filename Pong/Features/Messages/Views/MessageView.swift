@@ -226,10 +226,17 @@ struct MessageView: View {
     var PostComponent: some View {
         HStack {
             HStack {
-                VStack {
+                VStack(spacing: 5) {
                     HStack {
                         Text("\(conversation.re)")
                             .font(.subheadline)
+                            .lineLimit(2)
+                        Spacer()
+                    }
+                    
+                    HStack {
+                        Text("4 weeks ago")
+                            .font(.caption)
                         Spacer()
                     }
                 }
