@@ -51,6 +51,7 @@ struct AdminFeedView: View {
         .navigationBarTitleDisplayMode(.inline)
     }
     
+    // MARK: ToolbarPickerComponent
     var toolbarPickerComponent : some View {
         HStack(spacing: 30) {
             ForEach(AdminFilter.allCases, id: \.self) { filter in
@@ -60,29 +61,21 @@ struct AdminFeedView: View {
                 } label: {
                     if adminFeedVM.selectedFilter == filter {
                         HStack(spacing: 5) {
-                            Image(systemName: filter.filledImageName)
                             Text(filter.title)
                                 .bold()
                         }
-                        .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
+                        .foregroundColor(Color.pongAccent)
 
                     } else {
                         HStack(spacing: 5) {
-                            Image(systemName: filter.imageName)
                             Text(filter.title)
                         }
-                        .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
+                        .foregroundColor(Color.pongSecondaryText)
                     }
                 }
                 .background(Color.pongSystemBackground)
             }
         }
         .background(Color.pongSystemBackground)
-    }
-}
-
-struct AdminFeedView_Previews: PreviewProvider {
-    static var previews: some View {
-        AdminFeedView()
     }
 }
