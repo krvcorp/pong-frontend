@@ -36,10 +36,6 @@ struct LeaderboardView: View {
             LeaderboardList
         }
         .background(Color.pongSystemBackground)
-        .onAppear {
-            leaderboardVM.getLeaderboard(dataManager: dataManager)
-            leaderboardVM.getLoggedInUserInfo(dataManager: dataManager)
-        }
         .navigationBarTitle("Leaderboard")
         .navigationBarTitleDisplayMode(.inline)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
