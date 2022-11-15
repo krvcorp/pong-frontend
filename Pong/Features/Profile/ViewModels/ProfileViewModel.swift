@@ -112,6 +112,8 @@ class ProfileViewModel: ObservableObject {
             dataManager.initProfileComments()
         } else if tab == .saved {
             dataManager.initProfileSavedPosts()
+        } else if tab == .about {
+            dataManager.initUserInformation()
         }
     }
 }

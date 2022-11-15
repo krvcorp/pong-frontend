@@ -241,7 +241,7 @@ struct ProfileView: View {
                     aboutComponent(system: false, image: "chart", title: "POST KARMA", data: "\(dataManager.postKarma)")
                     aboutComponent(system: true, image: "star", title: "COMMENT KARMA", data: "\(dataManager.commentKarma)")
                     aboutComponent(system: false, image: "calendar", title: "DATE JOINED", data: "\(String(describing: DAKeychain.shared["dateJoined"]!))")
-                    aboutComponent(system: false, image: "friends_referred", title: "FRIENDS REFERRED", data: "100")
+                    aboutComponent(system: false, image: "friends_referred", title: "FRIENDS REFERRED", data: "\(dataManager.numberReferred)")
                 }
                 .listRowBackground(Color.pongSystemBackground)
                 .listRowSeparator(.hidden)

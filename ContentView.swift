@@ -1,9 +1,11 @@
 import SwiftUI
 import AlertToast
+import PartialSheet
 
 struct ContentView: View {
-    @ObservedObject var appState = AppState.shared
-    @ObservedObject private var authManager = AuthManager.authManager
+    @StateObject var appState = AppState.shared
+    @StateObject var authManager = AuthManager.authManager
+    @StateObject var toastManager = ToastManager.shared
     
     @State var showMenu = false
     
@@ -124,5 +126,6 @@ struct ContentView: View {
         .environmentObject(MainTabViewModel(initialIndex: 1, customItemIndex: 3))
         .environmentObject(appState)
         .accentColor(Color.pongAccent)
+        .attachPartialSheetToRoot()
     }
 }

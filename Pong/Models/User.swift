@@ -8,4 +8,5 @@ struct User: Identifiable, Codable {
     var score: Int
     var isSuperuser: Bool
     var nickname: String
+    var numberReferred : Int
 }

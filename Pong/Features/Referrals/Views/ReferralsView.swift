@@ -6,12 +6,12 @@ import PartialSheet
 
 struct ReferralsView: View {
     let progressFrame : CGFloat = CGFloat(UIScreen.screenWidth - 25)
+    
     @StateObject var referralsVM = ReferralsViewModel()
     @ObservedObject var dataManager = DataManager.shared
+    
     @State private var sheet : Bool = false
     @State private var halfSheetPresented : Bool = false
-    
-    @State var referralCode: String = ""
     
     // MARK: Body
     var body: some View {
@@ -45,8 +45,8 @@ struct ReferralsView: View {
                         .buttonStyle(PlainButtonStyle())
                         .sheet(isPresented: $sheet) {
                             let referralCode = DAKeychain.shared["referralCode"]!
-                            let url = URL(string: "This new app just came out for BU use my referral code \(referralCode) https://www.pong.college/refer/")
-                            ShareSheet(items: [url!])
+                            let url = "This new app just came out for BU use my referral code \(referralCode) https://www.pong.college/refer/"
+                            ShareSheet(items: [url])
                         }
                     }
                     .padding(15)
@@ -54,8 +54,7 @@ struct ReferralsView: View {
                     .overlay(RoundedRectangle(cornerRadius: 20).stroke().foregroundColor(Color.pongAccent))
                     .background(Color.pongAccent)
                     .cornerRadius(20)
-                    
-                    
+
                     PSButton(
                         isPresenting: $halfSheetPresented,
                         label: {
@@ -95,6 +94,9 @@ struct ReferralsView: View {
         }
         .scrollContentBackgroundCompat()
         .background(Color.pongSystemBackground)
+        .partialSheet(isPresented: $halfSheetPresented, content: {
+            ReferralSheet
+        })
         .listStyle(PlainListStyle())
         .onAppear{
             referralsVM.getNumReferred()
@@ -104,130 +106,126 @@ struct ReferralsView: View {
         .toast(isPresenting: $dataManager.errorDetected) {
             AlertToast(displayMode: .hud, type: .error(Color.red), title: dataManager.errorDetectedMessage, subTitle: dataManager.errorDetectedSubMessage)
         }
-        .attachPartialSheetToRoot()
-        .partialSheet(isPresented: $halfSheetPresented) {
-            VStack {
-                HStack {
-                    Spacer()
-                    Text("Referral history")
-                        .font(.headline)
-                        .fontWeight(.medium)
-                    Spacer()
-                }
-                
-                HStack {
-                    VStack {
-                        HStack {
-                            Spacer()
-                            Text("$10")
-                                .font(.largeTitle)
-                                .fontWeight(.bold)
-                            Spacer()
-                        }
-                        HStack {
-                            Spacer()
-                            Text("Total earned")
-                                .font(.footnote)
-                                .foregroundColor(Color(hex: "777777"))
-                            Spacer()
-                        }
-                    }
-                    VStack {
-                        HStack {
-                            Spacer()
-                            Text("2")
-                                .font(.largeTitle)
-                                .fontWeight(.bold)
-                            Spacer()
-                        }
-                        HStack {
-                            Spacer()
-                            Text("Completed")
-                                .font(.footnote)
-                                .foregroundColor(Color(hex: "777777"))
-                            Spacer()
-                        }
-                    }
-                    VStack {
-                        HStack {
-                            Spacer()
-                            Text("11/12/22")
-                                .font(.largeTitle)
-                                .fontWeight(.bold)
-                            Spacer()
-                        }
-                        HStack {
-                            Spacer()
-                            Text("Date joined")
-                                .font(.footnote)
-                                .foregroundColor(Color(hex: "777777"))
-                            Spacer()
-                        }
-                    }
-                }
-                
-                HStack {
-                    Text("$15 for 5 friends")
-                        .font(.headline)
-                        .fontWeight(.bold)
-                    Spacer()
-                }
-                
-                HStack {
-                    Text("Get 5 friends to join Pong this week and we'll send you $15.")
-                        .font(.callout)
-                    Spacer()
-                }
-                
-                HStack {
-                    Text("Invites can be sent until November 26th")
-                        .font(.caption)
-                        .italic()
-                    Spacer()
-                }
-                
-                Rectangle()
-                    .fill(Color.pongSecondarySystemBackground)
-                    .frame(height: 10)
-                    .listRowBackground(Color.pongSecondarySystemBackground.edgesIgnoringSafeArea([.leading, .trailing]))
-                    .listRowSeparator(.hidden)
-                    .padding(0)
-                    .listRowInsets(EdgeInsets())
-                
-                HStack {
-                    ZStack(alignment: .leading) {
-                        RoundedRectangle(cornerRadius: 20)
-                            .fill(Color.pongSecondarySystemBackground)
-                            .frame(width: progressFrame)
-                            .opacity(0.5)
-                        
-                        RoundedRectangle(cornerRadius: 20)
-                            .fill(Color(hex: "00D400"))
-                            .frame(width: progressFrame * (0.2))
-                    }
-                    .padding(.top, 5)
-                    .frame(height: 15)
-                    
-                    if (6 > 5) {
-                        HStack {
-                            Image("send")
-                                .font(.headline)
-                        }
-                        .padding(15)
-                        .foregroundColor(Color.white)
-                        .overlay(RoundedRectangle(cornerRadius: 20).stroke().foregroundColor(Color.pongAccent))
-                        .background(Color.pongAccent)
-                        .cornerRadius(20)
-                    }
-                }
-                
-            }
-         }
-    }
-}
 
-struct ReferralsView_Previews: PreviewProvider {
-    static var previews: some View {
-        ReferralsView()
+    }
+    
+    // MARK: ReferralSheet
+    var ReferralSheet : some View {
+        VStack {
+            HStack {
+                Spacer()
+                Text("Referral history")
+                    .font(.headline)
+                    .fontWeight(.medium)
+                Spacer()
+            }
+            
+            HStack {
+                VStack {
+                    HStack {
+                        Spacer()
+                        Text("$10")
+                            .font(.largeTitle)
+                            .fontWeight(.bold)
+                        Spacer()
+                    }
+                    HStack {
+                        Spacer()
+                        Text("Total earned")
+                            .font(.footnote)
+                            .foregroundColor(Color(hex: "777777"))
+                        Spacer()
+                    }
+                }
+                VStack {
+                    HStack {
+                        Spacer()
+                        Text("2")
+                            .font(.largeTitle)
+                            .fontWeight(.bold)
+                        Spacer()
+                    }
+                    HStack {
+                        Spacer()
+                        Text("Completed")
+                            .font(.footnote)
+                            .foregroundColor(Color(hex: "777777"))
+                        Spacer()
+                    }
+                }
+                VStack {
+                    HStack {
+                        Spacer()
+                        Text("11/12/22")
+                            .font(.largeTitle)
+                            .fontWeight(.bold)
+                        Spacer()
+                    }
+                    HStack {
+                        Spacer()
+                        Text("Date joined")
+                            .font(.footnote)
+                            .foregroundColor(Color(hex: "777777"))
+                        Spacer()
+                    }
+                }
+            }
+            
+            HStack {
+                Text("$15 for 5 friends")
+                    .font(.headline)
+                    .fontWeight(.bold)
+                Spacer()
+            }
+            
+            HStack {
+                Text("Get 5 friends to join Pong this week and we'll send you $15.")
+                    .font(.callout)
+                Spacer()
+            }
+            
+            HStack {
+                Text("Invites can be sent until November 26th")
+                    .font(.caption)
+                    .italic()
+                Spacer()
+            }
+            
+            Rectangle()
+                .fill(Color.pongSecondarySystemBackground)
+                .frame(height: 10)
+                .listRowBackground(Color.pongSecondarySystemBackground.edgesIgnoringSafeArea([.leading, .trailing]))
+                .listRowSeparator(.hidden)
+                .padding(0)
+                .listRowInsets(EdgeInsets())
+            
+            HStack {
+                ZStack(alignment: .leading) {
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(Color.pongSecondarySystemBackground)
+                        .frame(width: progressFrame)
+                        .opacity(0.5)
+                    
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(Color(hex: "00D400"))
+                        .frame(width: progressFrame * (0.2))
+                }
+                .padding(.top, 5)
+                .frame(height: 15)
+                
+                if (6 > 5) {
+                    HStack {
+                        Image("send")
+                            .font(.headline)
+                    }
+                    .padding(15)
+                    .foregroundColor(Color.white)
+                    .overlay(RoundedRectangle(cornerRadius: 20).stroke().foregroundColor(Color.pongAccent))
+                    .background(Color.pongAccent)
+                    .cornerRadius(20)
+                }
+            }
+            
+        }
     }
 }
