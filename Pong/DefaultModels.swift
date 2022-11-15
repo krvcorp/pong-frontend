@@ -60,6 +60,7 @@ var defaultMessage = Message(id: "default",
 var defaultConversation = Conversation(id: "default",
                                        messages: [defaultMessage],
                                        re: "default",
+                                       reTimeAgo: "default",
                                        unreadCount: 1,
                                        postId: "default",
                                        read: false)

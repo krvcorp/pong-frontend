@@ -235,7 +235,7 @@ struct MessageView: View {
                     }
                     
                     HStack {
-                        Text("4 weeks ago")
+                        Text("\(conversation.reTimeAgo)")
                             .font(.caption)
                         Spacer()
                     }

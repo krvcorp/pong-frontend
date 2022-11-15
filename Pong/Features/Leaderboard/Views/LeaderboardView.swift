@@ -72,7 +72,7 @@ struct LeaderboardView: View {
                             }
                             
                             HStack {
-                                Text("\(dataManager.totalKarma)")
+                                Text("\(dataManager.rank)")
                                     .font(.title3)
                                     .fontWeight(.heavy)
                                     .foregroundColor(Color.pongLabel)
@@ -127,12 +127,18 @@ struct LeaderboardView: View {
             // MARK: Kahoot Component
             HStack {
                 Spacer()
+                
                 Text(Image("upvote_box"))
                     .font(Font.system(size: 36, weight: .regular))
                 
                 Group {
-                    Text("400").fontWeight(.heavy) + Text(" points behind ") + Text("3rd").fontWeight(.heavy) + Text(" place")
+                    if dataManager.rank == "1st" {
+                        Text("You are first!")
+                    } else {
+                        Text("\(dataManager.karmaBehind)").fontWeight(.heavy) + Text(" points behind ") + Text("\(dataManager.rankBehind)").fontWeight(.heavy) + Text(" place")
+                    }
                 }
+                
                 Spacer()
             }
             .font(.title3)

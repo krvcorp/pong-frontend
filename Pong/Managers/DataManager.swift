@@ -36,6 +36,9 @@ class DataManager : ObservableObject {
     // leaderboard
     @Published var nickname : String = ""
     @Published var emoji : String = "🏓"
+    @Published var rank : String = "1st"
+    @Published var rankBehind : String = "1st"
+    @Published var karmaBehind : Int = 0
     @Published var leaderboardList : [LeaderboardUser] = []
     
     // user stats
@@ -140,10 +143,10 @@ class DataManager : ObservableObject {
     
     // MARK: InitLeaderboard
     func initLeaderboard() {
-        NetworkManager.networkManager.request(route: "users/leaderboard/", method: .get, successType: [LeaderboardUser].self) { successResponse, errorResponse in
+        NetworkManager.networkManager.request(route: "users/leaderboard/", method: .get, successType: LeaderboardInfo.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
-                    var leaderboardList = successResponse
+                    var leaderboardList = successResponse.users
                     
                     var count : Int = 1
                     for _ in leaderboardList {
@@ -152,6 +155,9 @@ class DataManager : ObservableObject {
                     }
                     DispatchQueue.main.async {
                         self.leaderboardList = leaderboardList
+                        self.karmaBehind = successResponse.karmaBehind
+                        self.rank = successResponse.rank
+                        self.rankBehind = successResponse.rankBehind
                     }
                 }
             }

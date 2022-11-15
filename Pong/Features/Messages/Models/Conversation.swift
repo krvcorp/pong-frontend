@@ -11,6 +11,7 @@ struct Conversation: Hashable, Codable, Identifiable, Equatable {
     var id: String
     var messages: [Message]
     var re: String
+    var reTimeAgo: String
     var unreadCount: Int
     var postId: String?
     var read: Bool
