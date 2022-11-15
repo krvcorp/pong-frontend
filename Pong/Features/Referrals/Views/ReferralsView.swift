@@ -2,11 +2,14 @@ import SwiftUI
 import Foundation
 import UniformTypeIdentifiers
 import AlertToast
+import PartialSheet
 
 struct ReferralsView: View {
+    let progressFrame : CGFloat = CGFloat(UIScreen.screenWidth - 25)
     @StateObject var referralsVM = ReferralsViewModel()
     @ObservedObject var dataManager = DataManager.shared
     @State private var sheet : Bool = false
+    @State private var halfSheetPresented : Bool = false
     
     @State var referralCode: String = ""
     
@@ -16,119 +19,63 @@ struct ReferralsView: View {
             // MARK: Title
             VStack(spacing: 15) {
                 HStack {
-                    Text("Refer a friend")
-                        .font(.title2)
-                        .fontWeight(.heavy)
+                    Text("Get a $15 reward when you invite 5 friends!")
+                        .font(.system(size: 40))
+                        .fontWeight(.bold)
                     Spacer()
                 }
                 
                 HStack {
-                    Text("And you can make $15")
+                    Text("Get 5 friends to join by November 26th and we’ll send you 15$ as a thank you. Pong is a community, and we couldn’t do it without you.")
                         .font(.headline)
+                        .fontWeight(.medium)
                     Spacer()
                 }
-
-            }
-            .background(Color.pongSystemBackground)
-            .listRowBackground(Color.pongSystemBackground)
-            .listRowSeparator(.hidden)
-            
-            // MARK: Copy Code + Share App Link
-            VStack {
                 
-                // MARK: Referral Code
                 HStack {
                     HStack {
-                        let referralCode = DAKeychain.shared["referralCode"]!
-                        Text("www.pong.college/refer/\(referralCode)")
-                            .font(.subheadline)
-                        
-                        Spacer()
-                        
                         Button {
                             UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                             sheet.toggle()
                         } label: {
-                            Text("share")
-                                .font(.subheadline)
-                                .fontWeight(.heavy)
+                            Text("Invite friends")
+                                .font(.headline)
+                                .fontWeight(.medium)
                         }
                         .buttonStyle(PlainButtonStyle())
                         .sheet(isPresented: $sheet) {
                             let referralCode = DAKeychain.shared["referralCode"]!
-                            let url = URL(string: "https://www.pong.college/refer/\(referralCode)")
+                            let url = URL(string: "This new app just came out for BU use my referral code \(referralCode) https://www.pong.college/refer/")
                             ShareSheet(items: [url!])
                         }
                     }
                     .padding(15)
-                }
-                .background(Color(UIColor.secondarySystemBackground))
-                .cornerRadius(10)
-                
-                
-                // MARK: Enter Referral Code
-                if !referralsVM.referred {
-                    HStack {
-                        HStack {
-                            TextField("Enter Code", text: $referralCode)
-                                .font(.subheadline)
-                            
-                            Spacer()
-                            
-                            if referralCode == "" {
-                                Button(action: {
-                                    referralsVM.setReferrer(referralCode: referralCode, dataManager: dataManager)
-                                }) {
-                                    Text("enter")
-                                        .foregroundColor(Color(UIColor.quaternaryLabel))
-                                        .font(.subheadline)
-                                        .fontWeight(.heavy)
-                                }
-                                .buttonStyle(PlainButtonStyle())
-                                .disabled(true)
-                            } else {
-                                Button(action: {
-                                    referralsVM.setReferrer(referralCode: referralCode, dataManager: dataManager)
-                                }) {
-                                    Text("enter")
-                                        .font(.subheadline)
-                                        .fontWeight(.heavy)
-                                }
-                                .buttonStyle(PlainButtonStyle())
+                    .foregroundColor(Color.white)
+                    .overlay(RoundedRectangle(cornerRadius: 20).stroke().foregroundColor(Color.pongAccent))
+                    .background(Color.pongAccent)
+                    .cornerRadius(20)
+                    
+                    
+                    PSButton(
+                        isPresenting: $halfSheetPresented,
+                        label: {
+                            HStack {
+                                Text("Referral history")
+                                    .font(.headline)
+                                    .fontWeight(.medium)
                             }
-                        }
-                        .padding(15)
-                    }
-                    .background(Color(UIColor.secondarySystemBackground))
-                    .cornerRadius(10)
-                }
-                // MARK: Already been referred
-                else {
-                    HStack {
-                        HStack {
-                            Text(referralCode == "" ? "you've been referred!" : referralCode)
-                                .font(.subheadline)
-                                .fontWeight(.bold)
-                            
-                            Spacer()
-                            
-                            Button(action: {
-                                referralsVM.setReferrer(referralCode: referralCode, dataManager: dataManager)
-                            }) {
-                                Text("enter")
-                                    .foregroundColor(Color(UIColor.quaternaryLabel))
-                                    .font(.subheadline)
-                                    .fontWeight(.heavy)
-                            }
-                            .buttonStyle(PlainButtonStyle())
-                            .disabled(true)
-                        }
-                        .padding(15)
-                    }
-                    .background(Color(UIColor.systemGreen))
-                    .cornerRadius(10)
+                            .padding(15)
+                            .foregroundColor(Color.white)
+                            .overlay(RoundedRectangle(cornerRadius: 20).stroke().foregroundColor(Color.pongAccent))
+                            .background(Color.pongAccent)
+                            .cornerRadius(20)
+                        })
+                    
+                    Spacer()
+                    
                 }
             }
+            .padding(.bottom, 100)
             .background(Color.pongSystemBackground)
             .listRowBackground(Color.pongSystemBackground)
             .listRowSeparator(.hidden)
@@ -139,43 +86,12 @@ struct ReferralsView: View {
                 Image("ReferralPageImage")
                     .resizable()
                     .scaledToFit()
-                    .frame(maxWidth: UIScreen.screenWidth / 2)
                 Spacer()
             }
             .background(Color.pongSystemBackground)
             .listRowBackground(Color.pongSystemBackground)
             .listRowSeparator(.hidden)
-
             
-            // MARK: Instructions
-            HStack(spacing: 10) {
-                Image(systemName: "info.circle")
-                
-                Text("How it works")
-                
-                Spacer()
-            }
-            .font(.headline.bold())
-            .background(Color.pongSystemBackground)
-            .listRowBackground(Color.pongSystemBackground)
-            .listRowSeparator(.hidden)
-            
-            // MARK: VStack of steps
-            VStack(spacing: 15) {
-                instructionComponent(number: "1", title: "Invite your friends", subTitle: "Just share your link")
-                instructionComponent(number: "2", title: "They download the app", subTitle: "Share funny content")
-                instructionComponent(number: "3", title: "You make $$$", subTitle: "5 referrals for $15!")
-            }
-            .background(Color.pongSystemBackground)
-            .listRowBackground(Color.pongSystemBackground)
-            .listRowSeparator(.hidden)
-            
-            // MARK: Rectangle to allow for more scrolling space
-            Rectangle()
-                .fill(Color.pongSystemBackground)
-                .listRowBackground(Color.pongSystemBackground)
-                .frame(minHeight: 300)
-                .listRowSeparator(.hidden)
         }
         .scrollContentBackgroundCompat()
         .background(Color.pongSystemBackground)
@@ -183,43 +99,130 @@ struct ReferralsView: View {
         .onAppear{
             referralsVM.getNumReferred()
         }
-        .navigationBarTitle("Referrals")
+        .navigationBarTitle("")
         .navigationBarTitleDisplayMode(.inline)
         .toast(isPresenting: $dataManager.errorDetected) {
             AlertToast(displayMode: .hud, type: .error(Color.red), title: dataManager.errorDetectedMessage, subTitle: dataManager.errorDetectedSubMessage)
         }
-    }
-    
-    // MARK: InstructionComponent
-    @ViewBuilder
-    func instructionComponent(number: String, title : String, subTitle: String) -> some View {
-        HStack(spacing: 15) {
-            ZStack {
-                Circle()
-                    .fill(Color(UIColor.secondarySystemBackground))
-                
-                Text("\(number)")
-                    .font(.title3)
-                    .fontWeight(.heavy)
-                    .foregroundColor(number != "3" ? Color(UIColor.label) : Color(UIColor.systemGreen))
-            }
-            .frame(width: 50, height: 50)
-            .shadow(color: Color(UIColor.lightGray).opacity(0.5), radius: 5, x: 0, y: 0)
-            
-            VStack(spacing: 5) {
+        .attachPartialSheetToRoot()
+        .partialSheet(isPresented: $halfSheetPresented) {
+            VStack {
                 HStack {
-                    Text("\(title)")
-                        .font(.subheadline.bold())
+                    Spacer()
+                    Text("Referral history")
+                        .font(.headline)
+                        .fontWeight(.medium)
                     Spacer()
                 }
                 
                 HStack {
-                    Text("\(subTitle)")
-                        .font(.subheadline)
+                    VStack {
+                        HStack {
+                            Spacer()
+                            Text("$10")
+                                .font(.largeTitle)
+                                .fontWeight(.bold)
+                            Spacer()
+                        }
+                        HStack {
+                            Spacer()
+                            Text("Total earned")
+                                .font(.footnote)
+                                .foregroundColor(Color(hex: "777777"))
+                            Spacer()
+                        }
+                    }
+                    VStack {
+                        HStack {
+                            Spacer()
+                            Text("2")
+                                .font(.largeTitle)
+                                .fontWeight(.bold)
+                            Spacer()
+                        }
+                        HStack {
+                            Spacer()
+                            Text("Completed")
+                                .font(.footnote)
+                                .foregroundColor(Color(hex: "777777"))
+                            Spacer()
+                        }
+                    }
+                    VStack {
+                        HStack {
+                            Spacer()
+                            Text("11/12/22")
+                                .font(.largeTitle)
+                                .fontWeight(.bold)
+                            Spacer()
+                        }
+                        HStack {
+                            Spacer()
+                            Text("Date joined")
+                                .font(.footnote)
+                                .foregroundColor(Color(hex: "777777"))
+                            Spacer()
+                        }
+                    }
+                }
+                
+                HStack {
+                    Text("$15 for 5 friends")
+                        .font(.headline)
+                        .fontWeight(.bold)
                     Spacer()
                 }
+                
+                HStack {
+                    Text("Get 5 friends to join Pong this week and we'll send you $15.")
+                        .font(.callout)
+                    Spacer()
+                }
+                
+                HStack {
+                    Text("Invites can be sent until November 26th")
+                        .font(.caption)
+                        .italic()
+                    Spacer()
+                }
+                
+                Rectangle()
+                    .fill(Color.pongSecondarySystemBackground)
+                    .frame(height: 10)
+                    .listRowBackground(Color.pongSecondarySystemBackground.edgesIgnoringSafeArea([.leading, .trailing]))
+                    .listRowSeparator(.hidden)
+                    .padding(0)
+                    .listRowInsets(EdgeInsets())
+                
+                HStack {
+                    ZStack(alignment: .leading) {
+                        RoundedRectangle(cornerRadius: 20)
+                            .fill(Color.pongSecondarySystemBackground)
+                            .frame(width: progressFrame)
+                            .opacity(0.5)
+                        
+                        RoundedRectangle(cornerRadius: 20)
+                            .fill(Color(hex: "00D400"))
+                            .frame(width: progressFrame * (0.2))
+                    }
+                    .padding(.top, 5)
+                    .frame(height: 15)
+                    
+                    if (6 > 5) {
+                        HStack {
+                            Image("send")
+                                .font(.headline)
+                        }
+                        .padding(15)
+                        .foregroundColor(Color.white)
+                        .overlay(RoundedRectangle(cornerRadius: 20).stroke().foregroundColor(Color.pongAccent))
+                        .background(Color.pongAccent)
+                        .cornerRadius(20)
+                    }
+                }
+                
             }
-        }
+         }
     }
 }
 

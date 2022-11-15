@@ -130,6 +130,7 @@
 		D32064642908803B0045E0DE /* EmojiPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32064632908803B0045E0DE /* EmojiPicker.swift */; };
 		D32D0B3028EB8F9A00EF548E /* AccountActionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32D0B2F28EB8F9A00EF548E /* AccountActionsView.swift */; };
 		D339621828BC1A41003AC841 /* Onboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D339621728BC1A41003AC841 /* Onboard.swift */; };
+		D37C95D629230F6500913FE0 /* PartialSheet in Frameworks */ = {isa = PBXBuildFile; productRef = D37C95D529230F6500913FE0 /* PartialSheet */; };
 		D389D88728B94B0B00A41329 /* ProfileComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D389D88628B94B0B00A41329 /* ProfileComment.swift */; };
 		D389D88928BAA0AF00A41329 /* EmailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D389D88828BAA0AF00A41329 /* EmailController.swift */; };
 		D389D88C28BB0C7700A41329 /* ReferralResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D389D88B28BB0C7700A41329 /* ReferralResponse.swift */; };
@@ -275,6 +276,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D37C95D629230F6500913FE0 /* PartialSheet in Frameworks */,
 				6A6F2D5F28BEF2740091CFE4 /* Kingfisher in Frameworks */,
 				289CC86628999135009C1DCE /* FirebaseMessaging in Frameworks */,
 				6AE360F928F9249000A5E115 /* SwiftyImage in Frameworks */,
@@ -1202,6 +1204,7 @@
 				6A61D02128E0A2CC003188EE /* Resolver */,
 				D303B88028E5DA3300B36775 /* Siren */,
 				6AE360F828F9249000A5E115 /* SwiftyImage */,
+				D37C95D529230F6500913FE0 /* PartialSheet */,
 			);
 			productName = pong;
 			productReference = 6A5DF0E32851321000F28A06 /* Pong.app */;
@@ -1246,6 +1249,7 @@
 				6A61D02028E0A2CC003188EE /* XCRemoteSwiftPackageReference "Resolver" */,
 				D303B87F28E5DA3300B36775 /* XCRemoteSwiftPackageReference "Siren" */,
 				6AE360F728F9249000A5E115 /* XCRemoteSwiftPackageReference "SwiftyImage" */,
+				D37C95D429230F6500913FE0 /* XCRemoteSwiftPackageReference "PartialSheet" */,
 			);
 			productRefGroup = 6A5DF0E42851321000F28A06 /* Products */;
 			projectDirPath = "";
@@ -1723,6 +1727,14 @@
 				minimumVersion = 6.0.0;
 			};
 		};
+		D37C95D429230F6500913FE0 /* XCRemoteSwiftPackageReference "PartialSheet" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AndreaMiotto/PartialSheet";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
 		D396186A28D2695D000418B1 /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/exyte/ActivityIndicatorView";
@@ -1793,6 +1805,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D303B87F28E5DA3300B36775 /* XCRemoteSwiftPackageReference "Siren" */;
 			productName = Siren;
+		};
+		D37C95D529230F6500913FE0 /* PartialSheet */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D37C95D429230F6500913FE0 /* XCRemoteSwiftPackageReference "PartialSheet" */;
+			productName = PartialSheet;
 		};
 		D396186B28D2695D000418B1 /* ActivityIndicatorView */ = {
 			isa = XCSwiftPackageProductDependency;
