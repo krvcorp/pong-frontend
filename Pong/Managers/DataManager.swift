@@ -35,6 +35,7 @@ class DataManager : ObservableObject {
     
     // leaderboard
     @Published var nickname : String = ""
+    @Published var emoji : String = "🏓"
     @Published var leaderboardList : [LeaderboardUser] = []
     
     // user stats

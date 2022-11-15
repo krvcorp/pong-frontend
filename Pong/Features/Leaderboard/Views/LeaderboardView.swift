@@ -11,16 +11,24 @@ struct LeaderboardView: View {
     
     @State private var newPost = false
     
-    let textLimit = 20
+
     
+    // MARK: Limit Text
+    let textLimit = 20
     func limitText(_ upper: Int) {
         if dataManager.nickname.count > upper {
             dataManager.nickname = String(dataManager.nickname.prefix(upper))
         }
     }
     
-    @State var nickname: String = ""
-    @State private var text: String = ""
+    func limitEmojiText(_ upper: Int) {
+        if emoji.count > upper {
+            emoji = String(emoji.prefix(upper))
+        }
+    }
+    
+    @State private var nickname: String = ""
+    @State private var emoji: String = ""
     
     // MARK: Body
     var body: some View {
@@ -34,10 +42,6 @@ struct LeaderboardView: View {
         }
         .navigationBarTitle("Leaderboard")
         .navigationBarTitleDisplayMode(.inline)
-        .onTapGesture {
-            print("DEBUG: onTap detected")
-            hideKeyboard()
-        }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
         
@@ -199,8 +203,20 @@ struct LeaderboardView: View {
                     HStack {
                         Image(systemName: "eye")
                         
-                        Text("🏓")
+                        EmojiTextField(text: $emoji, placeholder: "\(dataManager.emoji)")
+//                            .submitLabel(.done)
+//                            .onSubmit {
+//                                print("DEBUG: leaderboardView.onsubmit emoji")
+//                                if emoji != dataManager.emoji && emoji != "" {
+//                                    leaderboardVM.updateNickname(dataManager: dataManager, emoji: emoji) { success in
+//                                        emoji = ""
+//                                    }
+//                                }
+//                            }
+                            .accentColor(Color.pongSystemWhite)
+                            .onReceive(Just(emoji)) { _ in limitEmojiText(1) }
                             .padding(.horizontal)
+                            .frame(maxWidth: 75)
                     }
                     .padding(.horizontal, 8)
                     .padding(.vertical, 8)

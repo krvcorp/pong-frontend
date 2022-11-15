@@ -61,4 +61,21 @@ class LeaderboardViewModel: ObservableObject {
             }
         }
     }
+    
+    // MARK: SetEmoji
+    func updateNickname(dataManager: DataManager, emoji: String, completion: @escaping (Bool) -> Void) {
+        let parameters = Nickname.self(nickname: emoji)
+        NetworkManager.networkManager.emptyRequest(route: "users/\(AuthManager.authManager.userId)/nickname_emoji/", method: .post, body: parameters) { successResponse, errorResponse in
+            if successResponse != nil {
+                self.getLoggedInUserInfo(dataManager: dataManager)
+                self.getLeaderboard(dataManager: dataManager)
+                dataManager.toastDetected(message: "Emoji saved!")
+                completion(true)
+            }
+            
+            if errorResponse != nil {
+                print("DEBUG: leaderboardVM.updateNickname error")
+            }
+        }
+    }
 }
