@@ -158,9 +158,9 @@ struct FeedView: View {
                                     .font(.subheadline.bold())
                                     .padding(.vertical, 5)
                                     .padding(.horizontal, 30)
-                                    .foregroundColor(feedVM.selectedTopFilter == filter ? Color.pongSystemBackground : Color(UIColor.label))
-                                    .overlay(RoundedRectangle(cornerRadius: 15).stroke().foregroundColor(Color(UIColor.label)))
-                                    .background(feedVM.selectedTopFilter == filter ? Color(UIColor.label) : Color.pongSystemBackground)
+                                    .foregroundColor(feedVM.selectedTopFilter == filter ? Color.pongLabel : Color.pongLightGray)
+                                    .overlay(RoundedRectangle(cornerRadius: 15).stroke(lineWidth: 3).foregroundColor(feedVM.selectedTopFilter == filter ? Color.pongLabel : Color.pongLightGray))
+                                    .background(Color.pongSystemBackground)
                                     .cornerRadius(15)
                             }
                         }
