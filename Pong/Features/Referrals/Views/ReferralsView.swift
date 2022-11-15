@@ -103,10 +103,6 @@ struct ReferralsView: View {
         }
         .navigationBarTitle("")
         .navigationBarTitleDisplayMode(.inline)
-        .toast(isPresenting: $dataManager.errorDetected) {
-            AlertToast(displayMode: .hud, type: .error(Color.red), title: dataManager.errorDetectedMessage, subTitle: dataManager.errorDetectedSubMessage)
-        }
-
     }
     
     // MARK: ReferralSheet

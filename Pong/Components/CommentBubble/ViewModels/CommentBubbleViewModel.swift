@@ -17,6 +17,7 @@ class CommentBubbleViewModel: ObservableObject {
         }
         
         DispatchQueue.main.async {
+            self.comment = self.comment
             self.comment.voteStatus = voteToSend
             self.commentUpdateTrigger.toggle()
         }
@@ -25,7 +26,7 @@ class CommentBubbleViewModel: ObservableObject {
         
         NetworkManager.networkManager.request(route: "comments/\(comment.id)/vote/", method: .post, body: parameters, successType: CommentVoteModel.Response.self) { successResponse, errorResponse in
             // top comment works regarding no internet kinda but replies don't get corrected
-//            DispatchQueue.main.async {
+            DispatchQueue.main.async {
                 if successResponse != nil {
                     
                 }
@@ -34,9 +35,8 @@ class CommentBubbleViewModel: ObservableObject {
                 if errorResponse != nil {
                     self.comment.voteStatus = temp
                     self.commentUpdateTrigger.toggle()
-                    dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't vote on comment")
                 }
-//            }
+            }
         }
     }
     

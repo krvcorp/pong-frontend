@@ -127,5 +127,11 @@ struct ContentView: View {
         .environmentObject(appState)
         .accentColor(Color.pongAccent)
         .attachPartialSheetToRoot()
+        .toast(isPresenting: $toastManager.errorToast) {
+            AlertToast(displayMode: .hud, type: .error(Color.red), title: toastManager.errorMessage, subTitle: toastManager.errorSubMessage)
+        }
+        .toast(isPresenting: $toastManager.toast) {
+            AlertToast(displayMode: .hud, type: .regular, title: "\(toastManager.toastMessage)")
+        }
     }
 }

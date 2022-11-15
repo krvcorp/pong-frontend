@@ -42,9 +42,6 @@ struct MainTabView: View {
 
                 Spacer()
             }
-            .toast(isPresenting: $dataManager.errorDetected){
-                AlertToast(displayMode: .hud, type: .error(Color.red), title: dataManager.errorDetectedMessage, subTitle: dataManager.errorDetectedSubMessage)
-            }
         }
         // MARK: If app is loaded
         else {
@@ -156,12 +153,6 @@ struct MainTabView: View {
             .sheet(isPresented: $mainTabVM.isCustomItemSelected) {
                 NewPostView(mainTabVM: mainTabVM)
                     .environmentObject(dataManager)
-            }
-            .toast(isPresenting: $dataManager.errorDetected){
-                AlertToast(displayMode: .hud, type: .error(Color.red), title: dataManager.errorDetectedMessage, subTitle: dataManager.errorDetectedSubMessage)
-            }
-            .toast(isPresenting: $dataManager.toastDetected) {
-                AlertToast(displayMode: .hud, type: .regular, title: "\(dataManager.toastMessage)")
             }
             // MARK: Polling Logic
             .onReceive(dataManager.timer) { _ in

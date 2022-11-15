@@ -63,8 +63,9 @@ class NetworkManager: ObservableObject {
                             AuthManager.authManager.signout()
                         }
                         // RANDOM ERRORS
-                        else if httpStatusCode == 405 || httpStatusCode == 400 || httpStatusCode == 500 {
+                        else if httpStatusCode > 401 && httpStatusCode < 600 {
                             print("NETWORK: \(httpStatusCode) error")
+                            ToastManager.shared.errorToastDetected(message: "Something went wrong!", subMessage: "Unable to connect to network")
                             completionHandler(nil, ErrorResponse(error: "Something went wrong!"))
                         }
                     }
@@ -82,7 +83,7 @@ class NetworkManager: ObservableObject {
                         return
                     }
                     print("NETWORK: \(route)")
-                    print("NETWORK: .responseDecodable Error")
+                    ToastManager.shared.errorPopupDetected(message: (error.error))
                     completionHandler(nil, error)
                 }
                 .responseData() { (response) in
@@ -91,6 +92,7 @@ class NetworkManager: ObservableObject {
                         break
                     case let .failure(error):
                         print("NETWORK: \(error.localizedDescription)")
+                        ToastManager.shared.errorToastDetected(message: "Something went wrong!", subMessage: "Unable to connect to network")
                         completionHandler(nil, ErrorResponse(error: "Something went wrong!"))
                         break
                     }
@@ -107,9 +109,9 @@ class NetworkManager: ObservableObject {
                             AuthManager.authManager.signout()
                         }
                         // RANDOM ERRORS
-                        else if httpStatusCode == 405 || httpStatusCode == 400 || httpStatusCode == 500 {
+                        else if httpStatusCode > 401 && httpStatusCode < 600 {
                             print("NETWORK: \(httpStatusCode) error")
-                            completionHandler(nil, ErrorResponse(error: "Something went wrong!"))
+                            ToastManager.shared.errorToastDetected(message: "Something went wrong!", subMessage: "Unable to connect to network")
                         }
                     }
                 }
@@ -119,6 +121,7 @@ class NetworkManager: ObservableObject {
                 }
                 .responseDecodable(of: ErrorResponse.self, decoder: decoder) { (response) in
                     guard let error = response.value else { return }
+                    ToastManager.shared.errorPopupDetected(message: (error.error))
                     completionHandler(nil, error)
                 }
                 .responseData() { (response) in
@@ -127,6 +130,7 @@ class NetworkManager: ObservableObject {
                         break
                     case let .failure(error):
                         print("NETWORK: \(error.localizedDescription)")
+                        ToastManager.shared.errorToastDetected(message: "Something went wrong!", subMessage: "Unable to connect to network")
                         completionHandler(nil, ErrorResponse(error: "Something went wrong!"))
                         break
                     }
@@ -162,9 +166,9 @@ class NetworkManager: ObservableObject {
                             AuthManager.authManager.signout()
                         }
                         // RANDOM ERRORS
-                        else if httpStatusCode == 405 || httpStatusCode == 400 || httpStatusCode == 500 {
+                        else if httpStatusCode > 401 && httpStatusCode < 600 {
                             print("NETWORK: \(httpStatusCode) error")
-                            completionHandler(nil, ErrorResponse(error: "Something went wrong!"))
+                            ToastManager.shared.errorToastDetected(message: "Something went wrong!", subMessage: "Unable to connect to network")
                         }
                         // DESIRED OUTCOME
                         else if httpStatusCode == 204 || httpStatusCode == 200 || httpStatusCode == 201 {
@@ -174,6 +178,7 @@ class NetworkManager: ObservableObject {
                 }
                 .responseDecodable(of: ErrorResponse.self, decoder: decoder) { (response) in
                     guard let error = response.value else { return }
+                    ToastManager.shared.errorPopupDetected(message: (error.error))
                     completionHandler(nil, error)
                 }
                 .responseData() { (response) in
@@ -182,6 +187,7 @@ class NetworkManager: ObservableObject {
                         break
                     case let .failure(error):
                         print("NETWORK: \(error.localizedDescription)")
+                        ToastManager.shared.errorToastDetected(message: "Something went wrong!", subMessage: "Unable to connect to network")
                         completionHandler(nil, ErrorResponse(error: "Something went wrong!"))
                         break
                     }
@@ -198,9 +204,9 @@ class NetworkManager: ObservableObject {
                             AuthManager.authManager.signout()
                         }
                         // RANDOM ERRORS
-                        else if httpStatusCode == 405 || httpStatusCode == 400 || httpStatusCode == 500 {
+                        else if httpStatusCode > 401 && httpStatusCode < 600 {
                             print("NETWORK: \(httpStatusCode) error")
-                            completionHandler(nil, ErrorResponse(error: "Something went wrong!"))
+                            ToastManager.shared.errorToastDetected(message: "Something went wrong!", subMessage: "Unable to connect to network")
                         }
                         // DESIRED OUTCOME
                         else if httpStatusCode == 204 || httpStatusCode == 200 || httpStatusCode == 201 {
@@ -210,6 +216,7 @@ class NetworkManager: ObservableObject {
                 }
                 .responseDecodable(of: ErrorResponse.self, decoder: decoder) { (response) in
                     guard let error = response.value else { return }
+                    ToastManager.shared.errorPopupDetected(message: (error.error))
                     completionHandler(nil, error)
                 }
                 .responseData() { (response) in
@@ -218,6 +225,7 @@ class NetworkManager: ObservableObject {
                         break
                     case let .failure(error):
                         print("NETWORK: \(error.localizedDescription)")
+                        ToastManager.shared.errorToastDetected(message: "Something went wrong!", subMessage: "Unable to connect to network")
                         completionHandler(nil, ErrorResponse(error: "Something went wrong!"))
                         break
                     }

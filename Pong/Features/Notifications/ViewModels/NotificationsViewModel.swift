@@ -63,7 +63,7 @@ class NotificationsViewModel: ObservableObject {
             }
             
             if errorResponse != nil {
-                DataManager.shared.errorDetected(message: "Something went wrong!", subMessage: "This post was probably deleted.")
+                ToastManager.shared.errorToastDetected(message: "Something went wrong!", subMessage: "This post was probably deleted.")
             }
             self.markNotificationAsRead(id: id)
         }

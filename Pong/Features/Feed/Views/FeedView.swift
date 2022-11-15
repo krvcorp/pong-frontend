@@ -74,19 +74,12 @@ struct FeedView: View {
         .environmentObject(feedVM)
         .onChange(of: mainTabVM.newPostDetected, perform: { change in
             DispatchQueue.main.async {
-                print("DEBUG: NEW POST DETECTED")
                 self.presentationMode.wrappedValue.dismiss()
                 feedVM.selectedFeedFilter = .recent
                 feedVM.paginatePostsReset(selectedFeedFilter: .recent, dataManager: dataManager)
             }
         })
         .accentColor(Color.pongLabel)
-        .toast(isPresenting: $dataManager.removedPost){
-            AlertToast(displayMode: .hud, type: .regular, title: dataManager.removedPostMessage)
-        }
-        .toast(isPresenting: $dataManager.errorDetected) {
-            AlertToast(displayMode: .hud, type: .error(Color.red), title: dataManager.errorDetectedMessage, subTitle: dataManager.errorDetectedSubMessage)
-        }
     }
     
     

@@ -39,11 +39,8 @@ class PostBubbleViewModel: ObservableObject {
             }
             
             if errorResponse != nil {
-                print("DEBUG: IN HERE")
                 DispatchQueue.main.async {
                     self.post.voteStatus = temp
-                    self.updateTrigger.toggle()
-                    dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't vote on post")
                     self.updateTrigger.toggle()
                 }
             }
@@ -67,7 +64,6 @@ class PostBubbleViewModel: ObservableObject {
             } else if errorResponse != nil {
                 self.post = post
                 self.post.saved = false
-                dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't save post")
                 self.updateTrigger.toggle()
             }
         }
@@ -88,7 +84,6 @@ class PostBubbleViewModel: ObservableObject {
             } else if errorResponse != nil {
                 self.post = post
                 self.post.saved = true
-                dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't unsave post")
                 self.updateTrigger.toggle()
             }
         }

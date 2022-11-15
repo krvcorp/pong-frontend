@@ -157,10 +157,6 @@ class FeedViewModel: ObservableObject {
                     self.InitalOpen = false
                 }
             }
-            
-            if errorResponse != nil {
-                dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't load posts")
-            }
         }
     }
     
@@ -206,10 +202,6 @@ class FeedViewModel: ObservableObject {
                         }
                     }
                 }
-            }
-            
-            if errorResponse != nil {
-                dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't load posts")
             }
         }
     }

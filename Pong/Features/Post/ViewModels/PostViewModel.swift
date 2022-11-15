@@ -50,6 +50,7 @@ class PostViewModel: ObservableObject {
         let parameters = PostVoteModel.Request(vote: voteToSend)
         
         DispatchQueue.main.async {
+            self.post = post
             self.post.voteStatus = voteToSend
             self.postUpdateTrigger.toggle()
         }
@@ -63,7 +64,6 @@ class PostViewModel: ObservableObject {
                 if errorResponse != nil {
                     self.post.voteStatus = temp
                     self.postUpdateTrigger.toggle()
-                    dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't vote on post")
                 }
             }
         }
@@ -129,7 +129,7 @@ class PostViewModel: ObservableObject {
                 .responseDecodable(of: ErrorResponseBody.self, decoder: decoder) { (errorResponse) in
                     if errorResponse.value != nil {
                         DispatchQueue.main.async {
-                            dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't create comment reply")
+                            
                         }
                     }
                 }
@@ -152,7 +152,7 @@ class PostViewModel: ObservableObject {
                 }
                 
                 if errorResponse != nil {
-                    dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't create a  comment")
+                    
                 }
             }
         }
@@ -195,11 +195,9 @@ class PostViewModel: ObservableObject {
                             AuthManager.authManager.signout()
                         }
                         // RANDOM ERRORS
-                        else if httpStatusCode == 405 || httpStatusCode == 400 || httpStatusCode == 500 {
+                        else if httpStatusCode > 401 && httpStatusCode < 600 {
                             print("NETWORK: \(httpStatusCode) error")
-                            DispatchQueue.main.async {
-                                dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't create comment reply")
-                            }
+                            ToastManager.shared.errorToastDetected(message: "Something went wrong", subMessage: "\(httpStatusCode)")
                         }
                     }
                 }
@@ -226,7 +224,7 @@ class PostViewModel: ObservableObject {
                 .responseDecodable(of: ErrorResponseBody.self, decoder: decoder) { (errorResponse) in
                     if errorResponse.value != nil {
                         DispatchQueue.main.async {
-                            dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't create comment reply")
+                            ToastManager.shared.errorToastDetected(message: "Something went wrong", subMessage: "Unable to make a comment")
                         }
                     }
                 }
@@ -252,7 +250,7 @@ class PostViewModel: ObservableObject {
                 }
                 
                 if errorResponse != nil {
-                    dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't create a  comment")
+                    
                 }
             }
         }
@@ -284,7 +282,6 @@ class PostViewModel: ObservableObject {
             
             if errorResponse != nil {
                 DispatchQueue.main.async {
-                    dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't read post")
                     completion(false)
                     return
                 }
@@ -311,7 +308,6 @@ class PostViewModel: ObservableObject {
                     self.post = post
                     self.post.saved = false
                     self.postUpdateTrigger.toggle()
-                    dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't save post")
                 }
             }
         }
@@ -337,71 +333,22 @@ class PostViewModel: ObservableObject {
                     self.post = post
                     self.post.saved = true
                     self.postUpdateTrigger.toggle()
-                    dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't unsave post")
                 }
             }
         }
     }
     
-    // MARK: Save Comment
-//    func saveComment(comment: Comment, dataManager: DataManager) {
-//        DispatchQueue.main.async {
-//            self.post = post
-//            self.post.saved = true
-//            self.savedPostConfirmation = true
-//            withAnimation {
-//                self.postUpdateTrigger.toggle()
-//            }
-//        }
-//        
-//        NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/save/", method: .post) { successResponse, errorResponse in
-//            if successResponse != nil {
-//                
-//            } else if errorResponse != nil {
-//                DispatchQueue.main.async {
-//                    self.post = post
-//                    self.post.saved = false
-//                    self.postUpdateTrigger.toggle()
-//                    dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't save post")
-//                }
-//            }
-//        }
-//    }
-    
-    // MARK: Unsave Comment
-//    func unsavePost(post: Post, dataManager: DataManager) {
-//        DispatchQueue.main.async {
-//            self.post = post
-//            self.post.saved = false
-//            withAnimation {
-//                self.postUpdateTrigger.toggle()
-//            }
-//        }
-//        
-//        NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/save/", method: .delete) { successResponse, errorResponse in
-//            if successResponse != nil {
-//                
-//            }
-//            
-//            if errorResponse != nil {
-//                DispatchQueue.main.async {
-//                    self.post = post
-//                    self.post.saved = true
-//                    self.postUpdateTrigger.toggle()
-//                    dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't unsave post")
-//                }
-//            }
-//        }
-//    }
-    
     // MARK: DeletePost
     func deletePost(post: Post, dataManager: DataManager) {
         NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/", method: .delete) { successResponse, errorResponse in
+            
             if successResponse != nil {
                 dataManager.removePostLocally(post: post, message: "Deleted post!")
                 self.postUpdateTrigger.toggle()
-            } else if errorResponse != nil {
-                dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't delete post")
+            }
+            
+            if errorResponse != nil {
+                
             }
         }
     }
@@ -412,8 +359,10 @@ class PostViewModel: ObservableObject {
             if successResponse != nil {
                 dataManager.removePostLocally(post: post, message: "Blocked user!")
                 self.postUpdateTrigger.toggle()
-            } else if errorResponse != nil {
-                dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't block post")
+            }
+            
+            if errorResponse != nil {
+                
             }
         }
     }
@@ -424,8 +373,10 @@ class PostViewModel: ObservableObject {
             if successResponse != nil {
                 dataManager.removePostLocally(post: post, message: "Reported post!")
                 self.postUpdateTrigger.toggle()
-            } else if errorResponse != nil {
-                dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't report post")
+            }
+            
+            if errorResponse != nil {
+                
             }
         }
     }
@@ -467,11 +418,12 @@ class PostViewModel: ObservableObject {
                     dataManager.removeCommentLocally(commentId: self.commentToDelete.id, message: "Deleted comment")
                     
                     // ALERTS
-                    dataManager.removedCommentMessage = "Comment deleted!"
-                    dataManager.removedComment = true
+                    ToastManager.shared.toastDetected(message: "Comment deleted!")
                 }
-            } else if errorResponse != nil {
-                dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't delete post")
+            }
+            
+            if errorResponse != nil {
+                
             }
         }
     }
@@ -486,11 +438,12 @@ class PostViewModel: ObservableObject {
                     dataManager.removeCommentLocally(commentId: self.commentToDelete.id, message: "Reported comment")
                     
                     // ALERTS
-                    dataManager.removedCommentMessage = "Comment reported!"
-                    dataManager.removedComment = true
+                    ToastManager.shared.toastDetected(message: "Comment reported!")
                 }
-            } else if errorResponse != nil {
-                dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't delete post")
+            }
+            
+            if errorResponse != nil {
+                
             }
         }
     }
@@ -505,11 +458,12 @@ class PostViewModel: ObservableObject {
                     dataManager.removeCommentLocally(commentId: self.commentToDelete.id, message: "Blocked comment")
                     
                     // ALERTS
-                    dataManager.removedCommentMessage = "Comment blocked!"
-                    dataManager.removedComment = true
+                    ToastManager.shared.toastDetected(message: "Comment blocked!")
                 }
-            } else if errorResponse != nil {
-                dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't delete post")
+            }
+            
+            if errorResponse != nil {
+                    
             }
         }
     }

@@ -37,7 +37,7 @@ class ReferralsViewModel: ObservableObject {
             
             if let errorResponse = errorResponse {
                 DispatchQueue.main.async {
-                    dataManager.errorDetected(message: "Something went wrong!", subMessage: errorResponse.error)
+                    ToastManager.shared.errorToastDetected(message: "Something went wrong!", subMessage: errorResponse.error)
                 }
             }
         }

@@ -23,7 +23,7 @@ class LeaderboardViewModel: ObservableObject {
             if successResponse != nil {
                 self.getLoggedInUserInfo(dataManager: dataManager)
                 self.getLeaderboard(dataManager: dataManager)
-                dataManager.toastDetected(message: "Nickname saved!")
+                ToastManager.shared.toastDetected(message: "Nickname saved!")
                 completion(true)
             }
             
@@ -54,7 +54,7 @@ class LeaderboardViewModel: ObservableObject {
             if successResponse != nil {
                 self.getLoggedInUserInfo(dataManager: dataManager)
                 self.getLeaderboard(dataManager: dataManager)
-                dataManager.toastDetected(message: "Emoji saved!")
+                ToastManager.shared.toastDetected(message: "Emoji saved!")
                 completion(true)
             }
             

@@ -41,12 +41,6 @@ struct ProfileView: View {
         .background(Color.pongSystemBackground)
         .accentColor(Color(UIColor.label))
         .navigationViewStyle(StackNavigationViewStyle())
-        .toast(isPresenting: $dataManager.removedPost) {
-            AlertToast(displayMode: .hud, type: .regular, title: dataManager.removedPostMessage)
-        }
-        .toast(isPresenting: $dataManager.removedComment) {
-            AlertToast(displayMode: .hud, type: .regular, title: dataManager.removedCommentMessage)
-        }
     }
     
     var karmaComponent : some View {

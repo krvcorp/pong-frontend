@@ -46,7 +46,6 @@ class ProfileCommentBubbleViewModel: ObservableObject {
             if errorResponse != nil {
                 self.comment.voteStatus = temp
                 self.commentUpdateTrigger.toggle()
-                dataManager.errorDetected(message: "Something went wrong!", subMessage: "Couldn't vote on comment")
             }
         }
     }

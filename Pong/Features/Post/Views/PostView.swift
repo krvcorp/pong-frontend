@@ -258,9 +258,6 @@ struct PostView: View {
                 )
             }
         }
-        .toast(isPresenting: $dataManager.removedComment) {
-            AlertToast(displayMode: .banner(.slide), type: .regular, title: dataManager.removedCommentMessage)
-        }
     }
     
     // MARK: MainPost

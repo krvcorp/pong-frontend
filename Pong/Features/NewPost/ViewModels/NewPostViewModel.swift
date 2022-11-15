@@ -90,7 +90,6 @@ class NewPostViewModel: ObservableObject {
                 }
             }, to: "\(NetworkManager.networkManager.baseURL)posts/", method: .post, headers: httpHeaders)
                 .responseDecodable(of: Post.self) { successResponse in
-                    print("DEBUG: newPostVM.newPost success \(successResponse)")
                     DispatchQueue.main.async {
                         mainTabVM.newPost()
                         dataManager.initProfile()
@@ -112,8 +111,6 @@ class NewPostViewModel: ObservableObject {
             if newPollVM.validate() {
                 NetworkManager.networkManager.request(route: "posts/", method: .post, body: parameters, successType: Post.self) { successResponse, errorResponse in
                     if successResponse != nil {
-                        print("DEBUG: newPostVM.newPost success \(successResponse)")
-                        
                         DispatchQueue.main.async {
                             mainTabVM.newPost()
                             dataManager.initProfile()

@@ -2,14 +2,15 @@ import SwiftUI
 import AlertToast
 
 struct NotificationsView: View {
+    @Environment(\.colorScheme) var colorScheme: ColorScheme
+    
     @StateObject private var notificationsVM = NotificationsViewModel()
     @ObservedObject private var dataManager = DataManager.shared
     @ObservedObject private var notificationsManager = NotificationsManager.shared
     @EnvironmentObject var mainTabVM : MainTabViewModel
-    @State private var showAlert = false
-    @Environment(\.colorScheme) var colorScheme: ColorScheme
-    @State var post = defaultPost
     
+    @State private var showAlert = false
+    @State var post = defaultPost
     @State var postIsLinkActive = false
     @State var leaderboardIsLinkActive = false
     
@@ -184,9 +185,6 @@ struct NotificationsView: View {
                         .bold()
                 }
             }
-        }
-        .toast(isPresenting: $dataManager.errorDetected) {
-            AlertToast(displayMode: .hud, type: .error(Color.red), title: dataManager.errorDetectedMessage, subTitle: dataManager.errorDetectedSubMessage)
         }
     }
     

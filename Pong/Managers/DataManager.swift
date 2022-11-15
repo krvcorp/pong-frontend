@@ -42,26 +42,13 @@ class DataManager : ObservableObject {
     @Published var leaderboardList : [LeaderboardUser] = []
     
     // user stats
-    @Published var totalKarma: Int = 0
-    @Published var commentKarma: Int = 0
-    @Published var postKarma: Int = 0
+    @Published var totalKarma : Int = 0
+    @Published var commentKarma : Int = 0
+    @Published var postKarma : Int = 0
+    @Published var numberReferred : Int = 0
     
-    // toasts and alerts controllers
-    @Published var removedPost = false
-    @Published var removedPostMessage = "Removed post!"
-    
-    @Published var removedComment = false
-    @Published var removedCommentMessage = "Removed comment!"
-    
-    @Published var removedConversation = false
-    @Published var removedConversationMessage = "Removed conversation!"
-    
+    // error on startup
     @Published var errorDetected = false
-    @Published var errorDetectedMessage = "Something went wrong!"
-    @Published var errorDetectedSubMessage = "Unable to connect to network"
-    
-    @Published var toastDetected = false
-    @Published var toastMessage = "Success!"
     
     // messaging
     @Published var conversations : [Conversation] = []
@@ -136,7 +123,7 @@ class DataManager : ObservableObject {
             }
             
             if errorResponse != nil {
-                self.errorDetected(message: "Something went wrong!", subMessage: "Couldn't load app")
+                self.errorDetected = true
             }
         }
     }
@@ -233,6 +220,7 @@ class DataManager : ObservableObject {
                     self.commentKarma = successResponse.commentScore
                     self.postKarma = successResponse.postScore
                     self.nickname = successResponse.nickname
+                    self.numberReferred = successResponse.numberReferred
                 }
             }
         }
@@ -257,8 +245,8 @@ class DataManager : ObservableObject {
                 if let index = self.profileSavedPosts.firstIndex(where: {$0.id == post.id}) {
                     self.profileSavedPosts.remove(at: index)
                 }
-                self.removedPostMessage = message
-                self.removedPost = true
+                print("DEBUG: \(message)")
+                ToastManager.shared.toastDetected(message: message)
             }
         }
     }
@@ -269,8 +257,7 @@ class DataManager : ObservableObject {
             withAnimation {
                 if let index = self.profileComments.firstIndex(where: {$0.id == commentId}) {
                     self.profileComments.remove(at: index)
-                    self.removedCommentMessage = message
-                    self.removedComment = true
+                    ToastManager.shared.toastDetected(message: message)
                 }
             }
         }
@@ -305,22 +292,7 @@ class DataManager : ObservableObject {
         }
     }
     
-    // MARK: Abstract Error Toast
-    func errorDetected(message: String, subMessage: String) {
-        DispatchQueue.main.async {
-            self.errorDetectedMessage = message
-            self.errorDetectedSubMessage = subMessage
-            self.errorDetected = true
-        }
-    }
-    
-    // MARK: Abstract Normal Toast
-    func toastDetected(message: String) {
-        DispatchQueue.main.async {
-            self.toastDetected = true
-            self.toastMessage = message
-        }
-    }
+
     
     // MARK: GetConversations
     func getConversations() {
@@ -341,7 +313,7 @@ class DataManager : ObservableObject {
             withAnimation {
                 if let index = self.conversations.firstIndex(where: {$0.id == conversationId}) {
                     self.conversations.remove(at: index)
-                    self.removedConversation = true
+                    ToastManager.shared.toastDetected(message: "Conversation removed!")
                 }
             }
         }
@@ -361,14 +333,6 @@ class DataManager : ObservableObject {
         self.totalKarma = 0
         self.commentKarma = 0
         self.postKarma = 0
-        self.removedPost = false
-        self.removedPostMessage = ""
-        self.removedComment = false
-        self.removedCommentMessage = ""
-        self.errorDetected = false
-        self.errorDetectedMessage = ""
-        self.errorDetectedSubMessage = ""
-        self.removedConversation = false
         self.isAppLoading = true
     }
 }
