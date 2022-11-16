@@ -108,7 +108,7 @@ struct AccountActionsView: View {
                         Text("Cancel")
                     ),
                     secondaryButton: .destructive(Text("Logout")){
-                        AuthManager.authManager.signout()
+                        AuthManager.authManager.signout(force: false)
                     }
                 )
 

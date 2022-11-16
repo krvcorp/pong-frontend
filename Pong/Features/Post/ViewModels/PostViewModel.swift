@@ -192,7 +192,7 @@ class PostViewModel: ObservableObject {
                         // AUTHENTICATION ERROR
                         if httpStatusCode == 401 {
                             print("NETWORK: 401 Error")
-                            AuthManager.authManager.signout()
+                            AuthManager.authManager.signout(force: true)
                         }
                         // RANDOM ERRORS
                         else if httpStatusCode > 401 && httpStatusCode < 600 {

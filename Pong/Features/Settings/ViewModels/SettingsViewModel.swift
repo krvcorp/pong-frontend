@@ -22,7 +22,7 @@ class SettingsViewModel: ObservableObject {
     func deleteAccount() {
         NetworkManager.networkManager.emptyRequest(route: "users/\(AuthManager.authManager.userId)/", method: .delete) { successResponse, errorResponse in
             DispatchQueue.main.async {
-                AuthManager.authManager.signout()
+                AuthManager.authManager.signout(force: true)
             }
         }
     }

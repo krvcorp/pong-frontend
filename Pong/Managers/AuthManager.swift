@@ -38,8 +38,8 @@ class AuthManager: ObservableObject {
     
     // MARK: Signout
     /// Signs out the user. It will reset UserDefaults and remove all entries stored in the keychain.
-    func signout() {
-        NotificationsManager().removeFCMToken() {success in
+    func signout(force : Bool) {
+        if force {
             DispatchQueue.main.async {
                 withAnimation {
                     self.resetDefaults()
@@ -56,6 +56,27 @@ class AuthManager: ObservableObject {
 
                     // reset datamanager
                     DataManager.shared.reset()
+                }
+            }
+        } else {
+            NotificationsManager().removeFCMToken() {success in
+                DispatchQueue.main.async {
+                    withAnimation {
+                        self.resetDefaults()
+                        AuthManager.authManager.isSignedIn = false
+                        AuthManager.authManager.onboarded = false
+                        DAKeychain.shared["userId"] = nil
+                        DAKeychain.shared["token"] = nil
+                        DAKeychain.shared["isAdmin"] = nil
+                        DAKeychain.shared["dateJoined"] = nil
+                        DAKeychain.shared["referralCode"] = nil
+                        DAKeychain.shared["onboarded"] = nil
+                        DAKeychain.shared["referred"] = nil
+                        self.signedOutAlert = true
+
+                        // reset datamanager
+                        DataManager.shared.reset()
+                    }
                 }
             }
         }

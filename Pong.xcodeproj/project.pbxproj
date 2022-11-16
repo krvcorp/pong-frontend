@@ -391,10 +391,10 @@
 			isa = PBXGroup;
 			children = (
 				289CC86D289C6826009C1DCE /* SettingsView.swift */,
+				6A2C7BB52920F0F800431B73 /* SavedView.swift */,
 				6AB2F8DD29103683002C7AF4 /* AboutUsView.swift */,
 				D389D88828BAA0AF00A41329 /* EmailController.swift */,
 				D32D0B2F28EB8F9A00EF548E /* AccountActionsView.swift */,
-				6A2C7BB52920F0F800431B73 /* SavedView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1538,7 +1538,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Pong.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"Pong/Preview Content\"";
 				DEVELOPMENT_TEAM = 89KY4Q7K5P;
 				ENABLE_PREVIEWS = YES;
@@ -1581,7 +1581,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Pong.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"Pong/Preview Content\"";
 				DEVELOPMENT_TEAM = 89KY4Q7K5P;
 				ENABLE_PREVIEWS = YES;

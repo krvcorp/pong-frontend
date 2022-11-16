@@ -3,11 +3,11 @@ import Firebase
 import UniformTypeIdentifiers
 
 struct SettingsView: View {
-    @StateObject private var settingsVM = SettingsViewModel()
-    @State private var shareSheet = false
-    @ObservedObject private var notificationsManager = NotificationsManager.shared
-    @Environment(\.colorScheme) var colorScheme: ColorScheme
+    @Environment(\.colorScheme) private var colorScheme: ColorScheme
     @Environment(\.scenePhase) private var scenePhase
+    
+    @StateObject private var settingsVM = SettingsViewModel.shared
+    @StateObject private var notificationsManager = NotificationsManager.shared
     
     var body: some View {
         List {
@@ -35,6 +35,7 @@ struct SettingsView: View {
                         Spacer()
                     }
                 }
+                .isDetailLink(false)
                 .frame(minHeight: 30)
                 
                 // MARK: Referrals View
@@ -62,9 +63,8 @@ struct SettingsView: View {
                             
                         }
                     }
+                    .isDetailLink(false)
                     .frame(minHeight: 30)
-                    
-        
                 }
                 
                 // MARK: Account Actions View
@@ -77,6 +77,7 @@ struct SettingsView: View {
                         Spacer()
                     }
                 }
+                .isDetailLink(false)
                 .frame(minHeight: 30)
             }
             .listRowBackground(Color.pongSystemBackground)
@@ -106,6 +107,7 @@ struct SettingsView: View {
                         
                     }
                 }
+                .isDetailLink(false)
                 .frame(minHeight: 30)
                 
                 // MARK: Contact Us
@@ -269,52 +271,12 @@ struct SettingsView: View {
         .navigationTitle("Settings")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
-            UITableView.appearance().showsVerticalScrollIndicator = false
             notificationsManager.updateNotificationsPreferences()
         }
         .onChange(of: scenePhase) { phase in
             if phase == .active {
                 print("DEBUG: Active")
                 notificationsManager.updateNotificationsPreferences()
-            }
-        }
-        .alert(isPresented: $settingsVM.activeAlert) {
-            switch settingsVM.activeAlertType {
-            case .unblockAll:
-                return Alert(
-                    title: Text("Unblock All"),
-                    message: Text("Are you sure you want to unblock everyone you've blocked so far? You can't reverse this action."),
-                    primaryButton: .default(
-                        Text("Cancel")
-                    ),
-                    secondaryButton: .destructive(Text("Unblock All")){
-                        settingsVM.unblockAll()
-                    }
-                )
-
-            case .signOut:
-                return Alert(
-                    title: Text("Log Out"),
-                    message: Text("Are you sure you want to logout?"),
-                    primaryButton: .default(
-                        Text("Cancel")
-                    ),
-                    secondaryButton: .destructive(Text("Logout")){
-                        AuthManager.authManager.signout()
-                    }
-                )
-
-            case .deleteAccount:
-                return Alert(
-                    title: Text("Delete Account"),
-                    message: Text("Are you sure you want to delete your account? This is an irreversible action, and we won't be able to recover any of your data."),
-                    primaryButton: .default(
-                        Text("Cancel")
-                    ),
-                    secondaryButton: .destructive(Text("Delete Account").bold()){
-                        settingsVM.deleteAccount()
-                    }
-                )
             }
         }
     }

@@ -10,6 +10,7 @@ import Foundation
 class LeaderboardViewModel: ObservableObject {
 //    @Published var nickname : String = ""
     @Published var savedNicknameAlert : Bool = false
+    @Published var emojiIsFocused = false
     
     // MARK: GetLeaderboard
     func getLeaderboard(dataManager: DataManager) {

@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct SavedView: View {
-    
-    @StateObject var profileVM = ProfileViewModel()
     @StateObject var dataManager = DataManager.shared
     
     var body: some View {
@@ -63,7 +61,7 @@ struct SavedView: View {
         .environment(\.defaultMinListRowHeight, 0)
         .listStyle(PlainListStyle())
         .refreshable{
-            profileVM.triggerRefresh(tab: ProfileFilter.saved, dataManager: dataManager)
+            ProfileViewModel().triggerRefresh(tab: ProfileFilter.saved, dataManager: dataManager)
         }
     }
 }

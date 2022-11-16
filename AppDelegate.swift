@@ -33,7 +33,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             // THIS CHANGES THE BACK BUTTON TEXT AND IMAGE TO BE Color.pongAccent
             appearance.backButtonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(Color.pongAccent)]
             
-            
             // SET A CUSTOM BACK BUTTON IMAGE USING A CUSTOM IMAGE NAMED "back_button"
             // let back_button = UIImage(named: "back_button")
             // let tintedImage = back_button?.withRenderingMode(.alwaysTemplate)

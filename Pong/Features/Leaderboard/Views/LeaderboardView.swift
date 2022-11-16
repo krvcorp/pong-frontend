@@ -10,8 +10,7 @@ struct LeaderboardView: View {
     @StateObject var dataManager = DataManager.shared
     
     @State private var newPost = false
-    
-
+    @FocusState private var emojiIsFocused : Bool
     
     // MARK: Limit Text
     let textLimit = 20
@@ -206,19 +205,23 @@ struct LeaderboardView: View {
                         Image(systemName: "eye")
                         
                         EmojiTextField(text: $emoji, placeholder: "\(dataManager.emoji)")
-//                            .submitLabel(.done)
-//                            .onSubmit {
-//                                print("DEBUG: leaderboardView.onsubmit emoji")
-//                                if emoji != dataManager.emoji && emoji != "" {
-//                                    leaderboardVM.updateNickname(dataManager: dataManager, emoji: emoji) { success in
-//                                        emoji = ""
-//                                    }
-//                                }
-//                            }
+                            .focused($emojiIsFocused)
                             .accentColor(Color.pongSystemWhite)
                             .onReceive(Just(emoji)) { _ in limitEmojiText(1) }
                             .padding(.horizontal)
                             .frame(maxWidth: 75)
+                        
+                        if emojiIsFocused {
+                            Button  {
+                                if emoji != dataManager.emoji && emoji != "" {
+                                    leaderboardVM.updateNickname(dataManager: dataManager, emoji: emoji) { success in
+                                        emoji = ""
+                                    }
+                                }
+                            } label: {
+                                Image("bookmark.fill")
+                            }
+                        }
                     }
                     .padding(.horizontal, 8)
                     .padding(.vertical, 8)

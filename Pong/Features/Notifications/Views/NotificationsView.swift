@@ -39,7 +39,7 @@ struct NotificationsView: View {
                         
                         HStack(alignment: .center) {
                             Spacer()
-                            Text("you have no messages")
+                            Text("you have no notifications")
                                 .font(.title.bold())
                             Spacer()
                         }

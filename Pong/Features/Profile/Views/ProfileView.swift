@@ -36,6 +36,7 @@ struct ProfileView: View {
                 } label: {
                     Image(systemName: "gearshape")
                 }
+                .isDetailLink(false)
             }
         }
         .background(Color.pongSystemBackground)
