@@ -41,20 +41,23 @@ class DataManager : ObservableObject {
     @Published var karmaBehind : Int = 0
     @Published var leaderboardList : [LeaderboardUser] = []
     
+    // notifications
+    @Published var notificationHistoryWeek: [NotificationsModel] = []
+    @Published var notificationHistoryPrevious: [NotificationsModel] = []
+    
     // user stats
     @Published var totalKarma : Int = 0
     @Published var commentKarma : Int = 0
     @Published var postKarma : Int = 0
     @Published var numberReferred : Int = 0
     
-    // error on startup
-    @Published var errorDetected = false
-    
     // messaging
     @Published var conversations : [Conversation] = []
     var timePassed = 0
     var timer = Timer.publish(every: 1, on: .current, in: .common).autoconnect()
     
+    // error on startup
+    @Published var errorDetected = false
     @Published var isAppLoading = true
     
     // MARK: LoadStartupState

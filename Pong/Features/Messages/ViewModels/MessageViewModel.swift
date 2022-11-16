@@ -14,13 +14,14 @@ class MessageViewModel: ObservableObject {
     /// - Parameters:
     ///   - message: The message string
     /// - Returns: On completion calls getConversations and triggers scroll to bottom
-    func sendMessage(message: String) {
+    func sendMessage(message: String, completionHandler: @escaping (Bool) -> Void) {
         // send message
         NetworkManager.networkManager.emptyRequest(route: "messages/", method: .post, body: Message.Request(conversationId: conversation.id, message: message)) { successResponse, errorResponse in
             if successResponse != nil {
                 DispatchQueue.main.async {
                     self.getConversation()
                     self.scrolledToBottom = false
+                    completionHandler(true)
                 }
             }
         }
@@ -75,6 +76,7 @@ class MessageViewModel: ObservableObject {
             if successResponse != nil {
                 completionHandler(successResponse!)
             }
+            
             if errorResponse != nil {
                 print("DEBUG: This post was probably deleted")
             }

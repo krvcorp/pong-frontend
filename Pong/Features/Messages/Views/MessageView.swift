@@ -185,9 +185,10 @@ struct MessageView: View {
                         if text != "" {
                             Button {
                                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                                messageVM.sendMessage(message: text)
-                                text = ""
-                                NotificationsManager.shared.registerForNotifications(forceRegister: false)
+                                messageVM.sendMessage(message: text) { success in
+                                    text = ""
+                                    NotificationsManager.shared.registerForNotifications(forceRegister: false)
+                                }
                             } label: {
                                 ZStack {
                                     Image("send")
