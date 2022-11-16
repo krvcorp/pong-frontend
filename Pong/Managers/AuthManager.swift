@@ -31,25 +31,32 @@ class AuthManager: ObservableObject {
         }
     }
     
+    struct Registration {
+        struct Request: Encodable { let fcm_token: String }
+        struct Success: Decodable {}
+    }
+    
     // MARK: Signout
     /// Signs out the user. It will reset UserDefaults and remove all entries stored in the keychain.
     func signout() {
-        DispatchQueue.main.async {
-            withAnimation {
-                self.resetDefaults()
-                AuthManager.authManager.isSignedIn = false
-                AuthManager.authManager.onboarded = false
-                DAKeychain.shared["userId"] = nil
-                DAKeychain.shared["token"] = nil
-                DAKeychain.shared["isAdmin"] = nil
-                DAKeychain.shared["dateJoined"] = nil
-                DAKeychain.shared["referralCode"] = nil
-                DAKeychain.shared["onboarded"] = nil
-                DAKeychain.shared["referred"] = nil
-                self.signedOutAlert = true
+        NotificationsManager().removeFCMToken() {success in
+            DispatchQueue.main.async {
+                withAnimation {
+                    self.resetDefaults()
+                    AuthManager.authManager.isSignedIn = false
+                    AuthManager.authManager.onboarded = false
+                    DAKeychain.shared["userId"] = nil
+                    DAKeychain.shared["token"] = nil
+                    DAKeychain.shared["isAdmin"] = nil
+                    DAKeychain.shared["dateJoined"] = nil
+                    DAKeychain.shared["referralCode"] = nil
+                    DAKeychain.shared["onboarded"] = nil
+                    DAKeychain.shared["referred"] = nil
+                    self.signedOutAlert = true
 
-                // reset datamanager
-                DataManager.shared.reset()
+                    // reset datamanager
+                    DataManager.shared.reset()
+                }
             }
         }
     }

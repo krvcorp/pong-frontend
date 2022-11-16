@@ -10,10 +10,11 @@ class EmailVerificationViewModel: ObservableObject {
     @Published var loginError: Bool = false
     @Published var loginErrorMessage: String = "error"
 
+
     // MARK: Google OAuth2.0
-    /// Sign in via Google. Gives the user a popup to sign in with their Google account
     let signInConfig = GIDConfiguration(clientID: "43678979560-6ah9oj1h0cvvd5is4al3lmkmdmd1tdqd.apps.googleusercontent.com")
 
+    /// Sign in via Google. Gives the user a popup to sign in with their Google account
     func signinWithGoogle() {
         let scenes = UIApplication.shared.connectedScenes
         let windowScene = scenes.first as? UIWindowScene
@@ -78,6 +79,7 @@ class EmailVerificationViewModel: ObservableObject {
     /// Verifies email and logs in the user if successful. Otherwise it prompts the user that they're unable to sign in
     private func verifyEmail(idToken: String, loginType: String) {
         let parameters = VerifyEmailModel.Request(idToken: idToken, loginType: loginType)
+        
         NetworkManager.networkManager.request(route: "login/", method: .post, body: parameters, successType: VerifyEmailModel.Response.self) { successResponse, errorResponse in
             DispatchQueue.main.async {
                 withAnimation {
@@ -113,8 +115,9 @@ class EmailVerificationViewModel: ObservableObject {
                         // store FCM token
                         Messaging.messaging().token { token, error in
                             if let token = token {
-                                // send fcm token
                                 DAKeychain.shared["fcm"] = token
+                                
+                                NotificationsManager().registerForNotifications(forceRegister: true)
                             }
                         }
                         
