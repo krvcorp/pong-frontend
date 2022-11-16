@@ -47,6 +47,7 @@ struct SettingsView: View {
                         Spacer()
                     }
                 }
+                .isDetailLink(false)
                 .frame(minHeight: 30)
                 
                 // MARK: Admin Feed View
