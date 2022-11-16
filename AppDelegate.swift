@@ -22,17 +22,34 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         Messaging.messaging().delegate = self
         
         // MARK: Navigation Bar Styling
-        // makes a white opaque navigation bar
         if #available(iOS 15, *) {
             let appearance = UINavigationBarAppearance()
+            
+            // THE BELOW CODE CHANGES THE NAVBAR TO BE THE COLOR OF THE SYSTEM BACKGROUND
             appearance.configureWithOpaqueBackground()
             appearance.shadowColor = .clear
             appearance.backgroundColor = UIColor(Color.pongSystemBackground)
+            
+            // THIS CHANGES THE BACK BUTTON TEXT AND IMAGE TO BE Color.pongAccent
+            appearance.backButtonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(Color.pongAccent)]
+            
+            
+            // SET A CUSTOM BACK BUTTON IMAGE USING A CUSTOM IMAGE NAMED "back_button"
+            // let back_button = UIImage(named: "back_button")
+            // let tintedImage = back_button?.withRenderingMode(.alwaysTemplate)
+            // appearance.backButtonAppearance.normal.icon = tintedImage
+            // appearance.backButtonAppearance.normal.iconColor = UIColor(Color.pongAccent)
+            // let resized_back_button = back_button?.resized(to: CGSize(width: 24, height: 24))
+            // appearance.setBackIndicatorImage(resized_back_button, transitionMaskImage: resized_back_button)
+            
+            
+            // THIS SETS THE NAVIGATION BAR APPEARANCE FOR ALL TYPES OF APPEARANCES
             UINavigationBar.appearance().standardAppearance = appearance
             UINavigationBar.appearance().compactAppearance = appearance
             UINavigationBar.appearance().scrollEdgeAppearance = appearance
+            UINavigationBar.appearance().tintColor = UIColor(Color.pongAccent)
             
-            // THE BELOW CODE CHANGES THE NAVBAR
+            // THE BELOW CODE CHANGES THE TABBAR APPEARANCE
             UITabBar.appearance().shadowImage = UIImage()
             UITabBar.appearance().backgroundImage = UIImage()
             UITabBar.appearance().isTranslucent = true
