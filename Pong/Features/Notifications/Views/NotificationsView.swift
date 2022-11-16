@@ -179,10 +179,17 @@ struct NotificationsView: View {
     func getNotificationText(notificationModel: NotificationsModel) -> some View {
         HStack {
             ZStack {
-                Image(systemName: getImageNameFromType(type: notificationModel.data.type))
-                    .imageScale(.small)
-                    .foregroundColor(getColor(type: notificationModel.data.type))
-                    .font(.title2)
+                if notificationModel.data.type == .hot {
+                    Image(getImageNameFromType(type: notificationModel.data.type))
+                        .imageScale(.small)
+                        .foregroundColor(getColor(type: notificationModel.data.type))
+                        .font(.title2)
+                } else {
+                    Image(systemName: getImageNameFromType(type: notificationModel.data.type))
+                        .imageScale(.small)
+                        .foregroundColor(getColor(type: notificationModel.data.type))
+                        .font(.title2)
+                }
             }
             .frame(width: 30, height: 30, alignment: .center)
             .cornerRadius(6)
@@ -208,11 +215,11 @@ struct NotificationsView: View {
         case .comment:
             return "text.bubble.fill"
         case .hot:
-            return "flame.fill"
+            return "flame"
         case .leader:
             return "list.number"
         case .reply:
-            return "arrowshape.turn.up.left"
+            return "arrowshape.turn.up.left.fill"
         case .violation:
             return "exclamationmark.triangle"
         case .generic:
