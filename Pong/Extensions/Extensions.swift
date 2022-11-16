@@ -139,7 +139,7 @@ extension List {
     @ViewBuilder
     func scrollContentBackgroundCompat() -> some View {
         if #available(iOS 16.0, *) {
-            self.scrollContentBackground(.hidden).scrollIndicators(.hidden)
+            self.scrollContentBackground(.hidden).scrollIndicators(.hidden).scrollDismissesKeyboard(.immediately)
         } else {
             self
         }

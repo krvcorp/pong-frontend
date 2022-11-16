@@ -145,6 +145,8 @@ struct LeaderboardView: View {
             
             // MARK: Editables
             HStack(spacing: 10) {
+                
+                // MARK: Nickname
                 VStack(spacing: 5) {
                     HStack {
                         Text("NICKNAME")
@@ -195,6 +197,7 @@ struct LeaderboardView: View {
                     }
                 }
                 
+                // MARK: Emoji
                 VStack(alignment: .leading, spacing: 5) {
                     Text("EMOJI")
                         .font(.caption)
@@ -209,7 +212,7 @@ struct LeaderboardView: View {
                             .accentColor(Color.pongSystemWhite)
                             .onReceive(Just(emoji)) { _ in limitEmojiText(1) }
                             .padding(.horizontal)
-                            .frame(maxWidth: 75)
+                            .frame(width: 75)
                         
                         if emojiIsFocused {
                             Button  {
