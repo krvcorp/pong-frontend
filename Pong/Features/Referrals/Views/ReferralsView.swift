@@ -96,8 +96,6 @@ struct ReferralsView: View {
         .background(Color.pongSystemBackground)
         .partialSheet(isPresented: $halfSheetPresented, content: {
             ReferralSheet
-                .padding(.leading, 20)
-                .padding(.trailing, 10)
         })
         .listStyle(PlainListStyle())
         .onAppear{
@@ -151,22 +149,6 @@ struct ReferralsView: View {
                         Spacer()
                     }
                 }
-//                VStack {
-//                    HStack {
-//                        Spacer()
-//                        Text(DAKeychain.shared["dateJoined"]!)
-//                            .font(.largeTitle)
-//                            .fontWeight(.bold)
-//                        Spacer()
-//                    }
-//                    HStack {
-//                        Spacer()
-//                        Text("Date joined")
-//                            .font(.footnote)
-//                            .foregroundColor(Color(hex: "777777"))
-//                        Spacer()
-//                    }
-//                }
             }
             .padding(.bottom)
             
@@ -176,39 +158,42 @@ struct ReferralsView: View {
                 .listRowBackground(Color.pongSecondarySystemBackground.edgesIgnoringSafeArea([.leading, .trailing]))
                 .listRowSeparator(.hidden)
                 .listRowInsets(EdgeInsets())
+                .padding(.bottom)
             
-            HStack {
-                Text("$15 for 5 friends")
-                    .font(.headline)
-                    .fontWeight(.bold)
-                Spacer()
+            VStack {
+                HStack {
+                    Text("$15 for 5 friends")
+                        .font(.headline)
+                        .fontWeight(.bold)
+                    Spacer()
+                }
+                .padding(.bottom)
+                
+                HStack {
+                    Text("Get 5 friends to join Pong this week and we'll send you $15.")
+                        .font(.system(size: 14))
+                    Spacer()
+                }
+                .padding(.bottom)
+                
+                HStack {
+                    Text("Invites can be sent until November 26th")
+                        .font(.caption)
+                        .italic()
+                    Spacer()
+                }
+                .padding(.bottom)
             }
-            .padding(.bottom)
-            
-            HStack {
-                Text("Get 5 friends to join Pong this week and we'll send you $15.")
-                    .font(.system(size: 14))
-                Spacer()
-            }
-            .padding(.bottom)
-            
-            HStack {
-                Text("Invites can be sent until November 26th")
-                    .font(.caption)
-                    .italic()
-                Spacer()
-            }
-            .padding(.bottom)
+            .padding(.horizontal)
             
             HStack {
                 ZStack(alignment: .leading) {
                     RoundedRectangle(cornerRadius: 20)
                         .fill(Color.pongSecondarySystemBackground)
                         .frame(width: progressFrame)
-                        .opacity(0.5)
                     
                     RoundedRectangle(cornerRadius: 20)
-                        .fill(Color(hex: "00D400"))
+                        .fill(Color.green)
                         .frame(width: progressFrame * (0.2))
                 }
                 .padding(.top, 5)
