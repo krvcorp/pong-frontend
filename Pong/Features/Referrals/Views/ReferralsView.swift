@@ -96,6 +96,8 @@ struct ReferralsView: View {
         .background(Color.pongSystemBackground)
         .partialSheet(isPresented: $halfSheetPresented, content: {
             ReferralSheet
+                .padding(.leading, 20)
+                .padding(.trailing, 10)
         })
         .listStyle(PlainListStyle())
         .onAppear{
@@ -120,7 +122,7 @@ struct ReferralsView: View {
                 VStack {
                     HStack {
                         Spacer()
-                        Text("$10")
+                        Text("$\(dataManager.numberReferred * 3)")
                             .font(.largeTitle)
                             .fontWeight(.bold)
                         Spacer()
@@ -136,7 +138,7 @@ struct ReferralsView: View {
                 VStack {
                     HStack {
                         Spacer()
-                        Text("2")
+                        Text("\(dataManager.numberReferred)")
                             .font(.largeTitle)
                             .fontWeight(.bold)
                         Spacer()
@@ -149,23 +151,31 @@ struct ReferralsView: View {
                         Spacer()
                     }
                 }
-                VStack {
-                    HStack {
-                        Spacer()
-                        Text("11/12/22")
-                            .font(.largeTitle)
-                            .fontWeight(.bold)
-                        Spacer()
-                    }
-                    HStack {
-                        Spacer()
-                        Text("Date joined")
-                            .font(.footnote)
-                            .foregroundColor(Color(hex: "777777"))
-                        Spacer()
-                    }
-                }
+//                VStack {
+//                    HStack {
+//                        Spacer()
+//                        Text(DAKeychain.shared["dateJoined"]!)
+//                            .font(.largeTitle)
+//                            .fontWeight(.bold)
+//                        Spacer()
+//                    }
+//                    HStack {
+//                        Spacer()
+//                        Text("Date joined")
+//                            .font(.footnote)
+//                            .foregroundColor(Color(hex: "777777"))
+//                        Spacer()
+//                    }
+//                }
             }
+            .padding(.bottom)
+            
+            Rectangle()
+                .fill(Color.pongSecondarySystemBackground)
+                .frame(width: UIScreen.screenWidth, height: 10)
+                .listRowBackground(Color.pongSecondarySystemBackground.edgesIgnoringSafeArea([.leading, .trailing]))
+                .listRowSeparator(.hidden)
+                .listRowInsets(EdgeInsets())
             
             HStack {
                 Text("$15 for 5 friends")
@@ -173,12 +183,14 @@ struct ReferralsView: View {
                     .fontWeight(.bold)
                 Spacer()
             }
+            .padding(.bottom)
             
             HStack {
                 Text("Get 5 friends to join Pong this week and we'll send you $15.")
-                    .font(.callout)
+                    .font(.system(size: 14))
                 Spacer()
             }
+            .padding(.bottom)
             
             HStack {
                 Text("Invites can be sent until November 26th")
@@ -186,14 +198,7 @@ struct ReferralsView: View {
                     .italic()
                 Spacer()
             }
-            
-            Rectangle()
-                .fill(Color.pongSecondarySystemBackground)
-                .frame(height: 10)
-                .listRowBackground(Color.pongSecondarySystemBackground.edgesIgnoringSafeArea([.leading, .trailing]))
-                .listRowSeparator(.hidden)
-                .padding(0)
-                .listRowInsets(EdgeInsets())
+            .padding(.bottom)
             
             HStack {
                 ZStack(alignment: .leading) {
@@ -209,12 +214,11 @@ struct ReferralsView: View {
                 .padding(.top, 5)
                 .frame(height: 15)
                 
-                if (6 > 5) {
+                if (dataManager.numberReferred > 4) {
                     HStack {
                         Image("send")
-                            .font(.headline)
+                            .font(.system(size: 25))
                     }
-                    .padding(15)
                     .foregroundColor(Color.white)
                     .overlay(RoundedRectangle(cornerRadius: 20).stroke().foregroundColor(Color.pongAccent))
                     .background(Color.pongAccent)
