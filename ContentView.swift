@@ -6,6 +6,8 @@ struct ContentView: View {
     @StateObject var appState = AppState.shared
     @StateObject var authManager = AuthManager.authManager
     @StateObject var toastManager = ToastManager.shared
+    @StateObject var dataManager = DataManager.shared
+    @StateObject var mainTabVM = MainTabViewModel(initialIndex: 1, customItemIndex: 3)
     
     @State var showMenu = false
     
@@ -123,7 +125,7 @@ struct ContentView: View {
                 }
             }
         }
-        .environmentObject(MainTabViewModel(initialIndex: 1, customItemIndex: 3))
+        .environmentObject(mainTabVM)
         .environmentObject(appState)
         .accentColor(Color.pongAccent)
         .attachPartialSheetToRoot()

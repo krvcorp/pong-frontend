@@ -5,7 +5,6 @@ import ActivityIndicatorView
 struct MainTabView: View {
     @Binding var showMenu : Bool
     
-    @EnvironmentObject var appState : AppState
     @StateObject var dataManager = DataManager.shared
     @EnvironmentObject private var mainTabVM : MainTabViewModel
     
