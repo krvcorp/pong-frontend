@@ -140,7 +140,7 @@ struct NotificationsView: View {
                     
                     Rectangle()
                         .fill(Color.pongSystemBackground)
-                        .listRowBackground(Color.pongSystemBackground   )
+                        .listRowBackground(Color.pongSystemBackground)
                         .frame(minHeight: 150)
                         .listRowSeparator(.hidden)
                 }

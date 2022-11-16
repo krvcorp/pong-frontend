@@ -161,7 +161,7 @@ struct FeedView: View {
                         Spacer()
                     }
                     .buttonStyle(PlainButtonStyle())
-                    .listRowBackground(Color.pongSecondarySystemBackground)
+                    .listRowBackground(Color.pongSystemBackground)
                     .listRowSeparator(.hidden)
                     .onChange(of: feedVM.selectedTopFilter) { newValue in
                         feedVM.paginatePostsReset(selectedFeedFilter: .top, dataManager: dataManager)
@@ -249,9 +249,17 @@ struct FeedView: View {
                         }
                     }
                 }
+                
+                CustomListDivider()
+                
+                Rectangle()
+                    .fill(Color.pongSystemBackground)
+                    .listRowBackground(Color.pongSystemBackground)
+                    .frame(minHeight: 150)
+                    .listRowSeparator(.hidden)
             }
             .scrollContentBackgroundCompat()
-            .background(Color.pongSecondarySystemBackground)
+            .background(Color.pongSystemBackground)
             .environment(\.defaultMinListRowHeight, 0)
             .onChange(of: mainTabVM.scrollToTop, perform: { newValue in
                 withAnimation {
