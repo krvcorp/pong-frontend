@@ -16,7 +16,19 @@ struct MessageRosterView: View {
     
     var body: some View {
         List {
-            // MARK: No Messages
+            
+            Text("Messages")
+                .font(.system(size: 18))
+                .fontWeight(.bold)
+                .listRowBackground(Color.pongSystemBackground)
+                .listRowSeparator(.hidden)
+            
+            
+            searchBar
+                .listRowBackground(Color.pongSystemBackground)
+                .listRowSeparator(.hidden)
+            
+            
             if dataManager.conversations == [] {
                 VStack(alignment: .center, spacing: 15) {
 
@@ -44,7 +56,7 @@ struct MessageRosterView: View {
             }
             // MARK: Messages
             else {
-                Section() {
+                Section {
                     ForEach($dataManager.conversations.filter { searchText.isEmpty || $0.re.wrappedValue.contains(searchText)}, id: \.id) { $conversation in
                         ZStack {
                             NavigationLink(destination: MessageView(conversation: $conversation)) {
@@ -71,7 +83,7 @@ struct MessageRosterView: View {
                                             Text(messageRosterVM.stringToDateToString(dateString: conversation.messages.last!.createdAt))
                                                 .foregroundColor(Color(UIColor.label))
                                                 .lineLimit(1)
-                                                
+                                            
                                         }
                                     }
                                     
@@ -105,16 +117,30 @@ struct MessageRosterView: View {
             }
         }
         .scrollContentBackgroundCompat()
-        .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
         .background(Color.pongSystemBackground)
+//        .navigationTitle("Messages")
+        .navigationBarTitleDisplayMode(.inline)
         .listStyle(GroupedListStyle())
+        .refreshable {
+            print("DEBUG: refresh")
+        }
         .onAppear {
             UITableView.appearance().showsVerticalScrollIndicator = false
         }
-        .navigationTitle("Messages")
         .onAppear() {
             messageRosterVM.getConversations(dataManager: dataManager)
         }
+    }
+    
+    var searchBar: some View {
+        HStack {
+            Image(systemName: "magnifyingglass").foregroundColor(Color(hex: "B3B3B3"))
+            TextField("Search for a conversation", text: $searchText)
+                .font(Font.system(size: 16))
+        }
+        .padding(7)
+        .background(Color(hex: "F7F7F7"))
+        .cornerRadius(10)
     }
 }
 

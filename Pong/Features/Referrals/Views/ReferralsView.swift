@@ -45,7 +45,7 @@ struct ReferralsView: View {
                         .buttonStyle(PlainButtonStyle())
                         .sheet(isPresented: $sheet) {
                             let referralCode = DAKeychain.shared["referralCode"]!
-                            let url = "This new app just came out for BU use my referral code \(referralCode) https://www.pong.college/refer/"
+                            let url = "https://www.pong.college/refer/ This new app just came out for BU use my referral code \(referralCode)"
                             ShareSheet(items: [url])
                         }
                     }
@@ -54,6 +54,21 @@ struct ReferralsView: View {
                     .overlay(RoundedRectangle(cornerRadius: 20).stroke().foregroundColor(Color.pongAccent))
                     .background(Color.pongAccent)
                     .cornerRadius(20)
+                    
+                    
+                    HStack {
+                        Text("Share with friends")
+                            .font(.headline)
+                            .fontWeight(.medium)
+                    }
+                    .padding(15)
+                    .foregroundColor(Color.white)
+                    .overlay(RoundedRectangle(cornerRadius: 20).stroke().foregroundColor(Color.pongAccent))
+                    .background(Color.pongAccent)
+                    .cornerRadius(20)
+                    .background(NavigationLink("", destination: ReferralsInviteFriendsView()).opacity(0))
+                    
+                    
 
                     PSButton(
                         isPresenting: $halfSheetPresented,
@@ -68,7 +83,9 @@ struct ReferralsView: View {
                             .overlay(RoundedRectangle(cornerRadius: 20).stroke().foregroundColor(Color.pongAccent))
                             .background(Color.pongAccent)
                             .cornerRadius(20)
+                            .buttonStyle(PlainButtonStyle())
                         })
+                    .buttonStyle(PlainButtonStyle())
                     
                     Spacer()
                     
@@ -78,6 +95,7 @@ struct ReferralsView: View {
             .background(Color.pongSystemBackground)
             .listRowBackground(Color.pongSystemBackground)
             .listRowSeparator(.hidden)
+            .buttonStyle(PlainButtonStyle())
             
             // MARK: ReferralPageImage
             HStack {
