@@ -91,7 +91,7 @@ struct NewPostView: View {
                                     showNewPoll = false
                                     newPostVM.newPollVM.reset()
                                 } label: {
-                                    Image("gallery_add")
+                                    Image("gallery.add.fill")
                                         .resizable()
                                         .scaledToFit()
                                         .foregroundColor(Color.pongAccent)
@@ -111,7 +111,7 @@ struct NewPostView: View {
                                         newPostVM.newPollVM.instantiate()
                                     }
                                 } label: {
-                                    Image("poll")
+                                    Image("poll.fill")
                                         .resizable()
                                         .scaledToFit()
                                         .foregroundColor(Color.pongAccent)
