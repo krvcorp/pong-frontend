@@ -196,16 +196,14 @@ struct NotificationsView: View {
     func getNotificationText(notificationModel: NotificationsModel) -> some View {
         HStack {
             ZStack {
-                if notificationModel.data.type == .hot {
+                if notificationModel.data.type == .hot || notificationModel.data.type == .comment || notificationModel.data.type == .leader || notificationModel.data.type == .reply {
                     Image(getImageNameFromType(type: notificationModel.data.type))
-                        .imageScale(.small)
                         .foregroundColor(getColor(type: notificationModel.data.type))
-                        .font(.title2)
+                        .font(.title)
                 } else {
                     Image(systemName: getImageNameFromType(type: notificationModel.data.type))
-                        .imageScale(.small)
                         .foregroundColor(getColor(type: notificationModel.data.type))
-                        .font(.title2)
+                        .font(.title)
                 }
             }
             .frame(width: 30, height: 30, alignment: .center)
@@ -230,13 +228,13 @@ struct NotificationsView: View {
         case .upvote:
             return "arrow.up"
         case .comment:
-            return "text.bubble.fill"
+            return "bubble.left.fill"
         case .hot:
-            return "flame"
+            return "flame.fill"
         case .leader:
-            return "list.number"
+            return "trophy"
         case .reply:
-            return "arrowshape.turn.up.left.fill"
+            return "arrow.left.fill"
         case .violation:
             return "exclamationmark.triangle"
         case .generic:
@@ -253,13 +251,13 @@ struct NotificationsView: View {
         case .upvote:
             return .red
         case .comment:
-            return .blue
+            return .purple
         case .hot:
             return .orange
         case .leader:
             return .yellow
         case .reply:
-            return .purple
+            return .blue
         case .violation:
             return .red
         default:

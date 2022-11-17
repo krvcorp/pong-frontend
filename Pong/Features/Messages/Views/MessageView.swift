@@ -191,10 +191,9 @@ struct MessageView: View {
                                 }
                             } label: {
                                 ZStack {
-                                    Image("send")
+                                    Image("paperplane.fill")
                                         .imageScale(.large)
                                         .foregroundColor(Color.pongAccent)
-                                        .font(.largeTitle)
                                 }
                                 .frame(width: 30, height: 40, alignment: .center)
                                 .cornerRadius(10)
@@ -204,10 +203,9 @@ struct MessageView: View {
                                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                             } label: {
                                 ZStack {
-                                    Image("send")
+                                    Image("paperplane.fill")
                                         .imageScale(.large)
                                         .foregroundColor(Color.pongAccent).opacity(0.25)
-                                        .font(.largeTitle)
                                 }
                                 .frame(width: 30, height: 40, alignment: .center)
                                 .cornerRadius(10)

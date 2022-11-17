@@ -31,7 +31,7 @@ struct ProfileView: View {
                 NavigationLink {
                     SettingsView()
                 } label: {
-                    Image(systemName: "gearshape")
+                    Image("gear")
                 }
                 .isDetailLink(false)
             }
@@ -231,15 +231,21 @@ struct ProfileView: View {
             else if tab == .about {
                 // create a lazy v grid with two equally sized columns
                 LazyVGrid(columns: [GridItem(.fixed((UIScreen.screenWidth - 20) / 2)), GridItem(.fixed((UIScreen.screenWidth - 20) / 2))], spacing: 15) {
-                    aboutComponent(system: false, image: "chart", title: "POST KARMA", data: "\(dataManager.postKarma)")
+                    aboutComponent(system: false, image: "bar.chart", title: "POST KARMA", data: "\(dataManager.postKarma)")
                     aboutComponent(system: true, image: "star", title: "COMMENT KARMA", data: "\(dataManager.commentKarma)")
                     aboutComponent(system: false, image: "calendar", title: "DATE JOINED", data: "\(String(describing: DAKeychain.shared["dateJoined"]!))")
-                    aboutComponent(system: false, image: "friends_referred", title: "FRIENDS REFERRED", data: "\(dataManager.numberReferred)")
+                    aboutComponent(system: false, image: "friends", title: "FRIENDS REFERRED", data: "\(dataManager.numberReferred)")
                 }
                 .listRowBackground(Color.pongSystemBackground)
                 .listRowSeparator(.hidden)
                 .listRowInsets(EdgeInsets())
             }
+            
+            Rectangle()
+                .fill(Color.pongSystemBackground)
+                .listRowBackground(Color.pongSystemBackground)
+                .frame(minHeight: 150)
+                .listRowSeparator(.hidden)
         }
         .scrollContentBackgroundCompat()
         .background(Color.pongSystemBackground)
@@ -259,8 +265,8 @@ struct ProfileView: View {
                 Image(systemName: "\(image)")
                     .imageScale(.large)
             } else {
-                Text(Image("\(image)"))
-                    .font(Font.system(size: 28, weight: .regular))
+                Image("\(image)")
+                    .imageScale(.large)
             }
             
             VStack(alignment: .leading) {

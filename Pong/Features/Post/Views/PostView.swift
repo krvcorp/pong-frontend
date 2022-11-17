@@ -300,9 +300,7 @@ struct PostView: View {
                         }
                     } label: {
                         HStack(spacing: 3) {
-                            Image("chat_dots")
-                                .font(Font.system(size: 20, weight: .regular))
-                                .imageScale(.large)
+                            Image("bubble.dots.left")
                             
                             Text("Message")
                         }
@@ -376,8 +374,9 @@ struct PostView: View {
                 .frame(minWidth: 0, maxWidth: .infinity)
             
             HStack {
-                Image(systemName: "bubble.left")
+                Image("bubble.left")
                     .foregroundColor(Color.pongSecondaryText)
+                
                 Text("\(post.numComments)")
                     .bold()
                     .foregroundColor(Color.pongSecondaryText)
@@ -396,8 +395,7 @@ struct PostView: View {
                             postVM.unsavePost(post: post, dataManager: dataManager)
                         } label: {
                             Image("save.fill")
-                                .font(Font.system(size: 36, weight: .regular))
-                                .foregroundColor(Color.pongSecondaryText)
+                                .foregroundColor(Color.pongLabel)
                         }
                     } else if !post.saved {
                         Button {
@@ -406,7 +404,6 @@ struct PostView: View {
                             postVM.savePost(post: post, dataManager: dataManager)
                         } label: {
                             Image("save")
-                                .font(Font.system(size: 36, weight: .regular))
                                 .foregroundColor(Color.pongSecondaryText)
                         }
                     }
@@ -417,7 +414,6 @@ struct PostView: View {
                     sheet.toggle()
                 } label: {
                     Image("share")
-                        .font(Font.system(size: 36, weight: .regular))
                         .foregroundColor(Color.pongSecondaryText)
                 }
                 .sheet(isPresented: $sheet) {
@@ -511,7 +507,7 @@ struct PostView: View {
                                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                                     postVM.commentImage = nil
                                 } label: {
-                                    Image(systemName: "trash")
+                                    Image("trash")
                                 }
                                 .frame(width: 35, height: 35)
                                 .foregroundColor(.white)
@@ -591,10 +587,9 @@ struct PostView: View {
 
                             } label: {
                                 ZStack {
-                                    Image("send")
+                                    Image("paperplane.fill")
                                         .imageScale(.large)
                                         .foregroundColor(Color.pongAccent)
-                                        .font(.largeTitle)
                                 }
                                 .frame(width: 30, height: 40, alignment: .center)
                                 .cornerRadius(10)
@@ -604,10 +599,9 @@ struct PostView: View {
                                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                             } label: {
                                 ZStack {
-                                    Image("send")
+                                    Image("paperplane.fill")
                                         .imageScale(.large)
                                         .foregroundColor(Color.pongAccent).opacity(0.25)
-                                        .font(.largeTitle)
                                 }
                                 .frame(width: 30, height: 40, alignment: .center)
                                 .cornerRadius(10)

@@ -127,8 +127,7 @@ struct LeaderboardView: View {
             HStack {
                 Spacer()
                 
-                Text(Image("upvote_box"))
-                    .font(Font.system(size: 36, weight: .regular))
+                Text(Image("arrow.up.in.circle"))
                 
                 Group {
                     if dataManager.rank == "1st" {
@@ -227,7 +226,7 @@ struct LeaderboardView: View {
                                     }
                                 }
                             } label: {
-                                Image(systemName: "bookmark.fill")
+                                Image("bookmark.fill")
                                     .foregroundColor(Color.pongSystemWhite)
                             }
                         }
@@ -311,6 +310,12 @@ struct LeaderboardView: View {
                 .listRowBackground(Color.pongSystemBackground)
                 .padding(.leading, 30)
             }
+            
+            Rectangle()
+                .fill(Color.pongSystemBackground)
+                .listRowBackground(Color.pongSystemBackground)
+                .frame(minHeight: 150)
+                .listRowSeparator(.hidden)
         }
         .scrollContentBackgroundCompat()
         .environment(\.defaultMinListRowHeight, 0)

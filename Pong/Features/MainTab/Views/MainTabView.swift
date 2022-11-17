@@ -73,7 +73,7 @@ struct MainTabView: View {
                         // MARK: FeedView
                         VStack {
                             Image("home")
-                                .font(.system(size: 40))
+                                .font(.system(size: 25))
                                 .foregroundColor(mainTabVM.itemSelected == 1 ? Color.pongAccent : Color(UIColor.secondaryLabel))
                         }
                         .onTapGesture {
@@ -90,7 +90,7 @@ struct MainTabView: View {
                         // MARK: Stats and Leaderboard
                         VStack {
                             Image("trophy")
-                                .font(.system(size: 40))
+                                .font(.system(size: 25))
                                 .foregroundColor(mainTabVM.itemSelected == 2 ? Color.pongAccent : Color(UIColor.secondaryLabel))
                         }
                         .onTapGesture {
@@ -102,7 +102,7 @@ struct MainTabView: View {
                         
                         // MARK: NewPostView which is a red circle with a white plus sign
                         Image(systemName: "plus.circle.fill")
-                            .font(.system(size: 60))
+                            .font(.system(size: 55))
                             .foregroundStyle(Color.pongSystemWhite, Color.pongAccent)
                             .padding(.bottom)
                             .onTapGesture {
@@ -115,7 +115,7 @@ struct MainTabView: View {
                         //MARK: Notifications
                         VStack {
                             Image("bell")
-                                .font(.system(size: 40))
+                                .font(.system(size: 25))
                                 .foregroundColor(mainTabVM.itemSelected == 4 ? Color.pongAccent : Color(UIColor.secondaryLabel))
                         }
                         .onTapGesture {
@@ -128,7 +128,7 @@ struct MainTabView: View {
                         //MARK: Profile
                         VStack {
                             Image("person")
-                                .font(.system(size: 40))
+                                .font(.system(size: 25))
                                 .foregroundColor(mainTabVM.itemSelected == 5 ? Color.pongAccent : Color(UIColor.secondaryLabel))
                         }
                         .onTapGesture {

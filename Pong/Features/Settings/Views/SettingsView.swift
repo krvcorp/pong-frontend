@@ -27,9 +27,9 @@ struct SettingsView: View {
                 // MARK: Saved View
                 NavigationLink(destination: SavedView()){
                     HStack {
-                        Image("save.fill")
-                            .imageScale(.large)
+                        Image("bookmark.fill")
                             .frame(width: 20)
+                        
                         Text("Saved")
                             .bold()
                         Spacer()

@@ -21,9 +21,9 @@ struct FeedView: View {
                 customFeedStack(filter: feedVM.selectedFeedFilter, tab: tab)
                     .tag(tab)
             }
-            .background(Color(UIColor.secondarySystemBackground))
+            .background(Color.pongSecondarySystemBackground)
         }
-        .background(Color(UIColor.secondarySystemBackground))
+        .background(Color.pongSecondarySystemBackground)
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
         // Hide navbar
         .navigationBarTitle("\(feedVM.school)")
@@ -52,15 +52,13 @@ struct FeedView: View {
                     NavigationLink(destination: MessageRosterView(), isActive: $mainTabVM.openConversationsDetected) {
                         if dataManager.conversations.contains(where: {$0.unreadCount > 0}) {
                             ZStack(alignment: .topTrailing) {
-                                Image("chat_dots")
-                                    .font(Font.system(size: 36, weight: .regular))
+                                Image("bubble.dots.left")
                                 Circle()
                                     .fill(.red)
                                     .frame(width: 7, height: 7)
                             }
                         } else {
-                            Image("chat_dots")
-                                .font(Font.system(size: 36, weight: .regular))
+                            Image("bubble.dots.left")
                         }
                     }
                     .isDetailLink(false)

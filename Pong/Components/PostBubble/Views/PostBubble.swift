@@ -96,9 +96,7 @@ struct PostBubble: View {
                         }
                     } label: {
                         HStack(spacing: 3) {
-                            Image("chat_dots")
-                                .font(Font.system(size: 20, weight: .regular))
-                                .imageScale(.large)
+                            Image("bubble.dots.center.fill")
                             
                             Text("Message")
                         }
@@ -203,7 +201,7 @@ struct PostBubble: View {
                 .frame(minWidth: 0, maxWidth: .infinity)
             
             HStack {
-                Image(systemName: "bubble.left")
+                Image("bubble.left")
                     .foregroundColor(Color("pongSecondaryText"))
                 Text("\(post.numComments)")
                     .bold()
@@ -222,9 +220,8 @@ struct PostBubble: View {
                             postBubbleVM.post = post
                             postBubbleVM.unsavePost(post: post, dataManager: dataManager)
                         } label: {
-                            Image("save.fill")
-                                .font(Font.system(size: 36, weight: .regular))
-                                .foregroundColor(Color.pongSecondaryText)
+                            Image("bookmark.fill")
+                                .foregroundColor(Color.pongAccent)
                         }
                     } else if !post.saved {
                         Button {
@@ -232,8 +229,7 @@ struct PostBubble: View {
                             postBubbleVM.post = post
                             postBubbleVM.savePost(post: post, dataManager: dataManager)
                         } label: {
-                            Image("save")
-                                .font(Font.system(size: 36, weight: .regular))
+                            Image("bookmark")
                                 .foregroundColor(Color.pongSecondaryText)
                         }
                     }
@@ -244,8 +240,6 @@ struct PostBubble: View {
                     sheet.toggle()
                 } label: {
                     Image("share")
-                        .font(Font.system(size: 36, weight: .regular))
-                        .foregroundColor(Color.pongSecondaryText)
                 }
                 .sheet(isPresented: $sheet) {
                     ShareSheet(items: ["\(NetworkManager.networkManager.rootURL)post/\(post.id)/"])
@@ -261,7 +255,7 @@ struct PostBubble: View {
                             postBubbleVM.showConfirmation = true
                         }
                     } label: {
-                        Image(systemName: "trash")
+                        Image("trash")
                             .foregroundColor(Color.pongSecondaryText)
                     }
                 }
