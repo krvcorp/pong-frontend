@@ -5,7 +5,7 @@ import SwiftUI
 class OnboardingViewModel: ObservableObject {
     @Published var firstCall : Bool = true
     @Published var welcomed: Bool = false
-    @Published var onBoarded: Bool = false
+    @Published var referred: Bool = false
     
     @Published var wrongCodeError: Bool = false
     @Published var errorMessage : String = ""
@@ -18,8 +18,9 @@ class OnboardingViewModel: ObservableObject {
             if successResponse != nil {
                 DispatchQueue.main.async {
                     withAnimation {
-                        self.onBoarded = true
+                        self.referred = true
                         DAKeychain.shared["referred"] = "true"
+                        ToastManager.shared.toastDetected(message: "Success")
                     }
                 }
             }

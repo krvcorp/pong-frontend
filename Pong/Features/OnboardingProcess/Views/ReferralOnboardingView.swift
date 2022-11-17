@@ -27,7 +27,13 @@ struct ReferralOnboardingView: View {
                         .foregroundColor(Color.pongSystemWhite)
                         .font(.system(size: 30))
                     
-                    if onboardingVM.onBoarded && DAKeychain.shared["referred"] == "true" {
+                    if onboardingVM.referred || DAKeychain.shared["referred"] == "true" {
+                        Text("Referred!")
+                            .foregroundColor(Color.pongSystemWhite)
+                            .font(.headline)
+                            .fontWeight(.semibold)
+                            .accentColor(Color.pongSystemWhite)
+                    } else {
                         TextField(text: $referralCode) {
                             Text("Enter code")
                                 .foregroundColor(Color.pongSystemWhite)
@@ -36,21 +42,14 @@ struct ReferralOnboardingView: View {
                         }
                         .autocapitalization(.allCharacters)
                         .onReceive(Just(referralCode)) { _ in limitText() }
-                        .disabled(!onboardingVM.onBoarded || DAKeychain.shared["referred"] != "true")
+                        .disabled(onboardingVM.referred || DAKeychain.shared["referred"] == "true")
                         .accentColor(Color.pongSystemWhite)
-                    } else {
-                        Text("Referred!")
-                            .foregroundColor(Color.pongSystemWhite)
-                            .font(.headline)
-                            .fontWeight(.semibold)
-                            .accentColor(Color.pongSystemWhite)
                     }
-
 
                     Spacer()
                     
                     Button(action: {
-                        if referralCode != "" {
+                        if referralCode.count == 6 {
                             onboardingVM.setReferrer(referralCode: referralCode)
                         }
                     }) {
@@ -60,7 +59,7 @@ struct ReferralOnboardingView: View {
                             .fontWeight(.bold)
                     }
                     .buttonStyle(PlainButtonStyle())
-                    .disabled(referralCode == "" || onboardingVM.onBoarded || DAKeychain.shared["referred"] == "true")
+                    .disabled(referralCode.count != 6 || onboardingVM.referred || DAKeychain.shared["referred"] == "true")
                 }
                 .foregroundColor(Color.pongSystemWhite)
                 .padding(15)
