@@ -105,7 +105,7 @@ struct MessageRosterView: View {
             }
         }
         .scrollContentBackgroundCompat()
-        .searchable(text: $searchText)
+        .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
         .background(Color.pongSystemBackground)
         .listStyle(GroupedListStyle())
         .onAppear {
