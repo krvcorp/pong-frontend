@@ -29,7 +29,7 @@ class UIEmojiTextField: UITextField {
 
 struct EmojiTextField: UIViewRepresentable {
     @Binding var text: String
-    var placeholder: String = ""
+    @Binding var placeholder: String 
     
     func makeUIView(context: Context) -> UIEmojiTextField {
         let emojiTextField = UIEmojiTextField()
@@ -41,6 +41,7 @@ struct EmojiTextField: UIViewRepresentable {
     
     func updateUIView(_ uiView: UIEmojiTextField, context: Context) {
         uiView.text = text
+        uiView.placeholder = placeholder
     }
     
     func makeCoordinator() -> Coordinator {
@@ -59,14 +60,5 @@ struct EmojiTextField: UIViewRepresentable {
                 self?.parent.text = textField.text ?? ""
             }
         }
-    }
-}
-
-struct EmojiContentView: View {
-    
-    @State private var text: String = ""
-    
-    var body: some View {
-        EmojiTextField(text: $text, placeholder: "Enter emoji")
     }
 }

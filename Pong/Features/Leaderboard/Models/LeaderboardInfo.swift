@@ -12,4 +12,5 @@ struct LeaderboardInfo: Codable {
     var karmaBehind : Int
     var rank : String
     var rankBehind : String
+    var nicknameEmoji : String
 }

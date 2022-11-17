@@ -8,8 +8,6 @@
 import Foundation
 
 class LeaderboardViewModel: ObservableObject {
-//    @Published var nickname : String = ""
-    @Published var savedNicknameAlert : Bool = false
     @Published var emojiIsFocused = false
     
     // MARK: GetLeaderboard
@@ -43,6 +41,7 @@ class LeaderboardViewModel: ObservableObject {
                     dataManager.commentKarma = successResponse.commentScore
                     dataManager.postKarma = successResponse.postScore
                     dataManager.nickname = successResponse.nickname
+                    dataManager.nicknameEmoji = successResponse.nicknameEmoji
                 }
             }
         }

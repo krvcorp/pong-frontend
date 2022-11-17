@@ -9,4 +9,5 @@ struct User: Identifiable, Codable {
     var isSuperuser: Bool
     var nickname: String
     var numberReferred : Int
+    var nicknameEmoji : String
 }

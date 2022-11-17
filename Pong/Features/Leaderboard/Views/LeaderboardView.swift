@@ -146,6 +146,8 @@ struct LeaderboardView: View {
             // MARK: Editables
             HStack(spacing: 10) {
                 
+                
+                
                 // MARK: Nickname
                 VStack(spacing: 5) {
                     HStack {
@@ -155,7 +157,6 @@ struct LeaderboardView: View {
                             .foregroundColor(Color.pongLabel)
                         Spacer()
                     }
-                    
                     HStack {
                         HStack {
                             Image(systemName: "person")
@@ -183,8 +184,8 @@ struct LeaderboardView: View {
                             
                             Spacer()
                         }
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 8)
+                        .padding(8)
+                        .frame(width: 200, height: 40)
                         .overlay(
                             RoundedRectangle(cornerRadius: 25)
                                 .stroke(Color.pongAccent, lineWidth: 1)
@@ -207,27 +208,32 @@ struct LeaderboardView: View {
                     HStack {
                         Image(systemName: "eye")
                         
-                        EmojiTextField(text: $emoji, placeholder: "\(dataManager.emoji)")
+                        EmojiTextField(text: $emoji, placeholder: $dataManager.nicknameEmoji)
                             .focused($emojiIsFocused)
                             .accentColor(Color.pongSystemWhite)
                             .onReceive(Just(emoji)) { _ in limitEmojiText(1) }
-                            .padding(.horizontal)
-                            .frame(width: 75)
+                            .frame(width: 50)
+                        
+                        Spacer()
                         
                         if emojiIsFocused {
-                            Button  {
-                                if emoji != dataManager.emoji && emoji != "" {
+                            Button {
+                                if emoji != dataManager.nicknameEmoji && emoji != "" {
                                     leaderboardVM.updateNickname(dataManager: dataManager, emoji: emoji) { success in
-                                        emoji = ""
+                                        DispatchQueue.main.async {
+                                            emoji = ""
+                                            emojiIsFocused = false
+                                        }
                                     }
                                 }
                             } label: {
-                                Image("bookmark.fill")
+                                Image(systemName: "bookmark.fill")
+                                    .foregroundColor(Color.pongSystemWhite)
                             }
                         }
                     }
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 8)
+                    .padding(8)
+                    .frame(width: 125, height: 40)
                     .overlay(
                         RoundedRectangle(cornerRadius: 25)
                             .stroke(Color.pongAccent, lineWidth: 1)
@@ -262,7 +268,7 @@ struct LeaderboardView: View {
             ForEach(lblist) { entry in
                 HStack {
                     HStack {
-                        Text("😛")
+                        Text("\(entry.nicknameEmoji)")
                             .font(.title)
                         
                         Spacer()

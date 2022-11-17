@@ -35,7 +35,7 @@ class DataManager : ObservableObject {
     
     // leaderboard
     @Published var nickname : String = ""
-    @Published var emoji : String = "🏓"
+    @Published var nicknameEmoji : String = "🏓"
     @Published var rank : String = "1st"
     @Published var rankBehind : String = "1st"
     @Published var karmaBehind : Int = 0
@@ -148,6 +148,7 @@ class DataManager : ObservableObject {
                         self.karmaBehind = successResponse.karmaBehind
                         self.rank = successResponse.rank
                         self.rankBehind = successResponse.rankBehind
+                        self.nicknameEmoji = successResponse.nicknameEmoji
                     }
                 }
             }
