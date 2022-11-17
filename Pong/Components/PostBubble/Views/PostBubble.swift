@@ -13,9 +13,9 @@ struct PostBubble: View {
     @State private var sheet = false
     @State private var image = UIImage()
     
-    // MARK: Conversation
-    @Binding var isLinkActive : Bool
-    @Binding var conversation : Conversation
+    // conversation
+    @State private var isLinkActive = false
+    @State private var conversation = defaultConversation
     
     var body: some View {
         VStack() {
@@ -167,6 +167,11 @@ struct PostBubble: View {
     // MARK: PostBubbleMain
     var postBubbleMain: some View {
         ZStack {
+            NavigationLink(destination: MessageView(conversation: $conversation), isActive: $isLinkActive) { EmptyView().opacity(0) }
+                .isDetailLink(false)
+                .opacity(0)
+                .disabled(true)
+            
             NavigationLink(destination: PostView(post: $post)) {
                 EmptyView()
             }

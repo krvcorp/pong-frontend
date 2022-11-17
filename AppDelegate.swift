@@ -32,15 +32,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             
             // THIS CHANGES THE BACK BUTTON TEXT AND IMAGE TO BE Color.pongAccent
             appearance.backButtonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(Color.pongAccent)]
-            
-            // SET A CUSTOM BACK BUTTON IMAGE USING A CUSTOM IMAGE NAMED "back_button"
-            // let back_button = UIImage(named: "back_button")
-            // let tintedImage = back_button?.withRenderingMode(.alwaysTemplate)
-            // appearance.backButtonAppearance.normal.icon = tintedImage
-            // appearance.backButtonAppearance.normal.iconColor = UIColor(Color.pongAccent)
-            // let resized_back_button = back_button?.resized(to: CGSize(width: 24, height: 24))
-            // appearance.setBackIndicatorImage(resized_back_button, transitionMaskImage: resized_back_button)
-            
+            let image = UIImage(systemName: "chevron.left")?.withTintColor(UIColor(Color.pongAccent), renderingMode: .alwaysOriginal) // fix indicator color
+            appearance.setBackIndicatorImage(image, transitionMaskImage: image)
             
             // THIS SETS THE NAVIGATION BAR APPEARANCE FOR ALL TYPES OF APPEARANCES
             UINavigationBar.appearance().standardAppearance = appearance

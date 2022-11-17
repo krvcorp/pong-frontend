@@ -14,8 +14,6 @@ struct FeedView: View {
     @StateObject var notificationsManager = NotificationsManager.shared
     
     @Binding var showMenu : Bool
-    @State private var isLinkActive = false
-    @State private var conversation = defaultConversation
     
     var body: some View {
         TabView(selection: $feedVM.selectedFeedFilter) {
@@ -49,10 +47,6 @@ struct FeedView: View {
             
             ToolbarItem {
                 HStack(spacing: 0) {
-                    NavigationLink(destination: MessageView(conversation: $conversation), isActive: $isLinkActive) { EmptyView().opacity(0) }
-                        .isDetailLink(false)
-                        .opacity(0)
-                    
                     NavigationLink(destination: MessageRosterView(), isActive: $mainTabVM.openConversationsDetected) {
                         if dataManager.conversations.contains(where: {$0.unreadCount > 0}) {
                             ZStack(alignment: .topTrailing) {
@@ -170,7 +164,7 @@ struct FeedView: View {
                     ForEach($dataManager.topPosts, id: \.id) { $post in
                         CustomListDivider()
                         
-                        PostBubble(post: $post, isLinkActive: $isLinkActive, conversation: $conversation)
+                        PostBubble(post: $post)
                             .buttonStyle(PlainButtonStyle())
                             .onAppear {
                                 feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab, dataManager: dataManager)
@@ -198,7 +192,7 @@ struct FeedView: View {
                     ForEach($dataManager.hotPosts, id: \.id) { $post in
                         CustomListDivider()
                         
-                        PostBubble(post: $post, isLinkActive: $isLinkActive, conversation: $conversation)
+                        PostBubble(post: $post)
                             .buttonStyle(PlainButtonStyle())
                             .onAppear {
                                 feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab, dataManager: dataManager)
@@ -227,7 +221,7 @@ struct FeedView: View {
                     ForEach($dataManager.recentPosts, id: \.id) { $post in
                         CustomListDivider()
                         
-                        PostBubble(post: $post, isLinkActive: $isLinkActive, conversation: $conversation)
+                        PostBubble(post: $post)
                             .buttonStyle(PlainButtonStyle())
                             .onAppear {
                                 feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab, dataManager: dataManager)

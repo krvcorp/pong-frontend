@@ -15,7 +15,7 @@ struct SavedView: View {
             // MARK: Posts
             if dataManager.profileSavedPosts != [] {
                 ForEach($dataManager.profileSavedPosts, id: \.id) { $post in
-                    PostBubble(post: $post, isLinkActive: .constant(false), conversation: .constant(defaultConversation))
+                    PostBubble(post: $post)
                         .buttonStyle(PlainButtonStyle())
                         .listRowSeparator(.hidden)
                         .listRowBackground(Color.pongSystemBackground)

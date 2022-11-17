@@ -2,14 +2,11 @@ import SwiftUI
 import AlertToast
 
 struct ProfileView: View {
+    @Namespace var namespace
     @Environment(\.colorScheme) var colorScheme
     
     @StateObject var dataManager = DataManager.shared
     @StateObject private var profileVM = ProfileViewModel()
-    
-    @Namespace var namespace
-    
-    @State private var conversation = defaultConversation
     
     var body: some View {
         VStack {
@@ -141,7 +138,7 @@ struct ProfileView: View {
             if tab == .posts {
                 if dataManager.profilePosts != [] {
                     ForEach($dataManager.profilePosts, id: \.id) { $post in
-                        PostBubble(post: $post, isLinkActive: .constant(false), conversation: .constant(defaultConversation))
+                        PostBubble(post: $post)
                             .buttonStyle(PlainButtonStyle())
                             .listRowSeparator(.hidden)
                             .listRowBackground(Color.pongSystemBackground)
