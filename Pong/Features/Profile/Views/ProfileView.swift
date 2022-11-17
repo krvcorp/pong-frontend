@@ -96,7 +96,7 @@ struct ProfileView: View {
         .padding()
     }
     
-    // component for toolbar picker
+    // MARK: ToolbarPickerComponent
     var toolbarPickerComponent : some View {
         HStack(spacing: 30) {
             ForEach([ProfileFilter.posts, ProfileFilter.comments, ProfileFilter.about], id: \.self) { filter in
@@ -108,8 +108,9 @@ struct ProfileView: View {
                         Spacer()
                         
                         Text(filter.title)
-                            .font(.subheadline.bold())
-                            .foregroundColor(profileVM.selectedProfileFilter == filter ? Color.pongAccent : Color.pongSecondaryText)
+                            .font(.subheadline)
+                            .fontWeight(.bold)
+                            .foregroundColor(profileVM.selectedProfileFilter == filter ? Color.pongAccent : Color.pongLabel)
                         
                         Spacer()
                         
@@ -162,7 +163,7 @@ struct ProfileView: View {
                         
                         HStack(alignment: .center) {
                             Spacer()
-                            Text("you have no posts")
+                            Text("You have no posts")
                                 .font(.title.bold())
                             Spacer()
                         }
@@ -209,7 +210,7 @@ struct ProfileView: View {
                         
                         HStack(alignment: .center) {
                             Spacer()
-                            Text("you have no comments")
+                            Text("You have no comments")
                                 .font(.title.bold())
                             Spacer()
                         }

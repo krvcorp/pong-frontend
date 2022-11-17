@@ -318,10 +318,10 @@ class PostViewModel: ObservableObject {
     // MARK: Save Post
     func savePost(post: Post, dataManager: DataManager) {
         DispatchQueue.main.async {
-            self.post = post
-            self.post.saved = true
-            self.savedPostConfirmation = true
             withAnimation {
+                self.post = post
+                self.post.saved = true
+                self.savedPostConfirmation = true
                 self.postUpdateTrigger.toggle()
             }
         }
@@ -342,9 +342,9 @@ class PostViewModel: ObservableObject {
     // MARK: Unsave Post
     func unsavePost(post: Post, dataManager: DataManager) {
         DispatchQueue.main.async {
-            self.post = post
-            self.post.saved = false
             withAnimation {
+                self.post = post
+                self.post.saved = false
                 self.postUpdateTrigger.toggle()
             }
         }

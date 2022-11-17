@@ -225,8 +225,6 @@ struct PostBubble: View {
                             Image("save.fill")
                                 .font(Font.system(size: 36, weight: .regular))
                                 .foregroundColor(Color.pongSecondaryText)
-
-                            
                         }
                     } else if !post.saved {
                         Button {
@@ -237,7 +235,6 @@ struct PostBubble: View {
                             Image("save")
                                 .font(Font.system(size: 36, weight: .regular))
                                 .foregroundColor(Color.pongSecondaryText)
-
                         }
                     }
                 }

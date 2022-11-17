@@ -13,6 +13,7 @@ struct NotificationsView: View {
     @State var post = defaultPost
     @State var postIsLinkActive = false
     @State var leaderboardIsLinkActive = false
+    @State var thisWeekShowing = true
     
     //MARK: Body
     var body: some View {
@@ -39,7 +40,7 @@ struct NotificationsView: View {
                         
                         HStack(alignment: .center) {
                             Spacer()
-                            Text("you have no notifications")
+                            Text("You have no notifications")
                                 .font(.title.bold())
                             Spacer()
                         }
@@ -93,7 +94,22 @@ struct NotificationsView: View {
                                 .fontWeight(.heavy)
                                 .foregroundColor(Color.pongLabel)
                                 .padding(.bottom, 4)
+                            
                             Spacer()
+                            
+                            Button {
+                                notificationsVM.markAllAsRead()
+                            } label: {
+                                Text("Mark All Read")
+                                    .foregroundColor(Color.pongAccent)
+                                    .bold()
+                            }
+                        }
+                        .onAppear() {
+                            thisWeekShowing = true
+                        }
+                        .onDisappear() {
+                            thisWeekShowing = false
                         }
                     }
                     // MARK: Notifications from further in history
@@ -135,6 +151,18 @@ struct NotificationsView: View {
                                 .fontWeight(.heavy)
                                 .foregroundColor(Color.pongLabel)
                                 .padding(.bottom, 4)
+                            
+                            Spacer()
+                            
+                            if !thisWeekShowing {
+                                Button {
+                                    notificationsVM.markAllAsRead()
+                                } label: {
+                                    Text("Mark All Read")
+                                        .foregroundColor(Color.pongAccent)
+                                        .bold()
+                                }
+                            }
                         }
                     }
                     
@@ -161,17 +189,6 @@ struct NotificationsView: View {
         .navigationBarTitleDisplayMode(.inline)
         .navigationViewStyle(StackNavigationViewStyle())
         .accentColor(Color.pongLabel)
-        .toolbar() {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button {
-                    notificationsVM.markAllAsRead()
-                } label: {
-                    Text("Mark all Read")
-                        .foregroundColor(Color.pongAccent)
-                        .bold()
-                }
-            }
-        }
     }
     
     // MARK: GetNotificationText

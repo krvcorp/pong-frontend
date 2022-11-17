@@ -39,6 +39,8 @@ struct FeedView: View {
                         .bold()
                         .font(.title3)
                 }
+                .disabled(true)
+                .foregroundColor(Color.pongLabel)
             }
             
             ToolbarItem(placement: .principal) {
@@ -90,8 +92,9 @@ struct FeedView: View {
                         Spacer()
                         
                         Text(filter.title)
-                            .font(.subheadline.bold())
-                            .foregroundColor(feedVM.selectedFeedFilter == filter ? Color.pongAccent : Color.pongSecondaryText)
+                            .font(.subheadline)
+                            .fontWeight(.bold)
+                            .foregroundColor(feedVM.selectedFeedFilter == filter ? Color.pongAccent : Color.pongLabel)
                         
                         Spacer()
                         
@@ -117,12 +120,13 @@ struct FeedView: View {
     var reachedBottomComponent : some View {
         HStack {
             Spacer()
-            VStack {
-                Image(systemName: "arrow.clockwise")
-                Text("Tap to try again")
-            }
+            
+            ProgressView()
+                .foregroundColor(Color.pongLabel)
+            
             Spacer()
         }
+        .background(Color.pongSystemBackground)
     }
     
     // MARK: Custom Feed Stack
@@ -174,14 +178,16 @@ struct FeedView: View {
                     }
                     .listRowInsets(EdgeInsets())
                     
+                    CustomListDivider()
+                    
                     if !feedVM.finishedTop {
-                        CustomListDivider()
-                        
                         Button {
                             feedVM.paginatePosts(selectedFeedFilter: tab, dataManager: dataManager)
                         } label: {
                             reachedBottomComponent
                         }
+                        .listRowSeparator(.hidden)
+                        .listRowBackground(Color.pongSystemBackground)
                         .onAppear() {
                             feedVM.paginatePosts(selectedFeedFilter: tab, dataManager: dataManager)
                         }
@@ -202,14 +208,16 @@ struct FeedView: View {
                     }
                     .listRowInsets(EdgeInsets())
                     
+                    CustomListDivider()
+                    
                     if !feedVM.finishedHot {
-                        CustomListDivider()
-                        
                         Button {
                             feedVM.paginatePosts(selectedFeedFilter: tab, dataManager: dataManager)
                         } label: {
                             reachedBottomComponent
                         }
+                        .listRowSeparator(.hidden)
+                        .listRowBackground(Color.pongSystemBackground)
                         .onAppear() {
                             feedVM.paginatePosts(selectedFeedFilter: tab, dataManager: dataManager)
                         }
@@ -230,21 +238,22 @@ struct FeedView: View {
                             .listRowBackground(Color.pongSystemBackground)
                     }
                     .listRowInsets(EdgeInsets())
+                    
+                    CustomListDivider()
+                    
                     if !feedVM.finishedRecent {
-                        CustomListDivider()
-                        
                         Button {
                             feedVM.paginatePosts(selectedFeedFilter: tab, dataManager: dataManager)
                         } label: {
                             reachedBottomComponent
                         }
+                        .listRowSeparator(.hidden)
+                        .listRowBackground(Color.pongSystemBackground)
                         .onAppear() {
                             feedVM.paginatePosts(selectedFeedFilter: tab, dataManager: dataManager)
                         }
                     }
                 }
-                
-                CustomListDivider()
                 
                 Rectangle()
                     .fill(Color.pongSystemBackground)

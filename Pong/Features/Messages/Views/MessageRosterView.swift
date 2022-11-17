@@ -33,7 +33,7 @@ struct MessageRosterView: View {
                     
                     HStack(alignment: .center) {
                         Spacer()
-                        Text("you have no messages")
+                        Text("You have no messages")
                             .font(.title.bold())
                         Spacer()
                     }

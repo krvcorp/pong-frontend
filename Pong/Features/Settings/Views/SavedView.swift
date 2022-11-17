@@ -39,7 +39,7 @@ struct SavedView: View {
                     
                     HStack(alignment: .center) {
                         Spacer()
-                        Text("you have no saved posts")
+                        Text("You have no saved posts")
                             .font(.title.bold())
                         Spacer()
                     }

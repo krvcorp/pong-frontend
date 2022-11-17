@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 enum ActiveAlert {
     case delete, report, block
@@ -57,9 +58,11 @@ class PostBubbleViewModel: ObservableObject {
         NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/save/", method: .post) { successResponse, errorResponse in
             if successResponse != nil {
                 DispatchQueue.main.async {
-                    self.savedPostConfirmation = true
-                    dataManager.updatePostLocally(post: post)
-                    self.updateTrigger.toggle()
+                    withAnimation {
+                        self.savedPostConfirmation = true
+                        dataManager.updatePostLocally(post: post)
+                        self.updateTrigger.toggle()
+                    }
                 }
             } else if errorResponse != nil {
                 self.post = post
@@ -71,8 +74,10 @@ class PostBubbleViewModel: ObservableObject {
     
     func unsavePost(post: Post, dataManager: DataManager) {
         DispatchQueue.main.async {
-            self.post.saved = false
-            self.updateTrigger.toggle()
+            withAnimation {
+                self.post.saved = false
+                self.updateTrigger.toggle()
+            }
         }
         
         NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/save/", method: .delete) { successResponse, errorResponse in

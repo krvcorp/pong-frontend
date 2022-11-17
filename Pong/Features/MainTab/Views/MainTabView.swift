@@ -71,71 +71,70 @@ struct MainTabView: View {
                     // MARK: TabBar Overlay
                     LazyVGrid(columns: columns, spacing: 20) {
                         // MARK: FeedView
-                        Button(action: {
+                        VStack {
+                            Image("home")
+                                .font(.system(size: 40))
+                                .foregroundColor(mainTabVM.itemSelected == 1 ? Color.pongAccent : Color(UIColor.secondaryLabel))
+                        }
+                        .onTapGesture {
                             DispatchQueue.main.async {
+                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                                 if mainTabVM.itemSelected == 1 {
                                     mainTabVM.scrollToTop.toggle()
                                 } else {
                                     mainTabVM.itemSelected = 1
                                 }
                             }
-                        }) {
-                            VStack {
-                                Image("home")
-                                    .font(.system(size: 40))
-                                    .foregroundColor(mainTabVM.itemSelected == 1 ? Color.pongAccent : Color(UIColor.secondaryLabel))
-                            }
                         }
                         
                         // MARK: Stats and Leaderboard
-                        Button(action: {
+                        VStack {
+                            Image("trophy")
+                                .font(.system(size: 40))
+                                .foregroundColor(mainTabVM.itemSelected == 2 ? Color.pongAccent : Color(UIColor.secondaryLabel))
+                        }
+                        .onTapGesture {
                             DispatchQueue.main.async {
+                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                                 mainTabVM.itemSelected = 2
-                            }
-                        }) {
-                            VStack {
-                                Image("trophy")
-                                    .font(.system(size: 40))
-                                    .foregroundColor(mainTabVM.itemSelected == 2 ? Color.pongAccent : Color(UIColor.secondaryLabel))
                             }
                         }
                         
                         // MARK: NewPostView which is a red circle with a white plus sign
-                        Button(action: {
-                            DispatchQueue.main.async {
-                                mainTabVM.itemSelected = 3
+                        Image(systemName: "plus.circle.fill")
+                            .font(.system(size: 60))
+                            .foregroundStyle(Color.pongSystemWhite, Color.pongAccent)
+                            .padding(.bottom)
+                            .onTapGesture {
+                                DispatchQueue.main.async {
+                                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                                    mainTabVM.itemSelected = 3
+                                }
                             }
-                        }) {
-                            Image(systemName: "plus.circle.fill")
-                                .font(.system(size: 60))
-                                .foregroundStyle(Color.pongSystemWhite, Color.pongAccent)
-                        }
-                        .buttonStyle(PlainButtonStyle())
-                        .padding(.bottom)
                         
                         //MARK: Notifications
-                        Button(action: {
+                        VStack {
+                            Image("bell")
+                                .font(.system(size: 40))
+                                .foregroundColor(mainTabVM.itemSelected == 4 ? Color.pongAccent : Color(UIColor.secondaryLabel))
+                        }
+                        .onTapGesture {
                             DispatchQueue.main.async {
+                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                                 mainTabVM.itemSelected = 4
-                            }
-                        }) {
-                            VStack {
-                                Image("bell")
-                                    .font(.system(size: 40))
-                                    .foregroundColor(mainTabVM.itemSelected == 4 ? Color.pongAccent : Color(UIColor.secondaryLabel))
                             }
                         }
                         
                         //MARK: Profile
-                        Button(action: {
+                        VStack {
+                            Image("person")
+                                .font(.system(size: 40))
+                                .foregroundColor(mainTabVM.itemSelected == 5 ? Color.pongAccent : Color(UIColor.secondaryLabel))
+                        }
+                        .onTapGesture {
                             DispatchQueue.main.async {
+                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                                 mainTabVM.itemSelected = 5
-                            }
-                        }) {
-                            VStack {
-                                Image("person")
-                                    .font(.system(size: 40))
-                                    .foregroundColor(mainTabVM.itemSelected == 5 ? Color.pongAccent : Color(UIColor.secondaryLabel))
                             }
                         }
                     }
