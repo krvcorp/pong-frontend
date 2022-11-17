@@ -64,9 +64,11 @@ class NewPostViewModel: ObservableObject {
     @Published var selectedTag : Tag = .none
     @Published var image : UIImage? = nil
     @Published var newPollVM : NewPollViewModel = NewPollViewModel()
+    
+    @Published var newPostLoading = false
+    
     @Published var error = false
     @Published var errorMessage = "Error"
-    @Published var newPostLoading = false
 
     // MARK: NewPost request
     func newPost(mainTabVM: MainTabViewModel, dataManager: DataManager) -> Void {
@@ -81,6 +83,12 @@ class NewPostViewModel: ObservableObject {
                     "Authorization": "Token \(token)"
                 ]
             }
+            
+            let decoder: JSONDecoder = {
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                return decoder
+            }()
 
             AF.upload(multipartFormData: { multipartFormData in
                 multipartFormData.append(self.title.data(using: String.Encoding.utf8)!, withName: "title")
@@ -89,10 +97,44 @@ class NewPostViewModel: ObservableObject {
                     multipartFormData.append(tag.data(using: String.Encoding.utf8)!, withName: "tag")
                 }
             }, to: "\(NetworkManager.networkManager.baseURL)posts/", method: .post, headers: httpHeaders)
-                .responseDecodable(of: Post.self) { successResponse in
+                .response() { (response) in
+                    if let httpStatusCode = response.response?.statusCode {
+                        // AUTHENTICATION ERROR
+                        if httpStatusCode == 401 {
+                            print("NETWORK: 401 Error")
+                            AuthManager.authManager.signout(force: true)
+                        }
+                        // RANDOM ERRORS
+                        else if httpStatusCode > 401 && httpStatusCode < 600 {
+                            print("NETWORK: \(httpStatusCode) error")
+                            self.errorDetect(message: "Unable to connect to network")
+                        }
+                        self.newPostLoading = false
+                    }
+                }
+                .responseDecodable(of: Post.self, decoder: decoder) { (response) in
+                    guard let success = response.value else { return }
+                    
                     DispatchQueue.main.async {
+                        self.newPostLoading = false
                         mainTabVM.newPost()
                         dataManager.initProfile()
+                    }
+                }
+                .responseDecodable(of: ErrorResponseBody.self, decoder: decoder) { (response) in
+                    guard let error = response.value else { return }
+                    self.newPostLoading = false
+                    self.errorDetect(message: error.error)
+                }
+                .responseData() { (response) in
+                    switch response.result {
+                    case .success:
+                        break
+                    case let .failure(error):
+                        print("NETWORK: \(error.localizedDescription)")
+                        self.newPostLoading = false
+                        self.errorDetect(message: "Unable to connect to network")
+                        break
                     }
                 }
         }
@@ -118,19 +160,24 @@ class NewPostViewModel: ObservableObject {
                     }
                     if let errorResponse = errorResponse {
                         DispatchQueue.main.async {
-                            self.errorMessage = errorResponse.error
-                            self.error = true
+                            self.errorDetect(message: "\(errorResponse.error)")
                             self.newPostLoading = false
                         }
                     }
                 }
             } else {
                 DispatchQueue.main.async {
-                    self.errorMessage = "Invalid empty entries!"
-                    self.error = true
+                    self.errorDetect(message: "Invalid empty entries!")
                     self.newPostLoading = false
                 }
             }
+        }
+    }
+    
+    func errorDetect(message : String) {
+        DispatchQueue.main.async {
+            self.error = true
+            self.errorMessage = message
         }
     }
 }

@@ -186,7 +186,6 @@ class PostViewModel: ObservableObject {
                 multipartFormData.append(comment.data(using: String.Encoding.utf8)!, withName: "comment")
                 multipartFormData.append(imgData, withName: "image", fileName: "file.jpg", mimeType: "image/jpg")
             }, to: "\(NetworkManager.networkManager.baseURL)comments/", method: .post, headers: httpHeaders)
-                // tracking http errors
                 .response() { (response) in
                     if let httpStatusCode = response.response?.statusCode {
                         // AUTHENTICATION ERROR
@@ -197,7 +196,7 @@ class PostViewModel: ObservableObject {
                         // RANDOM ERRORS
                         else if httpStatusCode > 401 && httpStatusCode < 600 {
                             print("NETWORK: \(httpStatusCode) error")
-                            ToastManager.shared.errorToastDetected(message: "Something went wrong", subMessage: "\(httpStatusCode)")
+                            ToastManager.shared.errorToastDetected(message: "Something went wrong!", subMessage: "Unable to connect to network")
                         }
                     }
                 }
@@ -225,6 +224,33 @@ class PostViewModel: ObservableObject {
                     if errorResponse.value != nil {
                         DispatchQueue.main.async {
                             ToastManager.shared.errorToastDetected(message: "Something went wrong", subMessage: "Unable to make a comment")
+                        }
+                    }
+                }
+                .responseData() { (response) in
+                    switch response.result {
+                    case .success:
+                        break
+                    case let .failure(error):
+                        print("NETWORK: \(error.localizedDescription)")
+                        DispatchQueue.main.async {
+                            ToastManager.shared.errorToastDetected(message: "Something went wrong", subMessage: "Unable to make a comment")
+                        }
+                        break
+                    }
+                }
+                // tracking http errors
+                .response() { (response) in
+                    if let httpStatusCode = response.response?.statusCode {
+                        // AUTHENTICATION ERROR
+                        if httpStatusCode == 401 {
+                            print("NETWORK: 401 Error")
+                            AuthManager.authManager.signout(force: true)
+                        }
+                        // RANDOM ERRORS
+                        else if httpStatusCode > 401 && httpStatusCode < 600 {
+                            print("NETWORK: \(httpStatusCode) error")
+                            ToastManager.shared.errorToastDetected(message: "Something went wrong", subMessage: "\(httpStatusCode)")
                         }
                     }
                 }

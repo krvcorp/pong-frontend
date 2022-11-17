@@ -161,7 +161,7 @@ struct NewPostView: View {
                             print("DEBUG: NewPostIsLoading")
                         } label: {
                             ProgressView()
-                                .progressViewStyle(CircularProgressViewStyle(tint: Color(UIColor.systemBackground)))
+                                .progressViewStyle(CircularProgressViewStyle(tint: Color.pongAccent))
                                 .foregroundColor(Color.pongAccent)
                         }
                         .disabled(true)
