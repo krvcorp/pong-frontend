@@ -68,6 +68,7 @@ struct ProfileCommentBubble: View {
                         }
                     }
                 }
+                .font(.headline)
             }
         }
         .font(.system(size: 18).bold())

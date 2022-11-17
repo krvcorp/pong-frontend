@@ -180,7 +180,7 @@ struct CommentBubble: View {
                 }
             }
         }
-        .font(.subheadline)
+        .font(.headline)
         .foregroundColor(Color.pongSecondaryText)
         .padding(.top, 1)
     }

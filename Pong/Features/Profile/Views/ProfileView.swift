@@ -256,7 +256,6 @@ struct ProfileView: View {
         }
     }
     
-    
     // MARK: About Component
     @ViewBuilder
     func aboutComponent(system: Bool, image : String, title : String, data : String) -> some View {

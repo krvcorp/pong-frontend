@@ -100,7 +100,7 @@ struct PostBubble: View {
                             
                             Text("Message")
                         }
-                        .font(.caption.bold())
+                        .font(.subheadline.bold())
                         .padding(.vertical, 5)
                         .padding(.horizontal, 5)
                         .foregroundColor(Color.white)
@@ -194,6 +194,7 @@ struct PostBubble: View {
     }
     
     // MARK: PostBubbleBottomRow
+    /// Note that the .frame(maxWidth: .infinity) allows the three columns of the bottom row to each be equal sizes
     var postBubbleBottomRow: some View {
         HStack(spacing: 0) {
             
@@ -260,8 +261,9 @@ struct PostBubble: View {
                     }
                 }
             }
-            .frame(minWidth: 0, maxWidth: .infinity, maxHeight: 20)
         }
+        .frame(minWidth: 0, maxWidth: .infinity)
+        .font(.title3)
     }
     
     // MARK: VoteComponent
