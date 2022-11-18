@@ -24,6 +24,26 @@ class EmailController: UIViewController, MFMailComposeViewControllerDelegate {
         }
     }
     
+    @IBAction func sendEmailReferral() {
+        // Modify following variables with your text / recipient
+        let recipientEmail = "founders@pong.college"
+        let subject = "[REFERRAL - Send @]"
+        
+        // Show default mail composer
+        if MFMailComposeViewController.canSendMail() {
+            let mail = MFMailComposeViewController()
+            mail.mailComposeDelegate = self
+            mail.setToRecipients([recipientEmail])
+            mail.setSubject(subject)
+            
+            present(mail, animated: true)
+        
+        // Show third party email composer if default Mail app is not present
+        } else if let emailUrl = createEmailUrl(to: recipientEmail, subject: subject) {
+            UIApplication.shared.open(emailUrl)
+        }
+    }
+    
     private func createEmailUrl(to: String, subject: String) -> URL? {
         let subjectEncoded = subject.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
         

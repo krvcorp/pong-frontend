@@ -32,25 +32,24 @@ struct ReferralsView: View {
                 }
                 
                 HStack {
-                    HStack {
-                        Button {
-                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                            sheet.toggle()
-                        } label: {
-                            Image("share")
-                        }
-                        .buttonStyle(PlainButtonStyle())
-                        .sheet(isPresented: $sheet) {
-                            let referralCode = DAKeychain.shared["referralCode"]!
-                            let url = "https://www.pong.college/refer/ This new app just came out for BU use my referral code \(referralCode)"
-                            ShareSheet(items: [url])
-                        }
+                    Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        sheet.toggle()
+                    } label: {
+                        Image("share")
+                            .padding(15)
+                            .foregroundColor(Color.white)
+                            .overlay(RoundedRectangle(cornerRadius: 20).stroke().foregroundColor(Color.pongAccent))
+                            .background(Color.pongAccent)
+                            .cornerRadius(20)
                     }
-                    .padding(15)
-                    .foregroundColor(Color.white)
-                    .overlay(RoundedRectangle(cornerRadius: 20).stroke().foregroundColor(Color.pongAccent))
-                    .background(Color.pongAccent)
-                    .cornerRadius(20)
+                    .buttonStyle(PlainButtonStyle())
+                    .sheet(isPresented: $sheet) {
+                        let referralCode = DAKeychain.shared["referralCode"]!
+                        let url = "https://www.pong.college/refer/ This new app just came out for BU use my referral code \(referralCode)"
+                        ShareSheet(items: [url])
+                    }
+
                     
                     
                     HStack {
@@ -186,15 +185,18 @@ struct ReferralsView: View {
                     Spacer()
                     
                     if (dataManager.numberReferred > 4) {
-                        Text("Hello")
-                        HStack {
-                            Image("send")
-                                .font(.system(size: 25))
+                        Button {
+                            EmailController().sendEmailReferral()
+                        } label: {
+                            HStack {
+                                Image("envelope")
+                            }
+                            .foregroundColor(Color.white)
+                            .padding(10)
+                            .overlay(RoundedRectangle(cornerRadius: 20).stroke().foregroundColor(Color.pongAccent))
+                            .background(Color.pongAccent)
+                            .cornerRadius(20)
                         }
-                        .foregroundColor(Color.white)
-                        .overlay(RoundedRectangle(cornerRadius: 20).stroke().foregroundColor(Color.pongAccent))
-                        .background(Color.pongAccent)
-                        .cornerRadius(20)
                     }
                 }
                 .padding(.bottom)
