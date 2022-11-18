@@ -5,13 +5,12 @@ import AlertToast
 import PartialSheet
 
 struct ReferralsView: View {
-    let progressFrame : CGFloat = CGFloat(UIScreen.screenWidth - 25)
-    
     @StateObject var referralsVM = ReferralsViewModel()
-    @ObservedObject var dataManager = DataManager.shared
+    @StateObject var dataManager = DataManager.shared
     
     @State private var sheet : Bool = false
     @State private var halfSheetPresented : Bool = false
+    let progressFrame : CGFloat = CGFloat(UIScreen.screenWidth - 25)
     
     // MARK: Body
     var body: some View {
@@ -38,9 +37,7 @@ struct ReferralsView: View {
                             UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                             sheet.toggle()
                         } label: {
-                            Text("Invite friends")
-                                .font(.headline)
-                                .fontWeight(.medium)
+                            Image("share")
                         }
                         .buttonStyle(PlainButtonStyle())
                         .sheet(isPresented: $sheet) {
@@ -57,7 +54,7 @@ struct ReferralsView: View {
                     
                     
                     HStack {
-                        Text("Share with friends")
+                        Text("Invite Friends")
                             .font(.headline)
                             .fontWeight(.medium)
                     }
@@ -121,6 +118,9 @@ struct ReferralsView: View {
         }
         .navigationBarTitle("")
         .navigationBarTitleDisplayMode(.inline)
+        .refreshable {
+            referralsVM.getNumReferred()
+        }
     }
     
     // MARK: ReferralSheet
@@ -138,7 +138,7 @@ struct ReferralsView: View {
                 VStack {
                     HStack {
                         Spacer()
-                        Text("$\(dataManager.numberReferred * 3)")
+                        Text("$\((dataManager.numberReferred > 5 ? 5 : dataManager.numberReferred) * 3)")
                             .font(.largeTitle)
                             .fontWeight(.bold)
                         Spacer()
@@ -184,6 +184,18 @@ struct ReferralsView: View {
                         .font(.headline)
                         .fontWeight(.bold)
                     Spacer()
+                    
+                    if (dataManager.numberReferred > 4) {
+                        Text("Hello")
+                        HStack {
+                            Image("send")
+                                .font(.system(size: 25))
+                        }
+                        .foregroundColor(Color.white)
+                        .overlay(RoundedRectangle(cornerRadius: 20).stroke().foregroundColor(Color.pongAccent))
+                        .background(Color.pongAccent)
+                        .cornerRadius(20)
+                    }
                 }
                 .padding(.bottom)
                 
@@ -212,23 +224,11 @@ struct ReferralsView: View {
                     
                     RoundedRectangle(cornerRadius: 20)
                         .fill(Color.green)
-                        .frame(width: progressFrame * (0.2))
+                        .frame(width: progressFrame * (0.2) * CGFloat(dataManager.numberReferred > 5 ? 5 : dataManager.numberReferred))
                 }
                 .padding(.top, 5)
                 .frame(height: 15)
-                
-                if (dataManager.numberReferred > 4) {
-                    HStack {
-                        Image("send")
-                            .font(.system(size: 25))
-                    }
-                    .foregroundColor(Color.white)
-                    .overlay(RoundedRectangle(cornerRadius: 20).stroke().foregroundColor(Color.pongAccent))
-                    .background(Color.pongAccent)
-                    .cornerRadius(20)
-                }
             }
-            
         }
     }
 }
