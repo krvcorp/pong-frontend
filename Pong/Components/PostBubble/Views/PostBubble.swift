@@ -240,7 +240,10 @@ struct PostBubble: View {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     sheet.toggle()
                 } label: {
-                    Image("share")
+                    // wrapping the image in a text so we can set font weight without having to set a font size as well
+                    Text(Image("share"))
+                        .fontWeight(.medium)
+                        .foregroundColor(Color.pongSecondaryText)
                 }
                 .sheet(isPresented: $sheet) {
                     ShareSheet(items: ["\(NetworkManager.networkManager.rootURL)post/\(post.id)/"])
