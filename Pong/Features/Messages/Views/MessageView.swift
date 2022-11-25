@@ -16,21 +16,23 @@ struct MessageView: View {
     var body: some View {
         VStack(spacing: 0) {
             // MARK: Navigate to PostView Component
-            Button {
-                DispatchQueue.main.async {
-                    messageVM.getPost(postId: conversation.postId!) { success in
-                        post = success
-                        isLinkActive = true
+            if (conversation.postId != "") {
+                Button {
+                    DispatchQueue.main.async {
+                        messageVM.getPost(postId: conversation.postId!) { success in
+                            post = success
+                            isLinkActive = true
+                        }
                     }
+                } label: {
+                    PostComponent
+                        .background(Color.pongSystemBackground)
+                        .frame(maxWidth: .infinity)
                 }
-            } label: {
-                PostComponent
-                    .background(Color.pongSystemBackground)
-                    .frame(maxWidth: .infinity)
-            }
-            .buttonStyle(PlainButtonStyle())
-            .onAppear() {
-                messageVM.readPost(postId: conversation.postId!)
+                .buttonStyle(PlainButtonStyle())
+                .onAppear() {
+                    messageVM.readPost(postId: conversation.postId!)
+                }
             }
             
             // MARK: Rest of the messaging

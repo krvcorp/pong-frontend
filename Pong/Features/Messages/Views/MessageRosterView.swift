@@ -1,10 +1,3 @@
-//
-//  MessagesView.swift
-//  SidechatMockup
-//
-//  Created by Khoi Nguyen on 6/4/22.
-//
-
 import SwiftUI
 
 struct MessageRosterView: View {
@@ -16,17 +9,24 @@ struct MessageRosterView: View {
     
     var body: some View {
         List {
+            if dataManager.conversations != [] {
+                Section(header: (
+                    searchBar
+                        .listRowBackground(Color.pongSystemBackground)
+                        .listRowSeparator(.hidden)
+                )
+                    .background(Color.pongSystemBackground)
+                    .listRowInsets(EdgeInsets(
+                        top: 0,
+                        leading: 15,
+                        bottom: 0,
+                        trailing: 15))
+                        .textCase(nil)
+                ) {
+                    EmptyView()
+                }
+            }
             
-            Text("Messages")
-                .font(.system(size: 18))
-                .fontWeight(.bold)
-                .listRowBackground(Color.pongSystemBackground)
-                .listRowSeparator(.hidden)
-            
-            
-            searchBar
-                .listRowBackground(Color.pongSystemBackground)
-                .listRowSeparator(.hidden)
             
             
             if dataManager.conversations == [] {
@@ -45,7 +45,7 @@ struct MessageRosterView: View {
                     
                     HStack(alignment: .center) {
                         Spacer()
-                        Text("You have no messages")
+                        Text("You have no conversations.")
                             .font(.title.bold())
                         Spacer()
                     }
@@ -54,7 +54,7 @@ struct MessageRosterView: View {
                 .listRowSeparator(.hidden)
                 .frame(height: UIScreen.screenHeight / 2)
             }
-            // MARK: Messages
+            // MARK: Conversations
             else {
                 Section {
                     ForEach($dataManager.conversations.filter { searchText.isEmpty || $0.re.wrappedValue.contains(searchText)}, id: \.id) { $conversation in
@@ -66,70 +66,95 @@ struct MessageRosterView: View {
                             .opacity(0)
                             .buttonStyle(PlainButtonStyle())
                             
+                            // HStack
+                            // // VStack with
+                            // // // HStack of conversation.re
+                            // // // HStack of last message + dot + time of last message
+                            // // Spacer
+                            // Unread indicator if it exists
+                            
+                            
                             HStack {
                                 VStack (alignment: .leading, spacing: 6) {
+                                    
+                                    // Conversation title (re)
                                     HStack {
                                         if conversation.re == "" {
-                                            Text("Untitled Post")
+                                            Text("This post was deleted")
+                                                .fontWeight(.bold)
                                                 .lineLimit(1)
+                                                .font(.system(size: 16))
                                         } else {
                                             Text(conversation.re)
+                                                .fontWeight(.bold)
                                                 .lineLimit(1)
-                                        }
-                                        
-                                        Spacer()
-                                        
-                                        if conversation.messages != [] {
-                                            Text(messageRosterVM.stringToDateToString(dateString: conversation.messages.last!.createdAt))
-                                                .foregroundColor(Color(UIColor.label))
-                                                .lineLimit(1)
-                                            
+                                                .font(.system(size: 16))
                                         }
                                     }
-                                    
-                                    if conversation.messages != [] {
-                                        HStack {
-                                            Text(conversation.messages.last!.message)
+                                     
+                                    // Conversation's last message + time posted ago
+                                    HStack {
+                                        Text(conversation.messages.last!.message)
+                                            .fontWeight(conversation.unreadCount == 0 ? .regular : .bold)
+                                            .font(.system(size: 13))
+                                            .lineLimit(1)
+                                            .foregroundColor(conversation.unreadCount == 0 ? Color.pongLightGray : Color.pongLabel)
+                                        
+                                        if conversation.messages != [] {
+                                            Text("• \(messageRosterVM.stringToDateToString(dateString: conversation.messages.last!.createdAt))")
+                                                .foregroundColor(Color.pongLightGray)
+                                                .fontWeight(.regular)
+                                                .font(.system(size: 10))
                                                 .lineLimit(1)
-                                                .foregroundColor(Color.pongSecondaryText)
                                             
-                                            Spacer()
-                                            
-                                            // put the number of unread messages in a circle
-                                            if conversation.unreadCount > 0 {
-                                                Text("\(conversation.unreadCount)")
-                                                    .font(.subheadline)
-                                                    .foregroundColor(Color.white)
-                                                    .padding(5)
-                                                    .background(Color.pongAccent)
-                                                    .clipShape(Circle())
-                                            }
                                         }
                                     }
                                 }
+                                
+                                Spacer()
+                                
+                                // put the number of unread messages in a circle
+                                if conversation.unreadCount > 0 {
+                                    Text("")
+                                        .font(.system(size: 10))
+                                        .fontWeight(.medium)
+                                        .foregroundColor(Color.white)
+                                        .padding(4)
+                                        .background(Color.pongAccent)
+                                        .clipShape(Circle())
+                                }
                             }
                             .padding(.vertical, 10)
-                            .font(conversation.unreadCount == 0 ? .subheadline : .subheadline.bold())
+                            
+                        
                         }
+//                        .padding(.vertical, 10)
                         .listRowBackground(Color.pongSystemBackground)
+                        .listRowSeparator(.hidden)
+                        
+                        Rectangle()
+                            .fill(Color.pongSecondarySystemBackground)
+                            .frame(width: UIScreen.screenWidth - 50, height: 1)
+                            .listRowBackground(Color.pongSecondarySystemBackground.edgesIgnoringSafeArea([.leading, .trailing]))
+                            .listRowSeparator(.hidden)
+                            .padding(0)
+                            .listRowInsets(EdgeInsets())
                     }
                 }
             }
         }
         .scrollContentBackgroundCompat()
         .background(Color.pongSystemBackground)
-//        .navigationTitle("Messages")
+        .navigationTitle("Messages")
         .navigationBarTitleDisplayMode(.inline)
         .listStyle(GroupedListStyle())
-        .refreshable {
-            print("DEBUG: refresh")
-        }
         .onAppear {
             UITableView.appearance().showsVerticalScrollIndicator = false
         }
         .onAppear() {
             messageRosterVM.getConversations(dataManager: dataManager)
         }
+        .environment(\.defaultMinListRowHeight, 0)
     }
     
     var searchBar: some View {
@@ -139,7 +164,7 @@ struct MessageRosterView: View {
                 .font(Font.system(size: 16))
         }
         .padding(7)
-        .background(Color(hex: "F7F7F7"))
+        .background(Color.pongSearchBar)
         .cornerRadius(10)
     }
 }

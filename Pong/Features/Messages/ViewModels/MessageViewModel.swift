@@ -72,13 +72,15 @@ class MessageViewModel: ObservableObject {
     // MARK: GetPost
     /// Gets the post for the conversation and opens the post object on completion
     func getPost(postId: String, completionHandler: @escaping (Post) -> Void) {
-        NetworkManager.networkManager.request(route: "posts/\(postId)/", method: .get, successType: Post.self) { successResponse, errorResponse in
-            if successResponse != nil {
-                completionHandler(successResponse!)
-            }
-            
-            if errorResponse != nil {
-                print("DEBUG: This post was probably deleted")
+        if postId != "" {
+            NetworkManager.networkManager.request(route: "posts/\(postId)/", method: .get, successType: Post.self) { successResponse, errorResponse in
+                if successResponse != nil {
+                    completionHandler(successResponse!)
+                }
+                
+                if errorResponse != nil {
+                    print("DEBUG: This post was probably deleted")
+                }
             }
         }
     }
@@ -86,13 +88,15 @@ class MessageViewModel: ObservableObject {
     // MARK: ReadPost
     /// Reads the post information
     func readPost(postId: String) {
-        NetworkManager.networkManager.request(route: "posts/\(postId)/", method: .get, successType: Post.self) { successResponse, errorResponse in
-            if let successResponse = successResponse {
-                self.post = successResponse
-            }
-            
-            if errorResponse != nil {
-                print("DEBUG: This post was probably deleted")
+        if postId != "" {
+            NetworkManager.networkManager.request(route: "posts/\(postId)/", method: .get, successType: Post.self) { successResponse, errorResponse in
+                if let successResponse = successResponse {
+                    self.post = successResponse
+                }
+                
+                if errorResponse != nil {
+                    print("DEBUG: This post was probably deleted")
+                }
             }
         }
     }

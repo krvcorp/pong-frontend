@@ -79,10 +79,17 @@ struct PostBubble: View {
     var postBubbleTop: some View {
         VStack {
             HStack {
-                Text("\(post.timeSincePosted) ago")
-                    .font(.caption)
-                    .foregroundColor(Color.pongSecondaryText)
-                    .padding(.bottom, 2)
+                if (post.timeSincePosted == "Now") {
+                    Text("\(post.timeSincePosted)")
+                        .font(.caption)
+                        .foregroundColor(Color.pongSecondaryText)
+                        .padding(.bottom, 2)
+                } else {
+                    Text("\(post.timeSincePosted) ago")
+                        .font(.caption)
+                        .foregroundColor(Color.pongSecondaryText)
+                        .padding(.bottom, 2)
+                }
                 
                 Spacer()
                 
