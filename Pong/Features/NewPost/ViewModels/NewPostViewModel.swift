@@ -93,7 +93,7 @@ class NewPostViewModel: ObservableObject {
             AF.upload(multipartFormData: { multipartFormData in
                 multipartFormData.append(self.title.data(using: String.Encoding.utf8)!, withName: "title")
                 multipartFormData.append(imgData, withName: "image",fileName: "file.jpg", mimeType: "image/jpg")
-                if let tag = self.selectedTag.title {
+                if let tag = self.selectedTag.title?.lowercased() {
                     multipartFormData.append(tag.data(using: String.Encoding.utf8)!, withName: "tag")
                 }
             }, to: "\(NetworkManager.networkManager.baseURL)posts/", method: .post, headers: httpHeaders)
@@ -147,7 +147,7 @@ class NewPostViewModel: ObservableObject {
             }
             
             print("DEBUG: \(pollOptions)")
-            let parameters = NewPostModel.Request(title: self.title, pollOptions: pollOptions, tag: self.selectedTag.title)
+            let parameters = NewPostModel.Request(title: self.title, pollOptions: pollOptions, tag: self.selectedTag.title?.lowercased())
             
             // validate newPoll doesn't have invalid entries
             if newPollVM.validate() {
