@@ -15,6 +15,8 @@ class PostBubbleViewModel: ObservableObject {
     // this triggers a .onChange in the view file to bind the values between self.post and a binding post var
     @Published var updateTrigger : Bool = false
     
+    
+    // MARK: PostVote
     func postVote(direction: Int, post: Post, dataManager: DataManager) -> Void {
         var voteToSend = 0
         let temp = self.post.voteStatus
@@ -34,7 +36,6 @@ class PostBubbleViewModel: ObservableObject {
         }
         
         NetworkManager.networkManager.request(route: "posts/\(post.id)/vote/", method: .post, body: parameters, successType: PostVoteModel.Response.self) { successResponse, errorResponse in
-            // MARK: Success
             if successResponse != nil {
                 
             }
@@ -48,6 +49,7 @@ class PostBubbleViewModel: ObservableObject {
         }
     }
     
+    // MARK: SavePost
     func savePost(post: Post, dataManager: DataManager) {
         DispatchQueue.main.async {
             self.post = post
@@ -72,6 +74,7 @@ class PostBubbleViewModel: ObservableObject {
         }
     }
     
+    // MARK: UnsavePost
     func unsavePost(post: Post, dataManager: DataManager) {
         DispatchQueue.main.async {
             withAnimation {
@@ -94,6 +97,7 @@ class PostBubbleViewModel: ObservableObject {
         }
     }
     
+    // MARK: DeletePost
     func deletePost(post: Post, dataManager: DataManager) {
         NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/", method: .delete) { successResponse, errorResponse in
             if successResponse != nil {
@@ -102,6 +106,7 @@ class PostBubbleViewModel: ObservableObject {
         }
     }
     
+    // MARK: BlockPost
     func blockPost(post: Post, dataManager: DataManager) {
         NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/block/", method: .post) { successResponse, errorResponse in
             if successResponse != nil {
@@ -110,6 +115,7 @@ class PostBubbleViewModel: ObservableObject {
         }
     }
     
+    // MARK: ReportPost
     func reportPost(post: Post, dataManager: DataManager) {
         NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/report/", method: .post) { successResponse, errorResponse in
             if successResponse != nil {
@@ -118,6 +124,7 @@ class PostBubbleViewModel: ObservableObject {
         }
     }
     
+    // MARK: StartConversation
     func startConversation(post: Post, dataManager: DataManager, completion: @escaping (Conversation) -> Void) {
         let parameters = CreateConversation.RequestPost(postId: post.id)
         

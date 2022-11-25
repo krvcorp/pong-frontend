@@ -43,7 +43,7 @@ struct NewPostView: View {
                         .font(.title)
                         .frame(maxHeight: .infinity)
                         .onAppear() {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {  /// Anything over 0.5 seems to work
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {  /// Anything over 0.5 seems to work
                                 textIsFocused = true
                              }
                         }
@@ -128,6 +128,7 @@ struct NewPostView: View {
                 }
                 .background(Color.pongSystemBackground)
             }
+            .background(Color.pongSystemBackground)
             .navigationBarTitle("Create Post")
             .navigationBarTitleDisplayMode(.inline)
             // MARK: Toolbar
@@ -191,6 +192,7 @@ struct NewPostView: View {
                                     )
                                     .padding(.vertical, 2)
                                     .onTapGesture {
+                                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                                         withAnimation(.easeInOut) {
                                             if self.newPostVM.selectedTag == item {
                                                 self.newPostVM.selectedTag = .none

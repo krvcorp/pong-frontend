@@ -78,7 +78,6 @@ struct MainTabView: View {
                         }
                         .onTapGesture {
                             DispatchQueue.main.async {
-                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                                 if mainTabVM.itemSelected == 1 {
                                     mainTabVM.scrollToTop.toggle()
                                 } else {
@@ -95,7 +94,6 @@ struct MainTabView: View {
                         }
                         .onTapGesture {
                             DispatchQueue.main.async {
-                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                                 mainTabVM.itemSelected = 2
                             }
                         }
@@ -107,7 +105,6 @@ struct MainTabView: View {
                             .padding(.bottom)
                             .onTapGesture {
                                 DispatchQueue.main.async {
-                                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                                     mainTabVM.itemSelected = 3
                                 }
                             }
@@ -120,7 +117,6 @@ struct MainTabView: View {
                         }
                         .onTapGesture {
                             DispatchQueue.main.async {
-                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                                 mainTabVM.itemSelected = 4
                             }
                         }
@@ -133,7 +129,6 @@ struct MainTabView: View {
                         }
                         .onTapGesture {
                             DispatchQueue.main.async {
-                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                                 mainTabVM.itemSelected = 5
                             }
                         }
@@ -148,7 +143,7 @@ struct MainTabView: View {
             .environmentObject(dataManager)
             .accentColor(Color.pongLabel)
             // MARK: New Post Sheet
-            .sheet(isPresented: $mainTabVM.isCustomItemSelected) {
+            .fullScreenCover(isPresented: $mainTabVM.isCustomItemSelected) {
                 NewPostView(mainTabVM: mainTabVM)
                     .environmentObject(dataManager)
             }

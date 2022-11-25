@@ -395,8 +395,8 @@ struct PostView: View {
                             postVM.post = post
                             postVM.unsavePost(post: post, dataManager: dataManager)
                         } label: {
-                            Image("save.fill")
-                                .foregroundColor(Color.pongLabel)
+                            Image("bookmark.fill")
+                                .foregroundColor(Color.pongAccent)
                         }
                     } else if !post.saved {
                         Button {
@@ -404,7 +404,7 @@ struct PostView: View {
                             postVM.post = post
                             postVM.savePost(post: post, dataManager: dataManager)
                         } label: {
-                            Image("save")
+                            Image("bookmark")
                                 .foregroundColor(Color.pongSecondaryText)
                         }
                     }
