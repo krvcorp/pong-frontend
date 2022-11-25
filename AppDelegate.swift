@@ -47,6 +47,11 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             UITabBar.appearance().isTranslucent = true
             UITabBar.appearance().backgroundColor = UIColor(Color.pongSystemBackground)
             
+            
+            // makes the refreshable icon black, and works with list (who knows why)
+            UIRefreshControl.appearance().tintColor = UIColor(Color.pongLabel)
+            UIRefreshControl.appearance().backgroundColor = UIColor(Color.clear)
+            
             // THE BELOW CODE IS SETTING THE ENTIRE APP'S LIST SEPARATOR. IF YOU WANT TO CHANGE THIS, ADD A .ONDISAPPEAR BELOW
             UITableView.appearance().separatorStyle = .none
             UITableViewCell.appearance().backgroundColor = UIColor(Color.pongSystemBackground)

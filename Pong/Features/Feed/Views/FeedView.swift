@@ -286,6 +286,7 @@ struct FeedView: View {
             })
             .refreshable{
                 feedVM.paginatePostsReset(selectedFeedFilter: feedVM.selectedFeedFilter, dataManager: dataManager)
+                await Task.sleep(500_000_000)
             }
             .listStyle(PlainListStyle())
         }

@@ -175,8 +175,9 @@ struct NotificationsView: View {
             }
             .scrollContentBackgroundCompat()
             .refreshable() {
-                notificationsVM.getNotificationHistoryWeek()
-                notificationsVM.getNotificationHistoryPrevious()
+                await notificationsVM.getNotificationHistoryWeek()
+                await notificationsVM.getNotificationHistoryPrevious()
+                await Task.sleep(500_000_000)
             }
             .listStyle(PlainListStyle())
         }

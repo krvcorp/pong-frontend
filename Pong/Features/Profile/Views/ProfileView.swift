@@ -253,6 +253,7 @@ struct ProfileView: View {
         .listStyle(PlainListStyle())
         .refreshable{
             profileVM.triggerRefresh(tab: tab, dataManager: dataManager)
+            await Task.sleep(500_000_000)
         }
     }
     

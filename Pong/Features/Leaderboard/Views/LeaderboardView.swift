@@ -323,6 +323,7 @@ struct LeaderboardView: View {
         .refreshable{
             leaderboardVM.getLeaderboard(dataManager: dataManager)
             leaderboardVM.getLoggedInUserInfo(dataManager: dataManager)
+            await Task.sleep(500_000_000)
         }
         .listStyle(PlainListStyle())
     }
