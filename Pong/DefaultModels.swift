@@ -63,6 +63,6 @@ var defaultConversation = Conversation(id: "default",
                                        reTimeAgo: "default",
                                        unreadCount: 1,
                                        postId: "default",
-                                       read: false)
+                                       timeSinceUpdated: "1h")
 
 var defaultSkip = Poll.Skip(enabled: true, numVotes: 0, id: "default")

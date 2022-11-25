@@ -1,10 +1,3 @@
-//
-//  Conversation.swift
-//  Pong
-//
-//  Created by Khoi Nguyen on 9/11/22.
-//
-
 import Foundation
 
 struct Conversation: Hashable, Codable, Identifiable, Equatable {
@@ -14,7 +7,7 @@ struct Conversation: Hashable, Codable, Identifiable, Equatable {
     var reTimeAgo: String
     var unreadCount: Int
     var postId: String?
-    var read: Bool
+    var timeSinceUpdated: String
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
