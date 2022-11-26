@@ -6,7 +6,7 @@ class NetworkManager: ObservableObject {
     static let networkManager = NetworkManager()
     
     // MARK: BaseURL
-    #if DEBUG
+    #if targetEnvironment(simulator)
         var baseURL = "http://localhost:8005/api/"
         var rootURL = "http://localhost:8005/"
 //        var baseURL = "https://pong.college/api/"

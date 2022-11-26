@@ -77,19 +77,13 @@ struct PostBubble: View {
     
     // MARK: PostBubbleTop
     var postBubbleTop: some View {
-        VStack {
+        VStack(spacing: 0) {
             HStack {
-                if (post.timeSincePosted == "Now") {
-                    Text("\(post.timeSincePosted)")
-                        .font(.caption)
-                        .foregroundColor(Color.pongSecondaryText)
-                        .padding(.bottom, 2)
-                } else {
-                    Text("\(post.timeSincePosted) ago")
-                        .font(.caption)
-                        .foregroundColor(Color.pongSecondaryText)
-                        .padding(.bottom, 2)
-                }
+                // MARK: Time posted
+                Text("\(post.timeSincePosted) \(post.timeSincePosted == "Now" ? "" : "ago")")
+                    .font(.system(size: 13))
+                    .foregroundColor(Color.pongSecondaryText)
+                    .padding(.bottom, 2)
                 
                 Spacer()
                 
@@ -106,8 +100,9 @@ struct PostBubble: View {
                             Image("bubble.dots.center.fill")
                             
                             Text("Message")
+                                .font(.system(size: 13))
+                                .fontWeight(.medium)
                         }
-                        .font(.subheadline.bold())
                         .padding(.vertical, 5)
                         .padding(.horizontal, 5)
                         .foregroundColor(Color.white)
@@ -132,31 +127,29 @@ struct PostBubble: View {
                             postBubbleVM.activeAlert = .report
                             postBubbleVM.showConfirmation = true
                         } label: {
-                            Label("Report", systemImage: "flag")
+                            Label("Report post", systemImage: "flag")
                         }
                     } label: {
                         Image(systemName: "ellipsis")
                             .frame(width: 30, height: 30)
                     }
                     .frame(width: 25, height: 25)
-                    .foregroundColor(Color.pongLabel)
+                    .foregroundColor(Color.pongSecondaryText)
                 }
             }
+            .padding(.bottom, 10)
             
             if let tagName = post.tag {
                 HStack {
-                    Text(Tag(rawValue: tagName)!.title!)
-                        .padding(1)
-                        .padding(.horizontal)
-                        .foregroundColor(Color(UIColor.systemBackground))
-                        .overlay(RoundedRectangle(cornerRadius: 15).stroke(Tag(rawValue: tagName)!.color, lineWidth: 2))
-                        .background(Tag(rawValue: tagName)!.color)
-                        .cornerRadius(15)         // You also need the cornerRadius here
-                        .padding(.bottom)
+                    Text(Tag(rawValue: tagName)!.title!.uppercased())
+                        .font(.system(size: 18))
+                        .fontWeight(.heavy)
+                        .foregroundColor(Tag(rawValue: tagName)!.color)
                     Spacer()
                 }
-                .padding(0)
+                .padding(.bottom, 5)
             }
+            
             
             HStack() {
                 Text(post.title)
@@ -166,22 +159,27 @@ struct PostBubble: View {
                 
                 Spacer()
             }
+            .padding(.bottom, 0)
+            .border(Color.red)
+        
         }
     }
     
     // MARK: PostBubbleMain
     var postBubbleMain: some View {
         ZStack {
-            NavigationLink(destination: MessageView(conversation: $conversation), isActive: $isLinkActive) { EmptyView().opacity(0) }
-                .isDetailLink(false)
-                .opacity(0)
-                .disabled(true)
+            NavigationLink(destination: MessageView(conversation: $conversation), isActive: $isLinkActive) {
+                EmptyView()
+                    .padding(0)
+            }
+            .opacity(0.0)
+            .disabled(true)
             
             NavigationLink(destination: PostView(post: $post)) {
                 EmptyView()
+                    .padding(0)
             }
             .opacity(0.0)
-            .buttonStyle(PlainButtonStyle())
             
             VStack (alignment: .leading) {
                 // MARK: Image
@@ -241,8 +239,22 @@ struct PostBubble: View {
                                 .foregroundColor(Color.pongSecondaryText)
                         }
                     }
+                } else {
+                    // MARK: Delete Button
+                    Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        DispatchQueue.main.async {
+                            postBubbleVM.post = post
+                            postBubbleVM.activeAlert = .delete
+                            postBubbleVM.showConfirmation = true
+                        }
+                    } label: {
+                        Image("trash")
+                            .foregroundColor(Color.pongSecondaryText)
+                    }
                 }
                 
+                // MARK: Share Button
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     sheet.toggle()
@@ -256,20 +268,6 @@ struct PostBubble: View {
                     ShareSheet(items: ["\(NetworkManager.networkManager.rootURL)post/\(post.id)/"])
                 }
                 
-                // MARK: Delete or More Button
-                if post.userOwned {
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        DispatchQueue.main.async {
-                            postBubbleVM.post = post
-                            postBubbleVM.activeAlert = .delete
-                            postBubbleVM.showConfirmation = true
-                        }
-                    } label: {
-                        Image("trash")
-                            .foregroundColor(Color.pongSecondaryText)
-                    }
-                }
             }
         }
         .frame(minWidth: 0, maxWidth: .infinity)
