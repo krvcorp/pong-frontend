@@ -45,20 +45,25 @@ struct MainTabView: View {
         // MARK: If app is loaded
         else {
             NavigationView {
-                // create a custom tab view with a custom tab bar using a zstack
                 ZStack(alignment: .bottom) {
-                    // if statements to check what selection is on to show a specific view
-                    if mainTabVM.itemSelected == 1 {
+                    TabView(selection: $mainTabVM.itemSelected) {
+                        // MARK: Feed
                         FeedView(showMenu: $showMenu)
-                    } else if mainTabVM.itemSelected == 2 {
+                            .tag(1)
+                        
+                        // MARK: Leaderboard
                         LeaderboardView()
-                    } else if mainTabVM.itemSelected == 3 {
-                        NewPostView(mainTabVM: mainTabVM)
-                    } else if mainTabVM.itemSelected == 4 {
+                            .tag(2)
+                        
+                        // MARK: Notifications
                         NotificationsView()
-                    } else if mainTabVM.itemSelected == 5 {
+                            .tag(4)
+                        
+                        // MARK: Profile
                         ProfileView()
+                            .tag(5)
                     }
+                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                     
                     let columns = [
                         GridItem(.flexible()),
