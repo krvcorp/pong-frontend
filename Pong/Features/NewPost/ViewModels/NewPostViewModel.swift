@@ -26,14 +26,14 @@ enum Tag: String, CaseIterable, Identifiable {
     var title: String? {
         switch self {
         case .none: return nil
-        case .rant: return "RANT"
-        case .confession: return "CONFESSION"
-        case .question: return "QUESTION"
-        case .event: return "EVENT"
-        case .meme: return "MEME"
+        case .rant: return "Rant"
+        case .confession: return "Confession"
+        case .question: return "Question"
+        case .event: return "Event"
+        case .meme: return "Meme"
         case .w: return "W"
         case .rip: return "RIP"
-        case .course: return "CLASS"
+        case .course: return "Class"
         }
     }
     
