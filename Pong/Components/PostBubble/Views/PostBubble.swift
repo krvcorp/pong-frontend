@@ -88,28 +88,6 @@ struct PostBubble: View {
                 Spacer()
                 
                 if !post.userOwned {
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        postBubbleVM.post = post
-                        postBubbleVM.startConversation(post: post, dataManager: dataManager) { success in
-                            conversation = success
-                            isLinkActive = true
-                        }
-                    } label: {
-                        HStack(spacing: 3) {
-                            Image("bubble.dots.center.fill")
-                            
-                            Text("Message")
-                                .font(.system(size: 13))
-                                .fontWeight(.medium)
-                        }
-                        .padding(.vertical, 5)
-                        .padding(.horizontal, 5)
-                        .foregroundColor(Color.white)
-                        .overlay(RoundedRectangle(cornerRadius: 15).stroke().foregroundColor(Color.pongAccent))
-                        .background(Color.pongAccent)
-                        .cornerRadius(15)
-                    }
                     
                     Menu {
                         Button {
@@ -160,8 +138,6 @@ struct PostBubble: View {
                 Spacer()
             }
             .padding(.bottom, 0)
-            .border(Color.red)
-        
         }
     }
     
@@ -215,11 +191,32 @@ struct PostBubble: View {
             }
             .frame(minWidth: 0, maxWidth: .infinity)
             
-            
             HStack() {
                 Spacer()
                 if !post.userOwned {
-                    
+                
+                    Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        postBubbleVM.post = post
+                        postBubbleVM.startConversation(post: post, dataManager: dataManager) { success in
+                            conversation = success
+                            isLinkActive = true
+                        }
+                    } label: {
+                        HStack(spacing: 1) {
+                            Image("bubble.dots.center.fill")
+                            
+                            Text("DM")
+                        }
+                        .font(.caption)
+                        .padding(.vertical, 5)
+                        .padding(.horizontal, 5)
+                        .foregroundColor(Color.white)
+                        .overlay(RoundedRectangle(cornerRadius: 15).stroke().foregroundColor(Color.pongAccent))
+                        .background(Color.pongAccent)
+                        .cornerRadius(15)
+                    }
+                        
                     if post.saved {
                         Button {
                             UIImpactFeedbackGenerator(style: .medium).impactOccurred()
