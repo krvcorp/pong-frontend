@@ -47,6 +47,7 @@ struct MainTabView: View {
             NavigationView {
                 ZStack(alignment: .bottom) {
                     TabView(selection: $mainTabVM.itemSelected) {
+                        
                         // MARK: Feed
                         FeedView(showMenu: $showMenu)
                             .tag(1)

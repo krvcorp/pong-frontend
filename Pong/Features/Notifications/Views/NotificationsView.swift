@@ -175,8 +175,10 @@ struct NotificationsView: View {
             }
             .scrollContentBackgroundCompat()
             .refreshable() {
-                await notificationsVM.getNotificationHistoryWeek()
-                await notificationsVM.getNotificationHistoryPrevious()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
+                    notificationsVM.getNotificationHistoryWeek()
+                    notificationsVM.getNotificationHistoryPrevious()
+                }
                 await Task.sleep(500_000_000)
             }
             .listStyle(PlainListStyle())

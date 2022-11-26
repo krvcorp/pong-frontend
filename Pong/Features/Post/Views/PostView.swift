@@ -103,19 +103,22 @@ struct PostView: View {
                 .environment(\.defaultMinListRowHeight, 0)
                 .listStyle(PlainListStyle())
                 .refreshable {
-                    // API call to refresh local data
-                    postVM.readPost(post: post, dataManager: dataManager) { result in
-                        if !result {
-                            self.presentationMode.wrappedValue.dismiss()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
+                        // API call to refresh local data
+                        postVM.readPost(post: post, dataManager: dataManager) { result in
+                            if !result {
+                                self.presentationMode.wrappedValue.dismiss()
+                            }
+                        }
+                        
+                        // API call to fetch comments to display
+                        postVM.getComments() { successResponse in
+                            if let index = dataManager.postComments.firstIndex(where: {$0.0 == post.id}) {
+                                dataManager.postComments[index] = (post.id, successResponse)
+                            }
                         }
                     }
-                    
-                    // API call to fetch comments to display
-                    postVM.getComments() { successResponse in
-                        if let index = dataManager.postComments.firstIndex(where: {$0.0 == post.id}) {
-                            dataManager.postComments[index] = (post.id, successResponse)
-                        }
-                    }
+                    await Task.sleep(500_000_000)
                 }
                 .onTapGesture {
                     hideKeyboard()
