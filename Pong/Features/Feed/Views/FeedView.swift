@@ -35,7 +35,7 @@ struct FeedView: View {
                     
                 }
                 label: {
-                    Text("BU")
+                    Text("pong")
                         .bold()
                         .font(.title3)
                 }
