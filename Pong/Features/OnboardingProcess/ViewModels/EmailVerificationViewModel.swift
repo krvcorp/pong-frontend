@@ -112,12 +112,12 @@ class EmailVerificationViewModel: ObservableObject {
                             }
                         }
                         
-                        // store FCM token
+                        // store FCM token and send it
                         Messaging.messaging().token { token, error in
                             if let token = token {
                                 DAKeychain.shared["fcm"] = token
                                 
-                                NotificationsManager().registerForNotifications(forceRegister: true)
+                                NotificationsManager().sendFCM()
                             }
                         }
                         

@@ -69,6 +69,22 @@ class NotificationsManager: ObservableObject {
         })
     }
     
+    // MARK: SendFCM
+    /// Sends the user's FCM token to the server without prompting the user to enable notifications
+    func sendFCM() {
+        Messaging.messaging().token { token, error in
+            if let token = token {
+                // save fcm token
+                DAKeychain.shared["fcm"] = token
+                
+                // send fcm token
+                NetworkManager.networkManager.emptyRequest(route: "notifications/register/", method: .post, body: Registration.Request(fcm_token: token)) { success, error in
+                    print("DEBUG: Notifications Registered")
+                }
+            }
+        }
+    }
+    
     // MARK: UpdateNotificationsPreferences
     /// Determines if the user has notification settings on, and if it isn't, displays a CTA to turn on notifications
     func updateNotificationsPreferences() {
