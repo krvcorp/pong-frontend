@@ -44,107 +44,30 @@ struct MainTabView: View {
         }
         // MARK: If app is loaded
         else {
-            NavigationView {
-                ZStack(alignment: .bottom) {
-                    TabView(selection: $mainTabVM.itemSelected) {
-                        
-                        // MARK: Feed
-                        FeedView(showMenu: $showMenu)
-                            .tag(1)
-                        
-                        // MARK: Leaderboard
-                        LeaderboardView()
-                            .tag(2)
-                        
-                        // MARK: Notifications
-                        NotificationsView()
-                            .tag(4)
-                        
-                        // MARK: Profile
-                        ProfileView()
-                            .tag(5)
-                    }
-                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+            ZStack(alignment: .bottom) {
+                TabView(selection: $mainTabVM.itemSelected) {
                     
-                    let columns = [
-                        GridItem(.flexible()),
-                        GridItem(.flexible()),
-                        GridItem(.flexible()),
-                        GridItem(.flexible()),
-                        GridItem(.flexible())
-                    ]
-
-                    // MARK: TabBar Overlay
-                    LazyVGrid(columns: columns, spacing: 20) {
-                        // MARK: FeedView
-                        VStack {
-                            Image("home")
-                                .font(.system(size: 25))
-                                .foregroundColor(mainTabVM.itemSelected == 1 ? Color.pongAccent : Color(UIColor.secondaryLabel))
-                        }
-                        .onTapGesture {
-                            DispatchQueue.main.async {
-                                if mainTabVM.itemSelected == 1 {
-                                    mainTabVM.scrollToTop.toggle()
-                                } else {
-                                    mainTabVM.itemSelected = 1
-                                }
-                            }
-                        }
-                        
-                        // MARK: Stats and Leaderboard
-                        VStack {
-                            Image("trophy")
-                                .font(.system(size: 25))
-                                .foregroundColor(mainTabVM.itemSelected == 2 ? Color.pongAccent : Color(UIColor.secondaryLabel))
-                        }
-                        .onTapGesture {
-                            DispatchQueue.main.async {
-                                mainTabVM.itemSelected = 2
-                            }
-                        }
-                        
-                        // MARK: NewPostView which is a red circle with a white plus sign
-                        Image(systemName: "plus.circle.fill")
-                            .font(.system(size: 55))
-                            .foregroundStyle(Color.pongSystemWhite, Color.pongAccent)
-                            .padding(.bottom)
-                            .onTapGesture {
-                                DispatchQueue.main.async {
-                                    mainTabVM.itemSelected = 3
-                                }
-                            }
-                        
-                        //MARK: Notifications
-                        VStack {
-                            Image("bell")
-                                .font(.system(size: 25))
-                                .foregroundColor(mainTabVM.itemSelected == 4 ? Color.pongAccent : Color(UIColor.secondaryLabel))
-                        }
-                        .onTapGesture {
-                            DispatchQueue.main.async {
-                                mainTabVM.itemSelected = 4
-                            }
-                        }
-                        
-                        //MARK: Profile
-                        VStack {
-                            Image("person")
-                                .font(.system(size: 25))
-                                .foregroundColor(mainTabVM.itemSelected == 5 ? Color.pongAccent : Color(UIColor.secondaryLabel))
-                        }
-                        .onTapGesture {
-                            DispatchQueue.main.async {
-                                mainTabVM.itemSelected = 5
-                            }
-                        }
-                    }
-                    .frame(width: UIScreen.screenWidth, height: 50)
-                    .background(Color.pongSystemBackground)
-                    .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: -5)
+                    // MARK: Feed
+                    FeedView(showMenu: $showMenu)
+                        .tag(1)
+                    
+                    // MARK: Leaderboard
+                    LeaderboardView()
+                        .tag(2)
+                    
+                    // MARK: Notifications
+                    NotificationsView()
+                        .tag(4)
+                    
+                    // MARK: Profile
+                    ProfileView()
+                        .tag(5)
                 }
-                .navigationViewStyle(StackNavigationViewStyle())
-                .ignoresSafeArea(.keyboard, edges: .bottom)
+                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+
+                // MARK: TabBar Overlay
+                tabBarOverlay
+                    .padding(.bottom)
             }
             .environmentObject(dataManager)
             .accentColor(Color.pongLabel)
@@ -166,6 +89,87 @@ struct MainTabView: View {
             .onDisappear {
                 self.dataManager.timer.upstream.connect().cancel()
             }
+        }
+    }
+    
+    // MARK: CustomTabBar
+    var tabBarOverlay : some View {
+        VStack {
+            let columns = [
+                GridItem(.flexible()),
+                GridItem(.flexible()),
+                GridItem(.flexible()),
+                GridItem(.flexible()),
+                GridItem(.flexible())
+            ]
+            
+            LazyVGrid(columns: columns, spacing: 20) {
+                // MARK: FeedView
+                VStack {
+                    Image("home")
+                        .font(.system(size: 25))
+                        .foregroundColor(mainTabVM.itemSelected == 1 ? Color.pongAccent : Color(UIColor.secondaryLabel))
+                }
+                .onTapGesture {
+                    DispatchQueue.main.async {
+                        if mainTabVM.itemSelected == 1 {
+                            mainTabVM.scrollToTop.toggle()
+                        } else {
+                            mainTabVM.itemSelected = 1
+                        }
+                    }
+                }
+                
+                // MARK: Stats and Leaderboard
+                VStack {
+                    Image("trophy")
+                        .font(.system(size: 25))
+                        .foregroundColor(mainTabVM.itemSelected == 2 ? Color.pongAccent : Color(UIColor.secondaryLabel))
+                }
+                .onTapGesture {
+                    DispatchQueue.main.async {
+                        mainTabVM.itemSelected = 2
+                    }
+                }
+                
+                // MARK: NewPostView which is a red circle with a white plus sign
+                Image(systemName: "plus.circle.fill")
+                    .font(.system(size: 55))
+                    .foregroundStyle(Color.pongSystemWhite, Color.pongAccent)
+                    .padding(.bottom)
+                    .onTapGesture {
+                        DispatchQueue.main.async {
+                            mainTabVM.itemSelected = 3
+                        }
+                    }
+                
+                //MARK: Notifications
+                VStack {
+                    Image("bell")
+                        .font(.system(size: 25))
+                        .foregroundColor(mainTabVM.itemSelected == 4 ? Color.pongAccent : Color(UIColor.secondaryLabel))
+                }
+                .onTapGesture {
+                    DispatchQueue.main.async {
+                        mainTabVM.itemSelected = 4
+                    }
+                }
+                
+                //MARK: Profile
+                VStack {
+                    Image("person")
+                        .font(.system(size: 25))
+                        .foregroundColor(mainTabVM.itemSelected == 5 ? Color.pongAccent : Color(UIColor.secondaryLabel))
+                }
+                .onTapGesture {
+                    DispatchQueue.main.async {
+                        mainTabVM.itemSelected = 5
+                    }
+                }
+            }
+            .frame(width: UIScreen.screenWidth, height: 50)
+            .background(Color.pongSystemBackground)
+            .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: -5)
         }
     }
 }

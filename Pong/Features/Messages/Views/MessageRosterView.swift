@@ -2,7 +2,7 @@ import SwiftUI
 
 struct MessageRosterView: View {
     @StateObject var messageRosterVM = MessageRosterViewModel()
-    @EnvironmentObject var dataManager : DataManager
+    @StateObject var dataManager = DataManager.shared
     
     @State private var searchText = ""
     @State private var showAlert = false
