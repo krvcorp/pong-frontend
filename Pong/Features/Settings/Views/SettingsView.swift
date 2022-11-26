@@ -99,12 +99,12 @@ struct SettingsView: View {
                 // MARK: About Us
                 NavigationLink(destination: AboutUsView()){
                     HStack {
-                        Image(systemName: "checkmark.shield").font(Font.body.weight(.bold))
+                        Image(systemName: "checkmark.shield")
+                            .font(Font.body.weight(.bold))
                             .frame(width: 20)
-                        Text("About Us").foregroundColor(Color(uiColor: UIColor.label))
+                        Text("About Us")
                             .bold()
                         Spacer()
-                        
                     }
                 }
                 .isDetailLink(false)
@@ -265,6 +265,7 @@ struct SettingsView: View {
         }
         .scrollContentBackgroundCompat()
         .background(Color.pongSystemBackground)
+        .foregroundColor(Color.pongLabel)
         .environment(\.defaultMinListRowHeight, 0)
         .listStyle(GroupedListStyle())
         .frame(maxWidth: .infinity)
