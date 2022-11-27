@@ -18,21 +18,18 @@ struct PostBubble: View {
     @State private var conversation = defaultConversation
     
     var body: some View {
-        VStack(spacing: 0) {
+        VStack() {
             postBubbleTop
                 .padding(.horizontal)
             
             postBubbleTitleVote
                 .padding(.horizontal)
-//                .border(Color.purple)
-//
+
             postBubbleMain
                 .frame(width: UIScreen.screenWidth)
-//                .border(Color.blue)
             
             postBubbleBottomRow
                 .padding(.horizontal)
-//                .border(Color.green)
         }
         .padding(.vertical, 5)
         
@@ -314,8 +311,6 @@ struct PostBubble: View {
                     .fontWeight(.bold)
                     .font(.title2)
             }
-            
-            Spacer()
         }
     }
 }
