@@ -66,6 +66,7 @@ class DataManager : ObservableObject {
         self.initTopPosts()
         self.initRecentPosts()
         self.initLeaderboard()
+        self.initNotifications()
         self.initProfile()
         self.getConversations()
     }
@@ -339,4 +340,21 @@ class DataManager : ObservableObject {
         self.postKarma = 0
         self.isAppLoading = true
     }
+    
+    // MARK: GetNotificationsHistoryWeek
+    /// Gets the notifications from within the current week timeframe
+    func initNotifications() {
+        NetworkManager.networkManager.request(route: "notifications/?sort=week", method: .get, successType: [NotificationsModel].self) { successResponse, errorResponse in
+            if let successResponse = successResponse {
+                self.notificationHistoryWeek = successResponse
+            }
+        }
+        
+        NetworkManager.networkManager.request(route: "notifications/?sort=previous", method: .get, successType: [NotificationsModel].self) { successResponse, errorResponse in
+            if let successResponse = successResponse {
+                self.notificationHistoryPrevious = successResponse
+            }
+        }
+    }
 }
+
