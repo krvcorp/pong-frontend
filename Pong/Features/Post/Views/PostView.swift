@@ -459,7 +459,7 @@ struct PostView: View {
             }
             
             Text("\(post.score + post.voteStatus)")
-                .foregroundColor(Color.pongSecondaryText)
+                .foregroundColor(post.voteStatus != 0 ? Color.pongAccent : Color.pongSecondaryText)
             
             Button {
                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
