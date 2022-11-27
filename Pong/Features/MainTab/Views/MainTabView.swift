@@ -49,18 +49,22 @@ struct MainTabView: View {
                     
                     // MARK: Feed
                     FeedView(showMenu: $showMenu)
+                        .gesture(DragGesture())
                         .tag(1)
                     
                     // MARK: Leaderboard
                     LeaderboardView()
+                        .gesture(DragGesture())
                         .tag(2)
                     
                     // MARK: Notifications
                     NotificationsView()
+                        .gesture(DragGesture())
                         .tag(4)
                     
                     // MARK: Profile
                     ProfileView()
+                        .gesture(DragGesture())
                         .tag(5)
                 }
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
