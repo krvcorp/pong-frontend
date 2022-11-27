@@ -25,7 +25,7 @@ enum Tag: String, CaseIterable, Identifiable {
     
     var title: String? {
         switch self {
-        case .none: return "nil"
+        case .none: return nil
         case .rant: return "Rant"
         case .confession: return "Confession"
         case .question: return "Question"

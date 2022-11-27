@@ -19,7 +19,7 @@ struct CommentBubble: View {
                 commentTopRow
                     .padding(.horizontal)
                 
-                commentBody
+//                commentBody
                 
                 commentBottomRow
                     .padding(.horizontal)
