@@ -18,17 +18,23 @@ struct PostBubble: View {
     @State private var conversation = defaultConversation
     
     var body: some View {
-        VStack() {
+        VStack(spacing: 0) {
             postBubbleTop
                 .padding(.horizontal)
             
+            postBubbleTitleVote
+                .padding(.horizontal)
+//                .border(Color.purple)
+//
             postBubbleMain
                 .frame(width: UIScreen.screenWidth)
+//                .border(Color.blue)
             
             postBubbleBottomRow
                 .padding(.horizontal)
+//                .border(Color.green)
         }
-        .padding(.vertical, 10)
+        .padding(.vertical, 5)
         
         // MARK: Binds the values of postVM.post and the binding Post passed down from Feed
         .onChange(of: postBubbleVM.updateTrigger) { newValue in
@@ -115,29 +121,40 @@ struct PostBubble: View {
                     .foregroundColor(Color.pongSecondaryText)
                 }
             }
-            .padding(.bottom, 10)
-            
-            if let tagName = post.tag {
-                HStack {
-                    Text(Tag(rawValue: tagName)!.title!.uppercased())
-                        .font(.system(size: 18))
-                        .fontWeight(.heavy)
-                        .foregroundColor(Tag(rawValue: tagName)!.color)
-                    Spacer()
+        }
+    }
+    
+    // MARK: PostBubbleTitleVote
+    var postBubbleTitleVote: some View {
+        HStack(spacing: 0) {
+            VStack(spacing: 0) {
+                if let tagName = post.tag {
+                    HStack {
+                        Text(Tag(rawValue: tagName)!.title!.uppercased())
+                            .font(.system(size: 16))
+                            .fontWeight(.heavy)
+                            .foregroundColor(Tag(rawValue: tagName)!.color)
+                        Spacer()
+                    }
+                    .padding(.bottom, 3)
                 }
-                .padding(.bottom, 5)
-            }
-            
-            
-            HStack() {
-                Text(post.title)
-                    .font(.system(size: 20))
-                    .fontWeight(.semibold)
-                    .fixedSize(horizontal: false, vertical: true)
                 
-                Spacer()
+                HStack {
+                    Text(post.title)
+                        .font(.system(size: 20))
+                        .fontWeight(.medium)
+                        .fixedSize(horizontal: false, vertical: true)
+                    
+                    Spacer()
+                    
+                }
             }
-            .padding(.bottom, 0)
+            
+            Spacer()
+            
+            voteComponent
+                .frame(width: 40, alignment: .trailing)
+            
         }
     }
     
@@ -146,16 +163,16 @@ struct PostBubble: View {
         ZStack {
             NavigationLink(destination: MessageView(conversation: $conversation), isActive: $isLinkActive) {
                 EmptyView()
-                    .padding(0)
+                    .opacity(0)
             }
-            .opacity(0.0)
+            .opacity(0)
             .disabled(true)
             
             NavigationLink(destination: PostView(post: $post)) {
                 EmptyView()
-                    .padding(0)
             }
-            .opacity(0.0)
+            .opacity(0)
+            .buttonStyle(PlainButtonStyle())
             
             VStack (alignment: .leading) {
                 // MARK: Image
@@ -179,9 +196,6 @@ struct PostBubble: View {
     var postBubbleBottomRow: some View {
         HStack(spacing: 0) {
             
-            voteComponent
-                .frame(minWidth: 0, maxWidth: .infinity)
-            
             HStack {
                 Image("bubble.left")
                     .foregroundColor(Color("pongSecondaryText"))
@@ -189,7 +203,7 @@ struct PostBubble: View {
                     .bold()
                     .foregroundColor(Color("pongSecondaryText"))
             }
-            .frame(minWidth: 0, maxWidth: .infinity)
+            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
             
             HStack() {
                 Spacer()
@@ -203,12 +217,14 @@ struct PostBubble: View {
                             isLinkActive = true
                         }
                     } label: {
-                        HStack(spacing: 1) {
+                        HStack(spacing: 3) {
                             Image("bubble.dots.center.fill")
+                                .font(.subheadline)
                             
-                            Text("DM")
+                            Text("Message")
+                                .font(.system(size: 13))
+                                .fontWeight(.medium)
                         }
-                        .font(.caption)
                         .padding(.vertical, 5)
                         .padding(.horizontal, 5)
                         .foregroundColor(Color.white)
@@ -273,7 +289,7 @@ struct PostBubble: View {
     
     // MARK: VoteComponent
     var voteComponent: some View {
-        HStack {
+        VStack {
             Button {
                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                 postBubbleVM.postVote(direction: 1, post: post, dataManager: dataManager)
@@ -281,10 +297,13 @@ struct PostBubble: View {
                 Text(Image(systemName: "arrow.up"))
                     .foregroundColor(post.voteStatus == 1 ? Color.pongAccent : Color.pongSecondaryText)
                     .fontWeight(.bold)
+                    .font(.title2)
             }
             
             Text("\(post.score + post.voteStatus)")
-                .foregroundColor(Color.pongSecondaryText)
+                .foregroundColor(Color.pongAccent)
+                .font(.title2)
+                .fontWeight(.bold)
             
             Button {
                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
@@ -293,6 +312,7 @@ struct PostBubble: View {
                 Text(Image(systemName: "arrow.down"))
                     .foregroundColor(post.voteStatus == -1 ? Color.pongAccent : Color.pongSecondaryText)
                     .fontWeight(.bold)
+                    .font(.title2)
             }
             
             Spacer()
