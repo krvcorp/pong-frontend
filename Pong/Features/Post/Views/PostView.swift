@@ -345,17 +345,13 @@ struct PostView: View {
             
             if let tagName = post.tag {
                 HStack {
-                    Text(Tag(rawValue: tagName)!.title!)
-                        .padding(1)
-                        .padding(.horizontal)
-                        .foregroundColor(Color(UIColor.systemBackground))
-                        .overlay(RoundedRectangle(cornerRadius: 15).stroke(Tag(rawValue: tagName)!.color, lineWidth: 2))
-                        .background(Tag(rawValue: tagName)!.color)
-                        .cornerRadius(15)         // You also need the cornerRadius here
-                        .padding(.bottom)
+                    Text(Tag(rawValue: tagName)!.title!.uppercased())
+                        .font(.system(size: 16))
+                        .fontWeight(.heavy)
+                        .foregroundColor(Tag(rawValue: tagName)!.color)
                     Spacer()
                 }
-                .padding(0)
+                .padding(.bottom, 3)
             }
             
             HStack() {

@@ -43,11 +43,11 @@ enum Tag: String, CaseIterable, Identifiable {
         case .rant: return Color(.red)
         case .confession: return Color(.blue)
         case .question: return Color(.orange)
-        case .event: return Color(.green)
-        case .meme: return Color(.red)
-        case .w: return Color(.red)
-        case .rip: return Color(.black)
-        case .course: return Color(.red)
+        case .event: return Color(.brown)
+        case .meme: return Color(.purple)
+        case .w: return Color(.systemYellow)
+        case .rip: return Color(.darkGray)
+        case .course: return Color(.magenta)
         }
     }
 }
