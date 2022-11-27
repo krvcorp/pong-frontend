@@ -102,7 +102,7 @@ struct ContentView: View {
                     .gesture(drag)
                 }
             }
-            .edgesIgnoringSafeArea([.top, .bottom])
+            .edgesIgnoringSafeArea([.top])
             // MARK: Overlays used for the user tapping on a notification / the user tapped on a shared link
             .overlay(NavigationLink(destination: PostView(post: $appState.post), isActive: postPushNavigationBinding) {
                 EmptyView()

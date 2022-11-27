@@ -71,7 +71,6 @@ struct MainTabView: View {
 
                 // MARK: TabBar Overlay
                 tabBarOverlay
-                    .padding(.bottom)
             }
             .environmentObject(dataManager)
             .accentColor(Color.pongLabel)
