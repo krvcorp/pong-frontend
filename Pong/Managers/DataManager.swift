@@ -341,7 +341,7 @@ class DataManager : ObservableObject {
         self.isAppLoading = true
     }
     
-    // MARK: GetNotificationsHistoryWeek
+    // MARK: InitNotifications
     /// Gets the notifications from within the current week timeframe
     func initNotifications() {
         NetworkManager.networkManager.request(route: "notifications/?sort=week", method: .get, successType: [NotificationsModel].self) { successResponse, errorResponse in
