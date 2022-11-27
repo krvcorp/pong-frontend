@@ -47,7 +47,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             UITabBar.appearance().isTranslucent = true
             UITabBar.appearance().backgroundColor = UIColor(Color.pongSystemBackground)
             
-            
             // makes the refreshable icon black, and works with list (who knows why)
             UIRefreshControl.appearance().tintColor = UIColor(Color.pongLabel)
             UIRefreshControl.appearance().backgroundColor = UIColor(Color.clear)
@@ -155,12 +154,5 @@ private extension AppDelegate {
                 print(error.localizedDescription)
             }
         }
-    }
-}
-
-extension UINavigationController {
-    // Remove back button text
-    open override func viewWillLayoutSubviews() {
-        navigationBar.topItem?.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
 }

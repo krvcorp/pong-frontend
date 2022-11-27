@@ -298,7 +298,7 @@ struct PostBubble: View {
             }
             
             Text("\(post.score + post.voteStatus)")
-                .foregroundColor(Color.pongAccent)
+                .foregroundColor(post.voteStatus != 0 ? Color.pongAccent : Color.pongSecondaryText)
                 .font(.title2)
                 .fontWeight(.bold)
             

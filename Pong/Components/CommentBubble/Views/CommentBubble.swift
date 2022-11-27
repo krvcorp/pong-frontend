@@ -198,7 +198,7 @@ struct CommentBubble: View {
             }
             
             Text("\(comment.score + comment.voteStatus)")
-                .foregroundColor(Color.pongSecondaryText)
+                .foregroundColor(comment.voteStatus != 0 ? Color.pongAccent : Color.pongSecondaryText)
             
             Button {
                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
