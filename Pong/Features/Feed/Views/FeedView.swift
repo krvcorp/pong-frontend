@@ -169,7 +169,7 @@ struct FeedView: View {
                         PostBubble(post: $post)
                             .buttonStyle(PlainButtonStyle())
                             .onAppear {
-                                feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab, dataManager: dataManager)
+//                                feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab, dataManager: dataManager)
                             }
                             .listRowSeparator(.hidden)
                             .listRowBackground(Color.pongSystemBackground)
@@ -199,7 +199,7 @@ struct FeedView: View {
                         PostBubble(post: $post)
                             .buttonStyle(PlainButtonStyle())
                             .onAppear {
-                                feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab, dataManager: dataManager)
+//                                feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab, dataManager: dataManager)
                             }
                             .listRowSeparator(.hidden)
                             .listRowBackground(Color.pongSystemBackground)
@@ -230,7 +230,7 @@ struct FeedView: View {
                         PostBubble(post: $post)
                             .buttonStyle(PlainButtonStyle())
                             .onAppear {
-                                feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab, dataManager: dataManager)
+//                                feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab, dataManager: dataManager)
                             }
                             .listRowSeparator(.hidden)
                             .listRowBackground(Color.pongSystemBackground)
