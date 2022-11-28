@@ -95,7 +95,9 @@ struct FeedView: View {
             DispatchQueue.main.async {
                 self.presentationMode.wrappedValue.dismiss()
                 feedVM.selectedFeedFilter = .recent
-                feedVM.paginatePostsReset(selectedFeedFilter: .recent, dataManager: dataManager)
+                Task {
+                    await feedVM.paginatePostsReset(selectedFeedFilter: .recent, dataManager: dataManager)
+                }
             }
         })
         .accentColor(Color.pongLabel)
@@ -185,7 +187,9 @@ struct FeedView: View {
                     .listRowBackground(Color.pongSystemBackground)
                     .listRowSeparator(.hidden)
                     .onChange(of: feedVM.selectedTopFilter) { newValue in
-                        feedVM.paginatePostsReset(selectedFeedFilter: .top, dataManager: dataManager)
+                        Task {
+                            await feedVM.paginatePostsReset(selectedFeedFilter: .top, dataManager: dataManager)
+                        }
                     }
                     
                     ForEach($topPosts, id: \.self) { $post in
@@ -288,9 +292,9 @@ struct FeedView: View {
                     proxy.scrollTo(dataManager.recentPosts[0].id, anchor: .bottom)
                 }
             })
+            // MARK: Refreshable
             .refreshable{
-                feedVM.paginatePostsReset(selectedFeedFilter: feedVM.selectedFeedFilter, dataManager: dataManager)
-                await Task.sleep(500_000_000)
+                await feedVM.paginatePostsReset(selectedFeedFilter: feedVM.selectedFeedFilter, dataManager: dataManager)
             }
             .listStyle(PlainListStyle())
         }

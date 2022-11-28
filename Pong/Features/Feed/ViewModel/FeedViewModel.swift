@@ -162,7 +162,9 @@ class FeedViewModel: ObservableObject {
     
     // MARK: PaginatePostsReset
     /// Gets the first page of a particular filter and replaces whatever is stored
-    func paginatePostsReset(selectedFeedFilter: FeedFilter, dataManager: DataManager) {
+    ///
+    @MainActor
+    func paginatePostsReset(selectedFeedFilter: FeedFilter, dataManager: DataManager) async {
         var url_to_use = ""
         
         if selectedFeedFilter == .top {
@@ -176,34 +178,103 @@ class FeedViewModel: ObservableObject {
             finishedRecent = false
         }
         
-        NetworkManager.networkManager.request(route: url_to_use, method: .get, successType: PaginatePostsModel.Response.self) { successResponse, errorResponse in
-            if let successResponse = successResponse {
-                DispatchQueue.main.async {
-                    if selectedFeedFilter == .top {
-                        dataManager.topPosts = successResponse.results
-                        if let nextLink = successResponse.next {
-                            self.topCurrentPage = nextLink
-                        } else {
-                            self.finishedTop = true
-                        }
-                    } else if selectedFeedFilter == .hot {
-                        dataManager.hotPosts = successResponse.results
-                        if let nextLink = successResponse.next {
-                            self.hotCurrentPage = nextLink
-                        } else {
-                            self.finishedHot = true
-                        }
-                    } else if selectedFeedFilter == .recent {
-                        dataManager.recentPosts = successResponse.results
-                        if let nextLink = successResponse.next {
-                            self.recentCurrentPage = nextLink
-                        } else {
-                            self.finishedRecent = true
-                        }
+        // NETWORKING STUFF
+        struct ErrorResponse: Codable {
+            var error: String
+        }
+        
+        // MARK: Encoder / Decoder
+        let parameterEncoder: JSONParameterEncoder = {
+            let encoder = JSONEncoder()
+            encoder.keyEncodingStrategy = .convertToSnakeCase
+            let parameterEncoder = JSONParameterEncoder(encoder: encoder)
+            return parameterEncoder
+        }()
+        
+        let decoder: JSONDecoder = {
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            return decoder
+        }()
+        
+        var httpHeaders: HTTPHeaders = []
+        
+        if let token = DAKeychain.shared["token"] {
+            httpHeaders = [
+                "Authorization": "Token \(token)"
+            ]
+        }
+        
+//        await Task.sleep(2 * NSEC_PER_SEC)
+        let queue = DispatchQueue(label: "com.krv.pong.networking-queue", qos: .utility, attributes: .concurrent)
+        
+        AF.request(NetworkManager.networkManager.baseURL + url_to_use, method: .get, headers: httpHeaders)
+            .response(queue: queue) { (response) in
+                if let httpStatusCode = response.response?.statusCode {
+                    // AUTHENTICATION ERROR
+                    if httpStatusCode == 401 {
+                        print("NETWORK: 401 Error")
+                        AuthManager.authManager.signout(force: true)
+                    }
+                    // RANDOM ERRORS
+                    else if (httpStatusCode > 401 && httpStatusCode < 600) || httpStatusCode == 400 {
+                        print("NETWORK: \(httpStatusCode) error")
+                        ToastManager.shared.errorToastDetected(message: "Something went wrong!", subMessage: "Unable to connect to network")
                     }
                 }
             }
-        }
+            .responseDecodable(of: PaginatePostsModel.Response.self, queue: queue, decoder: decoder) { (response) in
+                guard let success = response.value else {
+                    return
+                }
+                print("NETWORK: .responseDecodable Success")
+            }
+            .responseDecodable(of: ErrorResponse.self, queue: queue, decoder: decoder) { (response) in
+                guard let error = response.value else {
+                    return
+                }
+                ToastManager.shared.errorPopupDetected(message: (error.error))
+            }
+            .responseData(queue: queue) { (response) in
+                switch response.result {
+                case .success:
+                    break
+                case let .failure(error):
+                    print("NETWORK: \(error.localizedDescription)")
+                    ToastManager.shared.errorToastDetected(message: "Something went wrong!", subMessage: "Unable to connect to network")
+                    break
+                }
+            }
+        
+        
+//        NetworkManager.networkManager.request(route: url_to_use, method: .get, successType: PaginatePostsModel.Response.self) { successResponse, errorResponse in
+//            if let successResponse = successResponse {
+//                DispatchQueue.main.async {
+//                    if selectedFeedFilter == .top {
+//                        dataManager.topPosts = successResponse.results
+//                        if let nextLink = successResponse.next {
+//                            self.topCurrentPage = nextLink
+//                        } else {
+//                            self.finishedTop = true
+//                        }
+//                    } else if selectedFeedFilter == .hot {
+//                        dataManager.hotPosts = successResponse.results
+//                        if let nextLink = successResponse.next {
+//                            self.hotCurrentPage = nextLink
+//                        } else {
+//                            self.finishedHot = true
+//                        }
+//                    } else if selectedFeedFilter == .recent {
+//                        dataManager.recentPosts = successResponse.results
+//                        if let nextLink = successResponse.next {
+//                            self.recentCurrentPage = nextLink
+//                        } else {
+//                            self.finishedRecent = true
+//                        }
+//                    }
+//                }
+//            }
+//        }
     }
     
     // MARK: CheckTopFilter
