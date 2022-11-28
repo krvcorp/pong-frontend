@@ -7,7 +7,7 @@ class DataManager : ObservableObject {
     
     // feed
     @Published var topPosts : [Post] = []
-    var hotPosts : [Post] = []
+    @Published var hotPosts : [Post] = []
     @Published var recentPosts : [Post] = []
     
     @Published var postComments : [(String, [Comment])] = []

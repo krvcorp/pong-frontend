@@ -27,6 +27,7 @@ struct FeedView: View {
             }
             .background(Color.pongSecondarySystemBackground)
         }
+        // this stores posts into local state variables, and as values change in datamanager, changes are reflected on UI
         .onAppear {
             self.hotPosts = DataManager.shared.hotPosts
             self.topPosts = DataManager.shared.topPosts
@@ -188,7 +189,6 @@ struct FeedView: View {
                     }
                     
                     ForEach($topPosts, id: \.self) { $post in
-                        let _ = debugPrint("DEBUG: updating  \(post.title) haha")
                         CustomListDivider()
                         
                         PostBubble(post: $post)

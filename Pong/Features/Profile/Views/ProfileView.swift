@@ -150,7 +150,6 @@ struct ProfileView: View {
             if tab == .posts {
                 if profilePosts != [] {
                     ForEach($profilePosts, id: \.id) { $post in
-                        let _ = debugPrint("DEBUG: profile  \(post.title) ")
                         PostBubble(post: $post)
                             .buttonStyle(PlainButtonStyle())
                             .listRowSeparator(.hidden)
@@ -199,7 +198,6 @@ struct ProfileView: View {
 
                         ProfileCommentBubble(comment: $comment)
                             .buttonStyle(PlainButtonStyle())
-//                            .environmentObject(dataManager)
                             .listRowSeparator(.hidden)
                             .listRowBackground(Color.pongSystemBackground)
                         

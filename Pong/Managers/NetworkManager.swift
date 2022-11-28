@@ -78,7 +78,9 @@ class NetworkManager: ObservableObject {
                     }
                     print("NETWORK: \(route)")
                     print("NETWORK: .responseDecodable Success")
-                    completionHandler(success, nil)
+                    DispatchQueue.main.async {
+                        completionHandler(success, nil)
+                    }
                 }
                 .responseDecodable(of: ErrorResponse.self, decoder: decoder) { (response) in
                     guard let error = response.value else {

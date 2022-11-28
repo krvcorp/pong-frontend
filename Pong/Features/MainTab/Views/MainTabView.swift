@@ -82,7 +82,7 @@ struct MainTabView: View {
                     dataManager.timePassed += 1
                 }
                 else {
-                    dataManager.getConversations()
+//                    dataManager.getConversations()
                     dataManager.timePassed += 1
                 }
             }
