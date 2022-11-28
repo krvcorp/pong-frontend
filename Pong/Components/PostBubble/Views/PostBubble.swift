@@ -18,18 +18,28 @@ struct PostBubble: View {
     @State private var conversation = defaultConversation
     
     var body: some View {
-        VStack() {
+        VStack(spacing: 4) {
             postBubbleTop
-                .padding(.horizontal)
+                .padding(.leading, 12)
+                .padding(.trailing, 10)
+//                .border(Color.red)
             
             postBubbleTitleVote
-                .padding(.horizontal)
+                .padding(.leading, 12)
+                .padding(.trailing, 5)
+//                .border(Color.blue)
 
-            postBubbleMain
-                .frame(width: UIScreen.screenWidth)
+            if post.poll != nil || post.image != nil {
+                postBubbleMain
+                    .frame(width: UIScreen.screenWidth)
+//                    .border(Color.red)
+            }
             
             postBubbleBottomRow
-                .padding(.horizontal)
+                .padding(.leading, 12)
+                .padding(.trailing, 10)
+                .padding(.top, (post.poll != nil || post.image != nil ? 2 : 5))
+//                .border(Color.blue)
         }
         .padding(.vertical, 5)
         
@@ -123,40 +133,6 @@ struct PostBubble: View {
     
     // MARK: PostBubbleTitleVote
     var postBubbleTitleVote: some View {
-        HStack(spacing: 0) {
-            VStack(spacing: 0) {
-                if let tagName = post.tag {
-                    HStack {
-                        Text(Tag(rawValue: tagName)!.title!.uppercased())
-                            .font(.system(size: 16))
-                            .fontWeight(.heavy)
-                            .foregroundColor(Tag(rawValue: tagName)!.color)
-                        Spacer()
-                    }
-                    .padding(.bottom, 3)
-                }
-                
-                HStack {
-                    Text(post.title)
-                        .font(.system(size: 20))
-                        .fontWeight(.medium)
-                        .fixedSize(horizontal: false, vertical: true)
-                    
-                    Spacer()
-                    
-                }
-            }
-            
-            Spacer()
-            
-            voteComponent
-                .frame(width: 40, alignment: .trailing)
-            
-        }
-    }
-    
-    // MARK: PostBubbleMain
-    var postBubbleMain: some View {
         ZStack {
             NavigationLink(destination: MessageView(conversation: $conversation), isActive: $isLinkActive) {
                 EmptyView()
@@ -171,6 +147,42 @@ struct PostBubble: View {
             .opacity(0)
             .buttonStyle(PlainButtonStyle())
             
+            HStack(alignment: .top, spacing: 0) {
+                VStack(spacing: 0) {
+                    if let tagName = post.tag {
+                        HStack {
+                            Text(Tag(rawValue: tagName)!.title!.uppercased())
+                                .font(.system(size: 16))
+                                .fontWeight(.heavy)
+                                .foregroundColor(Tag(rawValue: tagName)!.color)
+                            Spacer()
+                        }
+                        .padding(.bottom, 3)
+                    }
+                    
+                    HStack {
+                        Text(post.title)
+                            .font(.system(size: 20))
+                            .fontWeight(.medium)
+                            .fixedSize(horizontal: false, vertical: true)
+                        
+                        Spacer()
+                        
+                    }
+                }
+                
+                Spacer()
+                
+                voteComponent
+                    .frame(width: 40, alignment: .trailing)
+                
+            }
+        }
+    }
+    
+    // MARK: PostBubbleMain
+    var postBubbleMain: some View {
+        ZStack {
             VStack (alignment: .leading) {
                 // MARK: Image
                 if let imageUrl = post.image {
@@ -291,10 +303,10 @@ struct PostBubble: View {
                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                 postBubbleVM.postVote(direction: 1, post: post, dataManager: dataManager)
             } label: {
-                Text(Image(systemName: "arrow.up"))
+                Text(Image(systemName: "chevron.up"))
                     .foregroundColor(post.voteStatus == 1 ? Color.pongAccent : Color.pongSecondaryText)
                     .fontWeight(.bold)
-                    .font(.title2)
+                    .font(.title)
             }
             
             Text("\(post.score + post.voteStatus)")
@@ -306,10 +318,10 @@ struct PostBubble: View {
                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                 postBubbleVM.postVote(direction: -1, post: post, dataManager: dataManager)
             } label: {
-                Text(Image(systemName: "arrow.down"))
+                Text(Image(systemName: "chevron.down"))
                     .foregroundColor(post.voteStatus == -1 ? Color.pongAccent : Color.pongSecondaryText)
                     .fontWeight(.bold)
-                    .font(.title2)
+                    .font(.title)
             }
         }
     }
