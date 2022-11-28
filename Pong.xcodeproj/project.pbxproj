@@ -740,8 +740,8 @@
 		6A449CD12898868A0015826A /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				6A449C512896F4320015826A /* PostBubbleA.swift */,
 				D3136F7F29355E1400BD0DE6 /* PostBubble.swift */,
+				6A449C512896F4320015826A /* PostBubbleA.swift */,
 				D3136F8129355E5F00BD0DE6 /* PostBubbleB.swift */,
 			);
 			path = Views;

@@ -27,6 +27,16 @@ struct ProfileView: View {
             .background(Color.pongSystemBackground)
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
         }
+        .onChange(of: DataManager.shared.profilePosts, perform: { newValue in
+            DispatchQueue.main.async {
+                profilePosts = DataManager.shared.profilePosts
+            }
+        })
+        .onChange(of: DataManager.shared.profileComments, perform: { newValue in
+            DispatchQueue.main.async {
+                profileComments = DataManager.shared.profileComments
+            }
+        })
         .onAppear {
             self.profilePosts = DataManager.shared.profilePosts
             self.profileComments = DataManager.shared.profileComments

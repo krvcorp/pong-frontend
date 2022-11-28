@@ -209,6 +209,8 @@ struct PostBubbleB: View {
     /// Note that the .frame(maxWidth: .infinity) allows the three columns of the bottom row to each be equal sizes
     var postBubbleBottomRow: some View {
         HStack(spacing: 0) {
+            voteComponent
+                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
             
             HStack {
                 Image("bubble.left")
@@ -217,10 +219,8 @@ struct PostBubbleB: View {
                     .bold()
                     .foregroundColor(Color("pongSecondaryText"))
             }
-            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-            
-            voteComponent
-                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+            .frame(minWidth: 0, maxWidth: .infinity)
+
             
             HStack() {
                 Spacer()
@@ -277,7 +277,7 @@ struct PostBubbleB: View {
             }
         }
         .frame(minWidth: 0, maxWidth: .infinity)
-        .font(.title3)
+        .font(.title2)
     }
     
     // MARK: VoteComponent
@@ -287,7 +287,7 @@ struct PostBubbleB: View {
                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                 postBubbleVM.postVote(direction: 1, post: post, dataManager: dataManager)
             } label: {
-                Text(Image(systemName: "chevron.up"))
+                Text(Image(systemName: "arrow.up"))
                     .foregroundColor(post.voteStatus == 1 ? Color.pongAccent : Color.pongSecondaryText)
                     .fontWeight(.bold)
                     .font(.title3)
@@ -302,7 +302,7 @@ struct PostBubbleB: View {
                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                 postBubbleVM.postVote(direction: -1, post: post, dataManager: dataManager)
             } label: {
-                Text(Image(systemName: "chevron.down"))
+                Text(Image(systemName: "arrow.down"))
                     .foregroundColor(post.voteStatus == -1 ? Color.pongAccent : Color.pongSecondaryText)
                     .fontWeight(.bold)
                     .font(.title3)
