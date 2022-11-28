@@ -25,7 +25,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         AuthManager.authManager.loadCurrentState()
         
         // LOAD STARTUP STATE
-        DataManager.shared.loadStartupState()
+        if (AuthManager.authManager.isSignedIn) {
+            DataManager.shared.loadStartupState()
+        }
         
         // MARK: Navigation Bar Styling
         if #available(iOS 15, *) {

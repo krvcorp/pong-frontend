@@ -7,17 +7,17 @@ struct FeedView: View {
     @Environment(\.presentationMode) var presentationMode
     @Namespace var namespace
     
+    @Binding var showMenu : Bool
+    
     @EnvironmentObject var mainTabVM : MainTabViewModel
     
-    @ObservedObject var dataManager = DataManager.shared
+    @StateObject var dataManager : DataManager = DataManager.shared
     @State var hotPosts = DataManager.shared.hotPosts
     @State var topPosts = DataManager.shared.topPosts
     @State var recentPosts = DataManager.shared.recentPosts
     
     @StateObject var feedVM = FeedViewModel()
     @StateObject var notificationsManager = NotificationsManager.shared
-    
-    @Binding var showMenu : Bool
     
     var body: some View {
         TabView(selection: $feedVM.selectedFeedFilter) {
@@ -57,7 +57,7 @@ struct FeedView: View {
         .toolbar {
             ToolbarItem (placement: .navigationBarLeading) {
                 Button() {
-                    
+
                 }
                 label: {
                     Text("pong")
@@ -67,11 +67,11 @@ struct FeedView: View {
                 .disabled(true)
                 .foregroundColor(Color.pongLabel)
             }
-            
+
             ToolbarItem(placement: .principal) {
                 toolbarPickerComponent
             }
-            
+
             ToolbarItem {
                 HStack(spacing: 0) {
                     NavigationLink(destination: MessageRosterView(), isActive: $mainTabVM.openConversationsDetected) {
@@ -294,11 +294,5 @@ struct FeedView: View {
             }
             .listStyle(PlainListStyle())
         }
-    }
-}
-
-struct FeedView_Previews: PreviewProvider {
-    static var previews: some View {
-        FeedView(showMenu: .constant(false))
     }
 }

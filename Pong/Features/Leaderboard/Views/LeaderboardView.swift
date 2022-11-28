@@ -6,8 +6,8 @@ struct LeaderboardView: View {
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.colorScheme) var colorScheme: ColorScheme
     
+    @StateObject var dataManager : DataManager = DataManager.shared
     @StateObject private var leaderboardVM = LeaderboardViewModel()
-    @StateObject var dataManager = DataManager.shared
     
     @State private var newPost = false
     @FocusState private var emojiIsFocused : Bool

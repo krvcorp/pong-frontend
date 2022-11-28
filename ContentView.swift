@@ -7,7 +7,7 @@ struct ContentView: View {
     @StateObject var authManager = AuthManager.authManager
     @StateObject var toastManager = ToastManager.shared
     @StateObject var dataManager = DataManager.shared
-    @StateObject var mainTabVM = MainTabViewModel(initialIndex: 1, customItemIndex: 3)
+    @StateObject var mainTabVM = MainTabViewModel.shared
     
     @State var showMenu = false
     

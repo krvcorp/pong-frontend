@@ -8,6 +8,9 @@ import Foundation
 import Combine
 
 class MainTabViewModel: ObservableObject {
+    
+    static let shared = MainTabViewModel(initialIndex: 1, customItemIndex: 3)
+    
     /// This is true when the user has selected the Item with the custom action
     @Published var isCustomItemSelected: Bool = false
     

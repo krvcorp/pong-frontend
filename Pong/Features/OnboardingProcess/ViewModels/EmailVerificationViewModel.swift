@@ -127,7 +127,12 @@ class EmailVerificationViewModel: ObservableObject {
                             }
                         }
                         
+                        // LOAD CURRENT STATE
                         AuthManager.authManager.loadCurrentState()
+                        
+                        // LOAD STARTUP STATE
+                        DataManager.shared.loadStartupState()
+                        
                     }
                     
                     if let errorResponse = errorResponse {

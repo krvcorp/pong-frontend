@@ -69,7 +69,6 @@ struct MainTabView: View {
                 // MARK: TabBar Overlay
                 tabBarOverlay
             }
-            .environmentObject(dataManager)
             .accentColor(Color.pongLabel)
             // MARK: New Post Sheet
             .fullScreenCover(isPresented: $mainTabVM.isCustomItemSelected) {

@@ -4,10 +4,11 @@ import AlertToast
 struct NotificationsView: View {
     @Environment(\.colorScheme) var colorScheme: ColorScheme
     
-    @StateObject private var notificationsVM = NotificationsViewModel()
-    @StateObject private var dataManager = DataManager.shared
-    @ObservedObject private var notificationsManager = NotificationsManager.shared
     @EnvironmentObject var mainTabVM : MainTabViewModel
+    
+    @StateObject var dataManager : DataManager = DataManager.shared
+    @StateObject private var notificationsVM = NotificationsViewModel()
+    @ObservedObject private var notificationsManager = NotificationsManager.shared
     
     @State private var showAlert = false
     @State var post = defaultPost
@@ -20,24 +21,24 @@ struct NotificationsView: View {
         VStack {
             NavigationLink(destination: PostView(post: $post), isActive: $postIsLinkActive) { EmptyView() }
             NavigationLink(destination: LeaderboardView(), isActive: $leaderboardIsLinkActive) { EmptyView() }
-            
+
             // MARK: List
             List {
                 // MARK: No Notifications
                 if dataManager.notificationHistoryPrevious == [] && dataManager.notificationHistoryWeek == [] {
                     VStack(alignment: .center, spacing: 15) {
-                        
+
                         HStack(alignment: .center) {
                             Spacer()
-                            
+
                             Image("VoidImage")
                                 .resizable()
                                 .scaledToFit()
                                 .frame(maxWidth: UIScreen.screenWidth / 2)
-                            
+
                             Spacer()
                         }
-                        
+
                         HStack(alignment: .center) {
                             Spacer()
                             Text("You have no notifications")
@@ -55,7 +56,7 @@ struct NotificationsView: View {
                         ForEach(dataManager.notificationHistoryWeek) { notificationModel in
                             // MARK: Notifications for post/comments
                             if notificationModel.data.type == .upvote || notificationModel.data.type == .comment || notificationModel.data.type == .hot || notificationModel.data.type == .top || notificationModel.data.type == .reply {
-                                
+
                                 Button {
                                     DispatchQueue.main.async {
                                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
@@ -71,7 +72,7 @@ struct NotificationsView: View {
                                 }
                                 .listRowBackground(!notificationModel.data.read ? Color.pongAccent.opacity(0.1) : Color.pongSystemBackground)
                                 .listRowSeparator(.hidden)
-                                
+
                             }
                             // MARK: Notifications for leaderboard
                             else if notificationModel.data.type == .leader {
@@ -94,9 +95,9 @@ struct NotificationsView: View {
                                 .fontWeight(.heavy)
                                 .foregroundColor(Color.pongLabel)
                                 .padding(.bottom, 4)
-                            
+
                             Spacer()
-                            
+
                             Button {
                                 notificationsVM.markAllAsRead()
                             } label: {
@@ -116,7 +117,7 @@ struct NotificationsView: View {
                     Section() {
                         ForEach(dataManager.notificationHistoryPrevious) { notificationModel in
                             if notificationModel.data.type == .upvote || notificationModel.data.type == .comment || notificationModel.data.type == .hot || notificationModel.data.type == .top || notificationModel.data.type == .reply {
-                                
+
                                 Button {
                                     DispatchQueue.main.async {
                                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
@@ -151,9 +152,9 @@ struct NotificationsView: View {
                                 .fontWeight(.heavy)
                                 .foregroundColor(Color.pongLabel)
                                 .padding(.bottom, 4)
-                            
+
                             Spacer()
-                            
+
                             if !thisWeekShowing {
                                 Button {
                                     notificationsVM.markAllAsRead()
@@ -165,7 +166,7 @@ struct NotificationsView: View {
                             }
                         }
                     }
-                    
+
                     Rectangle()
                         .fill(Color.pongSystemBackground)
                         .listRowBackground(Color.pongSystemBackground)

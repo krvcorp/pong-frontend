@@ -5,20 +5,18 @@ struct ProfileView: View {
     @Namespace var namespace
     @Environment(\.colorScheme) var colorScheme
     
-//    @ObservedObject var dataManager = DataManager.shared
     @State var profilePosts = DataManager.shared.profilePosts
     @State var profileComments = DataManager.shared.profileComments
     @State var postKarma = DataManager.shared.postKarma
     @State var commentKarma = DataManager.shared.commentKarma
     @State var numberReferred = DataManager.shared.numberReferred
     
-    
     @StateObject private var profileVM = ProfileViewModel()
     
     var body: some View {
         VStack {
             toolbarPickerComponent
-            
+
             TabView(selection: $profileVM.selectedProfileFilter) {
                 ForEach([ProfileFilter.posts, ProfileFilter.comments, ProfileFilter.about], id: \.self) { tab in
                     customProfileStack(filter: profileVM.selectedProfileFilter, tab: tab)
@@ -65,9 +63,9 @@ struct ProfileView: View {
                         .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
                     
                     VStack(alignment: .leading) {
-//                        Text("\(dataManager.postKarma)")
-//                            .font(.title.bold())
-//                            .foregroundColor(Color(UIColor.label))
+                        Text("\(postKarma)")
+                            .font(.title.bold())
+                            .foregroundColor(Color(UIColor.label))
                         
                         Text("Post Karma")
                             .font(.caption.bold())
@@ -86,9 +84,9 @@ struct ProfileView: View {
                         .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
                     
                     VStack(alignment: .leading) {
-//                        Text("\(dataManager.commentKarma)")
-//                            .font(.title.bold())
-//                            .foregroundColor(Color(UIColor.label))
+                        Text("\(commentKarma)")
+                            .font(.title.bold())
+                            .foregroundColor(Color(UIColor.label))
                         
                         Text("Comment Karma")
                             .font(.caption.bold())

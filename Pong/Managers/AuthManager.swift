@@ -56,6 +56,8 @@ class AuthManager: ObservableObject {
 
                     // reset datamanager
                     DataManager.shared.reset()
+                    
+                    MainTabViewModel.shared.itemSelected = 1
                 }
             }
         } else {
@@ -76,6 +78,8 @@ class AuthManager: ObservableObject {
 
                         // reset datamanager
                         DataManager.shared.reset()
+                        
+                        MainTabViewModel.shared.itemSelected = 1
                     }
                 }
             }
