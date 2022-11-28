@@ -65,7 +65,7 @@ class NetworkManager: ObservableObject {
                             AuthManager.authManager.signout(force: true)
                         }
                         // RANDOM ERRORS
-                        else if httpStatusCode > 401 && httpStatusCode < 600 {
+                        else if (httpStatusCode > 401 && httpStatusCode < 600) || httpStatusCode == 400 {
                             print("NETWORK: \(httpStatusCode) error")
                             ToastManager.shared.errorToastDetected(message: "Something went wrong!", subMessage: "Unable to connect to network")
                             completionHandler(nil, ErrorResponse(error: "Something went wrong!"))
@@ -111,7 +111,7 @@ class NetworkManager: ObservableObject {
                             AuthManager.authManager.signout(force: true)
                         }
                         // RANDOM ERRORS
-                        else if httpStatusCode > 401 && httpStatusCode < 600 {
+                        else if (httpStatusCode > 401 && httpStatusCode < 600) || httpStatusCode == 400 {
                             print("NETWORK: \(httpStatusCode) error")
                             ToastManager.shared.errorToastDetected(message: "Something went wrong!", subMessage: "Unable to connect to network")
                         }
@@ -168,7 +168,7 @@ class NetworkManager: ObservableObject {
                             AuthManager.authManager.signout(force: true)
                         }
                         // RANDOM ERRORS
-                        else if httpStatusCode > 401 && httpStatusCode < 600 {
+                        else if (httpStatusCode > 401 && httpStatusCode < 600) || httpStatusCode == 400 {
                             print("NETWORK: \(httpStatusCode) error")
                             ToastManager.shared.errorToastDetected(message: "Something went wrong!", subMessage: "Unable to connect to network")
                         }
@@ -206,7 +206,7 @@ class NetworkManager: ObservableObject {
                             AuthManager.authManager.signout(force: true)
                         }
                         // RANDOM ERRORS
-                        else if httpStatusCode > 401 && httpStatusCode < 600 {
+                        else if (httpStatusCode > 401 && httpStatusCode < 600) || httpStatusCode == 400 {
                             print("NETWORK: \(httpStatusCode) error")
                             ToastManager.shared.errorToastDetected(message: "Something went wrong!", subMessage: "Unable to connect to network")
                         }
