@@ -57,16 +57,18 @@ class PostBubbleViewModel: ObservableObject {
     // MARK: SavePost
     func savePost(post: Post, dataManager: DataManager) {
         DispatchQueue.main.async {
-            self.post = post
-            self.post.saved = true
-            self.updateTrigger.toggle()
+            withAnimation {
+                self.post = post
+                self.post.saved = true
+                self.updateTrigger.toggle()
+                self.savedPostConfirmation = true
+            }
         }
         
         NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/save/", method: .post) { successResponse, errorResponse in
             if successResponse != nil {
                 DispatchQueue.main.async {
                     withAnimation {
-                        self.savedPostConfirmation = true
                         dataManager.updatePostLocally(post: self.post)
                         self.updateTrigger.toggle()
                     }
