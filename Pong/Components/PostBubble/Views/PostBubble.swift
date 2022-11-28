@@ -5,8 +5,8 @@ import Kingfisher
 struct PostBubble: View {
     @Binding var post : Post
     
-    @EnvironmentObject var dataManager: DataManager
     @EnvironmentObject var mainTabVM: MainTabViewModel
+    @StateObject var dataManager: DataManager = DataManager.shared
     @StateObject var postBubbleVM = PostBubbleViewModel()
     
     // MARK: Some local view logic
@@ -22,24 +22,20 @@ struct PostBubble: View {
             postBubbleTop
                 .padding(.leading, 12)
                 .padding(.trailing, 10)
-//                .border(Color.red)
             
             postBubbleTitleVote
                 .padding(.leading, 12)
                 .padding(.trailing, 5)
-//                .border(Color.blue)
 
             if post.poll != nil || post.image != nil {
                 postBubbleMain
                     .frame(width: UIScreen.screenWidth)
-//                    .border(Color.red)
             }
             
             postBubbleBottomRow
                 .padding(.leading, 12)
                 .padding(.trailing, 10)
                 .padding(.top, (post.poll != nil || post.image != nil ? 2 : 5))
-//                .border(Color.blue)
         }
         .padding(.vertical, 5)
         

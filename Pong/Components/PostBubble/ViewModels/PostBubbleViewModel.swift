@@ -30,7 +30,6 @@ class PostBubbleViewModel: ObservableObject {
         }
         
         
-        
         DispatchQueue.main.async {
             self.post = post
             self.post.voteStatus = voteToSend
@@ -68,7 +67,7 @@ class PostBubbleViewModel: ObservableObject {
                 DispatchQueue.main.async {
                     withAnimation {
                         self.savedPostConfirmation = true
-                        dataManager.updatePostLocally(post: post)
+                        dataManager.updatePostLocally(post: self.post)
                         self.updateTrigger.toggle()
                     }
                 }
@@ -84,6 +83,7 @@ class PostBubbleViewModel: ObservableObject {
     func unsavePost(post: Post, dataManager: DataManager) {
         DispatchQueue.main.async {
             withAnimation {
+                self.post = post
                 self.post.saved = false
                 self.updateTrigger.toggle()
             }
@@ -92,7 +92,7 @@ class PostBubbleViewModel: ObservableObject {
         NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/save/", method: .delete) { successResponse, errorResponse in
             if successResponse != nil {
                 DispatchQueue.main.async {
-                    dataManager.updatePostLocally(post: post)
+                    dataManager.updatePostLocally(post: self.post)
                     self.updateTrigger.toggle()
                 }
             } else if errorResponse != nil {
