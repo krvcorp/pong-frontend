@@ -17,9 +17,6 @@ struct MainTabView: View {
                 VStack {
                     if !dataManager.errorDetected {
                         Image("PongTextLogo")
-                            .onAppear {
-                                dataManager.loadStartupState()
-                            }
                         
                     } else {
                         Button {

@@ -12,7 +12,6 @@ struct ContentView: View {
     @State var showMenu = false
     
     init() {
-        AuthManager.authManager.loadCurrentState()
         UITableView.appearance().showsVerticalScrollIndicator = false
     }
     

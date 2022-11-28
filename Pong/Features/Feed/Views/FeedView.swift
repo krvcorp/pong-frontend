@@ -8,8 +8,8 @@ struct FeedView: View {
     @Namespace var namespace
     
     @EnvironmentObject var mainTabVM : MainTabViewModel
-    @EnvironmentObject var dataManager : DataManager
     
+    @StateObject var dataManager = DataManager.shared
     @StateObject var feedVM = FeedViewModel()
     @StateObject var notificationsManager = NotificationsManager.shared
     
@@ -226,7 +226,7 @@ struct FeedView: View {
                 else if tab == .recent {
                     ForEach($dataManager.recentPosts, id: \.id) { $post in
                         CustomListDivider()
-                        
+
                         PostBubble(post: $post)
                             .buttonStyle(PlainButtonStyle())
                             .onAppear {

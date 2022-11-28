@@ -21,6 +21,12 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         UNUserNotificationCenter.current().delegate = self
         Messaging.messaging().delegate = self
         
+        // LOAD CURRENT STATE
+        AuthManager.authManager.loadCurrentState()
+        
+        // LOAD STARTUP STATE
+        DataManager.shared.loadStartupState()
+        
         // MARK: Navigation Bar Styling
         if #available(iOS 15, *) {
             let appearance = UINavigationBarAppearance()
