@@ -60,7 +60,7 @@
 		6A449CBB2896F4330015826A /* ProfileCommentBubbleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C492896F4320015826A /* ProfileCommentBubbleViewModel.swift */; };
 		6A449CBC2896F4330015826A /* ProfileCommentBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C4B2896F4320015826A /* ProfileCommentBubble.swift */; };
 		6A449CBE2896F4330015826A /* PostBubbleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C4F2896F4320015826A /* PostBubbleViewModel.swift */; };
-		6A449CBF2896F4330015826A /* PostBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C512896F4320015826A /* PostBubble.swift */; };
+		6A449CBF2896F4330015826A /* PostBubbleA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C512896F4320015826A /* PostBubbleA.swift */; };
 		6A449CC02896F4330015826A /* ActionSheets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C522896F4320015826A /* ActionSheets.swift */; };
 		6A449CC12896F4330015826A /* ReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C552896F4320015826A /* ReportViewModel.swift */; };
 		6A449CC22896F4330015826A /* ReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A449C572896F4320015826A /* ReportView.swift */; };
@@ -129,6 +129,8 @@
 		82CCCBBA28B0F99E00085E2D /* AdminPostBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CCCBB828B0F99E00085E2D /* AdminPostBubble.swift */; };
 		82CCCBBC28B0F9C700085E2D /* TimeoutModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CCCBBB28B0F9C700085E2D /* TimeoutModel.swift */; };
 		D303B88128E5DA3300B36775 /* Siren in Frameworks */ = {isa = PBXBuildFile; productRef = D303B88028E5DA3300B36775 /* Siren */; };
+		D3136F8029355E1400BD0DE6 /* PostBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3136F7F29355E1400BD0DE6 /* PostBubble.swift */; };
+		D3136F8229355E5F00BD0DE6 /* PostBubbleB.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3136F8129355E5F00BD0DE6 /* PostBubbleB.swift */; };
 		D32064642908803B0045E0DE /* EmojiPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32064632908803B0045E0DE /* EmojiPicker.swift */; };
 		D32D0B3028EB8F9A00EF548E /* AccountActionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32D0B2F28EB8F9A00EF548E /* AccountActionsView.swift */; };
 		D339621828BC1A41003AC841 /* Onboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D339621728BC1A41003AC841 /* Onboard.swift */; };
@@ -203,7 +205,7 @@
 		6A449C492896F4320015826A /* ProfileCommentBubbleViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileCommentBubbleViewModel.swift; sourceTree = "<group>"; };
 		6A449C4B2896F4320015826A /* ProfileCommentBubble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileCommentBubble.swift; sourceTree = "<group>"; };
 		6A449C4F2896F4320015826A /* PostBubbleViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostBubbleViewModel.swift; sourceTree = "<group>"; };
-		6A449C512896F4320015826A /* PostBubble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostBubble.swift; sourceTree = "<group>"; };
+		6A449C512896F4320015826A /* PostBubbleA.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostBubbleA.swift; sourceTree = "<group>"; };
 		6A449C522896F4320015826A /* ActionSheets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionSheets.swift; sourceTree = "<group>"; };
 		6A449C552896F4320015826A /* ReportViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportViewModel.swift; sourceTree = "<group>"; };
 		6A449C572896F4320015826A /* ReportView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportView.swift; sourceTree = "<group>"; };
@@ -260,6 +262,8 @@
 		82CCCBB628B0F99E00085E2D /* AdminPostBubbleViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdminPostBubbleViewModel.swift; sourceTree = "<group>"; };
 		82CCCBB828B0F99E00085E2D /* AdminPostBubble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdminPostBubble.swift; sourceTree = "<group>"; };
 		82CCCBBB28B0F9C700085E2D /* TimeoutModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeoutModel.swift; sourceTree = "<group>"; };
+		D3136F7F29355E1400BD0DE6 /* PostBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostBubble.swift; sourceTree = "<group>"; };
+		D3136F8129355E5F00BD0DE6 /* PostBubbleB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostBubbleB.swift; sourceTree = "<group>"; };
 		D32064632908803B0045E0DE /* EmojiPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiPicker.swift; sourceTree = "<group>"; };
 		D32D0B2F28EB8F9A00EF548E /* AccountActionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountActionsView.swift; sourceTree = "<group>"; };
 		D339621728BC1A41003AC841 /* Onboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Onboard.swift; sourceTree = "<group>"; };
@@ -736,7 +740,9 @@
 		6A449CD12898868A0015826A /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				6A449C512896F4320015826A /* PostBubble.swift */,
+				6A449C512896F4320015826A /* PostBubbleA.swift */,
+				D3136F7F29355E1400BD0DE6 /* PostBubble.swift */,
+				D3136F8129355E5F00BD0DE6 /* PostBubbleB.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1310,8 +1316,10 @@
 				6A61D01728E008A8003188EE /* MarketplaceView.swift in Sources */,
 				D389D89F28BC0A3000A41329 /* SetReferrer.swift in Sources */,
 				6A2C7BB82923608F00431B73 /* LeaderboardInfo.swift in Sources */,
+				D3136F8229355E5F00BD0DE6 /* PostBubbleB.swift in Sources */,
 				D36DE8AD292579C800C3D0C3 /* ContactInfo.swift in Sources */,
 				289CC874289C695F009C1DCE /* Colors.swift in Sources */,
+				D3136F8029355E1400BD0DE6 /* PostBubble.swift in Sources */,
 				D36DE8B12925B17000C3D0C3 /* MessageComposeSheet.swift in Sources */,
 				D389D88928BAA0AF00A41329 /* EmailController.swift in Sources */,
 				D389D89528BB11DC00A41329 /* ReferralsViewModel.swift in Sources */,
@@ -1364,7 +1372,7 @@
 				82CCCBB228B0F95600085E2D /* AdminFeedViewModel.swift in Sources */,
 				6A61D02F28E0A453003188EE /* (null) in Sources */,
 				6A78FA5C28A1A82C00B75CC6 /* DAKeychain.swift in Sources */,
-				6A449CBF2896F4330015826A /* PostBubble.swift in Sources */,
+				6A449CBF2896F4330015826A /* PostBubbleA.swift in Sources */,
 				D36DE8AA2925770900C3D0C3 /* ReferralsInviteFriendsView.swift in Sources */,
 				D3FF841328BC6B96003C8B06 /* DataManager.swift in Sources */,
 				6A6D884E28CECA680071FCFA /* Conversation.swift in Sources */,

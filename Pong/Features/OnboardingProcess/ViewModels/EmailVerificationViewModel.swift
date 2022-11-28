@@ -111,6 +111,12 @@ class EmailVerificationViewModel: ObservableObject {
                                 DAKeychain.shared["referred"] = "true"
                             }
                         }
+                        if successResponse.postBubble {
+                            DAKeychain.shared["postBubble"] = "true"
+                        } else {
+                            DAKeychain.shared["postBubble"] = "false"
+                        }
+                        
                         
                         // store FCM token and send it
                         Messaging.messaging().token { token, error in

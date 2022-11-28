@@ -21,5 +21,6 @@ struct VerifyEmailModel {
         let referralCode: String?
         let onboarded: Bool?
         let referred: Bool?
+        let postBubble: Bool
     }
 }
