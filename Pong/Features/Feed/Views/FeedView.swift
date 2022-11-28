@@ -163,7 +163,7 @@ struct FeedView: View {
                     HStack {
                         Spacer()
                         
-                        ForEach(TopFilter.allCases, id: \.self) { filter in
+                        ForEach(TopFilter.allCases, id: \.id) { filter in
                             Button {
                                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                                 feedVM.selectedTopFilter = filter
