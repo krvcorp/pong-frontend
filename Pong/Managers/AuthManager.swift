@@ -52,6 +52,7 @@ class AuthManager: ObservableObject {
                     DAKeychain.shared["referralCode"] = nil
                     DAKeychain.shared["onboarded"] = nil
                     DAKeychain.shared["referred"] = nil
+                    DAKeychain.shared["postBubble"] = nil
                     self.signedOutAlert = true
 
                     // reset datamanager
