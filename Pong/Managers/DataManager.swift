@@ -1,10 +1,3 @@
-//
-//  DataEnvironment.swift
-//  Pong
-//
-//  Created by Khoi Nguyen on 8/21/22.
-//
-
 import Foundation
 import SwiftUI
 
@@ -14,7 +7,7 @@ class DataManager : ObservableObject {
     
     // feed
     @Published var topPosts : [Post] = []
-    @Published var hotPosts : [Post] = []
+    var hotPosts : [Post] = []
     @Published var recentPosts : [Post] = []
     
     @Published var postComments : [(String, [Comment])] = []

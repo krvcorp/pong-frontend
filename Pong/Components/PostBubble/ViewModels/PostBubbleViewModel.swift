@@ -18,6 +18,8 @@ class PostBubbleViewModel: ObservableObject {
     
     // MARK: PostVote
     func postVote(direction: Int, post: Post, dataManager: DataManager) -> Void {
+        
+//        Math for vote calculation
         var voteToSend = 0
         let temp = self.post.voteStatus
         
@@ -27,7 +29,7 @@ class PostBubbleViewModel: ObservableObject {
             voteToSend = direction
         }
         
-        let parameters = PostVoteModel.Request(vote: voteToSend)
+        
         
         DispatchQueue.main.async {
             self.post = post
@@ -35,9 +37,13 @@ class PostBubbleViewModel: ObservableObject {
             self.updateTrigger.toggle()
         }
         
+        let parameters = PostVoteModel.Request(vote: voteToSend)
+        
         NetworkManager.networkManager.request(route: "posts/\(post.id)/vote/", method: .post, body: parameters, successType: PostVoteModel.Response.self) { successResponse, errorResponse in
             if successResponse != nil {
-                
+                DispatchQueue.main.async {
+                    dataManager.updatePostLocally(post: self.post)
+                }
             }
             
             if errorResponse != nil {

@@ -5,7 +5,14 @@ struct ProfileView: View {
     @Namespace var namespace
     @Environment(\.colorScheme) var colorScheme
     
-    @StateObject var dataManager = DataManager.shared
+//    @ObservedObject var dataManager = DataManager.shared
+    @State var profilePosts = DataManager.shared.profilePosts
+    @State var profileComments = DataManager.shared.profileComments
+    @State var postKarma = DataManager.shared.postKarma
+    @State var commentKarma = DataManager.shared.commentKarma
+    @State var numberReferred = DataManager.shared.numberReferred
+    
+    
     @StateObject private var profileVM = ProfileViewModel()
     
     var body: some View {
@@ -21,6 +28,10 @@ struct ProfileView: View {
             }
             .background(Color.pongSystemBackground)
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+        }
+        .onAppear {
+            self.profilePosts = DataManager.shared.profilePosts
+            self.profileComments = DataManager.shared.profileComments
         }
         .background(Color.pongSystemBackground)
         // Navigation bar
@@ -54,9 +65,9 @@ struct ProfileView: View {
                         .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
                     
                     VStack(alignment: .leading) {
-                        Text("\(dataManager.postKarma)")
-                            .font(.title.bold())
-                            .foregroundColor(Color(UIColor.label))
+//                        Text("\(dataManager.postKarma)")
+//                            .font(.title.bold())
+//                            .foregroundColor(Color(UIColor.label))
                         
                         Text("Post Karma")
                             .font(.caption.bold())
@@ -75,9 +86,9 @@ struct ProfileView: View {
                         .foregroundColor(SchoolManager.shared.schoolPrimaryColor())
                     
                     VStack(alignment: .leading) {
-                        Text("\(dataManager.commentKarma)")
-                            .font(.title.bold())
-                            .foregroundColor(Color(UIColor.label))
+//                        Text("\(dataManager.commentKarma)")
+//                            .font(.title.bold())
+//                            .foregroundColor(Color(UIColor.label))
                         
                         Text("Comment Karma")
                             .font(.caption.bold())
@@ -137,8 +148,9 @@ struct ProfileView: View {
         List {
             // MARK: Posts
             if tab == .posts {
-                if dataManager.profilePosts != [] {
-                    ForEach($dataManager.profilePosts, id: \.id) { $post in
+                if profilePosts != [] {
+                    ForEach($profilePosts, id: \.id) { $post in
+                        let _ = debugPrint("DEBUG: profile  \(post.title) ")
                         PostBubble(post: $post)
                             .buttonStyle(PlainButtonStyle())
                             .listRowSeparator(.hidden)
@@ -182,12 +194,12 @@ struct ProfileView: View {
             }
             // MARK: Comments
             else if tab == .comments {
-                if dataManager.profileComments != [] {
-                    ForEach($dataManager.profileComments, id: \.id) { $comment in
+                if profileComments != [] {
+                    ForEach($profileComments, id: \.id) { $comment in
 
                         ProfileCommentBubble(comment: $comment)
                             .buttonStyle(PlainButtonStyle())
-                            .environmentObject(dataManager)
+//                            .environmentObject(dataManager)
                             .listRowSeparator(.hidden)
                             .listRowBackground(Color.pongSystemBackground)
                         
@@ -229,12 +241,11 @@ struct ProfileView: View {
             }
             // MARK: About
             else if tab == .about {
-                // create a lazy v grid with two equally sized columns
                 LazyVGrid(columns: [GridItem(.fixed((UIScreen.screenWidth - 20) / 2)), GridItem(.fixed((UIScreen.screenWidth - 20) / 2))], spacing: 15) {
-                    aboutComponent(system: false, image: "bar.chart", title: "POST KARMA", data: "\(dataManager.postKarma)")
-                    aboutComponent(system: true, image: "star", title: "COMMENT KARMA", data: "\(dataManager.commentKarma)")
+                    aboutComponent(system: false, image: "bar.chart", title: "POST KARMA", data: "\(postKarma)")
+                    aboutComponent(system: true, image: "star", title: "COMMENT KARMA", data: "\(commentKarma)")
                     aboutComponent(system: false, image: "calendar", title: "DATE JOINED", data: "\(String(describing: DAKeychain.shared["dateJoined"]!))")
-                    aboutComponent(system: false, image: "friends", title: "FRIENDS REFERRED", data: "\(dataManager.numberReferred)")
+                    aboutComponent(system: false, image: "friends", title: "FRIENDS REFERRED", data: "\(numberReferred)")
                 }
                 .listRowBackground(Color.pongSystemBackground)
                 .listRowSeparator(.hidden)
@@ -252,8 +263,8 @@ struct ProfileView: View {
         .environment(\.defaultMinListRowHeight, 0)
         .listStyle(PlainListStyle())
         .refreshable{
-            profileVM.triggerRefresh(tab: tab, dataManager: dataManager)
-            await Task.sleep(500_000_000)
+//            profileVM.triggerRefresh(tab: tab, dataManager: dataManager)
+//            await Task.sleep(500_000_000)
         }
     }
     

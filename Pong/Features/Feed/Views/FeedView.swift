@@ -9,7 +9,11 @@ struct FeedView: View {
     
     @EnvironmentObject var mainTabVM : MainTabViewModel
     
-    @StateObject var dataManager = DataManager.shared
+    @ObservedObject var dataManager = DataManager.shared
+    @State var hotPosts = DataManager.shared.hotPosts
+    @State var topPosts = DataManager.shared.topPosts
+    @State var recentPosts = DataManager.shared.recentPosts
+    
     @StateObject var feedVM = FeedViewModel()
     @StateObject var notificationsManager = NotificationsManager.shared
     
@@ -22,6 +26,26 @@ struct FeedView: View {
                     .tag(tab)
             }
             .background(Color.pongSecondarySystemBackground)
+        }
+        .onAppear {
+            self.hotPosts = DataManager.shared.hotPosts
+            self.topPosts = DataManager.shared.topPosts
+            self.recentPosts = DataManager.shared.recentPosts
+        }
+        .onChange(of: DataManager.shared.hotPosts) { newValue in
+            DispatchQueue.main.async {
+                self.hotPosts = DataManager.shared.hotPosts
+            }
+        }
+        .onChange(of: DataManager.shared.topPosts) { newValue in
+            DispatchQueue.main.async {
+                self.topPosts = DataManager.shared.topPosts
+            }
+        }
+        .onChange(of: DataManager.shared.recentPosts) { newValue in
+            DispatchQueue.main.async {
+                self.recentPosts = DataManager.shared.recentPosts
+            }
         }
         .background(Color.pongSecondarySystemBackground)
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
@@ -163,14 +187,12 @@ struct FeedView: View {
                         feedVM.paginatePostsReset(selectedFeedFilter: .top, dataManager: dataManager)
                     }
                     
-                    ForEach($dataManager.topPosts, id: \.id) { $post in
+                    ForEach($topPosts, id: \.self) { $post in
+                        let _ = debugPrint("DEBUG: updating  \(post.title) haha")
                         CustomListDivider()
                         
                         PostBubble(post: $post)
                             .buttonStyle(PlainButtonStyle())
-                            .onAppear {
-//                                feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab, dataManager: dataManager)
-                            }
                             .listRowSeparator(.hidden)
                             .listRowBackground(Color.pongSystemBackground)
                     }
@@ -179,28 +201,21 @@ struct FeedView: View {
                     CustomListDivider()
                     
                     if !feedVM.finishedTop {
-                        Button {
-                            feedVM.paginatePosts(selectedFeedFilter: tab, dataManager: dataManager)
-                        } label: {
-                            reachedBottomComponent
-                        }
-                        .listRowSeparator(.hidden)
-                        .listRowBackground(Color.pongSystemBackground)
-                        .onAppear() {
-                            feedVM.paginatePosts(selectedFeedFilter: tab, dataManager: dataManager)
-                        }
+                        reachedBottomComponent
+                            .listRowSeparator(.hidden)
+                            .listRowBackground(Color.pongSystemBackground)
+                            .onAppear() {
+                                feedVM.paginatePosts(selectedFeedFilter: tab, dataManager: dataManager)
+                            }
                     }
                 }
                 // MARK: HOT
                 else if tab == .hot {
-                    ForEach($dataManager.hotPosts, id: \.id) { $post in
+                    ForEach($hotPosts, id: \.id) { $post in
                         CustomListDivider()
                         
                         PostBubble(post: $post)
                             .buttonStyle(PlainButtonStyle())
-                            .onAppear {
-//                                feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab, dataManager: dataManager)
-                            }
                             .listRowSeparator(.hidden)
                             .listRowBackground(Color.pongSystemBackground)
                     }
@@ -209,29 +224,22 @@ struct FeedView: View {
                     CustomListDivider()
                     
                     if !feedVM.finishedHot {
-                        Button {
-                            feedVM.paginatePosts(selectedFeedFilter: tab, dataManager: dataManager)
-                        } label: {
-                            reachedBottomComponent
-                        }
-                        .listRowSeparator(.hidden)
-                        .listRowBackground(Color.pongSystemBackground)
-                        .onAppear() {
-                            feedVM.paginatePosts(selectedFeedFilter: tab, dataManager: dataManager)
-                        }
+                        reachedBottomComponent
+                            .listRowSeparator(.hidden)
+                            .listRowBackground(Color.pongSystemBackground)
+                            .onAppear() {
+                                feedVM.paginatePosts(selectedFeedFilter: tab, dataManager: dataManager)
+                            }
                     }
                 }
                 
                 // MARK: RECENT
                 else if tab == .recent {
-                    ForEach($dataManager.recentPosts, id: \.id) { $post in
+                    ForEach($recentPosts, id: \.id) { $post in
                         CustomListDivider()
 
                         PostBubble(post: $post)
                             .buttonStyle(PlainButtonStyle())
-                            .onAppear {
-//                                feedVM.paginatePostsIfNeeded(post: post, selectedFeedFilter: tab, dataManager: dataManager)
-                            }
                             .listRowSeparator(.hidden)
                             .listRowBackground(Color.pongSystemBackground)
                     }
@@ -240,16 +248,12 @@ struct FeedView: View {
                     CustomListDivider()
                     
                     if !feedVM.finishedRecent {
-                        Button {
-                            feedVM.paginatePosts(selectedFeedFilter: tab, dataManager: dataManager)
-                        } label: {
-                            reachedBottomComponent
-                        }
-                        .listRowSeparator(.hidden)
-                        .listRowBackground(Color.pongSystemBackground)
-                        .onAppear() {
-                            feedVM.paginatePosts(selectedFeedFilter: tab, dataManager: dataManager)
-                        }
+                        reachedBottomComponent
+                            .listRowSeparator(.hidden)
+                            .listRowBackground(Color.pongSystemBackground)
+                            .onAppear() {
+                                feedVM.paginatePosts(selectedFeedFilter: tab, dataManager: dataManager)
+                            }
                     }
                 }
                 

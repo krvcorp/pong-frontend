@@ -1,10 +1,3 @@
-//
-//  ProfileViewModel.swift
-//  Pong
-//
-//  Created by Raunak Daga on 7/9/22.
-//
-
 import Foundation
 
 enum ProfileFilter: String, CaseIterable, Identifiable {
