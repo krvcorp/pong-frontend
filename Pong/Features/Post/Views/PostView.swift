@@ -20,6 +20,9 @@ struct PostView: View {
     @FocusState private var textIsFocused : Bool
     @State private var showSheet = false
     
+    // loading comments
+    @State var isLoading = true
+    
     // conversation
     @State var isLinkActive = false
     @State var conversation = defaultConversation
@@ -56,37 +59,43 @@ struct PostView: View {
                     .padding(.vertical, 5)
                     
                     // MARK: Comments
-                    if let index = dataManager.postComments.firstIndex(where: {$0.0 == post.id}) {
-                        if dataManager.postComments[index].1 != [] {
-                            ForEach($dataManager.postComments[index].1, id: \.id) { $comment in
-                                CustomListDivider()
-                                
-                                CommentBubble(comment: $comment, isLinkActive: $isLinkActive, conversation: $conversation)
-                                    .buttonStyle(PlainButtonStyle())
-                                    .padding(.bottom, 10)
-                                    .listRowSeparator(.hidden)
-                                    .listRowBackground(Color.pongSystemBackground)
-                            }
-                            .listRowInsets(EdgeInsets())
-                        } else {
-                            Button {
-                                self.textIsFocused = true
-                            } label: {
-                                HStack {
-                                    Spacer()
-                                    
-                                    Text("No comments yet. Let the world know what you think.")
-                                        .bold()
-                                        .font(.system(size: 10))
-                                        .foregroundColor(Color.pongSecondaryText)
-                                    
-                                    Spacer()
-                                }
-                                .frame(minHeight: 100)
-                            }
-                            .buttonStyle(PlainButtonStyle())
-                            .listRowSeparator(.hidden)
+                    if isLoading {
+                        loadingComponent
                             .listRowBackground(Color.pongSecondarySystemBackground)
+                    }
+                    else {
+                        if let index = dataManager.postComments.firstIndex(where: {$0.0 == post.id}) {
+                            if dataManager.postComments[index].1 != [] {
+                                ForEach($dataManager.postComments[index].1, id: \.id) { $comment in
+                                    CustomListDivider()
+                                    
+                                    CommentBubble(comment: $comment, isLinkActive: $isLinkActive, conversation: $conversation)
+                                        .buttonStyle(PlainButtonStyle())
+                                        .padding(.bottom, 10)
+                                        .listRowSeparator(.hidden)
+                                        .listRowBackground(Color.pongSystemBackground)
+                                }
+                                .listRowInsets(EdgeInsets())
+                            } else {
+                                Button {
+                                    self.textIsFocused = true
+                                } label: {
+                                    HStack {
+                                        Spacer()
+                                        
+                                        Text("No comments yet. Let the world know what you think.")
+                                            .bold()
+                                            .font(.system(size: 10))
+                                            .foregroundColor(Color.pongSecondaryText)
+                                        
+                                        Spacer()
+                                    }
+                                    .frame(minHeight: 100)
+                                }
+                                .buttonStyle(PlainButtonStyle())
+                                .listRowSeparator(.hidden)
+                                .listRowBackground(Color.pongSecondarySystemBackground)
+                            }
                         }
                     }
                     
@@ -156,8 +165,12 @@ struct PostView: View {
                     // API call to append post.id, comment tuple into DataManager.postComments
                     postVM.getComments() { successResponse in
                         dataManager.postComments.append((post.id, successResponse))
+                        isLoading = false
                     }
                 }
+            }
+            else {
+                isLoading = false
             }
         }
         // MARK: OnChange Stuff
@@ -260,6 +273,21 @@ struct PostView: View {
                     secondaryButton: .cancel()
                 )
             }
+        }
+    }
+    
+    var loadingComponent: some View {
+        VStack {
+            Spacer()
+            HStack {
+                Spacer()
+                
+                ProgressView()
+                    .foregroundColor(Color.pongLabel)
+                
+                Spacer()
+            }
+            Spacer()
         }
     }
     
