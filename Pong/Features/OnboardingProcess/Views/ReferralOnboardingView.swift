@@ -27,7 +27,7 @@ struct ReferralOnboardingView: View {
                     HStack {
                         Image("person")
                             .foregroundColor(Color.pongSystemWhite)
-                            .font(.system(size: 30))
+                            .font(.system(size: 20))
                         
                         if onboardingVM.referred || DAKeychain.shared["referred"] == "true" {
                             Text("Referred!")
@@ -37,10 +37,13 @@ struct ReferralOnboardingView: View {
                                 .accentColor(Color.pongSystemWhite)
                         } else {
                             TextField(text: $referralCode) {
+                            }
+                            .placeholder(when: referralCode.isEmpty) {
                                 Text("Enter code")
                                     .foregroundColor(Color.pongSystemWhite)
                                     .font(.headline)
                                     .fontWeight(.semibold)
+                                    .accentColor(Color.pongSystemWhite)
                             }
                             .autocapitalization(.allCharacters)
                             .onReceive(Just(referralCode)) { _ in limitText() }
@@ -61,13 +64,13 @@ struct ReferralOnboardingView: View {
                                 .fontWeight(.bold)
                         }
                         .buttonStyle(PlainButtonStyle())
-                        .disabled(referralCode.count != 6 || onboardingVM.referred || DAKeychain.shared["referred"] == "true")
+                        .disabled(referralCode.count != 6 || referralCode.count != 4 || onboardingVM.referred || DAKeychain.shared["referred"] == "true")
                     }
                     .foregroundColor(Color.pongSystemWhite)
                     .padding(15)
                 }
-                .background(Color.pongAccent)
-                .cornerRadius(50)
+                .background(Color.clear)
+                .border(Color.pongAccent)
             }
             
             Spacer()
