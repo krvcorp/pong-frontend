@@ -116,5 +116,9 @@ class NotificationsManager: ObservableObject {
                 }
             }
         }
+        else {
+            completion(true)
+        }
+        
     }
 }
