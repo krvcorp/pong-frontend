@@ -105,10 +105,13 @@ struct MainTabView: View {
             LazyVGrid(columns: columns, spacing: 20) {
                 // MARK: FeedView
                 VStack {
+                    Spacer()
                     Image("home")
                         .font(.system(size: 25))
                         .foregroundColor(mainTabVM.itemSelected == 1 ? Color.pongAccent : Color(UIColor.secondaryLabel))
+                    Spacer()
                 }
+                .background(Color.pongSystemBackground)
                 .onTapGesture {
                     DispatchQueue.main.async {
                         if mainTabVM.itemSelected == 1 {
@@ -121,10 +124,13 @@ struct MainTabView: View {
                 
                 // MARK: Stats and Leaderboard
                 VStack {
+                    Spacer()
                     Image("trophy")
                         .font(.system(size: 25))
                         .foregroundColor(mainTabVM.itemSelected == 2 ? Color.pongAccent : Color(UIColor.secondaryLabel))
+                    Spacer()
                 }
+                .background(Color.pongSystemBackground)
                 .onTapGesture {
                     DispatchQueue.main.async {
                         mainTabVM.itemSelected = 2
@@ -144,10 +150,13 @@ struct MainTabView: View {
                 
                 //MARK: Notifications
                 VStack {
+                    Spacer()
                     Image("bell")
                         .font(.system(size: 25))
                         .foregroundColor(mainTabVM.itemSelected == 4 ? Color.pongAccent : Color(UIColor.secondaryLabel))
+                    Spacer()
                 }
+                .background(Color.pongSystemBackground)
                 .onTapGesture {
                     DispatchQueue.main.async {
                         mainTabVM.itemSelected = 4
@@ -156,10 +165,13 @@ struct MainTabView: View {
                 
                 //MARK: Profile
                 VStack {
+                    Spacer()
                     Image("person")
                         .font(.system(size: 25))
                         .foregroundColor(mainTabVM.itemSelected == 5 ? Color.pongAccent : Color(UIColor.secondaryLabel))
+                    Spacer()
                 }
+                .background(Color.pongSystemBackground)
                 .onTapGesture {
                     DispatchQueue.main.async {
                         mainTabVM.itemSelected = 5
@@ -168,7 +180,6 @@ struct MainTabView: View {
             }
             .frame(width: UIScreen.screenWidth, height: 50)
             .background(Color.pongSystemBackground)
-            .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: -5)
         }
     }
 }
