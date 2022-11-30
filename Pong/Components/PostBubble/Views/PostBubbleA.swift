@@ -269,6 +269,7 @@ struct PostBubbleA: View {
                     } label: {
                         Image("trash")
                             .foregroundColor(Color.pongSecondaryText)
+                            .padding(.bottom, 3)
                     }
                 }
                 
@@ -281,6 +282,7 @@ struct PostBubbleA: View {
                     Text(Image("share"))
                         .fontWeight(.medium)
                         .foregroundColor(Color.pongSecondaryText)
+                        .padding(.top, 1)
                 }
                 .sheet(isPresented: $sheet) {
                     ShareSheet(items: ["\(NetworkManager.networkManager.rootURL)post/\(post.id)/"])
