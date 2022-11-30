@@ -106,11 +106,9 @@ struct MainTabView: View {
             LazyVGrid(columns: columns, spacing: 20) {
                 // MARK: FeedView
                 VStack {
-                    Spacer()
                     Image("home")
                         .font(.system(size: 25))
                         .foregroundColor(mainTabVM.itemSelected == 1 ? Color.pongAccent : Color(UIColor.secondaryLabel))
-                    Spacer()
                 }
                 .background(Color.pongSystemBackground)
                 .onTapGesture {
@@ -125,11 +123,9 @@ struct MainTabView: View {
                 
                 // MARK: Stats and Leaderboard
                 VStack {
-                    Spacer()
                     Image("trophy")
                         .font(.system(size: 25))
                         .foregroundColor(mainTabVM.itemSelected == 2 ? Color.pongAccent : Color(UIColor.secondaryLabel))
-                    Spacer()
                 }
                 .background(Color.pongSystemBackground)
                 .onTapGesture {
@@ -151,11 +147,9 @@ struct MainTabView: View {
                 
                 //MARK: Notifications
                 VStack {
-                    Spacer()
                     Image("bell")
                         .font(.system(size: 25))
                         .foregroundColor(mainTabVM.itemSelected == 4 ? Color.pongAccent : Color(UIColor.secondaryLabel))
-                    Spacer()
                 }
                 .background(Color.pongSystemBackground)
                 .onTapGesture {
@@ -166,11 +160,9 @@ struct MainTabView: View {
                 
                 //MARK: Profile
                 VStack {
-                    Spacer()
                     Image("person")
                         .font(.system(size: 25))
                         .foregroundColor(mainTabVM.itemSelected == 5 ? Color.pongAccent : Color(UIColor.secondaryLabel))
-                    Spacer()
                 }
                 .background(Color.pongSystemBackground)
                 .onTapGesture {
