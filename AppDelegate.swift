@@ -15,61 +15,63 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     
     // MARK: didFinishLaunchingWithOptions
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
-        // MARK: Firebase messaging config
-        FirebaseApp.configure()
-        FirebaseConfiguration.shared.setLoggerLevel(.min)
-        UNUserNotificationCenter.current().delegate = self
-        Messaging.messaging().delegate = self
         
-        // LOAD CURRENT STATE
-        AuthManager.authManager.loadCurrentState()
-        
-        // LOAD STARTUP STATE
-        if (AuthManager.authManager.isSignedIn) {
-            DataManager.shared.loadStartupState()
+        hyperCriticalRulesExample { success in
+            if !success {
+                // MARK: Firebase messaging config
+                FirebaseApp.configure()
+                FirebaseConfiguration.shared.setLoggerLevel(.min)
+                UNUserNotificationCenter.current().delegate = self
+                Messaging.messaging().delegate = self
+                
+                // LOAD CURRENT STATE
+                AuthManager.authManager.loadCurrentState()
+                
+                // LOAD STARTUP STATE
+                if (AuthManager.authManager.isSignedIn) {
+                    DataManager.shared.loadStartupState()
+                }
+                
+                // MARK: Navigation Bar Styling
+                if #available(iOS 15, *) {
+                    let appearance = UINavigationBarAppearance()
+                    
+                    // THE BELOW CODE CHANGES THE NAVBAR TO BE THE COLOR OF THE SYSTEM BACKGROUND
+                    appearance.configureWithOpaqueBackground()
+                    appearance.shadowColor = .clear
+                    appearance.backgroundColor = UIColor(Color.pongSystemBackground)
+                    
+                    // THIS CHANGES THE BACK BUTTON TEXT AND IMAGE TO BE Color.pongAccent
+                    appearance.backButtonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(Color.pongAccent)]
+                    let image = UIImage(systemName: "chevron.left")?.withTintColor(UIColor(Color.pongAccent), renderingMode: .alwaysOriginal) // fix indicator color
+                    appearance.setBackIndicatorImage(image, transitionMaskImage: image)
+                    
+                    // THIS SETS THE NAVIGATION BAR APPEARANCE FOR ALL TYPES OF APPEARANCES
+                    UINavigationBar.appearance().standardAppearance = appearance
+                    UINavigationBar.appearance().compactAppearance = appearance
+                    UINavigationBar.appearance().scrollEdgeAppearance = appearance
+                    UINavigationBar.appearance().tintColor = UIColor(Color.pongAccent)
+                    
+                    // THE BELOW CODE CHANGES THE TABBAR APPEARANCE
+                    UITabBar.appearance().shadowImage = UIImage()
+                    UITabBar.appearance().backgroundImage = UIImage()
+                    UITabBar.appearance().isTranslucent = true
+                    UITabBar.appearance().backgroundColor = UIColor(Color.pongSystemBackground)
+                    
+                    // makes the refreshable icon black, and works with list (who knows why)
+                    UIRefreshControl.appearance().tintColor = UIColor(Color.pongLabel)
+                    UIRefreshControl.appearance().backgroundColor = UIColor(Color.clear)
+                    
+                    // THE BELOW CODE IS SETTING THE ENTIRE APP'S LIST SEPARATOR. IF YOU WANT TO CHANGE THIS, ADD A .ONDISAPPEAR BELOW
+                    UITableView.appearance().separatorStyle = .none
+                    UITableViewCell.appearance().backgroundColor = UIColor(Color.pongSystemBackground)
+                    UITableView.appearance().backgroundColor = UIColor(Color.pongSystemBackground)
+                    
+                    // Dismiss keyboard on scroll
+                    UITableView.appearance().keyboardDismissMode = .onDrag
+                }
+            }
         }
-        
-        // MARK: Navigation Bar Styling
-        if #available(iOS 15, *) {
-            let appearance = UINavigationBarAppearance()
-            
-            // THE BELOW CODE CHANGES THE NAVBAR TO BE THE COLOR OF THE SYSTEM BACKGROUND
-            appearance.configureWithOpaqueBackground()
-            appearance.shadowColor = .clear
-            appearance.backgroundColor = UIColor(Color.pongSystemBackground)
-            
-            // THIS CHANGES THE BACK BUTTON TEXT AND IMAGE TO BE Color.pongAccent
-            appearance.backButtonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(Color.pongAccent)]
-            let image = UIImage(systemName: "chevron.left")?.withTintColor(UIColor(Color.pongAccent), renderingMode: .alwaysOriginal) // fix indicator color
-            appearance.setBackIndicatorImage(image, transitionMaskImage: image)
-            
-            // THIS SETS THE NAVIGATION BAR APPEARANCE FOR ALL TYPES OF APPEARANCES
-            UINavigationBar.appearance().standardAppearance = appearance
-            UINavigationBar.appearance().compactAppearance = appearance
-            UINavigationBar.appearance().scrollEdgeAppearance = appearance
-            UINavigationBar.appearance().tintColor = UIColor(Color.pongAccent)
-            
-            // THE BELOW CODE CHANGES THE TABBAR APPEARANCE
-            UITabBar.appearance().shadowImage = UIImage()
-            UITabBar.appearance().backgroundImage = UIImage()
-            UITabBar.appearance().isTranslucent = true
-            UITabBar.appearance().backgroundColor = UIColor(Color.pongSystemBackground)
-            
-            // makes the refreshable icon black, and works with list (who knows why)
-            UIRefreshControl.appearance().tintColor = UIColor(Color.pongLabel)
-            UIRefreshControl.appearance().backgroundColor = UIColor(Color.clear)
-            
-            // THE BELOW CODE IS SETTING THE ENTIRE APP'S LIST SEPARATOR. IF YOU WANT TO CHANGE THIS, ADD A .ONDISAPPEAR BELOW
-            UITableView.appearance().separatorStyle = .none
-            UITableViewCell.appearance().backgroundColor = UIColor(Color.pongSystemBackground)
-            UITableView.appearance().backgroundColor = UIColor(Color.pongSystemBackground)
-            
-            // Dismiss keyboard on scroll
-            UITableView.appearance().keyboardDismissMode = .onDrag
-        }
-        
-        // MARK: HyperCriticalRulesExample
-        hyperCriticalRulesExample()
         
         return true
     }
@@ -145,21 +147,24 @@ extension AppDelegate: MessagingDelegate {
 
 // MARK: HyperCriticalRules
 private extension AppDelegate {
-    /// Forces the app to update if the user is on an outdated version
-    func hyperCriticalRulesExample() {
+    /// Forces the app to update if the user is on an outdated version. Completion FALSE indicates app is UP TO DATE
+    func hyperCriticalRulesExample(completion: @escaping (Bool) -> Void) {
         let siren = Siren.shared
         siren.rulesManager = RulesManager(globalRules: .critical,
-                                          showAlertAfterCurrentVersionHasBeenReleasedForDays: 0)
+                                          showAlertAfterCurrentVersionHasBeenReleasedForDays: 1)
 
         siren.wail { results in
+            print("DEBUG: siren.wail completion")
             switch results {
             case .success(let updateResults):
-                print("AlertAction ", updateResults.alertAction)
-                print("Localization ", updateResults.localization)
-                print("Model ", updateResults.model)
-                print("UpdateType ", updateResults.updateType)
+                print("DEBUG: AlertAction ", updateResults.alertAction)
+                print("DEBUG: Localization ", updateResults.localization)
+                print("DEBUG: Model ", updateResults.model)
+                print("DEBUG: UpdateType ", updateResults.updateType)
+                completion(true)
             case .failure(let error):
-                print(error.localizedDescription)
+                print("DEBUG: siren.wail error", error.localizedDescription)
+                completion(false)
             }
         }
     }
