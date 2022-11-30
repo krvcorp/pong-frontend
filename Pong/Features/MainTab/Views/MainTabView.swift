@@ -172,7 +172,7 @@ struct MainTabView: View {
                 }
             }
             .frame(width: UIScreen.screenWidth, height: 50)
-            .background(Color.pongSystemBackground)
+            .background(Color.pongSystemBackground.shadow(color: Color.pongGray.opacity(0.5), radius: 5, x: 0, y: -5))
         }
     }
 }

@@ -293,7 +293,7 @@ struct PostBubbleB: View {
                     .font(.title3)
             }
             
-            Text("\(post.score + post.voteStatus)")
+            Text("\(voteTruncate(votes: post.score + post.voteStatus))")
                 .foregroundColor(post.voteStatus != 0 ? Color.pongAccent : Color.pongSecondaryText)
                 .font(.title3)
                 .fontWeight(.bold)
