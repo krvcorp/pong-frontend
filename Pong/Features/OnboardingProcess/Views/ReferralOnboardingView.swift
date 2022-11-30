@@ -25,31 +25,27 @@ struct ReferralOnboardingView: View {
                 
                 HStack {
                     HStack {
-                        Image("person")
-                            .foregroundColor(Color.pongSystemWhite)
-                            .font(.system(size: 20))
-                        
-                        if onboardingVM.referred || DAKeychain.shared["referred"] == "true" {
-                            Text("Referred!")
-                                .foregroundColor(Color.pongSystemWhite)
-                                .font(.headline)
-                                .fontWeight(.semibold)
-                                .accentColor(Color.pongSystemWhite)
-                        } else {
-                            TextField(text: $referralCode) {
-                            }
-                            .placeholder(when: referralCode.isEmpty) {
-                                Text("Enter code")
-                                    .foregroundColor(Color.pongSystemWhite)
+                        Group {
+                            if onboardingVM.referred || DAKeychain.shared["referred"] == "true" {
+                                Text("Referred!")
+                                    .foregroundColor(Color.pongLabel)
                                     .font(.headline)
                                     .fontWeight(.semibold)
-                                    .accentColor(Color.pongSystemWhite)
+                                    .accentColor(Color.pongLabel)
+                            } else {
+                                TextField(text: $referralCode) {
+                                    Text("Enter code")
+                                        .foregroundColor(Color.pongLabel)
+                                        .font(.headline)
+                                        .fontWeight(.semibold)
+                                }
+                                .autocapitalization(.allCharacters)
+                                .onReceive(Just(referralCode)) { _ in limitText() }
+                                .disabled(onboardingVM.referred || DAKeychain.shared["referred"] == "true")
+                                .accentColor(Color.pongLabel)
                             }
-                            .autocapitalization(.allCharacters)
-                            .onReceive(Just(referralCode)) { _ in limitText() }
-                            .disabled(onboardingVM.referred || DAKeychain.shared["referred"] == "true")
-                            .accentColor(Color.pongSystemWhite)
                         }
+                        .padding(.leading)
                         
                         Spacer()
                         
@@ -62,15 +58,20 @@ struct ReferralOnboardingView: View {
                                 .foregroundColor(Color.pongSystemWhite)
                                 .font(.headline)
                                 .fontWeight(.bold)
+
                         }
                         .buttonStyle(PlainButtonStyle())
-                        .disabled(referralCode.count != 6 || referralCode.count != 4 || onboardingVM.referred || DAKeychain.shared["referred"] == "true")
+                        .disabled(referralCode.count != 6 || onboardingVM.referred || DAKeychain.shared["referred"] == "true")
+                        .padding()
+                        .background(Color.pongAccent)
+                        .cornerRadius(50, corners: [.topRight, .bottomRight])
+                        // add corners to only the right
+
+
                     }
-                    .foregroundColor(Color.pongSystemWhite)
-                    .padding(15)
                 }
-                .background(Color.clear)
-                .border(Color.pongAccent)
+                .background(Color.pongSecondarySystemBackground)
+                .cornerRadius(50)
             }
             
             Spacer()
