@@ -65,7 +65,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             UITableView.appearance().backgroundColor = UIColor(Color.pongSystemBackground)
             
             // Dismiss keyboard on scroll
-            UIScrollView.appearance().keyboardDismissMode = .onDrag
+            UITableView.appearance().keyboardDismissMode = .onDrag
         }
         
         // MARK: HyperCriticalRulesExample
