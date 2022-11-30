@@ -12,61 +12,57 @@ struct OnboardingView: View {
     }
     
     var body: some View {
-        NavigationView {
-            VStack {
-                TabView(selection: $selectedTab) {
-                    WelcomeView()
-                        .tag(1)
+        VStack {
+            TabView(selection: $selectedTab) {
+                WelcomeView()
+                    .tag(1)
 
-                    RulesView()
-                        .tag(2)
-                    
-                    ReferralOnboardingView()
-                        .tag(3)
-                }
-                .onChange(of: selectedTab, perform: { newValue in
-                    hideKeyboard()
-                })
-                .tabViewStyle(PageTabViewStyle())
+                RulesView()
+                    .tag(2)
                 
-                if selectedTab != 3 {
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        withAnimation {
-                            selectedTab = selectedTab + 1
-                        }
-                    } label: {
-                        Text("Next")
-                            .fontWeight(.medium)
-                            .padding([.top, .bottom], 15)
-                            .padding([.leading, .trailing], 90)
-                            .background(Color.pongAccent)
-                            .foregroundColor(.white)
-                            .cornerRadius(25)
-                    }
-                    .padding(.bottom)
-                } else {
-                    Button {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        onboardingVM.onboard()
-                    } label: {
-                        Text("Next")
-                            .fontWeight(.medium)
-                            .padding([.top, .bottom], 15)
-                            .padding([.leading, .trailing], 90)
-                            .background(Color.pongAccent)
-                            .foregroundColor(.white)
-                            .cornerRadius(25)
-                    }
-                    .padding(.bottom)
-                }
-
+                ReferralOnboardingView()
+                    .tag(3)
             }
-            .background(Color.pongSystemBackground)
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationBarTitle("")
-            .navigationBarHidden(true)
+            .onChange(of: selectedTab, perform: { newValue in
+                hideKeyboard()
+            })
+            .tabViewStyle(PageTabViewStyle())
+            
+            if selectedTab != 3 {
+                Button {
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                    withAnimation {
+                        selectedTab = selectedTab + 1
+                    }
+                } label: {
+                    Text("Next")
+                        .fontWeight(.medium)
+                        .padding([.top, .bottom], 15)
+                        .padding([.leading, .trailing], 90)
+                        .background(Color.pongAccent)
+                        .foregroundColor(.white)
+                        .cornerRadius(25)
+                }
+                .padding(.bottom)
+            } else {
+                Button {
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                    onboardingVM.onboard()
+                } label: {
+                    Text("Next")
+                        .fontWeight(.medium)
+                        .padding([.top, .bottom], 15)
+                        .padding([.leading, .trailing], 90)
+                        .background(Color.pongAccent)
+                        .foregroundColor(.white)
+                        .cornerRadius(25)
+                }
+                .padding(.bottom)
+            }
+
         }
+        .ignoresSafeArea(.keyboard)
+        .background(Color.pongSystemBackground)
         .environmentObject(onboardingVM)
     }
 }

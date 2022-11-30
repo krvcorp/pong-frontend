@@ -68,6 +68,7 @@ struct ContentView: View {
                         }
                 } else if (!AuthManager.authManager.onboarded) {
                     OnboardingView()
+                        .navigationBarHidden(true)
                 } else {
                     ZStack(alignment: .leading) {
                         MainTabView(showMenu: self.$showMenu)

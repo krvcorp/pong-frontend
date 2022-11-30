@@ -144,8 +144,8 @@ extension AppDelegate: MessagingDelegate {
 }
 
 // MARK: HyperCriticalRules
-/// Forces the app to update if the user is on an outdated version
 private extension AppDelegate {
+    /// Forces the app to update if the user is on an outdated version
     func hyperCriticalRulesExample() {
         let siren = Siren.shared
         siren.rulesManager = RulesManager(globalRules: .critical,

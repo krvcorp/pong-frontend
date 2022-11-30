@@ -10,6 +10,7 @@ struct RulesView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
             
             Spacer()
+            
             Image("OnboardingRules")
                 .resizable()
                 .scaledToFit()
