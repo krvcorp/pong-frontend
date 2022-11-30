@@ -61,12 +61,11 @@ enum TopFilter: String, CaseIterable, Identifiable, Equatable {
 
 // MARK: FeedViewModel
 class FeedViewModel: ObservableObject {
-    @Published var selectedFeedFilter : FeedFilter = .hot
     @Published var school = "Boston University"
     @Published var InitalOpen : Bool = true
     
 //    TOP FILTER + TOP FILTER LOADING
-    @Published var selectedTopFilter : TopFilter = .all
+//    @Published var selectedTopFilter : TopFilter = .all
     @Published var topFilterLoading : Bool = false
     
     @Published var finishedTop = false
@@ -166,18 +165,15 @@ class FeedViewModel: ObservableObject {
     // MARK: PaginatePostsReset
     /// Gets the first page of a particular filter and replaces whatever is stored
     ///
-    func paginatePostsReset(selectedFeedFilter: FeedFilter, dataManager: DataManager, completion: @escaping (Bool) -> Void) {
+    func paginatePostsReset(selectedFeedFilter: FeedFilter, dataManager: DataManager, selectedTopFilter : TopFilter, completion: @escaping (Bool) -> Void) {
         var url_to_use = ""
         
         if selectedFeedFilter == .top {
             url_to_use = "posts/?sort=top" + checkTopFilter(filter: selectedTopFilter)
-//            finishedTop = false
         } else if selectedFeedFilter == .hot {
             url_to_use = "posts/?sort=hot"
-//            finishedHot = false
         } else if selectedFeedFilter == .recent {
             url_to_use = "posts/?sort=new"
-//            finishedRecent = false
         }
         
         NetworkManager.networkManager.request(route: url_to_use, method: .get, successType: PaginatePostsModel.Response.self) { successResponse, errorResponse in

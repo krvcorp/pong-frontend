@@ -15,7 +15,6 @@ enum ProfileFilter: String, CaseIterable, Identifiable {
 }
 
 class ProfileViewModel: ObservableObject {
-    @Published var selectedProfileFilter : ProfileFilter = .posts
 
     func getProfile(dataManager: DataManager) {
         paginatePosts(dataManager: dataManager)

@@ -282,6 +282,7 @@ class DataManager : ObservableObject {
         }
     }
     
+    // MARK: UpdateCommentLocally
     func updateCommentLocally(comment: Comment) {
         DispatchQueue.main.async {
             if let index = self.profileComments.firstIndex(where: {$0.id == comment.id}) {
@@ -289,8 +290,6 @@ class DataManager : ObservableObject {
             }
         }
     }
-    
-
     
     // MARK: GetConversations
     func getConversations() {

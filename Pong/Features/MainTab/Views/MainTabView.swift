@@ -8,6 +8,9 @@ struct MainTabView: View {
     @StateObject var dataManager = DataManager.shared
     @EnvironmentObject private var mainTabVM : MainTabViewModel
     
+    @State var itemSelected: Int = 1
+    @State var isCustomItemSelected: Bool = false
+    
     var body: some View {
         // MARK: If app is loading
         if dataManager.isAppLoading {
@@ -42,7 +45,7 @@ struct MainTabView: View {
         // MARK: If app is loaded
         else {
             ZStack(alignment: .bottom) {
-                TabView(selection: $mainTabVM.itemSelected) {
+                TabView(selection: $itemSelected) {
                     
                     // MARK: Feed
                     FeedView(showMenu: $showMenu)
@@ -71,7 +74,7 @@ struct MainTabView: View {
             }
             .accentColor(Color.pongLabel)
             // MARK: New Post Sheet
-            .fullScreenCover(isPresented: $mainTabVM.isCustomItemSelected) {
+            .fullScreenCover(isPresented: $isCustomItemSelected) {
                 NewPostView(mainTabVM: mainTabVM)
                     .environmentObject(dataManager)
             }
@@ -85,10 +88,13 @@ struct MainTabView: View {
                     dataManager.timePassed += 1
                 }
             }
-            .onDisappear {
-                self.dataManager.timer.upstream.connect().cancel()
-            }
             .ignoresSafeArea(.keyboard, edges: .bottom)
+            .onChange(of: MainTabViewModel.shared.newPostDetected) { newValue in
+                DispatchQueue.main.async {
+                    itemSelected = 1
+                    isCustomItemSelected = false
+                }
+            }
         }
     }
     
@@ -108,15 +114,15 @@ struct MainTabView: View {
                 VStack {
                     Image("home")
                         .font(.system(size: 25))
-                        .foregroundColor(mainTabVM.itemSelected == 1 ? Color.pongAccent : Color(UIColor.secondaryLabel))
+                        .foregroundColor(itemSelected == 1 ? Color.pongAccent : Color(UIColor.secondaryLabel))
                 }
                 .background(Color.pongSystemBackground)
                 .onTapGesture {
                     DispatchQueue.main.async {
-                        if mainTabVM.itemSelected == 1 {
+                        if itemSelected == 1 {
                             mainTabVM.scrollToTop.toggle()
                         } else {
-                            mainTabVM.itemSelected = 1
+                            itemSelected = 1
                         }
                     }
                 }
@@ -125,12 +131,12 @@ struct MainTabView: View {
                 VStack {
                     Image("trophy")
                         .font(.system(size: 25))
-                        .foregroundColor(mainTabVM.itemSelected == 2 ? Color.pongAccent : Color(UIColor.secondaryLabel))
+                        .foregroundColor(itemSelected == 2 ? Color.pongAccent : Color(UIColor.secondaryLabel))
                 }
                 .background(Color.pongSystemBackground)
                 .onTapGesture {
                     DispatchQueue.main.async {
-                        mainTabVM.itemSelected = 2
+                        itemSelected = 2
                     }
                 }
                 
@@ -141,7 +147,7 @@ struct MainTabView: View {
                     .padding(.bottom)
                     .onTapGesture {
                         DispatchQueue.main.async {
-                            mainTabVM.itemSelected = 3
+                            isCustomItemSelected.toggle()
                         }
                     }
                 
@@ -149,12 +155,12 @@ struct MainTabView: View {
                 VStack {
                     Image("bell")
                         .font(.system(size: 25))
-                        .foregroundColor(mainTabVM.itemSelected == 4 ? Color.pongAccent : Color(UIColor.secondaryLabel))
+                        .foregroundColor(itemSelected == 4 ? Color.pongAccent : Color(UIColor.secondaryLabel))
                 }
                 .background(Color.pongSystemBackground)
                 .onTapGesture {
                     DispatchQueue.main.async {
-                        mainTabVM.itemSelected = 4
+                        itemSelected = 4
                     }
                 }
                 
@@ -162,17 +168,17 @@ struct MainTabView: View {
                 VStack {
                     Image("person")
                         .font(.system(size: 25))
-                        .foregroundColor(mainTabVM.itemSelected == 5 ? Color.pongAccent : Color(UIColor.secondaryLabel))
+                        .foregroundColor(itemSelected == 5 ? Color.pongAccent : Color(UIColor.secondaryLabel))
                 }
                 .background(Color.pongSystemBackground)
                 .onTapGesture {
                     DispatchQueue.main.async {
-                        mainTabVM.itemSelected = 5
+                        itemSelected = 5
                     }
                 }
             }
             .frame(width: UIScreen.screenWidth, height: 50)
-            .background(Color.pongSystemBackground.shadow(color: Color.pongGray.opacity(0.5), radius: 5, x: 0, y: -5))
+            .background(Color.pongSystemBackground.shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: -5))
         }
     }
 }

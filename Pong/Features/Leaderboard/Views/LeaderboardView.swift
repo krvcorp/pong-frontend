@@ -36,6 +36,8 @@ struct LeaderboardView: View {
     
     // MARK: Body
     var body: some View {
+        let _ = print("DEBUG: LeaderboardView.build")
+        
         VStack(spacing: 0) {
             LeaderboardList
         }

@@ -9,10 +9,7 @@ import Combine
 
 class MainTabViewModel: ObservableObject {
     
-    static let shared = MainTabViewModel(initialIndex: 1, customItemIndex: 3)
-    
-    /// This is true when the user has selected the Item with the custom action
-    @Published var isCustomItemSelected: Bool = false
+    static let shared = MainTabViewModel()
     
     @Published var newPostDetected: Bool = false
     
@@ -22,43 +19,9 @@ class MainTabViewModel: ObservableObject {
     
     @Published var scrollToTop : Bool = false
 
-    // variable to track if user is scrolling
-    @Published var isScrolling: Bool = false
-    
-    init(initialIndex: Int = 1, customItemIndex: Int) {
-        self.customActiontemindex = customItemIndex
-        self.itemSelected = initialIndex
-        self.previousItem = initialIndex
-    }
-    
-    /// This is the index of the item that fires a custom action
-    let customActiontemindex: Int
-
-    var previousItem: Int
-
-    @Published var itemSelected: Int {
-        didSet {
-            if itemSelected == customActiontemindex {
-                previousItem = oldValue
-                itemSelected = oldValue
-                isCustomItemSelected = true
-            }
-        }
-    }
-
-    func reset() {
-        itemSelected = previousItem
-    }
-    
     func newPost() {
-        self.isCustomItemSelected = false
-        self.itemSelected = 1
-        self.newPostDetected.toggle()
-    }
-    
-    func openDMs(conversation: Conversation) {
-        self.openConversation = conversation
-        self.itemSelected = 1
-        self.openConversationsDetected.toggle()
+        DispatchQueue.main.async {
+            self.newPostDetected.toggle()
+        }
     }
 }

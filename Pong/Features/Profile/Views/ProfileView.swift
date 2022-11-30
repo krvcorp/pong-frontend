@@ -13,13 +13,17 @@ struct ProfileView: View {
     
     @StateObject private var profileVM = ProfileViewModel()
     
+    @State var selectedProfileFilter : ProfileFilter = .posts
+    
     var body: some View {
+        let _ = print("DEBUG: ProfileView.build")
+        
         VStack {
             toolbarPickerComponent
 
-            TabView(selection: $profileVM.selectedProfileFilter) {
+            TabView(selection: $selectedProfileFilter) {
                 ForEach([ProfileFilter.posts, ProfileFilter.comments, ProfileFilter.about], id: \.self) { tab in
-                    customProfileStack(filter: profileVM.selectedProfileFilter, tab: tab)
+                    customProfileStack(filter: selectedProfileFilter, tab: tab)
                         .tag(tab)
                         .background(Color.pongSystemBackground)
                 }
@@ -35,6 +39,21 @@ struct ProfileView: View {
         .onChange(of: DataManager.shared.profileComments, perform: { newValue in
             DispatchQueue.main.async {
                 profileComments = DataManager.shared.profileComments
+            }
+        })
+        .onChange(of: DataManager.shared.postKarma, perform: { newValue in
+            DispatchQueue.main.async {
+                postKarma = DataManager.shared.postKarma
+            }
+        })
+        .onChange(of: DataManager.shared.commentKarma, perform: { newValue in
+            DispatchQueue.main.async {
+                commentKarma = DataManager.shared.commentKarma
+            }
+        })
+        .onChange(of: DataManager.shared.numberReferred, perform: { newValue in
+            DispatchQueue.main.async {
+                numberReferred = DataManager.shared.numberReferred
             }
         })
         .onAppear {
@@ -60,6 +79,7 @@ struct ProfileView: View {
         .navigationViewStyle(StackNavigationViewStyle())
     }
     
+    // MARK: KarmaComponent
     var karmaComponent : some View {
         HStack {
             HStack {
@@ -121,7 +141,7 @@ struct ProfileView: View {
             ForEach([ProfileFilter.posts, ProfileFilter.comments, ProfileFilter.about], id: \.self) { filter in
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    profileVM.selectedProfileFilter = filter
+                    selectedProfileFilter = filter
                 } label: {
                     VStack(spacing: 0) {
                         Spacer()
@@ -129,11 +149,11 @@ struct ProfileView: View {
                         Text(filter.title)
                             .font(.subheadline)
                             .fontWeight(.bold)
-                            .foregroundColor(profileVM.selectedProfileFilter == filter ? Color.pongAccent : Color.pongLabel)
+                            .foregroundColor(selectedProfileFilter == filter ? Color.pongAccent : Color.pongLabel)
                         
                         Spacer()
                         
-                        if profileVM.selectedProfileFilter == filter {
+                        if selectedProfileFilter == filter {
                             Color.pongAccent
                                 .frame(height: 2)
                                 .matchedGeometryEffect(id: "underline",
@@ -143,7 +163,7 @@ struct ProfileView: View {
                             Color.clear.frame(height: 2)
                         }
                     }
-                    .animation(.spring(), value: profileVM.selectedProfileFilter)
+                    .animation(.spring(), value: selectedProfileFilter)
                 }
             }
         }

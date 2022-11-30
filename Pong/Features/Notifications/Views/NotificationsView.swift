@@ -4,11 +4,8 @@ import AlertToast
 struct NotificationsView: View {
     @Environment(\.colorScheme) var colorScheme: ColorScheme
     
-    @EnvironmentObject var mainTabVM : MainTabViewModel
-    
     @StateObject var dataManager : DataManager = DataManager.shared
     @StateObject private var notificationsVM = NotificationsViewModel()
-    @ObservedObject private var notificationsManager = NotificationsManager.shared
     
     @State private var showAlert = false
     @State var post = defaultPost
@@ -18,6 +15,8 @@ struct NotificationsView: View {
     
     //MARK: Body
     var body: some View {
+        let _ = print("DEBUG: NotificationsView.build")
+        
         VStack {
             NavigationLink(destination: PostView(post: $post), isActive: $postIsLinkActive) { EmptyView() }
             NavigationLink(destination: LeaderboardView(), isActive: $leaderboardIsLinkActive) { EmptyView() }
@@ -185,10 +184,6 @@ struct NotificationsView: View {
             .listStyle(PlainListStyle())
         }
         .background(Color.pongSystemBackground)
-        .onAppear {
-            UITableView.appearance().showsVerticalScrollIndicator = false
-            notificationsVM.getAllNotifications()
-        }
         .navigationTitle("Notifications")
         .navigationBarTitleDisplayMode(.inline)
         .navigationViewStyle(StackNavigationViewStyle())

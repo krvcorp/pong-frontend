@@ -8,7 +8,6 @@ struct FeedView: View {
     @Namespace var namespace
     
     @Binding var showMenu : Bool
-    
     @EnvironmentObject var mainTabVM : MainTabViewModel
     
     @StateObject var dataManager : DataManager = DataManager.shared
@@ -19,10 +18,14 @@ struct FeedView: View {
     @StateObject var feedVM = FeedViewModel()
     @StateObject var notificationsManager = NotificationsManager.shared
     
+    @State var selectedFeedFilter : FeedFilter = .hot
+    @State var selectedTopFilter : TopFilter = .all
+    
     var body: some View {
-        TabView(selection: $feedVM.selectedFeedFilter) {
+        let _ = print("DEBUG: FeedView.build")
+        TabView(selection: $selectedFeedFilter) {
             ForEach(FeedFilter.allCases, id: \.self) { tab in
-                customFeedStack(filter: feedVM.selectedFeedFilter, tab: tab)
+                customFeedStack(filter: selectedFeedFilter, tab: tab)
                     .tag(tab)
             }
             .background(Color.pongSecondarySystemBackground)
@@ -94,10 +97,12 @@ struct FeedView: View {
         .onChange(of: mainTabVM.newPostDetected, perform: { change in
             DispatchQueue.main.async {
                 self.presentationMode.wrappedValue.dismiss()
-                feedVM.selectedFeedFilter = .recent
-                feedVM.paginatePostsReset(selectedFeedFilter: .recent, dataManager: dataManager) { successResponse in
-                    
-                }
+                selectedFeedFilter = .recent
+
+            }
+            
+            feedVM.paginatePostsReset(selectedFeedFilter: .recent, dataManager: dataManager, selectedTopFilter: selectedTopFilter) { successResponse in
+                
             }
         })
         .accentColor(Color.pongLabel)
@@ -111,7 +116,7 @@ struct FeedView: View {
             ForEach(FeedFilter.allCases, id: \.self) { filter in
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    feedVM.selectedFeedFilter = filter
+                    selectedFeedFilter = filter
                 } label: {
                     VStack(spacing: 0) {
                         Spacer()
@@ -119,11 +124,11 @@ struct FeedView: View {
                         Text(filter.title)
                             .font(.subheadline)
                             .fontWeight(.bold)
-                            .foregroundColor(feedVM.selectedFeedFilter == filter ? Color.pongAccent : Color.pongLabel)
+                            .foregroundColor(selectedFeedFilter == filter ? Color.pongAccent : Color.pongLabel)
                         
                         Spacer()
                         
-                        if feedVM.selectedFeedFilter == filter {
+                        if selectedFeedFilter == filter {
                             Color.pongAccent
                                 .frame(height: 2)
                                 .matchedGeometryEffect(id: "underline",
@@ -133,7 +138,7 @@ struct FeedView: View {
                             Color.clear.frame(height: 2)
                         }
                     }
-                    .animation(.spring(), value: feedVM.selectedFeedFilter)
+                    .animation(.spring(), value: selectedFeedFilter)
                 }
             }
         }
@@ -168,14 +173,14 @@ struct FeedView: View {
                         ForEach(TopFilter.allCases, id: \.id) { filter in
                             Button {
                                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                                feedVM.selectedTopFilter = filter
+                                selectedTopFilter = filter
                             } label: {
                                 Text(filter.title)
                                     .font(.subheadline.bold())
                                     .padding(.vertical, 5)
-                                    .padding(.horizontal, 30)
-                                    .foregroundColor(feedVM.selectedTopFilter == filter ? Color.pongLabel : Color.pongLightGray)
-                                    .overlay(RoundedRectangle(cornerRadius: 15).stroke(lineWidth: 3).foregroundColor(feedVM.selectedTopFilter == filter ? Color.pongLabel : Color.pongLightGray))
+                                    .frame(width: (UIScreen.screenWidth) / 4)
+                                    .foregroundColor(selectedTopFilter == filter ? Color.pongLabel : Color.pongLightGray)
+                                    .overlay(RoundedRectangle(cornerRadius: 15).stroke(lineWidth: 3).foregroundColor(selectedTopFilter == filter ? Color.pongLabel : Color.pongLightGray))
                                     .background(Color.pongSystemBackground)
                                     .cornerRadius(15)
                             }
@@ -186,10 +191,10 @@ struct FeedView: View {
                     .buttonStyle(PlainButtonStyle())
                     .listRowBackground(Color.pongSystemBackground)
                     .listRowSeparator(.hidden)
-                    .onChange(of: feedVM.selectedTopFilter) { newValue in
+                    .onChange(of: selectedTopFilter) { newValue in
                         feedVM.topFilterLoading = true
                         
-                        feedVM.paginatePostsReset(selectedFeedFilter: .top, dataManager: dataManager) { successResponse in
+                        feedVM.paginatePostsReset(selectedFeedFilter: .top, dataManager: dataManager, selectedTopFilter: selectedTopFilter) { successResponse in
                             DispatchQueue.main.async {
                                 feedVM.topFilterLoading = false
                             }
@@ -307,7 +312,7 @@ struct FeedView: View {
             })
             // MARK: Refreshable
             .refreshable{
-                feedVM.paginatePostsReset(selectedFeedFilter: feedVM.selectedFeedFilter, dataManager: dataManager) { successResponse in
+                feedVM.paginatePostsReset(selectedFeedFilter: selectedFeedFilter, dataManager: dataManager, selectedTopFilter: selectedTopFilter) { successResponse in
                 }
             }
             .listStyle(PlainListStyle())
