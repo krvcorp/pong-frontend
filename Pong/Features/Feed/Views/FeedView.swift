@@ -95,8 +95,8 @@ struct FeedView: View {
             DispatchQueue.main.async {
                 self.presentationMode.wrappedValue.dismiss()
                 feedVM.selectedFeedFilter = .recent
-                Task {
-                    await feedVM.paginatePostsReset(selectedFeedFilter: .recent, dataManager: dataManager)
+                feedVM.paginatePostsReset(selectedFeedFilter: .recent, dataManager: dataManager) { successResponse in
+                    
                 }
             }
         })
@@ -187,30 +187,43 @@ struct FeedView: View {
                     .listRowBackground(Color.pongSystemBackground)
                     .listRowSeparator(.hidden)
                     .onChange(of: feedVM.selectedTopFilter) { newValue in
-                        Task {
-                            await feedVM.paginatePostsReset(selectedFeedFilter: .top, dataManager: dataManager)
+                        feedVM.topFilterLoading = true
+                        
+                        feedVM.paginatePostsReset(selectedFeedFilter: .top, dataManager: dataManager) { successResponse in
+                            DispatchQueue.main.async {
+                                feedVM.topFilterLoading = false
+                            }
                         }
                     }
                     
-                    ForEach($topPosts, id: \.self) { $post in
+                    if !feedVM.topFilterLoading {
+                        ForEach($topPosts, id: \.self) { $post in
+                            CustomListDivider()
+                            
+                            PostBubble(post: $post)
+                                .buttonStyle(PlainButtonStyle())
+                                .listRowSeparator(.hidden)
+                                .listRowBackground(Color.pongSystemBackground)
+                        }
+                        .listRowInsets(EdgeInsets())
+                        
                         CustomListDivider()
                         
-                        PostBubble(post: $post)
-                            .buttonStyle(PlainButtonStyle())
-                            .listRowSeparator(.hidden)
-                            .listRowBackground(Color.pongSystemBackground)
-                    }
-                    .listRowInsets(EdgeInsets())
-                    
-                    CustomListDivider()
-                    
-                    if !feedVM.finishedTop {
                         reachedBottomComponent
                             .listRowSeparator(.hidden)
                             .listRowBackground(Color.pongSystemBackground)
                             .onAppear() {
                                 feedVM.paginatePosts(selectedFeedFilter: tab, dataManager: dataManager)
                             }
+                    }
+                    else {
+                        loadingComponent
+                            .listRowSeparator(.hidden)
+                            .listRowBackground(Color.pongSystemBackground)
+                    }
+                    
+                    
+                    if !feedVM.finishedTop && !feedVM.topFilterLoading {
                     }
                 }
                 // MARK: HOT
@@ -294,9 +307,21 @@ struct FeedView: View {
             })
             // MARK: Refreshable
             .refreshable{
-                await feedVM.paginatePostsReset(selectedFeedFilter: feedVM.selectedFeedFilter, dataManager: dataManager)
+                feedVM.paginatePostsReset(selectedFeedFilter: feedVM.selectedFeedFilter, dataManager: dataManager) { successResponse in
+                }
             }
             .listStyle(PlainListStyle())
+        }
+    }
+    
+    var loadingComponent: some View {
+        HStack (alignment: .center) {
+            Spacer()
+            
+            ProgressView()
+                .foregroundColor(Color.pongLabel)
+            
+            Spacer()
         }
     }
 }

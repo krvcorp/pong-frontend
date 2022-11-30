@@ -47,14 +47,14 @@ var timer = Timer.publish(every: 1, on: .current, in: .common).autoconnect()
 
 // MARK: TopFilter
 enum TopFilter: String, CaseIterable, Identifiable, Equatable {
-    case all, month, week
+    case all, week, day
     var id: Self { self }
     
     var title: String {
         switch self {
         case .all: return "All Time"
-        case .month: return "Month"
         case .week: return "Week"
+        case .day: return "Day"
         }
     }
 }
@@ -64,7 +64,10 @@ class FeedViewModel: ObservableObject {
     @Published var selectedFeedFilter : FeedFilter = .hot
     @Published var school = "Boston University"
     @Published var InitalOpen : Bool = true
+    
+//    TOP FILTER + TOP FILTER LOADING
     @Published var selectedTopFilter : TopFilter = .all
+    @Published var topFilterLoading : Bool = false
     
     @Published var finishedTop = false
     @Published var finishedHot = false
@@ -163,118 +166,57 @@ class FeedViewModel: ObservableObject {
     // MARK: PaginatePostsReset
     /// Gets the first page of a particular filter and replaces whatever is stored
     ///
-    @MainActor
-    func paginatePostsReset(selectedFeedFilter: FeedFilter, dataManager: DataManager) async {
+    func paginatePostsReset(selectedFeedFilter: FeedFilter, dataManager: DataManager, completion: @escaping (Bool) -> Void) {
         var url_to_use = ""
         
         if selectedFeedFilter == .top {
             url_to_use = "posts/?sort=top" + checkTopFilter(filter: selectedTopFilter)
-            finishedTop = false
+//            finishedTop = false
         } else if selectedFeedFilter == .hot {
             url_to_use = "posts/?sort=hot"
-            finishedHot = false
+//            finishedHot = false
         } else if selectedFeedFilter == .recent {
             url_to_use = "posts/?sort=new"
-            finishedRecent = false
+//            finishedRecent = false
         }
         
-        // NETWORKING STUFF
-        struct ErrorResponse: Codable {
-            var error: String
-        }
-        
-        // MARK: Encoder / Decoder
-        let parameterEncoder: JSONParameterEncoder = {
-            let encoder = JSONEncoder()
-            encoder.keyEncodingStrategy = .convertToSnakeCase
-            let parameterEncoder = JSONParameterEncoder(encoder: encoder)
-            return parameterEncoder
-        }()
-        
-        let decoder: JSONDecoder = {
-            let decoder = JSONDecoder()
-            decoder.keyDecodingStrategy = .convertFromSnakeCase
-            return decoder
-        }()
-        
-        var httpHeaders: HTTPHeaders = []
-        
-        if let token = DAKeychain.shared["token"] {
-            httpHeaders = [
-                "Authorization": "Token \(token)"
-            ]
-        }
-        
-//        await Task.sleep(2 * NSEC_PER_SEC)
-        let queue = DispatchQueue(label: "com.krv.pong.networking-queue", qos: .utility, attributes: .concurrent)
-        
-        AF.request(NetworkManager.networkManager.baseURL + url_to_use, method: .get, headers: httpHeaders)
-            .response(queue: queue) { (response) in
-                if let httpStatusCode = response.response?.statusCode {
-                    // AUTHENTICATION ERROR
-                    if httpStatusCode == 401 {
-                        print("NETWORK: 401 Error")
-                        AuthManager.authManager.signout(force: true)
-                    }
-                    // RANDOM ERRORS
-                    else if (httpStatusCode > 401 && httpStatusCode < 600) || httpStatusCode == 400 {
-                        print("NETWORK: \(httpStatusCode) error")
-                        ToastManager.shared.errorToastDetected(message: "Something went wrong!", subMessage: "Unable to connect to network")
+        NetworkManager.networkManager.request(route: url_to_use, method: .get, successType: PaginatePostsModel.Response.self) { successResponse, errorResponse in
+            if let successResponse = successResponse {
+                DispatchQueue.main.async {
+                    if selectedFeedFilter == .top {
+                        dataManager.topPosts = successResponse.results
+                        if let nextLink = successResponse.next {
+                            self.topCurrentPage = nextLink
+                            self.finishedTop = false
+                        } else {
+                            self.finishedTop = true
+                        }
+                        completion(true)
+                    } else if selectedFeedFilter == .hot {
+                        dataManager.hotPosts = successResponse.results
+                        if let nextLink = successResponse.next {
+                            self.hotCurrentPage = nextLink
+                            self.finishedHot = false
+                        } else {
+                            self.finishedHot = true
+                        }
+                    } else if selectedFeedFilter == .recent {
+                        dataManager.recentPosts = successResponse.results
+                        if let nextLink = successResponse.next {
+                            self.recentCurrentPage = nextLink
+                            self.finishedRecent = false
+                        } else {
+                            self.finishedRecent = true
+                        }
                     }
                 }
             }
-            .responseDecodable(of: PaginatePostsModel.Response.self, queue: queue, decoder: decoder) { (response) in
-                guard let success = response.value else {
-                    return
-                }
-                print("NETWORK: .responseDecodable Success")
-            }
-            .responseDecodable(of: ErrorResponse.self, queue: queue, decoder: decoder) { (response) in
-                guard let error = response.value else {
-                    return
-                }
-                ToastManager.shared.errorPopupDetected(message: (error.error))
-            }
-            .responseData(queue: queue) { (response) in
-                switch response.result {
-                case .success:
-                    break
-                case let .failure(error):
-                    print("NETWORK: \(error.localizedDescription)")
-                    ToastManager.shared.errorToastDetected(message: "Something went wrong!", subMessage: "Unable to connect to network")
-                    break
-                }
-            }
-        
-        
-//        NetworkManager.networkManager.request(route: url_to_use, method: .get, successType: PaginatePostsModel.Response.self) { successResponse, errorResponse in
-//            if let successResponse = successResponse {
-//                DispatchQueue.main.async {
-//                    if selectedFeedFilter == .top {
-//                        dataManager.topPosts = successResponse.results
-//                        if let nextLink = successResponse.next {
-//                            self.topCurrentPage = nextLink
-//                        } else {
-//                            self.finishedTop = true
-//                        }
-//                    } else if selectedFeedFilter == .hot {
-//                        dataManager.hotPosts = successResponse.results
-//                        if let nextLink = successResponse.next {
-//                            self.hotCurrentPage = nextLink
-//                        } else {
-//                            self.finishedHot = true
-//                        }
-//                    } else if selectedFeedFilter == .recent {
-//                        dataManager.recentPosts = successResponse.results
-//                        if let nextLink = successResponse.next {
-//                            self.recentCurrentPage = nextLink
-//                        } else {
-//                            self.finishedRecent = true
-//                        }
-//                    }
+//            if let errorResponse = errorResponse {
+//                if selectedFeedFilter == .top {
+//                    self.topFilterLoading = false
 //                }
 //            }
-//        }
+        }
     }
     
     // MARK: CheckTopFilter
@@ -282,8 +224,8 @@ class FeedViewModel: ObservableObject {
     func checkTopFilter(filter : TopFilter) -> String {
         if filter == .all {
             return "&range=all"
-        } else if filter == .month {
-            return "&range=month"
+        } else if filter == .day {
+            return "&range=day"
         } else if filter == .week {
             return "&range=week"
         } else {
