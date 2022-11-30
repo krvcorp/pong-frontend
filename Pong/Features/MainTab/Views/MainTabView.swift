@@ -88,6 +88,7 @@ struct MainTabView: View {
             .onDisappear {
                 self.dataManager.timer.upstream.connect().cancel()
             }
+            .ignoresSafeArea(.keyboard, edges: .bottom)
         }
     }
     
