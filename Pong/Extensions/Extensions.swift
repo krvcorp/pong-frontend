@@ -168,3 +168,21 @@ extension UIImage {
         }
     }
 }
+
+extension View {
+    // truncate number
+    // takes in a number and replaces it with a string that is truncated to 3 decimal places
+    func voteTruncate(votes : Int) -> String {
+        // if the number is less than 1000, return the number
+        if votes < 1000 {
+            return String(votes)
+        }
+
+        // if the number is less than 1000000, return the number divided by 1000 and add a K
+        else {
+            return String(format: "%.1fK", Double(votes) / 1000)
+        }
+        
+        
+    }
+}

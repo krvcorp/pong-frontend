@@ -482,7 +482,7 @@ struct PostView: View {
                     .fontWeight(.bold)
             }
             
-            Text("\(post.score + post.voteStatus)")
+            Text("\(voteTruncate(votes: post.score + post.voteStatus))")
                 .foregroundColor(post.voteStatus != 0 ? Color.pongAccent : Color.pongSecondaryText)
             
             Button {
