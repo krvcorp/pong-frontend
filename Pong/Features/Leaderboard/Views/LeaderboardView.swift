@@ -10,6 +10,11 @@ struct LeaderboardView: View {
     @StateObject private var leaderboardVM = LeaderboardViewModel()
     
     @State private var newPost = false
+    
+//    NICKNAME AND EMOJI STUFF
+    @State var prevNickname : String = ""
+    @State var prevEmoji : String = ""
+    @FocusState private var nicknameIsFocused : Bool
     @FocusState private var emojiIsFocused : Bool
     
     // MARK: Limit Text
@@ -22,7 +27,7 @@ struct LeaderboardView: View {
     
     func limitEmojiText(_ upper: Int) {
         if emoji.count > upper {
-            emoji = String(emoji.prefix(upper))
+            emoji = String(emoji.suffix(upper))
         }
     }
     
@@ -38,7 +43,12 @@ struct LeaderboardView: View {
         .navigationBarTitle("Leaderboard")
         .navigationBarTitleDisplayMode(.inline)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .onAppear() {
+            self.prevNickname = dataManager.nickname
+            self.prevEmoji = dataManager.nicknameEmoji
+        }
     }
+    
         
     // MARK: KarmaInfo
     var karmaInfo: some View {
@@ -133,7 +143,7 @@ struct LeaderboardView: View {
                     if dataManager.rank == "1st" {
                         Text("You are first!")
                     } else {
-                        Text("\(dataManager.karmaBehind)").fontWeight(.heavy) + Text(" points behind ") + Text("\(dataManager.rankBehind)").fontWeight(.heavy) + Text(" place")
+                        Text("\(dataManager.karmaBehind)").fontWeight(.heavy) + Text(" point\(dataManager.karmaBehind == 1 ? "" : "s") behind ") + Text("\(dataManager.rankBehind)").fontWeight(.heavy) + Text(" place")
                     }
                 }
                 
@@ -144,8 +154,6 @@ struct LeaderboardView: View {
             
             // MARK: Editables
             HStack(spacing: 10) {
-                
-                
                 
                 // MARK: Nickname
                 VStack(spacing: 5) {
@@ -161,9 +169,10 @@ struct LeaderboardView: View {
                             Image(systemName: "person")
                             
                             TextField("", text: $nickname)
+                                .focused($nicknameIsFocused)
                                 .accentColor(Color.pongSystemWhite)
                                 .onReceive(Just(dataManager.nickname)) { _ in limitText(textLimit) }
-                                .placeholder(when: nickname.isEmpty) {
+                                .placeholder(when: nickname.isEmpty && !nicknameIsFocused) {
                                     if dataManager.nickname == "" {
                                         Text("Select a nickname")
                                             .foregroundColor(Color.pongSystemWhite)
@@ -175,8 +184,17 @@ struct LeaderboardView: View {
                                 .submitLabel(.done)
                                 .onSubmit {
                                     if nickname != dataManager.nickname && nickname != "" {
+                                        dataManager.nickname = nickname
                                         leaderboardVM.updateNickname(dataManager: dataManager, nickname: nickname) { success in
-                                            nickname = ""
+                                            if success {
+                                                DispatchQueue.main.async {
+                                                    prevNickname = nickname
+                                                    nickname = ""
+                                                }
+                                            }
+                                            else {
+                                                dataManager.nickname = prevNickname
+                                            }
                                         }
                                     }
                                 }
@@ -195,6 +213,40 @@ struct LeaderboardView: View {
                         
                         Spacer()
                     }
+                    HStack {
+                        Spacer()
+                        Button {
+                            if !nicknameIsFocused {
+                                DispatchQueue.main.async {
+                                    nicknameIsFocused = true
+                                }
+                            }
+                            else {
+                                if nickname != dataManager.nickname && nickname != "" {
+                                    dataManager.nickname = nickname
+                                    leaderboardVM.updateNickname(dataManager: dataManager, nickname: nickname) { success in
+                                        if success {
+                                            DispatchQueue.main.async {
+                                                prevNickname = nickname
+                                                nickname = ""
+                                                nicknameIsFocused = false
+                                            }
+                                        }
+                                        else {
+                                            dataManager.nickname = prevNickname
+                                        }
+                                    }
+                                }
+                            }
+                        } label: {
+                            Text(nicknameIsFocused ? "save" : "edit")
+                                .foregroundColor(Color.pongSecondaryText)
+                                .font(.caption)
+                                .fontWeight(.heavy)
+                        }
+                        .padding(.trailing, 10)
+                        .buttonStyle(PlainButtonStyle())
+                    }
                 }
                 
                 // MARK: Emoji
@@ -212,24 +264,35 @@ struct LeaderboardView: View {
                             .accentColor(Color.pongSystemWhite)
                             .onReceive(Just(emoji)) { _ in limitEmojiText(1) }
                             .frame(width: 50)
+                            .onChange(of: emojiIsFocused) { newValue in
+                                if emojiIsFocused {
+                                    dataManager.nicknameEmoji = ""
+                                }
+                            }
                         
                         Spacer()
                         
-                        if emojiIsFocused {
-                            Button {
-                                if emoji != dataManager.nicknameEmoji && emoji != "" {
-                                    leaderboardVM.updateNickname(dataManager: dataManager, emoji: emoji) { success in
-                                        DispatchQueue.main.async {
-                                            emoji = ""
-                                            emojiIsFocused = false
-                                        }
-                                    }
-                                }
-                            } label: {
-                                Image("bookmark.fill")
-                                    .foregroundColor(Color.pongSystemWhite)
-                            }
-                        }
+//                        if emojiIsFocused {
+//                            Button {
+//                                if emoji != dataManager.nicknameEmoji && emoji != "" {
+//                                    dataManager.nicknameEmoji = emoji
+//                                    leaderboardVM.updateNickname(dataManager: dataManager, emoji: emoji) { success in
+//                                        if success {
+//                                            DispatchQueue.main.async {
+//                                                prevEmoji = emoji
+//                                                emoji = ""
+//                                            }
+//                                        }
+//                                        else {
+//                                            dataManager.nicknameEmoji = prevEmoji
+//                                        }
+//                                    }
+//                                }
+//                            } label: {
+//                                Image("bookmark.fill")
+//                                    .foregroundColor(Color.pongSystemWhite)
+//                            }
+//                        }
                     }
                     .padding(8)
                     .frame(width: 125, height: 40)
@@ -240,6 +303,43 @@ struct LeaderboardView: View {
                     .background(Color.pongAccent)
                     .cornerRadius(25)
                     .foregroundColor(Color.pongSystemWhite)
+                    
+                    HStack {
+                        Spacer()
+                        Button {
+                            if !emojiIsFocused {
+                                DispatchQueue.main.async {
+                                    emojiIsFocused = true
+                                }
+                            }
+                            else {
+                                if emoji != dataManager.nicknameEmoji && emoji != "" {
+                                    dataManager.nicknameEmoji = emoji
+                                    leaderboardVM.updateNickname(dataManager: dataManager, emoji: emoji) { success in
+                                        if success {
+                                            DispatchQueue.main.async {
+                                                prevEmoji = emoji
+                                                emoji = ""
+                                                emojiIsFocused = false
+                                            }
+                                        }
+                                        else {
+                                            DispatchQueue.main.async {
+                                                dataManager.nicknameEmoji = prevEmoji
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        } label: {
+                            Text(emojiIsFocused ? "save" : "edit")
+                                .foregroundColor(Color.pongSecondaryText)
+                                .font(.caption)
+                                .fontWeight(.heavy)
+                        }
+                        .padding(.trailing, 10)
+                        .buttonStyle(PlainButtonStyle())
+                    }
                 }
             }
         }
