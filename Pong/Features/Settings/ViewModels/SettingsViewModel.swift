@@ -12,7 +12,7 @@ struct Settings {
 }
 
 class SettingsViewModel: ObservableObject {
-    @AppStorage("displayMode") var displayMode = DisplayMode.system
+    @AppStorage("displayMode") var displayMode = DisplayMode.light
     @Published var numberReferred : Int = 0
     @Published var activeAlert : Bool = false
     @Published var activeAlertType : SettingsActiveAlert = .unblockAll
