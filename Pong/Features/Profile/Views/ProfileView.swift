@@ -73,6 +73,7 @@ struct ProfileView: View {
                     SettingsView()
                 } label: {
                     Image("gear")
+                        .font(Font.callout.weight(.thin))
                 }
                 .isDetailLink(false)
             }
