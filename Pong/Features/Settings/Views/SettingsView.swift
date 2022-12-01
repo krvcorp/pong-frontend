@@ -131,7 +131,7 @@ struct SettingsView: View {
                 HStack() {
                     Image(systemName: "lock.shield").font(Font.body.weight(.bold))
                         .frame(width: 20)
-                    Link(destination: URL(string: "https://www.pong.blog/legal")!, label: {
+                    Link(destination: URL(string: "https://www.pong.college/privacy")!, label: {
                         Text("Privacy Policy")
                             .bold()
                     })
@@ -143,7 +143,7 @@ struct SettingsView: View {
                 HStack() {
                     Image(systemName: "newspaper").font(Font.body.weight(.bold))
                         .frame(width: 20)
-                    Link(destination: URL(string: "https://www.pong.blog/legal")!, label: {
+                    Link(destination: URL(string: "https://www.pong.college/tos")!, label: {
                         Text("Terms of Service")
                             .bold()
                     })
