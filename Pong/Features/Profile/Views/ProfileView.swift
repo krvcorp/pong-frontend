@@ -59,6 +59,9 @@ struct ProfileView: View {
         .onAppear {
             self.profilePosts = DataManager.shared.profilePosts
             self.profileComments = DataManager.shared.profileComments
+            self.postKarma = DataManager.shared.postKarma
+            self.commentKarma = DataManager.shared.commentKarma
+            self.numberReferred = DataManager.shared.numberReferred
         }
         .background(Color.pongSystemBackground)
         // Navigation bar
