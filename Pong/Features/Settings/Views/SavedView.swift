@@ -61,7 +61,7 @@ struct SavedView: View {
         .environment(\.defaultMinListRowHeight, 0)
         .listStyle(PlainListStyle())
         .refreshable{
-            ProfileViewModel().triggerRefresh(tab: ProfileFilter.saved, dataManager: dataManager)
+            ProfileViewModel().triggerRefresh(tab: ProfileFilter.saved)
             await Task.sleep(500_000_000)
         }
     }

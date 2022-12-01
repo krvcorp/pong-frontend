@@ -62,10 +62,6 @@ enum TopFilter: String, CaseIterable, Identifiable, Equatable {
 // MARK: FeedViewModel
 class FeedViewModel: ObservableObject {
     @Published var school = "Boston University"
-    @Published var selectedFeedFilter : FeedFilter = .hot
-    
-//    TOP FILTER + TOP FILTER LOADING
-    @Published var topFilterLoading : Bool = false
     
     @Published var finishedTop = false
     @Published var finishedHot = false

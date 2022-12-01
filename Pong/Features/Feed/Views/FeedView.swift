@@ -21,6 +21,8 @@ struct FeedView: View, Equatable {
     @State var selectedFeedFilter : FeedFilter = .hot
     @State var selectedTopFilter : TopFilter = .all
     
+    @State var topFilterLoading : Bool = false
+    
     var body: some View {
         TabView(selection: $selectedFeedFilter) {
             ForEach(FeedFilter.allCases, id: \.self) { tab in
@@ -191,16 +193,18 @@ struct FeedView: View, Equatable {
                     .listRowBackground(Color.pongSystemBackground)
                     .listRowSeparator(.hidden)
                     .onChange(of: selectedTopFilter) { newValue in
-                        feedVM.topFilterLoading = true
+                        DispatchQueue.main.async {
+                            topFilterLoading = true
+                        }
                         
                         feedVM.paginatePostsReset(selectedFeedFilter: .top, dataManager: dataManager, selectedTopFilter: selectedTopFilter) { successResponse in
                             DispatchQueue.main.async {
-                                feedVM.topFilterLoading = false
+                                topFilterLoading = false
                             }
                         }
                     }
                     
-                    if !feedVM.topFilterLoading {
+                    if !topFilterLoading {
                         ForEach($topPosts, id: \.self) { $post in
                             CustomListDivider()
                             
@@ -227,7 +231,7 @@ struct FeedView: View, Equatable {
                     }
                     
                     
-                    if !feedVM.finishedTop && !feedVM.topFilterLoading {
+                    if !feedVM.finishedTop && !topFilterLoading {
                     }
                 }
                 // MARK: HOT
@@ -318,6 +322,7 @@ struct FeedView: View, Equatable {
         }
     }
     
+    // MARK: LoadingComponent
     var loadingComponent: some View {
         HStack (alignment: .center) {
             Spacer()
@@ -329,15 +334,14 @@ struct FeedView: View, Equatable {
         }
     }
     
+    // MARK: EquatableView
+    /// Equatable is called whenever a state variable is modified. If equtable returns false, then the View will rebuild the body.
     static func == (lhs: FeedView, rhs: FeedView) -> Bool {
         let equated =
             lhs.topPosts == rhs.topPosts &&
             lhs.hotPosts == rhs.hotPosts &&
             lhs.recentPosts == rhs.recentPosts &&
-            lhs.feedVM.finishedTop == rhs.feedVM.finishedTop &&
-            lhs.feedVM.finishedHot == rhs.feedVM.finishedHot &&
-            lhs.feedVM.finishedRecent == rhs.feedVM.finishedRecent &&
-            lhs.feedVM.topFilterLoading == rhs.feedVM.topFilterLoading &&
+            lhs.topFilterLoading == rhs.topFilterLoading &&
             lhs.selectedTopFilter == rhs.selectedTopFilter
         return equated
     }

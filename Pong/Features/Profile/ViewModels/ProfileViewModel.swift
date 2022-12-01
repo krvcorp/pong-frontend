@@ -15,7 +15,8 @@ enum ProfileFilter: String, CaseIterable, Identifiable {
 }
 
 class ProfileViewModel: ObservableObject {
-
+    
+    // MARK: GetProfile
     func getProfile(dataManager: DataManager) {
         paginatePosts(dataManager: dataManager)
         paginateSaved(dataManager: dataManager)
@@ -23,6 +24,7 @@ class ProfileViewModel: ObservableObject {
         paginateComments(dataManager: dataManager)
     }
     
+    // MARK: PaginatePostsIfNeeded
     func paginatePostsIfNeeded(post: Post, selectedProfileFilter: ProfileFilter, dataManager: DataManager) {
         let offsetBy = -15
 
@@ -39,6 +41,7 @@ class ProfileViewModel: ObservableObject {
         }
     }
     
+    // MARK: PaginateCommentsIfNeeded
     func paginateCommentsIfNeeded(comment: ProfileComment, dataManager: DataManager) {
         let offsetBy = -15
         
@@ -48,6 +51,7 @@ class ProfileViewModel: ObservableObject {
         }
     }
     
+    // MARK: PaginatePosts
     func paginatePosts(dataManager : DataManager) {
         NetworkManager.networkManager.request(route: dataManager.profilePostsCurrentPage, method: .get, successType: PaginatePostsModel.Response.self) { successResponse, errorResponse in
             if let successResponse = successResponse {
@@ -97,15 +101,15 @@ class ProfileViewModel: ObservableObject {
         }
     }
     
-    func triggerRefresh(tab: ProfileFilter, dataManager: DataManager) {
+    func triggerRefresh(tab: ProfileFilter) {
         if tab == .posts {
-            dataManager.initProfilePosts()
+            DataManager.shared.initProfilePosts()
         } else if tab == .comments {
-            dataManager.initProfileComments()
+            DataManager.shared.initProfileComments()
         } else if tab == .saved {
-            dataManager.initProfileSavedPosts()
+            DataManager.shared.initProfileSavedPosts()
         } else if tab == .about {
-            dataManager.initUserInformation()
+            DataManager.shared.initUserInformation()
         }
     }
 }

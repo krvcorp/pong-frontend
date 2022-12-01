@@ -295,8 +295,8 @@ struct ProfileView: View {
         .environment(\.defaultMinListRowHeight, 0)
         .listStyle(PlainListStyle())
         .refreshable{
-//            profileVM.triggerRefresh(tab: tab, dataManager: dataManager)
-//            await Task.sleep(500_000_000)
+            profileVM.triggerRefresh(tab: tab)
+            await Task.sleep(500_000_000)
         }
     }
     
