@@ -91,6 +91,10 @@ class PostBubbleViewModel: ObservableObject {
             }
         }
         
+        if let index = dataManager.profileSavedPosts.firstIndex(where: {$0.id == post.id}) {
+            dataManager.profileSavedPosts.remove(at: index)
+        }
+        
         NetworkManager.networkManager.emptyRequest(route: "posts/\(post.id)/save/", method: .delete) { successResponse, errorResponse in
             if successResponse != nil {
                 DispatchQueue.main.async {
