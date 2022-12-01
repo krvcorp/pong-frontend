@@ -48,7 +48,7 @@ struct MainTabView: View {
                 TabView(selection: $itemSelected) {
                     
                     // MARK: Feed
-                    FeedView(showMenu: $showMenu)
+                    FeedView(showMenu: $showMenu).equatable()
                         .gesture(DragGesture())
                         .tag(1)
                     

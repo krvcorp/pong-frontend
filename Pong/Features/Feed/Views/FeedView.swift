@@ -2,7 +2,7 @@ import SwiftUI
 import Introspect
 import AlertToast
 
-struct FeedView: View {
+struct FeedView: View, Equatable {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.presentationMode) var presentationMode
     @Namespace var namespace
@@ -328,5 +328,11 @@ struct FeedView: View {
             
             Spacer()
         }
+    }
+    
+    static func == (lhs: FeedView, rhs: FeedView) -> Bool {
+        // << return yes on view properties which identifies that the
+        // view is equal and should not be refreshed (ie. `body` is not rebuilt)
+        return lhs.topPosts == rhs.topPosts && lhs.hotPosts == rhs.hotPosts && lhs.recentPosts == rhs.recentPosts
     }
 }
