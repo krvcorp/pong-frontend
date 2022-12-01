@@ -71,9 +71,9 @@ struct EmailVerificationView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
         .background(Color.pongSystemBackground)
         .statusBar(hidden: true)
-        .toast(isPresenting: $emailVerificationVM.loginError) {
-            AlertToast(type: .error(.red), title: emailVerificationVM.loginErrorMessage)
-        }
+//        .toast(isPresenting: $emailVerificationVM.loginError) {
+//            AlertToast(type: .error(.red), title: emailVerificationVM.loginErrorMessage)
+//        }
     }
 }
 

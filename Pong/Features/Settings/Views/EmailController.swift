@@ -4,10 +4,10 @@ import UIKit
 
 class EmailController: UIViewController, MFMailComposeViewControllerDelegate {
     
-    @IBAction func sendEmail() {
+    @IBAction func sendEmail(subject: String) {
         // Modify following variables with your text / recipient
         let recipientEmail = "founders@pong.college"
-        let subject = "[FEEDBACK]"
+        let subject = subject
         
         // Show default mail composer
         if MFMailComposeViewController.canSendMail() {
