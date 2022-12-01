@@ -22,7 +22,6 @@ struct FeedView: View, Equatable {
     @State var selectedTopFilter : TopFilter = .all
     
     var body: some View {
-        let _ = print("DEBUG: FeedView.build")
         TabView(selection: $selectedFeedFilter) {
             ForEach(FeedFilter.allCases, id: \.self) { tab in
                 customFeedStack(filter: selectedFeedFilter, tab: tab)
@@ -331,8 +330,15 @@ struct FeedView: View, Equatable {
     }
     
     static func == (lhs: FeedView, rhs: FeedView) -> Bool {
-        // << return yes on view properties which identifies that the
-        // view is equal and should not be refreshed (ie. `body` is not rebuilt)
-        return lhs.topPosts == rhs.topPosts && lhs.hotPosts == rhs.hotPosts && lhs.recentPosts == rhs.recentPosts
+        let equated =
+            lhs.topPosts == rhs.topPosts &&
+            lhs.hotPosts == rhs.hotPosts &&
+            lhs.recentPosts == rhs.recentPosts &&
+            lhs.feedVM.finishedTop == rhs.feedVM.finishedTop &&
+            lhs.feedVM.finishedHot == rhs.feedVM.finishedHot &&
+            lhs.feedVM.finishedRecent == rhs.feedVM.finishedRecent &&
+            lhs.feedVM.topFilterLoading == rhs.feedVM.topFilterLoading &&
+            lhs.selectedTopFilter == rhs.selectedTopFilter
+        return equated
     }
 }

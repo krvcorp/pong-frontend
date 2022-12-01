@@ -62,10 +62,9 @@ enum TopFilter: String, CaseIterable, Identifiable, Equatable {
 // MARK: FeedViewModel
 class FeedViewModel: ObservableObject {
     @Published var school = "Boston University"
-    @Published var InitalOpen : Bool = true
+    @Published var selectedFeedFilter : FeedFilter = .hot
     
 //    TOP FILTER + TOP FILTER LOADING
-//    @Published var selectedTopFilter : TopFilter = .all
     @Published var topFilterLoading : Bool = false
     
     @Published var finishedTop = false
@@ -129,8 +128,9 @@ class FeedViewModel: ObservableObject {
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
                     if selectedFeedFilter == .top {
-                        dataManager.topPosts.append(contentsOf: successResponse.results)
-                        let uniqued = dataManager.topPosts.uniqued()
+                        var temp = dataManager.topPosts
+                        temp.append(contentsOf: successResponse.results)
+                        let uniqued = temp.uniqued()
                         dataManager.topPosts = uniqued
                         if let nextLink = successResponse.next {
                             self.topCurrentPage = nextLink
@@ -138,8 +138,9 @@ class FeedViewModel: ObservableObject {
                             self.finishedTop = true
                         }
                     } else if selectedFeedFilter == .hot {
-                        dataManager.hotPosts.append(contentsOf: successResponse.results)
-                        let uniqued = dataManager.hotPosts.uniqued()
+                        var temp = dataManager.hotPosts
+                        temp.append(contentsOf: successResponse.results)
+                        let uniqued = temp.uniqued()
                         dataManager.hotPosts = uniqued
                         if let nextLink = successResponse.next {
                             self.hotCurrentPage = nextLink
@@ -147,8 +148,9 @@ class FeedViewModel: ObservableObject {
                             self.finishedHot = true
                         }
                     } else if selectedFeedFilter == .recent {
-                        dataManager.recentPosts.append(contentsOf: successResponse.results)
-                        let uniqued = dataManager.recentPosts.uniqued()
+                        var temp = dataManager.hotPosts
+                        temp.append(contentsOf: successResponse.results)
+                        let uniqued = temp.uniqued()
                         dataManager.recentPosts = uniqued
                         if let nextLink = successResponse.next {
                             self.recentCurrentPage = nextLink
@@ -156,7 +158,6 @@ class FeedViewModel: ObservableObject {
                             self.finishedRecent = true
                         }
                     }
-                    self.InitalOpen = false
                 }
             }
         }

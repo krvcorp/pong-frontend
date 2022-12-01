@@ -15,8 +15,6 @@ struct NotificationsView: View {
     
     //MARK: Body
     var body: some View {
-        let _ = print("DEBUG: NotificationsView.build")
-        
         VStack {
             NavigationLink(destination: PostView(post: $post), isActive: $postIsLinkActive) { EmptyView() }
             NavigationLink(destination: LeaderboardView(), isActive: $leaderboardIsLinkActive) { EmptyView() }

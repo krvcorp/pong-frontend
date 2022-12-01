@@ -16,8 +16,6 @@ struct ProfileView: View {
     @State var selectedProfileFilter : ProfileFilter = .posts
     
     var body: some View {
-        let _ = print("DEBUG: ProfileView.build")
-        
         VStack {
             toolbarPickerComponent
 
