@@ -193,30 +193,34 @@ struct ProfileView: View {
                 } else {
                     VStack(alignment: .center, spacing: 15) {
 
+//                        HStack(alignment: .center) {
+//                            Spacer()
+//
+//                            Image("VoidImage")
+//                                .resizable()
+//                                .scaledToFit()
+//                                .frame(maxWidth: UIScreen.screenWidth / 2)
+//
+//                            Spacer()
+//                        }
+                        
+                        Spacer()
+                        
                         HStack(alignment: .center) {
                             Spacer()
-
-                            Image("VoidImage")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(maxWidth: UIScreen.screenWidth / 2)
-
+                            Text("Your posts will show up here.")
+                                .font(.title3.bold())
                             Spacer()
                         }
                         
                         HStack(alignment: .center) {
                             Spacer()
-                            Text("You have no posts")
-                                .font(.title.bold())
-                            Spacer()
-                        }
-                        
-                        HStack(alignment: .center) {
-                            Spacer()
-                            Text("Go make a post!")
+                            Text("Go make one!")
                                 .font(.caption)
                             Spacer()
                         }
+                        
+                        Spacer()
                     }
                     .listRowBackground(Color.pongSystemBackground)
                     .listRowSeparator(.hidden)
@@ -239,27 +243,27 @@ struct ProfileView: View {
                 } else {
                     VStack(alignment: .center, spacing: 15) {
 
+//                        HStack(alignment: .center) {
+//                            Spacer()
+//
+//                            Image("VoidImage")
+//                                .resizable()
+//                                .scaledToFit()
+//                                .frame(maxWidth: UIScreen.screenWidth / 2)
+//
+//                            Spacer()
+//                        }
+                        
                         HStack(alignment: .center) {
                             Spacer()
-
-                            Image("VoidImage")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(maxWidth: UIScreen.screenWidth / 2)
-
+                            Text("Your comments will show up here.")
+                                .font(.title3.bold())
                             Spacer()
                         }
                         
                         HStack(alignment: .center) {
                             Spacer()
-                            Text("You have no comments")
-                                .font(.title.bold())
-                            Spacer()
-                        }
-                        
-                        HStack(alignment: .center) {
-                            Spacer()
-                            Text("Go make a comment!")
+                            Text("Let the world know what you think.")
                                 .font(.caption)
                             Spacer()
                         }
