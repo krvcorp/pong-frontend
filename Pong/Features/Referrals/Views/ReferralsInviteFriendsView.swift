@@ -32,9 +32,9 @@ struct ReferralsInviteFriendsView: View {
             .listRowBackground(Color.pongSystemBackground)
             .listRowSeparator(.hidden)
             
-            searchBar
-                .listRowSeparator(.hidden)
-                .listRowBackground(Color.pongSystemBackground)
+//            searchBar
+//                .listRowSeparator(.hidden)
+//                .listRowBackground(Color.pongSystemBackground)
             
             CustomListDivider()
             
