@@ -62,7 +62,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         hyperCriticalRulesExample { success in
             if !success {
                 // MARK: Firebase messaging config
-                FirebaseApp.configure()
+                if FirebaseApp.app() == nil {
+                    FirebaseApp.configure()
+                }
                 FirebaseConfiguration.shared.setLoggerLevel(.min)
                 UNUserNotificationCenter.current().delegate = self
                 Messaging.messaging().delegate = self

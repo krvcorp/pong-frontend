@@ -9,6 +9,7 @@ class AuthManager: ObservableObject {
     
     @Published var isSignedIn: Bool = false
     @Published var onboarded: Bool = false
+    @Published var waitlisted: Bool = false
     @Published var userId: String = ""
     @Published var isAdmin: Bool = false
     @Published var signedOutAlert : Bool = false

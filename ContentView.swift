@@ -64,9 +64,14 @@ struct ContentView: View {
                 if (!AuthManager.authManager.isSignedIn) {
                     EmailVerificationView()
                         .toast(isPresenting: $authManager.signedOutAlert) {
-                            AlertToast(displayMode: .hud, type: .regular,  title: "Signed out! We hope to see you soon")
+                            AlertToast(displayMode: .hud, type: .regular,  title: "Signed out! See you soon :)")
                         }
-                } else if (!AuthManager.authManager.onboarded) {
+                }
+                else if (AuthManager.authManager.waitlisted) {
+                    WaitlistView()
+//                        .navigationBarHidden(true)
+                }
+                else if (!AuthManager.authManager.onboarded) {
                     OnboardingView()
                         .navigationBarHidden(true)
                 } else {

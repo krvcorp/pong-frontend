@@ -81,6 +81,7 @@ class EmailVerificationViewModel: ObservableObject {
         let parameters = VerifyEmailModel.Request(idToken: idToken, loginType: loginType)
         
         NetworkManager.networkManager.request(route: "login/", method: .post, body: parameters, successType: VerifyEmailModel.Response.self) { successResponse, errorResponse in
+            
             DispatchQueue.main.async {
                 withAnimation {
                     if let successResponse = successResponse {
@@ -136,8 +137,14 @@ class EmailVerificationViewModel: ObservableObject {
                     }
                     
                     if let errorResponse = errorResponse {
-                        self.loginErrorMessage = errorResponse.error
-                        self.loginError = true
+                        let _ = debugPrint("DEBUG: Failed at emailverification error response")
+//                        self.loginErrorMessage = errorResponse.error
+//                        self.loginError = true
+                        DispatchQueue.main.async {
+                            AuthManager.authManager.waitlisted = true
+                            AuthManager.authManager.isSignedIn = true
+                            debugPrint(AuthManager.authManager.waitlisted)
+                        }
                     }
                 }
             }

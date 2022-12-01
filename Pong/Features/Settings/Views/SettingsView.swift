@@ -114,7 +114,7 @@ struct SettingsView: View {
                 HStack {
                     Button {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        EmailController().sendEmail()
+                        EmailController().sendEmail(subject: "[FEEDBACK]")
                     } label: {
                         HStack{
                             Image(systemName: "envelope").font(Font.body.weight(.bold))
