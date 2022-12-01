@@ -46,7 +46,7 @@ struct ReferralsView: View {
                     .buttonStyle(PlainButtonStyle())
                     .sheet(isPresented: $sheet) {
                         let referralCode = DAKeychain.shared["referralCode"]!
-                        let url = "https://www.pong.college/refer/ This new app just came out for BU use my referral code \(referralCode)"
+                        let url = "https://apps.apple.com/us/app/pong-%E3%83%84/id6443335660 This new app just came out for BU use my referral code \(referralCode)"
                         ShareSheet(items: [url])
                     }
 
