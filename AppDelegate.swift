@@ -104,15 +104,27 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         
         if String(describing: userInfo["type"]!) == "hot" || String(describing: userInfo["type"]!) == "upvote" || String(describing: userInfo["type"]!) == "comment" || String(describing: userInfo["type"]!) == "top" || String(describing: userInfo["type"]!) == "reply" {
             // navigate to post when a post notification is tapped on
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                AppState.shared.postToNavigateTo = String(describing: userInfo["url"]!)
-                AppState.shared.readPost(url: String(describing: userInfo["url"]!))
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                AppState.shared.readPost(url: String(describing: userInfo["url"]!)) { success in
+                    Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { (timer) in
+                        if !DataManager.shared.isAppLoading {
+                            AppState.shared.postToNavigateTo = String(describing: userInfo["url"]!)
+                            timer.invalidate()
+                        }
+                    }
+                }
             }
         } else if String(describing: userInfo["type"]!) == "leader" {
             // navigate to leaderboard when a leaderboard notification is tapped on
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                AppState.shared.leaderboard = true
+            Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { (timer) in
+                if !DataManager.shared.isAppLoading {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        AppState.shared.leaderboard = true
+                    }
+                    timer.invalidate()
+                }
             }
+
         } else if String(describing: userInfo["type"]!) == "message" {
             // navigate to message view when a message notificaiton is tapped on
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {

@@ -121,9 +121,15 @@ struct ContentView: View {
                 print("DEBUG: \(url.absoluteString)")
                 let parts = url.absoluteString.split(separator: "/")
                 print("DEBUG: \(parts)")
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
-                    AppState.shared.postToNavigateTo = String(describing: parts[3])
-                    AppState.shared.readPost(url: String(describing: parts[3]))
+                AppState.shared.readPost(url: String(describing: parts[3])) { success in
+                    if success {
+                        Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { (timer) in
+                            if !dataManager.isAppLoading {
+                                AppState.shared.postToNavigateTo = String(describing: parts[3])
+                                timer.invalidate()
+                            }
+                        }
+                    }
                 }
             }
         }

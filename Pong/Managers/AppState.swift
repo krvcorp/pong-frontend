@@ -21,17 +21,19 @@ class AppState: ObservableObject {
     
     // MARK: ReadPost
     /// Get a post based on the user tapping on a notification
-    func readPost(url : String) {
+    func readPost(url : String, completion: @escaping (Bool) -> Void) {
         print("DEBUG: AppState.readPost \(url)")
         NetworkManager.networkManager.request(route: "posts/\(url)/", method: .get, successType: Post.self) { successResponse, errorResponse in
-            if let successResponse = successResponse {
-                DispatchQueue.main.async {
+            DispatchQueue.main.async {
+                if let successResponse = successResponse {
                     self.post = successResponse
+                    completion(true)
                 }
-            }
-            
-            if errorResponse != nil {
-                print("DEBUG: error")
+                
+                if errorResponse != nil {
+                    print("DEBUG: error")
+                    self.post = defaultPost
+                }
             }
         }
     }

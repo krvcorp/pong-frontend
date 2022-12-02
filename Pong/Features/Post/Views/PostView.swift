@@ -320,11 +320,13 @@ struct PostView: View {
                         }
                     } label: {
                         HStack(spacing: 3) {
-                            Image("bubble.dots.left")
+                            Image("bubble.dots.center.fill")
+                                .font(.subheadline)
                             
-                            Text("Message")
+                            Text("DM")
+                                .font(.system(size: 13))
+                                .fontWeight(.medium)
                         }
-                        .font(.subheadline.bold())
                         .padding(.vertical, 5)
                         .padding(.horizontal, 5)
                         .foregroundColor(Color.white)

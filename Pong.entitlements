@@ -6,6 +6,7 @@
 	<string>development</string>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
+		<string>applinks:pong.college</string>
 		<string>applinks:www.pong.college</string>
 	</array>
 	<key>keychain-access-groups</key>
