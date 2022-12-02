@@ -25,7 +25,7 @@ struct ReferralsView: View {
                 }
                 
                 HStack {
-                    Text("Get 5 friends to join by November 26th and we’ll send you 15$ as a thank you. Pong is a community, and we couldn’t do it without you.")
+                    Text("Get 5 friends to join by December 7th and we’ll send you 15$ as a thank you. Pong is a community, and we couldn’t do it without you.")
                         .font(.headline)
                         .fontWeight(.medium)
                     Spacer()
