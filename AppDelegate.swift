@@ -104,7 +104,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         
         if String(describing: userInfo["type"]!) == "hot" || String(describing: userInfo["type"]!) == "upvote" || String(describing: userInfo["type"]!) == "comment" || String(describing: userInfo["type"]!) == "top" || String(describing: userInfo["type"]!) == "reply" {
             // navigate to post when a post notification is tapped on
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 AppState.shared.readPost(url: String(describing: userInfo["url"]!)) { success in
                     Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { (timer) in
                         if !DataManager.shared.isAppLoading {
