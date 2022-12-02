@@ -144,7 +144,7 @@ class FeedViewModel: ObservableObject {
                             self.finishedHot = true
                         }
                     } else if selectedFeedFilter == .recent {
-                        var temp = dataManager.hotPosts
+                        var temp = dataManager.recentPosts
                         temp.append(contentsOf: successResponse.results)
                         let uniqued = temp.uniqued()
                         dataManager.recentPosts = uniqued

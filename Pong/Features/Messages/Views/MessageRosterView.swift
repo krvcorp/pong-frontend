@@ -2,14 +2,15 @@ import SwiftUI
 
 struct MessageRosterView: View {
     @StateObject var messageRosterVM = MessageRosterViewModel()
-    @StateObject var dataManager = DataManager.shared
     
     @State private var searchText = ""
     @State private var showAlert = false
     
+    @State var conversations : [Conversation] = DataManager.shared.conversations
+    
     var body: some View {
         List {
-            if dataManager.conversations != [] {
+            if conversations != [] {
                 Section(header: (
                     searchBar
                         .listRowBackground(Color.pongSystemBackground)
@@ -27,9 +28,7 @@ struct MessageRosterView: View {
                 }
             }
             
-            
-            
-            if dataManager.conversations == [] {
+            if conversations == [] {
                 VStack(alignment: .center, spacing: 15) {
 
                     HStack(alignment: .center) {
@@ -57,7 +56,7 @@ struct MessageRosterView: View {
             // MARK: Conversations
             else {
                 Section {
-                    ForEach($dataManager.conversations.filter { searchText.isEmpty || $0.re.wrappedValue.contains(searchText)}, id: \.id) { $conversation in
+                    ForEach($conversations.filter { searchText.isEmpty || $0.re.wrappedValue.contains(searchText)}, id: \.id) { $conversation in
                         ZStack {
                             NavigationLink(destination: MessageView(conversation: $conversation)) {
                                 EmptyView()
@@ -65,14 +64,6 @@ struct MessageRosterView: View {
                             .isDetailLink(false)
                             .opacity(0)
                             .buttonStyle(PlainButtonStyle())
-                            
-                            // HStack
-                            // // VStack with
-                            // // // HStack of conversation.re
-                            // // // HStack of last message + dot + time of last message
-                            // // Spacer
-                            // Unread indicator if it exists
-                            
                             
                             HStack {
                                 VStack (alignment: .leading, spacing: 6) {
@@ -128,7 +119,6 @@ struct MessageRosterView: View {
                             
                         
                         }
-//                        .padding(.vertical, 10)
                         .listRowBackground(Color.pongSystemBackground)
                         .listRowSeparator(.hidden)
                         
@@ -150,11 +140,16 @@ struct MessageRosterView: View {
         .listStyle(GroupedListStyle())
         .onAppear {
             UITableView.appearance().showsVerticalScrollIndicator = false
-        }
-        .onAppear() {
-            messageRosterVM.getConversations(dataManager: dataManager)
+            DispatchQueue.main.async {
+                conversations = DataManager.shared.conversations
+            }
         }
         .environment(\.defaultMinListRowHeight, 0)
+        .onChange(of: DataManager.shared.conversations) { newValue in
+            DispatchQueue.main.async {
+                conversations = DataManager.shared.conversations
+            }
+        }
     }
     
     var searchBar: some View {

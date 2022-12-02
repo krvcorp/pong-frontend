@@ -8,15 +8,15 @@ struct FeedView: View, Equatable {
     @Namespace var namespace
     
     @Binding var showMenu : Bool
-    @EnvironmentObject var mainTabVM : MainTabViewModel
     
     @StateObject var dataManager : DataManager = DataManager.shared
-    @State var hotPosts = DataManager.shared.hotPosts
-    @State var topPosts = DataManager.shared.topPosts
-    @State var recentPosts = DataManager.shared.recentPosts
+    @State var hotPosts : [Post] = DataManager.shared.hotPosts
+    @State var topPosts : [Post] = DataManager.shared.topPosts
+    @State var recentPosts : [Post] = DataManager.shared.recentPosts
     
-    @StateObject var feedVM = FeedViewModel()
-    @StateObject var notificationsManager = NotificationsManager.shared
+    @StateObject var feedVM : FeedViewModel = FeedViewModel()
+    @StateObject var notificationsManager : NotificationsManager = NotificationsManager.shared
+    @StateObject var mainTabVM : MainTabViewModel = MainTabViewModel.shared
     
     @State var selectedFeedFilter : FeedFilter = .hot
     @State var selectedTopFilter : TopFilter = .all
@@ -33,9 +33,19 @@ struct FeedView: View, Equatable {
         }
         // this stores posts into local state variables, and as values change in datamanager, changes are reflected on UI
         .onAppear {
-            self.hotPosts = DataManager.shared.hotPosts
-            self.topPosts = DataManager.shared.topPosts
-            self.recentPosts = DataManager.shared.recentPosts
+            DispatchQueue.main.async {
+                if self.hotPosts != DataManager.shared.hotPosts {
+                    self.hotPosts = DataManager.shared.hotPosts
+                }
+                
+                if self.topPosts != DataManager.shared.topPosts {
+                    self.topPosts = DataManager.shared.topPosts
+                }
+                
+                if self.recentPosts != DataManager.shared.recentPosts {
+                    self.recentPosts = DataManager.shared.recentPosts
+                }
+            }
         }
         .onChange(of: DataManager.shared.hotPosts) { newValue in
             DispatchQueue.main.async {
@@ -97,9 +107,7 @@ struct FeedView: View, Equatable {
         .environmentObject(feedVM)
         .onChange(of: mainTabVM.newPostDetected, perform: { change in
             DispatchQueue.main.async {
-                self.presentationMode.wrappedValue.dismiss()
                 selectedFeedFilter = .recent
-
             }
             
             feedVM.paginatePostsReset(selectedFeedFilter: .recent, dataManager: dataManager, selectedTopFilter: selectedTopFilter) { successResponse in
@@ -292,31 +300,39 @@ struct FeedView: View, Equatable {
             .background(Color.pongSystemBackground)
             .environment(\.defaultMinListRowHeight, 0)
             .onChange(of: mainTabVM.scrollToTop, perform: { newValue in
-                withAnimation {
-                    if tab == .top {
-                        if dataManager.topPosts != [] {
-                            proxy.scrollTo(dataManager.topPosts[0].id, anchor: .bottom)
-                        }
-                    } else if tab == .hot {
-                        if dataManager.hotPosts != [] {
-                            proxy.scrollTo(dataManager.hotPosts[0].id, anchor: .bottom)
-                        }
-                    } else if tab == .recent {
-                        if dataManager.recentPosts != [] {
-                            proxy.scrollTo(dataManager.recentPosts[0].id, anchor: .bottom)
+                print("DEBUG: FeedView.onChange scrollToTop")
+                DispatchQueue.main.async {
+                    withAnimation {
+                        if tab == .top {
+                            if topPosts != [] {
+                                proxy.scrollTo(topPosts[0].id, anchor: .bottom)
+                            }
+                        } else if tab == .hot {
+                            if hotPosts != [] {
+                                proxy.scrollTo(hotPosts[0].id, anchor: .bottom)
+                            }
+                        } else if tab == .recent {
+                            if recentPosts != [] {
+                                proxy.scrollTo(recentPosts[0].id, anchor: .bottom)
+                            }
                         }
                     }
                 }
             })
             .onChange(of: mainTabVM.newPostDetected, perform: { newValue in
-                if dataManager.recentPosts != [] {
-                    proxy.scrollTo(dataManager.recentPosts[0].id, anchor: .bottom)
+                print("DEBUG: FeedView.mainTabVM.newPostDetected \(mainTabVM.newPostDetected)")
+                DispatchQueue.main.async {
+                    if dataManager.recentPosts != [] {
+                        proxy.scrollTo(dataManager.recentPosts[0].id, anchor: .bottom)
+                    }
                 }
             })
             // MARK: Refreshable
             .refreshable{
                 feedVM.paginatePostsReset(selectedFeedFilter: selectedFeedFilter, dataManager: dataManager, selectedTopFilter: selectedTopFilter) { successResponse in
                 }
+                
+                await Task.sleep(500_000_000)
             }
             .listStyle(PlainListStyle())
         }

@@ -5,96 +5,105 @@ import ActivityIndicatorView
 struct MainTabView: View {
     @Binding var showMenu : Bool
     
-    @StateObject var dataManager = DataManager.shared
-    @EnvironmentObject private var mainTabVM : MainTabViewModel
+    @StateObject var dataManager : DataManager = DataManager.shared
+    @StateObject var mainTabVM : MainTabViewModel = MainTabViewModel.shared
     
     @State var itemSelected: Int = 1
     @State var isCustomItemSelected: Bool = false
     
     var body: some View {
         // MARK: If app is loading
-        if dataManager.isAppLoading {
-            HStack {
-                Spacer()
-                
-                VStack {
-                    if !dataManager.errorDetected {
-                        Image("PongTextLogo")
-                        
-                    } else {
-                        Button {
-                            dataManager.loadStartupState()
-                        } label: {
-                            VStack {
-                                Image(systemName: "arrow.clockwise")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: UIScreen.screenWidth / 4)
-                                Text("Try Again!")
-                            }
+        Group {
+            if dataManager.isAppLoading {
+                HStack {
+                    Spacer()
+                    
+                    VStack {
+                        if !dataManager.errorDetected {
+                            Image("PongTextLogo")
+                                .onAppear() {
+                                    dataManager.loadStartupState()
+                                }
+                            
+                        } else {
+                            Button {
+                                dataManager.loadStartupState()
+                            } label: {
+                                VStack {
+                                    Image(systemName: "arrow.clockwise")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: UIScreen.screenWidth / 4)
+                                    Text("Try Again!")
+                                }
 
+                            }
+                            .padding()
+                            .foregroundColor(Color(UIColor.label))
                         }
-                        .padding()
-                        .foregroundColor(Color(UIColor.label))
+                    }
+
+                    Spacer()
+                }
+                .navigationBarHidden(true)
+            }
+            // MARK: If app is loaded
+            else {
+                ZStack(alignment: .bottom) {
+                    TabView(selection: $itemSelected) {
+                        
+                        // MARK: Feed
+                        FeedView(showMenu: $showMenu).equatable()
+                            .gesture(DragGesture())
+                            .tag(1)
+                        
+                        // MARK: Leaderboard
+                        LeaderboardView()
+                            .gesture(DragGesture())
+                            .tag(2)
+                        
+                        // MARK: Notifications
+                        NotificationsView()
+                            .gesture(DragGesture())
+                            .tag(4)
+                        
+                        // MARK: Profile
+                        ProfileView()
+                            .gesture(DragGesture())
+                            .tag(5)
+                    }
+                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+
+                    // MARK: TabBar Overlay
+                    tabBarOverlay
+                }
+                .accentColor(Color.pongLabel)
+                // MARK: New Post Sheet
+                .fullScreenCover(isPresented: $isCustomItemSelected) {
+                    NewPostView(mainTabVM: mainTabVM)
+                        .environmentObject(dataManager)
+                }
+                // MARK: Polling Logic
+                .onReceive(dataManager.timer) { _ in
+                    if dataManager.timePassed % 5 != 0 {
+                        dataManager.timePassed += 1
+                    }
+                    else {
+                        dataManager.getConversations()
+                        dataManager.timePassed += 1
                     }
                 }
-
-                Spacer()
+                .ignoresSafeArea(.keyboard, edges: .bottom)
+                .onChange(of: MainTabViewModel.shared.newPostDetected) { newValue in
+                    DispatchQueue.main.async {
+                        itemSelected = 1
+                        isCustomItemSelected = false
+                    }
+                }
             }
         }
-        // MARK: If app is loaded
-        else {
-            ZStack(alignment: .bottom) {
-                TabView(selection: $itemSelected) {
-                    
-                    // MARK: Feed
-                    FeedView(showMenu: $showMenu).equatable()
-                        .gesture(DragGesture())
-                        .tag(1)
-                    
-                    // MARK: Leaderboard
-                    LeaderboardView()
-                        .gesture(DragGesture())
-                        .tag(2)
-                    
-                    // MARK: Notifications
-                    NotificationsView()
-                        .gesture(DragGesture())
-                        .tag(4)
-                    
-                    // MARK: Profile
-                    ProfileView()
-                        .gesture(DragGesture())
-                        .tag(5)
-                }
-                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-
-                // MARK: TabBar Overlay
-                tabBarOverlay
-            }
-            .accentColor(Color.pongLabel)
-            // MARK: New Post Sheet
-            .fullScreenCover(isPresented: $isCustomItemSelected) {
-                NewPostView(mainTabVM: mainTabVM)
-                    .environmentObject(dataManager)
-            }
-            // MARK: Polling Logic
-            .onReceive(dataManager.timer) { _ in
-                if dataManager.timePassed % 5 != 0 {
-                    dataManager.timePassed += 1
-                }
-                else {
-//                    dataManager.getConversations()
-                    dataManager.timePassed += 1
-                }
-            }
-            .ignoresSafeArea(.keyboard, edges: .bottom)
-            .onChange(of: MainTabViewModel.shared.newPostDetected) { newValue in
-                DispatchQueue.main.async {
-                    itemSelected = 1
-                    isCustomItemSelected = false
-                }
-            }
+        .onChange(of: mainTabVM.scrollToTop) { newValue in
+            print("DEBUG: MainTabView.mainTabVM.scrollToTop \(newValue)")
         }
     }
     
@@ -119,11 +128,7 @@ struct MainTabView: View {
                 .background(Color.pongSystemBackground)
                 .onTapGesture {
                     DispatchQueue.main.async {
-                        if itemSelected == 1 {
-                            mainTabVM.scrollToTop.toggle()
-                        } else {
-                            itemSelected = 1
-                        }
+                        itemSelected = 1
                     }
                 }
                 

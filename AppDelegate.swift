@@ -16,9 +16,10 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     // MARK: didFinishLaunchingWithOptions
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
         
-        
         // LOAD CURRENT STATE
-        AuthManager.authManager.loadCurrentState()
+        DispatchQueue.main.async {
+            AuthManager.authManager.loadCurrentState()
+        }
         
         // MARK: Navigation Bar Styling
         if #available(iOS 15, *) {
@@ -69,9 +70,11 @@ class AppDelegate: NSObject, UIApplicationDelegate {
                 UNUserNotificationCenter.current().delegate = self
                 Messaging.messaging().delegate = self
                 
-                // LOAD STARTUP STATE
+                // LOAD STARTUP STATE some reason this is very inconsistent
                 if (AuthManager.authManager.isSignedIn) {
-                    DataManager.shared.loadStartupState()
+                    DispatchQueue.main.async {
+                        DataManager.shared.loadStartupState()
+                    }
                 }
             }
         }
@@ -157,7 +160,6 @@ private extension AppDelegate {
                                           showAlertAfterCurrentVersionHasBeenReleasedForDays: 1)
 
         siren.wail { results in
-            print("DEBUG: siren.wail completion")
             switch results {
             case .success(let updateResults):
                 print("DEBUG: AlertAction ", updateResults.alertAction)

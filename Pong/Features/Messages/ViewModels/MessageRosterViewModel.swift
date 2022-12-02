@@ -9,22 +9,21 @@ import SwiftUI
 import Foundation
 
 class MessageRosterViewModel: ObservableObject {
-//    var timePassed = 0
-//    var timer = Timer.publish(every: 1, on: .current, in: .common).autoconnect()
     
-    // MARK: Polling here
-    func getConversations(dataManager : DataManager) {
+    // MARK: Polling
+    func getConversations() {
         NetworkManager.networkManager.request(route: "conversations/", method: .get, successType: [Conversation].self) { successResponse, errorResponse in
             if let successResponse = successResponse {
                 DispatchQueue.main.async {
-                    if dataManager.conversations != successResponse {
-                        dataManager.conversations = successResponse
+                    if DataManager.shared.conversations != successResponse {
+                        DataManager.shared.conversations = successResponse
                     }
                 }
             }
         }
     }
     
+    // MARK: StringToDate
     func stringToDateToString(dateString : String) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX

@@ -17,6 +17,7 @@ class DataManager : ObservableObject {
     var recentCurrentPage = "posts/?sort=new"
     
     // profile
+    var profileInit = false
     @Published var profilePosts : [Post] = []
     @Published var profileComments : [ProfileComment] = []
     @Published var awards : [String] = []
@@ -27,6 +28,7 @@ class DataManager : ObservableObject {
     var profileSavedCurrentPage = "posts/?sort=new"
     
     // leaderboard
+    var leaderboardInit = false
     @Published var nickname : String = ""
     @Published var nicknameEmoji : String = "🏓"
     @Published var rank : String = "1st"
@@ -35,6 +37,7 @@ class DataManager : ObservableObject {
     @Published var leaderboardList : [LeaderboardUser] = []
     
     // notifications
+    var notificationsInit = false
     @Published var notificationHistoryWeek: [NotificationsModel] = []
     @Published var notificationHistoryPrevious: [NotificationsModel] = []
     
@@ -56,12 +59,12 @@ class DataManager : ObservableObject {
     // MARK: LoadStartupState
     func loadStartupState() {
         self.initHotPosts()
-        self.initTopPosts()
-        self.initRecentPosts()
-        self.initLeaderboard()
-        self.initNotifications()
-        self.initProfile()
         self.getConversations()
+//        self.initTopPosts()
+//        self.initRecentPosts()
+//        self.initLeaderboard()
+//        self.initNotifications()
+//        self.initProfile()
     }
     
     // MARK: InitTopPosts
@@ -128,8 +131,8 @@ class DataManager : ObservableObject {
     // MARK: InitLeaderboard
     func initLeaderboard() {
         NetworkManager.networkManager.request(route: "users/leaderboard/", method: .get, successType: LeaderboardInfo.self) { successResponse, errorResponse in
-            if let successResponse = successResponse {
-                DispatchQueue.main.async {
+            DispatchQueue.main.async {
+                if let successResponse = successResponse {
                     var leaderboardList = successResponse.users
                     
                     var count : Int = 1
@@ -137,20 +140,21 @@ class DataManager : ObservableObject {
                         leaderboardList[count-1].place = String(count)
                         count += 1
                     }
-                    DispatchQueue.main.async {
-                        self.leaderboardList = leaderboardList
-                        self.karmaBehind = successResponse.karmaBehind
-                        self.rank = successResponse.rank
-                        self.rankBehind = successResponse.rankBehind
-                        self.nicknameEmoji = successResponse.nicknameEmoji
-                    }
+                    self.leaderboardList = leaderboardList
+                    self.karmaBehind = successResponse.karmaBehind
+                    self.rank = successResponse.rank
+                    self.rankBehind = successResponse.rankBehind
+                    self.nicknameEmoji = successResponse.nicknameEmoji
+                    self.nickname = successResponse.nickname
+                    self.totalKarma = successResponse.score
                 }
+                self.leaderboardInit = true
             }
         }
     }
     
     // MARK: InitProfile
-    func initProfile(){
+    func initProfile() {
         self.initProfilePosts()
         self.initProfileComments()
         self.initAwards()
@@ -161,8 +165,8 @@ class DataManager : ObservableObject {
     // MARK: InitProfilePosts
     func initProfilePosts() {
         NetworkManager.networkManager.request(route: "posts/?sort=profile", method: .get, successType: PaginatePostsModel.Response.self) { successResponse, errorResponse in
-            if let successResponse = successResponse {
-                DispatchQueue.main.async {
+            DispatchQueue.main.async {
+                if let successResponse = successResponse {
                     self.profilePosts = successResponse.results
                     let uniqued = self.profilePosts.uniqued()
                     self.profilePosts = uniqued
@@ -170,6 +174,8 @@ class DataManager : ObservableObject {
                         self.profilePostsCurrentPage = nextLink
                     }
                 }
+                
+                self.profileInit = true
             }
         }
     }
@@ -337,14 +343,21 @@ class DataManager : ObservableObject {
     /// Gets the notifications from within the current week timeframe
     func initNotifications() {
         NetworkManager.networkManager.request(route: "notifications/?sort=week", method: .get, successType: [NotificationsModel].self) { successResponse, errorResponse in
-            if let successResponse = successResponse {
-                self.notificationHistoryWeek = successResponse
+            DispatchQueue.main.async {
+                if let successResponse = successResponse {
+                    self.notificationHistoryWeek = successResponse
+                }
+                
+                self.notificationsInit = true
             }
+
         }
         
         NetworkManager.networkManager.request(route: "notifications/?sort=previous", method: .get, successType: [NotificationsModel].self) { successResponse, errorResponse in
-            if let successResponse = successResponse {
-                self.notificationHistoryPrevious = successResponse
+            DispatchQueue.main.async {
+                if let successResponse = successResponse {
+                    self.notificationHistoryPrevious = successResponse
+                }
             }
         }
     }

@@ -36,18 +36,27 @@ struct LeaderboardView: View {
     
     // MARK: Body
     var body: some View {
-        let _ = print("DEBUG: LeaderboardView.build")
-        
         VStack(spacing: 0) {
-            LeaderboardList
+            if dataManager.leaderboardInit {
+                LeaderboardList
+            } else {
+                ProgressView()
+            }
+
         }
         .background(Color.pongSystemBackground)
         .navigationBarTitle("Leaderboard")
         .navigationBarTitleDisplayMode(.inline)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .onAppear() {
-            self.prevNickname = dataManager.nickname
-            self.prevEmoji = dataManager.nicknameEmoji
+            DispatchQueue.main.async {
+                self.prevNickname = dataManager.nickname
+                self.prevEmoji = dataManager.nicknameEmoji
+            }
+            
+            if !dataManager.leaderboardInit {
+                dataManager.initLeaderboard()
+            }
         }
     }
     

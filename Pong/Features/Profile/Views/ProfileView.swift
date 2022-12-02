@@ -55,11 +55,27 @@ struct ProfileView: View {
             }
         })
         .onAppear {
-            self.profilePosts = DataManager.shared.profilePosts
-            self.profileComments = DataManager.shared.profileComments
-            self.postKarma = DataManager.shared.postKarma
-            self.commentKarma = DataManager.shared.commentKarma
-            self.numberReferred = DataManager.shared.numberReferred
+            if !DataManager.shared.profileInit {
+                DataManager.shared.initProfile()
+            }
+            
+            DispatchQueue.main.async {
+                if self.profilePosts != DataManager.shared.profilePosts {
+                    self.profilePosts = DataManager.shared.profilePosts
+                }
+                if self.profileComments != DataManager.shared.profileComments {
+                    self.profileComments = DataManager.shared.profileComments
+                }
+                if self.postKarma != DataManager.shared.postKarma {
+                    self.postKarma = DataManager.shared.postKarma
+                }
+                if self.commentKarma != DataManager.shared.commentKarma {
+                    self.commentKarma = DataManager.shared.commentKarma
+                }
+                if self.numberReferred != DataManager.shared.numberReferred {
+                    self.numberReferred = DataManager.shared.numberReferred
+                }
+            }
         }
         .background(Color.pongSystemBackground)
         // Navigation bar
@@ -189,40 +205,40 @@ struct ProfileView: View {
                     }
                     .listRowInsets(EdgeInsets())
                 } else {
-                    VStack(alignment: .center, spacing: 15) {
-
-//                        HStack(alignment: .center) {
-//                            Spacer()
-//
-//                            Image("VoidImage")
-//                                .resizable()
-//                                .scaledToFit()
-//                                .frame(maxWidth: UIScreen.screenWidth / 2)
-//
-//                            Spacer()
-//                        }
-                        
-                        Spacer()
-                        
-                        HStack(alignment: .center) {
+                    if DataManager.shared.profileInit {
+                        VStack(alignment: .center, spacing: 15) {
                             Spacer()
-                            Text("Your posts will show up here.")
-                                .font(.title3.bold())
-                            Spacer()
-                        }
-                        
-                        HStack(alignment: .center) {
-                            Spacer()
-                            Text("Go make one!")
-                                .font(.caption)
+                            
+                            HStack(alignment: .center) {
+                                Spacer()
+                                Text("Your posts will show up here.")
+                                    .font(.title3.bold())
+                                Spacer()
+                            }
+                            
+                            HStack(alignment: .center) {
+                                Spacer()
+                                Text("Go make one!")
+                                    .font(.caption)
+                                Spacer()
+                            }
+                            
                             Spacer()
                         }
-                        
-                        Spacer()
+                        .listRowBackground(Color.pongSystemBackground)
+                        .listRowSeparator(.hidden)
+                        .frame(height: UIScreen.screenHeight / 2)
+                    } else {
+                        VStack {
+                            HStack {
+                                Spacer()
+                                    ProgressView()
+                                Spacer()
+                            }
+                        }
+                        .listRowBackground(Color.pongSystemBackground)
+                        .listRowSeparator(.hidden)
                     }
-                    .listRowBackground(Color.pongSystemBackground)
-                    .listRowSeparator(.hidden)
-                    .frame(height: UIScreen.screenHeight / 2)
                 }
             }
             // MARK: Comments

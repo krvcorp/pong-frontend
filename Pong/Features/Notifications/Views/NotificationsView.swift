@@ -19,173 +19,184 @@ struct NotificationsView: View {
             NavigationLink(destination: PostView(post: $post), isActive: $postIsLinkActive) { EmptyView() }
             NavigationLink(destination: LeaderboardView(), isActive: $leaderboardIsLinkActive) { EmptyView() }
 
-            // MARK: List
-            List {
-                // MARK: No Notifications
-                if dataManager.notificationHistoryPrevious == [] && dataManager.notificationHistoryWeek == [] {
-                    VStack(alignment: .center, spacing: 15) {
+            Group {
+                if dataManager.notificationsInit {
+                    // MARK: List
+                    List {
+                        // MARK: No Notifications
+                        if dataManager.notificationHistoryPrevious == [] && dataManager.notificationHistoryWeek == [] {
+                            VStack(alignment: .center, spacing: 15) {
 
-                        HStack(alignment: .center) {
-                            Spacer()
+                                HStack(alignment: .center) {
+                                    Spacer()
 
-                            Image("VoidImage")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(maxWidth: UIScreen.screenWidth / 2)
+                                    Image("VoidImage")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(maxWidth: UIScreen.screenWidth / 2)
 
-                            Spacer()
+                                    Spacer()
+                                }
+
+                                HStack(alignment: .center) {
+                                    Spacer()
+                                    Text("You have no notifications")
+                                        .font(.title.bold())
+                                    Spacer()
+                                }
+                            }
+                            .listRowBackground(Color.pongSystemBackground)
+                            .listRowSeparator(.hidden)
+                            .frame(height: UIScreen.screenHeight / 2)
                         }
+                        // MARK: Notifications
+                        else {
+                            Section() {
+                                ForEach(dataManager.notificationHistoryWeek) { notificationModel in
+                                    // MARK: Notifications for post/comments
+                                    if notificationModel.data.type == .upvote || notificationModel.data.type == .comment || notificationModel.data.type == .hot || notificationModel.data.type == .top || notificationModel.data.type == .reply {
 
-                        HStack(alignment: .center) {
-                            Spacer()
-                            Text("You have no notifications")
-                                .font(.title.bold())
-                            Spacer()
-                        }
-                    }
-                    .listRowBackground(Color.pongSystemBackground)
-                    .listRowSeparator(.hidden)
-                    .frame(height: UIScreen.screenHeight / 2)
-                }
-                // MARK: Notifications
-                else {
-                    Section() {
-                        ForEach(dataManager.notificationHistoryWeek) { notificationModel in
-                            // MARK: Notifications for post/comments
-                            if notificationModel.data.type == .upvote || notificationModel.data.type == .comment || notificationModel.data.type == .hot || notificationModel.data.type == .top || notificationModel.data.type == .reply {
+                                        Button {
+                                            DispatchQueue.main.async {
+                                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                                                notificationsVM.getPost(url: notificationModel.data.url!, id: notificationModel.id) { success in
+                                                    print("DEBUG: Success")
+                                                    post = success
+                                                    postIsLinkActive = true
+                                                    notificationsVM.markNotificationAsRead(id: notificationModel.id)
+                                                }
+                                            }
+                                        } label: {
+                                            getNotificationText(notificationModel: notificationModel)
+                                        }
+                                        .listRowBackground(!notificationModel.data.read ? Color.pongAccent.opacity(0.1) : Color.pongSystemBackground)
+                                        .listRowSeparator(.hidden)
 
-                                Button {
-                                    DispatchQueue.main.async {
-                                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                                        notificationsVM.getPost(url: notificationModel.data.url!, id: notificationModel.id) { success in
-                                            print("DEBUG: Success")
-                                            post = success
-                                            postIsLinkActive = true
-                                            notificationsVM.markNotificationAsRead(id: notificationModel.id)
+                                    }
+                                    // MARK: Notifications for leaderboard
+                                    else if notificationModel.data.type == .leader {
+                                        Button {
+                                            DispatchQueue.main.async {
+                                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                                                leaderboardIsLinkActive = true
+                                                notificationsVM.markNotificationAsRead(id: notificationModel.id)
+                                            }
+                                        } label: {
+                                            getNotificationText(notificationModel: notificationModel)
+                                        }
+                                        .listRowBackground(!notificationModel.data.read ? Color.pongAccent.opacity(0.1) : Color.pongSystemBackground)
+                                        .listRowSeparator(.hidden)
+                                    }
+                                }
+                            } header: {
+                                HStack {
+                                    Text("This Week")
+                                        .fontWeight(.heavy)
+                                        .foregroundColor(Color.pongLabel)
+                                        .padding(.bottom, 4)
+
+                                    Spacer()
+
+                                    Button {
+                                        notificationsVM.markAllAsRead()
+                                    } label: {
+                                        Text("Mark All Read")
+                                            .foregroundColor(Color.pongAccent)
+                                            .bold()
+                                    }
+                                }
+                                .onAppear() {
+                                    thisWeekShowing = true
+                                }
+                                .onDisappear() {
+                                    thisWeekShowing = false
+                                }
+                            }
+                            // MARK: Notifications from further in history
+                            Section() {
+                                ForEach(dataManager.notificationHistoryPrevious) { notificationModel in
+                                    if notificationModel.data.type == .upvote || notificationModel.data.type == .comment || notificationModel.data.type == .hot || notificationModel.data.type == .top || notificationModel.data.type == .reply {
+
+                                        Button {
+                                            DispatchQueue.main.async {
+                                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                                                notificationsVM.getPost(url: notificationModel.data.url!, id: notificationModel.id) { success in
+                                                    post = success
+                                                    postIsLinkActive = true
+                                                    notificationsVM.markNotificationAsRead(id: notificationModel.id)
+                                                }
+                                            }
+                                        } label: {
+                                            getNotificationText(notificationModel: notificationModel)
+                                        }
+                                        .listRowBackground(!notificationModel.data.read ? Color.pongAccent.opacity(0.1) : Color.pongSystemBackground)
+                                        .listRowSeparator(.hidden)
+                                    }
+                                    else if notificationModel.data.type == .leader {
+                                        Button {
+                                            DispatchQueue.main.async {
+                                                leaderboardIsLinkActive = true
+                                                notificationsVM.markNotificationAsRead(id: notificationModel.id)
+                                            }
+                                        } label: {
+                                            getNotificationText(notificationModel: notificationModel)
+                                        }
+                                        .listRowBackground(!notificationModel.data.read ? Color.pongAccent.opacity(0.1) : Color.pongSystemBackground)
+                                        .listRowSeparator(.hidden)
+                                    }
+                                }
+                            } header: {
+                                HStack {
+                                    Text("Previous")
+                                        .fontWeight(.heavy)
+                                        .foregroundColor(Color.pongLabel)
+                                        .padding(.bottom, 4)
+
+                                    Spacer()
+
+                                    if !thisWeekShowing {
+                                        Button {
+                                            notificationsVM.markAllAsRead()
+                                        } label: {
+                                            Text("Mark All Read")
+                                                .foregroundColor(Color.pongAccent)
+                                                .bold()
                                         }
                                     }
-                                } label: {
-                                    getNotificationText(notificationModel: notificationModel)
                                 }
-                                .listRowBackground(!notificationModel.data.read ? Color.pongAccent.opacity(0.1) : Color.pongSystemBackground)
+                            }
+
+                            Rectangle()
+                                .fill(Color.pongSystemBackground)
+                                .listRowBackground(Color.pongSystemBackground)
+                                .frame(minHeight: 150)
                                 .listRowSeparator(.hidden)
-
-                            }
-                            // MARK: Notifications for leaderboard
-                            else if notificationModel.data.type == .leader {
-                                Button {
-                                    DispatchQueue.main.async {
-                                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                                        leaderboardIsLinkActive = true
-                                        notificationsVM.markNotificationAsRead(id: notificationModel.id)
-                                    }
-                                } label: {
-                                    getNotificationText(notificationModel: notificationModel)
-                                }
-                                .listRowBackground(!notificationModel.data.read ? Color.pongAccent.opacity(0.1) : Color.pongSystemBackground)
-                                .listRowSeparator(.hidden)
-                            }
-                        }
-                    } header: {
-                        HStack {
-                            Text("This Week")
-                                .fontWeight(.heavy)
-                                .foregroundColor(Color.pongLabel)
-                                .padding(.bottom, 4)
-
-                            Spacer()
-
-                            Button {
-                                notificationsVM.markAllAsRead()
-                            } label: {
-                                Text("Mark All Read")
-                                    .foregroundColor(Color.pongAccent)
-                                    .bold()
-                            }
-                        }
-                        .onAppear() {
-                            thisWeekShowing = true
-                        }
-                        .onDisappear() {
-                            thisWeekShowing = false
                         }
                     }
-                    // MARK: Notifications from further in history
-                    Section() {
-                        ForEach(dataManager.notificationHistoryPrevious) { notificationModel in
-                            if notificationModel.data.type == .upvote || notificationModel.data.type == .comment || notificationModel.data.type == .hot || notificationModel.data.type == .top || notificationModel.data.type == .reply {
-
-                                Button {
-                                    DispatchQueue.main.async {
-                                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                                        notificationsVM.getPost(url: notificationModel.data.url!, id: notificationModel.id) { success in
-                                            post = success
-                                            postIsLinkActive = true
-                                            notificationsVM.markNotificationAsRead(id: notificationModel.id)
-                                        }
-                                    }
-                                } label: {
-                                    getNotificationText(notificationModel: notificationModel)
-                                }
-                                .listRowBackground(!notificationModel.data.read ? Color.pongAccent.opacity(0.1) : Color.pongSystemBackground)
-                                .listRowSeparator(.hidden)
-                            }
-                            else if notificationModel.data.type == .leader {
-                                Button {
-                                    DispatchQueue.main.async {
-                                        leaderboardIsLinkActive = true
-                                        notificationsVM.markNotificationAsRead(id: notificationModel.id)
-                                    }
-                                } label: {
-                                    getNotificationText(notificationModel: notificationModel)
-                                }
-                                .listRowBackground(!notificationModel.data.read ? Color.pongAccent.opacity(0.1) : Color.pongSystemBackground)
-                                .listRowSeparator(.hidden)
-                            }
+                    .scrollContentBackgroundCompat()
+                    .refreshable() {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
+                            notificationsVM.getNotificationHistoryWeek()
+                            notificationsVM.getNotificationHistoryPrevious()
                         }
-                    } header: {
-                        HStack {
-                            Text("Previous")
-                                .fontWeight(.heavy)
-                                .foregroundColor(Color.pongLabel)
-                                .padding(.bottom, 4)
-
-                            Spacer()
-
-                            if !thisWeekShowing {
-                                Button {
-                                    notificationsVM.markAllAsRead()
-                                } label: {
-                                    Text("Mark All Read")
-                                        .foregroundColor(Color.pongAccent)
-                                        .bold()
-                                }
-                            }
-                        }
+                        await Task.sleep(500_000_000)
                     }
-
-                    Rectangle()
-                        .fill(Color.pongSystemBackground)
-                        .listRowBackground(Color.pongSystemBackground)
-                        .frame(minHeight: 150)
-                        .listRowSeparator(.hidden)
+                    .listStyle(PlainListStyle())
+                } else {
+                    ProgressView()
                 }
             }
-            .scrollContentBackgroundCompat()
-            .refreshable() {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
-                    notificationsVM.getNotificationHistoryWeek()
-                    notificationsVM.getNotificationHistoryPrevious()
-                }
-                await Task.sleep(500_000_000)
-            }
-            .listStyle(PlainListStyle())
         }
         .background(Color.pongSystemBackground)
         .navigationTitle("Notifications")
         .navigationBarTitleDisplayMode(.inline)
         .navigationViewStyle(StackNavigationViewStyle())
         .accentColor(Color.pongLabel)
+        .onAppear() {
+            if !dataManager.notificationsInit {
+                dataManager.initNotifications()
+            }
+        }
     }
     
     // MARK: GetNotificationText

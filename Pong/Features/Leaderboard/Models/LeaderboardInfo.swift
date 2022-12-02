@@ -13,4 +13,6 @@ struct LeaderboardInfo: Codable {
     var rank : String
     var rankBehind : String
     var nicknameEmoji : String
+    var nickname : String
+    var score : Int
 }

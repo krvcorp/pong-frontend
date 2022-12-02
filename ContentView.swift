@@ -7,7 +7,6 @@ struct ContentView: View {
     @StateObject var authManager = AuthManager.authManager
     @StateObject var toastManager = ToastManager.shared
     @StateObject var dataManager = DataManager.shared
-    @StateObject var mainTabVM = MainTabViewModel.shared
     
     @State var showMenu = false
     
@@ -61,17 +60,17 @@ struct ContentView: View {
         
         NavigationView {
             Group {
-                if (!AuthManager.authManager.isSignedIn) {
+                if (!authManager.isSignedIn) {
                     EmailVerificationView()
                         .toast(isPresenting: $authManager.signedOutAlert) {
                             AlertToast(displayMode: .hud, type: .regular,  title: "Signed out! See you soon :)")
                         }
                 }
-                else if (AuthManager.authManager.waitlisted) {
+                else if (authManager.waitlisted) {
                     WaitlistView()
-//                        .navigationBarHidden(true)
+                        .navigationBarHidden(true)
                 }
-                else if (!AuthManager.authManager.onboarded) {
+                else if (!authManager.onboarded) {
                     OnboardingView()
                         .navigationBarHidden(true)
                 } else {
@@ -128,7 +127,6 @@ struct ContentView: View {
                 }
             }
         }
-        .environmentObject(mainTabVM)
         .environmentObject(appState)
         .accentColor(Color.pongAccent)
         .attachPartialSheetToRoot()

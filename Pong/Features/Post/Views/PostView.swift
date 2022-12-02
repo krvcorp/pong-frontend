@@ -6,7 +6,6 @@ import ActivityIndicatorView
 
 struct PostView: View {
     @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var mainTabVM : MainTabViewModel
     @StateObject var dataManager = DataManager.shared
     
     @Binding var post : Post
@@ -205,16 +204,6 @@ struct PostView: View {
             }
             dataManager.updatePostLocally(post: postVM.post)
         }
-        .onChange(of: mainTabVM.scrollToTop, perform: { newValue in
-            DispatchQueue.main.async {
-                self.presentationMode.wrappedValue.dismiss()
-            }
-        })
-        .onChange(of: mainTabVM.newPostDetected, perform: { newValue in
-            DispatchQueue.main.async {
-                self.presentationMode.wrappedValue.dismiss()
-            }
-        })
         // MARK: Alerts and Toasts
         .alert(isPresented: $postVM.showConfirmation) {
             switch postVM.activeAlert {
