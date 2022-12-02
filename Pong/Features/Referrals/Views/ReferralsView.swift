@@ -18,14 +18,14 @@ struct ReferralsView: View {
             // MARK: Title
             VStack(spacing: 15) {
                 HStack {
-                    Text("Get a $15 reward when you invite 5 friends!")
+                    Text("Get a $10 reward when you invite 5 friends!")
                         .font(.system(size: 40))
                         .fontWeight(.bold)
                     Spacer()
                 }
                 
                 HStack {
-                    Text("Get 5 friends to join by December 7th and we’ll send you 15$ as a thank you. Pong is a community, and we couldn’t do it without you.")
+                    Text("Get 5 friends to join by December 7th and we’ll send you 10$ as a thank you. Pong is a community, and we couldn’t do it without you.")
                         .font(.headline)
                         .fontWeight(.medium)
                     Spacer()
@@ -137,7 +137,7 @@ struct ReferralsView: View {
                 VStack {
                     HStack {
                         Spacer()
-                        Text("$\((dataManager.numberReferred > 5 ? 5 : dataManager.numberReferred) * 3)")
+                        Text("$\((dataManager.numberReferred > 5 ? 5 : dataManager.numberReferred) * 2)")
                             .font(.largeTitle)
                             .fontWeight(.bold)
                         Spacer()
@@ -179,7 +179,7 @@ struct ReferralsView: View {
             
             VStack {
                 HStack {
-                    Text("$15 for 5 friends")
+                    Text("$10 for 5 friends")
                         .font(.headline)
                         .fontWeight(.bold)
                     Spacer()
