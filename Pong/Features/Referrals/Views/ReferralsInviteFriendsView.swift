@@ -105,7 +105,7 @@ struct ReferralsInviteFriendsView: View {
                                         .buttonStyle(PlainButtonStyle())
                                         .sheet(isPresented: $contact.sheetToggled) {
                                             let referralCode = DAKeychain.shared["referralCode"]!
-                                            let url = "https://apps.apple.com/us/app/pong-%E3%83%84/id6443335660 This new app just came out for BU use my referral code \(referralCode)"
+                                            let url = "https://pong.college/refer/ This new app just came out for BU use my referral code \(referralCode)"
                                             MessageComposeSheet(recipients: [contact.phone!], body: url) { messageSent in
                                                 print("MessageComposeView with message sent? \(messageSent)")
                                             }
