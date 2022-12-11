@@ -209,7 +209,7 @@ struct ReferralsView: View {
                 .padding(.bottom)
                 
                 HStack {
-                    Text("Invites can be sent until November 26th")
+                    Text("Invites can be sent until December 7th")
                         .font(.caption)
                         .italic()
                     Spacer()
